@@ -1,0 +1,209 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{85D5AE08-4EB8-470E-B39A-B531CC9AF1DC}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Synapse</RootNamespace>
+    <AssemblyName>Synapse</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Syncfusion.Core.WinForms, Version=17.2460.0.34, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
+    <Reference Include="Syncfusion.Diagram.Base, Version=17.2460.0.34, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
+    <Reference Include="Syncfusion.Diagram.Windows, Version=17.2460.0.34, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL" />
+    <Reference Include="Syncfusion.Grid.Windows, Version=17.2460.0.34, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
+    <Reference Include="Syncfusion.Schedule.Base, Version=17.2460.0.34, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
+    <Reference Include="Syncfusion.Schedule.Windows, Version=17.2460.0.34, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
+    <Reference Include="Syncfusion.Shared.Base, Version=17.2460.0.34, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
+    <Reference Include="Syncfusion.Shared.Windows, Version=17.2460.0.34, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
+    <Reference Include="Syncfusion.Tools.Base, Version=17.2460.0.34, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
+    <Reference Include="Syncfusion.Tools.Windows, Version=17.2460.0.34, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.Runtime.Serialization.Formatters.Soap" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Core\Template.cs" />
+    <Compile Include="Modules\TemplatesHub.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modules\TemplatesHub.Designer.cs">
+      <DependentUpon>TemplatesHub.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Main\Synapse.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Main\Synapse.Designer.cs">
+      <DependentUpon>Synapse.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Main\Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utilities\Messages.cs" />
+    <EmbeddedResource Include="Main\Synapse.resx">
+      <DependentUpon>Synapse.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modules\TemplatesHub.resx">
+      <DependentUpon>TemplatesHub.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TemplateStatusIcon_ConfigTab.png" />
+    <None Include="Resources\TemplateBtnIcon1_ConfigTab.png" />
+    <None Include="Resources\TemplateBtnIcon2_ConfigTab.png" />
+    <None Include="Resources\TemplateBtnIcon4_ConfigTab.png" />
+    <None Include="Resources\ConfigEmarkingBtnIcon1_ConfigTab.png" />
+    <None Include="Resources\ConfigEmarkingBtnIcon_ConfigTab.png" />
+    <None Include="Resources\ConfigDataBtnIcon_ConfigTab.png" />
+    <None Include="Resources\ConfigDataBtnIcon1_ConfigTab.png" />
+    <None Include="Resources\ConfigDataBtnIcon2_ConfigTab.png" />
+    <None Include="Resources\ConfigDataBtnIcon3_ConfigTab.png" />
+    <None Include="Resources\ConfigDataBtnIcon4_ConfigTab.png" />
+    <None Include="Resources\AddAsBarcodeBtnIcon_ConfigTab.png" />
+    <None Include="Resources\AddAsBarcodeBtnIcon1_ConfigTab.png" />
+    <None Include="Resources\AddAsBarcodeBtnIcon2_ConfigTab.png" />
+    <None Include="Resources\AddAsBarcodeBtnIcon3_ConfigTab.png" />
+    <None Include="Resources\AddAsICRBtnIcon_ConfigTab.png" />
+    <None Include="Resources\AddAsOMRBtnIcon_ConfigTab.png" />
+    <None Include="Resources\TemplateBtnIcon5_ConfigTab.png" />
+    <None Include="Resources\ConfigEmarkingBtnIcon2_ConfigTab.png" />
+    <None Include="Resources\ConfigAIModelBtnIcon_ConfigTab.png" />
+    <None Include="Resources\ConfigAIModelBtnIcon1_ConfigTab.png" />
+    <None Include="Resources\AnswerKeyBtnIcon_ReadingTab.png" />
+    <None Include="Resources\AnswerKeyBtnIcon1_ReadingTab.png" />
+    <None Include="Resources\AnswerKeyBtnIcon2_ReadingTab.png" />
+    <None Include="Resources\ScanDirBtnIcon_ReadingTab.png" />
+    <None Include="Resources\ScanDirBtnIcon1_ReadingTab.png" />
+    <None Include="Resources\ScanScannerBtnIcon_ReadingTab.png" />
+    <None Include="Resources\startBtnIcon_ReadingTab.png" />
+    <None Include="Resources\startBtnIcon1_ReadingTab.png" />
+    <None Include="Resources\StopBtnIcon_ReadingTab.png" />
+    <None Include="Resources\StopBtnIcon1_ReadingTab.png" />
+    <None Include="Resources\FindDuplicatesBtnIcon_ConfigTab.png" />
+    <None Include="Resources\rereadFaultySheetsBtnIcon_ReadingTab.png" />
+    <None Include="Resources\rereadFaultySheetsBtnIcon1_ReadingTab.png" />
+    <None Include="Resources\MoveFaultySheetsBtnIcon_ReadingTab.png" />
+    <None Include="Resources\MoveFaultySheetsBtnIcon1_ReadingTab.png" />
+    <None Include="Resources\MoveFaultySheetsBtnIcon2_ReadingTab.png" />
+    <None Include="Resources\MoveFaultySheetsBtnIcon3_ReadingTab.png" />
+    <None Include="Resources\locateOptionsBtnIcon_ReadingTab.png" />
+    <None Include="Resources\locateOptionsBtnIcon1_ReadingTab.png" />
+    <None Include="Resources\AddFieldBtnIcon_DataTab.png" />
+    <None Include="Resources\DeleteAllBtnIcon_DataTab.png" />
+    <None Include="Resources\DeleteAllBtnIcon1_DataTab.png" />
+    <None Include="Resources\DeleteSelectedBtnIcon_DataTab.png" />
+    <None Include="Resources\EditValueBtnIcon_DataTab.png" />
+    <None Include="Resources\EditValueBtnIcon1_DataTab.png" />
+    <None Include="Resources\MarkzSheetsAsBtnIcon_DataTAb.png" />
+    <None Include="Resources\InternalDataPointBtnIcon_DataTab.png" />
+    <None Include="Resources\ExcelExportBtnIcon_DataTab.png" />
+    <None Include="Resources\ExcelExportBtnIcon1_DataTab.png" />
+    <None Include="Resources\ExcelExportBtnIcon3_DataTab.png" />
+    <None Include="Resources\CSVExportBtnIcon_DataTab.png" />
+    <None Include="Resources\CSVExportBtnIcon1_DataTab.png" />
+    <None Include="Resources\DatabaseExportBtnIcon_DataTab.png" />
+    <None Include="Resources\ExternalDataPointBtnIcon_DataTab.png" />
+    <None Include="Resources\InternalDataPointBtnIcon1_DataTab.png" />
+    <Content Include="Resources\TemplateBtnIcon_ConfigTab.png" />
+    <None Include="Resources\StatusInOk.jpg" />
+    <None Include="Resources\StatusNotOk.jpg" />
+    <Content Include="Resources\StatusOk.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Dependencies\Cyotek.Windows.Forms.ImageBox-master\Cyotek.Windows.Forms.ImageBox.Demo\Cyotek.Windows.Forms.ImageBox.Demo.csproj">
+      <Project>{86d47d73-b3e7-4ed3-86ea-7bfc0c978a7b}</Project>
+      <Name>Cyotek.Windows.Forms.ImageBox.Demo</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Dependencies\Cyotek.Windows.Forms.ImageBox-master\Cyotek.Windows.Forms.ImageBox\Cyotek.Windows.Forms.ImageBox.csproj">
+      <Project>{4159c8d3-c18d-4bed-8be6-9bad1b0ca4f6}</Project>
+      <Name>Cyotek.Windows.Forms.ImageBox</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.7.2 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
