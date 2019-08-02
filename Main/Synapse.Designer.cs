@@ -38,65 +38,71 @@ namespace Synapse
             this.configToolStripTabItem = new Syncfusion.Windows.Forms.Tools.ToolStripTabItem();
             this.templateConfigToolStrip = new Syncfusion.Windows.Forms.Tools.ToolStripEx();
             this.templateConfigStatusToolStrip = new Syncfusion.Windows.Forms.Tools.ToolStripPanelItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
+            this.dataConfigToolStripEx = new Syncfusion.Windows.Forms.Tools.ToolStripEx();
+            this.dataConfigStatusToolStripPanel = new Syncfusion.Windows.Forms.Tools.ToolStripPanelItem();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.modelConfigToolStripEx = new Syncfusion.Windows.Forms.Tools.ToolStripEx();
+            this.aiConfigStatusToolStripPanel = new Syncfusion.Windows.Forms.Tools.ToolStripPanelItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.readingToolStripTabItem = new Syncfusion.Windows.Forms.Tools.ToolStripTabItem();
+            this.scoresToolStripEx = new Syncfusion.Windows.Forms.Tools.ToolStripEx();
+            this.sheetsToolStripEx = new Syncfusion.Windows.Forms.Tools.ToolStripEx();
+            this.sheetsToolStripPanelItem = new Syncfusion.Windows.Forms.Tools.ToolStripPanelItem();
+            this.includeSubFoldersToolStripCheckBox = new Syncfusion.Windows.Forms.Tools.ToolStripCheckBox();
+            this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
+            this.processingToolStripEx = new Syncfusion.Windows.Forms.Tools.ToolStripEx();
+            this.postOperationsToolStripEx = new Syncfusion.Windows.Forms.Tools.ToolStripEx();
+            this.dataMiningToolStripEx = new Syncfusion.Windows.Forms.Tools.ToolStripEx();
+            this.dataToolStripTabItem = new Syncfusion.Windows.Forms.Tools.ToolStripTabItem();
+            this.dataManipulationToolStripEx = new Syncfusion.Windows.Forms.Tools.ToolStripEx();
+            this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
+            this.dataPointStorageToolStripEx = new Syncfusion.Windows.Forms.Tools.ToolStripEx();
+            this.exportToolStripEx = new Syncfusion.Windows.Forms.Tools.ToolStripEx();
+            this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
+            this.configTabPanel = new System.Windows.Forms.Panel();
+            this.templateImageBox = new Cyotek.Windows.Forms.Demo.ImageBoxEx();
+            this.readingTabPanel = new System.Windows.Forms.Panel();
+            this.ImageFileBrowser = new System.Windows.Forms.OpenFileDialog();
             this.templateConfigStatusLabel = new System.Windows.Forms.ToolStripLabel();
             this.templateConfigStatusIndicator = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.templateToolStripBtn = new System.Windows.Forms.ToolStripDropDownButton();
             this.templateLoadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tmpLoadScanToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tmpLoadBrowseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.templateConfigureToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.eMarkingToolStripBtn = new System.Windows.Forms.ToolStripButton();
-            this.dataConfigToolStripEx = new Syncfusion.Windows.Forms.Tools.ToolStripEx();
-            this.dataConfigStatusToolStripPanel = new Syncfusion.Windows.Forms.Tools.ToolStripPanelItem();
             this.dataConfigStatusLabel = new System.Windows.Forms.ToolStripLabel();
             this.dataConfigStatusIndicator = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.configureDataToolStripBtn = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.addAsOmrToolStripBtn = new System.Windows.Forms.ToolStripButton();
             this.addAsBarcodeToolStripBtn = new System.Windows.Forms.ToolStripButton();
             this.addAsICRToolStripBtn = new System.Windows.Forms.ToolStripButton();
-            this.modelConfigToolStripEx = new Syncfusion.Windows.Forms.Tools.ToolStripEx();
-            this.aiConfigStatusToolStripPanel = new Syncfusion.Windows.Forms.Tools.ToolStripPanelItem();
             this.aiConfigStatusLabel = new System.Windows.Forms.ToolStripLabel();
             this.aiConfigStatusIndicator = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.configureNetworksToolStripBtn = new System.Windows.Forms.ToolStripButton();
-            this.readingToolStripTabItem = new Syncfusion.Windows.Forms.Tools.ToolStripTabItem();
-            this.scoresToolStripEx = new Syncfusion.Windows.Forms.Tools.ToolStripEx();
             this.answerKeyToolStripBtn = new System.Windows.Forms.ToolStripButton();
-            this.sheetsToolStripEx = new Syncfusion.Windows.Forms.Tools.ToolStripEx();
-            this.sheetsToolStripPanelItem = new Syncfusion.Windows.Forms.Tools.ToolStripPanelItem();
             this.scanDirectoryToolStripBtn = new System.Windows.Forms.ToolStripButton();
-            this.includeSubFoldersToolStripCheckBox = new Syncfusion.Windows.Forms.Tools.ToolStripCheckBox();
             this.scanSheetsToolStripDropDownBtn = new System.Windows.Forms.ToolStripDropDownButton();
             this.scanLoadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.scanReadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
-            this.processingToolStripEx = new Syncfusion.Windows.Forms.Tools.ToolStripEx();
             this.startReadingToolStripBtn = new System.Windows.Forms.ToolStripButton();
             this.stopReadingToolStripBtn = new System.Windows.Forms.ToolStripButton();
-            this.postOperationsToolStripEx = new Syncfusion.Windows.Forms.Tools.ToolStripEx();
             this.reReadFaultySheetsToolStripBtn = new System.Windows.Forms.ToolStripButton();
             this.moveFaultySheetsToolStripBtn = new System.Windows.Forms.ToolStripButton();
             this.locateOptionsToolStripBtn = new System.Windows.Forms.ToolStripButton();
-            this.dataMiningToolStripEx = new Syncfusion.Windows.Forms.Tools.ToolStripEx();
             this.findDuplicatesToolStripBtn = new System.Windows.Forms.ToolStripButton();
-            this.dataToolStripTabItem = new Syncfusion.Windows.Forms.Tools.ToolStripTabItem();
-            this.dataManipulationToolStripEx = new Syncfusion.Windows.Forms.Tools.ToolStripEx();
             this.addFieldToolStripBtn = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.deleteAllToolStripBtn = new System.Windows.Forms.ToolStripButton();
             this.deleteSelectedToolStripBtn = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
             this.editValueToolStripBtn = new System.Windows.Forms.ToolStripButton();
             this.markAsToolStripBtn = new System.Windows.Forms.ToolStripDropDownButton();
             this.markManualToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.markFaultyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.markIncompatibleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.dataPointStorageToolStripEx = new Syncfusion.Windows.Forms.Tools.ToolStripEx();
             this.internalDataPointDropDownBtn = new System.Windows.Forms.ToolStripDropDownButton();
             this.internalLoadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.internalSaveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -104,15 +110,9 @@ namespace Synapse
             this.externalDataPointDropDownBtn = new System.Windows.Forms.ToolStripDropDownButton();
             this.externalLoadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.externalSaveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.exportToolStripEx = new Syncfusion.Windows.Forms.Tools.ToolStripEx();
             this.exportExcelToolStripBtn = new System.Windows.Forms.ToolStripButton();
             this.exportCSVoolStripBtn = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
             this.SQLDatabaseExportToolStripBtn = new System.Windows.Forms.ToolStripButton();
-            this.configTabPanel = new System.Windows.Forms.Panel();
-            this.readingTabPanel = new System.Windows.Forms.Panel();
-            this.ImageFileBrowser = new System.Windows.Forms.OpenFileDialog();
-            this.templateImageBox = new Cyotek.Windows.Forms.Demo.ImageBoxEx();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
             this.ribbonControl.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.backStage1)).BeginInit();
@@ -165,10 +165,10 @@ namespace Synapse
             this.ribbonControl.QuickPanelVisible = false;
             this.ribbonControl.RibbonHeaderImage = Syncfusion.Windows.Forms.Tools.RibbonHeaderImage.RoundedSquares;
             this.ribbonControl.RibbonStyle = Syncfusion.Windows.Forms.Tools.RibbonStyle.Office2016;
-            this.ribbonControl.SelectedTab = this.configToolStripTabItem;
+            this.ribbonControl.SelectedTab = this.dataToolStripTabItem;
             this.ribbonControl.ShowLauncher = false;
             this.ribbonControl.ShowRibbonDisplayOptionButton = true;
-            this.ribbonControl.Size = new System.Drawing.Size(1333, 202);
+            this.ribbonControl.Size = new System.Drawing.Size(1333, 205);
             this.ribbonControl.SystemText.QuickAccessDialogDropDownName = "Start menu";
             this.ribbonControl.SystemText.RenameDisplayLabelText = "&Display Name:";
             this.ribbonControl.TabIndex = 1;
@@ -227,7 +227,7 @@ namespace Synapse
             this.configToolStripTabItem.Panel.TabIndex = 2;
             this.configToolStripTabItem.Panel.Text = "CONFIGURATION";
             this.configToolStripTabItem.Position = 0;
-            this.configToolStripTabItem.Size = new System.Drawing.Size(124, 25);
+            this.configToolStripTabItem.Size = new System.Drawing.Size(134, 30);
             this.configToolStripTabItem.Tag = "1";
             this.configToolStripTabItem.Text = "CONFIGURATION";
             this.configToolStripTabItem.Click += new System.EventHandler(this.ConfigToolStripTabItem_Click);
@@ -254,7 +254,7 @@ namespace Synapse
             this.templateConfigToolStrip.Office12Mode = false;
             this.templateConfigToolStrip.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
             this.templateConfigToolStrip.ShowLauncher = false;
-            this.templateConfigToolStrip.Size = new System.Drawing.Size(326, 133);
+            this.templateConfigToolStrip.Size = new System.Drawing.Size(326, 136);
             this.templateConfigToolStrip.TabIndex = 4;
             this.templateConfigToolStrip.Text = "Template Configuration";
             this.templateConfigToolStrip.ThemeName = "Default";
@@ -269,9 +269,444 @@ namespace Synapse
             this.templateConfigStatusIndicator});
             this.templateConfigStatusToolStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow;
             this.templateConfigStatusToolStrip.Name = "templateConfigStatusToolStrip";
-            this.templateConfigStatusToolStrip.Padding = new System.Windows.Forms.Padding(3, 9, 2, 2);
-            this.templateConfigStatusToolStrip.Size = new System.Drawing.Size(71, 117);
+            this.templateConfigStatusToolStrip.Padding = new System.Windows.Forms.Padding(3, 8, 2, 2);
+            this.templateConfigStatusToolStrip.Size = new System.Drawing.Size(71, 120);
             this.templateConfigStatusToolStrip.Transparent = true;
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.AutoSize = false;
+            this.toolStripSeparator1.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 95);
+            // 
+            // toolStripSeparator5
+            // 
+            this.toolStripSeparator5.AutoSize = false;
+            this.toolStripSeparator5.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
+            this.toolStripSeparator5.Name = "toolStripSeparator5";
+            this.toolStripSeparator5.Size = new System.Drawing.Size(6, 88);
+            // 
+            // dataConfigToolStripEx
+            // 
+            this.dataConfigToolStripEx.AutoSize = false;
+            this.dataConfigToolStripEx.CaptionMinHeight = 0;
+            this.dataConfigToolStripEx.CaptionStyle = Syncfusion.Windows.Forms.Tools.CaptionStyle.Bottom;
+            this.dataConfigToolStripEx.CaptionTextStyle = Syncfusion.Windows.Forms.Tools.CaptionTextStyle.Plain;
+            this.dataConfigToolStripEx.Dock = System.Windows.Forms.DockStyle.None;
+            this.dataConfigToolStripEx.Font = new System.Drawing.Font("Segoe UI", 8.25F);
+            this.dataConfigToolStripEx.ForeColor = System.Drawing.Color.MidnightBlue;
+            this.dataConfigToolStripEx.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.dataConfigToolStripEx.Image = null;
+            this.dataConfigToolStripEx.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.dataConfigStatusToolStripPanel,
+            this.toolStripSeparator3,
+            this.configureDataToolStripBtn,
+            this.toolStripSeparator4,
+            this.addAsOmrToolStripBtn,
+            this.addAsBarcodeToolStripBtn,
+            this.addAsICRToolStripBtn});
+            this.dataConfigToolStripEx.Location = new System.Drawing.Point(328, 1);
+            this.dataConfigToolStripEx.Name = "dataConfigToolStripEx";
+            this.dataConfigToolStripEx.Office12Mode = false;
+            this.dataConfigToolStripEx.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
+            this.dataConfigToolStripEx.Size = new System.Drawing.Size(451, 136);
+            this.dataConfigToolStripEx.TabIndex = 3;
+            this.dataConfigToolStripEx.Text = "Data Configuration";
+            this.dataConfigToolStripEx.ThemeName = "Office2016White";
+            this.dataConfigToolStripEx.VisualStyle = Syncfusion.Windows.Forms.Tools.ToolStripExStyle.Office2016White;
+            // 
+            // dataConfigStatusToolStripPanel
+            // 
+            this.dataConfigStatusToolStripPanel.CausesValidation = false;
+            this.dataConfigStatusToolStripPanel.Font = new System.Drawing.Font("Dosis", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dataConfigStatusToolStripPanel.ForeColor = System.Drawing.Color.MidnightBlue;
+            this.dataConfigStatusToolStripPanel.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.dataConfigStatusLabel,
+            this.dataConfigStatusIndicator});
+            this.dataConfigStatusToolStripPanel.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow;
+            this.dataConfigStatusToolStripPanel.Name = "dataConfigStatusToolStripPanel";
+            this.dataConfigStatusToolStripPanel.Padding = new System.Windows.Forms.Padding(2, 8, 2, 2);
+            this.dataConfigStatusToolStripPanel.Size = new System.Drawing.Size(70, 120);
+            this.dataConfigStatusToolStripPanel.Transparent = true;
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.AutoSize = false;
+            this.toolStripSeparator3.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 95);
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.AutoSize = false;
+            this.toolStripSeparator4.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 88);
+            // 
+            // modelConfigToolStripEx
+            // 
+            this.modelConfigToolStripEx.AutoSize = false;
+            this.modelConfigToolStripEx.CaptionMinHeight = 0;
+            this.modelConfigToolStripEx.CaptionStyle = Syncfusion.Windows.Forms.Tools.CaptionStyle.Bottom;
+            this.modelConfigToolStripEx.CaptionTextStyle = Syncfusion.Windows.Forms.Tools.CaptionTextStyle.Plain;
+            this.modelConfigToolStripEx.Dock = System.Windows.Forms.DockStyle.None;
+            this.modelConfigToolStripEx.Font = new System.Drawing.Font("Segoe UI", 8.25F);
+            this.modelConfigToolStripEx.ForeColor = System.Drawing.Color.MidnightBlue;
+            this.modelConfigToolStripEx.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.modelConfigToolStripEx.Image = null;
+            this.modelConfigToolStripEx.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.aiConfigStatusToolStripPanel,
+            this.toolStripSeparator2,
+            this.configureNetworksToolStripBtn});
+            this.modelConfigToolStripEx.Location = new System.Drawing.Point(781, 1);
+            this.modelConfigToolStripEx.Name = "modelConfigToolStripEx";
+            this.modelConfigToolStripEx.Office12Mode = false;
+            this.modelConfigToolStripEx.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
+            this.modelConfigToolStripEx.Size = new System.Drawing.Size(202, 136);
+            this.modelConfigToolStripEx.TabIndex = 1;
+            this.modelConfigToolStripEx.Text = "AI Configuration";
+            // 
+            // aiConfigStatusToolStripPanel
+            // 
+            this.aiConfigStatusToolStripPanel.CausesValidation = false;
+            this.aiConfigStatusToolStripPanel.Font = new System.Drawing.Font("Dosis", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.aiConfigStatusToolStripPanel.ForeColor = System.Drawing.Color.MidnightBlue;
+            this.aiConfigStatusToolStripPanel.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.aiConfigStatusLabel,
+            this.aiConfigStatusIndicator});
+            this.aiConfigStatusToolStripPanel.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow;
+            this.aiConfigStatusToolStripPanel.Name = "aiConfigStatusToolStripPanel";
+            this.aiConfigStatusToolStripPanel.Padding = new System.Windows.Forms.Padding(2, 8, 2, 2);
+            this.aiConfigStatusToolStripPanel.Size = new System.Drawing.Size(70, 120);
+            this.aiConfigStatusToolStripPanel.Transparent = true;
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.AutoSize = false;
+            this.toolStripSeparator2.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 95);
+            // 
+            // readingToolStripTabItem
+            // 
+            this.readingToolStripTabItem.Font = new System.Drawing.Font("Segoe UI", 10.25F);
+            this.readingToolStripTabItem.Name = "readingToolStripTabItem";
+            // 
+            // ribbonControl.ribbonPanel2
+            // 
+            this.readingToolStripTabItem.Panel.Controls.Add(this.scoresToolStripEx);
+            this.readingToolStripTabItem.Panel.Controls.Add(this.sheetsToolStripEx);
+            this.readingToolStripTabItem.Panel.Controls.Add(this.processingToolStripEx);
+            this.readingToolStripTabItem.Panel.Controls.Add(this.postOperationsToolStripEx);
+            this.readingToolStripTabItem.Panel.Controls.Add(this.dataMiningToolStripEx);
+            this.readingToolStripTabItem.Panel.Margin = new System.Windows.Forms.Padding(0);
+            this.readingToolStripTabItem.Panel.Name = "ribbonPanel2";
+            this.readingToolStripTabItem.Panel.ScrollPosition = 0;
+            this.readingToolStripTabItem.Panel.TabIndex = 3;
+            this.readingToolStripTabItem.Panel.Text = "READING";
+            this.readingToolStripTabItem.Position = 1;
+            this.readingToolStripTabItem.Size = new System.Drawing.Size(83, 30);
+            this.readingToolStripTabItem.Tag = "2";
+            this.readingToolStripTabItem.Text = "READING";
+            this.readingToolStripTabItem.Click += new System.EventHandler(this.ReadingToolStripTabItem_Click);
+            // 
+            // scoresToolStripEx
+            // 
+            this.scoresToolStripEx.AutoSize = false;
+            this.scoresToolStripEx.CaptionFont = new System.Drawing.Font("Dosis", 9.749999F);
+            this.scoresToolStripEx.CaptionMinHeight = 0;
+            this.scoresToolStripEx.CaptionStyle = Syncfusion.Windows.Forms.Tools.CaptionStyle.Bottom;
+            this.scoresToolStripEx.CaptionTextStyle = Syncfusion.Windows.Forms.Tools.CaptionTextStyle.Plain;
+            this.scoresToolStripEx.Dock = System.Windows.Forms.DockStyle.None;
+            this.scoresToolStripEx.Font = new System.Drawing.Font("Segoe UI", 8.25F);
+            this.scoresToolStripEx.ForeColor = System.Drawing.Color.MidnightBlue;
+            this.scoresToolStripEx.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.scoresToolStripEx.Image = null;
+            this.scoresToolStripEx.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.answerKeyToolStripBtn});
+            this.scoresToolStripEx.Location = new System.Drawing.Point(0, 1);
+            this.scoresToolStripEx.Name = "scoresToolStripEx";
+            this.scoresToolStripEx.Office12Mode = false;
+            this.scoresToolStripEx.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
+            this.scoresToolStripEx.Size = new System.Drawing.Size(98, 136);
+            this.scoresToolStripEx.TabIndex = 8;
+            this.scoresToolStripEx.Text = "Scores";
+            // 
+            // sheetsToolStripEx
+            // 
+            this.sheetsToolStripEx.AutoSize = false;
+            this.sheetsToolStripEx.CaptionFont = new System.Drawing.Font("Dosis", 9.749999F);
+            this.sheetsToolStripEx.CaptionMinHeight = 0;
+            this.sheetsToolStripEx.CaptionStyle = Syncfusion.Windows.Forms.Tools.CaptionStyle.Bottom;
+            this.sheetsToolStripEx.CaptionTextStyle = Syncfusion.Windows.Forms.Tools.CaptionTextStyle.Plain;
+            this.sheetsToolStripEx.Dock = System.Windows.Forms.DockStyle.None;
+            this.sheetsToolStripEx.Font = new System.Drawing.Font("Segoe UI", 8.25F);
+            this.sheetsToolStripEx.ForeColor = System.Drawing.Color.MidnightBlue;
+            this.sheetsToolStripEx.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.sheetsToolStripEx.Image = null;
+            this.sheetsToolStripEx.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.sheetsToolStripPanelItem,
+            this.scanSheetsToolStripDropDownBtn,
+            this.toolStripSeparator7});
+            this.sheetsToolStripEx.Location = new System.Drawing.Point(100, 1);
+            this.sheetsToolStripEx.Name = "sheetsToolStripEx";
+            this.sheetsToolStripEx.Office12Mode = false;
+            this.sheetsToolStripEx.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
+            this.sheetsToolStripEx.Size = new System.Drawing.Size(291, 136);
+            this.sheetsToolStripEx.TabIndex = 7;
+            this.sheetsToolStripEx.Text = "OMR Sheets";
+            // 
+            // sheetsToolStripPanelItem
+            // 
+            this.sheetsToolStripPanelItem.AutoSize = false;
+            this.sheetsToolStripPanelItem.CausesValidation = false;
+            this.sheetsToolStripPanelItem.ForeColor = System.Drawing.Color.MidnightBlue;
+            this.sheetsToolStripPanelItem.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.scanDirectoryToolStripBtn,
+            this.includeSubFoldersToolStripCheckBox});
+            this.sheetsToolStripPanelItem.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow;
+            this.sheetsToolStripPanelItem.Name = "sheetsToolStripPanelItem";
+            this.sheetsToolStripPanelItem.Padding = new System.Windows.Forms.Padding(1, 0, 2, 2);
+            this.sheetsToolStripPanelItem.RowCount = 2;
+            this.sheetsToolStripPanelItem.Size = new System.Drawing.Size(192, 90);
+            this.sheetsToolStripPanelItem.Transparent = true;
+            // 
+            // includeSubFoldersToolStripCheckBox
+            // 
+            this.includeSubFoldersToolStripCheckBox.Font = new System.Drawing.Font("Dosis", 10.25F);
+            this.includeSubFoldersToolStripCheckBox.Margin = new System.Windows.Forms.Padding(23, 1, 0, 2);
+            this.includeSubFoldersToolStripCheckBox.Name = "includeSubFoldersToolStripCheckBox";
+            this.includeSubFoldersToolStripCheckBox.Size = new System.Drawing.Size(137, 21);
+            this.includeSubFoldersToolStripCheckBox.Text = "Include Sub Folder(s)";
+            // 
+            // toolStripSeparator7
+            // 
+            this.toolStripSeparator7.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.toolStripSeparator7.AutoSize = false;
+            this.toolStripSeparator7.Name = "toolStripSeparator7";
+            this.toolStripSeparator7.Size = new System.Drawing.Size(6, 86);
+            // 
+            // processingToolStripEx
+            // 
+            this.processingToolStripEx.AutoSize = false;
+            this.processingToolStripEx.CaptionFont = new System.Drawing.Font("Dosis", 9.749999F);
+            this.processingToolStripEx.CaptionMinHeight = 0;
+            this.processingToolStripEx.CaptionStyle = Syncfusion.Windows.Forms.Tools.CaptionStyle.Bottom;
+            this.processingToolStripEx.CaptionTextStyle = Syncfusion.Windows.Forms.Tools.CaptionTextStyle.Plain;
+            this.processingToolStripEx.Dock = System.Windows.Forms.DockStyle.None;
+            this.processingToolStripEx.Font = new System.Drawing.Font("Segoe UI", 8.25F);
+            this.processingToolStripEx.ForeColor = System.Drawing.Color.MidnightBlue;
+            this.processingToolStripEx.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.processingToolStripEx.Image = null;
+            this.processingToolStripEx.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.startReadingToolStripBtn,
+            this.stopReadingToolStripBtn});
+            this.processingToolStripEx.Location = new System.Drawing.Point(393, 1);
+            this.processingToolStripEx.Name = "processingToolStripEx";
+            this.processingToolStripEx.Office12Mode = false;
+            this.processingToolStripEx.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
+            this.processingToolStripEx.Size = new System.Drawing.Size(146, 136);
+            this.processingToolStripEx.TabIndex = 6;
+            this.processingToolStripEx.Text = "Processing";
+            // 
+            // postOperationsToolStripEx
+            // 
+            this.postOperationsToolStripEx.AutoSize = false;
+            this.postOperationsToolStripEx.CaptionFont = new System.Drawing.Font("Dosis", 9.749999F);
+            this.postOperationsToolStripEx.CaptionMinHeight = 0;
+            this.postOperationsToolStripEx.CaptionStyle = Syncfusion.Windows.Forms.Tools.CaptionStyle.Bottom;
+            this.postOperationsToolStripEx.CaptionTextStyle = Syncfusion.Windows.Forms.Tools.CaptionTextStyle.Plain;
+            this.postOperationsToolStripEx.Dock = System.Windows.Forms.DockStyle.None;
+            this.postOperationsToolStripEx.Font = new System.Drawing.Font("Segoe UI", 8.25F);
+            this.postOperationsToolStripEx.ForeColor = System.Drawing.Color.MidnightBlue;
+            this.postOperationsToolStripEx.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.postOperationsToolStripEx.Image = null;
+            this.postOperationsToolStripEx.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.reReadFaultySheetsToolStripBtn,
+            this.moveFaultySheetsToolStripBtn,
+            this.locateOptionsToolStripBtn});
+            this.postOperationsToolStripEx.Location = new System.Drawing.Point(541, 1);
+            this.postOperationsToolStripEx.Name = "postOperationsToolStripEx";
+            this.postOperationsToolStripEx.Office12Mode = false;
+            this.postOperationsToolStripEx.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
+            this.postOperationsToolStripEx.Size = new System.Drawing.Size(280, 136);
+            this.postOperationsToolStripEx.TabIndex = 5;
+            this.postOperationsToolStripEx.Text = "Post Operations";
+            // 
+            // dataMiningToolStripEx
+            // 
+            this.dataMiningToolStripEx.AutoSize = false;
+            this.dataMiningToolStripEx.CaptionFont = new System.Drawing.Font("Dosis", 9.749999F);
+            this.dataMiningToolStripEx.CaptionMinHeight = 0;
+            this.dataMiningToolStripEx.CaptionStyle = Syncfusion.Windows.Forms.Tools.CaptionStyle.Bottom;
+            this.dataMiningToolStripEx.CaptionTextStyle = Syncfusion.Windows.Forms.Tools.CaptionTextStyle.Plain;
+            this.dataMiningToolStripEx.Dock = System.Windows.Forms.DockStyle.None;
+            this.dataMiningToolStripEx.Font = new System.Drawing.Font("Segoe UI", 8.25F);
+            this.dataMiningToolStripEx.ForeColor = System.Drawing.Color.MidnightBlue;
+            this.dataMiningToolStripEx.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.dataMiningToolStripEx.Image = null;
+            this.dataMiningToolStripEx.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.findDuplicatesToolStripBtn});
+            this.dataMiningToolStripEx.Location = new System.Drawing.Point(823, 1);
+            this.dataMiningToolStripEx.Name = "dataMiningToolStripEx";
+            this.dataMiningToolStripEx.Office12Mode = false;
+            this.dataMiningToolStripEx.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
+            this.dataMiningToolStripEx.Size = new System.Drawing.Size(101, 136);
+            this.dataMiningToolStripEx.TabIndex = 4;
+            this.dataMiningToolStripEx.Text = "Data Mining";
+            // 
+            // dataToolStripTabItem
+            // 
+            this.dataToolStripTabItem.Font = new System.Drawing.Font("Segoe UI", 10.25F);
+            this.dataToolStripTabItem.Name = "dataToolStripTabItem";
+            // 
+            // ribbonControl.ribbonPanel3
+            // 
+            this.dataToolStripTabItem.Panel.Controls.Add(this.dataManipulationToolStripEx);
+            this.dataToolStripTabItem.Panel.Controls.Add(this.dataPointStorageToolStripEx);
+            this.dataToolStripTabItem.Panel.Controls.Add(this.exportToolStripEx);
+            this.dataToolStripTabItem.Panel.Margin = new System.Windows.Forms.Padding(0);
+            this.dataToolStripTabItem.Panel.Name = "ribbonPanel3";
+            this.dataToolStripTabItem.Panel.ScrollPosition = 0;
+            this.dataToolStripTabItem.Panel.TabIndex = 4;
+            this.dataToolStripTabItem.Panel.Text = "DATA";
+            this.dataToolStripTabItem.Position = 2;
+            this.dataToolStripTabItem.Size = new System.Drawing.Size(58, 30);
+            this.dataToolStripTabItem.Tag = "3";
+            this.dataToolStripTabItem.Text = "DATA";
+            // 
+            // dataManipulationToolStripEx
+            // 
+            this.dataManipulationToolStripEx.AutoSize = false;
+            this.dataManipulationToolStripEx.CaptionFont = new System.Drawing.Font("Dosis", 9.749999F);
+            this.dataManipulationToolStripEx.CaptionMinHeight = 0;
+            this.dataManipulationToolStripEx.CaptionStyle = Syncfusion.Windows.Forms.Tools.CaptionStyle.Bottom;
+            this.dataManipulationToolStripEx.CaptionTextStyle = Syncfusion.Windows.Forms.Tools.CaptionTextStyle.Plain;
+            this.dataManipulationToolStripEx.Dock = System.Windows.Forms.DockStyle.None;
+            this.dataManipulationToolStripEx.Font = new System.Drawing.Font("Segoe UI", 8.25F);
+            this.dataManipulationToolStripEx.ForeColor = System.Drawing.Color.MidnightBlue;
+            this.dataManipulationToolStripEx.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.dataManipulationToolStripEx.Image = null;
+            this.dataManipulationToolStripEx.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.addFieldToolStripBtn,
+            this.toolStripSeparator6,
+            this.deleteAllToolStripBtn,
+            this.deleteSelectedToolStripBtn,
+            this.toolStripSeparator8,
+            this.editValueToolStripBtn,
+            this.markAsToolStripBtn});
+            this.dataManipulationToolStripEx.Location = new System.Drawing.Point(0, 1);
+            this.dataManipulationToolStripEx.Name = "dataManipulationToolStripEx";
+            this.dataManipulationToolStripEx.Office12Mode = false;
+            this.dataManipulationToolStripEx.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
+            this.dataManipulationToolStripEx.Size = new System.Drawing.Size(423, 136);
+            this.dataManipulationToolStripEx.TabIndex = 7;
+            this.dataManipulationToolStripEx.Text = "Data Manipulation";
+            // 
+            // toolStripSeparator6
+            // 
+            this.toolStripSeparator6.AutoSize = false;
+            this.toolStripSeparator6.Name = "toolStripSeparator6";
+            this.toolStripSeparator6.Size = new System.Drawing.Size(6, 80);
+            // 
+            // toolStripSeparator8
+            // 
+            this.toolStripSeparator8.AutoSize = false;
+            this.toolStripSeparator8.Name = "toolStripSeparator8";
+            this.toolStripSeparator8.Size = new System.Drawing.Size(6, 80);
+            // 
+            // dataPointStorageToolStripEx
+            // 
+            this.dataPointStorageToolStripEx.AutoSize = false;
+            this.dataPointStorageToolStripEx.CaptionFont = new System.Drawing.Font("Dosis", 9.749999F);
+            this.dataPointStorageToolStripEx.Dock = System.Windows.Forms.DockStyle.None;
+            this.dataPointStorageToolStripEx.Font = new System.Drawing.Font("Segoe UI", 8.25F);
+            this.dataPointStorageToolStripEx.ForeColor = System.Drawing.Color.MidnightBlue;
+            this.dataPointStorageToolStripEx.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.dataPointStorageToolStripEx.Image = null;
+            this.dataPointStorageToolStripEx.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.internalDataPointDropDownBtn,
+            this.externalDataPointDropDownBtn});
+            this.dataPointStorageToolStripEx.Location = new System.Drawing.Point(425, 1);
+            this.dataPointStorageToolStripEx.Name = "dataPointStorageToolStripEx";
+            this.dataPointStorageToolStripEx.Office12Mode = false;
+            this.dataPointStorageToolStripEx.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
+            this.dataPointStorageToolStripEx.Size = new System.Drawing.Size(211, 136);
+            this.dataPointStorageToolStripEx.TabIndex = 8;
+            this.dataPointStorageToolStripEx.Text = "Data Point Storage";
+            this.dataPointStorageToolStripEx.ThemeName = "Office2016White";
+            this.dataPointStorageToolStripEx.VisualStyle = Syncfusion.Windows.Forms.Tools.ToolStripExStyle.Office2016White;
+            // 
+            // exportToolStripEx
+            // 
+            this.exportToolStripEx.AutoSize = false;
+            this.exportToolStripEx.CaptionFont = new System.Drawing.Font("Dosis", 9.749999F);
+            this.exportToolStripEx.Dock = System.Windows.Forms.DockStyle.None;
+            this.exportToolStripEx.Font = new System.Drawing.Font("Segoe UI", 8.25F);
+            this.exportToolStripEx.ForeColor = System.Drawing.Color.MidnightBlue;
+            this.exportToolStripEx.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.exportToolStripEx.Image = null;
+            this.exportToolStripEx.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.exportExcelToolStripBtn,
+            this.exportCSVoolStripBtn,
+            this.toolStripSeparator9,
+            this.SQLDatabaseExportToolStripBtn});
+            this.exportToolStripEx.Location = new System.Drawing.Point(638, 1);
+            this.exportToolStripEx.Name = "exportToolStripEx";
+            this.exportToolStripEx.Office12Mode = false;
+            this.exportToolStripEx.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
+            this.exportToolStripEx.Size = new System.Drawing.Size(250, 136);
+            this.exportToolStripEx.TabIndex = 9;
+            this.exportToolStripEx.Text = "Export Data";
+            // 
+            // toolStripSeparator9
+            // 
+            this.toolStripSeparator9.AutoSize = false;
+            this.toolStripSeparator9.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
+            this.toolStripSeparator9.Name = "toolStripSeparator9";
+            this.toolStripSeparator9.Size = new System.Drawing.Size(6, 88);
+            // 
+            // configTabPanel
+            // 
+            this.configTabPanel.Controls.Add(this.templateImageBox);
+            this.configTabPanel.Dock = System.Windows.Forms.DockStyle.Left;
+            this.configTabPanel.Location = new System.Drawing.Point(1, 205);
+            this.configTabPanel.Name = "configTabPanel";
+            this.configTabPanel.Size = new System.Drawing.Size(663, 543);
+            this.configTabPanel.TabIndex = 3;
+            // 
+            // templateImageBox
+            // 
+            this.templateImageBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.templateImageBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.templateImageBox.DragHandleSize = 10;
+            this.templateImageBox.DropShadowSize = 5;
+            this.templateImageBox.Font = new System.Drawing.Font("Dosis", 14F);
+            this.templateImageBox.GridColor = System.Drawing.Color.White;
+            this.templateImageBox.ImageBorderColor = System.Drawing.SystemColors.ActiveBorder;
+            this.templateImageBox.ImageBorderStyle = Cyotek.Windows.Forms.ImageBoxBorderStyle.FixedSingleGlowShadow;
+            this.templateImageBox.Location = new System.Drawing.Point(0, 0);
+            this.templateImageBox.Name = "templateImageBox";
+            this.templateImageBox.SelectionMode = Cyotek.Windows.Forms.ImageBoxSelectionMode.Rectangle;
+            this.templateImageBox.Size = new System.Drawing.Size(663, 543);
+            this.templateImageBox.StepSize = new System.Drawing.Size(8, 8);
+            this.templateImageBox.TabIndex = 1;
+            this.templateImageBox.Text = "Scan a document or browse for an existing template";
+            // 
+            // readingTabPanel
+            // 
+            this.readingTabPanel.Dock = System.Windows.Forms.DockStyle.Right;
+            this.readingTabPanel.Location = new System.Drawing.Point(667, 205);
+            this.readingTabPanel.Name = "readingTabPanel";
+            this.readingTabPanel.Size = new System.Drawing.Size(663, 543);
+            this.readingTabPanel.TabIndex = 5;
+            // 
+            // ImageFileBrowser
+            // 
+            this.ImageFileBrowser.FileName = "Template";
+            this.ImageFileBrowser.Filter = "Image files (*.jpg, *.jpeg, *.jpe, *.jfif, *.png, *.tif, *.bmp) | *.jpg; *.jpeg; " +
+    "*.jpe; *.jfif; *.png; *.tif; *.bmp";
             // 
             // templateConfigStatusLabel
             // 
@@ -296,13 +731,6 @@ namespace Synapse
             this.templateConfigStatusIndicator.Name = "templateConfigStatusIndicator";
             this.templateConfigStatusIndicator.Size = new System.Drawing.Size(66, 5);
             // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.AutoSize = false;
-            this.toolStripSeparator1.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 95);
-            // 
             // templateToolStripBtn
             // 
             this.templateToolStripBtn.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -314,7 +742,7 @@ namespace Synapse
             this.templateToolStripBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.templateToolStripBtn.Name = "templateToolStripBtn";
             this.templateToolStripBtn.Padding = new System.Windows.Forms.Padding(15, 0, 15, 0);
-            this.templateToolStripBtn.Size = new System.Drawing.Size(108, 114);
+            this.templateToolStripBtn.Size = new System.Drawing.Size(107, 117);
             this.templateToolStripBtn.Text = "Template";
             this.templateToolStripBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
@@ -346,13 +774,6 @@ namespace Synapse
             this.templateConfigureToolStripMenuItem.Size = new System.Drawing.Size(136, 24);
             this.templateConfigureToolStripMenuItem.Text = "Configure";
             // 
-            // toolStripSeparator5
-            // 
-            this.toolStripSeparator5.AutoSize = false;
-            this.toolStripSeparator5.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
-            this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(6, 88);
-            // 
             // eMarkingToolStripBtn
             // 
             this.eMarkingToolStripBtn.Font = new System.Drawing.Font("Dosis", 12F);
@@ -361,53 +782,10 @@ namespace Synapse
             this.eMarkingToolStripBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.eMarkingToolStripBtn.Name = "eMarkingToolStripBtn";
             this.eMarkingToolStripBtn.Padding = new System.Windows.Forms.Padding(15, 0, 15, 0);
-            this.eMarkingToolStripBtn.Size = new System.Drawing.Size(99, 114);
+            this.eMarkingToolStripBtn.Size = new System.Drawing.Size(99, 117);
             this.eMarkingToolStripBtn.Text = "EMarking\r\nSetup";
             this.eMarkingToolStripBtn.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.eMarkingToolStripBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            // 
-            // dataConfigToolStripEx
-            // 
-            this.dataConfigToolStripEx.AutoSize = false;
-            this.dataConfigToolStripEx.CaptionMinHeight = 0;
-            this.dataConfigToolStripEx.CaptionStyle = Syncfusion.Windows.Forms.Tools.CaptionStyle.Bottom;
-            this.dataConfigToolStripEx.CaptionTextStyle = Syncfusion.Windows.Forms.Tools.CaptionTextStyle.Plain;
-            this.dataConfigToolStripEx.Dock = System.Windows.Forms.DockStyle.None;
-            this.dataConfigToolStripEx.Font = new System.Drawing.Font("Segoe UI", 8.25F);
-            this.dataConfigToolStripEx.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.dataConfigToolStripEx.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-            this.dataConfigToolStripEx.Image = null;
-            this.dataConfigToolStripEx.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.dataConfigStatusToolStripPanel,
-            this.toolStripSeparator3,
-            this.configureDataToolStripBtn,
-            this.toolStripSeparator4,
-            this.addAsOmrToolStripBtn,
-            this.addAsBarcodeToolStripBtn,
-            this.addAsICRToolStripBtn});
-            this.dataConfigToolStripEx.Location = new System.Drawing.Point(328, 1);
-            this.dataConfigToolStripEx.Name = "dataConfigToolStripEx";
-            this.dataConfigToolStripEx.Office12Mode = false;
-            this.dataConfigToolStripEx.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
-            this.dataConfigToolStripEx.Size = new System.Drawing.Size(451, 133);
-            this.dataConfigToolStripEx.TabIndex = 3;
-            this.dataConfigToolStripEx.Text = "Data Configuration";
-            this.dataConfigToolStripEx.ThemeName = "Office2016White";
-            this.dataConfigToolStripEx.VisualStyle = Syncfusion.Windows.Forms.Tools.ToolStripExStyle.Office2016White;
-            // 
-            // dataConfigStatusToolStripPanel
-            // 
-            this.dataConfigStatusToolStripPanel.CausesValidation = false;
-            this.dataConfigStatusToolStripPanel.Font = new System.Drawing.Font("Dosis", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dataConfigStatusToolStripPanel.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.dataConfigStatusToolStripPanel.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.dataConfigStatusLabel,
-            this.dataConfigStatusIndicator});
-            this.dataConfigStatusToolStripPanel.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow;
-            this.dataConfigStatusToolStripPanel.Name = "dataConfigStatusToolStripPanel";
-            this.dataConfigStatusToolStripPanel.Padding = new System.Windows.Forms.Padding(2, 9, 2, 2);
-            this.dataConfigStatusToolStripPanel.Size = new System.Drawing.Size(70, 117);
-            this.dataConfigStatusToolStripPanel.Transparent = true;
             // 
             // dataConfigStatusLabel
             // 
@@ -432,13 +810,6 @@ namespace Synapse
             this.dataConfigStatusIndicator.Name = "dataConfigStatusIndicator";
             this.dataConfigStatusIndicator.Size = new System.Drawing.Size(66, 5);
             // 
-            // toolStripSeparator3
-            // 
-            this.toolStripSeparator3.AutoSize = false;
-            this.toolStripSeparator3.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
-            this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 95);
-            // 
             // configureDataToolStripBtn
             // 
             this.configureDataToolStripBtn.Font = new System.Drawing.Font("Dosis", 12F);
@@ -449,16 +820,9 @@ namespace Synapse
             this.configureDataToolStripBtn.Margin = new System.Windows.Forms.Padding(0, 1, 1, 2);
             this.configureDataToolStripBtn.Name = "configureDataToolStripBtn";
             this.configureDataToolStripBtn.Padding = new System.Windows.Forms.Padding(10, 0, 10, 0);
-            this.configureDataToolStripBtn.Size = new System.Drawing.Size(91, 114);
+            this.configureDataToolStripBtn.Size = new System.Drawing.Size(91, 117);
             this.configureDataToolStripBtn.Text = "Configure\r\nData";
             this.configureDataToolStripBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            // 
-            // toolStripSeparator4
-            // 
-            this.toolStripSeparator4.AutoSize = false;
-            this.toolStripSeparator4.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
-            this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 88);
             // 
             // addAsOmrToolStripBtn
             // 
@@ -469,7 +833,7 @@ namespace Synapse
             this.addAsOmrToolStripBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.addAsOmrToolStripBtn.Name = "addAsOmrToolStripBtn";
             this.addAsOmrToolStripBtn.Padding = new System.Windows.Forms.Padding(13, 0, 13, 0);
-            this.addAsOmrToolStripBtn.Size = new System.Drawing.Size(82, 114);
+            this.addAsOmrToolStripBtn.Size = new System.Drawing.Size(80, 117);
             this.addAsOmrToolStripBtn.Text = "Add As\r\nOMR";
             this.addAsOmrToolStripBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
@@ -482,7 +846,7 @@ namespace Synapse
             this.addAsBarcodeToolStripBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.addAsBarcodeToolStripBtn.Name = "addAsBarcodeToolStripBtn";
             this.addAsBarcodeToolStripBtn.Padding = new System.Windows.Forms.Padding(13, 0, 13, 0);
-            this.addAsBarcodeToolStripBtn.Size = new System.Drawing.Size(89, 114);
+            this.addAsBarcodeToolStripBtn.Size = new System.Drawing.Size(89, 117);
             this.addAsBarcodeToolStripBtn.Text = "Add As\r\nBarcode";
             this.addAsBarcodeToolStripBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
@@ -495,46 +859,9 @@ namespace Synapse
             this.addAsICRToolStripBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.addAsICRToolStripBtn.Name = "addAsICRToolStripBtn";
             this.addAsICRToolStripBtn.Padding = new System.Windows.Forms.Padding(13, 0, 13, 0);
-            this.addAsICRToolStripBtn.Size = new System.Drawing.Size(82, 114);
+            this.addAsICRToolStripBtn.Size = new System.Drawing.Size(80, 117);
             this.addAsICRToolStripBtn.Text = "Add As\r\nICR";
             this.addAsICRToolStripBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            // 
-            // modelConfigToolStripEx
-            // 
-            this.modelConfigToolStripEx.AutoSize = false;
-            this.modelConfigToolStripEx.CaptionMinHeight = 0;
-            this.modelConfigToolStripEx.CaptionStyle = Syncfusion.Windows.Forms.Tools.CaptionStyle.Bottom;
-            this.modelConfigToolStripEx.CaptionTextStyle = Syncfusion.Windows.Forms.Tools.CaptionTextStyle.Plain;
-            this.modelConfigToolStripEx.Dock = System.Windows.Forms.DockStyle.None;
-            this.modelConfigToolStripEx.Font = new System.Drawing.Font("Segoe UI", 8.25F);
-            this.modelConfigToolStripEx.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.modelConfigToolStripEx.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-            this.modelConfigToolStripEx.Image = null;
-            this.modelConfigToolStripEx.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.aiConfigStatusToolStripPanel,
-            this.toolStripSeparator2,
-            this.configureNetworksToolStripBtn});
-            this.modelConfigToolStripEx.Location = new System.Drawing.Point(781, 1);
-            this.modelConfigToolStripEx.Name = "modelConfigToolStripEx";
-            this.modelConfigToolStripEx.Office12Mode = false;
-            this.modelConfigToolStripEx.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
-            this.modelConfigToolStripEx.Size = new System.Drawing.Size(202, 133);
-            this.modelConfigToolStripEx.TabIndex = 1;
-            this.modelConfigToolStripEx.Text = "AI Configuration";
-            // 
-            // aiConfigStatusToolStripPanel
-            // 
-            this.aiConfigStatusToolStripPanel.CausesValidation = false;
-            this.aiConfigStatusToolStripPanel.Font = new System.Drawing.Font("Dosis", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.aiConfigStatusToolStripPanel.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.aiConfigStatusToolStripPanel.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.aiConfigStatusLabel,
-            this.aiConfigStatusIndicator});
-            this.aiConfigStatusToolStripPanel.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow;
-            this.aiConfigStatusToolStripPanel.Name = "aiConfigStatusToolStripPanel";
-            this.aiConfigStatusToolStripPanel.Padding = new System.Windows.Forms.Padding(2, 9, 2, 2);
-            this.aiConfigStatusToolStripPanel.Size = new System.Drawing.Size(70, 117);
-            this.aiConfigStatusToolStripPanel.Transparent = true;
             // 
             // aiConfigStatusLabel
             // 
@@ -559,13 +886,6 @@ namespace Synapse
             this.aiConfigStatusIndicator.Name = "aiConfigStatusIndicator";
             this.aiConfigStatusIndicator.Size = new System.Drawing.Size(66, 5);
             // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.AutoSize = false;
-            this.toolStripSeparator2.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 95);
-            // 
             // configureNetworksToolStripBtn
             // 
             this.configureNetworksToolStripBtn.Font = new System.Drawing.Font("Dosis", 12F);
@@ -575,54 +895,9 @@ namespace Synapse
             this.configureNetworksToolStripBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.configureNetworksToolStripBtn.Name = "configureNetworksToolStripBtn";
             this.configureNetworksToolStripBtn.Padding = new System.Windows.Forms.Padding(18, 0, 18, 0);
-            this.configureNetworksToolStripBtn.Size = new System.Drawing.Size(107, 114);
+            this.configureNetworksToolStripBtn.Size = new System.Drawing.Size(107, 117);
             this.configureNetworksToolStripBtn.Text = "Configure\r\nAI Model";
             this.configureNetworksToolStripBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            // 
-            // readingToolStripTabItem
-            // 
-            this.readingToolStripTabItem.Font = new System.Drawing.Font("Segoe UI", 10.25F);
-            this.readingToolStripTabItem.Name = "readingToolStripTabItem";
-            // 
-            // ribbonControl.ribbonPanel2
-            // 
-            this.readingToolStripTabItem.Panel.Controls.Add(this.scoresToolStripEx);
-            this.readingToolStripTabItem.Panel.Controls.Add(this.sheetsToolStripEx);
-            this.readingToolStripTabItem.Panel.Controls.Add(this.processingToolStripEx);
-            this.readingToolStripTabItem.Panel.Controls.Add(this.postOperationsToolStripEx);
-            this.readingToolStripTabItem.Panel.Controls.Add(this.dataMiningToolStripEx);
-            this.readingToolStripTabItem.Panel.Margin = new System.Windows.Forms.Padding(0);
-            this.readingToolStripTabItem.Panel.Name = "ribbonPanel2";
-            this.readingToolStripTabItem.Panel.ScrollPosition = 0;
-            this.readingToolStripTabItem.Panel.TabIndex = 3;
-            this.readingToolStripTabItem.Panel.Text = "READING";
-            this.readingToolStripTabItem.Position = 1;
-            this.readingToolStripTabItem.Size = new System.Drawing.Size(73, 25);
-            this.readingToolStripTabItem.Tag = "2";
-            this.readingToolStripTabItem.Text = "READING";
-            this.readingToolStripTabItem.Click += new System.EventHandler(this.ReadingToolStripTabItem_Click);
-            // 
-            // scoresToolStripEx
-            // 
-            this.scoresToolStripEx.AutoSize = false;
-            this.scoresToolStripEx.CaptionFont = new System.Drawing.Font("Dosis", 9.749999F);
-            this.scoresToolStripEx.CaptionMinHeight = 0;
-            this.scoresToolStripEx.CaptionStyle = Syncfusion.Windows.Forms.Tools.CaptionStyle.Bottom;
-            this.scoresToolStripEx.CaptionTextStyle = Syncfusion.Windows.Forms.Tools.CaptionTextStyle.Plain;
-            this.scoresToolStripEx.Dock = System.Windows.Forms.DockStyle.None;
-            this.scoresToolStripEx.Font = new System.Drawing.Font("Segoe UI", 8.25F);
-            this.scoresToolStripEx.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.scoresToolStripEx.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-            this.scoresToolStripEx.Image = null;
-            this.scoresToolStripEx.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.answerKeyToolStripBtn});
-            this.scoresToolStripEx.Location = new System.Drawing.Point(0, 1);
-            this.scoresToolStripEx.Name = "scoresToolStripEx";
-            this.scoresToolStripEx.Office12Mode = false;
-            this.scoresToolStripEx.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
-            this.scoresToolStripEx.Size = new System.Drawing.Size(98, 133);
-            this.scoresToolStripEx.TabIndex = 8;
-            this.scoresToolStripEx.Text = "Scores";
             // 
             // answerKeyToolStripBtn
             // 
@@ -634,48 +909,9 @@ namespace Synapse
             this.answerKeyToolStripBtn.Margin = new System.Windows.Forms.Padding(4, 1, 1, 2);
             this.answerKeyToolStripBtn.Name = "answerKeyToolStripBtn";
             this.answerKeyToolStripBtn.Padding = new System.Windows.Forms.Padding(8, 0, 8, 0);
-            this.answerKeyToolStripBtn.Size = new System.Drawing.Size(82, 114);
+            this.answerKeyToolStripBtn.Size = new System.Drawing.Size(82, 117);
             this.answerKeyToolStripBtn.Text = "Answer\r\nKey";
             this.answerKeyToolStripBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            // 
-            // sheetsToolStripEx
-            // 
-            this.sheetsToolStripEx.AutoSize = false;
-            this.sheetsToolStripEx.CaptionFont = new System.Drawing.Font("Dosis", 9.749999F);
-            this.sheetsToolStripEx.CaptionMinHeight = 0;
-            this.sheetsToolStripEx.CaptionStyle = Syncfusion.Windows.Forms.Tools.CaptionStyle.Bottom;
-            this.sheetsToolStripEx.CaptionTextStyle = Syncfusion.Windows.Forms.Tools.CaptionTextStyle.Plain;
-            this.sheetsToolStripEx.Dock = System.Windows.Forms.DockStyle.None;
-            this.sheetsToolStripEx.Font = new System.Drawing.Font("Segoe UI", 8.25F);
-            this.sheetsToolStripEx.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.sheetsToolStripEx.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-            this.sheetsToolStripEx.Image = null;
-            this.sheetsToolStripEx.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.sheetsToolStripPanelItem,
-            this.scanSheetsToolStripDropDownBtn,
-            this.toolStripSeparator7});
-            this.sheetsToolStripEx.Location = new System.Drawing.Point(100, 1);
-            this.sheetsToolStripEx.Name = "sheetsToolStripEx";
-            this.sheetsToolStripEx.Office12Mode = false;
-            this.sheetsToolStripEx.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
-            this.sheetsToolStripEx.Size = new System.Drawing.Size(291, 133);
-            this.sheetsToolStripEx.TabIndex = 7;
-            this.sheetsToolStripEx.Text = "OMR Sheets";
-            // 
-            // sheetsToolStripPanelItem
-            // 
-            this.sheetsToolStripPanelItem.AutoSize = false;
-            this.sheetsToolStripPanelItem.CausesValidation = false;
-            this.sheetsToolStripPanelItem.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.sheetsToolStripPanelItem.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.scanDirectoryToolStripBtn,
-            this.includeSubFoldersToolStripCheckBox});
-            this.sheetsToolStripPanelItem.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow;
-            this.sheetsToolStripPanelItem.Name = "sheetsToolStripPanelItem";
-            this.sheetsToolStripPanelItem.Padding = new System.Windows.Forms.Padding(1, 0, 2, 2);
-            this.sheetsToolStripPanelItem.RowCount = 2;
-            this.sheetsToolStripPanelItem.Size = new System.Drawing.Size(192, 90);
-            this.sheetsToolStripPanelItem.Transparent = true;
             // 
             // scanDirectoryToolStripBtn
             // 
@@ -692,14 +928,6 @@ namespace Synapse
             this.scanDirectoryToolStripBtn.Text = "Scan Directory ";
             this.scanDirectoryToolStripBtn.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // includeSubFoldersToolStripCheckBox
-            // 
-            this.includeSubFoldersToolStripCheckBox.Font = new System.Drawing.Font("Dosis", 10.25F);
-            this.includeSubFoldersToolStripCheckBox.Margin = new System.Windows.Forms.Padding(23, 1, 0, 2);
-            this.includeSubFoldersToolStripCheckBox.Name = "includeSubFoldersToolStripCheckBox";
-            this.includeSubFoldersToolStripCheckBox.Size = new System.Drawing.Size(139, 21);
-            this.includeSubFoldersToolStripCheckBox.Text = "Include Sub Folder(s)";
-            // 
             // scanSheetsToolStripDropDownBtn
             // 
             this.scanSheetsToolStripDropDownBtn.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
@@ -713,7 +941,7 @@ namespace Synapse
             this.scanSheetsToolStripDropDownBtn.Margin = new System.Windows.Forms.Padding(3, 1, 5, 2);
             this.scanSheetsToolStripDropDownBtn.Name = "scanSheetsToolStripDropDownBtn";
             this.scanSheetsToolStripDropDownBtn.Padding = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            this.scanSheetsToolStripDropDownBtn.Size = new System.Drawing.Size(71, 114);
+            this.scanSheetsToolStripDropDownBtn.Size = new System.Drawing.Size(71, 117);
             this.scanSheetsToolStripDropDownBtn.Text = "Scan";
             this.scanSheetsToolStripDropDownBtn.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.scanSheetsToolStripDropDownBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
@@ -721,44 +949,14 @@ namespace Synapse
             // scanLoadToolStripMenuItem
             // 
             this.scanLoadToolStripMenuItem.Name = "scanLoadToolStripMenuItem";
-            this.scanLoadToolStripMenuItem.Size = new System.Drawing.Size(167, 26);
+            this.scanLoadToolStripMenuItem.Size = new System.Drawing.Size(166, 26);
             this.scanLoadToolStripMenuItem.Text = "Load";
             // 
             // scanReadToolStripMenuItem
             // 
             this.scanReadToolStripMenuItem.Name = "scanReadToolStripMenuItem";
-            this.scanReadToolStripMenuItem.Size = new System.Drawing.Size(167, 26);
+            this.scanReadToolStripMenuItem.Size = new System.Drawing.Size(166, 26);
             this.scanReadToolStripMenuItem.Text = "Scan && Read";
-            // 
-            // toolStripSeparator7
-            // 
-            this.toolStripSeparator7.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.toolStripSeparator7.AutoSize = false;
-            this.toolStripSeparator7.Name = "toolStripSeparator7";
-            this.toolStripSeparator7.Size = new System.Drawing.Size(6, 86);
-            // 
-            // processingToolStripEx
-            // 
-            this.processingToolStripEx.AutoSize = false;
-            this.processingToolStripEx.CaptionFont = new System.Drawing.Font("Dosis", 9.749999F);
-            this.processingToolStripEx.CaptionMinHeight = 0;
-            this.processingToolStripEx.CaptionStyle = Syncfusion.Windows.Forms.Tools.CaptionStyle.Bottom;
-            this.processingToolStripEx.CaptionTextStyle = Syncfusion.Windows.Forms.Tools.CaptionTextStyle.Plain;
-            this.processingToolStripEx.Dock = System.Windows.Forms.DockStyle.None;
-            this.processingToolStripEx.Font = new System.Drawing.Font("Segoe UI", 8.25F);
-            this.processingToolStripEx.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.processingToolStripEx.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-            this.processingToolStripEx.Image = null;
-            this.processingToolStripEx.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.startReadingToolStripBtn,
-            this.stopReadingToolStripBtn});
-            this.processingToolStripEx.Location = new System.Drawing.Point(393, 1);
-            this.processingToolStripEx.Name = "processingToolStripEx";
-            this.processingToolStripEx.Office12Mode = false;
-            this.processingToolStripEx.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
-            this.processingToolStripEx.Size = new System.Drawing.Size(146, 133);
-            this.processingToolStripEx.TabIndex = 6;
-            this.processingToolStripEx.Text = "Processing";
             // 
             // startReadingToolStripBtn
             // 
@@ -769,7 +967,7 @@ namespace Synapse
             this.startReadingToolStripBtn.Margin = new System.Windows.Forms.Padding(0, 5, 0, 2);
             this.startReadingToolStripBtn.Name = "startReadingToolStripBtn";
             this.startReadingToolStripBtn.Padding = new System.Windows.Forms.Padding(7, 0, 7, 0);
-            this.startReadingToolStripBtn.Size = new System.Drawing.Size(68, 110);
+            this.startReadingToolStripBtn.Size = new System.Drawing.Size(68, 113);
             this.startReadingToolStripBtn.Text = "Start";
             this.startReadingToolStripBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
@@ -783,33 +981,9 @@ namespace Synapse
             this.stopReadingToolStripBtn.Margin = new System.Windows.Forms.Padding(0, 6, 0, 2);
             this.stopReadingToolStripBtn.Name = "stopReadingToolStripBtn";
             this.stopReadingToolStripBtn.Padding = new System.Windows.Forms.Padding(7, 0, 7, 0);
-            this.stopReadingToolStripBtn.Size = new System.Drawing.Size(67, 109);
+            this.stopReadingToolStripBtn.Size = new System.Drawing.Size(67, 112);
             this.stopReadingToolStripBtn.Text = "Stop";
             this.stopReadingToolStripBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            // 
-            // postOperationsToolStripEx
-            // 
-            this.postOperationsToolStripEx.AutoSize = false;
-            this.postOperationsToolStripEx.CaptionFont = new System.Drawing.Font("Dosis", 9.749999F);
-            this.postOperationsToolStripEx.CaptionMinHeight = 0;
-            this.postOperationsToolStripEx.CaptionStyle = Syncfusion.Windows.Forms.Tools.CaptionStyle.Bottom;
-            this.postOperationsToolStripEx.CaptionTextStyle = Syncfusion.Windows.Forms.Tools.CaptionTextStyle.Plain;
-            this.postOperationsToolStripEx.Dock = System.Windows.Forms.DockStyle.None;
-            this.postOperationsToolStripEx.Font = new System.Drawing.Font("Segoe UI", 8.25F);
-            this.postOperationsToolStripEx.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.postOperationsToolStripEx.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-            this.postOperationsToolStripEx.Image = null;
-            this.postOperationsToolStripEx.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.reReadFaultySheetsToolStripBtn,
-            this.moveFaultySheetsToolStripBtn,
-            this.locateOptionsToolStripBtn});
-            this.postOperationsToolStripEx.Location = new System.Drawing.Point(541, 1);
-            this.postOperationsToolStripEx.Name = "postOperationsToolStripEx";
-            this.postOperationsToolStripEx.Office12Mode = false;
-            this.postOperationsToolStripEx.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
-            this.postOperationsToolStripEx.Size = new System.Drawing.Size(280, 133);
-            this.postOperationsToolStripEx.TabIndex = 5;
-            this.postOperationsToolStripEx.Text = "Post Operations";
             // 
             // reReadFaultySheetsToolStripBtn
             // 
@@ -820,7 +994,7 @@ namespace Synapse
             this.reReadFaultySheetsToolStripBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.reReadFaultySheetsToolStripBtn.Name = "reReadFaultySheetsToolStripBtn";
             this.reReadFaultySheetsToolStripBtn.Padding = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.reReadFaultySheetsToolStripBtn.Size = new System.Drawing.Size(101, 114);
+            this.reReadFaultySheetsToolStripBtn.Size = new System.Drawing.Size(101, 117);
             this.reReadFaultySheetsToolStripBtn.Text = "Re-Read\r\nFaulty Sheets";
             this.reReadFaultySheetsToolStripBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
@@ -834,7 +1008,7 @@ namespace Synapse
             this.moveFaultySheetsToolStripBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.moveFaultySheetsToolStripBtn.Name = "moveFaultySheetsToolStripBtn";
             this.moveFaultySheetsToolStripBtn.Padding = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.moveFaultySheetsToolStripBtn.Size = new System.Drawing.Size(101, 114);
+            this.moveFaultySheetsToolStripBtn.Size = new System.Drawing.Size(101, 117);
             this.moveFaultySheetsToolStripBtn.Text = "Move\r\nFaulty Sheets";
             this.moveFaultySheetsToolStripBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
@@ -848,31 +1022,9 @@ namespace Synapse
             this.locateOptionsToolStripBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.locateOptionsToolStripBtn.Name = "locateOptionsToolStripBtn";
             this.locateOptionsToolStripBtn.Padding = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.locateOptionsToolStripBtn.Size = new System.Drawing.Size(67, 114);
+            this.locateOptionsToolStripBtn.Size = new System.Drawing.Size(67, 117);
             this.locateOptionsToolStripBtn.Text = "Locate\r\nOptions";
             this.locateOptionsToolStripBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            // 
-            // dataMiningToolStripEx
-            // 
-            this.dataMiningToolStripEx.AutoSize = false;
-            this.dataMiningToolStripEx.CaptionFont = new System.Drawing.Font("Dosis", 9.749999F);
-            this.dataMiningToolStripEx.CaptionMinHeight = 0;
-            this.dataMiningToolStripEx.CaptionStyle = Syncfusion.Windows.Forms.Tools.CaptionStyle.Bottom;
-            this.dataMiningToolStripEx.CaptionTextStyle = Syncfusion.Windows.Forms.Tools.CaptionTextStyle.Plain;
-            this.dataMiningToolStripEx.Dock = System.Windows.Forms.DockStyle.None;
-            this.dataMiningToolStripEx.Font = new System.Drawing.Font("Segoe UI", 8.25F);
-            this.dataMiningToolStripEx.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.dataMiningToolStripEx.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-            this.dataMiningToolStripEx.Image = null;
-            this.dataMiningToolStripEx.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.findDuplicatesToolStripBtn});
-            this.dataMiningToolStripEx.Location = new System.Drawing.Point(823, 1);
-            this.dataMiningToolStripEx.Name = "dataMiningToolStripEx";
-            this.dataMiningToolStripEx.Office12Mode = false;
-            this.dataMiningToolStripEx.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
-            this.dataMiningToolStripEx.Size = new System.Drawing.Size(101, 133);
-            this.dataMiningToolStripEx.TabIndex = 4;
-            this.dataMiningToolStripEx.Text = "Data Mining";
             // 
             // findDuplicatesToolStripBtn
             // 
@@ -883,57 +1035,9 @@ namespace Synapse
             this.findDuplicatesToolStripBtn.Margin = new System.Windows.Forms.Padding(0, 5, 0, 2);
             this.findDuplicatesToolStripBtn.Name = "findDuplicatesToolStripBtn";
             this.findDuplicatesToolStripBtn.Padding = new System.Windows.Forms.Padding(7, 0, 7, 0);
-            this.findDuplicatesToolStripBtn.Size = new System.Drawing.Size(90, 110);
+            this.findDuplicatesToolStripBtn.Size = new System.Drawing.Size(90, 113);
             this.findDuplicatesToolStripBtn.Text = "Find\r\nDuplicates";
             this.findDuplicatesToolStripBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            // 
-            // dataToolStripTabItem
-            // 
-            this.dataToolStripTabItem.Font = new System.Drawing.Font("Segoe UI", 10.25F);
-            this.dataToolStripTabItem.Name = "dataToolStripTabItem";
-            // 
-            // ribbonControl.ribbonPanel3
-            // 
-            this.dataToolStripTabItem.Panel.Controls.Add(this.dataManipulationToolStripEx);
-            this.dataToolStripTabItem.Panel.Controls.Add(this.dataPointStorageToolStripEx);
-            this.dataToolStripTabItem.Panel.Controls.Add(this.exportToolStripEx);
-            this.dataToolStripTabItem.Panel.Margin = new System.Windows.Forms.Padding(0);
-            this.dataToolStripTabItem.Panel.Name = "ribbonPanel3";
-            this.dataToolStripTabItem.Panel.ScrollPosition = 0;
-            this.dataToolStripTabItem.Panel.TabIndex = 4;
-            this.dataToolStripTabItem.Panel.Text = "DATA";
-            this.dataToolStripTabItem.Position = 2;
-            this.dataToolStripTabItem.Size = new System.Drawing.Size(48, 25);
-            this.dataToolStripTabItem.Tag = "3";
-            this.dataToolStripTabItem.Text = "DATA";
-            // 
-            // dataManipulationToolStripEx
-            // 
-            this.dataManipulationToolStripEx.AutoSize = false;
-            this.dataManipulationToolStripEx.CaptionFont = new System.Drawing.Font("Dosis", 9.749999F);
-            this.dataManipulationToolStripEx.CaptionMinHeight = 0;
-            this.dataManipulationToolStripEx.CaptionStyle = Syncfusion.Windows.Forms.Tools.CaptionStyle.Bottom;
-            this.dataManipulationToolStripEx.CaptionTextStyle = Syncfusion.Windows.Forms.Tools.CaptionTextStyle.Plain;
-            this.dataManipulationToolStripEx.Dock = System.Windows.Forms.DockStyle.None;
-            this.dataManipulationToolStripEx.Font = new System.Drawing.Font("Segoe UI", 8.25F);
-            this.dataManipulationToolStripEx.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.dataManipulationToolStripEx.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-            this.dataManipulationToolStripEx.Image = null;
-            this.dataManipulationToolStripEx.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.addFieldToolStripBtn,
-            this.toolStripSeparator6,
-            this.deleteAllToolStripBtn,
-            this.deleteSelectedToolStripBtn,
-            this.toolStripSeparator8,
-            this.editValueToolStripBtn,
-            this.markAsToolStripBtn});
-            this.dataManipulationToolStripEx.Location = new System.Drawing.Point(0, 1);
-            this.dataManipulationToolStripEx.Name = "dataManipulationToolStripEx";
-            this.dataManipulationToolStripEx.Office12Mode = false;
-            this.dataManipulationToolStripEx.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
-            this.dataManipulationToolStripEx.Size = new System.Drawing.Size(423, 133);
-            this.dataManipulationToolStripEx.TabIndex = 7;
-            this.dataManipulationToolStripEx.Text = "Data Manipulation";
             // 
             // addFieldToolStripBtn
             // 
@@ -943,15 +1047,9 @@ namespace Synapse
             this.addFieldToolStripBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.addFieldToolStripBtn.Name = "addFieldToolStripBtn";
             this.addFieldToolStripBtn.Padding = new System.Windows.Forms.Padding(10, 0, 10, 0);
-            this.addFieldToolStripBtn.Size = new System.Drawing.Size(74, 114);
+            this.addFieldToolStripBtn.Size = new System.Drawing.Size(74, 117);
             this.addFieldToolStripBtn.Text = "Add\r\nField";
             this.addFieldToolStripBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            // 
-            // toolStripSeparator6
-            // 
-            this.toolStripSeparator6.AutoSize = false;
-            this.toolStripSeparator6.Name = "toolStripSeparator6";
-            this.toolStripSeparator6.Size = new System.Drawing.Size(6, 80);
             // 
             // deleteAllToolStripBtn
             // 
@@ -962,7 +1060,7 @@ namespace Synapse
             this.deleteAllToolStripBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.deleteAllToolStripBtn.Name = "deleteAllToolStripBtn";
             this.deleteAllToolStripBtn.Padding = new System.Windows.Forms.Padding(8, 0, 8, 0);
-            this.deleteAllToolStripBtn.Size = new System.Drawing.Size(67, 114);
+            this.deleteAllToolStripBtn.Size = new System.Drawing.Size(67, 117);
             this.deleteAllToolStripBtn.Text = "Delete\r\nAll";
             this.deleteAllToolStripBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
@@ -975,15 +1073,9 @@ namespace Synapse
             this.deleteSelectedToolStripBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.deleteSelectedToolStripBtn.Name = "deleteSelectedToolStripBtn";
             this.deleteSelectedToolStripBtn.Padding = new System.Windows.Forms.Padding(8, 0, 8, 0);
-            this.deleteSelectedToolStripBtn.Size = new System.Drawing.Size(81, 114);
+            this.deleteSelectedToolStripBtn.Size = new System.Drawing.Size(81, 117);
             this.deleteSelectedToolStripBtn.Text = "Delete\r\nSelected";
             this.deleteSelectedToolStripBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            // 
-            // toolStripSeparator8
-            // 
-            this.toolStripSeparator8.AutoSize = false;
-            this.toolStripSeparator8.Name = "toolStripSeparator8";
-            this.toolStripSeparator8.Size = new System.Drawing.Size(6, 80);
             // 
             // editValueToolStripBtn
             // 
@@ -994,7 +1086,7 @@ namespace Synapse
             this.editValueToolStripBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.editValueToolStripBtn.Name = "editValueToolStripBtn";
             this.editValueToolStripBtn.Padding = new System.Windows.Forms.Padding(8, 0, 8, 0);
-            this.editValueToolStripBtn.Size = new System.Drawing.Size(66, 114);
+            this.editValueToolStripBtn.Size = new System.Drawing.Size(66, 117);
             this.editValueToolStripBtn.Text = "Edit\r\nValue";
             this.editValueToolStripBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
@@ -1012,7 +1104,7 @@ namespace Synapse
             this.markAsToolStripBtn.Margin = new System.Windows.Forms.Padding(0, 2, 0, 2);
             this.markAsToolStripBtn.Name = "markAsToolStripBtn";
             this.markAsToolStripBtn.Padding = new System.Windows.Forms.Padding(8, 0, 8, 0);
-            this.markAsToolStripBtn.Size = new System.Drawing.Size(112, 113);
+            this.markAsToolStripBtn.Size = new System.Drawing.Size(112, 116);
             this.markAsToolStripBtn.Text = "Mark Sheets\r\nAs";
             this.markAsToolStripBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
@@ -1034,28 +1126,6 @@ namespace Synapse
             this.markIncompatibleToolStripMenuItem.Size = new System.Drawing.Size(156, 24);
             this.markIncompatibleToolStripMenuItem.Text = "Incompatible";
             // 
-            // dataPointStorageToolStripEx
-            // 
-            this.dataPointStorageToolStripEx.AutoSize = false;
-            this.dataPointStorageToolStripEx.CaptionFont = new System.Drawing.Font("Dosis", 9.749999F);
-            this.dataPointStorageToolStripEx.Dock = System.Windows.Forms.DockStyle.None;
-            this.dataPointStorageToolStripEx.Font = new System.Drawing.Font("Segoe UI", 8.25F);
-            this.dataPointStorageToolStripEx.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.dataPointStorageToolStripEx.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-            this.dataPointStorageToolStripEx.Image = null;
-            this.dataPointStorageToolStripEx.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.internalDataPointDropDownBtn,
-            this.externalDataPointDropDownBtn});
-            this.dataPointStorageToolStripEx.Location = new System.Drawing.Point(425, 1);
-            this.dataPointStorageToolStripEx.Name = "dataPointStorageToolStripEx";
-            this.dataPointStorageToolStripEx.Office12Mode = false;
-            this.dataPointStorageToolStripEx.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
-            this.dataPointStorageToolStripEx.Size = new System.Drawing.Size(211, 133);
-            this.dataPointStorageToolStripEx.TabIndex = 8;
-            this.dataPointStorageToolStripEx.Text = "Data Point Storage";
-            this.dataPointStorageToolStripEx.ThemeName = "Office2016White";
-            this.dataPointStorageToolStripEx.VisualStyle = Syncfusion.Windows.Forms.Tools.ToolStripExStyle.Office2016White;
-            // 
             // internalDataPointDropDownBtn
             // 
             this.internalDataPointDropDownBtn.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -1069,7 +1139,7 @@ namespace Synapse
             this.internalDataPointDropDownBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.internalDataPointDropDownBtn.Name = "internalDataPointDropDownBtn";
             this.internalDataPointDropDownBtn.Padding = new System.Windows.Forms.Padding(8, 0, 8, 0);
-            this.internalDataPointDropDownBtn.Size = new System.Drawing.Size(100, 114);
+            this.internalDataPointDropDownBtn.Size = new System.Drawing.Size(100, 117);
             this.internalDataPointDropDownBtn.Text = "Internal\r\nData Point";
             this.internalDataPointDropDownBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
@@ -1103,7 +1173,7 @@ namespace Synapse
             this.externalDataPointDropDownBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.externalDataPointDropDownBtn.Name = "externalDataPointDropDownBtn";
             this.externalDataPointDropDownBtn.Padding = new System.Windows.Forms.Padding(8, 0, 8, 0);
-            this.externalDataPointDropDownBtn.Size = new System.Drawing.Size(100, 114);
+            this.externalDataPointDropDownBtn.Size = new System.Drawing.Size(100, 117);
             this.externalDataPointDropDownBtn.Text = "External\r\nData Point";
             this.externalDataPointDropDownBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
@@ -1119,28 +1189,6 @@ namespace Synapse
             this.externalSaveToolStripMenuItem.Size = new System.Drawing.Size(107, 24);
             this.externalSaveToolStripMenuItem.Text = "Save";
             // 
-            // exportToolStripEx
-            // 
-            this.exportToolStripEx.AutoSize = false;
-            this.exportToolStripEx.CaptionFont = new System.Drawing.Font("Dosis", 9.749999F);
-            this.exportToolStripEx.Dock = System.Windows.Forms.DockStyle.None;
-            this.exportToolStripEx.Font = new System.Drawing.Font("Segoe UI", 8.25F);
-            this.exportToolStripEx.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.exportToolStripEx.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-            this.exportToolStripEx.Image = null;
-            this.exportToolStripEx.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.exportExcelToolStripBtn,
-            this.exportCSVoolStripBtn,
-            this.toolStripSeparator9,
-            this.SQLDatabaseExportToolStripBtn});
-            this.exportToolStripEx.Location = new System.Drawing.Point(638, 1);
-            this.exportToolStripEx.Name = "exportToolStripEx";
-            this.exportToolStripEx.Office12Mode = false;
-            this.exportToolStripEx.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
-            this.exportToolStripEx.Size = new System.Drawing.Size(250, 133);
-            this.exportToolStripEx.TabIndex = 9;
-            this.exportToolStripEx.Text = "Export Data";
-            // 
             // exportExcelToolStripBtn
             // 
             this.exportExcelToolStripBtn.Font = new System.Drawing.Font("Dosis", 12F);
@@ -1150,7 +1198,7 @@ namespace Synapse
             this.exportExcelToolStripBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.exportExcelToolStripBtn.Name = "exportExcelToolStripBtn";
             this.exportExcelToolStripBtn.Padding = new System.Windows.Forms.Padding(8, 0, 8, 0);
-            this.exportExcelToolStripBtn.Size = new System.Drawing.Size(71, 114);
+            this.exportExcelToolStripBtn.Size = new System.Drawing.Size(71, 117);
             this.exportExcelToolStripBtn.Text = "Excel";
             this.exportExcelToolStripBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
@@ -1163,16 +1211,9 @@ namespace Synapse
             this.exportCSVoolStripBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.exportCSVoolStripBtn.Name = "exportCSVoolStripBtn";
             this.exportCSVoolStripBtn.Padding = new System.Windows.Forms.Padding(8, 0, 8, 0);
-            this.exportCSVoolStripBtn.Size = new System.Drawing.Size(71, 114);
+            this.exportCSVoolStripBtn.Size = new System.Drawing.Size(71, 117);
             this.exportCSVoolStripBtn.Text = "CSV";
             this.exportCSVoolStripBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            // 
-            // toolStripSeparator9
-            // 
-            this.toolStripSeparator9.AutoSize = false;
-            this.toolStripSeparator9.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
-            this.toolStripSeparator9.Name = "toolStripSeparator9";
-            this.toolStripSeparator9.Size = new System.Drawing.Size(6, 88);
             // 
             // SQLDatabaseExportToolStripBtn
             // 
@@ -1183,50 +1224,9 @@ namespace Synapse
             this.SQLDatabaseExportToolStripBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.SQLDatabaseExportToolStripBtn.Name = "SQLDatabaseExportToolStripBtn";
             this.SQLDatabaseExportToolStripBtn.Padding = new System.Windows.Forms.Padding(8, 0, 8, 0);
-            this.SQLDatabaseExportToolStripBtn.Size = new System.Drawing.Size(85, 114);
+            this.SQLDatabaseExportToolStripBtn.Size = new System.Drawing.Size(85, 117);
             this.SQLDatabaseExportToolStripBtn.Text = "SQL\r\nDatabase";
             this.SQLDatabaseExportToolStripBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            // 
-            // configTabPanel
-            // 
-            this.configTabPanel.Controls.Add(this.templateImageBox);
-            this.configTabPanel.Dock = System.Windows.Forms.DockStyle.Left;
-            this.configTabPanel.Location = new System.Drawing.Point(1, 202);
-            this.configTabPanel.Name = "configTabPanel";
-            this.configTabPanel.Size = new System.Drawing.Size(663, 546);
-            this.configTabPanel.TabIndex = 3;
-            // 
-            // readingTabPanel
-            // 
-            this.readingTabPanel.Dock = System.Windows.Forms.DockStyle.Right;
-            this.readingTabPanel.Location = new System.Drawing.Point(667, 202);
-            this.readingTabPanel.Name = "readingTabPanel";
-            this.readingTabPanel.Size = new System.Drawing.Size(663, 546);
-            this.readingTabPanel.TabIndex = 5;
-            // 
-            // ImageFileBrowser
-            // 
-            this.ImageFileBrowser.FileName = "Template";
-            this.ImageFileBrowser.Filter = "Image files (*.jpg, *.jpeg, *.jpe, *.jfif, *.png, *.tif, *.bmp) | *.jpg; *.jpeg; " +
-    "*.jpe; *.jfif; *.png; *.tif; *.bmp";
-            // 
-            // templateImageBox
-            // 
-            this.templateImageBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.templateImageBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.templateImageBox.DragHandleSize = 10;
-            this.templateImageBox.DropShadowSize = 5;
-            this.templateImageBox.Font = new System.Drawing.Font("Dosis", 14F);
-            this.templateImageBox.GridColor = System.Drawing.Color.White;
-            this.templateImageBox.ImageBorderColor = System.Drawing.SystemColors.ActiveBorder;
-            this.templateImageBox.ImageBorderStyle = Cyotek.Windows.Forms.ImageBoxBorderStyle.FixedSingleGlowShadow;
-            this.templateImageBox.Location = new System.Drawing.Point(0, 0);
-            this.templateImageBox.Name = "templateImageBox";
-            this.templateImageBox.SelectionMode = Cyotek.Windows.Forms.ImageBoxSelectionMode.Rectangle;
-            this.templateImageBox.Size = new System.Drawing.Size(663, 546);
-            this.templateImageBox.StepSize = new System.Drawing.Size(8, 8);
-            this.templateImageBox.TabIndex = 1;
-            this.templateImageBox.Text = "Scan a document or browse for an existing template";
             // 
             // Synapse
             // 

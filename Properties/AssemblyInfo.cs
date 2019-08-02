@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Synapse")]
-[assembly: AssemblyDescription("An essential intermediate between data extracting sheets, there processing & results generation.")]
+[assembly: AssemblyDescription("An essential intermediate between data sheets, their processing & results generation.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Tech Origin")]
 [assembly: AssemblyProduct("Synapse")]

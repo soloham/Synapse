@@ -63,6 +63,16 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Add_New {
+            get {
+                object obj = ResourceManager.GetObject("Add-New", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap AddAsBarcodeBtnIcon_ConfigTab {
             get {
                 object obj = ResourceManager.GetObject("AddAsBarcodeBtnIcon_ConfigTab", resourceCulture);
@@ -293,6 +303,16 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Delete_WF {
+            get {
+                object obj = ResourceManager.GetObject("Delete_WF", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap DeleteAllBtnIcon_DataTab {
             get {
                 object obj = ResourceManager.GetObject("DeleteAllBtnIcon_DataTab", resourceCulture);
@@ -393,6 +413,16 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Import__02 {
+            get {
+                object obj = ResourceManager.GetObject("Import -02", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap InternalDataPointBtnIcon_DataTab {
             get {
                 object obj = ResourceManager.GetObject("InternalDataPointBtnIcon_DataTab", resourceCulture);
@@ -443,6 +473,26 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Media_Play {
+            get {
+                object obj = ResourceManager.GetObject("Media_Play", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Media_Play1 {
+            get {
+                object obj = ResourceManager.GetObject("Media_Play1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap MoveFaultySheetsBtnIcon_ReadingTab {
             get {
                 object obj = ResourceManager.GetObject("MoveFaultySheetsBtnIcon_ReadingTab", resourceCulture);
@@ -476,6 +526,16 @@ namespace Synapse.Properties {
         internal static System.Drawing.Bitmap MoveFaultySheetsBtnIcon3_ReadingTab {
             get {
                 object obj = ResourceManager.GetObject("MoveFaultySheetsBtnIcon3_ReadingTab", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Pin {
+            get {
+                object obj = ResourceManager.GetObject("Pin", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -656,6 +716,56 @@ namespace Synapse.Properties {
         internal static System.Drawing.Bitmap TemplateStatusIcon_ConfigTab {
             get {
                 object obj = ResourceManager.GetObject("TemplateStatusIcon_ConfigTab", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Text_Highlight {
+            get {
+                object obj = ResourceManager.GetObject("Text-Highlight", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Text_Highlight_WF {
+            get {
+                object obj = ResourceManager.GetObject("Text Highlight-WF", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Unpin {
+            get {
+                object obj = ResourceManager.GetObject("Unpin", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Upload_01_WF {
+            get {
+                object obj = ResourceManager.GetObject("Upload-01-WF", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Upload_02_WF {
+            get {
+                object obj = ResourceManager.GetObject("Upload-02-WF", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

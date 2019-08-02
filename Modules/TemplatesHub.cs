@@ -15,6 +15,7 @@ namespace Synapse.Modules
         public TemplatesHub()
         {
             InitializeComponent();
+            sfListView1.Controls.Add(new Controls.TemplateListItem());
         }
     }
 }

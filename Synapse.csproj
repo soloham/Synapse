@@ -49,11 +49,14 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Syncfusion.Core.WinForms, Version=17.2460.0.34, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
+    <Reference Include="Syncfusion.DataSource.WinForms, Version=17.2460.0.34, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
     <Reference Include="Syncfusion.Diagram.Base, Version=17.2460.0.34, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
     <Reference Include="Syncfusion.Diagram.Windows, Version=17.2460.0.34, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL" />
     <Reference Include="Syncfusion.Grid.Windows, Version=17.2460.0.34, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
+    <Reference Include="Syncfusion.GridCommon.WinForms, Version=17.2460.0.34, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
     <Reference Include="Syncfusion.Schedule.Base, Version=17.2460.0.34, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
     <Reference Include="Syncfusion.Schedule.Windows, Version=17.2460.0.34, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
+    <Reference Include="Syncfusion.SfListView.WinForms, Version=17.2460.0.34, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL" />
     <Reference Include="Syncfusion.Shared.Base, Version=17.2460.0.34, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
     <Reference Include="Syncfusion.Shared.Windows, Version=17.2460.0.34, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
     <Reference Include="Syncfusion.Tools.Base, Version=17.2460.0.34, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
@@ -72,17 +75,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\TemplateListItem.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\TemplateListItem.Designer.cs">
+      <DependentUpon>TemplateListItem.cs</DependentUpon>
+    </Compile>
     <Compile Include="Core\Template.cs" />
     <Compile Include="Modules\TemplatesHub.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Modules\TemplatesHub.Designer.cs">
       <DependentUpon>TemplatesHub.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Main\Synapse.cs">
       <SubType>Form</SubType>
@@ -92,7 +96,15 @@
     </Compile>
     <Compile Include="Main\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Utilities\Messages.cs" />
+    <EmbeddedResource Include="Controls\TemplateListItem.resx">
+      <DependentUpon>TemplateListItem.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Main\Synapse.resx">
       <DependentUpon>Synapse.cs</DependentUpon>
     </EmbeddedResource>
@@ -171,6 +183,79 @@
     <None Include="Resources\DatabaseExportBtnIcon_DataTab.png" />
     <None Include="Resources\ExternalDataPointBtnIcon_DataTab.png" />
     <None Include="Resources\InternalDataPointBtnIcon1_DataTab.png" />
+    <None Include="Resources\General\Text-Highlight.png" />
+    <None Include="Resources\General\Delete-WF.png" />
+    <None Include="Resources\General\Upload-01-WF.png" />
+    <None Include="Resources\General\Upload-02-WF.png" />
+    <None Include="Resources\General\Play-WF.png" />
+    <None Include="Resources\General\Text Highlight-WF.png" />
+    <None Include="Resources\General\Media-Play.png" />
+    <None Include="Resources\General\Add-New.png" />
+    <None Include="Resources\General\Import -02.png" />
+    <None Include="Resources\General\Pin.png" />
+    <None Include="Resources\General\Unpin.png" />
+    <Content Include="Resources\Ribbon\AddAsBarcodeBtnIcon1_ConfigTab.png" />
+    <Content Include="Resources\Ribbon\AddAsBarcodeBtnIcon2_ConfigTab.png" />
+    <Content Include="Resources\Ribbon\AddAsBarcodeBtnIcon3_ConfigTab.png" />
+    <Content Include="Resources\Ribbon\AddAsBarcodeBtnIcon_ConfigTab.png" />
+    <Content Include="Resources\Ribbon\AddAsICRBtnIcon_ConfigTab.png" />
+    <Content Include="Resources\Ribbon\AddAsOMRBtnIcon_ConfigTab.png" />
+    <Content Include="Resources\Ribbon\AddFieldBtnIcon_DataTab.png" />
+    <Content Include="Resources\Ribbon\AnswerKeyBtnIcon1_ReadingTab.png" />
+    <Content Include="Resources\Ribbon\AnswerKeyBtnIcon2_ReadingTab.png" />
+    <Content Include="Resources\Ribbon\AnswerKeyBtnIcon_ReadingTab.png" />
+    <Content Include="Resources\Ribbon\ConfigAIModelBtnIcon1_ConfigTab.png" />
+    <Content Include="Resources\Ribbon\ConfigAIModelBtnIcon_ConfigTab.png" />
+    <Content Include="Resources\Ribbon\ConfigDataBtnIcon1_ConfigTab.png" />
+    <Content Include="Resources\Ribbon\ConfigDataBtnIcon2_ConfigTab.png" />
+    <Content Include="Resources\Ribbon\ConfigDataBtnIcon3_ConfigTab.png" />
+    <Content Include="Resources\Ribbon\ConfigDataBtnIcon4_ConfigTab.png" />
+    <Content Include="Resources\Ribbon\ConfigDataBtnIcon_ConfigTab.png" />
+    <Content Include="Resources\Ribbon\ConfigEmarkingBtnIcon1_ConfigTab.png" />
+    <Content Include="Resources\Ribbon\ConfigEmarkingBtnIcon2_ConfigTab.png" />
+    <Content Include="Resources\Ribbon\ConfigEmarkingBtnIcon_ConfigTab.png" />
+    <Content Include="Resources\Ribbon\CSVExportBtnIcon1_DataTab.png" />
+    <Content Include="Resources\Ribbon\CSVExportBtnIcon_DataTab.png" />
+    <Content Include="Resources\Ribbon\DatabaseExportBtnIcon_DataTab.png" />
+    <Content Include="Resources\Ribbon\DeleteAllBtnIcon1_DataTab.png" />
+    <Content Include="Resources\Ribbon\DeleteAllBtnIcon_DataTab.png" />
+    <Content Include="Resources\Ribbon\DeleteSelectedBtnIcon1_DataTab.png" />
+    <Content Include="Resources\Ribbon\DeleteSelectedBtnIcon_DataTab.png" />
+    <Content Include="Resources\Ribbon\EditValueBtnIcon1_DataTab.png" />
+    <Content Include="Resources\Ribbon\EditValueBtnIcon_DataTab.png" />
+    <Content Include="Resources\Ribbon\ExcelExportBtnIcon1_DataTab.png" />
+    <Content Include="Resources\Ribbon\ExcelExportBtnIcon3_DataTab.png" />
+    <Content Include="Resources\Ribbon\ExcelExportBtnIcon_DataTab.png" />
+    <Content Include="Resources\Ribbon\ExternalDataPointBtnIcon_DataTab.png" />
+    <Content Include="Resources\Ribbon\FindDuplicatesBtnIcon_ConfigTab.png" />
+    <Content Include="Resources\Ribbon\InternalDataPointBtnIcon1_DataTab.png" />
+    <Content Include="Resources\Ribbon\InternalDataPointBtnIcon_DataTab.png" />
+    <Content Include="Resources\Ribbon\locateOptionsBtnIcon1_ReadingTab.png" />
+    <Content Include="Resources\Ribbon\locateOptionsBtnIcon_ReadingTab.png" />
+    <Content Include="Resources\Ribbon\MarkzSheetsAsBtnIcon_DataTAb.png" />
+    <Content Include="Resources\Ribbon\MoveFaultySheetsBtnIcon1_ReadingTab.png" />
+    <Content Include="Resources\Ribbon\MoveFaultySheetsBtnIcon2_ReadingTab.png" />
+    <Content Include="Resources\Ribbon\MoveFaultySheetsBtnIcon3_ReadingTab.png" />
+    <Content Include="Resources\Ribbon\MoveFaultySheetsBtnIcon_ReadingTab.png" />
+    <Content Include="Resources\Ribbon\PauseBtnIcon_ReadingTab.png" />
+    <Content Include="Resources\Ribbon\rereadFaultySheetsBtnIcon1_ReadingTab.png" />
+    <Content Include="Resources\Ribbon\rereadFaultySheetsBtnIcon_ReadingTab.png" />
+    <Content Include="Resources\Ribbon\ScanDirBtnIcon1_ReadingTab.png" />
+    <Content Include="Resources\Ribbon\ScanDirBtnIcon_ReadingTab.png" />
+    <Content Include="Resources\Ribbon\ScanScannerBtnIcon_ReadingTab.png" />
+    <Content Include="Resources\Ribbon\startBtnIcon1_ReadingTab.png" />
+    <Content Include="Resources\Ribbon\startBtnIcon_ReadingTab.png" />
+    <Content Include="Resources\Ribbon\StatusInOk.jpg" />
+    <Content Include="Resources\Ribbon\StatusNotOk.jpg" />
+    <Content Include="Resources\Ribbon\StatusOk.jpg" />
+    <Content Include="Resources\Ribbon\StopBtnIcon1_ReadingTab.png" />
+    <Content Include="Resources\Ribbon\StopBtnIcon_ReadingTab.png" />
+    <Content Include="Resources\Ribbon\TemplateBtnIcon1_ConfigTab.png" />
+    <Content Include="Resources\Ribbon\TemplateBtnIcon2_ConfigTab.png" />
+    <Content Include="Resources\Ribbon\TemplateBtnIcon4_ConfigTab.png" />
+    <Content Include="Resources\Ribbon\TemplateBtnIcon5_ConfigTab.png" />
+    <Content Include="Resources\Ribbon\TemplateBtnIcon_ConfigTab.png" />
+    <Content Include="Resources\Ribbon\TemplateStatusIcon_ConfigTab.png" />
     <Content Include="Resources\TemplateBtnIcon_ConfigTab.png" />
     <None Include="Resources\StatusInOk.jpg" />
     <None Include="Resources\StatusNotOk.jpg" />
