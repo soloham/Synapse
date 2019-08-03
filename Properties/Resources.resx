@@ -331,4 +331,10 @@
   <data name="Unpin" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\General\Unpin.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Pin_White" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\General\Pin_White.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Unpin_White" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\General\Unpin_White.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

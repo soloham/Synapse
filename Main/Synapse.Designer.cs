@@ -2,7 +2,7 @@
 
 namespace Synapse
 {
-    partial class Synapse
+    partial class SynapseMain
     {
         /// <summary>
         /// Required designer variable.
@@ -31,7 +31,7 @@ namespace Synapse
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Synapse));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SynapseMain));
             this.ribbonControl = new Syncfusion.Windows.Forms.Tools.RibbonControlAdv();
             this.backStageView = new Syncfusion.Windows.Forms.BackStageView(this.components);
             this.backStage1 = new Syncfusion.Windows.Forms.BackStage();
@@ -135,6 +135,7 @@ namespace Synapse
             // 
             // ribbonControl
             // 
+            this.ribbonControl.BackColor = System.Drawing.Color.White;
             this.ribbonControl.BackStageNavigationButtonStyle = Syncfusion.Windows.Forms.Tools.BackStageNavigationButtonStyles.Office2013;
             this.ribbonControl.BackStageView = this.backStageView;
             this.ribbonControl.CaptionFont = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -165,7 +166,7 @@ namespace Synapse
             this.ribbonControl.QuickPanelVisible = false;
             this.ribbonControl.RibbonHeaderImage = Syncfusion.Windows.Forms.Tools.RibbonHeaderImage.RoundedSquares;
             this.ribbonControl.RibbonStyle = Syncfusion.Windows.Forms.Tools.RibbonStyle.Office2016;
-            this.ribbonControl.SelectedTab = this.dataToolStripTabItem;
+            this.ribbonControl.SelectedTab = this.configToolStripTabItem;
             this.ribbonControl.ShowLauncher = false;
             this.ribbonControl.ShowRibbonDisplayOptionButton = true;
             this.ribbonControl.Size = new System.Drawing.Size(1333, 205);
@@ -173,7 +174,10 @@ namespace Synapse
             this.ribbonControl.SystemText.RenameDisplayLabelText = "&Display Name:";
             this.ribbonControl.TabIndex = 1;
             this.ribbonControl.ThemeName = "Office2016";
+            this.ribbonControl.ThemeStyle.AutoHideTitleBarBackColor = System.Drawing.Color.White;
+            this.ribbonControl.ThemeStyle.BackStageStyle.TitleBarBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(243)))), ((int)(((byte)(243)))));
             this.ribbonControl.ThemeStyle.MoreCommandsStyle.PropertyGridViewBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(171)))), ((int)(((byte)(171)))));
+            this.ribbonControl.ThemeStyle.RibbonPanelStyle.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(243)))), ((int)(((byte)(243)))));
             this.ribbonControl.TitleColor = System.Drawing.Color.Black;
             this.ribbonControl.TitleFont = new System.Drawing.Font("Dosis", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             // 
@@ -189,6 +193,7 @@ namespace Synapse
             this.backStage1.AllowDrop = true;
             this.backStage1.BeforeTouchSize = new System.Drawing.Size(1329, 697);
             this.backStage1.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.backStage1.BorderWidth = 0;
             this.backStage1.ChildItemSize = new System.Drawing.Size(80, 140);
             this.backStage1.CloseButtonForeColor = System.Drawing.Color.Empty;
             this.backStage1.CloseButtonHoverForeColor = System.Drawing.Color.Empty;
@@ -197,14 +202,17 @@ namespace Synapse
             this.backStage1.Font = new System.Drawing.Font("Segoe UI", 8.25F);
             this.backStage1.InActiveTabForeColor = System.Drawing.Color.Empty;
             this.backStage1.ItemSize = new System.Drawing.Size(138, 40);
-            this.backStage1.Location = new System.Drawing.Point(0, 0);
+            this.backStage1.Location = new System.Drawing.Point(0, 63);
+            this.backStage1.Margin = new System.Windows.Forms.Padding(0);
             this.backStage1.Name = "backStage1";
             this.backStage1.OfficeColorScheme = Syncfusion.Windows.Forms.Tools.ToolStripEx.ColorScheme.Managed;
+            this.backStage1.Padding = new System.Drawing.Point(0, 0);
             this.backStage1.SeparatorColor = System.Drawing.SystemColors.ControlDark;
             this.backStage1.ShowSeparator = false;
             this.backStage1.Size = new System.Drawing.Size(1329, 697);
             this.backStage1.TabIndex = 2;
-            this.backStage1.ThemeName = "BackStageRenderer";
+            this.backStage1.ThemeName = "BackStage2016Renderer";
+            this.backStage1.ThemeStyle.BorderFillColor = System.Drawing.Color.White;
             this.backStage1.ThemeStyle.PrimitiveButtonStyle.DisabledNextPageImage = null;
             this.backStage1.Visible = false;
             // 
@@ -1228,21 +1236,21 @@ namespace Synapse
             this.SQLDatabaseExportToolStripBtn.Text = "SQL\r\nDatabase";
             this.SQLDatabaseExportToolStripBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
-            // Synapse
+            // SynapseMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.Borders = new System.Windows.Forms.Padding(0);
             this.ClientSize = new System.Drawing.Size(1331, 749);
-            this.Controls.Add(this.configTabPanel);
             this.Controls.Add(this.backStage1);
+            this.Controls.Add(this.configTabPanel);
             this.Controls.Add(this.ribbonControl);
             this.Controls.Add(this.readingTabPanel);
             this.EnableRibbonBorder = false;
             this.Font = new System.Drawing.Font("Dosis", 8.249999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Name = "Synapse";
+            this.Name = "SynapseMain";
             this.Padding = new System.Windows.Forms.Padding(1, 0, 1, 1);
             this.ShowApplicationIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

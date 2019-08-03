@@ -543,6 +543,16 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Pin_White {
+            get {
+                object obj = ResourceManager.GetObject("Pin_White", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap rereadFaultySheetsBtnIcon_ReadingTab {
             get {
                 object obj = ResourceManager.GetObject("rereadFaultySheetsBtnIcon_ReadingTab", resourceCulture);
@@ -746,6 +756,16 @@ namespace Synapse.Properties {
         internal static System.Drawing.Bitmap Unpin {
             get {
                 object obj = ResourceManager.GetObject("Unpin", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Unpin_White {
+            get {
+                object obj = ResourceManager.GetObject("Unpin_White", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

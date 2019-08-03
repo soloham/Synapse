@@ -12,11 +12,11 @@ using System.Windows.Forms;
 
 namespace Synapse
 {
-    public partial class Synapse : Syncfusion.Windows.Forms.Tools.RibbonForm
+    public partial class SynapseMain : Syncfusion.Windows.Forms.Tools.RibbonForm
     {
         internal Template CurrentTemplate;
 
-        public Synapse()
+        public SynapseMain()
         {
             InitializeComponent();
             Awake();

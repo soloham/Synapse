@@ -75,6 +75,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\AutoLabelEx.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\AutoLabelEx.Designer.cs">
+      <DependentUpon>AutoLabelEx.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ButtonAdvEx.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\ButtonAdvEx.Designer.cs">
+      <DependentUpon>ButtonAdvEx.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\TemplateListItem.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -102,6 +114,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Utilities\Messages.cs" />
+    <EmbeddedResource Include="Controls\AutoLabelEx.resx">
+      <DependentUpon>AutoLabelEx.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\TemplateListItem.resx">
       <DependentUpon>TemplateListItem.cs</DependentUpon>
     </EmbeddedResource>
@@ -116,6 +131,8 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="app.config" />
+    <None Include="Properties\DataSources\Synapse.Controls.TemplateListItem.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -194,6 +211,8 @@
     <None Include="Resources\General\Import -02.png" />
     <None Include="Resources\General\Pin.png" />
     <None Include="Resources\General\Unpin.png" />
+    <None Include="Resources\General\Unpin_White.png" />
+    <None Include="Resources\General\Pin_White.png" />
     <Content Include="Resources\Ribbon\AddAsBarcodeBtnIcon1_ConfigTab.png" />
     <Content Include="Resources\Ribbon\AddAsBarcodeBtnIcon2_ConfigTab.png" />
     <Content Include="Resources\Ribbon\AddAsBarcodeBtnIcon3_ConfigTab.png" />
