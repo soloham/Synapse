@@ -16,10 +16,18 @@ namespace Synapse
     {
         internal Template CurrentTemplate;
 
-        public SynapseMain()
+        internal static void RunTemplate(Template template)
+        {
+            SynapseMain synapseMain = new SynapseMain(template);
+            synapseMain.Show();
+        }
+
+        internal SynapseMain(Template currentTemplate)
         {
             InitializeComponent();
             Awake();
+
+            CurrentTemplate = currentTemplate;
         }
         void Awake()
         {

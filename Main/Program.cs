@@ -15,6 +15,9 @@ namespace Synapse
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+
+            Utilities.LSTM.Initialize();
+
             Application.Run(new global::Synapse.Modules.TemplatesHub());
         }
     }

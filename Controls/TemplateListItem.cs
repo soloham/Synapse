@@ -122,7 +122,7 @@ namespace Synapse.Controls
         public string TemplateName { get { return templateName; } set { templateName = value; templateNameLabel.Text = value; } }
         private string templateName = "Template Name";
         [Description("Gets or Sets the value that represents IsSelected."), Category("Main Options")]
-        public bool IsSelected { get { return isSelected; } set { isSelected = value; OnSelectedChangedEvent?.Invoke(this, value); ToggleSelect(value); } }
+        public bool IsSelected { get { return isSelected; } set { ToggleSelect(value); OnSelectedChangedEvent?.Invoke(this, value); } }
         private bool isSelected = false;
         [Description("Gets or Sets the value that represents IsPinned."), Category("Main Options")]
         public bool IsPinned { get { return isPinned; } set { isPinned = value; OnPinnedChangedEvent?.Invoke(this, value); TogglePinned(value); } }
@@ -244,6 +244,8 @@ namespace Synapse.Controls
         }
         void ToggleSelect(bool isSelected)
         {
+            this.isSelected = isSelected;
+
             if (isSelected)
             {
                 BackColor = SelectedColor;

@@ -14,5 +14,9 @@ namespace Synapse.Utilities
         {
             MessageBoxAdv.Show("An error occured while loading the file. \n \n Error: " + ex.Message, title, buttons, icon);
         }
+        public static void SaveFileException(Exception ex, string title = "Hold On", MessageBoxButtons buttons = MessageBoxButtons.OK, MessageBoxIcon icon = MessageBoxIcon.Error)
+        {
+            MessageBoxAdv.Show("An error occured while saving the file. \n \n Error: " + ex.Message, title, buttons, icon);
+        }
     }
 }

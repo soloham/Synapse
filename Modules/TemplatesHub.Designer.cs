@@ -30,23 +30,214 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TemplatesHub));
+            this.templatesLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
+            this.createTemplatePanel = new System.Windows.Forms.FlowLayoutPanel();
+            this.createTemplateNameContainer = new System.Windows.Forms.Panel();
+            this.createTemplateNameTextBox = new Syncfusion.Windows.Forms.Tools.TextBoxExt();
+            this.addTemplateBtn = new Syncfusion.Windows.Forms.ButtonAdv();
+            this.emptyListLabel = new Syncfusion.Windows.Forms.Tools.AutoLabel();
+            this.containerPanel = new System.Windows.Forms.FlowLayoutPanel();
+            this.editTemplatePanel = new System.Windows.Forms.FlowLayoutPanel();
+            this.editTemplateNameContainer = new System.Windows.Forms.Panel();
+            this.editTemplateNameTextBoxExt = new Syncfusion.Windows.Forms.Tools.TextBoxExt();
+            this.setTemplateNameBtn = new Syncfusion.Windows.Forms.ButtonAdv();
             this.deleteTemplateBtn = new Syncfusion.Windows.Forms.ButtonAdv();
             this.editTemplateBtn = new Syncfusion.Windows.Forms.ButtonAdv();
             this.loadTemplateBtn = new Syncfusion.Windows.Forms.ButtonAdv();
             this.importTemplateBtn = new Syncfusion.Windows.Forms.ButtonAdv();
             this.createTemplateBtn = new Syncfusion.Windows.Forms.ButtonAdv();
-            this.templatesLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
-            this.createTemplatePanel = new System.Windows.Forms.FlowLayoutPanel();
-            this.emptyListLabel = new Syncfusion.Windows.Forms.Tools.AutoLabel();
-            this.containerPanel = new System.Windows.Forms.FlowLayoutPanel();
-            this.createTemplateNameTextBox = new Syncfusion.Windows.Forms.Tools.TextBoxExt();
-            this.buttonAdv1 = new Syncfusion.Windows.Forms.ButtonAdv();
-            this.createTemplateNameContainer = new System.Windows.Forms.Panel();
             this.createTemplatePanel.SuspendLayout();
-            this.containerPanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.createTemplateNameTextBox)).BeginInit();
             this.createTemplateNameContainer.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.createTemplateNameTextBox)).BeginInit();
+            this.containerPanel.SuspendLayout();
+            this.editTemplatePanel.SuspendLayout();
+            this.editTemplateNameContainer.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.editTemplateNameTextBoxExt)).BeginInit();
             this.SuspendLayout();
+            // 
+            // templatesLayoutPanel
+            // 
+            this.templatesLayoutPanel.AutoSize = true;
+            this.templatesLayoutPanel.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.templatesLayoutPanel.Location = new System.Drawing.Point(0, 0);
+            this.templatesLayoutPanel.Margin = new System.Windows.Forms.Padding(0);
+            this.templatesLayoutPanel.Name = "templatesLayoutPanel";
+            this.templatesLayoutPanel.Size = new System.Drawing.Size(0, 0);
+            this.templatesLayoutPanel.TabIndex = 36;
+            this.templatesLayoutPanel.WrapContents = false;
+            // 
+            // createTemplatePanel
+            // 
+            this.createTemplatePanel.AutoScroll = true;
+            this.createTemplatePanel.AutoSize = true;
+            this.createTemplatePanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.createTemplatePanel.Controls.Add(this.createTemplateNameContainer);
+            this.createTemplatePanel.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.createTemplatePanel.Location = new System.Drawing.Point(0, 0);
+            this.createTemplatePanel.Margin = new System.Windows.Forms.Padding(0, 0, 0, 7);
+            this.createTemplatePanel.Name = "createTemplatePanel";
+            this.createTemplatePanel.Size = new System.Drawing.Size(385, 57);
+            this.createTemplatePanel.TabIndex = 37;
+            this.createTemplatePanel.Visible = false;
+            // 
+            // createTemplateNameContainer
+            // 
+            this.createTemplateNameContainer.Controls.Add(this.createTemplateNameTextBox);
+            this.createTemplateNameContainer.Controls.Add(this.addTemplateBtn);
+            this.createTemplateNameContainer.Location = new System.Drawing.Point(0, 0);
+            this.createTemplateNameContainer.Margin = new System.Windows.Forms.Padding(0);
+            this.createTemplateNameContainer.Name = "createTemplateNameContainer";
+            this.createTemplateNameContainer.Size = new System.Drawing.Size(385, 57);
+            this.createTemplateNameContainer.TabIndex = 35;
+            // 
+            // createTemplateNameTextBox
+            // 
+            this.createTemplateNameTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.createTemplateNameTextBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.createTemplateNameTextBox.BeforeTouchSize = new System.Drawing.Size(320, 45);
+            this.createTemplateNameTextBox.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(171)))), ((int)(((byte)(171)))));
+            this.createTemplateNameTextBox.BorderSides = ((System.Windows.Forms.Border3DSide)(((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
+            | System.Windows.Forms.Border3DSide.Bottom)));
+            this.createTemplateNameTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.createTemplateNameTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this, "NewTemplateName", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.createTemplateNameTextBox.Font = new System.Drawing.Font("Dosis", 21.65F);
+            this.createTemplateNameTextBox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this.createTemplateNameTextBox.Location = new System.Drawing.Point(2, 5);
+            this.createTemplateNameTextBox.Margin = new System.Windows.Forms.Padding(5, 0, 0, 8);
+            this.createTemplateNameTextBox.MinimumSize = new System.Drawing.Size(100, 45);
+            this.createTemplateNameTextBox.Name = "createTemplateNameTextBox";
+            this.createTemplateNameTextBox.Size = new System.Drawing.Size(320, 45);
+            this.createTemplateNameTextBox.Style = Syncfusion.Windows.Forms.Tools.TextBoxExt.theme.Office2016White;
+            this.createTemplateNameTextBox.TabIndex = 2;
+            this.createTemplateNameTextBox.Text = "New Template";
+            this.createTemplateNameTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.createTemplateNameTextBox.ThemeName = "Office2016White";
+            this.createTemplateNameTextBox.ThemeStyle.BorderColor = System.Drawing.Color.Gainsboro;
+            this.createTemplateNameTextBox.ThemeStyle.CornerRadius = 0;
+            // 
+            // addTemplateBtn
+            // 
+            this.addTemplateBtn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.addTemplateBtn.Appearance = Syncfusion.Windows.Forms.ButtonAppearance.Metro;
+            this.addTemplateBtn.BackColor = System.Drawing.Color.MediumTurquoise;
+            this.addTemplateBtn.BeforeTouchSize = new System.Drawing.Size(63, 45);
+            this.addTemplateBtn.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Flat;
+            this.addTemplateBtn.FlatAppearance.BorderSize = 0;
+            this.addTemplateBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.addTemplateBtn.Font = new System.Drawing.Font("Dosis", 19F);
+            this.addTemplateBtn.ForeColor = System.Drawing.Color.White;
+            this.addTemplateBtn.Image = global::Synapse.Properties.Resources.Add_New;
+            this.addTemplateBtn.Location = new System.Drawing.Point(322, 5);
+            this.addTemplateBtn.Margin = new System.Windows.Forms.Padding(0);
+            this.addTemplateBtn.Name = "addTemplateBtn";
+            this.addTemplateBtn.Size = new System.Drawing.Size(63, 45);
+            this.addTemplateBtn.TabIndex = 34;
+            this.addTemplateBtn.ThemeName = "Metro";
+            this.addTemplateBtn.Click += new System.EventHandler(this.AddTemplateBtn_Click);
+            // 
+            // emptyListLabel
+            // 
+            this.emptyListLabel.AutoSize = false;
+            this.emptyListLabel.Font = new System.Drawing.Font("Dosis", 20.25F);
+            this.emptyListLabel.ForeColor = System.Drawing.Color.Black;
+            this.emptyListLabel.Location = new System.Drawing.Point(0, 128);
+            this.emptyListLabel.Margin = new System.Windows.Forms.Padding(0);
+            this.emptyListLabel.Name = "emptyListLabel";
+            this.emptyListLabel.Size = new System.Drawing.Size(385, 275);
+            this.emptyListLabel.TabIndex = 0;
+            this.emptyListLabel.Text = "You currently have no templates,\r\nCreate/Import one to continue";
+            this.emptyListLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.emptyListLabel.Visible = false;
+            // 
+            // containerPanel
+            // 
+            this.containerPanel.AutoScroll = true;
+            this.containerPanel.Controls.Add(this.templatesLayoutPanel);
+            this.containerPanel.Controls.Add(this.createTemplatePanel);
+            this.containerPanel.Controls.Add(this.editTemplatePanel);
+            this.containerPanel.Controls.Add(this.emptyListLabel);
+            this.containerPanel.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.containerPanel.Location = new System.Drawing.Point(15, 9);
+            this.containerPanel.Margin = new System.Windows.Forms.Padding(0);
+            this.containerPanel.Name = "containerPanel";
+            this.containerPanel.Size = new System.Drawing.Size(409, 354);
+            this.containerPanel.TabIndex = 38;
+            this.containerPanel.WrapContents = false;
+            // 
+            // editTemplatePanel
+            // 
+            this.editTemplatePanel.AutoScroll = true;
+            this.editTemplatePanel.AutoSize = true;
+            this.editTemplatePanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.editTemplatePanel.Controls.Add(this.editTemplateNameContainer);
+            this.editTemplatePanel.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.editTemplatePanel.Location = new System.Drawing.Point(0, 64);
+            this.editTemplatePanel.Margin = new System.Windows.Forms.Padding(0, 0, 0, 7);
+            this.editTemplatePanel.Name = "editTemplatePanel";
+            this.editTemplatePanel.Size = new System.Drawing.Size(385, 57);
+            this.editTemplatePanel.TabIndex = 38;
+            this.editTemplatePanel.Visible = false;
+            // 
+            // editTemplateNameContainer
+            // 
+            this.editTemplateNameContainer.Controls.Add(this.editTemplateNameTextBoxExt);
+            this.editTemplateNameContainer.Controls.Add(this.setTemplateNameBtn);
+            this.editTemplateNameContainer.Location = new System.Drawing.Point(0, 0);
+            this.editTemplateNameContainer.Margin = new System.Windows.Forms.Padding(0);
+            this.editTemplateNameContainer.Name = "editTemplateNameContainer";
+            this.editTemplateNameContainer.Size = new System.Drawing.Size(385, 57);
+            this.editTemplateNameContainer.TabIndex = 35;
+            // 
+            // editTemplateNameTextBoxExt
+            // 
+            this.editTemplateNameTextBoxExt.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.editTemplateNameTextBoxExt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.editTemplateNameTextBoxExt.BeforeTouchSize = new System.Drawing.Size(320, 45);
+            this.editTemplateNameTextBoxExt.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(171)))), ((int)(((byte)(171)))));
+            this.editTemplateNameTextBoxExt.BorderSides = ((System.Windows.Forms.Border3DSide)(((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
+            | System.Windows.Forms.Border3DSide.Bottom)));
+            this.editTemplateNameTextBoxExt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.editTemplateNameTextBoxExt.DataBindings.Add(new System.Windows.Forms.Binding("Text", this, "EditTemplateName", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.editTemplateNameTextBoxExt.Font = new System.Drawing.Font("Dosis", 21.65F);
+            this.editTemplateNameTextBoxExt.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this.editTemplateNameTextBoxExt.Location = new System.Drawing.Point(1, 6);
+            this.editTemplateNameTextBoxExt.Margin = new System.Windows.Forms.Padding(5, 0, 0, 8);
+            this.editTemplateNameTextBoxExt.MinimumSize = new System.Drawing.Size(100, 45);
+            this.editTemplateNameTextBoxExt.Name = "editTemplateNameTextBoxExt";
+            this.editTemplateNameTextBoxExt.Size = new System.Drawing.Size(320, 45);
+            this.editTemplateNameTextBoxExt.Style = Syncfusion.Windows.Forms.Tools.TextBoxExt.theme.Office2016White;
+            this.editTemplateNameTextBoxExt.TabIndex = 35;
+            this.editTemplateNameTextBoxExt.Text = "Template Name";
+            this.editTemplateNameTextBoxExt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.editTemplateNameTextBoxExt.ThemeName = "Office2016White";
+            this.editTemplateNameTextBoxExt.ThemeStyle.BorderColor = System.Drawing.Color.Gainsboro;
+            this.editTemplateNameTextBoxExt.ThemeStyle.CornerRadius = 0;
+            // 
+            // setTemplateNameBtn
+            // 
+            this.setTemplateNameBtn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.setTemplateNameBtn.Appearance = Syncfusion.Windows.Forms.ButtonAppearance.Metro;
+            this.setTemplateNameBtn.BackColor = System.Drawing.Color.CornflowerBlue;
+            this.setTemplateNameBtn.BeforeTouchSize = new System.Drawing.Size(63, 45);
+            this.setTemplateNameBtn.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Flat;
+            this.setTemplateNameBtn.FlatAppearance.BorderSize = 0;
+            this.setTemplateNameBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.setTemplateNameBtn.Font = new System.Drawing.Font("Dosis", 19F);
+            this.setTemplateNameBtn.ForeColor = System.Drawing.Color.White;
+            this.setTemplateNameBtn.Image = global::Synapse.Properties.Resources.Check;
+            this.setTemplateNameBtn.Location = new System.Drawing.Point(322, 6);
+            this.setTemplateNameBtn.Margin = new System.Windows.Forms.Padding(0);
+            this.setTemplateNameBtn.Name = "setTemplateNameBtn";
+            this.setTemplateNameBtn.Size = new System.Drawing.Size(63, 45);
+            this.setTemplateNameBtn.TabIndex = 36;
+            this.setTemplateNameBtn.ThemeName = "Metro";
+            this.setTemplateNameBtn.Click += new System.EventHandler(this.SetTemplateNameBtn_Click);
             // 
             // deleteTemplateBtn
             // 
@@ -69,6 +260,7 @@
             this.deleteTemplateBtn.Text = "     Delete Template";
             this.deleteTemplateBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.deleteTemplateBtn.ThemeName = "Metro";
+            this.deleteTemplateBtn.Click += new System.EventHandler(this.DeleteTemplateBtn_Click);
             // 
             // editTemplateBtn
             // 
@@ -91,6 +283,7 @@
             this.editTemplateBtn.Text = "     Edit Template";
             this.editTemplateBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.editTemplateBtn.ThemeName = "Metro";
+            this.editTemplateBtn.Click += new System.EventHandler(this.EditTemplateBtn_Click);
             // 
             // loadTemplateBtn
             // 
@@ -113,6 +306,7 @@
             this.loadTemplateBtn.Text = "     Load Template";
             this.loadTemplateBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.loadTemplateBtn.ThemeName = "Metro";
+            this.loadTemplateBtn.Click += new System.EventHandler(this.LoadTemplateBtn_Click);
             // 
             // importTemplateBtn
             // 
@@ -159,117 +353,6 @@
             this.createTemplateBtn.ThemeName = "Metro";
             this.createTemplateBtn.Click += new System.EventHandler(this.CreateTemplateBtn_Click);
             // 
-            // templatesLayoutPanel
-            // 
-            this.templatesLayoutPanel.AutoScroll = true;
-            this.templatesLayoutPanel.AutoSize = true;
-            this.templatesLayoutPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.templatesLayoutPanel.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.templatesLayoutPanel.Location = new System.Drawing.Point(0, 0);
-            this.templatesLayoutPanel.Margin = new System.Windows.Forms.Padding(0);
-            this.templatesLayoutPanel.Name = "templatesLayoutPanel";
-            this.templatesLayoutPanel.Size = new System.Drawing.Size(0, 0);
-            this.templatesLayoutPanel.TabIndex = 36;
-            this.templatesLayoutPanel.WrapContents = false;
-            // 
-            // createTemplatePanel
-            // 
-            this.createTemplatePanel.AutoScroll = true;
-            this.createTemplatePanel.AutoSize = true;
-            this.createTemplatePanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.createTemplatePanel.Controls.Add(this.createTemplateNameContainer);
-            this.createTemplatePanel.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.createTemplatePanel.Location = new System.Drawing.Point(0, 0);
-            this.createTemplatePanel.Margin = new System.Windows.Forms.Padding(0, 0, 0, 7);
-            this.createTemplatePanel.Name = "createTemplatePanel";
-            this.createTemplatePanel.Size = new System.Drawing.Size(385, 57);
-            this.createTemplatePanel.TabIndex = 37;
-            this.createTemplatePanel.Visible = false;
-            // 
-            // emptyListLabel
-            // 
-            this.emptyListLabel.AutoSize = false;
-            this.emptyListLabel.Font = new System.Drawing.Font("Dosis", 20.25F);
-            this.emptyListLabel.ForeColor = System.Drawing.Color.Black;
-            this.emptyListLabel.Location = new System.Drawing.Point(0, 64);
-            this.emptyListLabel.Margin = new System.Windows.Forms.Padding(0);
-            this.emptyListLabel.Name = "emptyListLabel";
-            this.emptyListLabel.Size = new System.Drawing.Size(385, 275);
-            this.emptyListLabel.TabIndex = 0;
-            this.emptyListLabel.Text = "You currently have no templates,\r\nCreate/Import one to continue";
-            this.emptyListLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.emptyListLabel.Visible = false;
-            // 
-            // containerPanel
-            // 
-            this.containerPanel.AutoScroll = true;
-            this.containerPanel.Controls.Add(this.templatesLayoutPanel);
-            this.containerPanel.Controls.Add(this.createTemplatePanel);
-            this.containerPanel.Controls.Add(this.emptyListLabel);
-            this.containerPanel.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.containerPanel.Location = new System.Drawing.Point(15, 9);
-            this.containerPanel.Margin = new System.Windows.Forms.Padding(0);
-            this.containerPanel.Name = "containerPanel";
-            this.containerPanel.Size = new System.Drawing.Size(409, 354);
-            this.containerPanel.TabIndex = 38;
-            this.containerPanel.WrapContents = false;
-            // 
-            // createTemplateNameTextBox
-            // 
-            this.createTemplateNameTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.createTemplateNameTextBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.createTemplateNameTextBox.BeforeTouchSize = new System.Drawing.Size(320, 45);
-            this.createTemplateNameTextBox.BorderColor = System.Drawing.Color.Gainsboro;
-            this.createTemplateNameTextBox.BorderSides = ((System.Windows.Forms.Border3DSide)(((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.createTemplateNameTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.createTemplateNameTextBox.Font = new System.Drawing.Font("Dosis", 21.65F);
-            this.createTemplateNameTextBox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
-            this.createTemplateNameTextBox.Location = new System.Drawing.Point(2, 5);
-            this.createTemplateNameTextBox.Margin = new System.Windows.Forms.Padding(5, 0, 0, 8);
-            this.createTemplateNameTextBox.MinimumSize = new System.Drawing.Size(100, 45);
-            this.createTemplateNameTextBox.Name = "createTemplateNameTextBox";
-            this.createTemplateNameTextBox.Size = new System.Drawing.Size(320, 45);
-            this.createTemplateNameTextBox.Style = Syncfusion.Windows.Forms.Tools.TextBoxExt.theme.Office2016White;
-            this.createTemplateNameTextBox.TabIndex = 2;
-            this.createTemplateNameTextBox.Text = " New Template";
-            this.createTemplateNameTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.createTemplateNameTextBox.ThemeName = "Office2016White";
-            this.createTemplateNameTextBox.ThemeStyle.BorderColor = System.Drawing.Color.Gainsboro;
-            this.createTemplateNameTextBox.ThemeStyle.CornerRadius = 0;
-            // 
-            // buttonAdv1
-            // 
-            this.buttonAdv1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonAdv1.Appearance = Syncfusion.Windows.Forms.ButtonAppearance.Metro;
-            this.buttonAdv1.BackColor = System.Drawing.Color.MediumTurquoise;
-            this.buttonAdv1.BeforeTouchSize = new System.Drawing.Size(63, 45);
-            this.buttonAdv1.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Flat;
-            this.buttonAdv1.FlatAppearance.BorderSize = 0;
-            this.buttonAdv1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonAdv1.Font = new System.Drawing.Font("Dosis", 19F);
-            this.buttonAdv1.ForeColor = System.Drawing.Color.White;
-            this.buttonAdv1.Image = global::Synapse.Properties.Resources.Add_New;
-            this.buttonAdv1.Location = new System.Drawing.Point(322, 5);
-            this.buttonAdv1.Margin = new System.Windows.Forms.Padding(0);
-            this.buttonAdv1.Name = "buttonAdv1";
-            this.buttonAdv1.Size = new System.Drawing.Size(63, 45);
-            this.buttonAdv1.TabIndex = 34;
-            this.buttonAdv1.ThemeName = "Metro";
-            // 
-            // createTemplateNameContainer
-            // 
-            this.createTemplateNameContainer.Controls.Add(this.createTemplateNameTextBox);
-            this.createTemplateNameContainer.Controls.Add(this.buttonAdv1);
-            this.createTemplateNameContainer.Location = new System.Drawing.Point(0, 0);
-            this.createTemplateNameContainer.Margin = new System.Windows.Forms.Padding(0);
-            this.createTemplateNameContainer.Name = "createTemplateNameContainer";
-            this.createTemplateNameContainer.Size = new System.Drawing.Size(385, 57);
-            this.createTemplateNameContainer.TabIndex = 35;
-            // 
             // TemplatesHub
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
@@ -297,12 +380,17 @@
             this.Style.TitleBar.TextHorizontalAlignment = System.Windows.Forms.HorizontalAlignment.Center;
             this.Text = "Templates Hub";
             this.TopMost = true;
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.TemplatesHub_FormClosed);
             this.createTemplatePanel.ResumeLayout(false);
-            this.containerPanel.ResumeLayout(false);
-            this.containerPanel.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.createTemplateNameTextBox)).EndInit();
             this.createTemplateNameContainer.ResumeLayout(false);
             this.createTemplateNameContainer.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.createTemplateNameTextBox)).EndInit();
+            this.containerPanel.ResumeLayout(false);
+            this.containerPanel.PerformLayout();
+            this.editTemplatePanel.ResumeLayout(false);
+            this.editTemplateNameContainer.ResumeLayout(false);
+            this.editTemplateNameContainer.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.editTemplateNameTextBoxExt)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -319,7 +407,11 @@
         private Syncfusion.Windows.Forms.Tools.AutoLabel emptyListLabel;
         private System.Windows.Forms.FlowLayoutPanel containerPanel;
         private Syncfusion.Windows.Forms.Tools.TextBoxExt createTemplateNameTextBox;
-        private Syncfusion.Windows.Forms.ButtonAdv buttonAdv1;
+        private Syncfusion.Windows.Forms.ButtonAdv addTemplateBtn;
         private System.Windows.Forms.Panel createTemplateNameContainer;
+        private System.Windows.Forms.FlowLayoutPanel editTemplatePanel;
+        private System.Windows.Forms.Panel editTemplateNameContainer;
+        private Syncfusion.Windows.Forms.Tools.TextBoxExt editTemplateNameTextBoxExt;
+        private Syncfusion.Windows.Forms.ButtonAdv setTemplateNameBtn;
     }
 }
