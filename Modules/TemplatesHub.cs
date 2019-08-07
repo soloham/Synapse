@@ -4,9 +4,12 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using Synapse.Controls;
-using Synapse.Core;
+using Synapse.Core.Templates;
+using Synapse.Utilities;
+using Synapse.Utilities.Memory;
 using Syncfusion.WinForms.Controls;
 
 namespace Synapse.Modules
@@ -47,6 +50,12 @@ namespace Synapse.Modules
         {
             InitializeComponent();
 
+            Awake();
+        }
+        private async void Awake()
+        {
+            await LoadAllTemplates();
+
             if (TemplateListItems.Count == 0)
                 emptyListLabel.Visible = true;
 
@@ -82,6 +91,8 @@ namespace Synapse.Modules
                 PinnedCount--;
                 templatesLayoutPanel.Controls.SetChildIndex((Control)sender, PinnedCount);
             }
+
+            SaveTemplateItems();
         }
         private void ToggleNameValid()
         {
@@ -197,6 +208,14 @@ namespace Synapse.Modules
 
             DeleteTemplate(SelectedTemplate);
         }
+        private void ImportTemplateBtn_Click(object sender, EventArgs e)
+        {
+            folderBrowserDialog.ShowDialog();
+            string selectedPath = folderBrowserDialog.SelectedPath;
+            if (selectedPath == "")
+                return;
+            ImportTemplate(selectedPath);
+        }
         #endregion
 
         #region Main Methods
@@ -204,43 +223,109 @@ namespace Synapse.Modules
         {
             Template.CreateTemplate(templateName);
 
-            TemplateListItem templateListItem = new TemplateListItem();
-            templateListItem.Initialize(templateName);
+            TemplateListItem templateListItem = TemplateListItem.Create(templateName);
             templateListItem.OnSelectedChangedEvent += TemplateSelect;
             templateListItem.OnPinnedChangedEvent += TemplatePin;
 
             templatesLayoutPanel.Controls.Add(templateListItem);
             TemplateListItems.Add(templateListItem);
 
+            SaveTemplateItems();
+
             emptyListLabel.Visible = false;
             NewTemplateToggle = false;
+        }
+        private async Task LoadAllTemplates()
+        {
+            var objectDatas = await LSTM.LoadTemplateListItemsAsync();
+            for (int i = 0; i < objectDatas.Count; i++)
+            {
+                TemplateListItem templateListItem = TemplateListItem.Create(objectDatas[i]);
+                templateListItem.OnSelectedChangedEvent += TemplateSelect;
+                templateListItem.OnPinnedChangedEvent += TemplatePin;
+
+                TemplateListItems.Add(templateListItem);
+                templatesLayoutPanel.Controls.Add(templateListItem);
+            }
         }
         private async void LoadTemplate(object sender, string templateName)
         {
             Template template = await Template.LoadTemplate(templateName);
-            Hide();
-            SynapseMain.RunTemplate(template);
+            if (template == null && Messages.ShowQuestion("Template was not found at its location and cannot be loaded, Would you like to remove this template from the list as well?") == DialogResult.Yes)
+            {
+                DeleteTemplate(SelectedTemplate);
+            }
+            else
+            {
+                Hide();
+                SynapseMain.RunTemplate(template);
+            }
+        }
+        private async void SaveTemplateItems()
+        {
+            Task.Run(() =>
+            {
+                List<TemplateListItem.ObjectData> templateListItemsObjects = new List<TemplateListItem.ObjectData>();
+                for (int i = 0; i < templatesLayoutPanel.Controls.Count; i++)
+                {
+                    TemplateListItem templateListItem = (TemplateListItem)templatesLayoutPanel.Controls[i];
+                    TemplateListItem.ObjectData objectData = templateListItem.GetObjectData();
+                    objectData.ListIndex = i;
+                    templateListItemsObjects.Add(objectData);
+                }
+                LSTM.SaveTemplateListItems(templateListItemsObjects);
+            });
         }
         private void SetTemplateName(string templateName)
         {
+            Template.ChangeTemplateName(SelectedTemplate.TemplateName, templateName);
             SelectedTemplate.TemplateName = templateName;
 
-            //MAIN FUNCTIONALITY
+            SaveTemplateItems();
 
             EditTemplateToggle = false;
         }
-        private void DeleteTemplate(TemplateListItem template)
+        private async void DeleteTemplate(TemplateListItem template)
         {
             if (!TemplateListItems.Contains(template))
                 return;
 
+            await Template.DeleteTemplate(template.TemplateName);
+
             templatesLayoutPanel.Controls.Remove(template);
             TemplateListItems.Remove(template);
             template.Dispose();
+            SelectedTemplate = null;
+
+            SaveTemplateItems();
+
             if (TemplateListItems.Count == 0)
                 emptyListLabel.Visible = true;
+        }
+        private async void ImportTemplate(string path)
+        {
+            Template tmp = await Template.ImportTemplate(path);
+            if (tmp == null)
+            {
+                Messages.ShowError("The selected folder doesn't follow a template signature.");
+                return;
+            }
+            else if(TemplateListItems.Exists(x => x.TemplateName == tmp.GetTemplateName))
+            {
+                Messages.ShowError("Unable to import the template as another template with the same name already exists.");
+                return;
+            }
 
-            //MAIN FUNCTIONALITY
+            TemplateListItem templateListItem = TemplateListItem.Create(new TemplateListItem.ObjectData(tmp.TemplateData.TemplateName, false));
+            templateListItem.OnSelectedChangedEvent += TemplateSelect;
+            templateListItem.OnPinnedChangedEvent += TemplatePin;
+            TemplateListItems.Add(templateListItem);
+            templatesLayoutPanel.Controls.Add(templateListItem);
+
+            emptyListLabel.Visible = false;
+
+            Template.SaveTemplate(tmp.TemplateData);
+            SaveTemplateItems();
         }
         #endregion
     }

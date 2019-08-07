@@ -13,6 +13,21 @@ namespace Synapse.Controls
 {
     public partial class TemplateListItem : UserControl
     {
+        [Serializable]
+        public class ObjectData
+        {
+            public ObjectData(string templateName, bool isPinned, int listIndex = 0)
+            {
+                TemplateName = templateName;
+                IsPinned = isPinned;
+                ListIndex = listIndex;
+            }
+
+            public string TemplateName { get; set; }
+            public bool IsPinned { get; set; }
+            public int ListIndex { get; set; }
+        }
+
         #region SystemHandCursorSnippet
         private const int WM_SETCURSOR = 0x0020;
         private const int IDC_HAND = 32649;
@@ -347,13 +362,28 @@ namespace Synapse.Controls
         #endregion
 
         #region Public Methods
-        public TemplateListItem()
+        private TemplateListItem()
         {
             InitializeComponent();
         }
-        public void Initialize(string templateName)
+        public static TemplateListItem Create(string templateName)
         {
-            TemplateName = templateName;
+            TemplateListItem templateListItem = new TemplateListItem();
+            templateListItem.TemplateName = templateName;
+
+            return templateListItem;
+        }
+        public static TemplateListItem Create(ObjectData objectData)
+        {
+            TemplateListItem templateListItem = new TemplateListItem();
+            templateListItem.TemplateName = objectData.TemplateName;
+            templateListItem.IsPinned = objectData.IsPinned;
+
+            return templateListItem;
+        }
+        public ObjectData GetObjectData()
+        {
+            return new ObjectData(TemplateName, isPinned);
         }
         #endregion
     }

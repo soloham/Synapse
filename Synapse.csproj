@@ -104,7 +104,8 @@
     <Compile Include="Controls\TemplateListItem.Designer.cs">
       <DependentUpon>TemplateListItem.cs</DependentUpon>
     </Compile>
-    <Compile Include="Core\Template.cs" />
+    <Compile Include="Core\Configurations\ConfigurationBase.cs" />
+    <Compile Include="Core\Templates\Template.cs" />
     <Compile Include="Modules\TemplatesHub.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -124,7 +125,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Utilities\LSTM.cs" />
+    <Compile Include="Utilities\Attributes\EnumDescriptionAttribute.cs" />
+    <Compile Include="Utilities\Enums\EnumHelper.cs" />
+    <Compile Include="Utilities\Memory\LSTM.cs" />
     <Compile Include="Utilities\Messages.cs" />
     <EmbeddedResource Include="Controls\AutoLabelEx.resx">
       <DependentUpon>AutoLabelEx.cs</DependentUpon>

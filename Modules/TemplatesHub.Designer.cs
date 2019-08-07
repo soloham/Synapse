@@ -46,6 +46,7 @@
             this.loadTemplateBtn = new Syncfusion.Windows.Forms.ButtonAdv();
             this.importTemplateBtn = new Syncfusion.Windows.Forms.ButtonAdv();
             this.createTemplateBtn = new Syncfusion.Windows.Forms.ButtonAdv();
+            this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.createTemplatePanel.SuspendLayout();
             this.createTemplateNameContainer.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.createTemplateNameTextBox)).BeginInit();
@@ -329,6 +330,7 @@
             this.importTemplateBtn.Text = "     Import Existing";
             this.importTemplateBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.importTemplateBtn.ThemeName = "Metro";
+            this.importTemplateBtn.Click += new System.EventHandler(this.ImportTemplateBtn_Click);
             // 
             // createTemplateBtn
             // 
@@ -379,7 +381,6 @@
             this.Style.TitleBar.Font = new System.Drawing.Font("Dosis", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Style.TitleBar.TextHorizontalAlignment = System.Windows.Forms.HorizontalAlignment.Center;
             this.Text = "Templates Hub";
-            this.TopMost = true;
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.TemplatesHub_FormClosed);
             this.createTemplatePanel.ResumeLayout(false);
             this.createTemplateNameContainer.ResumeLayout(false);
@@ -413,5 +414,6 @@
         private System.Windows.Forms.Panel editTemplateNameContainer;
         private Syncfusion.Windows.Forms.Tools.TextBoxExt editTemplateNameTextBoxExt;
         private Syncfusion.Windows.Forms.ButtonAdv setTemplateNameBtn;
+        private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog;
     }
 }

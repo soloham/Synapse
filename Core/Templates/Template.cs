@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Synapse.Core
+namespace Synapse.Core.Templates
 {
     internal class Template
     {
@@ -22,12 +23,12 @@ namespace Synapse.Core
             {
                 TemplateName = templateName;
                 TemplateLocation = templateLocation;
-                TemplateDataDirectory = Utilities.LSTM.GetTemplateDataPath(TemplateLocation);
+                TemplateDataDirectory = Utilities.Memory.LSTM.GetTemplateDataPath(TemplateLocation);
                 TemplateSize = templateSize;
             }
         }
         #endregion
-        
+
         #region Properties
         public string GetTemplateName { get { return TemplateData.TemplateName; } set { } }
         public string GetTemplateLocation { get { return TemplateData.TemplateLocation; } set { } }
@@ -55,18 +56,50 @@ namespace Synapse.Core
             SaveTemplate(newTemplate.TemplateData);
             return newTemplate;
         }
+        internal static async Task<bool> ChangeTemplateName(string oldName, string newName)
+        {
+            bool result = false;
+
+            Template template = await LoadTemplate(oldName);
+            template.TemplateData.TemplateName = newName;
+
+            string newNameLocation = template.TemplateData.TemplateLocation.Replace(oldName, newName);
+            Directory.Move(template.TemplateData.TemplateLocation, newNameLocation);
+            template.TemplateData.TemplateLocation = newNameLocation;
+            template.TemplateData.TemplateDataDirectory = Utilities.Memory.LSTM.GetTemplateDataPath(newNameLocation);
+
+            result = SaveTemplate(template.TemplateData);
+            return result;
+        }
         internal static bool SaveTemplate(Data tempData)
         {
             bool isSaved = true;
 
-            OnSaveTemplateEvent?.Invoke(tempData);
-
+            try
+            {
+                OnSaveTemplateEvent?.Invoke(tempData);
+            }
+            catch (Exception ex)
+            {
+                isSaved = false;
+            }
             return isSaved;
         }
-
         internal static async Task<Template> LoadTemplate(string templateName)
         {
-            return await Task.Run(() => Utilities.LSTM.LoadTemplate(templateName));
+            return await Task.Run(() => Utilities.Memory.LSTM.LoadTemplate(templateName));
+        }
+        internal static async Task<Template> ImportTemplate(string location)
+        {
+            Template template = null;
+
+            template = await Task.Run(() => Utilities.Memory.LSTM.ImportTemplate(location));
+
+            return template;
+        }
+        internal static async Task<bool> DeleteTemplate(string templateName)
+        {
+            return await Task.Run(() => Utilities.Memory.LSTM.DeleteTemplate(templateName));
         }
         #endregion
     }

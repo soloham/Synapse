@@ -1,4 +1,4 @@
-﻿using Synapse.Core;
+﻿using Synapse.Core.Templates;
 using Synapse.Utilities;
 using Syncfusion.Windows.Forms;
 using System;
@@ -14,21 +14,35 @@ namespace Synapse
 {
     public partial class SynapseMain : Syncfusion.Windows.Forms.Tools.RibbonForm
     {
-        internal Template CurrentTemplate;
+        #region Properties
+        internal Template CurrentTemplate { get { return currentTemplate; } set { } }
+        private Template currentTemplate;
+        #endregion
 
+        #region Variables
+        #endregion
+
+        #region Static Methods
         internal static void RunTemplate(Template template)
         {
             SynapseMain synapseMain = new SynapseMain(template);
+            synapseMain.Text = "Synapse - " + template.GetTemplateName;
             synapseMain.Show();
         }
+        #endregion
 
+        #region Internal Methods
         internal SynapseMain(Template currentTemplate)
         {
             InitializeComponent();
-            Awake();
+            this.currentTemplate = currentTemplate;
 
-            CurrentTemplate = currentTemplate;
+            Awake();
         }
+        #endregion
+
+        #region Private Methods
+        #region Main
         void Awake()
         {
             //Pre-Ops
@@ -37,15 +51,9 @@ namespace Synapse
             readingTabPanel.Dock = DockStyle.Fill;
             configTabPanel.Dock = DockStyle.Fill;
             ribbonControl.SelectedTab = configToolStripTabItem;
-            //--MetroColor table for MessageBoxAdv
-            MetroStyleColorTable metroColorTable = new MetroStyleColorTable();
-            metroColorTable.NoButtonBackColor = Color.Red;
-            metroColorTable.YesButtonBackColor = Color.SkyBlue;
-            metroColorTable.OKButtonBackColor = Color.Green;
-            MessageBoxAdv.MetroColorTable = metroColorTable;
-            MessageBoxAdv.MessageBoxStyle = MessageBoxAdv.Style.Metro;
         }
-
+        #endregion
+        #region UI
         private void ConfigToolStripTabItem_Click(object sender, EventArgs e)
         {
             configTabPanel.Visible = true;
@@ -56,7 +64,6 @@ namespace Synapse
             readingTabPanel.Visible = true;
             configTabPanel.Visible = false;
         }
-
         private void TmpLoadBrowseToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (ImageFileBrowser.ShowDialog() == DialogResult.OK)
@@ -76,5 +83,11 @@ namespace Synapse
                 }
             }
         }
+        private void SynapseMain_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Application.Exit();
+        }
+        #endregion
+        #endregion
     }
 }
