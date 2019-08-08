@@ -1,4 +1,5 @@
 ﻿using Synapse.Core.Templates;
+using Synapse.Modules;
 using Synapse.Utilities;
 using Syncfusion.Windows.Forms;
 using System;
@@ -41,9 +42,17 @@ namespace Synapse
         }
         #endregion
 
+        #region Public Methods
+        public void AddRegionAsOMR(RectangleF region)
+        {
+            OMRConfigurationForm configurationForm = new OMRConfigurationForm((Bitmap)templateImageBox.GetSelectedImage());
+            configurationForm.ShowDialog();
+        }
+        #endregion
+
         #region Private Methods
         #region Main
-        void Awake()
+        private void Awake()
         {
             //Pre-Ops
             //-User Interface Setup
@@ -86,6 +95,18 @@ namespace Synapse
         private void SynapseMain_FormClosed(object sender, FormClosedEventArgs e)
         {
             Application.Exit();
+        }
+
+        private void AddAsOmrToolStripBtn_Click(object sender, EventArgs e)
+        {
+            RectangleF selectedRegion = templateImageBox.SelectionRegion;
+            if (selectedRegion.IsEmpty)
+            {
+                Messages.ShowError("Please select a reagion on the template to do this operation.");
+                return;
+            }
+
+            AddRegionAsOMR(selectedRegion);
         }
         #endregion
         #endregion

@@ -81,6 +81,9 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="WinFormAnimation, Version=1.6.0.4, Culture=neutral, PublicKeyToken=310fd07b25df79b3, processorArchitecture=MSIL">
+      <HintPath>..\packages\WinFormAnimation.1.6.0.4\lib\net40\WinFormAnimation.dll</HintPath>
+    </Reference>
     <Reference Include="ZedGraph, Version=5.1.7.430, Culture=neutral, PublicKeyToken=02a83cbd123fcd60, processorArchitecture=MSIL">
       <HintPath>..\packages\ZedGraph.5.1.7\lib\net35-Client\ZedGraph.dll</HintPath>
     </Reference>
@@ -105,7 +108,16 @@
       <DependentUpon>TemplateListItem.cs</DependentUpon>
     </Compile>
     <Compile Include="Core\Configurations\ConfigurationBase.cs" />
+    <Compile Include="Core\Configurations\OMRConfiguration.cs" />
+    <Compile Include="Core\Keys\AnswerKey.cs" />
+    <Compile Include="Core\Keys\Parameter.cs" />
     <Compile Include="Core\Templates\Template.cs" />
+    <Compile Include="Modules\OMRConfigurationForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modules\OMRConfigurationForm.Designer.cs">
+      <DependentUpon>OMRConfigurationForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Modules\TemplatesHub.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -127,6 +139,7 @@
     </Compile>
     <Compile Include="Utilities\Attributes\EnumDescriptionAttribute.cs" />
     <Compile Include="Utilities\Enums\EnumHelper.cs" />
+    <Compile Include="Utilities\Functions.cs" />
     <Compile Include="Utilities\Memory\LSTM.cs" />
     <Compile Include="Utilities\Messages.cs" />
     <EmbeddedResource Include="Controls\AutoLabelEx.resx">
@@ -137,6 +150,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Main\Synapse.resx">
       <DependentUpon>Synapse.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modules\OMRConfigurationForm.resx">
+      <DependentUpon>OMRConfigurationForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Modules\TemplatesHub.resx">
       <DependentUpon>TemplatesHub.cs</DependentUpon>
@@ -160,6 +176,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\zone.png" />
     <None Include="Resources\TemplateStatusIcon_ConfigTab.png" />
     <None Include="Resources\TemplateBtnIcon1_ConfigTab.png" />
     <None Include="Resources\TemplateBtnIcon2_ConfigTab.png" />
@@ -231,6 +248,11 @@
     <None Include="Resources\General\Pin_White.png" />
     <None Include="Resources\General\Check.png" />
     <Content Include="License-LGPL.txt" />
+    <None Include="Resources\General\Next.png" />
+    <None Include="Resources\General\Navigation Right-WF.png" />
+    <None Include="Resources\General\Follow.png" />
+    <None Include="Resources\General\Login-Arrow.png" />
+    <None Include="Resources\General\Out.png" />
     <Content Include="Resources\Ribbon\AddAsBarcodeBtnIcon1_ConfigTab.png" />
     <Content Include="Resources\Ribbon\AddAsBarcodeBtnIcon2_ConfigTab.png" />
     <Content Include="Resources\Ribbon\AddAsBarcodeBtnIcon3_ConfigTab.png" />
@@ -293,6 +315,7 @@
     <Content Include="Resources\Ribbon\TemplateBtnIcon5_ConfigTab.png" />
     <Content Include="Resources\Ribbon\TemplateBtnIcon_ConfigTab.png" />
     <Content Include="Resources\Ribbon\TemplateStatusIcon_ConfigTab.png" />
+    <None Include="Resources\selection.png" />
     <Content Include="Resources\TemplateBtnIcon_ConfigTab.png" />
     <None Include="Resources\StatusInOk.jpg" />
     <None Include="Resources\StatusNotOk.jpg" />
