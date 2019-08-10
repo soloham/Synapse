@@ -32,6 +32,25 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(OMRConfigurationForm));
             this.imageBox = new Cyotek.Windows.Forms.Demo.ImageBoxEx();
             this.imageBoxPanel = new System.Windows.Forms.Panel();
+            this.statePanelsPanel = new System.Windows.Forms.Panel();
+            this.IntegerValueStatePanel = new System.Windows.Forms.Panel();
+            this.IntegerStatePanelFlowLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
+            this.integerStateLabel = new Syncfusion.Windows.Forms.Tools.AutoLabel();
+            this.integerStateControlsTablePanel = new System.Windows.Forms.TableLayoutPanel();
+            this.integerStateComboBox = new Syncfusion.Windows.Forms.Tools.ComboBoxAdv();
+            this.integerStateValueTextBox = new Syncfusion.Windows.Forms.Tools.IntegerTextBox();
+            this.DoubleValueStatePanel = new System.Windows.Forms.Panel();
+            this.doubleStageTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
+            this.doubleStateLabel = new Syncfusion.Windows.Forms.Tools.AutoLabel();
+            this.doubleStageControlsPanel = new System.Windows.Forms.TableLayoutPanel();
+            this.doubleStateComboBox = new Syncfusion.Windows.Forms.Tools.ComboBoxAdv();
+            this.doubleStateValueTextBox = new Syncfusion.Windows.Forms.Tools.DoubleTextBox();
+            this.ComboBoxStatePanel = new System.Windows.Forms.Panel();
+            this.interSpaceTypeComboBox = new Syncfusion.Windows.Forms.Tools.ComboBoxAdv();
+            this.LabelStatePanel = new System.Windows.Forms.Panel();
+            this.walkthroughDescriptionLabel = new Syncfusion.Windows.Forms.Tools.AutoLabel();
+            this.orientationStatePanel = new System.Windows.Forms.Panel();
+            this.orientationComboBox = new Syncfusion.Windows.Forms.Tools.ComboBoxAdv();
             this.imageBoxControlsToolStrip = new System.Windows.Forms.ToolStrip();
             this.showImageRegionToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.showSourceImageRegionToolStripButton = new System.Windows.Forms.ToolStripButton();
@@ -48,33 +67,30 @@
             this.setBtn = new Syncfusion.Windows.Forms.ButtonAdv();
             this.nextBtn = new Syncfusion.Windows.Forms.ButtonAdv();
             this.walkthroughPanel = new System.Windows.Forms.Panel();
-            this.walkthorughStatusPanel = new System.Windows.Forms.TableLayoutPanel();
-            this.statePanelsPanel = new System.Windows.Forms.Panel();
-            this.totalObjectsStatePanel = new System.Windows.Forms.Panel();
-            this.totalObjectsLabel = new Syncfusion.Windows.Forms.Tools.AutoLabel();
-            this.totalObjectsTextBox = new Syncfusion.Windows.Forms.Tools.IntegerTextBox();
-            this.interSpaceTypeStatePanel = new System.Windows.Forms.Panel();
-            this.interSpaceTypeComboBox = new Syncfusion.Windows.Forms.Tools.ComboBoxAdv();
-            this.generalStatePanel = new System.Windows.Forms.Panel();
-            this.walkthroughDescriptionLabel = new Syncfusion.Windows.Forms.Tools.AutoLabel();
-            this.interSpaceValueStatePanel = new System.Windows.Forms.Panel();
-            this.interSpaceValueLabel = new Syncfusion.Windows.Forms.Tools.AutoLabel();
-            this.interSpaceValueTextBox = new Syncfusion.Windows.Forms.Tools.DoubleTextBox();
+            this.walkthroughStatusPanel = new System.Windows.Forms.TableLayoutPanel();
             this.panel1 = new System.Windows.Forms.Panel();
             this.walkthroughIndexLabel = new Syncfusion.Windows.Forms.Tools.AutoLabel();
             this.imageBoxPanel.SuspendLayout();
+            this.statePanelsPanel.SuspendLayout();
+            this.IntegerValueStatePanel.SuspendLayout();
+            this.IntegerStatePanelFlowLayoutPanel.SuspendLayout();
+            this.integerStateControlsTablePanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.integerStateComboBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.integerStateValueTextBox)).BeginInit();
+            this.DoubleValueStatePanel.SuspendLayout();
+            this.doubleStageTableLayoutPanel.SuspendLayout();
+            this.doubleStageControlsPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.doubleStateComboBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.doubleStateValueTextBox)).BeginInit();
+            this.ComboBoxStatePanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.interSpaceTypeComboBox)).BeginInit();
+            this.LabelStatePanel.SuspendLayout();
+            this.orientationStatePanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.orientationComboBox)).BeginInit();
             this.imageBoxControlsToolStrip.SuspendLayout();
             this.initializationButtonsPanel.SuspendLayout();
             this.walkthroughPanel.SuspendLayout();
-            this.walkthorughStatusPanel.SuspendLayout();
-            this.statePanelsPanel.SuspendLayout();
-            this.totalObjectsStatePanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.totalObjectsTextBox)).BeginInit();
-            this.interSpaceTypeStatePanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.interSpaceTypeComboBox)).BeginInit();
-            this.generalStatePanel.SuspendLayout();
-            this.interSpaceValueStatePanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.interSpaceValueTextBox)).BeginInit();
+            this.walkthroughStatusPanel.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -109,12 +125,330 @@
             this.imageBoxPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.imageBoxPanel.Controls.Add(this.statePanelsPanel);
             this.imageBoxPanel.Controls.Add(this.imageBoxControlsToolStrip);
             this.imageBoxPanel.Controls.Add(this.imageBox);
             this.imageBoxPanel.Location = new System.Drawing.Point(10, 8);
             this.imageBoxPanel.Name = "imageBoxPanel";
             this.imageBoxPanel.Size = new System.Drawing.Size(423, 338);
             this.imageBoxPanel.TabIndex = 5;
+            // 
+            // statePanelsPanel
+            // 
+            this.statePanelsPanel.Controls.Add(this.IntegerValueStatePanel);
+            this.statePanelsPanel.Controls.Add(this.DoubleValueStatePanel);
+            this.statePanelsPanel.Controls.Add(this.ComboBoxStatePanel);
+            this.statePanelsPanel.Controls.Add(this.LabelStatePanel);
+            this.statePanelsPanel.Controls.Add(this.orientationStatePanel);
+            this.statePanelsPanel.Location = new System.Drawing.Point(0, 60);
+            this.statePanelsPanel.Margin = new System.Windows.Forms.Padding(0);
+            this.statePanelsPanel.Name = "statePanelsPanel";
+            this.statePanelsPanel.Size = new System.Drawing.Size(423, 278);
+            this.statePanelsPanel.TabIndex = 8;
+            this.statePanelsPanel.Visible = false;
+            // 
+            // IntegerValueStatePanel
+            // 
+            this.IntegerValueStatePanel.Controls.Add(this.IntegerStatePanelFlowLayoutPanel);
+            this.IntegerValueStatePanel.Location = new System.Drawing.Point(26, 95);
+            this.IntegerValueStatePanel.Margin = new System.Windows.Forms.Padding(0);
+            this.IntegerValueStatePanel.Name = "IntegerValueStatePanel";
+            this.IntegerValueStatePanel.Size = new System.Drawing.Size(375, 39);
+            this.IntegerValueStatePanel.TabIndex = 10;
+            this.IntegerValueStatePanel.Visible = false;
+            // 
+            // IntegerStatePanelFlowLayoutPanel
+            // 
+            this.IntegerStatePanelFlowLayoutPanel.ColumnCount = 2;
+            this.IntegerStatePanelFlowLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 60F));
+            this.IntegerStatePanelFlowLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40F));
+            this.IntegerStatePanelFlowLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.IntegerStatePanelFlowLayoutPanel.Controls.Add(this.integerStateLabel, 0, 0);
+            this.IntegerStatePanelFlowLayoutPanel.Controls.Add(this.integerStateControlsTablePanel, 1, 0);
+            this.IntegerStatePanelFlowLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.IntegerStatePanelFlowLayoutPanel.Location = new System.Drawing.Point(0, 0);
+            this.IntegerStatePanelFlowLayoutPanel.Name = "IntegerStatePanelFlowLayoutPanel";
+            this.IntegerStatePanelFlowLayoutPanel.RowCount = 1;
+            this.IntegerStatePanelFlowLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.IntegerStatePanelFlowLayoutPanel.Size = new System.Drawing.Size(375, 39);
+            this.IntegerStatePanelFlowLayoutPanel.TabIndex = 11;
+            // 
+            // integerStateLabel
+            // 
+            this.integerStateLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.integerStateLabel.AutoSize = false;
+            this.integerStateLabel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.integerStateLabel.Font = new System.Drawing.Font("Dosis", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.integerStateLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this.integerStateLabel.Location = new System.Drawing.Point(3, 3);
+            this.integerStateLabel.Margin = new System.Windows.Forms.Padding(3);
+            this.integerStateLabel.Name = "integerStateLabel";
+            this.integerStateLabel.Size = new System.Drawing.Size(219, 33);
+            this.integerStateLabel.Style = Syncfusion.Windows.Forms.Tools.AutoLabelStyle.Office2016White;
+            this.integerStateLabel.TabIndex = 10;
+            this.integerStateLabel.Text = "Integer Value:";
+            this.integerStateLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.integerStateLabel.ThemeName = "Office2016White";
+            // 
+            // integerStateControlsTablePanel
+            // 
+            this.integerStateControlsTablePanel.ColumnCount = 2;
+            this.integerStateControlsTablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.integerStateControlsTablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.integerStateControlsTablePanel.Controls.Add(this.integerStateComboBox, 0, 0);
+            this.integerStateControlsTablePanel.Controls.Add(this.integerStateValueTextBox, 1, 0);
+            this.integerStateControlsTablePanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.integerStateControlsTablePanel.Location = new System.Drawing.Point(225, 0);
+            this.integerStateControlsTablePanel.Margin = new System.Windows.Forms.Padding(0);
+            this.integerStateControlsTablePanel.Name = "integerStateControlsTablePanel";
+            this.integerStateControlsTablePanel.RowCount = 1;
+            this.integerStateControlsTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.integerStateControlsTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.integerStateControlsTablePanel.Size = new System.Drawing.Size(150, 39);
+            this.integerStateControlsTablePanel.TabIndex = 11;
+            // 
+            // integerStateComboBox
+            // 
+            this.integerStateComboBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.integerStateComboBox.BeforeTouchSize = new System.Drawing.Size(69, 44);
+            this.integerStateComboBox.Border3DStyle = System.Windows.Forms.Border3DStyle.Flat;
+            this.integerStateComboBox.BorderSides = System.Windows.Forms.Border3DSide.Bottom;
+            this.integerStateComboBox.CanOverrideStyle = true;
+            this.integerStateComboBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.integerStateComboBox.FlatBorderColor = System.Drawing.Color.White;
+            this.integerStateComboBox.FlatStyle = Syncfusion.Windows.Forms.Tools.ComboFlatStyle.Flat;
+            this.integerStateComboBox.Font = new System.Drawing.Font("Dosis", 20.75F);
+            this.integerStateComboBox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this.integerStateComboBox.Location = new System.Drawing.Point(3, 3);
+            this.integerStateComboBox.MetroBorderColor = System.Drawing.Color.White;
+            this.integerStateComboBox.Name = "integerStateComboBox";
+            this.integerStateComboBox.Size = new System.Drawing.Size(69, 44);
+            this.integerStateComboBox.Style = Syncfusion.Windows.Forms.VisualStyle.Office2016White;
+            this.integerStateComboBox.TabIndex = 13;
+            this.integerStateComboBox.Text = "ComboBox";
+            this.integerStateComboBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.integerStateComboBox.ThemeName = "Office2016White";
+            this.integerStateComboBox.SelectedIndexChanged += new System.EventHandler(this.IntegerStateComboBox_SelectedIndexChanged);
+            // 
+            // integerStateValueTextBox
+            // 
+            this.integerStateValueTextBox.BackGroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.integerStateValueTextBox.BeforeTouchSize = new System.Drawing.Size(69, 42);
+            this.integerStateValueTextBox.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(171)))), ((int)(((byte)(171)))));
+            this.integerStateValueTextBox.BorderSides = ((System.Windows.Forms.Border3DSide)((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Right)));
+            this.integerStateValueTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.integerStateValueTextBox.DeleteSelectionOnNegative = true;
+            this.integerStateValueTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.integerStateValueTextBox.Font = new System.Drawing.Font("Dosis", 20.75F);
+            this.integerStateValueTextBox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this.integerStateValueTextBox.IntegerValue = ((long)(1));
+            this.integerStateValueTextBox.Location = new System.Drawing.Point(78, 3);
+            this.integerStateValueTextBox.Name = "integerStateValueTextBox";
+            this.integerStateValueTextBox.PositiveColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this.integerStateValueTextBox.Size = new System.Drawing.Size(69, 42);
+            this.integerStateValueTextBox.Style = Syncfusion.Windows.Forms.Tools.TextBoxExt.theme.Office2016White;
+            this.integerStateValueTextBox.TabIndex = 14;
+            this.integerStateValueTextBox.Text = "1";
+            this.integerStateValueTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.integerStateValueTextBox.ThemeName = "Office2016White";
+            this.integerStateValueTextBox.ZeroColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            // 
+            // DoubleValueStatePanel
+            // 
+            this.DoubleValueStatePanel.Controls.Add(this.doubleStageTableLayoutPanel);
+            this.DoubleValueStatePanel.Location = new System.Drawing.Point(23, 194);
+            this.DoubleValueStatePanel.Margin = new System.Windows.Forms.Padding(0);
+            this.DoubleValueStatePanel.Name = "DoubleValueStatePanel";
+            this.DoubleValueStatePanel.Size = new System.Drawing.Size(375, 44);
+            this.DoubleValueStatePanel.TabIndex = 12;
+            // 
+            // doubleStageTableLayoutPanel
+            // 
+            this.doubleStageTableLayoutPanel.ColumnCount = 2;
+            this.doubleStageTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 60F));
+            this.doubleStageTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40F));
+            this.doubleStageTableLayoutPanel.Controls.Add(this.doubleStateLabel, 0, 0);
+            this.doubleStageTableLayoutPanel.Controls.Add(this.doubleStageControlsPanel, 1, 0);
+            this.doubleStageTableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.doubleStageTableLayoutPanel.Location = new System.Drawing.Point(0, 0);
+            this.doubleStageTableLayoutPanel.Name = "doubleStageTableLayoutPanel";
+            this.doubleStageTableLayoutPanel.RowCount = 1;
+            this.doubleStageTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.doubleStageTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.doubleStageTableLayoutPanel.Size = new System.Drawing.Size(375, 44);
+            this.doubleStageTableLayoutPanel.TabIndex = 0;
+            // 
+            // doubleStateLabel
+            // 
+            this.doubleStateLabel.AutoSize = false;
+            this.doubleStateLabel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.doubleStateLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.doubleStateLabel.Font = new System.Drawing.Font("Dosis", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.doubleStateLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this.doubleStateLabel.Location = new System.Drawing.Point(3, 3);
+            this.doubleStateLabel.Margin = new System.Windows.Forms.Padding(3);
+            this.doubleStateLabel.Name = "doubleStateLabel";
+            this.doubleStateLabel.Size = new System.Drawing.Size(219, 38);
+            this.doubleStateLabel.Style = Syncfusion.Windows.Forms.Tools.AutoLabelStyle.Office2016White;
+            this.doubleStateLabel.TabIndex = 13;
+            this.doubleStateLabel.Text = "Double Value:";
+            this.doubleStateLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.doubleStateLabel.ThemeName = "Office2016White";
+            // 
+            // doubleStageControlsPanel
+            // 
+            this.doubleStageControlsPanel.ColumnCount = 2;
+            this.doubleStageControlsPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.doubleStageControlsPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.doubleStageControlsPanel.Controls.Add(this.doubleStateComboBox, 0, 0);
+            this.doubleStageControlsPanel.Controls.Add(this.doubleStateValueTextBox, 1, 0);
+            this.doubleStageControlsPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.doubleStageControlsPanel.Location = new System.Drawing.Point(225, 0);
+            this.doubleStageControlsPanel.Margin = new System.Windows.Forms.Padding(0);
+            this.doubleStageControlsPanel.Name = "doubleStageControlsPanel";
+            this.doubleStageControlsPanel.RowCount = 1;
+            this.doubleStageControlsPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.doubleStageControlsPanel.Size = new System.Drawing.Size(150, 44);
+            this.doubleStageControlsPanel.TabIndex = 14;
+            // 
+            // doubleStateComboBox
+            // 
+            this.doubleStateComboBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.doubleStateComboBox.BeforeTouchSize = new System.Drawing.Size(69, 44);
+            this.doubleStateComboBox.Border3DStyle = System.Windows.Forms.Border3DStyle.Flat;
+            this.doubleStateComboBox.BorderSides = System.Windows.Forms.Border3DSide.Bottom;
+            this.doubleStateComboBox.CanOverrideStyle = true;
+            this.doubleStateComboBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.doubleStateComboBox.FlatBorderColor = System.Drawing.Color.White;
+            this.doubleStateComboBox.FlatStyle = Syncfusion.Windows.Forms.Tools.ComboFlatStyle.Flat;
+            this.doubleStateComboBox.Font = new System.Drawing.Font("Dosis", 20.75F);
+            this.doubleStateComboBox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this.doubleStateComboBox.Location = new System.Drawing.Point(3, 3);
+            this.doubleStateComboBox.MetroBorderColor = System.Drawing.Color.White;
+            this.doubleStateComboBox.Name = "doubleStateComboBox";
+            this.doubleStateComboBox.Size = new System.Drawing.Size(69, 44);
+            this.doubleStateComboBox.Style = Syncfusion.Windows.Forms.VisualStyle.Office2016White;
+            this.doubleStateComboBox.TabIndex = 14;
+            this.doubleStateComboBox.Text = "ComboBox";
+            this.doubleStateComboBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.doubleStateComboBox.ThemeName = "Office2016White";
+            this.doubleStateComboBox.SelectedIndexChanged += new System.EventHandler(this.DoubleStateComboBox_SelectedIndexChanged);
+            // 
+            // doubleStateValueTextBox
+            // 
+            this.doubleStateValueTextBox.BackGroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.doubleStateValueTextBox.BeforeTouchSize = new System.Drawing.Size(69, 42);
+            this.doubleStateValueTextBox.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(171)))), ((int)(((byte)(171)))));
+            this.doubleStateValueTextBox.BorderSides = ((System.Windows.Forms.Border3DSide)((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Right)));
+            this.doubleStateValueTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.doubleStateValueTextBox.DeleteSelectionOnNegative = true;
+            this.doubleStateValueTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.doubleStateValueTextBox.DoubleValue = 1D;
+            this.doubleStateValueTextBox.Font = new System.Drawing.Font("Dosis", 20.75F);
+            this.doubleStateValueTextBox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this.doubleStateValueTextBox.Location = new System.Drawing.Point(78, 3);
+            this.doubleStateValueTextBox.Name = "doubleStateValueTextBox";
+            this.doubleStateValueTextBox.PositiveColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this.doubleStateValueTextBox.Size = new System.Drawing.Size(69, 42);
+            this.doubleStateValueTextBox.Style = Syncfusion.Windows.Forms.Tools.TextBoxExt.theme.Office2016White;
+            this.doubleStateValueTextBox.TabIndex = 13;
+            this.doubleStateValueTextBox.Text = "1.00";
+            this.doubleStateValueTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.doubleStateValueTextBox.ThemeName = "Office2016White";
+            this.doubleStateValueTextBox.ZeroColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            // 
+            // ComboBoxStatePanel
+            // 
+            this.ComboBoxStatePanel.Controls.Add(this.interSpaceTypeComboBox);
+            this.ComboBoxStatePanel.Location = new System.Drawing.Point(23, 143);
+            this.ComboBoxStatePanel.Margin = new System.Windows.Forms.Padding(0);
+            this.ComboBoxStatePanel.Name = "ComboBoxStatePanel";
+            this.ComboBoxStatePanel.Size = new System.Drawing.Size(375, 31);
+            this.ComboBoxStatePanel.TabIndex = 11;
+            this.ComboBoxStatePanel.Visible = false;
+            // 
+            // interSpaceTypeComboBox
+            // 
+            this.interSpaceTypeComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.interSpaceTypeComboBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.interSpaceTypeComboBox.BeforeTouchSize = new System.Drawing.Size(372, 44);
+            this.interSpaceTypeComboBox.Border3DStyle = System.Windows.Forms.Border3DStyle.Flat;
+            this.interSpaceTypeComboBox.BorderSides = System.Windows.Forms.Border3DSide.Bottom;
+            this.interSpaceTypeComboBox.FlatBorderColor = System.Drawing.Color.White;
+            this.interSpaceTypeComboBox.FlatStyle = Syncfusion.Windows.Forms.Tools.ComboFlatStyle.Flat;
+            this.interSpaceTypeComboBox.Font = new System.Drawing.Font("Dosis", 20.75F);
+            this.interSpaceTypeComboBox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this.interSpaceTypeComboBox.Location = new System.Drawing.Point(0, 4);
+            this.interSpaceTypeComboBox.MetroBorderColor = System.Drawing.Color.White;
+            this.interSpaceTypeComboBox.Name = "interSpaceTypeComboBox";
+            this.interSpaceTypeComboBox.Size = new System.Drawing.Size(372, 44);
+            this.interSpaceTypeComboBox.Style = Syncfusion.Windows.Forms.VisualStyle.Office2016White;
+            this.interSpaceTypeComboBox.TabIndex = 0;
+            this.interSpaceTypeComboBox.Text = "Inter Space Type";
+            this.interSpaceTypeComboBox.ThemeName = "Office2016White";
+            // 
+            // LabelStatePanel
+            // 
+            this.LabelStatePanel.Controls.Add(this.walkthroughDescriptionLabel);
+            this.LabelStatePanel.Location = new System.Drawing.Point(26, 51);
+            this.LabelStatePanel.Margin = new System.Windows.Forms.Padding(0);
+            this.LabelStatePanel.Name = "LabelStatePanel";
+            this.LabelStatePanel.Size = new System.Drawing.Size(375, 41);
+            this.LabelStatePanel.TabIndex = 9;
+            this.LabelStatePanel.Visible = false;
+            // 
+            // walkthroughDescriptionLabel
+            // 
+            this.walkthroughDescriptionLabel.AutoSize = false;
+            this.walkthroughDescriptionLabel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.walkthroughDescriptionLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.walkthroughDescriptionLabel.Font = new System.Drawing.Font("Dosis", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.walkthroughDescriptionLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this.walkthroughDescriptionLabel.Location = new System.Drawing.Point(0, 0);
+            this.walkthroughDescriptionLabel.Margin = new System.Windows.Forms.Padding(3);
+            this.walkthroughDescriptionLabel.Name = "walkthroughDescriptionLabel";
+            this.walkthroughDescriptionLabel.Size = new System.Drawing.Size(375, 41);
+            this.walkthroughDescriptionLabel.Style = Syncfusion.Windows.Forms.Tools.AutoLabelStyle.Office2016White;
+            this.walkthroughDescriptionLabel.TabIndex = 9;
+            this.walkthroughDescriptionLabel.Text = "Configuration Walkthrough";
+            this.walkthroughDescriptionLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.walkthroughDescriptionLabel.ThemeName = "Office2016White";
+            // 
+            // orientationStatePanel
+            // 
+            this.orientationStatePanel.Controls.Add(this.orientationComboBox);
+            this.orientationStatePanel.Location = new System.Drawing.Point(26, 0);
+            this.orientationStatePanel.Margin = new System.Windows.Forms.Padding(0);
+            this.orientationStatePanel.Name = "orientationStatePanel";
+            this.orientationStatePanel.Size = new System.Drawing.Size(375, 32);
+            this.orientationStatePanel.TabIndex = 13;
+            this.orientationStatePanel.Visible = false;
+            // 
+            // orientationComboBox
+            // 
+            this.orientationComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.orientationComboBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.orientationComboBox.BeforeTouchSize = new System.Drawing.Size(375, 44);
+            this.orientationComboBox.Border3DStyle = System.Windows.Forms.Border3DStyle.Flat;
+            this.orientationComboBox.BorderSides = System.Windows.Forms.Border3DSide.Bottom;
+            this.orientationComboBox.FlatBorderColor = System.Drawing.Color.White;
+            this.orientationComboBox.FlatStyle = Syncfusion.Windows.Forms.Tools.ComboFlatStyle.Flat;
+            this.orientationComboBox.Font = new System.Drawing.Font("Dosis", 20.75F);
+            this.orientationComboBox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this.orientationComboBox.Location = new System.Drawing.Point(0, 4);
+            this.orientationComboBox.MetroBorderColor = System.Drawing.Color.White;
+            this.orientationComboBox.Name = "orientationComboBox";
+            this.orientationComboBox.Size = new System.Drawing.Size(375, 44);
+            this.orientationComboBox.Style = Syncfusion.Windows.Forms.VisualStyle.Office2016White;
+            this.orientationComboBox.TabIndex = 0;
+            this.orientationComboBox.Text = "Select Orientation";
+            this.orientationComboBox.ThemeName = "Office2016White";
             // 
             // imageBoxControlsToolStrip
             // 
@@ -327,7 +661,7 @@
             // 
             // walkthroughPanel
             // 
-            this.walkthroughPanel.Controls.Add(this.walkthorughStatusPanel);
+            this.walkthroughPanel.Controls.Add(this.walkthroughStatusPanel);
             this.walkthroughPanel.Controls.Add(this.initializationButtonsPanel);
             this.walkthroughPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.walkthroughPanel.Location = new System.Drawing.Point(10, 349);
@@ -335,212 +669,20 @@
             this.walkthroughPanel.Size = new System.Drawing.Size(423, 110);
             this.walkthroughPanel.TabIndex = 39;
             // 
-            // walkthorughStatusPanel
+            // walkthroughStatusPanel
             // 
-            this.walkthorughStatusPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.walkthroughStatusPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.walkthorughStatusPanel.ColumnCount = 2;
-            this.walkthorughStatusPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.walkthorughStatusPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 90F));
-            this.walkthorughStatusPanel.Controls.Add(this.statePanelsPanel, 1, 0);
-            this.walkthorughStatusPanel.Controls.Add(this.panel1, 0, 0);
-            this.walkthorughStatusPanel.Location = new System.Drawing.Point(0, 0);
-            this.walkthorughStatusPanel.Name = "walkthorughStatusPanel";
-            this.walkthorughStatusPanel.RowCount = 1;
-            this.walkthorughStatusPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.walkthorughStatusPanel.Size = new System.Drawing.Size(423, 52);
-            this.walkthorughStatusPanel.TabIndex = 8;
-            // 
-            // statePanelsPanel
-            // 
-            this.statePanelsPanel.Controls.Add(this.totalObjectsStatePanel);
-            this.statePanelsPanel.Controls.Add(this.interSpaceTypeStatePanel);
-            this.statePanelsPanel.Controls.Add(this.generalStatePanel);
-            this.statePanelsPanel.Controls.Add(this.interSpaceValueStatePanel);
-            this.statePanelsPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.statePanelsPanel.Location = new System.Drawing.Point(42, 0);
-            this.statePanelsPanel.Margin = new System.Windows.Forms.Padding(0);
-            this.statePanelsPanel.Name = "statePanelsPanel";
-            this.statePanelsPanel.Size = new System.Drawing.Size(381, 52);
-            this.statePanelsPanel.TabIndex = 8;
-            // 
-            // totalObjectsStatePanel
-            // 
-            this.totalObjectsStatePanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.totalObjectsStatePanel.Controls.Add(this.totalObjectsLabel);
-            this.totalObjectsStatePanel.Controls.Add(this.totalObjectsTextBox);
-            this.totalObjectsStatePanel.Location = new System.Drawing.Point(400, 0);
-            this.totalObjectsStatePanel.Margin = new System.Windows.Forms.Padding(0);
-            this.totalObjectsStatePanel.Name = "totalObjectsStatePanel";
-            this.totalObjectsStatePanel.Size = new System.Drawing.Size(375, 52);
-            this.totalObjectsStatePanel.TabIndex = 10;
-            this.totalObjectsStatePanel.Visible = false;
-            // 
-            // totalObjectsLabel
-            // 
-            this.totalObjectsLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.totalObjectsLabel.AutoSize = false;
-            this.totalObjectsLabel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.totalObjectsLabel.Font = new System.Drawing.Font("Dosis", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.totalObjectsLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
-            this.totalObjectsLabel.Location = new System.Drawing.Point(3, 5);
-            this.totalObjectsLabel.Margin = new System.Windows.Forms.Padding(3);
-            this.totalObjectsLabel.Name = "totalObjectsLabel";
-            this.totalObjectsLabel.Size = new System.Drawing.Size(229, 42);
-            this.totalObjectsLabel.Style = Syncfusion.Windows.Forms.Tools.AutoLabelStyle.Office2016White;
-            this.totalObjectsLabel.TabIndex = 10;
-            this.totalObjectsLabel.Text = "Total Objects:";
-            this.totalObjectsLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.totalObjectsLabel.ThemeName = "Office2016White";
-            // 
-            // totalObjectsTextBox
-            // 
-            this.totalObjectsTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.totalObjectsTextBox.BackGroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.totalObjectsTextBox.BeforeTouchSize = new System.Drawing.Size(126, 42);
-            this.totalObjectsTextBox.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(171)))), ((int)(((byte)(171)))));
-            this.totalObjectsTextBox.BorderSides = ((System.Windows.Forms.Border3DSide)((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Right)));
-            this.totalObjectsTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.totalObjectsTextBox.DeleteSelectionOnNegative = true;
-            this.totalObjectsTextBox.Font = new System.Drawing.Font("Dosis", 20.75F);
-            this.totalObjectsTextBox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
-            this.totalObjectsTextBox.IntegerValue = ((long)(1));
-            this.totalObjectsTextBox.Location = new System.Drawing.Point(237, 5);
-            this.totalObjectsTextBox.Name = "totalObjectsTextBox";
-            this.totalObjectsTextBox.PositiveColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
-            this.totalObjectsTextBox.Size = new System.Drawing.Size(135, 42);
-            this.totalObjectsTextBox.Style = Syncfusion.Windows.Forms.Tools.TextBoxExt.theme.Office2016White;
-            this.totalObjectsTextBox.TabIndex = 0;
-            this.totalObjectsTextBox.Text = "1";
-            this.totalObjectsTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.totalObjectsTextBox.ThemeName = "Office2016White";
-            this.totalObjectsTextBox.ZeroColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
-            // 
-            // interSpaceTypeStatePanel
-            // 
-            this.interSpaceTypeStatePanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.interSpaceTypeStatePanel.Controls.Add(this.interSpaceTypeComboBox);
-            this.interSpaceTypeStatePanel.Location = new System.Drawing.Point(400, 0);
-            this.interSpaceTypeStatePanel.Margin = new System.Windows.Forms.Padding(0);
-            this.interSpaceTypeStatePanel.Name = "interSpaceTypeStatePanel";
-            this.interSpaceTypeStatePanel.Size = new System.Drawing.Size(375, 52);
-            this.interSpaceTypeStatePanel.TabIndex = 11;
-            this.interSpaceTypeStatePanel.Visible = false;
-            // 
-            // interSpaceTypeComboBox
-            // 
-            this.interSpaceTypeComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.interSpaceTypeComboBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.interSpaceTypeComboBox.BeforeTouchSize = new System.Drawing.Size(375, 44);
-            this.interSpaceTypeComboBox.Border3DStyle = System.Windows.Forms.Border3DStyle.Flat;
-            this.interSpaceTypeComboBox.BorderSides = System.Windows.Forms.Border3DSide.Bottom;
-            this.interSpaceTypeComboBox.FlatBorderColor = System.Drawing.Color.White;
-            this.interSpaceTypeComboBox.FlatStyle = Syncfusion.Windows.Forms.Tools.ComboFlatStyle.Flat;
-            this.interSpaceTypeComboBox.Font = new System.Drawing.Font("Dosis", 20.75F);
-            this.interSpaceTypeComboBox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
-            this.interSpaceTypeComboBox.Location = new System.Drawing.Point(0, 4);
-            this.interSpaceTypeComboBox.MetroBorderColor = System.Drawing.Color.White;
-            this.interSpaceTypeComboBox.Name = "interSpaceTypeComboBox";
-            this.interSpaceTypeComboBox.Size = new System.Drawing.Size(375, 44);
-            this.interSpaceTypeComboBox.Style = Syncfusion.Windows.Forms.VisualStyle.Office2016White;
-            this.interSpaceTypeComboBox.TabIndex = 0;
-            this.interSpaceTypeComboBox.Text = "Inter Space Type";
-            this.interSpaceTypeComboBox.ThemeName = "Office2016White";
-            // 
-            // generalStatePanel
-            // 
-            this.generalStatePanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.generalStatePanel.Controls.Add(this.walkthroughDescriptionLabel);
-            this.generalStatePanel.Location = new System.Drawing.Point(400, 0);
-            this.generalStatePanel.Margin = new System.Windows.Forms.Padding(0);
-            this.generalStatePanel.Name = "generalStatePanel";
-            this.generalStatePanel.Size = new System.Drawing.Size(378, 52);
-            this.generalStatePanel.TabIndex = 9;
-            this.generalStatePanel.Visible = false;
-            // 
-            // walkthroughDescriptionLabel
-            // 
-            this.walkthroughDescriptionLabel.AutoSize = false;
-            this.walkthroughDescriptionLabel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.walkthroughDescriptionLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.walkthroughDescriptionLabel.Font = new System.Drawing.Font("Dosis", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.walkthroughDescriptionLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
-            this.walkthroughDescriptionLabel.Location = new System.Drawing.Point(0, 0);
-            this.walkthroughDescriptionLabel.Margin = new System.Windows.Forms.Padding(3);
-            this.walkthroughDescriptionLabel.Name = "walkthroughDescriptionLabel";
-            this.walkthroughDescriptionLabel.Size = new System.Drawing.Size(378, 52);
-            this.walkthroughDescriptionLabel.Style = Syncfusion.Windows.Forms.Tools.AutoLabelStyle.Office2016White;
-            this.walkthroughDescriptionLabel.TabIndex = 9;
-            this.walkthroughDescriptionLabel.Text = "Configuration Walkthrough";
-            this.walkthroughDescriptionLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.walkthroughDescriptionLabel.ThemeName = "Office2016White";
-            // 
-            // interSpaceValueStatePanel
-            // 
-            this.interSpaceValueStatePanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.interSpaceValueStatePanel.Controls.Add(this.interSpaceValueLabel);
-            this.interSpaceValueStatePanel.Controls.Add(this.interSpaceValueTextBox);
-            this.interSpaceValueStatePanel.Location = new System.Drawing.Point(400, 0);
-            this.interSpaceValueStatePanel.Margin = new System.Windows.Forms.Padding(0);
-            this.interSpaceValueStatePanel.Name = "interSpaceValueStatePanel";
-            this.interSpaceValueStatePanel.Size = new System.Drawing.Size(375, 52);
-            this.interSpaceValueStatePanel.TabIndex = 12;
-            // 
-            // interSpaceValueLabel
-            // 
-            this.interSpaceValueLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.interSpaceValueLabel.AutoSize = false;
-            this.interSpaceValueLabel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.interSpaceValueLabel.Font = new System.Drawing.Font("Dosis", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.interSpaceValueLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
-            this.interSpaceValueLabel.Location = new System.Drawing.Point(3, 5);
-            this.interSpaceValueLabel.Margin = new System.Windows.Forms.Padding(3);
-            this.interSpaceValueLabel.Name = "interSpaceValueLabel";
-            this.interSpaceValueLabel.Size = new System.Drawing.Size(237, 42);
-            this.interSpaceValueLabel.Style = Syncfusion.Windows.Forms.Tools.AutoLabelStyle.Office2016White;
-            this.interSpaceValueLabel.TabIndex = 11;
-            this.interSpaceValueLabel.Text = "Inter Space Value:";
-            this.interSpaceValueLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.interSpaceValueLabel.ThemeName = "Office2016White";
-            // 
-            // interSpaceValueTextBox
-            // 
-            this.interSpaceValueTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.interSpaceValueTextBox.BackGroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.interSpaceValueTextBox.BeforeTouchSize = new System.Drawing.Size(126, 42);
-            this.interSpaceValueTextBox.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(171)))), ((int)(((byte)(171)))));
-            this.interSpaceValueTextBox.BorderSides = ((System.Windows.Forms.Border3DSide)((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Right)));
-            this.interSpaceValueTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.interSpaceValueTextBox.DeleteSelectionOnNegative = true;
-            this.interSpaceValueTextBox.DoubleValue = 1D;
-            this.interSpaceValueTextBox.Font = new System.Drawing.Font("Dosis", 20.75F);
-            this.interSpaceValueTextBox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
-            this.interSpaceValueTextBox.Location = new System.Drawing.Point(246, 5);
-            this.interSpaceValueTextBox.Name = "interSpaceValueTextBox";
-            this.interSpaceValueTextBox.PositiveColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
-            this.interSpaceValueTextBox.Size = new System.Drawing.Size(126, 42);
-            this.interSpaceValueTextBox.Style = Syncfusion.Windows.Forms.Tools.TextBoxExt.theme.Office2016White;
-            this.interSpaceValueTextBox.TabIndex = 0;
-            this.interSpaceValueTextBox.Text = "1.00";
-            this.interSpaceValueTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.interSpaceValueTextBox.ThemeName = "Office2016White";
-            this.interSpaceValueTextBox.ZeroColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this.walkthroughStatusPanel.ColumnCount = 2;
+            this.walkthroughStatusPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.walkthroughStatusPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 90F));
+            this.walkthroughStatusPanel.Controls.Add(this.panel1, 0, 0);
+            this.walkthroughStatusPanel.Location = new System.Drawing.Point(0, 0);
+            this.walkthroughStatusPanel.Name = "walkthroughStatusPanel";
+            this.walkthroughStatusPanel.RowCount = 1;
+            this.walkthroughStatusPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.walkthroughStatusPanel.Size = new System.Drawing.Size(423, 52);
+            this.walkthroughStatusPanel.TabIndex = 8;
             // 
             // panel1
             // 
@@ -594,21 +736,29 @@
             this.Text = "OMR Configuration Tool";
             this.imageBoxPanel.ResumeLayout(false);
             this.imageBoxPanel.PerformLayout();
+            this.statePanelsPanel.ResumeLayout(false);
+            this.IntegerValueStatePanel.ResumeLayout(false);
+            this.IntegerStatePanelFlowLayoutPanel.ResumeLayout(false);
+            this.integerStateControlsTablePanel.ResumeLayout(false);
+            this.integerStateControlsTablePanel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.integerStateComboBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.integerStateValueTextBox)).EndInit();
+            this.DoubleValueStatePanel.ResumeLayout(false);
+            this.doubleStageTableLayoutPanel.ResumeLayout(false);
+            this.doubleStageControlsPanel.ResumeLayout(false);
+            this.doubleStageControlsPanel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.doubleStateComboBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.doubleStateValueTextBox)).EndInit();
+            this.ComboBoxStatePanel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.interSpaceTypeComboBox)).EndInit();
+            this.LabelStatePanel.ResumeLayout(false);
+            this.orientationStatePanel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.orientationComboBox)).EndInit();
             this.imageBoxControlsToolStrip.ResumeLayout(false);
             this.imageBoxControlsToolStrip.PerformLayout();
             this.initializationButtonsPanel.ResumeLayout(false);
             this.walkthroughPanel.ResumeLayout(false);
-            this.walkthorughStatusPanel.ResumeLayout(false);
-            this.statePanelsPanel.ResumeLayout(false);
-            this.totalObjectsStatePanel.ResumeLayout(false);
-            this.totalObjectsStatePanel.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.totalObjectsTextBox)).EndInit();
-            this.interSpaceTypeStatePanel.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.interSpaceTypeComboBox)).EndInit();
-            this.generalStatePanel.ResumeLayout(false);
-            this.interSpaceValueStatePanel.ResumeLayout(false);
-            this.interSpaceValueStatePanel.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.interSpaceValueTextBox)).EndInit();
+            this.walkthroughStatusPanel.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -634,19 +784,27 @@
         private Syncfusion.Windows.Forms.ButtonAdv setBtn;
         private Syncfusion.Windows.Forms.ButtonAdv nextBtn;
         private System.Windows.Forms.Panel walkthroughPanel;
-        private System.Windows.Forms.TableLayoutPanel walkthorughStatusPanel;
+        private System.Windows.Forms.TableLayoutPanel walkthroughStatusPanel;
         private System.Windows.Forms.Panel statePanelsPanel;
-        private System.Windows.Forms.Panel generalStatePanel;
+        private System.Windows.Forms.Panel LabelStatePanel;
         private Syncfusion.Windows.Forms.Tools.AutoLabel walkthroughDescriptionLabel;
-        private System.Windows.Forms.Panel totalObjectsStatePanel;
-        private Syncfusion.Windows.Forms.Tools.IntegerTextBox totalObjectsTextBox;
-        private System.Windows.Forms.Panel interSpaceTypeStatePanel;
+        private System.Windows.Forms.Panel IntegerValueStatePanel;
+        private System.Windows.Forms.Panel ComboBoxStatePanel;
         private Syncfusion.Windows.Forms.Tools.ComboBoxAdv interSpaceTypeComboBox;
-        private System.Windows.Forms.Panel interSpaceValueStatePanel;
-        private Syncfusion.Windows.Forms.Tools.DoubleTextBox interSpaceValueTextBox;
-        private Syncfusion.Windows.Forms.Tools.AutoLabel totalObjectsLabel;
-        private Syncfusion.Windows.Forms.Tools.AutoLabel interSpaceValueLabel;
+        private System.Windows.Forms.Panel DoubleValueStatePanel;
+        private Syncfusion.Windows.Forms.Tools.AutoLabel integerStateLabel;
         private System.Windows.Forms.Panel panel1;
         private Syncfusion.Windows.Forms.Tools.AutoLabel walkthroughIndexLabel;
+        private System.Windows.Forms.Panel orientationStatePanel;
+        private Syncfusion.Windows.Forms.Tools.ComboBoxAdv orientationComboBox;
+        private System.Windows.Forms.TableLayoutPanel IntegerStatePanelFlowLayoutPanel;
+        private System.Windows.Forms.TableLayoutPanel integerStateControlsTablePanel;
+        private Syncfusion.Windows.Forms.Tools.ComboBoxAdv integerStateComboBox;
+        private Syncfusion.Windows.Forms.Tools.IntegerTextBox integerStateValueTextBox;
+        private System.Windows.Forms.TableLayoutPanel doubleStageTableLayoutPanel;
+        private Syncfusion.Windows.Forms.Tools.AutoLabel doubleStateLabel;
+        private System.Windows.Forms.TableLayoutPanel doubleStageControlsPanel;
+        private Syncfusion.Windows.Forms.Tools.ComboBoxAdv doubleStateComboBox;
+        private Syncfusion.Windows.Forms.Tools.DoubleTextBox doubleStateValueTextBox;
     }
 }
