@@ -253,6 +253,9 @@
     <None Include="Resources\General\Follow.png" />
     <None Include="Resources\General\Login-Arrow.png" />
     <None Include="Resources\General\Out.png" />
+    <None Include="Resources\Gear.png" />
+    <None Include="Resources\Gear-02-WF.png" />
+    <None Include="Resources\Gear-WF.png" />
     <Content Include="Resources\Ribbon\AddAsBarcodeBtnIcon1_ConfigTab.png" />
     <Content Include="Resources\Ribbon\AddAsBarcodeBtnIcon2_ConfigTab.png" />
     <Content Include="Resources\Ribbon\AddAsBarcodeBtnIcon3_ConfigTab.png" />
