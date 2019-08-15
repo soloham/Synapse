@@ -126,14 +126,12 @@ namespace Synapse.Core.Configurations
         [Serializable]
         internal class ConfigArea
         {
-            public ConfigArea(Padding padding, Size size)
+            public ConfigArea(RectangleF configRect)
             {
-                Padding = padding;
-                Size = size;
+                ConfigRect = configRect;
             }
 
-            public Padding Padding { get; set; }
-            public Size Size { get; set; }
+            public RectangleF ConfigRect;
             
         }
         #endregion

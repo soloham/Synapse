@@ -50,6 +50,13 @@ namespace Synapse.Modules
         }
         #endregion
 
+        #region Events 
+
+        public delegate void OnConfigurationFinshed(string regionName, Orientation regionOrientaion, OMRRegionData regionData);
+        public event OnConfigurationFinshed OnConfigurationFinishedEvent;
+
+        #endregion
+
         #region Properties
         public string RegionName { get; set; }
         public OMRRegionData RegionData { get; set; }
@@ -68,6 +75,8 @@ namespace Synapse.Modules
         private Action LastStateAction;
         private Action DoubleStateComboAction;
         private Action IntegerStateComboAction;
+        private Action SelectionRegionChangedAction;
+        private Action SelectionRegionResizedAction;
 
         private SynchronizationContext synchronizationContext;
 
@@ -118,6 +127,8 @@ namespace Synapse.Modules
             Initialize();
 
             SetupForConfigured(regionData, regionImage);
+
+            OnConfigurationFinishedEvent += OnConfigurationFinishedCallback;
         }
         #endregion
 
@@ -134,11 +145,16 @@ namespace Synapse.Modules
             LastStateAction = SetInterOptionsSpace;
         }
 
+        private void OnConfigurationFinishedCallback(string name, Orientation orientation, OMRRegionData _regionData)
+        {
+            SetupForConfigured(_regionData, RegionImage);
+        }
+
         private void SetupForConfiguration(Bitmap region = null)
         {
             if (RegionData == null)
             {
-                Size = new Size(450, 505);
+                //Size = new Size(450, 505);
                 MinimumSize = new Size(450, 505);
 
                 MainLayoutPanel.RowStyles[1].SizeType = SizeType.Absolute;
@@ -152,7 +168,7 @@ namespace Synapse.Modules
             }
             else
             {
-                Size = new Size(450, 570);
+                //Size = new Size(450, 570);
                 MinimumSize = new Size(450, 505);
 
                 MainLayoutPanel.RowStyles[1].SizeType = SizeType.Absolute;
@@ -184,7 +200,7 @@ namespace Synapse.Modules
         }
         private void SetupForConfigured(OMRRegionData regionData, Bitmap region = null)
         {
-            Size = new Size(450, 456);
+            //Size = new Size(450, 456);
             MinimumSize = new Size(450, 456);
 
             MainLayoutPanel.RowStyles[1].SizeType = SizeType.Absolute;
@@ -201,11 +217,14 @@ namespace Synapse.Modules
             selectStateComboBox.ValueMember = "Key";
 
             configureStatesPanel.Visible = true;
+            CurrentStatePanel = LabelStatePanel;
 
             RegionData = regionData;
             RegionImage = region == null? RegionImage : region;
             imageBox.Text = "";
             imageBox.Image = region;
+
+            CalculateRegion();
         }
 
         private void CalculateFieldsRects()
@@ -261,7 +280,7 @@ namespace Synapse.Modules
 
                 originalState = g.Save();
 
-                this.DrawBox(g, Color.CornflowerBlue, curDrawFieldRectF, imageBox.ZoomFactor, 84, 2, DashStyle.Dash);
+                Utilities.Functions.DrawBox(g, Color.CornflowerBlue, curDrawFieldRectF, imageBox.ZoomFactor, 84, 2, DashStyle.Dash);
 
                 g.Restore(originalState);
             }
@@ -329,7 +348,7 @@ namespace Synapse.Modules
 
                 originalState = g.Save();
 
-                this.DrawBox(g, Color.CornflowerBlue, curDrawInterFieldSpaceRectF, imageBox.ZoomFactor, 200, 0);
+                Utilities.Functions.DrawBox(g, Color.CornflowerBlue, curDrawInterFieldSpaceRectF, imageBox.ZoomFactor, 200, 0);
 
                 g.Restore(originalState);
             }
@@ -426,7 +445,7 @@ namespace Synapse.Modules
 
                 originalState = g.Save();
 
-                this.DrawBox(g, Color.Firebrick, curDrawOptionRectF, imageBox.ZoomFactor, 64, 1, DashStyle.Dash, DashCap.Round);
+                Utilities.Functions.DrawBox(g, Color.Firebrick, curDrawOptionRectF, imageBox.ZoomFactor, 64, 1, DashStyle.Dash, DashCap.Round);
 
                 g.Restore(originalState);
             }
@@ -528,7 +547,7 @@ namespace Synapse.Modules
 
                 originalState = g.Save();
 
-                this.DrawBox(g, Color.Firebrick, curDrawInterOptionSpaceRectF, imageBox.ZoomFactor, 200, 0);
+                Utilities.Functions.DrawBox(g, Color.Firebrick, curDrawInterOptionSpaceRectF, imageBox.ZoomFactor, 200, 0);
 
                 g.Restore(originalState);
             }
@@ -547,45 +566,23 @@ namespace Synapse.Modules
             CalculateInterOptionsSpacesRects();
 
             imageBox.Invalidate();
-        }
+        }                 
         private void CalculateRegion()
         {
             CalculateFields();
             CalculateOptions();
-        }
+        } 
 
         #region  ImageBoxPanel Setup
-        private void DrawBox(Graphics graphics, Color color, RectangleF rectangle, double scale, int alpha = 64, float borderWidth = 2, DashStyle dashStyle = DashStyle.Dot, DashCap dashCap = DashCap.Flat)
-        {
-            borderWidth *= (float)scale;
-
-            using (SolidBrush brush = new SolidBrush(Color.FromArgb(alpha, color)))
-            {
-                graphics.FillRectangle(brush, rectangle);
-            }
-
-            if (borderWidth == 0)
-                return;
-
-            using (Pen pen = new Pen(color, borderWidth)
-            {
-                DashStyle = dashStyle,
-                DashCap = dashCap
-            })
-            {
-                graphics.DrawRectangle(pen, rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height);
-            }
-        }
-
         private void imageBox_Paint(object sender, PaintEventArgs e)
         {
             // highlight the image
             if (showImageRegionToolStripButton.Checked)
-                this.DrawBox(e.Graphics, Color.CornflowerBlue, imageBox.GetImageViewPort(), imageBox.ZoomFactor);
+                Utilities.Functions.DrawBox(e.Graphics, Color.CornflowerBlue, imageBox.GetImageViewPort(), imageBox.ZoomFactor);
 
             // show the region that will be drawn from the source image
             if (showSourceImageRegionToolStripButton.Checked)
-                this.DrawBox(e.Graphics, Color.Firebrick, new RectangleF(imageBox.GetImageViewPort().Location, imageBox.GetSourceImageRegion().Size), imageBox.ZoomFactor);
+                Utilities.Functions.DrawBox(e.Graphics, Color.Firebrick, new RectangleF(imageBox.GetImageViewPort().Location, imageBox.GetSourceImageRegion().Size), imageBox.ZoomFactor);
 
             if (drawFields)
             {
@@ -610,12 +607,19 @@ namespace Synapse.Modules
         {
 
         }
-        private void imageBox_Selected(object sender, EventArgs e)
-        {
-        }
         private void imageBox_SelectionRegionChanged(object sender, EventArgs e)
         {
             selectionToolStripStatusLabel.Text = Utilities.Functions.FormatRectangle(imageBox.SelectionRegion);
+
+            SelectionRegionChangedAction?.Invoke();
+        }
+        private void imageBox_Selected(object sender, EventArgs e)
+        {
+
+        }
+        private void ImageBox_SelectionResized(object sender, EventArgs e)
+        {
+            SelectionRegionResizedAction?.Invoke();
         }
 
         private void actualSizeToolStripButton_Click(object sender, EventArgs e)
@@ -682,6 +686,7 @@ namespace Synapse.Modules
             {
                 Panel curStatePanel = CurrentStatePanel;
                 curStatePanel.Dock = DockStyle.None;
+                curStatePanel.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right | AnchorStyles.Bottom;
                 new Animator2D(new Path2D(CurrentStatePanel.Location.ToFloat2D(), new Float2D(-400, 0), 250)).Play(CurrentStatePanel, Animator2D.KnownProperties.Location, new SafeInvoker(() =>
                 {
                     synchronizationContext.Send(new SendOrPostCallback(
@@ -712,11 +717,6 @@ namespace Synapse.Modules
 
                     CurrentStatePanel = ComboBoxStatePanel;
                     break;
-                //case WalkthroughStates.SELECT_FIELD_REGION_TYPE:
-                //    walkthroughDescriptionLabel.Text = "";
-
-                //    CurrentStatePanel = LabelStatePanel;
-                //    break;
                 case ConfigurationState.SELECT_FIELD_REGION:
                     walkthroughDescriptionLabel.Text = "";
 
@@ -834,11 +834,13 @@ namespace Synapse.Modules
         {
             InitializeStatePanel(walkthroughState);
 
+            SelectionRegionChangedAction = null;
+            SelectionRegionResizedAction = null;
             switch (walkthroughState)
             {
                 case ConfigurationState.SELECT_REGION_NAME:
                     stringValueStateLabel.Text = "Region Name:";
-                    stringValueStateTextBox.Text = RegionName == ""? "OMR Region" : RegionName;
+                    stringValueStateTextBox.Text = string.IsNullOrEmpty(RegionName)? "OMR Region" : RegionName;
 
                     CurrentSetAction = new Action(SetRegionName);
 
@@ -888,6 +890,37 @@ namespace Synapse.Modules
                     DoubleStateComboAction = new Action(SetInterFieldsComboSpace);
                     CurrentSetAction = new Action(SetInterFieldsSpace);
 
+                    SelectionRegionChangedAction = () =>
+                    {
+                        if (imageBox.SelectionRegion.IsEmpty)
+                            return;
+
+                        switch (orientation)
+                        {
+                            case Orientation.Horizontal:
+                                SetInterFieldsSpace(imageBox.SelectionRegion.Height);
+                                break;
+                            case Orientation.Vertical:
+                                SetInterFieldsSpace(imageBox.SelectionRegion.Width);
+                                break;
+                        }
+                    };
+                    SelectionRegionResizedAction = () =>
+                    {
+                        if (imageBox.SelectionRegion.IsEmpty)
+                            return;
+
+                        switch (orientation)
+                        {
+                            case Orientation.Horizontal:
+                                SetInterFieldsSpace(imageBox.SelectionRegion.Height);
+                                break;
+                            case Orientation.Vertical:
+                                SetInterFieldsSpace(imageBox.SelectionRegion.Width);
+                                break;
+                        }
+                    };
+
                     nextBtn.Text = "NEXT";
                     nextBtn.BackColor = Color.LightSlateGray;
                     CurrentNextAction = new Action(NextState);
@@ -925,6 +958,37 @@ namespace Synapse.Modules
                     DoubleStateComboAction = new Action(SetInterOptionsComboSpace);
                     CurrentSetAction = new Action(SetInterOptionsSpace);
 
+                    SelectionRegionChangedAction = () =>
+                    {
+                        if (imageBox.SelectionRegion.IsEmpty)
+                            return;
+
+                        switch (orientation)
+                        {
+                            case Orientation.Horizontal:
+                                SetInterOptionsSpace(imageBox.SelectionRegion.Width);
+                                break;
+                            case Orientation.Vertical:
+                                SetInterOptionsSpace(imageBox.SelectionRegion.Height);
+                                break;
+                        }
+                    };
+                    SelectionRegionResizedAction = () =>
+                    {
+                        if (imageBox.SelectionRegion.IsEmpty)
+                            return;
+
+                        switch (orientation)
+                        {
+                            case Orientation.Horizontal:
+                                SetInterOptionsSpace(imageBox.SelectionRegion.Width);
+                                break;
+                            case Orientation.Vertical:
+                                SetInterOptionsSpace(imageBox.SelectionRegion.Height);
+                                break;
+                        }
+                    };
+
                     nextBtn.Text = "FINISH";
                     nextBtn.BackColor = Color.MediumTurquoise;
                     CurrentNextAction = new Action(EndWalkthrough);
@@ -943,9 +1007,45 @@ namespace Synapse.Modules
             ValidateState();
 
             isCurrentSetActionCompleted = false;
-            imageBox.SelectNone();
 
-            ConfigWalkthroughState++;
+            switch (ConfigWalkthroughState)
+            {
+                case ConfigurationState.SELECT_REGION_NAME:
+                    break;
+                case ConfigurationState.SELECT_REGION_ORIENTATION:
+                    break;
+                case ConfigurationState.SELECT_FIELD_REGION:
+                    imageBox.SelectNone();
+                    break;
+                case ConfigurationState.PROVIDE_TOTAL_FIELDS:
+                    break;
+                case ConfigurationState.SELECT_INTER_FIELDS_SPACE_TYPE:
+                    break;
+                case ConfigurationState.SELECT_INTER_FIELDS_SPACE:
+                    imageBox.SelectNone();
+
+                    SelectionRegionChangedAction = null;
+                    SelectionRegionResizedAction = null;
+                    break;
+                case ConfigurationState.SELECT_OPTION_REGION:
+                    imageBox.SelectNone();
+                    break;
+                case ConfigurationState.PROVIDE_TOTAL_OPTIONS:
+                    break;
+                case ConfigurationState.SELECT_INTER_OPTIONS_SPACE_TYPE:
+                    break;
+                case ConfigurationState.SELECT_INTER_OPTIONS_SPACE:
+                    imageBox.SelectNone();
+
+                    SelectionRegionChangedAction = null;
+                    SelectionRegionResizedAction = null;
+                    break;
+            }
+
+            if (RegionData != null)
+                selectStateComboBox.SelectedIndex = (int)ConfigWalkthroughState + 1;
+            else
+                ConfigWalkthroughState++;
         }
         private void ValidateState()
         {
@@ -954,6 +1054,7 @@ namespace Synapse.Modules
             {
                 case ConfigurationState.SELECT_REGION_NAME:
                     stringValueStateTextBox.ForeColor = Color.FromArgb(255, 68, 68, 68);
+                    stringValueStateLabel.ForeColor = Color.FromArgb(255, 68, 68, 68);
                     break;
                 case ConfigurationState.SELECT_REGION_ORIENTATION:
                     comboBoxStateComboBox.ForeColor = Color.FromArgb(255, 68, 68, 68);
@@ -998,6 +1099,7 @@ namespace Synapse.Modules
             {
                 case ConfigurationState.SELECT_REGION_NAME:
                     stringValueStateTextBox.ForeColor = Color.Crimson;
+                    stringValueStateLabel.ForeColor = Color.Crimson;
                     break;
                 case ConfigurationState.SELECT_REGION_ORIENTATION:
                     comboBoxStateComboBox.ForeColor = Color.Crimson;
@@ -1044,20 +1146,15 @@ namespace Synapse.Modules
 
             imageBox.SelectNone();
 
-            //configureStatesPanel.Visible = false;
-            //imageBoxPanel.Dock = DockStyle.Fill;
-            //Size = new Size(450, 395);
-            //MinimumSize = Size;
-            OMRRegionData regionData = new OMRRegionData(fieldsRegion, interFieldsSpaceType, interFieldsSpace, interFieldsSpaces.ToArray(), optionsRegion, interOptionsSpaceType, interOptionsSpace, interOptionsSpaces.ToArray());
-
-            SetupForConfigured(regionData, RegionImage);
+            OMRRegionData regionData = new OMRRegionData(totalFields, fieldsRegion, interFieldsSpaceType, interFieldsSpace, interFieldsSpaces.ToArray(), totalOptions, optionsRegion, interOptionsSpaceType, interOptionsSpace, interOptionsSpaces.ToArray());
+            OnConfigurationFinishedEvent?.Invoke(RegionName, orientation, regionData);
         }
 
         private bool ValidateName(string name)
         {
             bool isValid = true;
 
-            if (name == "")
+            if (name == "" || name[0] == ' ' || name[name.Length-1] == ' ')
                 isValid = false;
 
             return isValid;
@@ -1114,6 +1211,7 @@ namespace Synapse.Modules
             if (!imageBox.SelectionRegion.IsEmpty)
                 fieldsRegion = imageBox.SelectionRegion;
 
+
             CalculateRegion();
         }
         private void SetTotalFields()
@@ -1164,18 +1262,26 @@ namespace Synapse.Modules
                         int toAddCount = totalFields - interFieldsSpaces.Count;
                         for (int i = 0; i < toAddCount; i++)
                             interFieldsSpaces.Add(0.1);
+                        if (RegionData != null) RegionData.InterFieldsSpaces = interFieldsSpaces.ToArray();
                         break;
                 }
+
+                if (RegionData != null) RegionData.InterFieldsSpaceType = interFieldsSpaceType;
 
                 CalculateRegion();
             }
         }
         private void SetInterFieldsSpace()
         {
-            double value = doubleStateValueTextBox.DoubleValue;
+            SetInterFieldsSpace(-1);
+        }
+        private void SetInterFieldsSpace(float _value = -1)
+        {
+            double value = _value == -1 ? doubleStateValueTextBox.DoubleValue : _value;
+            doubleStateValueTextBox.DoubleValue = value;
             int fieldIndex = doubleStateComboBox.SelectedIndex + 1;
 
-            if(value < 0 || (fieldIndex <= 0 && interFieldsSpaceType == InterSpaceType.ARRAY))
+            if (value < 0 || (fieldIndex <= 0 && interFieldsSpaceType == InterSpaceType.ARRAY))
             {
                 InvalidateState();
                 return;
@@ -1187,9 +1293,11 @@ namespace Synapse.Modules
             {
                 case InterSpaceType.CONSTANT:
                     interFieldsSpace = value;
+                    if (RegionData != null) RegionData.InterFieldsSpace = interFieldsSpace;
                     break;
                 case InterSpaceType.ARRAY:
-                    interFieldsSpaces[fieldIndex-1] = value;
+                    interFieldsSpaces[fieldIndex - 1] = value;
+                    if (RegionData != null) RegionData.InterFieldsSpaces[fieldIndex - 1] = value;
                     break;
                 default:
                     break;
@@ -1197,9 +1305,10 @@ namespace Synapse.Modules
 
             CalculateRegion();
         }
+
         private void SetInterFieldsComboSpace()
         {
-            int curIndex = integerStateComboBox.SelectedIndex;
+            int curIndex = doubleStateComboBox.SelectedIndex;
             if (curIndex < 0 || RegionData == null || RegionData.InterFieldsSpaceType != InterSpaceType.ARRAY) return;
 
             double curInterFieldsSpace = RegionData.InterFieldsSpaces[curIndex];
@@ -1269,15 +1378,23 @@ namespace Synapse.Modules
                         int toAddCount = totalOptions - interOptionsSpaces.Count;
                         for (int i = 0; i < toAddCount; i++)
                             interOptionsSpaces.Add(0.1);
+                        if (RegionData != null) RegionData.InterOptionsSpaces = interOptionsSpaces.ToArray();
                         break;
                 }
+
+                if (RegionData != null) RegionData.InterOptionsSpaceType = interOptionsSpaceType;
             }
 
             CalculateRegion();
         }
         private void SetInterOptionsSpace()
         {
-            double value = doubleStateValueTextBox.DoubleValue;
+            SetInterOptionsSpace(-1);
+        }
+        private void SetInterOptionsSpace(float _value = -1)
+        {
+            double value = _value == -1 ? doubleStateValueTextBox.DoubleValue : _value;
+            doubleStateValueTextBox.DoubleValue = value;
             int fieldIndex = doubleStateComboBox.SelectedIndex + 1;
 
             if (value < 0 || (fieldIndex <= 0 && interOptionsSpaceType == InterSpaceType.ARRAY))
@@ -1292,19 +1409,20 @@ namespace Synapse.Modules
             {
                 case InterSpaceType.CONSTANT:
                     interOptionsSpace = value;
+                    if (RegionData != null) RegionData.InterOptionsSpace = value;
                     break;
                 case InterSpaceType.ARRAY:
                     interOptionsSpaces[fieldIndex - 1] = value;
-                    break;
-                default:
+                    if (RegionData != null) RegionData.InterOptionsSpaces[fieldIndex - 1] = value;
                     break;
             }
 
             CalculateRegion();
         }
+
         private void SetInterOptionsComboSpace()
         {
-            int curIndex = integerStateComboBox.SelectedIndex;
+            int curIndex = doubleStateComboBox.SelectedIndex;
             if (curIndex < 0 || RegionData == null || RegionData.InterOptionsSpaceType != InterSpaceType.ARRAY) return;
 
             double curInterOptionsSpace = RegionData.InterOptionsSpaces[curIndex];
@@ -1343,4 +1461,4 @@ namespace Synapse.Modules
 
         #endregion
     }
-}
+} 

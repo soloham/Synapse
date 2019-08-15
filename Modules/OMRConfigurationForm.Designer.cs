@@ -126,6 +126,7 @@
             this.imageBox.StepSize = new System.Drawing.Size(8, 8);
             this.imageBox.TabIndex = 2;
             this.imageBox.Text = "Configuration Region";
+            this.imageBox.SelectionResized += new System.EventHandler(this.ImageBox_SelectionResized);
             this.imageBox.Selected += new System.EventHandler<System.EventArgs>(this.imageBox_Selected);
             this.imageBox.SelectionRegionChanged += new System.EventHandler(this.imageBox_SelectionRegionChanged);
             this.imageBox.Scroll += new System.Windows.Forms.ScrollEventHandler(this.imageBox_Scroll);

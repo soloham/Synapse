@@ -1,9 +1,11 @@
 ﻿using Synapse.Core.Keys;
 using Synapse.Utilities;
 using Synapse.Utilities.Attributes;
+using Synapse.Utilities.Memory;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -42,13 +44,15 @@ namespace Synapse.Core.Configurations
         }
         #endregion
 
-        public OMRRegionData(RectangleF fieldsRegion, InterSpaceType interFieldsSpaceType, double interFieldsSpace, double[] interFieldsSpaces, RectangleF optionsRegion, InterSpaceType interOptionsSpaceType, double interOptionsSpace, double[] interOptionsSpaces)
+        public OMRRegionData(int totalFields, RectangleF fieldsRegion, InterSpaceType interFieldsSpaceType, double interFieldsSpace, double[] interFieldsSpaces, int totalOptions, RectangleF optionsRegion, InterSpaceType interOptionsSpaceType, double interOptionsSpace, double[] interOptionsSpaces)
         {
+            TotalFields = totalFields;
             FieldsRegion = fieldsRegion;
             InterFieldsSpaceType = interFieldsSpaceType;
             InterFieldsSpace = interFieldsSpace;
             InterFieldsSpaces = interFieldsSpaces;
 
+            TotalOptions = totalOptions;
             OptionsRegion = optionsRegion;
             InterOptionsSpaceType = interOptionsSpaceType;
             InterOptionsSpace = interOptionsSpace;
@@ -56,6 +60,7 @@ namespace Synapse.Core.Configurations
         }
 
         #region Fields Properties
+        public int TotalFields { get; set; }
         public RectangleF FieldsRegion { get; set; }
         public InterSpaceType InterFieldsSpaceType { get; set; }
         public double InterFieldsSpace { get; set; }
@@ -63,6 +68,7 @@ namespace Synapse.Core.Configurations
         #endregion
 
         #region Options Properties
+        public int TotalOptions { get; set; }
         public RectangleF OptionsRegion { get; set; }
         public InterSpaceType InterOptionsSpaceType { get; set; }
         public double InterOptionsSpace { get; set; }
@@ -76,8 +82,8 @@ namespace Synapse.Core.Configurations
     {
         #region Public Properties
         public OMRRegionData RegionData { get { return regionData; } set { regionData = value; } }
-        public int TotalFields { get; set; }
-        public int TotalOptions { get; set; }
+        public int GetTotalFields { get { return RegionData.TotalFields; } set { } }
+        public int GetTotalOptions { get { return RegionData.TotalOptions; } set { } }
         public Orientation Orientation { get; set; }
         public OMRType OMRType { get; set; }
         public MultiMarkAction MultiMarkAction { get; set; }
@@ -94,11 +100,9 @@ namespace Synapse.Core.Configurations
         #endregion
 
         #region Public Methods
-        public OMRConfiguration(ConfigurationBase _base, OMRRegionData regionData, int totalFields, int totalOptions, Orientation orientation, OMRType oMRType, MultiMarkAction multiMarkAction, KeyType keyType) : base(_base)
+        public OMRConfiguration(ConfigurationBase _base, OMRRegionData regionData, Orientation orientation, OMRType oMRType, MultiMarkAction multiMarkAction, KeyType keyType) : base(_base)
         {
             this.regionData = regionData;
-            TotalFields = totalFields;
-            TotalOptions = totalOptions;
             Orientation = orientation;
             OMRType = oMRType;
             MultiMarkAction = multiMarkAction;
@@ -238,6 +242,25 @@ namespace Synapse.Core.Configurations
             return result;
         }
         #endregion
+        #endregion
+
+        #region Static Methods
+
+        public static OMRConfiguration CreateDefault(string regionName, Orientation orientation, ConfigArea configArea, OMRRegionData regionData)
+        {
+            ConfigurationBase configurationBase = new ConfigurationBase(regionName, MainConfigType.OMR, configArea, ValueDataType.INTEGER, Typography.CONTINIOUS, ValueRepresentation.COLLECTIVE, ValueEditType.READ_ONLY, new ConfigRange());
+            return new OMRConfiguration(configurationBase, regionData, orientation, OMRType.NON_GRADABLE, MultiMarkAction.MARK_AS_MANUAL, KeyType.GENERAL);
+        }
+
+        public static bool Save(OMRConfiguration omrConfig, out Exception ex)
+        {
+            bool result = false;
+
+            result = LSTM.SaveConfigData(omrConfig, MainConfigType.OMR, out ex);
+
+            return result;
+        }
+
         #endregion
     }
 }

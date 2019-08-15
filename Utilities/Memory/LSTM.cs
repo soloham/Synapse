@@ -1,4 +1,5 @@
 ﻿using Synapse.Controls;
+using Synapse.Core.Configurations;
 using Synapse.Core.Templates;
 using System;
 using System.Collections.Generic;
@@ -27,14 +28,31 @@ namespace Synapse.Utilities.Memory
         private static string templateDataExt = "tmd";
         public static string TemplateListItemsDataExt { get { return templateListItemsDataExt; } set { } }
         private static string templateListItemsDataExt = "tlid";
+
+        public static string ConfigDataFileExt { get { return configDataFileExt; } set { } }
+        private static string configDataFileExt = "dat";
         #endregion
         #region Files & Directories Name
         public static string TemplateDataFileName { get { return templateDataFileName; } set { } }
         private static string templateDataFileName = $"Data.{TemplateDataExt}";
         public static string TemplateListItemsDataFileName { get { return templateListItemsDataFileName; } set { } }
         private static string templateListItemsDataFileName = $"Templates.{templateListItemsDataExt}";
+        public static string ConfigDataFileName { get { return configDataFileName; } set { } }
+        private static string configDataFileName = $"Configuration.{ConfigDataFileExt}";
         public static string TemplateDataDirName { get { return templateDataDirName; } set { } }
         private static string templateDataDirName = "Template Data";
+
+
+        public static string OMRConfigRootDirName { get { return oMRConfigRootDirName; } set { } }
+        private static string oMRConfigRootDirName = "OMR";
+        public static string OBRConfigRootDirName { get { return oBRConfigRootDirName; } set { } }
+        private static string oBRConfigRootDirName = "OBR";
+        public static string ICRConfigRootDirName { get { return iCRConfigRootDirName; } set { } }
+        private static string iCRConfigRootDirName = "ICR";
+
+        public static string ConfigDataDirName { get { return configDataDirName; } set { } }
+        private static string configDataDirName = "Configuration Data";
+
         #endregion
         #region General
         public static LogLevel LogLevelState { get { return logLevelState; } set { logLevelState = value; } }
@@ -60,6 +78,50 @@ namespace Synapse.Utilities.Memory
         {
             return $"{templateLocation}/{TemplateDataDirName}";
         }
+        public static string GetCurrentTemplateRootPath()
+        {
+            string templateName = SynapseMain.GetCurrentTemplate.GetTemplateName;
+            return Path.Combine(TemplatesRootDataPath, templateName);
+        }
+        public static string GetConfigRootPath(MainConfigType mainConfigType)
+        {
+            string result = "";
+
+            string templateRootPath = GetCurrentTemplateRootPath();
+            switch (mainConfigType)
+            {
+                case MainConfigType.OMR:
+                    result = $"{templateRootPath}\\{OMRConfigRootDirName}";
+                    break;
+                case MainConfigType.BARCODE:
+                    result = $"{templateRootPath}\\{OBRConfigRootDirName}";
+                    break;
+                case MainConfigType.ICR:
+                    result = $"{templateRootPath}\\{ICRConfigRootDirName}";
+                    break;
+             }
+
+            return result;
+        }
+        public static string GetConfigDataPath(string configTitle, MainConfigType mainConfigType)
+        {
+            string result = "";
+
+            string configRootPath = GetConfigRootPath(mainConfigType);
+            result = $"{configRootPath}\\{configTitle}\\{ConfigDataDirName}";
+
+            return result;
+        }
+        public static string GetConfigDataFilePath(string configTitle, MainConfigType mainConfigType)
+        {
+            string result = "";
+
+            string configDataPath = GetConfigDataPath(configTitle, mainConfigType);
+            result = $"{configDataPath}\\{ConfigDataFileName}";
+
+            return result;
+        }
+
         #endregion
 
         #region General Methods
@@ -169,9 +231,89 @@ namespace Synapse.Utilities.Memory
 
             return result;
         }
+
+        public static bool SaveConfigData(ConfigurationBase config, MainConfigType mainConfigType, out Exception _ex)
+        {
+            bool result = true;
+            _ex = new Exception();
+
+            string configDataPath = GetConfigDataPath(config.Title, mainConfigType);
+            if (!Directory.Exists(configDataPath))
+                Directory.CreateDirectory(configDataPath);
+
+            string configDataFilePath = GetConfigDataFilePath(config.Title, mainConfigType);
+            switch (mainConfigType)
+            {
+                case MainConfigType.OMR:
+                    OMRConfiguration oMRConfiguration = (OMRConfiguration)config;
+
+                    try
+                    {
+                        BinaryFormatter bf = new BinaryFormatter();
+                        using (FileStream fs = new FileStream(configDataFilePath, FileMode.Create))
+                        {
+                            bf.Serialize(fs, oMRConfiguration);
+                        }
+                    }
+                    catch(Exception ex)
+                    {
+                        _ex = ex;
+                        result = false;
+                    }
+                    break;
+                case MainConfigType.BARCODE:
+
+
+                    try
+                    {
+                        
+                    }
+                    catch (Exception ex)
+                    {
+                        _ex = ex;
+                        result = false;
+                    }
+                    break;
+                case MainConfigType.ICR:
+
+
+                    try
+                    {
+                        
+                    }
+                    catch (Exception ex)
+                    {
+                        _ex = ex;
+                        result = false;
+                    }
+                    break;
+            }
+
+            return result;
+        }
         #endregion
 
-        #region RTM Methods
+        #region RFM Methods
+        public static async Task<List<TemplateListItem.ObjectData>> LoadTemplateListItemsAsync()
+        {
+            List<TemplateListItem.ObjectData> templateListItems = new List<TemplateListItem.ObjectData>();
+
+            await Task.Run(() =>
+            {
+                try
+                {
+                    using (FileStream fs = new FileStream($"{AppRootDataPath}/{TemplateListItemsDataFileName}", FileMode.Open))
+                        templateListItems = (List<TemplateListItem.ObjectData>)bf.Deserialize(fs);
+                }
+                catch (Exception ex)
+                {
+                    if (logLevelState >= LogLevel.Low)
+                        Messages.LoadFileException(ex);
+                }
+            });
+
+            return templateListItems;
+        }
         public static Template LoadTemplate(string templateName)
         {
             Template result = null;
@@ -198,25 +340,33 @@ namespace Synapse.Utilities.Memory
 
             return result;
         }
-        public static async Task<List<TemplateListItem.ObjectData>> LoadTemplateListItemsAsync()
+
+        public static async Task<List<ConfigurationBase>> LoadConfiguration(MainConfigType mainConfigType)
         {
-            List<TemplateListItem.ObjectData> templateListItems = new List<TemplateListItem.ObjectData>();
+            List<ConfigurationBase> configurationBases = new List<ConfigurationBase>();
+
+            string omrConfigPath = GetConfigRootPath(mainConfigType);
+            if (!Directory.Exists(omrConfigPath))
+                return configurationBases;
+
+            string[] configsPaths = Directory.GetDirectories(omrConfigPath);
 
             await Task.Run(() =>
             {
-                try
+                for (int i = 0; i < configsPaths.Length; i++)
                 {
-                    using (FileStream fs = new FileStream($"{AppRootDataPath}/{TemplateListItemsDataFileName}", FileMode.Open))
-                        templateListItems = (List<TemplateListItem.ObjectData>)bf.Deserialize(fs);
-                }
-                catch (Exception ex)
-                {
-                    if (logLevelState >= LogLevel.Low)
-                        Messages.LoadFileException(ex);
+                    string configDataFilePath = Path.Combine(configsPaths[i], ConfigDataDirName, configDataFileName);
+
+                    BinaryFormatter bf = new BinaryFormatter();
+                    using (FileStream fs = new FileStream(configDataFilePath, FileMode.Open))
+                    {
+                        ConfigurationBase configurationBase = (OMRConfiguration)bf.Deserialize(fs);
+                        configurationBases.Add(configurationBase);
+                    }
                 }
             });
 
-            return templateListItems;
+            return configurationBases;
         }
         #endregion
     }

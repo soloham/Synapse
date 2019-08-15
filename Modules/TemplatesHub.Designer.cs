@@ -249,7 +249,7 @@
             this.deleteTemplateBtn.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Flat;
             this.deleteTemplateBtn.FlatAppearance.BorderSize = 0;
             this.deleteTemplateBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.deleteTemplateBtn.Font = new System.Drawing.Font("Dosis", 19F);
+            this.deleteTemplateBtn.Font = new System.Drawing.Font("Dosis", 18.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.deleteTemplateBtn.ForeColor = System.Drawing.Color.White;
             this.deleteTemplateBtn.Image = ((System.Drawing.Image)(resources.GetObject("deleteTemplateBtn.Image")));
             this.deleteTemplateBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -272,7 +272,7 @@
             this.editTemplateBtn.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Flat;
             this.editTemplateBtn.FlatAppearance.BorderSize = 0;
             this.editTemplateBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.editTemplateBtn.Font = new System.Drawing.Font("Dosis", 19F);
+            this.editTemplateBtn.Font = new System.Drawing.Font("Dosis", 18.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.editTemplateBtn.ForeColor = System.Drawing.Color.White;
             this.editTemplateBtn.Image = global::Synapse.Properties.Resources.Text_Highlight;
             this.editTemplateBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -295,7 +295,7 @@
             this.loadTemplateBtn.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Flat;
             this.loadTemplateBtn.FlatAppearance.BorderSize = 0;
             this.loadTemplateBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.loadTemplateBtn.Font = new System.Drawing.Font("Dosis", 19F);
+            this.loadTemplateBtn.Font = new System.Drawing.Font("Dosis", 18.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.loadTemplateBtn.ForeColor = System.Drawing.Color.White;
             this.loadTemplateBtn.Image = global::Synapse.Properties.Resources.Media_Play;
             this.loadTemplateBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -318,7 +318,7 @@
             this.importTemplateBtn.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Flat;
             this.importTemplateBtn.FlatAppearance.BorderSize = 0;
             this.importTemplateBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.importTemplateBtn.Font = new System.Drawing.Font("Dosis", 19F);
+            this.importTemplateBtn.Font = new System.Drawing.Font("Dosis", 18.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.importTemplateBtn.ForeColor = System.Drawing.Color.White;
             this.importTemplateBtn.Image = global::Synapse.Properties.Resources.Import__02;
             this.importTemplateBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -341,7 +341,7 @@
             this.createTemplateBtn.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Flat;
             this.createTemplateBtn.FlatAppearance.BorderSize = 0;
             this.createTemplateBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.createTemplateBtn.Font = new System.Drawing.Font("Dosis", 19F);
+            this.createTemplateBtn.Font = new System.Drawing.Font("Dosis", 18.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.createTemplateBtn.ForeColor = System.Drawing.Color.White;
             this.createTemplateBtn.Image = global::Synapse.Properties.Resources.Add_New;
             this.createTemplateBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
