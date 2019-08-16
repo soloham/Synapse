@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
+using static Synapse.Utilities.Enums.Basic;
 
 namespace Synapse.Controls
 {
@@ -50,16 +51,6 @@ namespace Synapse.Controls
             }
 
             base.WndProc(ref m);
-        }
-        #endregion
-
-        #region Enums
-        public enum State
-        {
-            Normal,
-            Highlighted,
-            Pressed,
-            Selected
         }
         #endregion
 

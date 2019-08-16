@@ -291,6 +291,27 @@ namespace Synapse.Utilities.Memory
 
             return result;
         }
+        public static bool DeleteConfigData(ConfigurationBase config, MainConfigType mainConfigType, out Exception _ex)
+        {
+            bool result = true;
+            _ex = new Exception();
+
+            string configRootPath = GetConfigRootPath(mainConfigType);
+            string configPath = $"{configRootPath}\\{config.Title}";
+
+            try
+            { 
+                Directory.Delete(configPath, true);
+            }
+            catch (Exception ex)
+            {
+                _ex = ex;
+                result = false;
+            }
+
+            return result;
+        }
+
         #endregion
 
         #region RFM Methods

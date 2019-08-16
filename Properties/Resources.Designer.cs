@@ -173,6 +173,26 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap ArrowDown_WF {
+            get {
+                object obj = ResourceManager.GetObject("ArrowDown-WF", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ArrowUp_WF {
+            get {
+                object obj = ResourceManager.GetObject("ArrowUp-WF", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Check {
             get {
                 object obj = ResourceManager.GetObject("Check", resourceCulture);
@@ -443,6 +463,16 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Gear__03WF {
+            get {
+                object obj = ResourceManager.GetObject("Gear--03WF", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Gear_02_WF {
             get {
                 object obj = ResourceManager.GetObject("Gear-02-WF", resourceCulture);
@@ -643,6 +673,26 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap QR_Code___02 {
+            get {
+                object obj = ResourceManager.GetObject("QR-Code - 02", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Quill_WF {
+            get {
+                object obj = ResourceManager.GetObject("Quill-WF", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap rereadFaultySheetsBtnIcon_ReadingTab {
             get {
                 object obj = ResourceManager.GetObject("rereadFaultySheetsBtnIcon_ReadingTab", resourceCulture);
@@ -826,6 +876,16 @@ namespace Synapse.Properties {
         internal static System.Drawing.Bitmap TemplateStatusIcon_ConfigTab {
             get {
                 object obj = ResourceManager.GetObject("TemplateStatusIcon_ConfigTab", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Text_Braille_WF {
+            get {
+                object obj = ResourceManager.GetObject("Text Braille-WF", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

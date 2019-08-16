@@ -4,6 +4,8 @@ using Synapse.Core.Templates;
 using Synapse.Modules;
 using Synapse.Utilities;
 using Synapse.Utilities.Objects;
+using Syncfusion.Windows.Forms.Diagram;
+using Syncfusion.Windows.Forms.Tools;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -63,6 +65,9 @@ namespace Synapse
         private PointF curImageMouseLoc;
 
         private List<OnTemplateConfig> OnTemplateConfigs = new List<OnTemplateConfig>();
+        private OnTemplateConfig SelectedTemplateConfig { get => selectedTemplateConfig; set { selectedTemplateConfig = value; SelectedTemplateConfigChanged(value); } }
+        private OnTemplateConfig selectedTemplateConfig;
+        private OnTemplateConfig InterestedTemplateConfig;
 
         public ColorStates OMRRegionColorStates;
         public ColorStates OBRRegionColorStates;
@@ -73,7 +78,7 @@ namespace Synapse
         public bool IsMouseDownRegion { get => isMouseDownRegion; set { isMouseDownRegion = value; ToggleMouseDownRegion(value); } }
         private bool isMouseDownRegion;
         public bool IsMouseUpRegion { get => isMouseUpRegion; set { isMouseUpRegion = value; ToggleMouseUpRegion(value); } }
-    private bool isMouseUpRegion;
+        private bool isMouseUpRegion;
         #endregion
 
         #region Static Methods
@@ -119,7 +124,8 @@ namespace Synapse
                 {
                     configurationForm.Close();
 
-                    ConfigurationsManager.AddConfiguration(MainConfigType.OMR, omrConfig);
+                    ConfigurationsManager.AddConfiguration(omrConfig);
+                    CalculateTemplateConfigs();
                 }
                 else
                     Messages.SaveFileException(ex);
@@ -187,9 +193,21 @@ namespace Synapse
             configTabPanel.Dock = DockStyle.Fill;
             ribbonControl.SelectedTab = configToolStripTabItem;
 
-            OMRRegionColorStates = new ColorStates(Color.FromArgb(55, Color.Firebrick), Color.FromArgb(75, Color.Firebrick), Color.FromArgb(95, Color.Firebrick));
+            mainDockingManager.SetEnableDocking(configPropertiesDockingPanel, true);
+            mainDockingManager.DockControlInAutoHideMode(configPropertiesDockingPanel, DockingStyle.Right, 300);
+            mainDockingManager.SetMenuButtonVisibility(configPropertiesDockingPanel, false);
+            mainDockingManager.SetDockLabel(configPropertiesDockingPanel, "Properties");
+
+            OMRRegionColorStates = new ColorStates(Color.FromArgb(55, Color.Firebrick), Color.FromArgb(95, Color.Firebrick), Color.FromArgb(85, Color.Firebrick), Color.FromArgb(110, Color.Firebrick));
 
             await ConfigurationsManager.Initialize();
+            CalculateTemplateConfigs();
+
+            StatusCheck();
+        }
+        private void CalculateTemplateConfigs()
+        {
+            OnTemplateConfigs = new List<OnTemplateConfig>();
             var allConfigs = ConfigurationsManager.GetAllConfigurations;
             for (int i = 0; i < allConfigs.Count; i++)
             {
@@ -210,21 +228,30 @@ namespace Synapse
                 OnTemplateConfig onTemplateConfig = new OnTemplateConfig(allConfigs[i], colorStates);
                 OnTemplateConfigs.Add(onTemplateConfig);
             }
-
-            StatusCheck();
+        }
+        private void SelectedTemplateConfigChanged(OnTemplateConfig selectedTemplate)
+        {
+            configPropertyEditor.PropertyGrid.SelectedObject = selectedTemplate == null? null : selectedTemplate.Configuration?? null;
+            if (configPropertyEditor.PropertyGrid.SelectedObject != null)
+                mainDockingManager.DockControl(configPropertiesDockingPanel, this, DockingStyle.Right, 300);
+            else
+                mainDockingManager.DockControlInAutoHideMode(configPropertiesDockingPanel, DockingStyle.Right, 300);
         }
         #endregion
         #region UI
-
         private void ConfigToolStripTabItem_Click(object sender, EventArgs e)
         {
             configTabPanel.Visible = true;
             readingTabPanel.Visible = false;
+
+            mainDockingManager.SetDockVisibility(configPropertiesDockingPanel, true);
         }
         private void ReadingToolStripTabItem_Click(object sender, EventArgs e)
         {
             readingTabPanel.Visible = true;
             configTabPanel.Visible = false;
+
+            mainDockingManager.SetDockVisibility(configPropertiesDockingPanel, false);
         }
         private void TmpLoadBrowseToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -250,8 +277,40 @@ namespace Synapse
             Application.Exit();
         }
 
+        private void ConfigureDataToolStripBtn_Click(object sender, EventArgs e)
+        {
+            DataConfigurationForm dataConfigurationForm = new DataConfigurationForm(ConfigurationsManager.GetAllConfigurations);
+            dataConfigurationForm.ShowDialog();
+        }
         private void AddAsOmrToolStripBtn_Click(object sender, EventArgs e)
         {
+            if(SelectedTemplateConfig != null)
+            {
+                OMRConfiguration omrConfiguration = (OMRConfiguration)SelectedTemplateConfig.Configuration;
+                templateImageBox.SelectionRegion = omrConfiguration.GetConfigArea.ConfigRect;
+                OMRConfigurationForm configurationForm = new OMRConfigurationForm(omrConfiguration, (Bitmap)templateImageBox.GetSelectedImage());
+                configurationForm.OnConfigurationFinishedEvent += async (string name, Orientation orientation, OMRRegionData regionData) =>
+                {
+                    bool isSaved = false;
+                    Exception ex = new Exception();
+
+                    await Task.Run(() =>
+                    {
+                        omrConfiguration.Title = name;
+                        omrConfiguration.Orientation = orientation;
+                        omrConfiguration.RegionData = regionData;
+
+                        isSaved = OMRConfiguration.Save(omrConfiguration, out ex);
+                    });
+
+                    if (!isSaved)
+                        Messages.SaveFileException(ex);
+                };
+                configurationForm.ShowDialog();
+
+                return;
+            }
+
             RectangleF selectedRegion = templateImageBox.SelectionRegion;
             if (selectedRegion.IsEmpty)
             {
@@ -295,7 +354,7 @@ namespace Synapse
 
         private void TemplateImageBox_Paint(object sender, PaintEventArgs e)
         {
-            if(ConfigurationStatus == StatusState.Green)
+            if(ConfigurationStatus == StatusState.Green && templateImageBox.Image != null)
             {
                 for (int i = 0; i < OnTemplateConfigs.Count; i++)
                 {
@@ -313,52 +372,164 @@ namespace Synapse
                 {
                     RectangleF offsetRect = OnTemplateConfigs[i].OffsetRectangle;
 
-                    switch (OnTemplateConfigs[i].Configuration.GetMainConfigType)
+                    if (offsetRect.Contains(e.Location))
                     {
-                        case MainConfigType.OMR:
-                            if (offsetRect.Contains(e.Location))
-                            {
+                        InterestedTemplateConfig = OnTemplateConfigs[i];
+
+                        if (SelectedTemplateConfig == InterestedTemplateConfig)
+                            return;
+
+                        switch (OnTemplateConfigs[i].Configuration.GetMainConfigType)
+                        {
+                            case MainConfigType.OMR:
                                 OnTemplateConfigs[i].ColorStates.CurrentColor = OMRRegionColorStates.HighlightedColor;
                                 IsMouseOverRegion = true;
-                            }
-                            else
-                            {
-                                OnTemplateConfigs[i].ColorStates.CurrentColor = OMRRegionColorStates.NormalColor;
-                                IsMouseOverRegion = false;
-                            }
-                            break;
-                        case MainConfigType.BARCODE:
-                            if (offsetRect.Contains(e.Location))
-                            {
+                                break;
+                            case MainConfigType.BARCODE:
                                 OnTemplateConfigs[i].ColorStates.CurrentColor = OBRRegionColorStates.HighlightedColor;
                                 IsMouseOverRegion = true;
-                            }
-                            else
-                            {
-                                OnTemplateConfigs[i].ColorStates.CurrentColor = OBRRegionColorStates.NormalColor;
-                                IsMouseOverRegion = false;
-                            }
-                            break;
-                        case MainConfigType.ICR:
-                            if (offsetRect.Contains(e.Location))
-                            {
+                                break;
+                            case MainConfigType.ICR:
                                 OnTemplateConfigs[i].ColorStates.CurrentColor = ICRRegionColorStates.HighlightedColor;
                                 IsMouseOverRegion = true;
-                            }
-                            else
-                            {
+                                break;
+                        }
+                        
+                    }
+                    else
+                    {
+                        if (InterestedTemplateConfig == OnTemplateConfigs[i])
+                            InterestedTemplateConfig = null;
+
+                        if(SelectedTemplateConfig == OnTemplateConfigs[i])
+                            continue;
+
+                        switch (OnTemplateConfigs[i].Configuration.GetMainConfigType)
+                        {
+                            case MainConfigType.OMR:
+                                OnTemplateConfigs[i].ColorStates.CurrentColor = OMRRegionColorStates.NormalColor;
+                                IsMouseOverRegion = false;
+                                break;
+                            case MainConfigType.BARCODE:
+                                OnTemplateConfigs[i].ColorStates.CurrentColor = OBRRegionColorStates.NormalColor;
+                                IsMouseOverRegion = false;
+                                break;
+                            case MainConfigType.ICR:
                                 OnTemplateConfigs[i].ColorStates.CurrentColor = ICRRegionColorStates.NormalColor;
                                 IsMouseOverRegion = false;
-                            }
-                            break;
-                     }
+                                break;
+                        }
+                    }
                 }
 
                 templateImageBox.Invalidate();
             }
         }
+        private void TemplateImageBox_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (ConfigurationStatus == StatusState.Green && e.Button == MouseButtons.Left)
+            {
+                if (InterestedTemplateConfig != null)
+                {
+                    switch (InterestedTemplateConfig.Configuration.GetMainConfigType)
+                    {
+                        case MainConfigType.OMR:
+                            InterestedTemplateConfig.ColorStates.CurrentColor = OMRRegionColorStates.PressedColor;
+                            IsMouseDownRegion = true;
+                            break;
+                        case MainConfigType.BARCODE:
+                            InterestedTemplateConfig.ColorStates.CurrentColor = OBRRegionColorStates.PressedColor;
+                            IsMouseDownRegion = true;
+                            break;
+                        case MainConfigType.ICR:
+                            InterestedTemplateConfig.ColorStates.CurrentColor = ICRRegionColorStates.PressedColor;
+                            IsMouseDownRegion = true;
+                            break;
+                    }
+
+                    templateImageBox.Invalidate();
+                }
+            }
+        }
+        private void TemplateImageBox_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (ConfigurationStatus == StatusState.Green && e.Button == MouseButtons.Left)
+            {
+                if (InterestedTemplateConfig != null)
+                {
+                    if (SelectedTemplateConfig != null)
+                    {
+                        switch (SelectedTemplateConfig.Configuration.GetMainConfigType)
+                        {
+                            case MainConfigType.OMR:
+                                SelectedTemplateConfig.ColorStates.CurrentColor = SelectedTemplateConfig == InterestedTemplateConfig? OMRRegionColorStates.HighlightedColor : OMRRegionColorStates.NormalColor;
+                                IsMouseUpRegion = false;
+                                break;
+                            case MainConfigType.BARCODE:
+                                SelectedTemplateConfig.ColorStates.CurrentColor = SelectedTemplateConfig == InterestedTemplateConfig ? OBRRegionColorStates.HighlightedColor : OBRRegionColorStates.NormalColor;
+                                IsMouseUpRegion = false;
+                                break;
+                            case MainConfigType.ICR:
+                                SelectedTemplateConfig.ColorStates.CurrentColor = SelectedTemplateConfig == InterestedTemplateConfig ? ICRRegionColorStates.HighlightedColor : ICRRegionColorStates.NormalColor;
+                                IsMouseUpRegion = false;
+                                break;
+                        }
+                    }
+
+                    if (SelectedTemplateConfig != InterestedTemplateConfig)
+                    {
+                        SelectedTemplateConfig = InterestedTemplateConfig;
+
+                        switch (SelectedTemplateConfig.Configuration.GetMainConfigType)
+                        {
+                            case MainConfigType.OMR:
+                                SelectedTemplateConfig.ColorStates.CurrentColor = OMRRegionColorStates.SelectedColor;
+                                IsMouseUpRegion = true;
+                                break;
+                            case MainConfigType.BARCODE:
+                                SelectedTemplateConfig.ColorStates.CurrentColor = OBRRegionColorStates.SelectedColor;
+                                IsMouseUpRegion = true;
+                                break;
+                            case MainConfigType.ICR:
+                                SelectedTemplateConfig.ColorStates.CurrentColor = ICRRegionColorStates.SelectedColor;
+                                IsMouseUpRegion = true;
+                                break;
+                        }
+                    }
+                    else
+                        SelectedTemplateConfig = null;
+
+                    templateImageBox.Invalidate();
+                }
+                else
+                {
+                    if (SelectedTemplateConfig != null)
+                    {
+                        switch (SelectedTemplateConfig.Configuration.GetMainConfigType)
+                        {
+                            case MainConfigType.OMR:
+                                SelectedTemplateConfig.ColorStates.CurrentColor = OMRRegionColorStates.NormalColor;
+                                IsMouseUpRegion = false;
+                                break;
+                            case MainConfigType.BARCODE:
+                                SelectedTemplateConfig.ColorStates.CurrentColor = OBRRegionColorStates.NormalColor;
+                                IsMouseUpRegion = false;
+                                break;
+                            case MainConfigType.ICR:
+                                SelectedTemplateConfig.ColorStates.CurrentColor = ICRRegionColorStates.NormalColor;
+                                IsMouseUpRegion = false;
+                                break;
+                        }
+                    }
+
+                    SelectedTemplateConfig = null;
+                }
+            }
+        }
         #endregion
 
         #endregion
+
+        
     }
 }

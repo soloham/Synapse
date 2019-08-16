@@ -1,5 +1,6 @@
 ﻿using Synapse.Core.Keys;
 using Synapse.Utilities.Attributes;
+using Synapse.Utilities.Memory;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -24,38 +25,40 @@ namespace Synapse.Core.Configurations
     internal enum ValueDataType
     {
         [EnumDescription("String")]
-        STRING,
+        String,
         [EnumDescription("Text")]
-        TEXT,
+        Text,
+        [EnumDescription("Alphabet")]
+        Alphabet,
         [EnumDescription("Whole Number")]
-        WHOLE_NUMBER,
+        WholeNumber,
         [EnumDescription("Natural Number")]
-        NATURAL_NUMBER,
+        NaturalNumber,
         [EnumDescription("Integer")]
-        INTEGER
+        Integer
     }
     internal enum Typography
     {
         [EnumDescription("Continious")]
-        CONTINIOUS,
+        Continious,
         [EnumDescription("Hyphenated")]
-        HYPHENATED,
+        Hyphenated,
     }
     internal enum ValueRepresentation
     {
         [EnumDescription("Collective")]
-        COLLECTIVE,
+        Collective,
         [EnumDescription("Indiviual")]
-        INDIVIUAL,
+        Indiviual,
         [EnumDescription("Combine Two")]
-        COM2,
+        CombineTwo,
     }
     internal enum ValueEditType
     {
         [EnumDescription("Editable")]
-        EDITABLE,
+        Editable,
         [EnumDescription("Read Only")]
-        READ_ONLY,
+        ReadOnly,
     }
     #endregion
 
@@ -138,14 +141,21 @@ namespace Synapse.Core.Configurations
 
         #region Properties
         #region Public
+        [Category("Appearance"), Description("Get or set the title for the OMR Region.")]
         public string Title { get; set; }
         [Browsable(false)]
         public ConfigArea GetConfigArea { get { return configArea; } set { } }
+        [Browsable(false)]
         public ConfigRange GetConfigRange { get { return configRange; } set { } }
+        [Browsable(false)]
         public MainConfigType GetMainConfigType { get { return mainConfigType; } }
+        [Category("Data"), Description("Get or set the type of data the OMR Region represents.")]
         public ValueDataType ValueDataType { get; set; }
+        [Category("Appearance"), Description("Get or set the appearance of the value for the OMR Region.")]
         public Typography Typography { get; set; }
+        [Category("Layout"), Description("Get or set the representaion strucure of data for the OMR Region.")]
         public ValueRepresentation ValueRepresentation { get; set; }
+        [Category("Data"), Description("Get or set the type of data editing to be used for the OMR Region.")]
         public ValueEditType ValueEditType { get; set; }
         #endregion
         #region Private
@@ -182,6 +192,25 @@ namespace Synapse.Core.Configurations
             this.configRange = initializationData.configRange;
         }
         #endregion
+        #region Static
+        public static bool Save(ConfigurationBase config, out Exception ex)
+        {
+            bool result = false;
+
+            result = LSTM.SaveConfigData(config, config.GetMainConfigType, out ex);
+
+            return result;
+        }
+        public static bool Delete(ConfigurationBase config, out Exception ex)
+        {
+            bool result = false;
+
+            result = LSTM.DeleteConfigData(config, config.GetMainConfigType, out ex);
+
+            return result;
+        }
         #endregion
+        #endregion
+
     }
 }

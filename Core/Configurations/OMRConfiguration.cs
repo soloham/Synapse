@@ -4,6 +4,7 @@ using Synapse.Utilities.Attributes;
 using Synapse.Utilities.Memory;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -17,16 +18,16 @@ namespace Synapse.Core.Configurations
     public enum OMRType
     {
         [EnumDescription("Gradable")]
-        GRADABLE,
+        Gradable,
         [EnumDescription("Non Gradable")]
-        NON_GRADABLE
+        NonGradable
     }
     public enum MultiMarkAction
     {
         [EnumDescription("Mark As Manual")]
-        MARK_AS_MANUAL,
+        MarkAsManual,
         [EnumDescription("Invalidate")]
-        INVALIDATE
+        Invalidate
     }
     #endregion
 
@@ -81,12 +82,19 @@ namespace Synapse.Core.Configurations
     internal class OMRConfiguration : ConfigurationBase
     {
         #region Public Properties
+        [Browsable(false)]
         public OMRRegionData RegionData { get { return regionData; } set { regionData = value; } }
+        [Browsable(false)]
         public int GetTotalFields { get { return RegionData.TotalFields; } set { } }
+        [Browsable(false)]
         public int GetTotalOptions { get { return RegionData.TotalOptions; } set { } }
+        [Category("Layout"), Description("Get or set the orientation of the OMR Region.")]
         public Orientation Orientation { get; set; }
+        [Category("Behaviour"), Description("Get or set the type of the OMR Region.")]
         public OMRType OMRType { get; set; }
+        [Category("Behaviour"), Description("Get or set the action upon multiple markings in the same row or column depending on the orientation for the OMR Region.")]
         public MultiMarkAction MultiMarkAction { get; set; }
+        [Category("Behaviour"), Description("Get or set the type of key to use for the OMR Region.")]
         public KeyType KeyType { get; set; }
         #endregion
 
@@ -248,19 +256,9 @@ namespace Synapse.Core.Configurations
 
         public static OMRConfiguration CreateDefault(string regionName, Orientation orientation, ConfigArea configArea, OMRRegionData regionData)
         {
-            ConfigurationBase configurationBase = new ConfigurationBase(regionName, MainConfigType.OMR, configArea, ValueDataType.INTEGER, Typography.CONTINIOUS, ValueRepresentation.COLLECTIVE, ValueEditType.READ_ONLY, new ConfigRange());
-            return new OMRConfiguration(configurationBase, regionData, orientation, OMRType.NON_GRADABLE, MultiMarkAction.MARK_AS_MANUAL, KeyType.GENERAL);
+            ConfigurationBase configurationBase = new ConfigurationBase(regionName, MainConfigType.OMR, configArea, ValueDataType.Integer, Typography.Continious, ValueRepresentation.Collective, ValueEditType.ReadOnly, new ConfigRange());
+            return new OMRConfiguration(configurationBase, regionData, orientation, OMRType.NonGradable, MultiMarkAction.MarkAsManual, KeyType.General);
         }
-
-        public static bool Save(OMRConfiguration omrConfig, out Exception ex)
-        {
-            bool result = false;
-
-            result = LSTM.SaveConfigData(omrConfig, MainConfigType.OMR, out ex);
-
-            return result;
-        }
-
         #endregion
     }
 }

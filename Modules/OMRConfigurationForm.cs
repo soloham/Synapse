@@ -120,13 +120,13 @@ namespace Synapse.Modules
 
             SetupForConfiguration(regionImage);
         }
-        public OMRConfigurationForm(OMRRegionData regionData, Bitmap regionImage)
+        internal OMRConfigurationForm(OMRConfiguration omrConfig, Bitmap regionImage)
         {
             InitializeComponent();
 
             Initialize();
 
-            SetupForConfigured(regionData, regionImage);
+            SetupForConfigured(omrConfig, regionImage);
 
             OnConfigurationFinishedEvent += OnConfigurationFinishedCallback;
         }
@@ -198,6 +198,49 @@ namespace Synapse.Modules
 
             StartWalkthrough();
         }
+        private void SetupForConfigured(OMRConfiguration omrConfig, Bitmap region = null)
+        {
+            //Size = new Size(450, 456);
+            MinimumSize = new Size(450, 456);
+
+            MainLayoutPanel.RowStyles[1].SizeType = SizeType.Absolute;
+            MainLayoutPanel.RowStyles[1].Height = 58;
+
+            for (int i = 0; i < configureStatesPanel.RowCount; i++)
+            {
+                configureStatesPanel.RowStyles[i].SizeType = SizeType.Percent;
+                configureStatesPanel.RowStyles[i].Height = i == 0 ? 100 : i == 1 ? 0 : i == 2 ? 0 : i == 3 ? 0 : 0;
+            }
+
+            selectStateComboBox.DataSource = EnumHelper.ToList(typeof(ConfigurationState));
+            selectStateComboBox.DisplayMember = "Value";
+            selectStateComboBox.ValueMember = "Key";
+
+            configureStatesPanel.Visible = true;
+            CurrentStatePanel = LabelStatePanel;
+
+            RegionName = omrConfig.Title;
+            RegionData = omrConfig.RegionData;
+            totalFields = RegionData.TotalFields;
+            totalOptions = RegionData.TotalOptions;
+            orientation = omrConfig.Orientation;
+            fieldsRegion = omrConfig.RegionData.FieldsRegion;
+            optionsRegion = omrConfig.RegionData.OptionsRegion;
+            interOptionsSpace = omrConfig.RegionData.InterOptionsSpace;
+            interOptionsSpaceType = omrConfig.RegionData.InterOptionsSpaceType;
+            interFieldsSpace = omrConfig.RegionData.InterFieldsSpace;
+            interFieldsSpaceType = omrConfig.RegionData.InterFieldsSpaceType;
+            interOptionsSpaces = omrConfig.RegionData.InterOptionsSpaces.ToList();
+            interFieldsSpaces = omrConfig.RegionData.InterFieldsSpaces.ToList();
+
+            RegionImage = region == null? RegionImage : region;
+            imageBox.Text = "";
+            imageBox.Image = region;
+
+            drawFields = true;
+            drawOptions = true;
+            CalculateRegion();
+        }
         private void SetupForConfigured(OMRRegionData regionData, Bitmap region = null)
         {
             //Size = new Size(450, 456);
@@ -220,12 +263,16 @@ namespace Synapse.Modules
             CurrentStatePanel = LabelStatePanel;
 
             RegionData = regionData;
-            RegionImage = region == null? RegionImage : region;
+
+            RegionImage = region == null ? RegionImage : region;
             imageBox.Text = "";
             imageBox.Image = region;
 
+            drawFields = true;
+            drawOptions = true;
             CalculateRegion();
         }
+
 
         private void CalculateFieldsRects()
         {

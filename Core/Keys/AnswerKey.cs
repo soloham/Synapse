@@ -11,9 +11,9 @@ namespace Synapse.Core.Keys
     public enum KeyType
     {
         [EnumDescription("General")]
-        GENERAL,
+        General,
         [EnumDescription("Parameter Based")]
-        PARAMETER_BASED
+        ParameterBased
     }
     #endregion
 

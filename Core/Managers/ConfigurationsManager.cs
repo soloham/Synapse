@@ -28,9 +28,9 @@ namespace Synapse.Core.Managers
 
             allConfigurations.AddRange(omrConfigurations);
         }
-        public static void AddConfiguration(MainConfigType mainConfigType, ConfigurationBase configuration)
+        public static void AddConfiguration(ConfigurationBase configuration)
         {
-            switch (mainConfigType)
+            switch (configuration.GetMainConfigType)
             {
                 case MainConfigType.OMR:
                     OMRConfiguration omrConfiguration = (OMRConfiguration)configuration;
@@ -46,14 +46,16 @@ namespace Synapse.Core.Managers
 
             SynapseMain.GetSynapseMain.StatusCheck();
         }
-        public static bool RemoveConfiguration(MainConfigType mainConfigType, ConfigurationBase configuration)
+        public static bool RemoveConfiguration(ConfigurationBase configuration)
         {
             bool isRemoved = false;
-            switch (mainConfigType)
+            switch (configuration.GetMainConfigType)
             {
                 case MainConfigType.OMR:
                     OMRConfiguration omrConfiguration = (OMRConfiguration)configuration;
-                    isRemoved = omrConfigurations.Remove(omrConfiguration);
+                    isRemoved = allConfigurations.Remove(omrConfiguration);
+
+
                     break;
                 case MainConfigType.BARCODE:
                     break;

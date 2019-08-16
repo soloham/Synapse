@@ -19,14 +19,16 @@ namespace Synapse.Utilities.Objects
         public Color NormalColor { get; set; }
         public Color HighlightedColor { get; set; }
         public Color PressedColor { get; set; }
+        public Color SelectedColor { get; set; }
         public Color CurrentColor { get; set; }
         #endregion
 
-        public ColorStates(Color normalColor, Color pressedColor, Color highlightedColor)
+        public ColorStates(Color normalColor, Color highlightedColor, Color pressedColor, Color selectedColor)
         {
             NormalColor = normalColor;
             HighlightedColor = highlightedColor;
             PressedColor = pressedColor;
+            SelectedColor = selectedColor;
 
             CurrentColor = NormalColor;
         }
