@@ -129,13 +129,14 @@ namespace Synapse.Core.Configurations
         [Serializable]
         internal class ConfigArea
         {
-            public ConfigArea(RectangleF configRect)
+            public ConfigArea(RectangleF configRect, Bitmap configBitmap)
             {
                 ConfigRect = configRect;
+                ConfigBitmap = configBitmap;
             }
 
             public RectangleF ConfigRect;
-            
+            public Bitmap ConfigBitmap;
         }
         #endregion
 

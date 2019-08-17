@@ -39,10 +39,10 @@
             this.containerFlowPanel.Controls.Add(this.emptyListLabel);
             this.containerFlowPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.containerFlowPanel.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.containerFlowPanel.Location = new System.Drawing.Point(2, 2);
-            this.containerFlowPanel.Margin = new System.Windows.Forms.Padding(1);
+            this.containerFlowPanel.Location = new System.Drawing.Point(8, 2);
+            this.containerFlowPanel.Margin = new System.Windows.Forms.Padding(1, 1, 3, 1);
             this.containerFlowPanel.Name = "containerFlowPanel";
-            this.containerFlowPanel.Size = new System.Drawing.Size(493, 286);
+            this.containerFlowPanel.Size = new System.Drawing.Size(487, 286);
             this.containerFlowPanel.TabIndex = 0;
             // 
             // emptyListLabel
@@ -74,7 +74,7 @@
             this.MaximumSize = new System.Drawing.Size(740, 412);
             this.MinimizeBox = false;
             this.Name = "DataConfigurationForm";
-            this.Padding = new System.Windows.Forms.Padding(2, 2, 2, 5);
+            this.Padding = new System.Windows.Forms.Padding(8, 2, 2, 5);
             this.ShowToolTip = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Style.InactiveShadowOpacity = ((byte)(50));

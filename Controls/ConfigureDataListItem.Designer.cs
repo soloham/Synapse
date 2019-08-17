@@ -32,15 +32,15 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConfigureDataListItem));
             this.containerTable = new System.Windows.Forms.TableLayoutPanel();
             this.configNameLabel = new Synapse.Controls.AutoLabelEx();
-            this.configTypeIcon = new System.Windows.Forms.PictureBox();
             this.configControlsPanel = new System.Windows.Forms.Panel();
             this.deleteConfigBtn = new Syncfusion.Windows.Forms.ButtonAdv();
             this.moveUpBtn = new Syncfusion.Windows.Forms.ButtonAdv();
             this.moveDownBtn = new Syncfusion.Windows.Forms.ButtonAdv();
             this.configureBtn = new Syncfusion.Windows.Forms.ButtonAdv();
+            this.configTypeIcon = new System.Windows.Forms.PictureBox();
             this.containerTable.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.configTypeIcon)).BeginInit();
             this.configControlsPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.configTypeIcon)).BeginInit();
             this.SuspendLayout();
             // 
             // containerTable
@@ -49,8 +49,8 @@
             this.containerTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 48F));
             this.containerTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40F));
             this.containerTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 60F));
-            this.containerTable.Controls.Add(this.configNameLabel, 1, 0);
             this.containerTable.Controls.Add(this.configTypeIcon, 0, 0);
+            this.containerTable.Controls.Add(this.configNameLabel, 1, 0);
             this.containerTable.Controls.Add(this.configControlsPanel, 2, 0);
             this.containerTable.Dock = System.Windows.Forms.DockStyle.Fill;
             this.containerTable.Location = new System.Drawing.Point(0, 0);
@@ -83,19 +83,6 @@
             this.configNameLabel.MouseEnter += new System.EventHandler(this.ConfigNameLabel_MouseEnter);
             this.configNameLabel.MouseLeave += new System.EventHandler(this.ConfigDataListItem_MouseLeave);
             this.configNameLabel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.ConfigNameLabel_MouseUp);
-            // 
-            // configTypeIcon
-            // 
-            this.configTypeIcon.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(22)))), ((int)(((byte)(165)))), ((int)(((byte)(225)))));
-            this.configTypeIcon.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.configTypeIcon.Image = global::Synapse.Properties.Resources.Text_Braille_WF;
-            this.configTypeIcon.Location = new System.Drawing.Point(0, 0);
-            this.configTypeIcon.Margin = new System.Windows.Forms.Padding(0);
-            this.configTypeIcon.Name = "configTypeIcon";
-            this.configTypeIcon.Size = new System.Drawing.Size(48, 48);
-            this.configTypeIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.configTypeIcon.TabIndex = 39;
-            this.configTypeIcon.TabStop = false;
             // 
             // configControlsPanel
             // 
@@ -195,6 +182,19 @@
             this.configureBtn.ThemeName = "Metro";
             this.configureBtn.Click += new System.EventHandler(this.ConfigureConfigBtn_Click);
             // 
+            // configTypeIcon
+            // 
+            this.configTypeIcon.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(22)))), ((int)(((byte)(165)))), ((int)(((byte)(225)))));
+            this.configTypeIcon.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.configTypeIcon.Image = global::Synapse.Properties.Resources.Text_Braille_WF;
+            this.configTypeIcon.Location = new System.Drawing.Point(0, 0);
+            this.configTypeIcon.Margin = new System.Windows.Forms.Padding(0);
+            this.configTypeIcon.Name = "configTypeIcon";
+            this.configTypeIcon.Size = new System.Drawing.Size(48, 48);
+            this.configTypeIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.configTypeIcon.TabIndex = 41;
+            this.configTypeIcon.TabStop = false;
+            // 
             // ConfigureDataListItem
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -205,8 +205,8 @@
             this.Size = new System.Drawing.Size(441, 48);
             this.MouseLeave += new System.EventHandler(this.ConfigDataListItem_MouseLeave);
             this.containerTable.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.configTypeIcon)).EndInit();
             this.configControlsPanel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.configTypeIcon)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -215,11 +215,11 @@
 
         private System.Windows.Forms.TableLayoutPanel containerTable;
         private AutoLabelEx configNameLabel;
-        private System.Windows.Forms.PictureBox configTypeIcon;
         private System.Windows.Forms.Panel configControlsPanel;
         private Syncfusion.Windows.Forms.ButtonAdv deleteConfigBtn;
         private Syncfusion.Windows.Forms.ButtonAdv moveUpBtn;
         private Syncfusion.Windows.Forms.ButtonAdv moveDownBtn;
         private Syncfusion.Windows.Forms.ButtonAdv configureBtn;
+        private System.Windows.Forms.PictureBox configTypeIcon;
     }
 }

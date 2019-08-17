@@ -13,6 +13,7 @@ using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Threading;
 using static Synapse.Core.Configurations.ConfigurationBase;
 
 namespace Synapse
@@ -62,6 +63,8 @@ namespace Synapse
         #endregion
 
         #region Variables
+        private Dispatcher dispatcher;
+
         private PointF curImageMouseLoc;
 
         private List<OnTemplateConfig> OnTemplateConfigs = new List<OnTemplateConfig>();
@@ -97,6 +100,7 @@ namespace Synapse
             synapseMain = this;
 
             SynapseMain.currentTemplate = currentTemplate;
+            dispatcher = Dispatcher.CurrentDispatcher;
 
             Awake();
         }
@@ -106,8 +110,8 @@ namespace Synapse
         public void AddRegionAsOMR(RectangleF region)
         {
             RectangleF configAreaRect = templateImageBox.SelectionRegion;
-            ConfigArea configArea = new ConfigArea(configAreaRect);
-            OMRConfigurationForm configurationForm = new OMRConfigurationForm((Bitmap)templateImageBox.GetSelectedImage());
+            ConfigArea configArea = new ConfigArea(configAreaRect, (Bitmap)templateImageBox.GetSelectedImage());
+            OMRConfigurationForm configurationForm = new OMRConfigurationForm(configArea.ConfigBitmap);
             configurationForm.OnConfigurationFinishedEvent += async (string name, Orientation orientation, OMRRegionData regionData) =>
             {
                 bool isSaved = false;
@@ -129,6 +133,10 @@ namespace Synapse
                 }
                 else
                     Messages.SaveFileException(ex);
+            };
+            configurationForm.OnFormInitializedEvent += (object sender, EventArgs args) =>
+            {
+                
             };
             configurationForm.ShowDialog();
         }
@@ -194,19 +202,29 @@ namespace Synapse
             ribbonControl.SelectedTab = configToolStripTabItem;
 
             mainDockingManager.SetEnableDocking(configPropertiesDockingPanel, true);
-            mainDockingManager.DockControlInAutoHideMode(configPropertiesDockingPanel, DockingStyle.Right, 300);
+            mainDockingManager.DockControlInAutoHideMode(configPropertiesDockingPanel, DockingStyle.Right, 400);
             mainDockingManager.SetMenuButtonVisibility(configPropertiesDockingPanel, false);
             mainDockingManager.SetDockLabel(configPropertiesDockingPanel, "Properties");
 
             OMRRegionColorStates = new ColorStates(Color.FromArgb(55, Color.Firebrick), Color.FromArgb(95, Color.Firebrick), Color.FromArgb(85, Color.Firebrick), Color.FromArgb(110, Color.Firebrick));
 
             await ConfigurationsManager.Initialize();
+            ConfigurationsManager.OnConfigurationDeletedEvent += ConfigurationsManager_OnConfigurationDeletedEvent;
             CalculateTemplateConfigs();
 
             StatusCheck();
         }
+
+        private void ConfigurationsManager_OnConfigurationDeletedEvent(object sender, ConfigurationBase e)
+        {
+            CalculateTemplateConfigs();
+            templateImageBox.Invalidate();
+        }
+
         private void CalculateTemplateConfigs()
         {
+            SelectedTemplateConfig = null;
+
             OnTemplateConfigs = new List<OnTemplateConfig>();
             var allConfigs = ConfigurationsManager.GetAllConfigurations;
             for (int i = 0; i < allConfigs.Count; i++)
@@ -233,9 +251,15 @@ namespace Synapse
         {
             configPropertyEditor.PropertyGrid.SelectedObject = selectedTemplate == null? null : selectedTemplate.Configuration?? null;
             if (configPropertyEditor.PropertyGrid.SelectedObject != null)
-                mainDockingManager.DockControl(configPropertiesDockingPanel, this, DockingStyle.Right, 300);
+            {
+                if (mainDockingManager.GetState(configPropertiesDockingPanel) == DockState.Hidden || mainDockingManager.GetState(configPropertiesDockingPanel) == DockState.AutoHidden)
+                {
+                    mainDockingManager.SetAutoHideMode(configPropertiesDockingPanel, false);
+                    mainDockingManager.DockControl(configPropertiesDockingPanel, this, DockingStyle.Right, 400);
+                }
+            }
             else
-                mainDockingManager.DockControlInAutoHideMode(configPropertiesDockingPanel, DockingStyle.Right, 300);
+                mainDockingManager.DockControlInAutoHideMode(configPropertiesDockingPanel, DockingStyle.Right, 400);
         }
         #endregion
         #region UI
@@ -284,33 +308,6 @@ namespace Synapse
         }
         private void AddAsOmrToolStripBtn_Click(object sender, EventArgs e)
         {
-            if(SelectedTemplateConfig != null)
-            {
-                OMRConfiguration omrConfiguration = (OMRConfiguration)SelectedTemplateConfig.Configuration;
-                templateImageBox.SelectionRegion = omrConfiguration.GetConfigArea.ConfigRect;
-                OMRConfigurationForm configurationForm = new OMRConfigurationForm(omrConfiguration, (Bitmap)templateImageBox.GetSelectedImage());
-                configurationForm.OnConfigurationFinishedEvent += async (string name, Orientation orientation, OMRRegionData regionData) =>
-                {
-                    bool isSaved = false;
-                    Exception ex = new Exception();
-
-                    await Task.Run(() =>
-                    {
-                        omrConfiguration.Title = name;
-                        omrConfiguration.Orientation = orientation;
-                        omrConfiguration.RegionData = regionData;
-
-                        isSaved = OMRConfiguration.Save(omrConfiguration, out ex);
-                    });
-
-                    if (!isSaved)
-                        Messages.SaveFileException(ex);
-                };
-                configurationForm.ShowDialog();
-
-                return;
-            }
-
             RectangleF selectedRegion = templateImageBox.SelectionRegion;
             if (selectedRegion.IsEmpty)
             {
@@ -526,10 +523,9 @@ namespace Synapse
                 }
             }
         }
-        #endregion
 
         #endregion
 
-        
+        #endregion
     }
 }

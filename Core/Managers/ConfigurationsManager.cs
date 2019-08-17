@@ -19,7 +19,15 @@ namespace Synapse.Core.Managers
         private static List<OMRConfiguration> omrConfigurations = new List<OMRConfiguration>();
         #endregion
 
+        #region Events
+
+        public static event EventHandler<ConfigurationBase> OnConfigurationDeletedEvent;
+
+        #endregion
+
         #region Static Methods
+
+
 
         public static async Task Initialize()
         {
@@ -46,7 +54,7 @@ namespace Synapse.Core.Managers
 
             SynapseMain.GetSynapseMain.StatusCheck();
         }
-        public static bool RemoveConfiguration(ConfigurationBase configuration)
+        public static bool RemoveConfiguration(object sender, ConfigurationBase configuration)
         {
             bool isRemoved = false;
             switch (configuration.GetMainConfigType)
@@ -55,7 +63,8 @@ namespace Synapse.Core.Managers
                     OMRConfiguration omrConfiguration = (OMRConfiguration)configuration;
                     isRemoved = allConfigurations.Remove(omrConfiguration);
 
-
+                    if (isRemoved)
+                        OnConfigurationDeletedEvent?.Invoke(sender, omrConfiguration);
                     break;
                 case MainConfigType.BARCODE:
                     break;

@@ -7,7 +7,9 @@ using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Threading;
 using Emgu.CV;
 using Emgu.CV.Structure;
 using Synapse.Core.Configurations;
@@ -55,6 +57,8 @@ namespace Synapse.Modules
         public delegate void OnConfigurationFinshed(string regionName, Orientation regionOrientaion, OMRRegionData regionData);
         public event OnConfigurationFinshed OnConfigurationFinishedEvent;
 
+        public event EventHandler OnFormInitializedEvent;
+
         #endregion
 
         #region Properties
@@ -79,6 +83,7 @@ namespace Synapse.Modules
         private Action SelectionRegionResizedAction;
 
         private SynchronizationContext synchronizationContext;
+        private Dispatcher dispatcher;
 
         private Orientation orientation;
 
@@ -114,28 +119,21 @@ namespace Synapse.Modules
         #region Public Methods
         public OMRConfigurationForm(Bitmap regionImage)
         {
-            InitializeComponent();
-
-            Initialize();
-
-            SetupForConfiguration(regionImage);
+            Initialize(regionImage);
         }
         internal OMRConfigurationForm(OMRConfiguration omrConfig, Bitmap regionImage)
         {
-            InitializeComponent();
-
-            Initialize();
-
-            SetupForConfigured(omrConfig, regionImage);
-
-            OnConfigurationFinishedEvent += OnConfigurationFinishedCallback;
+            Initialize(omrConfig, regionImage);
         }
         #endregion
 
         #region Private Methods
-        private void Initialize()
+        private void Initialize(OMRConfiguration omrConfig, Bitmap regionImage)
         {
+            dispatcher = Dispatcher.CurrentDispatcher;
             synchronizationContext = SynchronizationContext.Current;
+
+            InitializeComponent();
 
             statePanels.Add(LabelStatePanel);
             statePanels.Add(IntegerValueStatePanel);
@@ -143,6 +141,32 @@ namespace Synapse.Modules
             statePanels.Add(DoubleValueStatePanel);
 
             LastStateAction = SetInterOptionsSpace;
+
+            SetupForConfigured(omrConfig, regionImage);
+
+            OnConfigurationFinishedEvent += OnConfigurationFinishedCallback;
+
+            OnFormInitializedEvent?.Invoke(this, EventArgs.Empty);
+        }
+        private void Initialize(Bitmap regionImage)
+        {
+            dispatcher = Dispatcher.CurrentDispatcher;
+            synchronizationContext = SynchronizationContext.Current;
+
+            InitializeComponent();
+
+            statePanels.Add(LabelStatePanel);
+            statePanels.Add(IntegerValueStatePanel);
+            statePanels.Add(ComboBoxStatePanel);
+            statePanels.Add(DoubleValueStatePanel);
+
+            LastStateAction = SetInterOptionsSpace;
+
+            SetupForConfiguration(regionImage);
+
+            OnConfigurationFinishedEvent += OnConfigurationFinishedCallback;
+
+            OnFormInitializedEvent?.Invoke(this, EventArgs.Empty);
         }
 
         private void OnConfigurationFinishedCallback(string name, Orientation orientation, OMRRegionData _regionData)
