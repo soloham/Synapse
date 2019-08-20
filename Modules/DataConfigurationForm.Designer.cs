@@ -83,6 +83,7 @@
             this.Style.TitleBar.Font = new System.Drawing.Font("Dosis", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Style.TitleBar.TextHorizontalAlignment = System.Windows.Forms.HorizontalAlignment.Center;
             this.Text = "Configure Data";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.DataConfigurationForm_FormClosing);
             this.containerFlowPanel.ResumeLayout(false);
             this.ResumeLayout(false);
 

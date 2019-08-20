@@ -18,6 +18,7 @@ using Syncfusion.WinForms.Controls;
 using static Synapse.Controls.ConfigureDataListItem;
 using System.Threading;
 using System.Windows.Threading;
+using System.Linq;
 
 namespace Synapse.Modules
 {
@@ -64,9 +65,9 @@ namespace Synapse.Modules
                 return;
             }
 
-            foreach (var config in Configurations)
+            for (int i = 0; i < Configurations.Count; i++)
             {
-                ConfigureDataListItem configureDataListItem = ConfigureDataListItem.Create(config);
+                ConfigureDataListItem configureDataListItem = ConfigureDataListItem.Create(Configurations[i]);
                 configureDataListItem.OnControlButtonPressedEvent += OnConfigControlButtonPressed;
                 containerFlowPanel.Controls.Add(configureDataListItem);
                 configureDataListItem.Size = new Size(containerFlowPanel.Width, 48);
@@ -92,6 +93,18 @@ namespace Synapse.Modules
                     break;
             }
         }
+        private void DataConfigurationForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            var allConfigs = ConfigurationsManager.GetAllConfigurations;
+            for (int i = 0; i < allConfigs.Count; i++)
+            {
+                bool isSaved = ConfigurationBase.Save(allConfigs[i], out Exception ex);
+
+                if (!isSaved)
+                    Messages.SaveFileException(ex);
+            }
+        }
+
         #endregion
 
         #region Main Methods
@@ -138,6 +151,8 @@ namespace Synapse.Modules
             containerFlowPanel.Controls.SetChildIndex(configListItem, moveIndex);
             Configurations.RemoveAt(curIndex);
             Configurations.Insert(moveIndex, config);
+            config.ProcessingIndex = moveIndex;
+            Configurations[curIndex].ProcessingIndex = curIndex;
         }
         private void ConfigureConfiguration(ConfigurationBase configuration)
         {

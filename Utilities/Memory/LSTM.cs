@@ -1,6 +1,7 @@
 ﻿using Synapse.Controls;
 using Synapse.Core.Configurations;
 using Synapse.Core.Templates;
+using Synapse.Utilities.Enums;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -362,6 +363,18 @@ namespace Synapse.Utilities.Memory
             return result;
         }
 
+        public static async Task<List<ConfigurationBase>> LoadAllConfigurations()
+        {
+            List<ConfigurationBase> configurationBases = new List<ConfigurationBase>();
+
+            var mainConfigTypes = EnumHelper.ToList(typeof(MainConfigType));
+            for (int i = 0; i < mainConfigTypes.Count; i++)
+            {
+                configurationBases.AddRange(await LoadConfiguration((MainConfigType)i));
+            }
+
+            return configurationBases;
+        }
         public static async Task<List<ConfigurationBase>> LoadConfiguration(MainConfigType mainConfigType)
         {
             List<ConfigurationBase> configurationBases = new List<ConfigurationBase>();

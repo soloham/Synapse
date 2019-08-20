@@ -150,6 +150,8 @@ namespace Synapse.Core.Configurations
         public ConfigRange GetConfigRange { get { return configRange; } set { } }
         [Browsable(false)]
         public MainConfigType GetMainConfigType { get { return mainConfigType; } }
+        [Browsable(false)]
+        public int ProcessingIndex { get; internal set; }
         [Category("Data"), Description("Get or set the type of data the OMR Region represents.")]
         public ValueDataType ValueDataType { get; set; }
         [Category("Appearance"), Description("Get or set the appearance of the value for the OMR Region.")]
@@ -170,7 +172,7 @@ namespace Synapse.Core.Configurations
 
         #region Methods
         #region Public
-        public ConfigurationBase(string title, MainConfigType mainConfigType, ConfigArea configArea, ValueDataType valueDataType, Typography typography, ValueRepresentation valueRepresentation, ValueEditType valueEditType, ConfigRange configRange)
+        public ConfigurationBase(string title, MainConfigType mainConfigType, ConfigArea configArea, ValueDataType valueDataType, Typography typography, ValueRepresentation valueRepresentation, ValueEditType valueEditType, ConfigRange configRange, int processingIndex)
         {
             Title = title;
             this.mainConfigType = mainConfigType;
@@ -180,6 +182,7 @@ namespace Synapse.Core.Configurations
             ValueRepresentation = valueRepresentation;
             ValueEditType = valueEditType;
             this.configRange = configRange;
+            ProcessingIndex = processingIndex;
         }
         public ConfigurationBase(ConfigurationBase initializationData)
         {

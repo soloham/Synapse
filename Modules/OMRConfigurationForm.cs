@@ -262,7 +262,9 @@ namespace Synapse.Modules
             imageBox.Image = region;
 
             drawFields = true;
+            drawInterFieldsSpaces = true;
             drawOptions = true;
+            drawInterOptionsSpaces = true;
             CalculateRegion();
         }
         private void SetupForConfigured(OMRRegionData regionData, Bitmap region = null)

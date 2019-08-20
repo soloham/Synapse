@@ -1,38 +1,209 @@
-﻿using System;
+﻿using Emgu.CV;
+using Emgu.CV.Structure;
+using Synapse.Utilities.Attributes;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Synapse.Core.Templates.Template.Data;
 
 namespace Synapse.Core.Templates
 {
     internal class Template
     {
+        #region Enums
+        public enum AlignmentMethodType
+        {
+            [EnumDescription("Anchors")]
+            Anchors,
+            [EnumDescription("Registration")]
+            Registration
+        }
+        public enum RegistrationMethod
+        {
+            [EnumDescription("AKaze")]
+            AKaze,
+            [EnumDescription("Kaze")]
+            Kaze,
+            [EnumDescription("ORB + SIFT")]
+            ORB_SIFT
+        }
+        #endregion
+
         #region Objects
+        [Serializable]
+        internal class TemplateImage
+        {
+            public Bitmap GetBitmap { get => new Bitmap(ImageLocation); set { } }
+            public Size Size { get => templateSize; set => templateSize = value; }
+            private Size templateSize;
+            public double TemplateScale { get => templateScale; set => templateScale = value; }
+            private double templateScale;
+            public double DeskewPercent { get => deskewPercent; set => deskewPercent = value; }
+            private double deskewPercent;
+            public string ImageLocation { get => templateImageLocation; set => templateImageLocation = value; }
+            private string templateImageLocation;
+
+            public TemplateImage(Size templateSize, double templateScale, double deskewPercent)
+            {
+                this.templateSize = templateSize;
+                this.templateScale = templateScale;
+                this.deskewPercent = deskewPercent;
+            }
+
+            public static TemplateImage Empty()
+            {
+                return new TemplateImage(Size.Empty, 1, 0);
+            }
+        }
+
+        [Serializable]
+        internal abstract class AlignmentMethod
+        {
+            public AlignmentMethodType GetAlignmentMethodType { get => alignmentMethodType; set { } }
+            private AlignmentMethodType alignmentMethodType;
+
+            public int PipelineIndex = 0;
+
+            protected abstract bool ApplyMethod(IInputArray input, out IOutputArray output);
+        }
+        [Serializable]
+        internal class AnchorAlignmentMethod : AlignmentMethod
+        {
+            #region Objects
+            public class Anchor
+            {
+                public RectangleF GetAnchorRegion { get => anchorRegion; }
+                private RectangleF anchorRegion = new RectangleF();
+                public IInputArray GetAnchorImage { get => anchorImage; }
+                private IInputArray anchorImage;
+
+                public PointF anchorCoordinates;
+
+                public Anchor(RectangleF anchorRegion, IInputArray anchorImage)
+                {
+                    this.anchorRegion = anchorRegion;
+                    this.anchorImage = anchorImage;
+
+                    CalculateAnchorCoordinates();
+                }
+
+                private void CalculateAnchorCoordinates()
+                {
+                    anchorCoordinates = anchorRegion.Location;
+                }
+            }
+            #endregion
+
+            #region Properties
+            public List<Anchor> GetAnchors { get => anchors; }
+            private List<Anchor> anchors;
+            #endregion
+
+            #region Variables
+            private Size outputSize;
+            private PointF[] mainAnchorCoordinates;
+            #endregion
+
+            #region Methods
+            public AnchorAlignmentMethod(List<Anchor> anchors, Size outputSize)
+            {
+                this.anchors = anchors;
+                this.outputSize = outputSize;
+
+                ExtractCooridnates();
+            }
+
+            #region Public
+            public void AddAnchor(RectangleF region, IInputArray image)
+            {
+                anchors.Add(new Anchor(region, image));
+
+                ExtractCooridnates();
+            }
+            public void RemoveAnchor(int index)
+            {
+                anchors.RemoveAt(index);
+                ExtractCooridnates();
+            }
+            #endregion
+            #region Private
+            private void ExtractCooridnates()
+            {
+                mainAnchorCoordinates = new PointF[anchors.Count];
+
+                for (int i = 0; i < anchors.Count; i++)
+                {
+                    mainAnchorCoordinates[i] = anchors[i].anchorCoordinates;
+                }
+            }
+            #endregion
+
+            protected override bool ApplyMethod(IInputArray input, out IOutputArray output)
+            {
+                bool isSuccess = false;
+                Image<Gray, byte> _output = null;
+
+                PointF[] anchorCoordinates = new PointF[anchors.Count];
+                for (int i = 0; i < anchors.Count; i++)
+                {
+                    Anchor curAnchor = anchors[i];
+
+                    Mat result = null;
+                    CvInvoke.MatchTemplate(input, curAnchor.GetAnchorImage, result, Emgu.CV.CvEnum.TemplateMatchingType.CcoeffNormed);
+
+                    Point[] Max_Loc, Min_Loc;
+                    double[] min, max;
+
+                    result.MinMax(out min, out max, out Min_Loc, out Max_Loc);
+
+                    if(max[0] > 0.85)
+                        isSuccess = true;
+
+                    anchorCoordinates[i] = Max_Loc[0];
+                }
+
+                var homography = CvInvoke.FindHomography(anchorCoordinates, mainAnchorCoordinates, Emgu.CV.CvEnum.RobustEstimationAlgorithm.Ransac);
+                CvInvoke.WarpPerspective(input, _output, homography, outputSize);
+
+                output = _output;
+                return isSuccess;
+            }
+            #endregion
+        }
+
         [Serializable]
         internal class Data
         {
             internal string TemplateName;
             internal string TemplateLocation;
             internal string TemplateDataDirectory;
-            internal Size TemplateSize;
 
-            internal Data(string templateName, string templateLocation, Size templateSize)
+            internal TemplateImage GetTemplateImage { get => templateImage; }
+            private TemplateImage templateImage;
+
+            internal List<AlignmentMethod> GetAlignmentPipeline { get => alignmentPipeline; }
+            private List<AlignmentMethod> alignmentPipeline = new List<AlignmentMethod>();
+
+            internal Data(string templateName, string templateLocation, TemplateImage templateImage, List<AlignmentMethod> alignmentPipeline)
             {
                 TemplateName = templateName;
                 TemplateLocation = templateLocation;
                 TemplateDataDirectory = Utilities.Memory.LSTM.GetTemplateDataPath(TemplateLocation);
-                TemplateSize = templateSize;
+
+                this.templateImage = templateImage;
+                this.alignmentPipeline = alignmentPipeline;
             }
         }
         #endregion
 
         #region Properties
         public string GetTemplateName { get { return TemplateData.TemplateName; } set { } }
+        public TemplateImage GetTemplateImage { get { return TemplateData.GetTemplateImage; } set { } }
         public string GetTemplateLocation { get { return TemplateData.TemplateLocation; } set { } }
-        public Size GetTemplateSize { get { return TemplateData.TemplateSize; } set { } }
         #endregion
 
         #region Events
@@ -52,14 +223,13 @@ namespace Synapse.Core.Templates
         }
         public static Template CreateTemplate(string tmpName)
         {
-            Template newTemplate = new Template(new Data(tmpName, "", Size.Empty));
+            Template newTemplate = new Template(new Data(tmpName, "", TemplateImage.Empty(), new List<AlignmentMethod>()));
             SaveTemplate(newTemplate.TemplateData);
             return newTemplate;
         }
         internal static async Task<bool> ChangeTemplateName(string oldName, string newName)
         {
             bool result = false;
-
             Template template = await LoadTemplate(oldName);
             template.TemplateData.TemplateName = newName;
 

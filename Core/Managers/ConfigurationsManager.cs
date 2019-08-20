@@ -26,15 +26,17 @@ namespace Synapse.Core.Managers
         #endregion
 
         #region Static Methods
-
-
-
         public static async Task Initialize()
         {
-            List<ConfigurationBase> omrConfigurations = await LSTM.LoadConfiguration(MainConfigType.OMR);
-            ConfigurationsManager.omrConfigurations.AddRange(omrConfigurations.ConvertAll(x => (OMRConfiguration)x));
+            allConfigurations = await LSTM.LoadAllConfigurations();
 
-            allConfigurations.AddRange(omrConfigurations);
+            var clonedConfigs = new List<ConfigurationBase>(allConfigurations);
+            for (int i = 0; i < clonedConfigs.Count; i++)
+            {
+                ConfigurationBase configuration = clonedConfigs[i];
+                allConfigurations.Remove(configuration);
+                allConfigurations.Insert(configuration.ProcessingIndex, configuration);
+            }
         }
         public static void AddConfiguration(ConfigurationBase configuration)
         {

@@ -84,6 +84,10 @@ namespace Synapse
         private bool isMouseUpRegion;
         #endregion
 
+        #region Events 
+        public event EventHandler<Image> OnTemplateLoadedEvent;
+        #endregion
+
         #region Static Methods
         internal static void RunTemplate(Template template)
         {
@@ -120,7 +124,7 @@ namespace Synapse
                 OMRConfiguration omrConfig = null;
                 await Task.Run(() =>
                 {
-                    omrConfig = OMRConfiguration.CreateDefault(name, orientation, configArea, regionData);
+                    omrConfig = OMRConfiguration.CreateDefault(name, orientation, configArea, regionData, ConfigurationsManager.GetAllConfigurations.Count);
                     isSaved = OMRConfiguration.Save(omrConfig, out ex);
                 });
 
@@ -212,7 +216,14 @@ namespace Synapse
             ConfigurationsManager.OnConfigurationDeletedEvent += ConfigurationsManager_OnConfigurationDeletedEvent;
             CalculateTemplateConfigs();
 
+            OnTemplateLoadedEvent += SynapseMain_OnTemplateLoadedEvent;
+
             StatusCheck();
+        }
+
+        private void SynapseMain_OnTemplateLoadedEvent(object sender, Image e)
+        {
+            templateConfigureToolStripMenuItem.Enabled = true;
         }
 
         private void ConfigurationsManager_OnConfigurationDeletedEvent(object sender, ConfigurationBase e)
@@ -289,6 +300,8 @@ namespace Synapse
 
                     templateImageBox.TextDisplayMode = Cyotek.Windows.Forms.ImageBoxGridDisplayMode.None;
                     templateImageBox.ZoomToFit();
+
+                    OnTemplateLoadedEvent?.Invoke(this, tmpImage);
                 }
                 catch (Exception ex)
                 {
@@ -527,5 +540,18 @@ namespace Synapse
         #endregion
 
         #endregion
+
+        private void TemplateConfigureToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            TemplateConfigurationForm templateConfigurationForm = new TemplateConfigurationForm((Bitmap)templateImageBox.Image);
+            templateConfigurationForm.OnConfigurationFinishedEvent += TemplateConfigurationForm_OnConfigurationFinishedEvent;
+            templateConfigurationForm.WindowState = FormWindowState.Maximized;
+            templateConfigurationForm.ShowDialog();
+        }
+
+        private void TemplateConfigurationForm_OnConfigurationFinishedEvent(Bitmap templateImage)
+        {
+
+        }
     }
 }

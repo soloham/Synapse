@@ -102,6 +102,12 @@
     <Compile Include="Controls\ButtonAdvEx.Designer.cs">
       <DependentUpon>ButtonAdvEx.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\AlignmentMethodListItem.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\AlignmentMethodListItem.Designer.cs">
+      <DependentUpon>AlignmentMethodListItem.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\ConfigureDataListItem.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -120,6 +126,18 @@
     <Compile Include="Core\Keys\Parameter.cs" />
     <Compile Include="Core\Managers\ConfigurationsManager.cs" />
     <Compile Include="Core\Templates\Template.cs" />
+    <Compile Include="Modules\AlignmentPipelineConfigurationForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modules\AlignmentPipelineConfigurationForm.Designer.cs">
+      <DependentUpon>AlignmentPipelineConfigurationForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\TemplateConfigurationForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modules\TemplateConfigurationForm.Designer.cs">
+      <DependentUpon>TemplateConfigurationForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Modules\OMRConfigurationForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -157,9 +175,13 @@
     <Compile Include="Utilities\Functions.cs" />
     <Compile Include="Utilities\Memory\LSTM.cs" />
     <Compile Include="Utilities\Messages.cs" />
+    <Compile Include="Utilities\Objects\Deskew.cs" />
     <Compile Include="Utilities\Objects\ColorStates.cs" />
     <EmbeddedResource Include="Controls\AutoLabelEx.resx">
       <DependentUpon>AutoLabelEx.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\AlignmentMethodListItem.resx">
+      <DependentUpon>AlignmentMethodListItem.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\ConfigureDataListItem.resx">
       <DependentUpon>ConfigureDataListItem.cs</DependentUpon>
@@ -169,6 +191,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Main\Synapse.resx">
       <DependentUpon>Synapse.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modules\AlignmentPipelineConfigurationForm.resx">
+      <DependentUpon>AlignmentPipelineConfigurationForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modules\TemplateConfigurationForm.resx">
+      <DependentUpon>TemplateConfigurationForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Modules\OMRConfigurationForm.resx">
       <DependentUpon>OMRConfigurationForm.cs</DependentUpon>
