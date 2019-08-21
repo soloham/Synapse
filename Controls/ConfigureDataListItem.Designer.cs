@@ -29,18 +29,17 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConfigureDataListItem));
             this.containerTable = new System.Windows.Forms.TableLayoutPanel();
+            this.configTypeIcon = new System.Windows.Forms.PictureBox();
             this.configNameLabel = new Synapse.Controls.AutoLabelEx();
             this.configControlsPanel = new System.Windows.Forms.Panel();
             this.deleteConfigBtn = new Syncfusion.Windows.Forms.ButtonAdv();
             this.moveUpBtn = new Syncfusion.Windows.Forms.ButtonAdv();
             this.moveDownBtn = new Syncfusion.Windows.Forms.ButtonAdv();
             this.configureBtn = new Syncfusion.Windows.Forms.ButtonAdv();
-            this.configTypeIcon = new System.Windows.Forms.PictureBox();
             this.containerTable.SuspendLayout();
-            this.configControlsPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.configTypeIcon)).BeginInit();
+            this.configControlsPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // containerTable
@@ -60,6 +59,19 @@
             this.containerTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 48F));
             this.containerTable.Size = new System.Drawing.Size(441, 48);
             this.containerTable.TabIndex = 0;
+            // 
+            // configTypeIcon
+            // 
+            this.configTypeIcon.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(22)))), ((int)(((byte)(165)))), ((int)(((byte)(225)))));
+            this.configTypeIcon.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.configTypeIcon.Image = global::Synapse.Properties.Resources.Text_Braille_WF;
+            this.configTypeIcon.Location = new System.Drawing.Point(0, 0);
+            this.configTypeIcon.Margin = new System.Windows.Forms.Padding(0);
+            this.configTypeIcon.Name = "configTypeIcon";
+            this.configTypeIcon.Size = new System.Drawing.Size(48, 48);
+            this.configTypeIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.configTypeIcon.TabIndex = 41;
+            this.configTypeIcon.TabStop = false;
             // 
             // configNameLabel
             // 
@@ -109,7 +121,7 @@
             this.deleteConfigBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.deleteConfigBtn.Font = new System.Drawing.Font("Dosis", 18.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.deleteConfigBtn.ForeColor = System.Drawing.Color.White;
-            this.deleteConfigBtn.Image = ((System.Drawing.Image)(resources.GetObject("deleteConfigBtn.Image")));
+            this.deleteConfigBtn.Image = global::Synapse.Properties.Resources.Delete_WF;
             this.deleteConfigBtn.Location = new System.Drawing.Point(191, 0);
             this.deleteConfigBtn.Margin = new System.Windows.Forms.Padding(0);
             this.deleteConfigBtn.Name = "deleteConfigBtn";
@@ -182,19 +194,6 @@
             this.configureBtn.ThemeName = "Metro";
             this.configureBtn.Click += new System.EventHandler(this.ConfigureConfigBtn_Click);
             // 
-            // configTypeIcon
-            // 
-            this.configTypeIcon.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(22)))), ((int)(((byte)(165)))), ((int)(((byte)(225)))));
-            this.configTypeIcon.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.configTypeIcon.Image = global::Synapse.Properties.Resources.Text_Braille_WF;
-            this.configTypeIcon.Location = new System.Drawing.Point(0, 0);
-            this.configTypeIcon.Margin = new System.Windows.Forms.Padding(0);
-            this.configTypeIcon.Name = "configTypeIcon";
-            this.configTypeIcon.Size = new System.Drawing.Size(48, 48);
-            this.configTypeIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.configTypeIcon.TabIndex = 41;
-            this.configTypeIcon.TabStop = false;
-            // 
             // ConfigureDataListItem
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -205,8 +204,8 @@
             this.Size = new System.Drawing.Size(441, 48);
             this.MouseLeave += new System.EventHandler(this.ConfigDataListItem_MouseLeave);
             this.containerTable.ResumeLayout(false);
-            this.configControlsPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.configTypeIcon)).EndInit();
+            this.configControlsPanel.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

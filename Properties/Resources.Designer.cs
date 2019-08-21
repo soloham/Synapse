@@ -343,6 +343,16 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Delete_WF_Sm {
+            get {
+                object obj = ResourceManager.GetObject("Delete-WF-Sm", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap DeleteAllBtnIcon_DataTab {
             get {
                 object obj = ResourceManager.GetObject("DeleteAllBtnIcon_DataTab", resourceCulture);

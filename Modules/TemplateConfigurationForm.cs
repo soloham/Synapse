@@ -50,7 +50,6 @@ namespace Synapse.Modules
 
         #region Properties
         public Image<Gray, byte> TemplateImage { get; set; }
-
         public ConfigurationState ConfigWalkthroughState { get { return walkthroughState; } set { walkthroughState = value; SetupState(value); } }
         #endregion
 
@@ -81,6 +80,10 @@ namespace Synapse.Modules
         private Deskew.DeskewType deskewType;
         private double selectedDeskewAngle;
 
+        #endregion
+
+        #region Alignment Methods Configuration
+        private List<Template.AlignmentMethod> alignmentMethods = new List<Template.AlignmentMethod>();
         #endregion
 
         #endregion
@@ -266,40 +269,15 @@ namespace Synapse.Modules
         private void InitializeStatePanel(ConfigurationState state)
         {
             walkthroughIndexLabel.Dock = DockStyle.None;
-            new Animator2D(new Path2D(walkthroughIndexLabel.Location.ToFloat2D(), new Float2D(0, 50), 160)).Play(walkthroughIndexLabel, Animator2D.KnownProperties.Location, new SafeInvoker(() =>
-            {
-                synchronizationContext.Send(new SendOrPostCallback(
-                    delegate (object st)
-                    {
-                        walkthroughIndexLabel.Text = (int)(ConfigWalkthroughState + 1) + ".";
-                    }),
-                null);
-
-                new Animator2D(new Path2D(walkthroughIndexLabel.Location.ToFloat2D(), new Float2D(0, 0), 160)).Play(walkthroughIndexLabel, Animator2D.KnownProperties.Location, new SafeInvoker(() =>
-                {
-                    synchronizationContext.Send(new SendOrPostCallback(
-                    delegate (object st)
-                    {
-                        walkthroughIndexLabel.Dock = DockStyle.Fill;
-                    }),
-                    null);
-                }));
-            }));
+            walkthroughIndexLabel.Text = (int)(ConfigWalkthroughState + 1) + ".";
+            walkthroughIndexLabel.Dock = DockStyle.Fill;
 
             if (CurrentStatePanel != null)
             {
                 Panel curStatePanel = CurrentStatePanel;
                 curStatePanel.Dock = DockStyle.None;
                 curStatePanel.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right | AnchorStyles.Bottom;
-                new Animator2D(new Path2D(CurrentStatePanel.Location.ToFloat2D(), new Float2D(-400, 0), 250)).Play(CurrentStatePanel, Animator2D.KnownProperties.Location, new SafeInvoker(() =>
-                {
-                    synchronizationContext.Send(new SendOrPostCallback(
-                    delegate (object st)
-                    {
-                        curStatePanel.Visible = false;
-                    }),
-                    null);
-                }));
+                curStatePanel.Visible = false;
             }
 
             switch (state)
@@ -356,15 +334,7 @@ namespace Synapse.Modules
 
             CurrentStatePanel.Location = new Point(400, 0);
             CurrentStatePanel.Visible = true;
-            new Animator2D(new Path2D(CurrentStatePanel.Location.ToFloat2D(), new Float2D(0, 0), 250)).Play(CurrentStatePanel, Animator2D.KnownProperties.Location, new SafeInvoker(() =>
-            {
-                synchronizationContext.Send(new SendOrPostCallback(
-                    delegate (object st)
-                    {
-                        CurrentStatePanel.Dock = DockStyle.Fill;
-                    }),
-                null);
-            }));
+            CurrentStatePanel.Dock = DockStyle.Fill;
         }
         private void SetupState(ConfigurationState walkthroughState)
         {
@@ -552,9 +522,20 @@ namespace Synapse.Modules
         }
         private void ConfigureAlignmentPipeline()
         {
-            AlignmentPipelineConfigurationForm alignmentPipelineConfigurationForm = new AlignmentPipelineConfigurationForm(new List<Template.AlignmentMethod>());
+            AlignmentPipelineConfigurationForm alignmentPipelineConfigurationForm = new AlignmentPipelineConfigurationForm(alignmentMethods, TemplateImage);
+            alignmentPipelineConfigurationForm.OnConfigurationFinishedEvent += (List<Template.AlignmentMethod> alignmentMethods) => 
+            {
+                this.alignmentMethods = alignmentMethods;
+                alignmentPipelineConfigurationForm.Close();
+
+                if (this.alignmentMethods.Count == 0)
+                    InvalidateState();
+                else
+                    ValidateState();
+            };
             alignmentPipelineConfigurationForm.ShowDialog();
         }
+
         #endregion
 
         private void ReconfigureBtn_Click(object sender, EventArgs e)

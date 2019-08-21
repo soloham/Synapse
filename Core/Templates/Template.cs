@@ -64,9 +64,17 @@ namespace Synapse.Core.Templates
         internal abstract class AlignmentMethod
         {
             public AlignmentMethodType GetAlignmentMethodType { get => alignmentMethodType; set { } }
-            private AlignmentMethodType alignmentMethodType;
 
+            public string MethodName { get; internal set; }
+            private AlignmentMethodType alignmentMethodType;
             public int PipelineIndex = 0;
+
+            protected AlignmentMethod(string methodName, AlignmentMethodType alignmentMethodType, int pipelineIndex)
+            {
+                MethodName = methodName;
+                this.alignmentMethodType = alignmentMethodType;
+                PipelineIndex = pipelineIndex;
+            }
 
             protected abstract bool ApplyMethod(IInputArray input, out IOutputArray output);
         }
@@ -109,7 +117,7 @@ namespace Synapse.Core.Templates
             #endregion
 
             #region Methods
-            public AnchorAlignmentMethod(List<Anchor> anchors, Size outputSize)
+            public AnchorAlignmentMethod(List<Anchor> anchors, Size outputSize, int pipelineIndex, string methodName) : base(methodName, AlignmentMethodType.Anchors, pipelineIndex)
             {
                 this.anchors = anchors;
                 this.outputSize = outputSize;
@@ -173,6 +181,19 @@ namespace Synapse.Core.Templates
                 return isSuccess;
             }
             #endregion
+        }
+        [Serializable]
+        internal class RegistrationAlignmentMethod : AlignmentMethod
+        {
+            public RegistrationAlignmentMethod(int pipelineIndex, string methodName) : base(methodName, AlignmentMethodType.Registration, pipelineIndex)
+            {
+
+            }
+
+            protected override bool ApplyMethod(IInputArray input, out IOutputArray output)
+            {
+                throw new NotImplementedException();
+            }
         }
 
         [Serializable]

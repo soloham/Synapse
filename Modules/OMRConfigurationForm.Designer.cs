@@ -151,10 +151,10 @@
             this.statePanelsPanel.Controls.Add(this.DoubleValueStatePanel);
             this.statePanelsPanel.Controls.Add(this.ComboBoxStatePanel);
             this.statePanelsPanel.Controls.Add(this.LabelStatePanel);
-            this.statePanelsPanel.Location = new System.Drawing.Point(0, 36);
+            this.statePanelsPanel.Location = new System.Drawing.Point(0, 70);
             this.statePanelsPanel.Margin = new System.Windows.Forms.Padding(0);
             this.statePanelsPanel.Name = "statePanelsPanel";
-            this.statePanelsPanel.Size = new System.Drawing.Size(411, 325);
+            this.statePanelsPanel.Size = new System.Drawing.Size(411, 291);
             this.statePanelsPanel.TabIndex = 8;
             this.statePanelsPanel.Visible = false;
             // 

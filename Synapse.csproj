@@ -90,6 +90,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\AnchorPlaceholderControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\AnchorPlaceholderControl.Designer.cs">
+      <DependentUpon>AnchorPlaceholderControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\AutoLabelEx.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -132,6 +138,12 @@
     <Compile Include="Modules\AlignmentPipelineConfigurationForm.Designer.cs">
       <DependentUpon>AlignmentPipelineConfigurationForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Modules\RegistrationAlignmentMethodForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modules\RegistrationAlignmentMethodForm.Designer.cs">
+      <DependentUpon>RegistrationAlignmentMethodForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Modules\TemplateConfigurationForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -149,6 +161,12 @@
     </Compile>
     <Compile Include="Modules\DataConfigurationForm.Designer.cs">
       <DependentUpon>DataConfigurationForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\AnchorAlignmentMethodForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modules\AnchorAlignmentMethodForm.Designer.cs">
+      <DependentUpon>AnchorAlignmentMethodForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Modules\TemplatesHub.cs">
       <SubType>Form</SubType>
@@ -177,6 +195,9 @@
     <Compile Include="Utilities\Messages.cs" />
     <Compile Include="Utilities\Objects\Deskew.cs" />
     <Compile Include="Utilities\Objects\ColorStates.cs" />
+    <EmbeddedResource Include="Controls\AnchorPlaceholderControl.resx">
+      <DependentUpon>AnchorPlaceholderControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\AutoLabelEx.resx">
       <DependentUpon>AutoLabelEx.cs</DependentUpon>
     </EmbeddedResource>
@@ -195,6 +216,9 @@
     <EmbeddedResource Include="Modules\AlignmentPipelineConfigurationForm.resx">
       <DependentUpon>AlignmentPipelineConfigurationForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Modules\RegistrationAlignmentMethodForm.resx">
+      <DependentUpon>RegistrationAlignmentMethodForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Modules\TemplateConfigurationForm.resx">
       <DependentUpon>TemplateConfigurationForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -203,6 +227,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Modules\DataConfigurationForm.resx">
       <DependentUpon>DataConfigurationForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modules\AnchorAlignmentMethodForm.resx">
+      <DependentUpon>AnchorAlignmentMethodForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Modules\TemplatesHub.resx">
       <DependentUpon>TemplatesHub.cs</DependentUpon>
@@ -312,6 +339,7 @@
     <None Include="Resources\General\QR-Code - 02.png" />
     <None Include="Resources\General\Quill-WF.png" />
     <None Include="Resources\General\Text Braille-WF.png" />
+    <None Include="Resources\General\Delete-WF-Sm.png" />
     <Content Include="Resources\Ribbon\AddAsBarcodeBtnIcon1_ConfigTab.png" />
     <Content Include="Resources\Ribbon\AddAsBarcodeBtnIcon2_ConfigTab.png" />
     <Content Include="Resources\Ribbon\AddAsBarcodeBtnIcon3_ConfigTab.png" />

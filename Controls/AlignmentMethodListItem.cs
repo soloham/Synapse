@@ -83,6 +83,9 @@ namespace Synapse.Controls
         public Color SelectedForeColor { get { return selectedForeColor; } set { selectedForeColor = value; } }
         private Color selectedForeColor = Color.White;
         #endregion
+        [Description("Gets the Method List Item Name."), Category("Options")]
+        public string AlignmentMethodName { get { return alignmentMethodName; } set { alignmentMethodName = value; methodNameLabel.Text = value; } }
+        private string alignmentMethodName = "Alignment Method";
         [Description("Gets the Registration Method Type Icon."), Category("Options")]
         public Bitmap RegistrationMethodIcon { get { return registrationMethodIcon; } set { registrationMethodIcon = value; } }
         private Bitmap registrationMethodIcon = Properties.Resources.Text_Braille_WF;
@@ -101,6 +104,10 @@ namespace Synapse.Controls
         public bool IsSelected { get { return isSelected; } set { ToggleSelect(value); OnSelectedChangedEvent?.Invoke(this, value); } }
         private bool isSelected = false;
         #endregion
+        #endregion
+
+        #region Variables
+        public int listIndex = 0;
         #endregion
 
         #region Events
@@ -259,8 +266,9 @@ namespace Synapse.Controls
         internal static AlignmentMethodListItem Create(AlignmentMethod method)
         {
             AlignmentMethodListItem alignmentMethodListItem = new AlignmentMethodListItem();
-            alignmentMethodListItem.MethodName = method.GetAlignmentMethodType.ToString();
+            alignmentMethodListItem.MethodName = method.MethodName;
             alignmentMethodListItem.AlignmentMethodType = method.GetAlignmentMethodType;
+            alignmentMethodListItem.listIndex = method.PipelineIndex;
 
             return alignmentMethodListItem;
         }

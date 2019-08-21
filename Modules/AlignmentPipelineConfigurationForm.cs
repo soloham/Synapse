@@ -21,6 +21,9 @@ using System.Linq;
 using static Synapse.Core.Templates.Template;
 using static Synapse.Controls.AlignmentMethodListItem;
 using Synapse.Utilities.Enums;
+using Emgu.CV;
+using Emgu.CV.Structure;
+using static Synapse.Core.Templates.Template.AnchorAlignmentMethod;
 
 namespace Synapse.Modules
 {
@@ -30,19 +33,28 @@ namespace Synapse.Modules
         internal List<AlignmentMethod> AlignmentMethods { get; set; }
         public bool NewMethodToggle { get { return newMethodToggle; } set { newMethodToggle = value; ToggleCreateMethod(value); } }
         private bool newMethodToggle;
+        public bool IsNewMethodNameValid { get { return isNewMethodNameValid; } set { isNewMethodNameValid = value; ToggleNewNameValid(value); } }
+        private bool isNewMethodNameValid;
         #endregion
 
         #region Variables
         private SynchronizationContext synchronizationContext;
+        private Image<Gray, byte> templateImage;
+        private string newMethodName;
         #endregion
 
         #region Events
+        internal delegate void OnConfigurationFinshed(List<AlignmentMethod> alignmentMethods);
+        internal event OnConfigurationFinshed OnConfigurationFinishedEvent;
+
+        public event EventHandler OnFormInitializedEvent;
         #endregion
 
         #region General Methods
-        internal AlignmentPipelineConfigurationForm(List<AlignmentMethod> alignmentMethods)
+        internal AlignmentPipelineConfigurationForm(List<AlignmentMethod> alignmentMethods, Image<Gray,byte> templateImage)
         {
             InitializeComponent();
+            this.templateImage = templateImage;
             AlignmentMethods = alignmentMethods;
 
             Awake();
@@ -78,7 +90,8 @@ namespace Synapse.Modules
                 AlignmentMethodListItem alignmentMethodListItem = AlignmentMethodListItem.Create(AlignmentMethods[i]);
                 alignmentMethodListItem.OnControlButtonPressedEvent += OnConfigControlButtonPressed;
                 containerFlowPanel.Controls.Add(alignmentMethodListItem);
-                alignmentMethodListItem.Size = new Size(containerFlowPanel.Width, 48);
+                alignmentMethodListItem.Size = new Size(containerFlowPanel.Size.Width, alignmentMethodListItem.Size.Height);
+                emptyListLabel.Visible = false;
             }
         }
         private void OnConfigControlButtonPressed(object sender, ControlButton controlButton)
@@ -96,7 +109,7 @@ namespace Synapse.Modules
                     MoveMethod(alignmentMethodListItem, false);
                     break;
                 case ControlButton.Configure:
-                    AlignmentMethod alignmentMethod = AlignmentMethods[containerFlowPanel.Controls.IndexOf(alignmentMethodListItem)];
+                    AlignmentMethod alignmentMethod = AlignmentMethods[alignmentMethodListItem.listIndex];
                     ConfigureMethod(alignmentMethod);
                     break;
             }
@@ -108,12 +121,34 @@ namespace Synapse.Modules
         }
         private void AddMethodBtn_Click(object sender, EventArgs e)
         {
+            newMethodName = createMethodNameTextBox.Text;
+            if (!ValidateNewMethodName(newMethodName))
+                return;
+
             AlignmentMethodType alignmentMethodType = (AlignmentMethodType)comboBoxStateComboBox.SelectedIndex;
             switch (alignmentMethodType)
             {
                 case AlignmentMethodType.Anchors:
+                    AnchorAlignmentMethodForm anchorAlignmentMethodTool = new AnchorAlignmentMethodForm(templateImage, AlignmentMethods.Count, newMethodName);
+                    anchorAlignmentMethodTool.OnConfigurationFinishedEvent += (AnchorAlignmentMethod anchorAlignmentMethod) =>
+                    {
+                        AddMethod(anchorAlignmentMethod);
+                        anchorAlignmentMethodTool.Close();
+
+                        NewMethodToggle = false;
+                    };
+                    anchorAlignmentMethodTool.ShowDialog();
                     break;
                 case AlignmentMethodType.Registration:
+                    RegistrationAlignmentMethodForm registrationAlignmentMethodForm = new RegistrationAlignmentMethodForm(templateImage, AlignmentMethods.Count, newMethodName);
+                    registrationAlignmentMethodForm.OnConfigurationFinishedEvent += (RegistrationAlignmentMethod registrationAlignmentMethod) =>
+                    {
+                        AddMethod(registrationAlignmentMethod);
+                        registrationAlignmentMethodForm.Close();
+
+                        NewMethodToggle = false;
+                    };
+                    registrationAlignmentMethodForm.ShowDialog();
                     break;
                 default:
                     break;
@@ -127,7 +162,7 @@ namespace Synapse.Modules
             if (Messages.ShowQuestion("Are you sure you want to delete this method?", "Hold On", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.No)
                 return;
 
-            AlignmentMethod method = AlignmentMethods[containerFlowPanel.Controls.IndexOf(methodListItem)];
+            AlignmentMethod method = AlignmentMethods[methodListItem.listIndex];
 
             bool isDeleted = AlignmentMethods.Remove(method);
 
@@ -146,7 +181,7 @@ namespace Synapse.Modules
         }
         private void MoveMethod(AlignmentMethodListItem methodListItem, bool isUp)
         {
-            int curIndex = containerFlowPanel.Controls.IndexOf(methodListItem);
+            int curIndex = methodListItem.listIndex;
             AlignmentMethod method = AlignmentMethods[curIndex];
             int moveIndex = 0;
             if(isUp)
@@ -163,16 +198,34 @@ namespace Synapse.Modules
             method.PipelineIndex = moveIndex;
             AlignmentMethods[curIndex].PipelineIndex = curIndex;
         }
-        private void ConfigureMethod(AlignmentMethod configuration)
+        private void ConfigureMethod(AlignmentMethod alignmentMethod)
         {
-            switch (configuration.GetAlignmentMethodType)
+            switch (alignmentMethod.GetAlignmentMethodType)
             {
                 case AlignmentMethodType.Anchors:
+                    AnchorAlignmentMethodForm anchorAlignmentMethodTool = new AnchorAlignmentMethodForm((AnchorAlignmentMethod)alignmentMethod, templateImage);
+                    anchorAlignmentMethodTool.OnConfigurationFinishedEvent += (AnchorAlignmentMethod anchorAlignmentMethod) =>
+                    {
+                        AlignmentMethods[alignmentMethod.PipelineIndex] = anchorAlignmentMethod;
+                        anchorAlignmentMethodTool.Close();
+                    };
+                    anchorAlignmentMethodTool.ShowDialog();
                     break;
                 case AlignmentMethodType.Registration:
                     break;
             }
             
+        }
+
+        private void AddMethod(AlignmentMethod alignmentMethod)
+        {
+            AlignmentMethodListItem alignmentMethodListItem = AlignmentMethodListItem.Create(alignmentMethod);
+            alignmentMethodListItem.OnControlButtonPressedEvent += OnConfigControlButtonPressed;
+            containerFlowPanel.Controls.Add(alignmentMethodListItem);
+            alignmentMethodListItem.Size = new Size(containerFlowPanel.Size.Width, alignmentMethodListItem.Size.Height);
+            emptyListLabel.Visible = false;
+
+            AlignmentMethods.Add(alignmentMethod);
         }
 
         private void ToggleCreateMethod(bool state)
@@ -195,6 +248,27 @@ namespace Synapse.Modules
             }
 
             ComboBoxStatePanel.Visible = state;
+        }
+        private void ToggleNewNameValid(bool isValid)
+        {
+            if (!isValid)
+                createMethodNameTextBox.ForeColor = Color.Crimson;
+            else
+                createMethodNameTextBox.ForeColor = Color.FromArgb(128, 68, 68, 68);
+        }
+        private bool ValidateNewMethodName(string name)
+        {
+            if (string.IsNullOrEmpty(name) || name[0] == ' ' || name[name.Length - 1] == ' ' || AlignmentMethods.Exists(x => x.MethodName == name))
+                IsNewMethodNameValid = false;
+            else
+                IsNewMethodNameValid = true;
+
+            return IsNewMethodNameValid;
+        }
+
+        private void FinishBtn_Click(object sender, EventArgs e)
+        {
+            OnConfigurationFinishedEvent?.Invoke(AlignmentMethods);
         }
         #endregion
     }
