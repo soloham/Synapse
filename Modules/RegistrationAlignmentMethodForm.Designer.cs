@@ -29,12 +29,12 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            Syncfusion.Windows.Forms.Tools.ActiveStateCollection activeStateCollection3 = new Syncfusion.Windows.Forms.Tools.ActiveStateCollection();
-            Syncfusion.Windows.Forms.Tools.InactiveStateCollection inactiveStateCollection3 = new Syncfusion.Windows.Forms.Tools.InactiveStateCollection();
-            Syncfusion.Windows.Forms.Tools.SliderCollection sliderCollection3 = new Syncfusion.Windows.Forms.Tools.SliderCollection();
-            Syncfusion.Windows.Forms.Tools.ActiveStateCollection activeStateCollection4 = new Syncfusion.Windows.Forms.Tools.ActiveStateCollection();
-            Syncfusion.Windows.Forms.Tools.InactiveStateCollection inactiveStateCollection4 = new Syncfusion.Windows.Forms.Tools.InactiveStateCollection();
-            Syncfusion.Windows.Forms.Tools.SliderCollection sliderCollection4 = new Syncfusion.Windows.Forms.Tools.SliderCollection();
+            Syncfusion.Windows.Forms.Tools.ActiveStateCollection activeStateCollection1 = new Syncfusion.Windows.Forms.Tools.ActiveStateCollection();
+            Syncfusion.Windows.Forms.Tools.InactiveStateCollection inactiveStateCollection1 = new Syncfusion.Windows.Forms.Tools.InactiveStateCollection();
+            Syncfusion.Windows.Forms.Tools.SliderCollection sliderCollection1 = new Syncfusion.Windows.Forms.Tools.SliderCollection();
+            Syncfusion.Windows.Forms.Tools.ActiveStateCollection activeStateCollection2 = new Syncfusion.Windows.Forms.Tools.ActiveStateCollection();
+            Syncfusion.Windows.Forms.Tools.InactiveStateCollection inactiveStateCollection2 = new Syncfusion.Windows.Forms.Tools.InactiveStateCollection();
+            Syncfusion.Windows.Forms.Tools.SliderCollection sliderCollection2 = new Syncfusion.Windows.Forms.Tools.SliderCollection();
             this.MainLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.configureAnchorsPanel = new System.Windows.Forms.TableLayoutPanel();
             this.initializationButtonsPanel = new System.Windows.Forms.TableLayoutPanel();
@@ -297,31 +297,31 @@
             // 
             // kazeExtendedToggle
             // 
-            activeStateCollection3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(1)))), ((int)(((byte)(115)))), ((int)(((byte)(199)))));
-            activeStateCollection3.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(1)))), ((int)(((byte)(115)))), ((int)(((byte)(199)))));
-            activeStateCollection3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            activeStateCollection3.HoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(103)))), ((int)(((byte)(176)))));
-            this.kazeExtendedToggle.ActiveState = activeStateCollection3;
+            activeStateCollection1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(1)))), ((int)(((byte)(115)))), ((int)(((byte)(199)))));
+            activeStateCollection1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(1)))), ((int)(((byte)(115)))), ((int)(((byte)(199)))));
+            activeStateCollection1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            activeStateCollection1.HoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(103)))), ((int)(((byte)(176)))));
+            this.kazeExtendedToggle.ActiveState = activeStateCollection1;
             this.kazeExtendedToggle.DisplayMode = Syncfusion.Windows.Forms.Tools.DisplayType.Image;
             this.kazeExtendedToggle.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kazeExtendedToggle.Font = new System.Drawing.Font("Dosis", 12F);
             this.kazeExtendedToggle.ForeColor = System.Drawing.Color.Black;
-            inactiveStateCollection3.BackColor = System.Drawing.Color.White;
-            inactiveStateCollection3.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(150)))), ((int)(((byte)(150)))), ((int)(((byte)(150)))));
-            inactiveStateCollection3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
-            inactiveStateCollection3.HoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.kazeExtendedToggle.InactiveState = inactiveStateCollection3;
+            inactiveStateCollection1.BackColor = System.Drawing.Color.White;
+            inactiveStateCollection1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(150)))), ((int)(((byte)(150)))), ((int)(((byte)(150)))));
+            inactiveStateCollection1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
+            inactiveStateCollection1.HoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.kazeExtendedToggle.InactiveState = inactiveStateCollection1;
             this.kazeExtendedToggle.Location = new System.Drawing.Point(224, 10);
             this.kazeExtendedToggle.Margin = new System.Windows.Forms.Padding(50, 10, 50, 10);
             this.kazeExtendedToggle.MinimumSize = new System.Drawing.Size(52, 20);
             this.kazeExtendedToggle.Name = "kazeExtendedToggle";
             this.kazeExtendedToggle.Size = new System.Drawing.Size(75, 30);
-            sliderCollection3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            sliderCollection3.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(171)))), ((int)(((byte)(171)))));
-            sliderCollection3.HoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            sliderCollection3.InactiveBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(150)))), ((int)(((byte)(150)))), ((int)(((byte)(150)))));
-            sliderCollection3.InactiveHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(94)))), ((int)(((byte)(94)))));
-            this.kazeExtendedToggle.Slider = sliderCollection3;
+            sliderCollection1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            sliderCollection1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(171)))), ((int)(((byte)(171)))));
+            sliderCollection1.HoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            sliderCollection1.InactiveBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(150)))), ((int)(((byte)(150)))), ((int)(((byte)(150)))));
+            sliderCollection1.InactiveHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(94)))), ((int)(((byte)(94)))));
+            this.kazeExtendedToggle.Slider = sliderCollection1;
             this.kazeExtendedToggle.TabIndex = 1;
             this.kazeExtendedToggle.ThemeName = "Office2016White";
             this.kazeExtendedToggle.VisualStyle = Syncfusion.Windows.Forms.Tools.ToggleButtonStyle.Office2016White;
@@ -362,31 +362,31 @@
             // 
             // kazeUprightToggle
             // 
-            activeStateCollection4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(1)))), ((int)(((byte)(115)))), ((int)(((byte)(199)))));
-            activeStateCollection4.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(1)))), ((int)(((byte)(115)))), ((int)(((byte)(199)))));
-            activeStateCollection4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            activeStateCollection4.HoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(103)))), ((int)(((byte)(176)))));
-            this.kazeUprightToggle.ActiveState = activeStateCollection4;
+            activeStateCollection2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(1)))), ((int)(((byte)(115)))), ((int)(((byte)(199)))));
+            activeStateCollection2.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(1)))), ((int)(((byte)(115)))), ((int)(((byte)(199)))));
+            activeStateCollection2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            activeStateCollection2.HoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(103)))), ((int)(((byte)(176)))));
+            this.kazeUprightToggle.ActiveState = activeStateCollection2;
             this.kazeUprightToggle.DisplayMode = Syncfusion.Windows.Forms.Tools.DisplayType.Image;
             this.kazeUprightToggle.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kazeUprightToggle.Font = new System.Drawing.Font("Dosis", 12F);
             this.kazeUprightToggle.ForeColor = System.Drawing.Color.Black;
-            inactiveStateCollection4.BackColor = System.Drawing.Color.White;
-            inactiveStateCollection4.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(150)))), ((int)(((byte)(150)))), ((int)(((byte)(150)))));
-            inactiveStateCollection4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
-            inactiveStateCollection4.HoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.kazeUprightToggle.InactiveState = inactiveStateCollection4;
+            inactiveStateCollection2.BackColor = System.Drawing.Color.White;
+            inactiveStateCollection2.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(150)))), ((int)(((byte)(150)))), ((int)(((byte)(150)))));
+            inactiveStateCollection2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
+            inactiveStateCollection2.HoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.kazeUprightToggle.InactiveState = inactiveStateCollection2;
             this.kazeUprightToggle.Location = new System.Drawing.Point(224, 10);
             this.kazeUprightToggle.Margin = new System.Windows.Forms.Padding(50, 10, 50, 10);
             this.kazeUprightToggle.MinimumSize = new System.Drawing.Size(52, 20);
             this.kazeUprightToggle.Name = "kazeUprightToggle";
             this.kazeUprightToggle.Size = new System.Drawing.Size(75, 30);
-            sliderCollection4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            sliderCollection4.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(171)))), ((int)(((byte)(171)))));
-            sliderCollection4.HoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            sliderCollection4.InactiveBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(150)))), ((int)(((byte)(150)))), ((int)(((byte)(150)))));
-            sliderCollection4.InactiveHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(94)))), ((int)(((byte)(94)))));
-            this.kazeUprightToggle.Slider = sliderCollection4;
+            sliderCollection2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            sliderCollection2.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(171)))), ((int)(((byte)(171)))));
+            sliderCollection2.HoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            sliderCollection2.InactiveBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(150)))), ((int)(((byte)(150)))), ((int)(((byte)(150)))));
+            sliderCollection2.InactiveHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(94)))), ((int)(((byte)(94)))));
+            this.kazeUprightToggle.Slider = sliderCollection2;
             this.kazeUprightToggle.TabIndex = 1;
             this.kazeUprightToggle.ThemeName = "Office2016White";
             this.kazeUprightToggle.VisualStyle = Syncfusion.Windows.Forms.Tools.ToggleButtonStyle.Office2016White;
@@ -412,7 +412,7 @@
             // kazeThresholdValueBox
             // 
             this.kazeThresholdValueBox.BackGroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.kazeThresholdValueBox.BeforeTouchSize = new System.Drawing.Size(69, 42);
+            this.kazeThresholdValueBox.BeforeTouchSize = new System.Drawing.Size(169, 42);
             this.kazeThresholdValueBox.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(171)))), ((int)(((byte)(171)))));
             this.kazeThresholdValueBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.kazeThresholdValueBox.CornerRadius = 15;
@@ -472,7 +472,7 @@
             // kazeOctavesValueBox
             // 
             this.kazeOctavesValueBox.BackGroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.kazeOctavesValueBox.BeforeTouchSize = new System.Drawing.Size(69, 42);
+            this.kazeOctavesValueBox.BeforeTouchSize = new System.Drawing.Size(169, 42);
             this.kazeOctavesValueBox.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(171)))), ((int)(((byte)(171)))));
             this.kazeOctavesValueBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.kazeOctavesValueBox.CornerRadius = 15;
@@ -531,7 +531,7 @@
             // kazeSublvlsValueBox
             // 
             this.kazeSublvlsValueBox.BackGroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.kazeSublvlsValueBox.BeforeTouchSize = new System.Drawing.Size(69, 42);
+            this.kazeSublvlsValueBox.BeforeTouchSize = new System.Drawing.Size(169, 42);
             this.kazeSublvlsValueBox.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(171)))), ((int)(((byte)(171)))));
             this.kazeSublvlsValueBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.kazeSublvlsValueBox.CornerRadius = 15;
@@ -735,7 +735,7 @@
             // akazeDescSizeValueBox
             // 
             this.akazeDescSizeValueBox.BackGroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.akazeDescSizeValueBox.BeforeTouchSize = new System.Drawing.Size(69, 42);
+            this.akazeDescSizeValueBox.BeforeTouchSize = new System.Drawing.Size(169, 42);
             this.akazeDescSizeValueBox.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(171)))), ((int)(((byte)(171)))));
             this.akazeDescSizeValueBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.akazeDescSizeValueBox.CornerRadius = 15;
@@ -793,7 +793,7 @@
             // akazeDescChannelsValueBox
             // 
             this.akazeDescChannelsValueBox.BackGroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.akazeDescChannelsValueBox.BeforeTouchSize = new System.Drawing.Size(69, 42);
+            this.akazeDescChannelsValueBox.BeforeTouchSize = new System.Drawing.Size(169, 42);
             this.akazeDescChannelsValueBox.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(171)))), ((int)(((byte)(171)))));
             this.akazeDescChannelsValueBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.akazeDescChannelsValueBox.CornerRadius = 15;
@@ -852,7 +852,7 @@
             // akazeDescThresholdValueBox
             // 
             this.akazeDescThresholdValueBox.BackGroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.akazeDescThresholdValueBox.BeforeTouchSize = new System.Drawing.Size(69, 42);
+            this.akazeDescThresholdValueBox.BeforeTouchSize = new System.Drawing.Size(169, 42);
             this.akazeDescThresholdValueBox.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(171)))), ((int)(((byte)(171)))));
             this.akazeDescThresholdValueBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.akazeDescThresholdValueBox.CornerRadius = 15;
@@ -912,7 +912,7 @@
             // akazeOctavesValueBox
             // 
             this.akazeOctavesValueBox.BackGroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.akazeOctavesValueBox.BeforeTouchSize = new System.Drawing.Size(69, 42);
+            this.akazeOctavesValueBox.BeforeTouchSize = new System.Drawing.Size(169, 42);
             this.akazeOctavesValueBox.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(171)))), ((int)(((byte)(171)))));
             this.akazeOctavesValueBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.akazeOctavesValueBox.CornerRadius = 15;
@@ -971,7 +971,7 @@
             // akazeLayersOptionValueBox
             // 
             this.akazeLayersOptionValueBox.BackGroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.akazeLayersOptionValueBox.BeforeTouchSize = new System.Drawing.Size(69, 42);
+            this.akazeLayersOptionValueBox.BeforeTouchSize = new System.Drawing.Size(169, 42);
             this.akazeLayersOptionValueBox.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(171)))), ((int)(((byte)(171)))));
             this.akazeLayersOptionValueBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.akazeLayersOptionValueBox.CornerRadius = 15;
