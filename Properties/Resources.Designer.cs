@@ -513,6 +513,16 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Import_02_WF_Big {
+            get {
+                object obj = ResourceManager.GetObject("Import-02-WF Big", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap InternalDataPointBtnIcon_DataTab {
             get {
                 object obj = ResourceManager.GetObject("InternalDataPointBtnIcon_DataTab", resourceCulture);

@@ -39,7 +39,7 @@ namespace Synapse.Modules
         private string methodName;
 
         private SynchronizationContext synchronizationContext;
-
+        private Template.RegistrationAlignmentMethod selectedRegistrationAlignmentMethod = null;
         #endregion
 
         #region Events
@@ -105,20 +105,37 @@ namespace Synapse.Modules
         {
             SetupForConfiguration();
         }
-        private void OnConfigurationFinishedCallback()
-        {
-        }
 
         private void SetupForConfigured(Template.RegistrationAlignmentMethod registrationAlignmentMethod)
         {
-            
+            selectedRegistrationAlignmentMethod = registrationAlignmentMethod;
+            var registrationMethodType = selectedRegistrationAlignmentMethod.GetRegistrationMethod.GetRegistrationMethodType;
+            registrationTypeTabControl.SelectedIndex = (int)registrationMethodType;
+
+            switch (registrationMethodType)
+            {
+                case Template.RegistrationAlignmentMethod.RegistrationMethodType.KAZE:
+                    Template.RegistrationAlignmentMethod.KazeRegistrationMethod kazeRegistrationMethod = (Template.RegistrationAlignmentMethod.KazeRegistrationMethod)registrationAlignmentMethod.GetRegistrationMethod;
+                    Template.RegistrationAlignmentMethod.KazeRegistrationMethod.KazeData kazeData = kazeRegistrationMethod.GetKazeData;
+                    SetKazeData(kazeData);
+                    break;
+                case Template.RegistrationAlignmentMethod.RegistrationMethodType.AKAZE:
+                    Template.RegistrationAlignmentMethod.AKazeRegistrationMethod aKazeRegistrationMethod = (Template.RegistrationAlignmentMethod.AKazeRegistrationMethod)registrationAlignmentMethod.GetRegistrationMethod;
+                    Template.RegistrationAlignmentMethod.AKazeRegistrationMethod.AKazeData aKazeData = aKazeRegistrationMethod.GetAKazeData;
+                    SetAKazeData(aKazeData);
+                    break;
+            }
+
+            genModelFeaturesBtn.Enabled = true;
+            useStoredModelFeaturesToggle.Enabled = true;
+            useStoredModelFeaturesToggle.ToggleState = selectedRegistrationAlignmentMethod.GetUseStoredModelFeatures? ToggleButtonState.Active : ToggleButtonState.Inactive;
         }
         private void SetupForConfiguration()
         {
 
         }
 
-        private KAZE GetKAZE()
+        private Template.RegistrationAlignmentMethod.KazeRegistrationMethod.KazeData GetKazeData()
         {
             bool extended = false;
             bool upright = false;
@@ -139,10 +156,24 @@ namespace Synapse.Modules
             }
             ), null);
 
-            KAZE kaze = new KAZE(extended, upright, descThresh, descOcts, descSbls, diffType);
-            return kaze;
+            Template.RegistrationAlignmentMethod.KazeRegistrationMethod.KazeData kazeData = new Template.RegistrationAlignmentMethod.KazeRegistrationMethod.KazeData(extended, upright, descThresh, descOcts, descSbls, diffType);
+            return kazeData;
         }
-        private AKAZE GetAKAZE()
+        private void SetKazeData(Template.RegistrationAlignmentMethod.KazeRegistrationMethod.KazeData kazeData)
+        {
+            synchronizationContext.Send(new SendOrPostCallback(
+            delegate (object state)
+            {
+                kazeExtendedToggle.ToggleState = kazeData.Extended? ToggleButtonState.Active : ToggleButtonState.Inactive;
+                kazeUprightToggle.ToggleState = kazeData.Upright? ToggleButtonState.Active : ToggleButtonState.Inactive;
+                kazeThresholdValueBox.DoubleValue = kazeData.Threshold;
+                kazeOctavesValueBox.IntegerValue = kazeData.Octaves;
+                kazeSublvlsValueBox.IntegerValue = kazeData.Sublevels;
+                kazeDiffTypeValueBox.SelectedValue = kazeData.Diffusivity;
+            }
+            ), null);
+        }
+        private Template.RegistrationAlignmentMethod.AKazeRegistrationMethod.AKazeData GetAKazeData()
         {
             var descType = AKAZE.DescriptorType.Kaze;
             var diffType = KAZE.Diffusivity.PmG2;
@@ -165,17 +196,80 @@ namespace Synapse.Modules
             }
             ), null);
 
-            AKAZE akaze = new AKAZE(descType, descSize, descChannels, descThresh, descOcts, descLayers, diffType);
-            return akaze;
+            Template.RegistrationAlignmentMethod.AKazeRegistrationMethod.AKazeData aKazeData = new Template.RegistrationAlignmentMethod.AKazeRegistrationMethod.AKazeData(descType, descSize, descChannels, descThresh, descOcts, descLayers, diffType);
+            return aKazeData;
+        }
+        private void SetAKazeData(Template.RegistrationAlignmentMethod.AKazeRegistrationMethod.AKazeData aKazeData)
+        {
+            synchronizationContext.Send(new SendOrPostCallback(
+            delegate (object state)
+            {
+                akazeDescTypeValueBox.SelectedIndex = (int)aKazeData.DescriptorType;
+                akazeDescSizeValueBox.IntegerValue = aKazeData.DescriptorSize;
+                akazeDescChannelsValueBox.IntegerValue = aKazeData.Channels;
+                akazeDescThresholdValueBox.DoubleValue = aKazeData.Threshold;
+                akazeOctavesValueBox.IntegerValue = aKazeData.Octaves;
+                akazeLayersOptionValueBox.IntegerValue = aKazeData.Layers;
+                akazeDiffTypeValueBox.SelectedValue = aKazeData.Diffusivity;
+            }
+            ), null);
         }
 
         #region Configuration Controls
+        private void RegistrationTypeTabControl_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            
+        }
+        private void GenModelFeaturesBtn_Click(object sender, EventArgs e)
+        {
+            if (selectedRegistrationAlignmentMethod == null)
+                return;
+
+            selectedRegistrationAlignmentMethod.StoreModelFeatures(templateImage.Mat, useStoredModelFeaturesToggle.ToggleState == ToggleButtonState.Active);
+        }
+        private void UseStoredModelFeaturesToggle_ToggleStateChanged(object sender, ToggleStateChangedEventArgs e)
+        {
+            if (selectedRegistrationAlignmentMethod == null)
+                return;
+
+            selectedRegistrationAlignmentMethod.StoreModelFeatures(templateImage.Mat, e.ToggleState == ToggleButtonState.Active);
+        }
+
         private void DoneBtn_Click(object sender, EventArgs e)
         {
+            OnConfigurationFinishedEvent?.Invoke(selectedRegistrationAlignmentMethod);
+        }
+        private void SetBtn_Click(object sender, EventArgs e)
+        {
+            Template.RegistrationAlignmentMethod.RegistrationMethodType registrationMethodType = (Template.RegistrationAlignmentMethod.RegistrationMethodType)registrationTypeTabControl.SelectedIndex;
+            switch (registrationMethodType)
+            {
+                case Template.RegistrationAlignmentMethod.RegistrationMethodType.KAZE:
+                    Template.RegistrationAlignmentMethod.KazeRegistrationMethod.KazeData kazeData = GetKazeData();
+                    Template.RegistrationAlignmentMethod.KazeRegistrationMethod kazeRegistrationMethod = new Template.RegistrationAlignmentMethod.KazeRegistrationMethod(kazeData);
+                    selectedRegistrationAlignmentMethod = new Template.RegistrationAlignmentMethod(pipelineIndex, methodName, kazeRegistrationMethod, templateImage.Mat, templateImage.Size);
+                    break;
+                case Template.RegistrationAlignmentMethod.RegistrationMethodType.AKAZE:
+                    Template.RegistrationAlignmentMethod.AKazeRegistrationMethod.AKazeData aKazeData = GetAKazeData();
+                    Template.RegistrationAlignmentMethod.AKazeRegistrationMethod aKazeRegistrationMethod = new Template.RegistrationAlignmentMethod.AKazeRegistrationMethod(aKazeData);
+                    selectedRegistrationAlignmentMethod = new Template.RegistrationAlignmentMethod(pipelineIndex, methodName, aKazeRegistrationMethod, templateImage.Mat, templateImage.Size);
+                    break;
+            }
 
+            if(useStoredModelFeaturesToggle.ToggleState == ToggleButtonState.Active)
+            {
+                selectedRegistrationAlignmentMethod.StoreModelFeatures(templateImage, true);
+            }
+
+            if (!genModelFeaturesBtn.Enabled)
+            {
+                genModelFeaturesBtn.Enabled = true;
+                useStoredModelFeaturesToggle.Enabled = true;
+            }
+
+            useStoredModelFeaturesToggle.ToggleState = selectedRegistrationAlignmentMethod.GetUseStoredModelFeatures? ToggleButtonState.Active : ToggleButtonState.Inactive;
         }
         #endregion
-
         #endregion
     }
 }

@@ -340,6 +340,7 @@
     <None Include="Resources\General\Quill-WF.png" />
     <None Include="Resources\General\Text Braille-WF.png" />
     <None Include="Resources\General\Delete-WF-Sm.png" />
+    <None Include="Resources\General\Import-02-WF Big.png" />
     <Content Include="Resources\Ribbon\AddAsBarcodeBtnIcon1_ConfigTab.png" />
     <Content Include="Resources\Ribbon\AddAsBarcodeBtnIcon2_ConfigTab.png" />
     <Content Include="Resources\Ribbon\AddAsBarcodeBtnIcon3_ConfigTab.png" />

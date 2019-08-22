@@ -212,6 +212,13 @@ namespace Synapse.Modules
                     anchorAlignmentMethodTool.ShowDialog();
                     break;
                 case AlignmentMethodType.Registration:
+                    RegistrationAlignmentMethodForm registrationAlignmentMethodForm = new RegistrationAlignmentMethodForm((RegistrationAlignmentMethod)alignmentMethod, templateImage);
+                    registrationAlignmentMethodForm.OnConfigurationFinishedEvent += (RegistrationAlignmentMethod registrationAlignmentMethod) =>
+                    {
+                        AlignmentMethods[alignmentMethod.PipelineIndex] = registrationAlignmentMethod;
+                        registrationAlignmentMethodForm.Close();
+                    };
+                    registrationAlignmentMethodForm.ShowDialog();
                     break;
             }
             

@@ -204,6 +204,10 @@ namespace Synapse.Core.Templates
             {
                 #region Properties
                 public RegistrationMethodType GetRegistrationMethodType { get; set; }
+                public VectorOfKeyPoint GetStoredModelKeyPoints { get => storedModelKeyPoints; }
+                private VectorOfKeyPoint storedModelKeyPoints;
+                public Mat GetStoredModelDescriptors { get => storedModelDescriptors; }
+                private Mat storedModelDescriptors;
                 #endregion
 
                 public RegistrationMethod(RegistrationMethodType getRegistrationMethodType)
@@ -212,42 +216,71 @@ namespace Synapse.Core.Templates
                 }
 
                 #region Methods
-                public abstract bool ApplyMethod(IInputArray source, IInputArray observed, out IOutputArray homography, out VectorOfVectorOfDMatch matches, out long matchTime, out long score); 
+                public abstract bool ApplyMethod(IInputArray source, IInputArray observed, bool useStoredModelFeatures, out IOutputArray homography, out VectorOfVectorOfDMatch matches, out long matchTime, out long score);
+                public abstract bool GenerateFeatures(IInputArray source, out VectorOfKeyPoint generatedKeyPoints, out Mat generatedDescriptors);
+
+                public void StoreModelFeatures(IInputArray modelImage)
+                {
+                    VectorOfKeyPoint _storedModelKeyPoints;
+                    Mat _storedModelDescriptors;
+
+                    GenerateFeatures(modelImage, out _storedModelKeyPoints, out _storedModelDescriptors);
+
+                    this.storedModelKeyPoints = _storedModelKeyPoints;
+                    this.storedModelDescriptors = _storedModelDescriptors;
+                }
                 #endregion
             }
             [Serializable]
             public class KazeRegistrationMethod : RegistrationMethod
             {
+                #region Objects
+                public class KazeData
+                {
+                    public KazeData(bool extended, bool upright, double threshold, int octaves, int sublevels, KAZE.Diffusivity diffusivity)
+                    {
+                        Extended = extended;
+                        Upright = upright;
+                        Threshold = threshold;
+                        Octaves = octaves;
+                        Sublevels = sublevels;
+                        Diffusivity = diffusivity;
+                    }
+
+                    public bool Extended { get; set; }
+                    public bool Upright { get; set; }
+                    public double Threshold { get; set; }
+                    public int Octaves { get; set; }
+                    public int Sublevels { get; set; }
+                    public KAZE.Diffusivity Diffusivity { get; set; }
+                }
+                #endregion
+
                 #region Properties
-                public bool Extended { get; set; }
-                public bool Upright { get; set; }
-                public double Threshold { get; set; }
-                public int Octaves { get; set; }
-                public int Sublevels { get; set; }
-                public KAZE.Diffusivity Diffusivity { get; set; }
+                public KazeData GetKazeData { get => kazeData; }
+                private KazeData kazeData;
 
                 public KAZE GetKAZE { get => kaze; }
                 private KAZE kaze;
                 #endregion
 
-
                 #region Methods
                 #region Public
                 public KazeRegistrationMethod(bool extended, bool upright, double threshold, int octaves, int sublevels, KAZE.Diffusivity diffusivity) : base(RegistrationMethodType.KAZE)
                 {
-                    Extended = extended;
-                    Upright = upright;
-                    Threshold = threshold;
-                    Octaves = octaves;
-                    Sublevels = sublevels;
-                    Diffusivity = diffusivity;
+                    kazeData = new KazeData(extended, upright, threshold, octaves, sublevels, diffusivity);
+                    kaze = new KAZE(kazeData.Extended, kazeData.Upright, (float)kazeData.Threshold, kazeData.Octaves, kazeData.Sublevels, kazeData.Diffusivity);
+                }
 
-                    kaze = new KAZE(Extended, Upright, (float)Threshold, Octaves, Sublevels, Diffusivity);
+                public KazeRegistrationMethod(KazeData kazeData) : base(RegistrationMethodType.KAZE)
+                {
+                    this.kazeData = kazeData;
+                    kaze = new KAZE(kazeData.Extended, kazeData.Upright, (float)kazeData.Threshold, kazeData.Octaves, kazeData.Sublevels, kazeData.Diffusivity);
                 }
                 #endregion
 
                 #region Private
-                private bool ExtractHomography (Mat modelImage, Mat observedImage, out long matchTime, out VectorOfKeyPoint modelKeyPoints, out VectorOfKeyPoint observedKeyPoints, out VectorOfVectorOfDMatch matches, out Mat mask, out Mat homography, out long score)
+                private bool ExtractHomography (Mat modelImage, Mat observedImage, bool useStoredModelFeatures, out long matchTime, out VectorOfKeyPoint modelKeyPoints, out VectorOfKeyPoint observedKeyPoints, out VectorOfVectorOfDMatch matches, out Mat mask, out Mat homography, out long score)
                 {
                     score = 0;
                     mask = new Mat();
@@ -263,76 +296,87 @@ namespace Synapse.Core.Templates
                     observedKeyPoints = new VectorOfKeyPoint();
                     matches = new VectorOfVectorOfDMatch();
 
-                    using (UMat uModelImage = modelImage.GetUMat(AccessType.Read))
-                    using (UMat uObservedImage = observedImage.GetUMat(AccessType.Read))
+                    bool result = false;
+                    try
                     {
-                        using (Mat observedDescriptors = new Mat())
-                        using (Mat modelDescriptors = new Mat())
+                        using (UMat uModelImage = modelImage.GetUMat(AccessType.Read))
+                        using (UMat uObservedImage = observedImage.GetUMat(AccessType.Read))
                         {
-                            watch.Start();
-                            kaze.DetectAndCompute(uModelImage, null, modelKeyPoints, modelDescriptors, false);
-                            kaze.DetectAndCompute(uObservedImage, null, observedKeyPoints, observedDescriptors, false);
-
-                            if (modelKeyPoints.Size > 0 && observedKeyPoints.Size > 0)
+                            using (Mat observedDescriptors = new Mat())
+                            using (Mat modelDescriptors = useStoredModelFeatures ? GetStoredModelDescriptors : new Mat())
                             {
-                                // KdTree for faster results / less accuracy
-                                using (var ip = new Emgu.CV.Flann.KdTreeIndexParams())
-                                using (var sp = new SearchParams())
-                                using (DescriptorMatcher matcher = new FlannBasedMatcher(ip, sp))
+                                watch.Start();
+
+                                if (!useStoredModelFeatures)
+                                    kaze.DetectAndCompute(uModelImage, null, modelKeyPoints, modelDescriptors, false);
+                                else
+                                    modelKeyPoints = GetStoredModelKeyPoints;
+
+                                kaze.DetectAndCompute(uObservedImage, null, observedKeyPoints, observedDescriptors, false);
+
+                                if (modelKeyPoints.Size > 0 && observedKeyPoints.Size > 0)
                                 {
-                                    matcher.Add(modelDescriptors);
-
-                                    matcher.KnnMatch(observedDescriptors, matches, k, null);
-                                    if (matches.Size <= 0)
+                                    // KdTree for faster results / less accuracy
+                                    using (var ip = new Emgu.CV.Flann.KdTreeIndexParams())
+                                    using (var sp = new SearchParams())
+                                    using (DescriptorMatcher matcher = new FlannBasedMatcher(ip, sp))
                                     {
-                                        score = 0;
-                                        mask = new Mat();
-                                        matchTime = 0;
-                                        return false;
-                                    }
-                                    mask = new Mat(matches.Size, 1, DepthType.Cv8U, 1);
-                                    mask.SetTo(new MCvScalar(255));
-                                    Features2DToolbox.VoteForUniqueness(matches, uniquenessThreshold, mask);
+                                        matcher.Add(modelDescriptors);
 
-                                    // Calculate score based on matches size
-                                    // ---------------------------------------------->
-                                    score = 0;
-                                    int total = 0;
-                                    for (int i = 0; i < matches.Size; i++)
-                                    {
-                                        foreach (var e in matches[i].ToArray())
-                                            ++total;
-                                        if ((int)mask.GetData().GetValue(i) == 0) continue;
-                                        foreach (var e in matches[i].ToArray())
-                                            ++score;
-                                    }
-                                    score = (long)((score / (float)total) * 100);
-                                    // <----------------------------------------------
+                                        matcher.KnnMatch(observedDescriptors, matches, k, null);
+                                        if (matches.Size <= 0)
+                                        {
+                                            result = false;
+                                        }
+                                        else
+                                        {
+                                            mask = new Mat(matches.Size, 1, DepthType.Cv8U, 1);
+                                            mask.SetTo(new MCvScalar(255));
+                                            Features2DToolbox.VoteForUniqueness(matches, uniquenessThreshold, mask);
 
-                                    int nonZeroCount = CvInvoke.CountNonZero(mask);
-                                    if (nonZeroCount >= 4)
-                                    {
-                                        nonZeroCount = Features2DToolbox.VoteForSizeAndOrientation(modelKeyPoints, observedKeyPoints, matches, mask, 1.6, 20);
-                                        if (nonZeroCount >= 4)
-                                            homography = Features2DToolbox.GetHomographyMatrixFromMatchedFeatures(modelKeyPoints, observedKeyPoints, matches, mask, 2);
+                                            // Calculate score based on matches size
+                                            // ---------------------------------------------->
+                                            score = 0;
+                                            int total = 0;
+                                            for (int i = 0; i < matches.Size; i++)
+                                            {
+                                                foreach (var e in matches[i].ToArray())
+                                                    ++total;
+                                                if ((int)mask.GetData().GetValue(i) == 0) continue;
+                                                foreach (var e in matches[i].ToArray())
+                                                    ++score;
+                                            }
+                                            score = (long)((score / (float)total) * 100);
+                                            // <----------------------------------------------
+
+                                            int nonZeroCount = CvInvoke.CountNonZero(mask);
+                                            if (nonZeroCount >= 4)
+                                            {
+                                                nonZeroCount = Features2DToolbox.VoteForSizeAndOrientation(modelKeyPoints, observedKeyPoints, matches, mask, 1.6, 20);
+                                                if (nonZeroCount >= 4)
+                                                    homography = Features2DToolbox.GetHomographyMatrixFromMatchedFeatures(modelKeyPoints, observedKeyPoints, matches, mask, 2);
+                                            }
+                                        }
                                     }
+                                    watch.Stop();
+
                                 }
-                                watch.Stop();
-
-                            }
-                            else
-                            {
-                                score = 0;
-                                mask = new Mat();
-                                matchTime = 0;
-                                return false;
+                                else
+                                {
+                                    result = false;
+                                }
                             }
                         }
                     }
+                    catch
+                    {
+                        result = false;
+                    }
+
                     matchTime = watch.ElapsedMilliseconds;
-                    return true;
+                    return result;
                 }
-                public override bool ApplyMethod(IInputArray source, IInputArray observed, out IOutputArray homography, out VectorOfVectorOfDMatch matches, out long matchTime, out long score)
+                public override bool ApplyMethod(IInputArray source, IInputArray observed, bool useStoredModelFeatures, out IOutputArray homography, out VectorOfVectorOfDMatch matches, out long matchTime, out long score)
                 {
                     bool isSuccess = false;
 
@@ -341,7 +385,7 @@ namespace Synapse.Core.Templates
                     VectorOfKeyPoint observedKeyPoints;
 
                     Mat mask;
-                    isSuccess = ExtractHomography((Mat)source, (Mat)observed, out matchTime, out modelKeyPoints, out observedKeyPoints, out matches,
+                    isSuccess = ExtractHomography((Mat)source, (Mat)observed, useStoredModelFeatures, out matchTime, out modelKeyPoints, out observedKeyPoints, out matches,
                         out mask, out _homography, out score);
 
                     homography = _homography;
@@ -355,6 +399,226 @@ namespace Synapse.Core.Templates
 
                     return isSuccess;
                 }
+                public override bool GenerateFeatures(IInputArray source, out VectorOfKeyPoint generatedKeyPoints, out Mat generatedDescriptors)
+                {
+                    bool result = false;
+
+                    generatedKeyPoints = new VectorOfKeyPoint();
+                    generatedDescriptors = new Mat();
+                    try
+                    { 
+                        Mat modelImage = (Mat)source;
+
+                        using (UMat uModelImage = modelImage.GetUMat(AccessType.Read))
+                        {
+                            kaze.DetectAndCompute(uModelImage, null, generatedKeyPoints, generatedDescriptors, false);
+                            result = true;
+                        }
+                    }
+                    catch
+                    {
+                        result = false;
+                    }
+
+                    return result;
+                }
+                #endregion
+                #endregion
+            }
+            [Serializable]
+            public class AKazeRegistrationMethod : RegistrationMethod
+            {
+                #region Objects
+                public class AKazeData
+                {
+                    public AKazeData(AKAZE.DescriptorType descriptorType, int descriptorSize, int channels, double threshold, int octaves, int layers, KAZE.Diffusivity diffusivity)
+                    {
+                        DescriptorType = descriptorType;
+                        DescriptorSize = descriptorSize;
+                        Channels = channels;
+                        Threshold = threshold;
+                        Octaves = octaves;
+                        Layers = layers;
+                        Diffusivity = diffusivity;
+                    }
+
+                    public AKAZE.DescriptorType DescriptorType { get; set; }
+                    public int DescriptorSize { get; set; }
+                    public int Channels { get; set; }
+                    public double Threshold { get; set; }
+                    public int Octaves { get; set; }
+                    public int Layers { get; set; }
+                    public KAZE.Diffusivity Diffusivity { get; set; }
+                }
+                #endregion
+
+                #region Properties
+                public AKazeData GetAKazeData { get => aKazeData; }
+                private AKazeData aKazeData;
+
+                public AKAZE GetAKAZE { get => akaze; }
+                private AKAZE akaze;
+                #endregion
+
+                #region Methods
+                #region Public
+                public AKazeRegistrationMethod(AKAZE.DescriptorType descriptorType, int desSize, int channels, double threshold, int octaves, int layers, KAZE.Diffusivity diffusivity) : base(RegistrationMethodType.KAZE)
+                {
+                    aKazeData = new AKazeData(descriptorType, desSize, channels, threshold, octaves, layers, diffusivity);
+                    akaze = new AKAZE(aKazeData.DescriptorType, aKazeData.DescriptorSize, aKazeData.Channels, (float)aKazeData.Threshold, aKazeData.Octaves, aKazeData.Layers, aKazeData.Diffusivity);
+                }
+
+                public AKazeRegistrationMethod(AKazeData aKazeData) : base(RegistrationMethodType.AKAZE)
+                {
+                    this.aKazeData = aKazeData;
+                    akaze = new AKAZE(aKazeData.DescriptorType, aKazeData.DescriptorSize, aKazeData.Channels, (float)aKazeData.Threshold, aKazeData.Octaves, aKazeData.Layers, aKazeData.Diffusivity);
+                }
+                #endregion
+
+                #region Private
+                private bool ExtractHomography(Mat modelImage, Mat observedImage, bool useStoredModelFeatures, out long matchTime, out VectorOfKeyPoint modelKeyPoints, out VectorOfKeyPoint observedKeyPoints, out VectorOfVectorOfDMatch matches, out Mat mask, out Mat homography, out long score)
+                {
+                    score = 0;
+                    mask = new Mat();
+                    matchTime = 0;
+
+                    int k = 2;
+                    double uniquenessThreshold = 0.75;
+
+                    Stopwatch watch = new Stopwatch();
+                    homography = null;
+
+                    modelKeyPoints = new VectorOfKeyPoint();
+                    observedKeyPoints = new VectorOfKeyPoint();
+                    matches = new VectorOfVectorOfDMatch();
+
+                    bool result = false;
+
+                    try
+                    {
+                        using (UMat uModelImage = modelImage.GetUMat(AccessType.Read))
+                        using (UMat uObservedImage = observedImage.GetUMat(AccessType.Read))
+                        {
+                            using (Mat observedDescriptors = new Mat())
+                            using (Mat modelDescriptors = useStoredModelFeatures ? GetStoredModelDescriptors : new Mat())
+                            {
+                                watch.Start();
+
+                                if (!useStoredModelFeatures)
+                                    akaze.DetectAndCompute(uModelImage, null, modelKeyPoints, modelDescriptors, false);
+                                else
+                                    modelKeyPoints = GetStoredModelKeyPoints;
+
+                                akaze.DetectAndCompute(uObservedImage, null, observedKeyPoints, observedDescriptors, false);
+
+                                if (modelKeyPoints.Size > 0 && observedKeyPoints.Size > 0)
+                                {
+                                    // KdTree for faster results / less accuracy
+                                    using (var ip = new Emgu.CV.Flann.KdTreeIndexParams())
+                                    using (var sp = new SearchParams())
+                                    using (DescriptorMatcher matcher = new FlannBasedMatcher(ip, sp))
+                                    {
+                                        matcher.Add(modelDescriptors);
+
+                                        matcher.KnnMatch(observedDescriptors, matches, k, null);
+                                        if (matches.Size <= 0)
+                                        {
+                                            result = false;
+                                        }
+                                        else
+                                        {
+                                            mask = new Mat(matches.Size, 1, DepthType.Cv8U, 1);
+                                            mask.SetTo(new MCvScalar(255));
+                                            Features2DToolbox.VoteForUniqueness(matches, uniquenessThreshold, mask);
+
+                                            // Calculate score based on matches size
+                                            // ---------------------------------------------->
+                                            score = 0;
+                                            int total = 0;
+                                            for (int i = 0; i < matches.Size; i++)
+                                            {
+                                                foreach (var e in matches[i].ToArray())
+                                                    ++total;
+                                                if ((int)mask.GetData().GetValue(i) == 0) continue;
+                                                foreach (var e in matches[i].ToArray())
+                                                    ++score;
+                                            }
+                                            score = (long)((score / (float)total) * 100);
+                                            // <----------------------------------------------
+
+                                            int nonZeroCount = CvInvoke.CountNonZero(mask);
+                                            if (nonZeroCount >= 4)
+                                            {
+                                                nonZeroCount = Features2DToolbox.VoteForSizeAndOrientation(modelKeyPoints, observedKeyPoints, matches, mask, 1.6, 20);
+                                                if (nonZeroCount >= 4)
+                                                    homography = Features2DToolbox.GetHomographyMatrixFromMatchedFeatures(modelKeyPoints, observedKeyPoints, matches, mask, 2);
+                                            }
+                                        }
+                                    }
+                                    watch.Stop();
+                                }
+                                else
+                                {
+                                    result = false;
+                                }
+                            }
+                        }
+
+                    }
+                    catch
+                    {
+                        result = false;
+                    }
+
+                    matchTime = watch.ElapsedMilliseconds;
+                    return result;
+                }
+                public override bool ApplyMethod(IInputArray source, IInputArray observed, bool useStoredModelFeatures, out IOutputArray homography, out VectorOfVectorOfDMatch matches, out long matchTime, out long score)
+                {
+                    bool isSuccess = false;
+
+                    Mat _homography;
+                    VectorOfKeyPoint modelKeyPoints;
+                    VectorOfKeyPoint observedKeyPoints;
+
+                    Mat mask;
+                    isSuccess = ExtractHomography((Mat)source, (Mat)observed, useStoredModelFeatures, out matchTime, out modelKeyPoints, out observedKeyPoints, out matches,
+                        out mask, out _homography, out score);
+
+                    homography = _homography;
+                    if (isSuccess)
+                    {
+                        if (score > 0 && _homography != null)
+                            isSuccess = true;
+                        else
+                            isSuccess = false;
+                    }
+
+                    return isSuccess;
+                }
+                public override bool GenerateFeatures(IInputArray source, out VectorOfKeyPoint generatedKeyPoints, out Mat generatedDescriptors)
+                {
+                    bool result = false;
+
+                    generatedKeyPoints = new VectorOfKeyPoint();
+                    generatedDescriptors = new Mat();
+                    try
+                    {
+                        Mat modelImage = (Mat)source;
+
+                        using (UMat uModelImage = modelImage.GetUMat(AccessType.Read))
+                        {
+                            akaze.DetectAndCompute(uModelImage, null, generatedKeyPoints, generatedDescriptors, false);
+                            result = true;
+                        }
+                    }
+                    catch
+                    {
+                        result = false;
+                    }
+
+                    return result;
+                }
                 #endregion
                 #endregion
             }
@@ -363,17 +627,50 @@ namespace Synapse.Core.Templates
             #region Properties
             public RegistrationMethod GetRegistrationMethod { get => registrationMethod; }
             RegistrationMethod registrationMethod;
+
+            public IInputArray GetSourceImage { get => sourceImage; }
+            IInputArray sourceImage;
+            public Size GetOutputWidth { get => outputWidth; }
+            private Size outputWidth;
+
+            public bool GetUseStoredModelFeatures { get => useStoredModelFeatures;  }
+            private bool useStoredModelFeatures;
             #endregion
 
-            public RegistrationAlignmentMethod(int pipelineIndex, string methodName, RegistrationMethod registrationMethod) : base(methodName, AlignmentMethodType.Registration, pipelineIndex)
+            public RegistrationAlignmentMethod(int pipelineIndex, string methodName, RegistrationMethod registrationMethod, IInputArray sourceImage, Size outputWidth) : base(methodName, AlignmentMethodType.Registration, pipelineIndex)
             {
+                this.sourceImage = sourceImage;
                 this.registrationMethod = registrationMethod;
+                this.outputWidth = outputWidth;
             }
 
             public override bool ApplyMethod(IInputArray input, out IOutputArray output)
             {
-                bool result = registrationMethod.ApplyMethod(input, out output);
+                bool result = false;
+                IOutputArray _homography;
+                registrationMethod.ApplyMethod(sourceImage, input, useStoredModelFeatures, out _homography, out VectorOfVectorOfDMatch matches, out long matchTime, out long score);
+                Mat homography = (Mat)_homography;
+
+                if (score > 0 && homography != null)
+                {
+                    Mat warped = new Mat();
+                    CvInvoke.WarpPerspective(input, warped, homography, outputWidth, Inter.Cubic, Warp.Default, BorderType.Replicate);
+
+                    output = warped;
+                    result = true;
+                }
+                else
+                {
+                    output = null;
+                    result = false;
+                }
+
                 return result;
+            }
+            public void StoreModelFeatures(IInputArray model, bool use)
+            {
+                registrationMethod.StoreModelFeatures(model);
+                if(use) useStoredModelFeatures = true;
             }
         }
 
