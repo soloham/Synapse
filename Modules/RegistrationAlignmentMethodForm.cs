@@ -8,6 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Emgu.CV;
+using Emgu.CV.Features2D;
 using Emgu.CV.Structure;
 using Synapse.Controls;
 using Synapse.Core.Templates;
@@ -15,6 +16,7 @@ using Synapse.Utilities;
 using Synapse.Utilities.Attributes;
 using Synapse.Utilities.Enums;
 using Synapse.Utilities.Memory;
+using Syncfusion.Windows.Forms.Tools;
 using Syncfusion.WinForms.Controls;
 
 namespace Synapse.Modules
@@ -77,6 +79,18 @@ namespace Synapse.Modules
         private void Awake()
         {
             synchronizationContext = SynchronizationContext.Current;
+
+            kazeDiffTypeValueBox.DataSource = EnumHelper.ToList(typeof(KAZE.Diffusivity));
+            kazeDiffTypeValueBox.DisplayMember = "Value";
+            kazeDiffTypeValueBox.ValueMember = "Key";
+
+            akazeDiffTypeValueBox.DataSource = EnumHelper.ToList(typeof(KAZE.Diffusivity));
+            akazeDiffTypeValueBox.DisplayMember = "Value";
+            akazeDiffTypeValueBox.ValueMember = "Key";
+
+            akazeDescTypeValueBox.DataSource = EnumHelper.ToList(typeof(AKAZE.DescriptorType));
+            akazeDescTypeValueBox.DisplayMember = "Value";
+            akazeDescTypeValueBox.ValueMember = "Key";
         }
 
         #endregion
@@ -104,15 +118,58 @@ namespace Synapse.Modules
 
         }
 
-        #region Configuration State
-        private void ReconfigureBtn_Click(object sender, EventArgs e)
+        private KAZE GetKAZE()
         {
-            SetupForConfiguration();
+            bool extended = false;
+            bool upright = false;
+            float descThresh = 0.001f;
+            int descOcts = 1;
+            int descSbls = 4;
+            var diffType = KAZE.Diffusivity.PmG2;
+
+            synchronizationContext.Send(new SendOrPostCallback(
+            delegate (object state)
+            {
+                extended = kazeExtendedToggle.ToggleState == ToggleButtonState.Active;
+                upright = kazeUprightToggle.ToggleState == ToggleButtonState.Active;
+                descThresh = (float)kazeThresholdValueBox.DoubleValue;
+                descOcts = (int)kazeOctavesValueBox.IntegerValue;
+                descSbls = (int)kazeSublvlsValueBox.IntegerValue;
+                diffType = (KAZE.Diffusivity)kazeDiffTypeValueBox.SelectedIndex;
+            }
+            ), null);
+
+            KAZE kaze = new KAZE(extended, upright, descThresh, descOcts, descSbls, diffType);
+            return kaze;
+        }
+        private AKAZE GetAKAZE()
+        {
+            var descType = AKAZE.DescriptorType.Kaze;
+            var diffType = KAZE.Diffusivity.PmG2;
+            int descSize = 0;
+            int descChannels = 3;
+            float descThresh = 0.001f;
+            int descOcts = 4;
+            int descLayers = 4;
+
+            synchronizationContext.Send(new SendOrPostCallback(
+            delegate (object state)
+            {
+                descType = (AKAZE.DescriptorType)akazeDescTypeValueBox.SelectedIndex;
+                descSize = (int)akazeDescSizeValueBox.IntegerValue;
+                descChannels = (int)akazeDescChannelsValueBox.IntegerValue;
+                descThresh = (float)akazeDescThresholdValueBox.DoubleValue;
+                descOcts = (int)akazeOctavesValueBox.IntegerValue;
+                descLayers = (int)akazeLayersOptionValueBox.IntegerValue;
+                diffType = (KAZE.Diffusivity)akazeDiffTypeValueBox.SelectedIndex;
+            }
+            ), null);
+
+            AKAZE akaze = new AKAZE(descType, descSize, descChannels, descThresh, descOcts, descLayers, diffType);
+            return akaze;
         }
 
-        private void SetBtn_Click(object sender, EventArgs e)
-        {
-        }
+        #region Configuration Controls
         private void DoneBtn_Click(object sender, EventArgs e)
         {
 
