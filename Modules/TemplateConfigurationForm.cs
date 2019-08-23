@@ -327,8 +327,9 @@ namespace Synapse.Modules
                     CurrentStatePanel = LabelStatePanel;
                     break;
                 case ConfigurationState.TEST_ALIGNMENT_PIPELINE:
-                    
-                    CurrentStatePanel = IntegerValueStatePanel;
+                    walkthroughDescriptionLabel.Text = "";
+
+                    CurrentStatePanel = LabelStatePanel;
                     break;
             }
 
@@ -387,8 +388,10 @@ namespace Synapse.Modules
                     CurrentNextAction = new Action(NextState);
                     break;
                 case ConfigurationState.TEST_ALIGNMENT_PIPELINE:
+                    walkthroughDescriptionLabel.Text = "Browse a sheet to test the alignment pipeline";
+                    CurrentSetAction = new Action(TestAlignmentPipeline);
 
-
+                    ValidateState();
                     nextBtn.Text = "FINISH";
                     nextBtn.BackColor = Color.MediumTurquoise;
                     CurrentNextAction = new Action(EndWalkthrough);
@@ -439,8 +442,10 @@ namespace Synapse.Modules
                     doubleStateValueTextBox.ForeColor = Color.FromArgb(255, 68, 68, 68);
                     break;
                 case ConfigurationState.CONFIGURE_ALIGNMENT_PIPELINE:
+                    walkthroughDescriptionLabel.ForeColor = Color.FromArgb(255, 68, 68, 68);
                     break;
                 case ConfigurationState.TEST_ALIGNMENT_PIPELINE:
+                    walkthroughDescriptionLabel.ForeColor = Color.FromArgb(255, 68, 68, 68);
                     break;
             }
 
@@ -460,8 +465,10 @@ namespace Synapse.Modules
                     doubleStateValueTextBox.ForeColor = Color.Crimson;
                     break;
                 case ConfigurationState.CONFIGURE_ALIGNMENT_PIPELINE:
+                    walkthroughDescriptionLabel.ForeColor = Color.Crimson;
                     break;
                 case ConfigurationState.TEST_ALIGNMENT_PIPELINE:
+                    walkthroughDescriptionLabel.ForeColor = Color.Crimson;
                     break;
             }
 
@@ -534,6 +541,14 @@ namespace Synapse.Modules
                     ValidateState();
             };
             alignmentPipelineConfigurationForm.ShowDialog();
+        }
+        private void TestAlignmentPipeline()
+        {
+            if(ImageFileBrowser.ShowDialog() == DialogResult.OK && System.IO.File.Exists(ImageFileBrowser.FileName))
+            {
+                AlignmentPipelineTestForm alignmentPipelineTestForm = new AlignmentPipelineTestForm(alignmentMethods, new Image<Gray, byte>(ImageFileBrowser.FileName));
+                alignmentPipelineTestForm.ShowDialog();
+            }
         }
 
         #endregion

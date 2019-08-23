@@ -90,11 +90,23 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\AKazeSettingsControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\AKazeSettingsControl.Designer.cs">
+      <DependentUpon>AKazeSettingsControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\AnchorPlaceholderControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Controls\AnchorPlaceholderControl.Designer.cs">
       <DependentUpon>AnchorPlaceholderControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\AnchorsSettingsPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\AnchorsSettingsPanel.Designer.cs">
+      <DependentUpon>AnchorsSettingsPanel.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\AutoLabelEx.cs">
       <SubType>Component</SubType>
@@ -120,6 +132,12 @@
     <Compile Include="Controls\ConfigureDataListItem.Designer.cs">
       <DependentUpon>ConfigureDataListItem.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\KazeSettingsControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\KazeSettingsControl.Designer.cs">
+      <DependentUpon>KazeSettingsControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\TemplateListItem.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -137,6 +155,12 @@
     </Compile>
     <Compile Include="Modules\AlignmentPipelineConfigurationForm.Designer.cs">
       <DependentUpon>AlignmentPipelineConfigurationForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\AlignmentPipelineTestForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modules\AlignmentPipelineTestForm.Designer.cs">
+      <DependentUpon>AlignmentPipelineTestForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Modules\RegistrationAlignmentMethodForm.cs">
       <SubType>Form</SubType>
@@ -190,13 +214,20 @@
     <Compile Include="Utilities\Attributes\EnumDescriptionAttribute.cs" />
     <Compile Include="Utilities\Enums\EnumHelper.cs" />
     <Compile Include="Utilities\Enums\Basic.cs" />
+    <Compile Include="Utilities\Extensions\ControlExtension.cs" />
     <Compile Include="Utilities\Functions.cs" />
     <Compile Include="Utilities\Memory\LSTM.cs" />
     <Compile Include="Utilities\Messages.cs" />
     <Compile Include="Utilities\Objects\Deskew.cs" />
     <Compile Include="Utilities\Objects\ColorStates.cs" />
+    <EmbeddedResource Include="Controls\AKazeSettingsControl.resx">
+      <DependentUpon>AKazeSettingsControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\AnchorPlaceholderControl.resx">
       <DependentUpon>AnchorPlaceholderControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\AnchorsSettingsPanel.resx">
+      <DependentUpon>AnchorsSettingsPanel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\AutoLabelEx.resx">
       <DependentUpon>AutoLabelEx.cs</DependentUpon>
@@ -207,6 +238,9 @@
     <EmbeddedResource Include="Controls\ConfigureDataListItem.resx">
       <DependentUpon>ConfigureDataListItem.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Controls\KazeSettingsControl.resx">
+      <DependentUpon>KazeSettingsControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\TemplateListItem.resx">
       <DependentUpon>TemplateListItem.cs</DependentUpon>
     </EmbeddedResource>
@@ -215,6 +249,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Modules\AlignmentPipelineConfigurationForm.resx">
       <DependentUpon>AlignmentPipelineConfigurationForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modules\AlignmentPipelineTestForm.resx">
+      <DependentUpon>AlignmentPipelineTestForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Modules\RegistrationAlignmentMethodForm.resx">
       <DependentUpon>RegistrationAlignmentMethodForm.cs</DependentUpon>

@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Synapse.Utilities
 {
@@ -57,5 +59,41 @@ namespace Synapse.Utilities
             }
         }
 
+        public static void CopyControl(Control sourceControl, Control targetControl)
+        {
+            // make sure these are the same
+            if (sourceControl.GetType() != targetControl.GetType())
+            {
+                throw new Exception("Incorrect control types");
+            }
+
+            foreach (PropertyInfo sourceProperty in sourceControl.GetType().GetProperties())
+            {
+                object newValue = sourceProperty.GetValue(sourceControl, null);
+
+                MethodInfo mi = sourceProperty.GetSetMethod(true);
+                if (mi != null)
+                {
+                    sourceProperty.SetValue(targetControl, newValue, null);
+                }
+            }
+        }
+        public static object CloneObject(object o)
+        {
+            Type t = o.GetType();
+            PropertyInfo[] properties = t.GetProperties();
+
+            Object p = t.InvokeMember("", System.Reflection.BindingFlags.CreateInstance, null, o, null);
+
+            foreach (PropertyInfo pi in properties)
+            {
+                if (pi.CanWrite)
+                {
+                    pi.SetValue(p, pi.GetValue(o, null), null);
+                }
+            }
+
+            return p;
+        }
     }
 }

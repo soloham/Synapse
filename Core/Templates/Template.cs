@@ -91,12 +91,12 @@ namespace Synapse.Core.Templates
             {
                 public RectangleF GetAnchorRegion { get => anchorRegion; }
                 private RectangleF anchorRegion = new RectangleF();
-                public IInputArray GetAnchorImage { get => anchorImage; }
-                private IInputArray anchorImage;
+                public Mat GetAnchorImage { get => anchorImage; }
+                private Mat anchorImage;
 
                 public PointF anchorCoordinates;
 
-                public Anchor(RectangleF anchorRegion, IInputArray anchorImage)
+                public Anchor(RectangleF anchorRegion, Mat anchorImage)
                 {
                     this.anchorRegion = anchorRegion;
                     this.anchorImage = anchorImage;
@@ -131,7 +131,7 @@ namespace Synapse.Core.Templates
             }
 
             #region Public
-            public void AddAnchor(RectangleF region, IInputArray image)
+            public void AddAnchor(RectangleF region, Mat image)
             {
                 anchors.Add(new Anchor(region, image));
 
