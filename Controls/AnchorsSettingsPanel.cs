@@ -22,6 +22,10 @@ namespace Synapse.Controls
         private SynchronizationContext synchronizationContext;
         #endregion
 
+        public AnchorsSettingsPanel()
+        {
+            InitializeComponent();
+        }
         internal AnchorsSettingsPanel(List<Template.AnchorAlignmentMethod.Anchor> anchors)
         {
             InitializeComponent();

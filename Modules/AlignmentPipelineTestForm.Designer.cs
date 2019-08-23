@@ -263,7 +263,7 @@
             this.pipelineTestSettingsTabPage.Location = new System.Drawing.Point(0, 36);
             this.pipelineTestSettingsTabPage.Name = "pipelineTestSettingsTabPage";
             this.pipelineTestSettingsTabPage.ShowCloseButton = true;
-            this.pipelineTestSettingsTabPage.Size = new System.Drawing.Size(459, 266);
+            this.pipelineTestSettingsTabPage.Size = new System.Drawing.Size(456, 266);
             this.pipelineTestSettingsTabPage.TabIndex = 2;
             this.pipelineTestSettingsTabPage.Text = "Test Settings";
             this.pipelineTestSettingsTabPage.ThemesEnabled = false;
@@ -277,7 +277,7 @@
             this.testResultsTabPage.Location = new System.Drawing.Point(0, 36);
             this.testResultsTabPage.Name = "testResultsTabPage";
             this.testResultsTabPage.ShowCloseButton = true;
-            this.testResultsTabPage.Size = new System.Drawing.Size(459, 266);
+            this.testResultsTabPage.Size = new System.Drawing.Size(456, 266);
             this.testResultsTabPage.TabIndex = 3;
             this.testResultsTabPage.Text = "Results";
             this.testResultsTabPage.ThemesEnabled = false;

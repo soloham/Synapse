@@ -77,7 +77,6 @@ namespace Synapse.Modules
 
                 TabPageAdv methodTabPage = CreateAlignmentMethodTabPage(alignmentMethod);
                 alignmentPipelineTabControl.TabPages.Add(methodTabPage);
-                methodTabPage.BackColor = Color.Crimson;
                 methodTabPage.Dock = DockStyle.Fill;
             }
         }
@@ -94,7 +93,7 @@ namespace Synapse.Modules
 
                     TabPageAdv anchorTabPage = new TabPageAdv(alignmentMethod.MethodName);
                     anchorTabPage.Controls.Add(anchorSP);
-                    anchorSP.Dock = DockStyle.Fill;
+                    anchorSP.Dock = DockStyle.Top;
 
                     result = anchorTabPage;
                     break;
@@ -110,7 +109,7 @@ namespace Synapse.Modules
 
                             TabPageAdv kazeTabPage = new TabPageAdv(alignmentMethod.MethodName);
                             kazeTabPage.Controls.Add(kazeSettingsControl);
-                            kazeSettingsControl.Dock = DockStyle.Fill;
+                            kazeSettingsControl.Dock = DockStyle.Top;
 
                             result = kazeTabPage;
                             break;
@@ -121,7 +120,7 @@ namespace Synapse.Modules
                             
                             TabPageAdv akazeTabPage = new TabPageAdv(alignmentMethod.MethodName);
                             akazeTabPage.Controls.Add(aKazeSettingsControl);
-                            aKazeSettingsControl.Dock = DockStyle.Fill;
+                            aKazeSettingsControl.Dock = DockStyle.Top;
 
                             result = akazeTabPage;
                             break;

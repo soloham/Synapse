@@ -24,6 +24,10 @@ namespace Synapse.Controls
         private SynchronizationContext synchronizationContext;
         #endregion
 
+        public AKazeSettingsControl()
+        {
+            InitializeComponent();
+        }
         internal AKazeSettingsControl(Template.RegistrationAlignmentMethod.AKazeRegistrationMethod.AKazeData akazeData)
         {
             InitializeComponent();
@@ -83,6 +87,5 @@ namespace Synapse.Controls
             Template.RegistrationAlignmentMethod.AKazeRegistrationMethod.AKazeData aKazeData = new Template.RegistrationAlignmentMethod.AKazeRegistrationMethod.AKazeData(descType, descSize, descChannels, descThresh, descOcts, descLayers, diffType);
             return aKazeData;
         }
-
     }
 }

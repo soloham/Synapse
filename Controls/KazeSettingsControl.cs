@@ -25,6 +25,11 @@ namespace Synapse.Controls
         private SynchronizationContext synchronizationContext;
         #endregion
 
+        public KazeSettingsControl()
+        {
+            InitializeComponent();
+        }
+
         internal KazeSettingsControl(Template.RegistrationAlignmentMethod.KazeRegistrationMethod.KazeData kazeData)
         {
             InitializeComponent();
