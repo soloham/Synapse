@@ -190,15 +190,16 @@ namespace Synapse.Core.Templates
             public override bool ApplyMethod(IInputArray templateImage, IInputArray input, out IOutputArray output)
             {
                 bool isSuccess = false;
-                Image<Gray, byte> _output = null;
+                var inputImg = (Image<Gray, byte>)input;
+                Mat _output = new Mat();
 
                 PointF[] anchorCoordinates = new PointF[anchors.Count];
                 for (int i = 0; i < anchors.Count; i++)
                 {
                     Anchor curAnchor = anchors[i];
 
-                    Mat result = null;
-                    CvInvoke.MatchTemplate(input, curAnchor.GetAnchorImage, result, Emgu.CV.CvEnum.TemplateMatchingType.CcoeffNormed);
+                    Mat result = new Mat();
+                    CvInvoke.MatchTemplate(inputImg.Mat, curAnchor.GetAnchorImage, result, Emgu.CV.CvEnum.TemplateMatchingType.CcoeffNormed);
 
                     Point[] Max_Loc, Min_Loc;
                     double[] min, max;
