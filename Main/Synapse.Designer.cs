@@ -110,12 +110,13 @@ namespace Synapse
             this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
             this.SQLDatabaseExportToolStripBtn = new System.Windows.Forms.ToolStripButton();
             this.configTabPanel = new System.Windows.Forms.Panel();
-            this.configPropertiesDockingPanel = new Syncfusion.Windows.Forms.Tools.DockingClientPanel();
-            this.configPropertyEditor = new Syncfusion.Windows.Forms.Diagram.Controls.PropertyEditor(this.components);
-            this.templateImageBox = new Cyotek.Windows.Forms.Demo.ImageBoxEx();
+            this.nonDockingClientArea = new Syncfusion.Windows.Forms.Tools.DockingClientPanel();
             this.readingTabPanel = new System.Windows.Forms.Panel();
             this.ImageFileBrowser = new System.Windows.Forms.OpenFileDialog();
             this.mainDockingManager = new Syncfusion.Windows.Forms.Tools.DockingManager(this.components);
+            this.configPropertiesPanel = new System.Windows.Forms.Panel();
+            this.configPropertyEditor = new Syncfusion.Windows.Forms.Diagram.Controls.PropertyEditor(this.components);
+            this.templateImageBox = new Cyotek.Windows.Forms.Demo.ImageBoxEx();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
             this.ribbonControl.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.backStage1)).BeginInit();
@@ -134,8 +135,9 @@ namespace Synapse
             this.dataPointStorageToolStripEx.SuspendLayout();
             this.exportToolStripEx.SuspendLayout();
             this.configTabPanel.SuspendLayout();
-            this.configPropertiesDockingPanel.SuspendLayout();
+            this.nonDockingClientArea.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.mainDockingManager)).BeginInit();
+            this.configPropertiesPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // ribbonControl
@@ -174,7 +176,7 @@ namespace Synapse
             this.ribbonControl.SelectedTab = this.configToolStripTabItem;
             this.ribbonControl.ShowLauncher = false;
             this.ribbonControl.ShowRibbonDisplayOptionButton = true;
-            this.ribbonControl.Size = new System.Drawing.Size(1333, 216);
+            this.ribbonControl.Size = new System.Drawing.Size(1333, 219);
             this.ribbonControl.SystemText.QuickAccessDialogDropDownName = "Start menu";
             this.ribbonControl.SystemText.RenameDisplayLabelText = "&Display Name:";
             this.ribbonControl.TabIndex = 1;
@@ -216,7 +218,7 @@ namespace Synapse
             this.backStage1.ShowSeparator = false;
             this.backStage1.Size = new System.Drawing.Size(1329, 697);
             this.backStage1.TabIndex = 2;
-            this.backStage1.ThemeName = "BackStageRenderer";
+            this.backStage1.ThemeName = "BackStage2016Renderer";
             this.backStage1.ThemeStyle.BorderFillColor = System.Drawing.Color.White;
             this.backStage1.ThemeStyle.PrimitiveButtonStyle.DisabledNextPageImage = null;
             this.backStage1.Visible = false;
@@ -267,7 +269,7 @@ namespace Synapse
             this.templateConfigToolStrip.Office12Mode = false;
             this.templateConfigToolStrip.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
             this.templateConfigToolStrip.ShowLauncher = false;
-            this.templateConfigToolStrip.Size = new System.Drawing.Size(326, 147);
+            this.templateConfigToolStrip.Size = new System.Drawing.Size(326, 150);
             this.templateConfigToolStrip.TabIndex = 4;
             this.templateConfigToolStrip.Text = "Template Configuration";
             this.templateConfigToolStrip.ThemeName = "Default";
@@ -282,8 +284,8 @@ namespace Synapse
             this.templateConfigStatusIndicator});
             this.templateConfigStatusToolStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow;
             this.templateConfigStatusToolStrip.Name = "templateConfigStatusToolStrip";
-            this.templateConfigStatusToolStrip.Padding = new System.Windows.Forms.Padding(3, 13, 2, 2);
-            this.templateConfigStatusToolStrip.Size = new System.Drawing.Size(71, 131);
+            this.templateConfigStatusToolStrip.Padding = new System.Windows.Forms.Padding(3, 12, 2, 2);
+            this.templateConfigStatusToolStrip.Size = new System.Drawing.Size(71, 134);
             this.templateConfigStatusToolStrip.Transparent = true;
             // 
             // templateConfigStatusLabel
@@ -328,7 +330,7 @@ namespace Synapse
             this.templateToolStripBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.templateToolStripBtn.Name = "templateToolStripBtn";
             this.templateToolStripBtn.Padding = new System.Windows.Forms.Padding(15, 0, 15, 0);
-            this.templateToolStripBtn.Size = new System.Drawing.Size(107, 128);
+            this.templateToolStripBtn.Size = new System.Drawing.Size(107, 131);
             this.templateToolStripBtn.Text = "Template";
             this.templateToolStripBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
@@ -338,19 +340,19 @@ namespace Synapse
             this.tmpLoadScanToolStripMenuItem,
             this.tmpLoadBrowseToolStripMenuItem});
             this.templateLoadToolStripMenuItem.Name = "templateLoadToolStripMenuItem";
-            this.templateLoadToolStripMenuItem.Size = new System.Drawing.Size(180, 24);
+            this.templateLoadToolStripMenuItem.Size = new System.Drawing.Size(136, 24);
             this.templateLoadToolStripMenuItem.Text = "Load";
             // 
             // tmpLoadScanToolStripMenuItem
             // 
             this.tmpLoadScanToolStripMenuItem.Name = "tmpLoadScanToolStripMenuItem";
-            this.tmpLoadScanToolStripMenuItem.Size = new System.Drawing.Size(180, 24);
+            this.tmpLoadScanToolStripMenuItem.Size = new System.Drawing.Size(123, 24);
             this.tmpLoadScanToolStripMenuItem.Text = "Scan";
             // 
             // tmpLoadBrowseToolStripMenuItem
             // 
             this.tmpLoadBrowseToolStripMenuItem.Name = "tmpLoadBrowseToolStripMenuItem";
-            this.tmpLoadBrowseToolStripMenuItem.Size = new System.Drawing.Size(180, 24);
+            this.tmpLoadBrowseToolStripMenuItem.Size = new System.Drawing.Size(123, 24);
             this.tmpLoadBrowseToolStripMenuItem.Text = "Browse";
             this.tmpLoadBrowseToolStripMenuItem.Click += new System.EventHandler(this.TmpLoadBrowseToolStripMenuItem_Click);
             // 
@@ -358,7 +360,7 @@ namespace Synapse
             // 
             this.templateConfigureToolStripMenuItem.Enabled = false;
             this.templateConfigureToolStripMenuItem.Name = "templateConfigureToolStripMenuItem";
-            this.templateConfigureToolStripMenuItem.Size = new System.Drawing.Size(180, 24);
+            this.templateConfigureToolStripMenuItem.Size = new System.Drawing.Size(136, 24);
             this.templateConfigureToolStripMenuItem.Text = "Configure";
             this.templateConfigureToolStripMenuItem.Click += new System.EventHandler(this.TemplateConfigureToolStripMenuItem_Click);
             // 
@@ -377,7 +379,7 @@ namespace Synapse
             this.eMarkingToolStripBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.eMarkingToolStripBtn.Name = "eMarkingToolStripBtn";
             this.eMarkingToolStripBtn.Padding = new System.Windows.Forms.Padding(15, 0, 15, 0);
-            this.eMarkingToolStripBtn.Size = new System.Drawing.Size(99, 128);
+            this.eMarkingToolStripBtn.Size = new System.Drawing.Size(99, 131);
             this.eMarkingToolStripBtn.Text = "EMarking\r\nSetup";
             this.eMarkingToolStripBtn.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.eMarkingToolStripBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
@@ -405,7 +407,7 @@ namespace Synapse
             this.dataConfigToolStripEx.Name = "dataConfigToolStripEx";
             this.dataConfigToolStripEx.Office12Mode = false;
             this.dataConfigToolStripEx.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
-            this.dataConfigToolStripEx.Size = new System.Drawing.Size(451, 147);
+            this.dataConfigToolStripEx.Size = new System.Drawing.Size(451, 150);
             this.dataConfigToolStripEx.TabIndex = 3;
             this.dataConfigToolStripEx.Text = "Data Configuration";
             this.dataConfigToolStripEx.ThemeName = "Office2016White";
@@ -421,8 +423,8 @@ namespace Synapse
             this.dataConfigStatusIndicator});
             this.dataConfigStatusToolStripPanel.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow;
             this.dataConfigStatusToolStripPanel.Name = "dataConfigStatusToolStripPanel";
-            this.dataConfigStatusToolStripPanel.Padding = new System.Windows.Forms.Padding(2, 13, 2, 2);
-            this.dataConfigStatusToolStripPanel.Size = new System.Drawing.Size(70, 131);
+            this.dataConfigStatusToolStripPanel.Padding = new System.Windows.Forms.Padding(2, 12, 2, 2);
+            this.dataConfigStatusToolStripPanel.Size = new System.Drawing.Size(70, 134);
             this.dataConfigStatusToolStripPanel.Transparent = true;
             // 
             // dataConfigStatusLabel
@@ -465,7 +467,7 @@ namespace Synapse
             this.configureDataToolStripBtn.Margin = new System.Windows.Forms.Padding(0, 1, 1, 2);
             this.configureDataToolStripBtn.Name = "configureDataToolStripBtn";
             this.configureDataToolStripBtn.Padding = new System.Windows.Forms.Padding(10, 0, 10, 0);
-            this.configureDataToolStripBtn.Size = new System.Drawing.Size(91, 128);
+            this.configureDataToolStripBtn.Size = new System.Drawing.Size(91, 131);
             this.configureDataToolStripBtn.Text = "Configure\r\nData";
             this.configureDataToolStripBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.configureDataToolStripBtn.Click += new System.EventHandler(this.ConfigureDataToolStripBtn_Click);
@@ -486,7 +488,7 @@ namespace Synapse
             this.addAsOmrToolStripBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.addAsOmrToolStripBtn.Name = "addAsOmrToolStripBtn";
             this.addAsOmrToolStripBtn.Padding = new System.Windows.Forms.Padding(13, 0, 13, 0);
-            this.addAsOmrToolStripBtn.Size = new System.Drawing.Size(80, 128);
+            this.addAsOmrToolStripBtn.Size = new System.Drawing.Size(80, 131);
             this.addAsOmrToolStripBtn.Text = "Add As\r\nOMR";
             this.addAsOmrToolStripBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.addAsOmrToolStripBtn.Click += new System.EventHandler(this.AddAsOmrToolStripBtn_Click);
@@ -500,7 +502,7 @@ namespace Synapse
             this.addAsBarcodeToolStripBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.addAsBarcodeToolStripBtn.Name = "addAsBarcodeToolStripBtn";
             this.addAsBarcodeToolStripBtn.Padding = new System.Windows.Forms.Padding(13, 0, 13, 0);
-            this.addAsBarcodeToolStripBtn.Size = new System.Drawing.Size(88, 128);
+            this.addAsBarcodeToolStripBtn.Size = new System.Drawing.Size(89, 131);
             this.addAsBarcodeToolStripBtn.Text = "Add As\r\nBarcode";
             this.addAsBarcodeToolStripBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
@@ -513,7 +515,7 @@ namespace Synapse
             this.addAsICRToolStripBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.addAsICRToolStripBtn.Name = "addAsICRToolStripBtn";
             this.addAsICRToolStripBtn.Padding = new System.Windows.Forms.Padding(13, 0, 13, 0);
-            this.addAsICRToolStripBtn.Size = new System.Drawing.Size(80, 128);
+            this.addAsICRToolStripBtn.Size = new System.Drawing.Size(80, 131);
             this.addAsICRToolStripBtn.Text = "Add As\r\nICR";
             this.addAsICRToolStripBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
@@ -536,7 +538,7 @@ namespace Synapse
             this.modelConfigToolStripEx.Name = "modelConfigToolStripEx";
             this.modelConfigToolStripEx.Office12Mode = false;
             this.modelConfigToolStripEx.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
-            this.modelConfigToolStripEx.Size = new System.Drawing.Size(202, 147);
+            this.modelConfigToolStripEx.Size = new System.Drawing.Size(202, 150);
             this.modelConfigToolStripEx.TabIndex = 1;
             this.modelConfigToolStripEx.Text = "AI Configuration";
             // 
@@ -550,8 +552,8 @@ namespace Synapse
             this.aiConfigStatusIndicator});
             this.aiConfigStatusToolStripPanel.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow;
             this.aiConfigStatusToolStripPanel.Name = "aiConfigStatusToolStripPanel";
-            this.aiConfigStatusToolStripPanel.Padding = new System.Windows.Forms.Padding(2, 13, 2, 2);
-            this.aiConfigStatusToolStripPanel.Size = new System.Drawing.Size(70, 131);
+            this.aiConfigStatusToolStripPanel.Padding = new System.Windows.Forms.Padding(2, 12, 2, 2);
+            this.aiConfigStatusToolStripPanel.Size = new System.Drawing.Size(70, 134);
             this.aiConfigStatusToolStripPanel.Transparent = true;
             // 
             // aiConfigStatusLabel
@@ -593,7 +595,7 @@ namespace Synapse
             this.configureNetworksToolStripBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.configureNetworksToolStripBtn.Name = "configureNetworksToolStripBtn";
             this.configureNetworksToolStripBtn.Padding = new System.Windows.Forms.Padding(18, 0, 18, 0);
-            this.configureNetworksToolStripBtn.Size = new System.Drawing.Size(107, 128);
+            this.configureNetworksToolStripBtn.Size = new System.Drawing.Size(107, 131);
             this.configureNetworksToolStripBtn.Text = "Configure\r\nAI Model";
             this.configureNetworksToolStripBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
@@ -715,7 +717,7 @@ namespace Synapse
             this.includeSubFoldersToolStripCheckBox.Font = new System.Drawing.Font("Dosis", 10.25F);
             this.includeSubFoldersToolStripCheckBox.Margin = new System.Windows.Forms.Padding(23, 1, 0, 2);
             this.includeSubFoldersToolStripCheckBox.Name = "includeSubFoldersToolStripCheckBox";
-            this.includeSubFoldersToolStripCheckBox.Size = new System.Drawing.Size(137, 22);
+            this.includeSubFoldersToolStripCheckBox.Size = new System.Drawing.Size(137, 21);
             this.includeSubFoldersToolStripCheckBox.Text = "Include Sub Folder(s)";
             // 
             // scanSheetsToolStripDropDownBtn
@@ -739,13 +741,13 @@ namespace Synapse
             // scanLoadToolStripMenuItem
             // 
             this.scanLoadToolStripMenuItem.Name = "scanLoadToolStripMenuItem";
-            this.scanLoadToolStripMenuItem.Size = new System.Drawing.Size(166, 28);
+            this.scanLoadToolStripMenuItem.Size = new System.Drawing.Size(166, 26);
             this.scanLoadToolStripMenuItem.Text = "Load";
             // 
             // scanReadToolStripMenuItem
             // 
             this.scanReadToolStripMenuItem.Name = "scanReadToolStripMenuItem";
-            this.scanReadToolStripMenuItem.Size = new System.Drawing.Size(166, 28);
+            this.scanReadToolStripMenuItem.Size = new System.Drawing.Size(166, 26);
             this.scanReadToolStripMenuItem.Text = "Scan && Read";
             // 
             // toolStripSeparator7
@@ -903,7 +905,7 @@ namespace Synapse
             this.findDuplicatesToolStripBtn.Margin = new System.Windows.Forms.Padding(0, 5, 0, 2);
             this.findDuplicatesToolStripBtn.Name = "findDuplicatesToolStripBtn";
             this.findDuplicatesToolStripBtn.Padding = new System.Windows.Forms.Padding(7, 0, 7, 0);
-            this.findDuplicatesToolStripBtn.Size = new System.Drawing.Size(89, 115);
+            this.findDuplicatesToolStripBtn.Size = new System.Drawing.Size(90, 115);
             this.findDuplicatesToolStripBtn.Text = "Find\r\nDuplicates";
             this.findDuplicatesToolStripBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
@@ -995,7 +997,7 @@ namespace Synapse
             this.deleteSelectedToolStripBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.deleteSelectedToolStripBtn.Name = "deleteSelectedToolStripBtn";
             this.deleteSelectedToolStripBtn.Padding = new System.Windows.Forms.Padding(8, 0, 8, 0);
-            this.deleteSelectedToolStripBtn.Size = new System.Drawing.Size(80, 122);
+            this.deleteSelectedToolStripBtn.Size = new System.Drawing.Size(81, 122);
             this.deleteSelectedToolStripBtn.Text = "Delete\r\nSelected";
             this.deleteSelectedToolStripBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
@@ -1039,19 +1041,19 @@ namespace Synapse
             // markManualToolStripMenuItem
             // 
             this.markManualToolStripMenuItem.Name = "markManualToolStripMenuItem";
-            this.markManualToolStripMenuItem.Size = new System.Drawing.Size(155, 24);
+            this.markManualToolStripMenuItem.Size = new System.Drawing.Size(156, 24);
             this.markManualToolStripMenuItem.Text = "Manual";
             // 
             // markFaultyToolStripMenuItem
             // 
             this.markFaultyToolStripMenuItem.Name = "markFaultyToolStripMenuItem";
-            this.markFaultyToolStripMenuItem.Size = new System.Drawing.Size(155, 24);
+            this.markFaultyToolStripMenuItem.Size = new System.Drawing.Size(156, 24);
             this.markFaultyToolStripMenuItem.Text = "Faulty";
             // 
             // markIncompatibleToolStripMenuItem
             // 
             this.markIncompatibleToolStripMenuItem.Name = "markIncompatibleToolStripMenuItem";
-            this.markIncompatibleToolStripMenuItem.Size = new System.Drawing.Size(155, 24);
+            this.markIncompatibleToolStripMenuItem.Size = new System.Drawing.Size(156, 24);
             this.markIncompatibleToolStripMenuItem.Text = "Incompatible";
             // 
             // dataPointStorageToolStripEx
@@ -1209,62 +1211,31 @@ namespace Synapse
             // 
             // configTabPanel
             // 
-            this.configTabPanel.Controls.Add(this.configPropertiesDockingPanel);
             this.configTabPanel.Controls.Add(this.templateImageBox);
             this.configTabPanel.Dock = System.Windows.Forms.DockStyle.Left;
-            this.configTabPanel.Location = new System.Drawing.Point(1, 216);
+            this.configTabPanel.Location = new System.Drawing.Point(0, 0);
             this.configTabPanel.Name = "configTabPanel";
-            this.configTabPanel.Size = new System.Drawing.Size(663, 532);
+            this.configTabPanel.Size = new System.Drawing.Size(635, 522);
             this.configTabPanel.TabIndex = 3;
             // 
-            // configPropertiesDockingPanel
+            // nonDockingClientArea
             // 
-            this.configPropertiesDockingPanel.BackColor = System.Drawing.Color.White;
-            this.configPropertiesDockingPanel.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.configPropertiesDockingPanel.Controls.Add(this.configPropertyEditor);
-            this.configPropertiesDockingPanel.Location = new System.Drawing.Point(402, 0);
-            this.configPropertiesDockingPanel.Name = "configPropertiesDockingPanel";
-            this.configPropertiesDockingPanel.Size = new System.Drawing.Size(261, 522);
-            this.configPropertiesDockingPanel.TabIndex = 2;
-            // 
-            // configPropertyEditor
-            // 
-            this.configPropertyEditor.Diagram = null;
-            this.configPropertyEditor.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.configPropertyEditor.Font = new System.Drawing.Font("Dosis", 10.25F);
-            this.configPropertyEditor.Location = new System.Drawing.Point(0, 0);
-            this.configPropertyEditor.Name = "configPropertyEditor";
-            this.configPropertyEditor.Size = new System.Drawing.Size(261, 522);
-            this.configPropertyEditor.TabIndex = 0;
-            // 
-            // templateImageBox
-            // 
-            this.templateImageBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.templateImageBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.templateImageBox.DragHandleSize = 10;
-            this.templateImageBox.DropShadowSize = 5;
-            this.templateImageBox.Font = new System.Drawing.Font("Dosis", 14F);
-            this.templateImageBox.GridColor = System.Drawing.Color.White;
-            this.templateImageBox.ImageBorderColor = System.Drawing.SystemColors.ActiveBorder;
-            this.templateImageBox.ImageBorderStyle = Cyotek.Windows.Forms.ImageBoxBorderStyle.FixedSingleGlowShadow;
-            this.templateImageBox.Location = new System.Drawing.Point(0, 0);
-            this.templateImageBox.Name = "templateImageBox";
-            this.templateImageBox.SelectionMode = Cyotek.Windows.Forms.ImageBoxSelectionMode.Rectangle;
-            this.templateImageBox.Size = new System.Drawing.Size(663, 532);
-            this.templateImageBox.StepSize = new System.Drawing.Size(8, 8);
-            this.templateImageBox.TabIndex = 1;
-            this.templateImageBox.Text = "Scan a document or browse for an existing template";
-            this.templateImageBox.Paint += new System.Windows.Forms.PaintEventHandler(this.TemplateImageBox_Paint);
-            this.templateImageBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.TemplateImageBox_MouseDown);
-            this.templateImageBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.TemplateImageBox_MouseMove);
-            this.templateImageBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.TemplateImageBox_MouseUp);
+            this.nonDockingClientArea.BackColor = System.Drawing.Color.White;
+            this.nonDockingClientArea.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.nonDockingClientArea.Controls.Add(this.configTabPanel);
+            this.nonDockingClientArea.Controls.Add(this.readingTabPanel);
+            this.nonDockingClientArea.Location = new System.Drawing.Point(1, 221);
+            this.nonDockingClientArea.Name = "nonDockingClientArea";
+            this.nonDockingClientArea.Size = new System.Drawing.Size(1328, 522);
+            this.nonDockingClientArea.SizeToFit = true;
+            this.nonDockingClientArea.TabIndex = 2;
             // 
             // readingTabPanel
             // 
             this.readingTabPanel.Dock = System.Windows.Forms.DockStyle.Right;
-            this.readingTabPanel.Location = new System.Drawing.Point(667, 216);
+            this.readingTabPanel.Location = new System.Drawing.Point(636, 0);
             this.readingTabPanel.Name = "readingTabPanel";
-            this.readingTabPanel.Size = new System.Drawing.Size(663, 532);
+            this.readingTabPanel.Size = new System.Drawing.Size(692, 522);
             this.readingTabPanel.TabIndex = 5;
             this.readingTabPanel.Visible = false;
             // 
@@ -1309,6 +1280,43 @@ namespace Synapse
             this.mainDockingManager.CaptionButtons.Add(new Syncfusion.Windows.Forms.Tools.CaptionButton(Syncfusion.Windows.Forms.Tools.CaptionButtonType.Restore, "RestoreButton"));
             this.mainDockingManager.CaptionButtons.Add(new Syncfusion.Windows.Forms.Tools.CaptionButton(Syncfusion.Windows.Forms.Tools.CaptionButtonType.Menu, "MenuButton"));
             // 
+            // configPropertiesPanel
+            // 
+            this.configPropertiesPanel.Controls.Add(this.configPropertyEditor);
+            this.configPropertiesPanel.Dock = System.Windows.Forms.DockStyle.Right;
+            this.configPropertiesPanel.Location = new System.Drawing.Point(1129, 219);
+            this.configPropertiesPanel.Name = "configPropertiesPanel";
+            this.configPropertiesPanel.Size = new System.Drawing.Size(200, 529);
+            this.configPropertiesPanel.TabIndex = 3;
+            // 
+            // configPropertyEditor
+            // 
+            this.configPropertyEditor.Diagram = null;
+            this.configPropertyEditor.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.configPropertyEditor.Font = new System.Drawing.Font("Dosis", 10.25F);
+            this.configPropertyEditor.Location = new System.Drawing.Point(0, 0);
+            this.configPropertyEditor.Name = "configPropertyEditor";
+            this.configPropertyEditor.Size = new System.Drawing.Size(200, 529);
+            this.configPropertyEditor.TabIndex = 1;
+            // 
+            // templateImageBox
+            // 
+            this.templateImageBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.templateImageBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.templateImageBox.DragHandleSize = 10;
+            this.templateImageBox.DropShadowSize = 5;
+            this.templateImageBox.Font = new System.Drawing.Font("Dosis", 14F);
+            this.templateImageBox.GridColor = System.Drawing.Color.White;
+            this.templateImageBox.ImageBorderColor = System.Drawing.SystemColors.ActiveBorder;
+            this.templateImageBox.ImageBorderStyle = Cyotek.Windows.Forms.ImageBoxBorderStyle.FixedSingleGlowShadow;
+            this.templateImageBox.Location = new System.Drawing.Point(0, 0);
+            this.templateImageBox.Name = "templateImageBox";
+            this.templateImageBox.SelectionMode = Cyotek.Windows.Forms.ImageBoxSelectionMode.Rectangle;
+            this.templateImageBox.Size = new System.Drawing.Size(635, 522);
+            this.templateImageBox.StepSize = new System.Drawing.Size(8, 8);
+            this.templateImageBox.TabIndex = 4;
+            this.templateImageBox.Text = "Scan a document or browse for an existing template";
+            // 
             // SynapseMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 14F);
@@ -1316,10 +1324,10 @@ namespace Synapse
             this.BackColor = System.Drawing.Color.White;
             this.Borders = new System.Windows.Forms.Padding(0);
             this.ClientSize = new System.Drawing.Size(1331, 749);
-            this.Controls.Add(this.configTabPanel);
+            this.Controls.Add(this.configPropertiesPanel);
+            this.Controls.Add(this.nonDockingClientArea);
             this.Controls.Add(this.backStage1);
             this.Controls.Add(this.ribbonControl);
-            this.Controls.Add(this.readingTabPanel);
             this.EnableRibbonBorder = false;
             this.Font = new System.Drawing.Font("Dosis", 8.249999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -1360,8 +1368,9 @@ namespace Synapse
             this.exportToolStripEx.ResumeLayout(false);
             this.exportToolStripEx.PerformLayout();
             this.configTabPanel.ResumeLayout(false);
-            this.configPropertiesDockingPanel.ResumeLayout(false);
+            this.nonDockingClientArea.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.mainDockingManager)).EndInit();
+            this.configPropertiesPanel.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -1448,9 +1457,10 @@ namespace Synapse
         private System.Windows.Forms.Panel readingTabPanel;
         private System.Windows.Forms.Panel configTabPanel;
         private System.Windows.Forms.OpenFileDialog ImageFileBrowser;
-        private ImageBoxEx templateImageBox;
-        private Syncfusion.Windows.Forms.Tools.DockingClientPanel configPropertiesDockingPanel;
-        private Syncfusion.Windows.Forms.Diagram.Controls.PropertyEditor configPropertyEditor;
+        private Syncfusion.Windows.Forms.Tools.DockingClientPanel nonDockingClientArea;
         private Syncfusion.Windows.Forms.Tools.DockingManager mainDockingManager;
+        private System.Windows.Forms.Panel configPropertiesPanel;
+        private Syncfusion.Windows.Forms.Diagram.Controls.PropertyEditor configPropertyEditor;
+        private ImageBoxEx templateImageBox;
     }
 }

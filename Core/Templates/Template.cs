@@ -65,6 +65,7 @@ namespace Synapse.Core.Templates
             }
         }
 
+        #region Alignment Pipeline
         [Serializable]
         internal abstract class AlignmentMethod
         {
@@ -81,8 +82,8 @@ namespace Synapse.Core.Templates
                 PipelineIndex = pipelineIndex;
             }
 
-            public abstract bool ApplyMethod(IInputArray input, out IOutputArray output);
-            public abstract bool ApplyMethod(IInputArray template, IInputArray input, out IOutputArray output);
+            public abstract bool ApplyMethod(IInputArray input, out IOutputArray output, out long matchTime);
+            public abstract bool ApplyMethod(IInputArray template, IInputArray input, out IOutputArray output, out long matchTime);
 
         }
         [Serializable]
@@ -157,43 +158,16 @@ namespace Synapse.Core.Templates
             }
             #endregion
 
-            public override bool ApplyMethod(IInputArray input, out IOutputArray output)
-            {
-                bool isSuccess = false;
-                Image<Gray, byte> _output = null;
-
-                PointF[] anchorCoordinates = new PointF[anchors.Count];
-                for (int i = 0; i < anchors.Count; i++)
-                {
-                    Anchor curAnchor = anchors[i];
-
-                    Mat result = null;
-                    CvInvoke.MatchTemplate(input, curAnchor.GetAnchorImage, result, Emgu.CV.CvEnum.TemplateMatchingType.CcoeffNormed);
-
-                    Point[] Max_Loc, Min_Loc;
-                    double[] min, max;
-
-                    result.MinMax(out min, out max, out Min_Loc, out Max_Loc);
-
-                    if(max[0] > 0.85)
-                        isSuccess = true;
-
-                    anchorCoordinates[i] = Max_Loc[0];
-                }
-
-                var homography = CvInvoke.FindHomography(anchorCoordinates, mainAnchorCoordinates, Emgu.CV.CvEnum.RobustEstimationAlgorithm.Ransac);
-                CvInvoke.WarpPerspective(input, _output, homography, outputSize);
-
-                output = _output;
-                return isSuccess;
-            }
-            public override bool ApplyMethod(IInputArray templateImage, IInputArray input, out IOutputArray output)
+            public override bool ApplyMethod(IInputArray input, out IOutputArray output, out long matchTime)
             {
                 bool isSuccess = false;
                 var inputImg = (Image<Gray, byte>)input;
                 Mat _output = new Mat();
 
                 PointF[] anchorCoordinates = new PointF[anchors.Count];
+
+                Stopwatch watch = new Stopwatch();
+                watch.Start();
                 for (int i = 0; i < anchors.Count; i++)
                 {
                     Anchor curAnchor = anchors[i];
@@ -214,6 +188,137 @@ namespace Synapse.Core.Templates
 
                 var homography = CvInvoke.FindHomography(anchorCoordinates, mainAnchorCoordinates, Emgu.CV.CvEnum.RobustEstimationAlgorithm.Ransac);
                 CvInvoke.WarpPerspective(input, _output, homography, outputSize);
+
+                watch.Stop();
+                matchTime = watch.ElapsedMilliseconds;
+
+                output = _output;
+                return isSuccess;
+            }
+            public override bool ApplyMethod(IInputArray templateImage, IInputArray input, out IOutputArray output, out long matchTime)
+            {
+                bool isSuccess = false;
+                var inputImg = (Image<Gray, byte>)input;
+                Mat _output = new Mat();
+
+                PointF[] anchorCoordinates = new PointF[anchors.Count];
+
+                Stopwatch watch = new Stopwatch();
+                watch.Start();
+                for (int i = 0; i < anchors.Count; i++)
+                {
+                    Anchor curAnchor = anchors[i];
+
+                    Mat result = new Mat();
+                    CvInvoke.MatchTemplate(inputImg.Mat, curAnchor.GetAnchorImage, result, Emgu.CV.CvEnum.TemplateMatchingType.CcoeffNormed);
+
+                    Point[] Max_Loc, Min_Loc;
+                    double[] min, max;
+
+                    result.MinMax(out min, out max, out Min_Loc, out Max_Loc);
+
+                    if (max[0] > 0.85)
+                        isSuccess = true;
+
+                    anchorCoordinates[i] = Max_Loc[0];
+                }
+
+                var homography = CvInvoke.FindHomography(anchorCoordinates, mainAnchorCoordinates, Emgu.CV.CvEnum.RobustEstimationAlgorithm.Ransac);
+                CvInvoke.WarpPerspective(input, _output, homography, outputSize);
+
+                watch.Stop();
+                matchTime = watch.ElapsedMilliseconds;
+
+                output = _output;
+                return isSuccess;
+            }
+            public bool ApplyMethod(IInputArray templateImage, IInputArray input, out IOutputArray output, out RectangleF[] detectedAnchors, out RectangleF[] warpedAnchors, out long matchTime)
+            {
+                bool isSuccess = false;
+                var inputImg = (Image<Gray, byte>)input;
+                Mat _output = new Mat();
+
+                detectedAnchors = new RectangleF[anchors.Count];
+                warpedAnchors = new RectangleF[anchors.Count];
+
+                PointF[] anchorCoordinates = new PointF[anchors.Count];
+
+                Stopwatch watch = new Stopwatch();
+                watch.Start();
+                for (int i = 0; i < anchors.Count; i++)
+                {
+                    Anchor curAnchor = anchors[i];
+
+                    Mat result = new Mat();
+                    CvInvoke.MatchTemplate(inputImg.Mat, curAnchor.GetAnchorImage, result, Emgu.CV.CvEnum.TemplateMatchingType.CcoeffNormed);
+
+                    Point[] Max_Loc, Min_Loc;
+                    double[] min, max;
+
+                    result.MinMax(out min, out max, out Min_Loc, out Max_Loc);
+
+                    if (max[0] > 0.85)
+                        isSuccess = true;
+
+                    anchorCoordinates[i] = Max_Loc[0];
+
+                    detectedAnchors[i] = new RectangleF(anchorCoordinates[i], curAnchor.GetAnchorRegion.Size);
+                }
+
+                var homography = CvInvoke.FindHomography(anchorCoordinates, mainAnchorCoordinates, Emgu.CV.CvEnum.RobustEstimationAlgorithm.Ransac);
+                CvInvoke.WarpPerspective(input, _output, homography, outputSize);
+                var warpedPoints = CvInvoke.PerspectiveTransform(anchorCoordinates, homography);
+
+                for (int i = 0; i < anchors.Count; i++)
+                {
+                    warpedAnchors[i] = new RectangleF(warpedPoints[i], detectedAnchors[i].Size);
+                }
+
+                watch.Stop();
+                matchTime = watch.ElapsedMilliseconds;
+
+                output = _output;
+                return isSuccess;
+            }
+            public bool ApplyMethod(IInputArray templateImage, IInputArray input, out IOutputArray output, out PointF[] detectedAnchors, out PointF[] warpedAnchors, out long matchTime)
+            {
+                bool isSuccess = false;
+                var inputImg = (Image<Gray, byte>)input;
+                Mat _output = new Mat();
+
+                detectedAnchors = new PointF[anchors.Count];
+                warpedAnchors = new PointF[anchors.Count];
+
+                PointF[] anchorCoordinates = new PointF[anchors.Count];
+
+                Stopwatch watch = new Stopwatch();
+                watch.Start();
+                for (int i = 0; i < anchors.Count; i++)
+                {
+                    Anchor curAnchor = anchors[i];
+
+                    Mat result = new Mat();
+                    CvInvoke.MatchTemplate(inputImg.Mat, curAnchor.GetAnchorImage, result, Emgu.CV.CvEnum.TemplateMatchingType.CcoeffNormed);
+
+                    Point[] Max_Loc, Min_Loc;
+                    double[] min, max;
+
+                    result.MinMax(out min, out max, out Min_Loc, out Max_Loc);
+
+                    if (max[0] > 0.85)
+                        isSuccess = true;
+
+                    anchorCoordinates[i] = Max_Loc[0];
+
+                    detectedAnchors[i] = anchorCoordinates[i];
+                }
+
+                var homography = CvInvoke.FindHomography(anchorCoordinates, mainAnchorCoordinates, Emgu.CV.CvEnum.RobustEstimationAlgorithm.Ransac);
+                CvInvoke.WarpPerspective(input, _output, homography, outputSize);
+                warpedAnchors = CvInvoke.PerspectiveTransform(anchorCoordinates, homography);
+                watch.Stop();
+
+                matchTime = watch.ElapsedMilliseconds;
 
                 output = _output;
                 return isSuccess;
@@ -682,11 +787,11 @@ namespace Synapse.Core.Templates
                 this.outputWidth = outputWidth;
             }
 
-            public override bool ApplyMethod(IInputArray input, out IOutputArray output)
+            public override bool ApplyMethod(IInputArray input, out IOutputArray output, out long matchTime)
             {
                 bool result = false;
                 IOutputArray _homography;
-                registrationMethod.ApplyMethod(sourceImage, input, useStoredModelFeatures, out _homography, out VectorOfVectorOfDMatch matches, out long matchTime, out long score);
+                registrationMethod.ApplyMethod(sourceImage, input, useStoredModelFeatures, out _homography, out VectorOfVectorOfDMatch matches, out matchTime, out long score);
                 Mat homography = (Mat)_homography;
 
                 if (score > 0 && homography != null)
@@ -705,11 +810,11 @@ namespace Synapse.Core.Templates
 
                 return result;
             }
-            public override bool ApplyMethod(IInputArray templateImage, IInputArray input, out IOutputArray output)
+            public override bool ApplyMethod(IInputArray templateImage, IInputArray input, out IOutputArray output, out long matchTime)
             {
                 bool result = false;
                 IOutputArray _homography;
-                registrationMethod.ApplyMethod(templateImage, input, useStoredModelFeatures, out _homography, out VectorOfVectorOfDMatch matches, out long matchTime, out long score);
+                registrationMethod.ApplyMethod(templateImage, input, useStoredModelFeatures, out _homography, out VectorOfVectorOfDMatch matches, out matchTime, out long score);
                 Mat homography = (Mat)_homography;
 
                 if (score > 0 && homography != null)
@@ -734,6 +839,65 @@ namespace Synapse.Core.Templates
                 if(use) useStoredModelFeatures = true;
             }
         }
+        #endregion
+
+        #region Alignment Pipeline Results
+        public class AlignmentPipelineResults
+        {
+            #region Objects
+            public class AlignmentMethodResult
+            {
+                #region Properties
+                internal Template.AlignmentMethodType GetAlignmentMethodType { get => AlignmentMethod.GetAlignmentMethodType; }
+                internal Template.AlignmentMethod AlignmentMethod;
+                public Image<Gray, byte> InputImage { get; set; }
+                public Image<Gray, byte> OutputImage { get; set; }
+                public long AlignmentTime { get; set; }
+                #endregion
+
+                internal AlignmentMethodResult(Template.AlignmentMethod alignmentMethod, Image<Gray, byte> inputImage, Image<Gray, byte> outputImage, long alignmentTime)
+                {
+                    AlignmentMethod = alignmentMethod;
+                    InputImage = inputImage;
+                    OutputImage = outputImage;
+                    AlignmentTime = alignmentTime;
+                }
+            }
+            public class AnchorAlignmentMethodResult : AlignmentMethodResult
+            {
+                #region Properties
+
+                internal Template.AnchorAlignmentMethod.Anchor[] MainAnchors = new Template.AnchorAlignmentMethod.Anchor[0];
+                public RectangleF[] DetectedAnchors = new RectangleF[0];
+                public RectangleF[] WarpedAnchors = new RectangleF[0];
+
+                #endregion
+
+                internal AnchorAlignmentMethodResult(Template.AlignmentMethod alignmentMethod, Image<Gray, byte> inputImage, Image<Gray, byte> outputImage, long alignmentTime, Template.AnchorAlignmentMethod.Anchor[] mainAnchors, RectangleF[] detectedAnchors, RectangleF[] warpedAnchors) : base(alignmentMethod, inputImage, outputImage, alignmentTime)
+                {
+                    MainAnchors = mainAnchors;
+                    DetectedAnchors = detectedAnchors;
+                    WarpedAnchors = warpedAnchors;
+                }
+            }
+            public class RegistrationAlignmentMethodResult : AlignmentMethodResult
+            {
+                internal RegistrationAlignmentMethodResult(Template.AlignmentMethod alignmentMethod, Image<Gray, byte> inputImage, Image<Gray, byte> outputImage, long alignmentTime) : base(alignmentMethod, inputImage, outputImage, alignmentTime)
+                {
+                }
+            }
+            #endregion
+
+            #region Properties
+            public List<AlignmentMethodResult> AlignmentMethodTestResultsList { get; set; }
+            #endregion
+
+            public AlignmentPipelineResults(List<AlignmentMethodResult> alignmentMethodTestResultsList)
+            {
+                AlignmentMethodTestResultsList = alignmentMethodTestResultsList;
+            }
+        }
+        #endregion
 
         [Serializable]
         internal class Data

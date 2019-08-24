@@ -96,11 +96,35 @@
     <Compile Include="Controls\AKazeSettingsControl.Designer.cs">
       <DependentUpon>AKazeSettingsControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\AlignmentMethodResultControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\AlignmentMethodResultControl.Designer.cs">
+      <DependentUpon>AlignmentMethodResultControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\RegistrationAlignmentMethodResultControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\RegistrationAlignmentMethodResultControl.Designer.cs">
+      <DependentUpon>RegistrationAlignmentMethodResultControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\AnchorAlignmentMethodResultControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\AnchorAlignmentMethodResultControl.Designer.cs">
+      <DependentUpon>AnchorAlignmentMethodResultControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\AnchorPlaceholderControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Controls\AnchorPlaceholderControl.Designer.cs">
       <DependentUpon>AnchorPlaceholderControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\AlignmentPipelineResultsControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\AlignmentPipelineResultsControl.Designer.cs">
+      <DependentUpon>AlignmentPipelineResultsControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\AnchorsSettingsPanel.cs">
       <SubType>UserControl</SubType>
@@ -229,8 +253,20 @@
     <EmbeddedResource Include="Controls\AKazeSettingsControl.resx">
       <DependentUpon>AKazeSettingsControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Controls\AlignmentMethodResultControl.resx">
+      <DependentUpon>AlignmentMethodResultControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\RegistrationAlignmentMethodResultControl.resx">
+      <DependentUpon>RegistrationAlignmentMethodResultControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\AnchorAlignmentMethodResultControl.resx">
+      <DependentUpon>AnchorAlignmentMethodResultControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\AnchorPlaceholderControl.resx">
       <DependentUpon>AnchorPlaceholderControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\AlignmentPipelineResultsControl.resx">
+      <DependentUpon>AlignmentPipelineResultsControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\AnchorsSettingsPanel.resx">
       <DependentUpon>AnchorsSettingsPanel.cs</DependentUpon>

@@ -205,10 +205,10 @@ namespace Synapse
             configTabPanel.Dock = DockStyle.Fill;
             ribbonControl.SelectedTab = configToolStripTabItem;
 
-            mainDockingManager.SetEnableDocking(configPropertiesDockingPanel, true);
-            mainDockingManager.DockControlInAutoHideMode(configPropertiesDockingPanel, DockingStyle.Right, 400);
-            mainDockingManager.SetMenuButtonVisibility(configPropertiesDockingPanel, false);
-            mainDockingManager.SetDockLabel(configPropertiesDockingPanel, "Properties");
+            mainDockingManager.SetEnableDocking(configPropertiesPanel, true);
+            mainDockingManager.DockControlInAutoHideMode(configPropertiesPanel, DockingStyle.Right, 400);
+            mainDockingManager.SetMenuButtonVisibility(configPropertiesPanel, false);
+            mainDockingManager.SetDockLabel(configPropertiesPanel, "Properties");
 
             OMRRegionColorStates = new ColorStates(Color.FromArgb(55, Color.Firebrick), Color.FromArgb(95, Color.Firebrick), Color.FromArgb(85, Color.Firebrick), Color.FromArgb(110, Color.Firebrick));
 
@@ -229,7 +229,7 @@ namespace Synapse
         private void ConfigurationsManager_OnConfigurationDeletedEvent(object sender, ConfigurationBase e)
         {
             CalculateTemplateConfigs();
-            templateImageBox.Invalidate();
+            templateImageBox.Invalidate(); 
         }
 
         private void CalculateTemplateConfigs()
@@ -263,14 +263,14 @@ namespace Synapse
             configPropertyEditor.PropertyGrid.SelectedObject = selectedTemplate == null? null : selectedTemplate.Configuration?? null;
             if (configPropertyEditor.PropertyGrid.SelectedObject != null)
             {
-                if (mainDockingManager.GetState(configPropertiesDockingPanel) == DockState.Hidden || mainDockingManager.GetState(configPropertiesDockingPanel) == DockState.AutoHidden)
+                if (mainDockingManager.GetState(configPropertiesPanel) == DockState.Hidden || mainDockingManager.GetState(configPropertiesPanel) == DockState.AutoHidden)
                 {
-                    mainDockingManager.SetAutoHideMode(configPropertiesDockingPanel, false);
-                    mainDockingManager.DockControl(configPropertiesDockingPanel, this, DockingStyle.Right, 400);
+                    mainDockingManager.SetAutoHideMode(configPropertiesPanel, false);
+                    mainDockingManager.DockControl(configPropertiesPanel, this, DockingStyle.Right, 400);
                 }
             }
             else
-                mainDockingManager.DockControlInAutoHideMode(configPropertiesDockingPanel, DockingStyle.Right, 400);
+                mainDockingManager.DockControlInAutoHideMode(configPropertiesPanel, DockingStyle.Right, 400);
         }
         #endregion
         #region UI
@@ -279,14 +279,14 @@ namespace Synapse
             configTabPanel.Visible = true;
             readingTabPanel.Visible = false;
 
-            mainDockingManager.SetDockVisibility(configPropertiesDockingPanel, true);
+            mainDockingManager.SetDockVisibility(configPropertiesPanel, true);
         }
         private void ReadingToolStripTabItem_Click(object sender, EventArgs e)
         {
             readingTabPanel.Visible = true;
             configTabPanel.Visible = false;
 
-            mainDockingManager.SetDockVisibility(configPropertiesDockingPanel, false);
+            mainDockingManager.SetDockVisibility(configPropertiesPanel, false);
         }
         private void TmpLoadBrowseToolStripMenuItem_Click(object sender, EventArgs e)
         {

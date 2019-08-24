@@ -43,6 +43,9 @@ namespace Synapse.Modules
 
         private SynchronizationContext synchronizationContext;
 
+        Image<Gray, byte> outputImage;
+        private AlignmentPipelineResults alignmentPipelineResults;
+
         #endregion
 
         #region Events
@@ -76,6 +79,13 @@ namespace Synapse.Modules
         #region Private Methods
         private void Initialize(List<Template.AlignmentMethod> alignmentMethods)
         {
+            pipelineTestMainTablePanel.Dock = DockStyle.None;
+            pipelineTestControlsPanel.Dock = DockStyle.None;
+            MainLayoutPanel.SetRow(pipelineTestMainTablePanel, 0);
+            MainLayoutPanel.SetRow(pipelineTestControlsPanel, 1);
+            pipelineTestMainTablePanel.Dock = DockStyle.Fill;
+            pipelineTestControlsPanel.Dock = DockStyle.Fill;
+
             pipelineTestSettingsTablePanel.RowCount = alignmentMethods.Count == 1 ? alignmentMethods.Count + 1 : alignmentMethods.Count;
             pipelineTestSettingsTablePanel.RowStyles.Clear();
 
@@ -199,23 +209,56 @@ namespace Synapse.Modules
             return result;
         }
         #region Test Controls
+
         private void TestBtn_Click(object sender, EventArgs e)
         {
+            if (testAlignmentPipeline.Count <= 0)
+                return;
+
+            List<AlignmentPipelineResults.AlignmentMethodResult> alignmentMethodResults = new List<AlignmentPipelineResults.AlignmentMethodResult>();
+
             IOutputArray outputImageArr;
-            Image<Gray, byte> outputImage = templateImage;
+            outputImage = templateImage;
             for (int i = 0; i < testAlignmentPipeline.Count; i++)
             {
+                AlignmentPipelineResults.AlignmentMethodResult alignmentMethodResult = null;
                 AlignmentMethod alignmentMethod = testAlignmentPipeline[i];
 
                 if (alignmentMethod.PipelineIndex == -1)
                     continue;
 
-                alignmentMethod.ApplyMethod(outputImage, testImage, out outputImageArr);
-                var outputMat = (Mat)outputImageArr;
-                outputImage = outputMat.ToImage<Gray, byte>();
+                if (alignmentMethod.GetAlignmentMethodType == AlignmentMethodType.Anchors)
+                {
+                    var aIM = (AnchorAlignmentMethod)alignmentMethod;
+                    aIM.ApplyMethod(outputImage, testImage, out outputImageArr, out RectangleF[] detectedAnchors, out RectangleF[] warpedAnchors, out long alignmentTime);
+
+                    var mainAnchors = aIM.GetAnchors.ToArray();
+
+                    var outputMat = (Mat)outputImageArr;
+                    outputImage = outputMat.ToImage<Gray, byte>();
+
+                    AlignmentPipelineResults.AnchorAlignmentMethodResult anchorAlignmentMethodResult = new AlignmentPipelineResults.AnchorAlignmentMethodResult(alignmentMethod, testImage, outputImage, alignmentTime, mainAnchors, detectedAnchors, warpedAnchors);
+                    alignmentMethodResult = anchorAlignmentMethodResult;
+                }
+                else
+                {
+                    alignmentMethod.ApplyMethod(outputImage, testImage, out outputImageArr, out long alignmentTime);
+
+                    var outputMat = (Mat)outputImageArr;
+                    outputImage = outputMat.ToImage<Gray, byte>();
+
+                    alignmentMethodResult = new AlignmentPipelineResults.AlignmentMethodResult(alignmentMethod, testImage, outputImage, alignmentTime);
+                }
+
+                alignmentMethodResults.Add(alignmentMethodResult);
             }
 
-            imageBox.Image = outputImage.Bitmap;
+            testResultsTabPage.Controls.Clear();
+
+            alignmentPipelineResults = new AlignmentPipelineResults(alignmentMethodResults);
+            AlignmentPipelineResultsControl alignmentPipelineResultsControl = new AlignmentPipelineResultsControl(alignmentPipelineResults);
+            testResultsTabPage.Controls.Add(alignmentPipelineResultsControl);
+            alignmentPipelineResultsControl.Dock = DockStyle.Fill;
         }
         #endregion
 
