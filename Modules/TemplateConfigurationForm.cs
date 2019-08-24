@@ -391,9 +391,11 @@ namespace Synapse.Modules
                     walkthroughDescriptionLabel.Text = "Browse a sheet to test the alignment pipeline";
                     CurrentSetAction = new Action(TestAlignmentPipeline);
 
-                    ValidateState();
+                    setBtn.Image = Properties.Resources.Login_Arrow;
+                    setBtn.Text = "BROWSE";
                     nextBtn.Text = "FINISH";
                     nextBtn.BackColor = Color.MediumTurquoise;
+                    ValidateState();
                     CurrentNextAction = new Action(EndWalkthrough);
                     break;
             }
@@ -546,7 +548,7 @@ namespace Synapse.Modules
         {
             if(ImageFileBrowser.ShowDialog() == DialogResult.OK && System.IO.File.Exists(ImageFileBrowser.FileName))
             {
-                AlignmentPipelineTestForm alignmentPipelineTestForm = new AlignmentPipelineTestForm(alignmentMethods, new Image<Gray, byte>(ImageFileBrowser.FileName));
+                AlignmentPipelineTestForm alignmentPipelineTestForm = new AlignmentPipelineTestForm(alignmentMethods, TemplateImage, new Image<Gray, byte>(ImageFileBrowser.FileName));
                 alignmentPipelineTestForm.ShowDialog();
             }
         }

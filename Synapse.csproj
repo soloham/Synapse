@@ -138,6 +138,12 @@
     <Compile Include="Controls\KazeSettingsControl.Designer.cs">
       <DependentUpon>KazeSettingsControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\PipelineTestMethodSettingControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\PipelineTestMethodSettingControl.Designer.cs">
+      <DependentUpon>PipelineTestMethodSettingControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\TemplateListItem.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -240,6 +246,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\KazeSettingsControl.resx">
       <DependentUpon>KazeSettingsControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\PipelineTestMethodSettingControl.resx">
+      <DependentUpon>PipelineTestMethodSettingControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\TemplateListItem.resx">
       <DependentUpon>TemplateListItem.cs</DependentUpon>
@@ -378,6 +387,7 @@
     <None Include="Resources\General\Text Braille-WF.png" />
     <None Include="Resources\General\Delete-WF-Sm.png" />
     <None Include="Resources\General\Import-02-WF Big.png" />
+    <None Include="Resources\General\Instrument-Test-Tube-WF.png" />
     <Content Include="Resources\Ribbon\AddAsBarcodeBtnIcon1_ConfigTab.png" />
     <Content Include="Resources\Ribbon\AddAsBarcodeBtnIcon2_ConfigTab.png" />
     <Content Include="Resources\Ribbon\AddAsBarcodeBtnIcon3_ConfigTab.png" />

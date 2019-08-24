@@ -28,10 +28,15 @@
         /// </summary>
         private void InitializeComponent()
         {
-            Syncfusion.Windows.Forms.Tools.ActiveStateCollection activeStateCollection2 = new Syncfusion.Windows.Forms.Tools.ActiveStateCollection();
-            Syncfusion.Windows.Forms.Tools.InactiveStateCollection inactiveStateCollection2 = new Syncfusion.Windows.Forms.Tools.InactiveStateCollection();
-            Syncfusion.Windows.Forms.Tools.SliderCollection sliderCollection2 = new Syncfusion.Windows.Forms.Tools.SliderCollection();
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AKazeSettingsControl));
+            Syncfusion.Windows.Forms.Tools.ActiveStateCollection activeStateCollection1 = new Syncfusion.Windows.Forms.Tools.ActiveStateCollection();
+            Syncfusion.Windows.Forms.Tools.InactiveStateCollection inactiveStateCollection1 = new Syncfusion.Windows.Forms.Tools.InactiveStateCollection();
+            Syncfusion.Windows.Forms.Tools.SliderCollection sliderCollection1 = new Syncfusion.Windows.Forms.Tools.SliderCollection();
             this.akazeControlsPanel = new System.Windows.Forms.TableLayoutPanel();
+            this.registrationAlignmentMethodConfigControlsTablePanel = new System.Windows.Forms.TableLayoutPanel();
+            this.setBtn = new Syncfusion.Windows.Forms.ButtonAdv();
+            this.doneBtn = new Syncfusion.Windows.Forms.ButtonAdv();
             this.akazeDescTypeOptionPanel = new System.Windows.Forms.TableLayoutPanel();
             this.akazeDescTypeValueBox = new Syncfusion.Windows.Forms.Tools.ComboBoxAdv();
             this.akazeDescTypeOptionLabel = new Syncfusion.Windows.Forms.Tools.AutoLabel();
@@ -57,6 +62,7 @@
             this.akazeUseStoredModelFeaturesToggle = new Syncfusion.Windows.Forms.Tools.ToggleButton();
             this.akazeUseModelFeaturesToggleLabel = new Syncfusion.Windows.Forms.Tools.AutoLabel();
             this.akazeControlsPanel.SuspendLayout();
+            this.registrationAlignmentMethodConfigControlsTablePanel.SuspendLayout();
             this.akazeDescTypeOptionPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.akazeDescTypeValueBox)).BeginInit();
             this.akazeDescSizeOptionPanel.SuspendLayout();
@@ -79,6 +85,7 @@
             // 
             this.akazeControlsPanel.ColumnCount = 1;
             this.akazeControlsPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.akazeControlsPanel.Controls.Add(this.registrationAlignmentMethodConfigControlsTablePanel, 0, 8);
             this.akazeControlsPanel.Controls.Add(this.akazeDescTypeOptionPanel, 0, 0);
             this.akazeControlsPanel.Controls.Add(this.akazeDescSizeOptionPanel, 0, 2);
             this.akazeControlsPanel.Controls.Add(this.akazeDescChannelsOptionPanel, 0, 1);
@@ -90,17 +97,108 @@
             this.akazeControlsPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.akazeControlsPanel.Location = new System.Drawing.Point(0, 0);
             this.akazeControlsPanel.Name = "akazeControlsPanel";
-            this.akazeControlsPanel.RowCount = 8;
-            this.akazeControlsPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
-            this.akazeControlsPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
-            this.akazeControlsPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
-            this.akazeControlsPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
-            this.akazeControlsPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
-            this.akazeControlsPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
-            this.akazeControlsPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
-            this.akazeControlsPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
-            this.akazeControlsPanel.Size = new System.Drawing.Size(383, 402);
+            this.akazeControlsPanel.RowCount = 9;
+            this.akazeControlsPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 11.11111F));
+            this.akazeControlsPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 11.11111F));
+            this.akazeControlsPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 11.11111F));
+            this.akazeControlsPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 11.11111F));
+            this.akazeControlsPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 11.11111F));
+            this.akazeControlsPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 11.11111F));
+            this.akazeControlsPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 11.11111F));
+            this.akazeControlsPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 11.11111F));
+            this.akazeControlsPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 11.11111F));
+            this.akazeControlsPanel.Size = new System.Drawing.Size(422, 441);
             this.akazeControlsPanel.TabIndex = 0;
+            // 
+            // registrationAlignmentMethodConfigControlsTablePanel
+            // 
+            this.registrationAlignmentMethodConfigControlsTablePanel.ColumnCount = 2;
+            this.registrationAlignmentMethodConfigControlsTablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.registrationAlignmentMethodConfigControlsTablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.registrationAlignmentMethodConfigControlsTablePanel.Controls.Add(this.setBtn, 0, 0);
+            this.registrationAlignmentMethodConfigControlsTablePanel.Controls.Add(this.doneBtn, 1, 0);
+            this.registrationAlignmentMethodConfigControlsTablePanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.registrationAlignmentMethodConfigControlsTablePanel.Location = new System.Drawing.Point(0, 392);
+            this.registrationAlignmentMethodConfigControlsTablePanel.Margin = new System.Windows.Forms.Padding(0);
+            this.registrationAlignmentMethodConfigControlsTablePanel.Name = "registrationAlignmentMethodConfigControlsTablePanel";
+            this.registrationAlignmentMethodConfigControlsTablePanel.RowCount = 1;
+            this.registrationAlignmentMethodConfigControlsTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.registrationAlignmentMethodConfigControlsTablePanel.Size = new System.Drawing.Size(422, 49);
+            this.registrationAlignmentMethodConfigControlsTablePanel.TabIndex = 30;
+            // 
+            // setBtn
+            // 
+            this.setBtn.Appearance = Syncfusion.Windows.Forms.ButtonAppearance.Metro;
+            this.setBtn.BackColor = System.Drawing.Color.MediumTurquoise;
+            this.setBtn.BeforeTouchSize = new System.Drawing.Size(205, 43);
+            this.setBtn.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Flat;
+            this.setBtn.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.setBtn.FlatAppearance.BorderSize = 0;
+            this.setBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.setBtn.Font = new System.Drawing.Font("Dosis", 20F);
+            this.setBtn.ForeColor = System.Drawing.Color.White;
+            this.setBtn.Image = ((System.Drawing.Image)(resources.GetObject("setBtn.Image")));
+            this.setBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.setBtn.Location = new System.Drawing.Point(3, 3);
+            this.setBtn.Name = "setBtn";
+            this.setBtn.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
+            this.setBtn.Size = new System.Drawing.Size(205, 43);
+            this.setBtn.TabIndex = 41;
+            this.setBtn.Text = "   SET";
+            this.setBtn.ThemeName = "Metro";
+            this.setBtn.ThemeStyle.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.setBtn.ThemeStyle.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(171)))), ((int)(((byte)(171)))));
+            this.setBtn.ThemeStyle.DisabledBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(243)))), ((int)(((byte)(243)))));
+            this.setBtn.ThemeStyle.DisabledBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(230)))), ((int)(((byte)(230)))));
+            this.setBtn.ThemeStyle.DisabledForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(171)))), ((int)(((byte)(171)))));
+            this.setBtn.ThemeStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.setBtn.ThemeStyle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this.setBtn.ThemeStyle.HoverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(236)))), ((int)(((byte)(249)))));
+            this.setBtn.ThemeStyle.HoverBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(113)))), ((int)(((byte)(175)))), ((int)(((byte)(229)))));
+            this.setBtn.ThemeStyle.HoverForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this.setBtn.ThemeStyle.PressedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(230)))), ((int)(((byte)(247)))));
+            this.setBtn.ThemeStyle.PressedBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(120)))), ((int)(((byte)(212)))));
+            this.setBtn.ThemeStyle.PressedForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this.setBtn.UseVisualStyle = false;
+            this.setBtn.UseVisualStyleBackColor = false;
+            this.setBtn.Click += new System.EventHandler(this.SetBtn_Click);
+            // 
+            // doneBtn
+            // 
+            this.doneBtn.Appearance = Syncfusion.Windows.Forms.ButtonAppearance.Metro;
+            this.doneBtn.BackColor = System.Drawing.Color.MediumAquamarine;
+            this.doneBtn.BeforeTouchSize = new System.Drawing.Size(205, 43);
+            this.doneBtn.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Flat;
+            this.doneBtn.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.doneBtn.FlatAppearance.BorderSize = 0;
+            this.doneBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.doneBtn.Font = new System.Drawing.Font("Dosis", 20F);
+            this.doneBtn.ForeColor = System.Drawing.Color.White;
+            this.doneBtn.Image = ((System.Drawing.Image)(resources.GetObject("doneBtn.Image")));
+            this.doneBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.doneBtn.Location = new System.Drawing.Point(214, 3);
+            this.doneBtn.Name = "doneBtn";
+            this.doneBtn.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
+            this.doneBtn.Size = new System.Drawing.Size(205, 43);
+            this.doneBtn.TabIndex = 40;
+            this.doneBtn.Text = "   RESET";
+            this.doneBtn.ThemeName = "Metro";
+            this.doneBtn.ThemeStyle.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.doneBtn.ThemeStyle.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(171)))), ((int)(((byte)(171)))));
+            this.doneBtn.ThemeStyle.DisabledBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(243)))), ((int)(((byte)(243)))));
+            this.doneBtn.ThemeStyle.DisabledBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(230)))), ((int)(((byte)(230)))));
+            this.doneBtn.ThemeStyle.DisabledForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(171)))), ((int)(((byte)(171)))));
+            this.doneBtn.ThemeStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.doneBtn.ThemeStyle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this.doneBtn.ThemeStyle.HoverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(236)))), ((int)(((byte)(249)))));
+            this.doneBtn.ThemeStyle.HoverBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(113)))), ((int)(((byte)(175)))), ((int)(((byte)(229)))));
+            this.doneBtn.ThemeStyle.HoverForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this.doneBtn.ThemeStyle.PressedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(230)))), ((int)(((byte)(247)))));
+            this.doneBtn.ThemeStyle.PressedBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(120)))), ((int)(((byte)(212)))));
+            this.doneBtn.ThemeStyle.PressedForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this.doneBtn.UseVisualStyle = false;
+            this.doneBtn.UseVisualStyleBackColor = false;
+            this.doneBtn.Click += new System.EventHandler(this.ResetBtn_Click);
             // 
             // akazeDescTypeOptionPanel
             // 
@@ -115,14 +213,14 @@
             this.akazeDescTypeOptionPanel.Name = "akazeDescTypeOptionPanel";
             this.akazeDescTypeOptionPanel.RowCount = 1;
             this.akazeDescTypeOptionPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.akazeDescTypeOptionPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
-            this.akazeDescTypeOptionPanel.Size = new System.Drawing.Size(383, 50);
+            this.akazeDescTypeOptionPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 49F));
+            this.akazeDescTypeOptionPanel.Size = new System.Drawing.Size(422, 49);
             this.akazeDescTypeOptionPanel.TabIndex = 22;
             // 
             // akazeDescTypeValueBox
             // 
             this.akazeDescTypeValueBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.akazeDescTypeValueBox.BeforeTouchSize = new System.Drawing.Size(186, 41);
+            this.akazeDescTypeValueBox.BeforeTouchSize = new System.Drawing.Size(205, 41);
             this.akazeDescTypeValueBox.Border3DStyle = System.Windows.Forms.Border3DStyle.Flat;
             this.akazeDescTypeValueBox.BorderSides = System.Windows.Forms.Border3DSide.Bottom;
             this.akazeDescTypeValueBox.CanOverrideStyle = true;
@@ -131,11 +229,11 @@
             this.akazeDescTypeValueBox.FlatStyle = Syncfusion.Windows.Forms.Tools.ComboFlatStyle.Flat;
             this.akazeDescTypeValueBox.Font = new System.Drawing.Font("Dosis", 19.25F);
             this.akazeDescTypeValueBox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
-            this.akazeDescTypeValueBox.Location = new System.Drawing.Point(194, 5);
+            this.akazeDescTypeValueBox.Location = new System.Drawing.Point(214, 5);
             this.akazeDescTypeValueBox.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
             this.akazeDescTypeValueBox.MetroBorderColor = System.Drawing.Color.White;
             this.akazeDescTypeValueBox.Name = "akazeDescTypeValueBox";
-            this.akazeDescTypeValueBox.Size = new System.Drawing.Size(186, 41);
+            this.akazeDescTypeValueBox.Size = new System.Drawing.Size(205, 41);
             this.akazeDescTypeValueBox.Style = Syncfusion.Windows.Forms.VisualStyle.Office2016White;
             this.akazeDescTypeValueBox.TabIndex = 15;
             this.akazeDescTypeValueBox.Text = "Descriptor";
@@ -151,7 +249,7 @@
             this.akazeDescTypeOptionLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
             this.akazeDescTypeOptionLabel.Location = new System.Drawing.Point(3, 0);
             this.akazeDescTypeOptionLabel.Name = "akazeDescTypeOptionLabel";
-            this.akazeDescTypeOptionLabel.Size = new System.Drawing.Size(185, 50);
+            this.akazeDescTypeOptionLabel.Size = new System.Drawing.Size(205, 49);
             this.akazeDescTypeOptionLabel.Style = Syncfusion.Windows.Forms.Tools.AutoLabelStyle.Office2016White;
             this.akazeDescTypeOptionLabel.TabIndex = 0;
             this.akazeDescTypeOptionLabel.Text = "Descriptor Type:";
@@ -166,18 +264,18 @@
             this.akazeDescSizeOptionPanel.Controls.Add(this.akazeDescSizeValueBox, 0, 0);
             this.akazeDescSizeOptionPanel.Controls.Add(this.akazeDescSizeOptionLabel, 0, 0);
             this.akazeDescSizeOptionPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.akazeDescSizeOptionPanel.Location = new System.Drawing.Point(0, 100);
+            this.akazeDescSizeOptionPanel.Location = new System.Drawing.Point(0, 98);
             this.akazeDescSizeOptionPanel.Margin = new System.Windows.Forms.Padding(0);
             this.akazeDescSizeOptionPanel.Name = "akazeDescSizeOptionPanel";
             this.akazeDescSizeOptionPanel.RowCount = 1;
             this.akazeDescSizeOptionPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.akazeDescSizeOptionPanel.Size = new System.Drawing.Size(383, 50);
+            this.akazeDescSizeOptionPanel.Size = new System.Drawing.Size(422, 49);
             this.akazeDescSizeOptionPanel.TabIndex = 23;
             // 
             // akazeDescSizeValueBox
             // 
             this.akazeDescSizeValueBox.BackGroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.akazeDescSizeValueBox.BeforeTouchSize = new System.Drawing.Size(186, 42);
+            this.akazeDescSizeValueBox.BeforeTouchSize = new System.Drawing.Size(205, 42);
             this.akazeDescSizeValueBox.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(171)))), ((int)(((byte)(171)))));
             this.akazeDescSizeValueBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.akazeDescSizeValueBox.CornerRadius = 15;
@@ -187,12 +285,12 @@
             this.akazeDescSizeValueBox.Font = new System.Drawing.Font("Dosis", 20.75F);
             this.akazeDescSizeValueBox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
             this.akazeDescSizeValueBox.IntegerValue = ((long)(0));
-            this.akazeDescSizeValueBox.Location = new System.Drawing.Point(194, 3);
+            this.akazeDescSizeValueBox.Location = new System.Drawing.Point(214, 3);
             this.akazeDescSizeValueBox.MinimumSize = new System.Drawing.Size(34, 30);
             this.akazeDescSizeValueBox.MinValue = ((long)(0));
             this.akazeDescSizeValueBox.Name = "akazeDescSizeValueBox";
             this.akazeDescSizeValueBox.PositiveColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
-            this.akazeDescSizeValueBox.Size = new System.Drawing.Size(186, 42);
+            this.akazeDescSizeValueBox.Size = new System.Drawing.Size(205, 42);
             this.akazeDescSizeValueBox.Style = Syncfusion.Windows.Forms.Tools.TextBoxExt.theme.Office2016White;
             this.akazeDescSizeValueBox.TabIndex = 15;
             this.akazeDescSizeValueBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -208,7 +306,7 @@
             this.akazeDescSizeOptionLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
             this.akazeDescSizeOptionLabel.Location = new System.Drawing.Point(3, 0);
             this.akazeDescSizeOptionLabel.Name = "akazeDescSizeOptionLabel";
-            this.akazeDescSizeOptionLabel.Size = new System.Drawing.Size(185, 50);
+            this.akazeDescSizeOptionLabel.Size = new System.Drawing.Size(205, 49);
             this.akazeDescSizeOptionLabel.Style = Syncfusion.Windows.Forms.Tools.AutoLabelStyle.Office2016White;
             this.akazeDescSizeOptionLabel.TabIndex = 0;
             this.akazeDescSizeOptionLabel.Text = "Descriptor Size:";
@@ -223,18 +321,18 @@
             this.akazeDescChannelsOptionPanel.Controls.Add(this.akazeDescChannelsValueBox, 0, 0);
             this.akazeDescChannelsOptionPanel.Controls.Add(this.akazeDescChannelsOptionLabel, 0, 0);
             this.akazeDescChannelsOptionPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.akazeDescChannelsOptionPanel.Location = new System.Drawing.Point(0, 50);
+            this.akazeDescChannelsOptionPanel.Location = new System.Drawing.Point(0, 49);
             this.akazeDescChannelsOptionPanel.Margin = new System.Windows.Forms.Padding(0);
             this.akazeDescChannelsOptionPanel.Name = "akazeDescChannelsOptionPanel";
             this.akazeDescChannelsOptionPanel.RowCount = 1;
             this.akazeDescChannelsOptionPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.akazeDescChannelsOptionPanel.Size = new System.Drawing.Size(383, 50);
+            this.akazeDescChannelsOptionPanel.Size = new System.Drawing.Size(422, 49);
             this.akazeDescChannelsOptionPanel.TabIndex = 24;
             // 
             // akazeDescChannelsValueBox
             // 
             this.akazeDescChannelsValueBox.BackGroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.akazeDescChannelsValueBox.BeforeTouchSize = new System.Drawing.Size(186, 42);
+            this.akazeDescChannelsValueBox.BeforeTouchSize = new System.Drawing.Size(205, 42);
             this.akazeDescChannelsValueBox.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(171)))), ((int)(((byte)(171)))));
             this.akazeDescChannelsValueBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.akazeDescChannelsValueBox.CornerRadius = 15;
@@ -244,12 +342,12 @@
             this.akazeDescChannelsValueBox.Font = new System.Drawing.Font("Dosis", 20.75F);
             this.akazeDescChannelsValueBox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
             this.akazeDescChannelsValueBox.IntegerValue = ((long)(3));
-            this.akazeDescChannelsValueBox.Location = new System.Drawing.Point(194, 3);
+            this.akazeDescChannelsValueBox.Location = new System.Drawing.Point(214, 3);
             this.akazeDescChannelsValueBox.MinimumSize = new System.Drawing.Size(34, 30);
             this.akazeDescChannelsValueBox.MinValue = ((long)(1));
             this.akazeDescChannelsValueBox.Name = "akazeDescChannelsValueBox";
             this.akazeDescChannelsValueBox.PositiveColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
-            this.akazeDescChannelsValueBox.Size = new System.Drawing.Size(186, 42);
+            this.akazeDescChannelsValueBox.Size = new System.Drawing.Size(205, 42);
             this.akazeDescChannelsValueBox.Style = Syncfusion.Windows.Forms.Tools.TextBoxExt.theme.Office2016White;
             this.akazeDescChannelsValueBox.TabIndex = 15;
             this.akazeDescChannelsValueBox.Text = "3";
@@ -266,7 +364,7 @@
             this.akazeDescChannelsOptionLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
             this.akazeDescChannelsOptionLabel.Location = new System.Drawing.Point(3, 0);
             this.akazeDescChannelsOptionLabel.Name = "akazeDescChannelsOptionLabel";
-            this.akazeDescChannelsOptionLabel.Size = new System.Drawing.Size(185, 50);
+            this.akazeDescChannelsOptionLabel.Size = new System.Drawing.Size(205, 49);
             this.akazeDescChannelsOptionLabel.Style = Syncfusion.Windows.Forms.Tools.AutoLabelStyle.Office2016White;
             this.akazeDescChannelsOptionLabel.TabIndex = 0;
             this.akazeDescChannelsOptionLabel.Text = "Channels:";
@@ -281,18 +379,18 @@
             this.akazeDescThresholdOptionPanel.Controls.Add(this.akazeDescThresholdValueBox, 1, 0);
             this.akazeDescThresholdOptionPanel.Controls.Add(this.akazeDescThresholdOptionLabel, 0, 0);
             this.akazeDescThresholdOptionPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.akazeDescThresholdOptionPanel.Location = new System.Drawing.Point(0, 150);
+            this.akazeDescThresholdOptionPanel.Location = new System.Drawing.Point(0, 147);
             this.akazeDescThresholdOptionPanel.Margin = new System.Windows.Forms.Padding(0);
             this.akazeDescThresholdOptionPanel.Name = "akazeDescThresholdOptionPanel";
             this.akazeDescThresholdOptionPanel.RowCount = 1;
             this.akazeDescThresholdOptionPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.akazeDescThresholdOptionPanel.Size = new System.Drawing.Size(383, 50);
+            this.akazeDescThresholdOptionPanel.Size = new System.Drawing.Size(422, 49);
             this.akazeDescThresholdOptionPanel.TabIndex = 25;
             // 
             // akazeDescThresholdValueBox
             // 
             this.akazeDescThresholdValueBox.BackGroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.akazeDescThresholdValueBox.BeforeTouchSize = new System.Drawing.Size(186, 42);
+            this.akazeDescThresholdValueBox.BeforeTouchSize = new System.Drawing.Size(205, 42);
             this.akazeDescThresholdValueBox.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(171)))), ((int)(((byte)(171)))));
             this.akazeDescThresholdValueBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.akazeDescThresholdValueBox.CornerRadius = 15;
@@ -302,13 +400,13 @@
             this.akazeDescThresholdValueBox.DoubleValue = 0.001D;
             this.akazeDescThresholdValueBox.Font = new System.Drawing.Font("Dosis", 20.75F);
             this.akazeDescThresholdValueBox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
-            this.akazeDescThresholdValueBox.Location = new System.Drawing.Point(194, 3);
+            this.akazeDescThresholdValueBox.Location = new System.Drawing.Point(214, 3);
             this.akazeDescThresholdValueBox.MinimumSize = new System.Drawing.Size(44, 40);
             this.akazeDescThresholdValueBox.MinValue = 0.001D;
             this.akazeDescThresholdValueBox.Name = "akazeDescThresholdValueBox";
             this.akazeDescThresholdValueBox.NumberDecimalDigits = 3;
             this.akazeDescThresholdValueBox.PositiveColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
-            this.akazeDescThresholdValueBox.Size = new System.Drawing.Size(186, 42);
+            this.akazeDescThresholdValueBox.Size = new System.Drawing.Size(205, 42);
             this.akazeDescThresholdValueBox.Style = Syncfusion.Windows.Forms.Tools.TextBoxExt.theme.Office2016White;
             this.akazeDescThresholdValueBox.TabIndex = 14;
             this.akazeDescThresholdValueBox.Text = "0.001";
@@ -325,7 +423,7 @@
             this.akazeDescThresholdOptionLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
             this.akazeDescThresholdOptionLabel.Location = new System.Drawing.Point(3, 0);
             this.akazeDescThresholdOptionLabel.Name = "akazeDescThresholdOptionLabel";
-            this.akazeDescThresholdOptionLabel.Size = new System.Drawing.Size(185, 50);
+            this.akazeDescThresholdOptionLabel.Size = new System.Drawing.Size(205, 49);
             this.akazeDescThresholdOptionLabel.Style = Syncfusion.Windows.Forms.Tools.AutoLabelStyle.Office2016White;
             this.akazeDescThresholdOptionLabel.TabIndex = 0;
             this.akazeDescThresholdOptionLabel.Text = "Threshold:";
@@ -340,18 +438,18 @@
             this.akazeOctavesOptionPanel.Controls.Add(this.akazeOctavesValueBox, 0, 0);
             this.akazeOctavesOptionPanel.Controls.Add(this.akazeOctavesOptionLabel, 0, 0);
             this.akazeOctavesOptionPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.akazeOctavesOptionPanel.Location = new System.Drawing.Point(0, 200);
+            this.akazeOctavesOptionPanel.Location = new System.Drawing.Point(0, 196);
             this.akazeOctavesOptionPanel.Margin = new System.Windows.Forms.Padding(0);
             this.akazeOctavesOptionPanel.Name = "akazeOctavesOptionPanel";
             this.akazeOctavesOptionPanel.RowCount = 1;
             this.akazeOctavesOptionPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.akazeOctavesOptionPanel.Size = new System.Drawing.Size(383, 50);
+            this.akazeOctavesOptionPanel.Size = new System.Drawing.Size(422, 49);
             this.akazeOctavesOptionPanel.TabIndex = 26;
             // 
             // akazeOctavesValueBox
             // 
             this.akazeOctavesValueBox.BackGroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.akazeOctavesValueBox.BeforeTouchSize = new System.Drawing.Size(186, 42);
+            this.akazeOctavesValueBox.BeforeTouchSize = new System.Drawing.Size(205, 42);
             this.akazeOctavesValueBox.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(171)))), ((int)(((byte)(171)))));
             this.akazeOctavesValueBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.akazeOctavesValueBox.CornerRadius = 15;
@@ -361,12 +459,12 @@
             this.akazeOctavesValueBox.Font = new System.Drawing.Font("Dosis", 20.75F);
             this.akazeOctavesValueBox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
             this.akazeOctavesValueBox.IntegerValue = ((long)(4));
-            this.akazeOctavesValueBox.Location = new System.Drawing.Point(194, 3);
+            this.akazeOctavesValueBox.Location = new System.Drawing.Point(214, 3);
             this.akazeOctavesValueBox.MinimumSize = new System.Drawing.Size(34, 30);
             this.akazeOctavesValueBox.MinValue = ((long)(1));
             this.akazeOctavesValueBox.Name = "akazeOctavesValueBox";
             this.akazeOctavesValueBox.PositiveColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
-            this.akazeOctavesValueBox.Size = new System.Drawing.Size(186, 42);
+            this.akazeOctavesValueBox.Size = new System.Drawing.Size(205, 42);
             this.akazeOctavesValueBox.Style = Syncfusion.Windows.Forms.Tools.TextBoxExt.theme.Office2016White;
             this.akazeOctavesValueBox.TabIndex = 15;
             this.akazeOctavesValueBox.Text = "4";
@@ -383,7 +481,7 @@
             this.akazeOctavesOptionLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
             this.akazeOctavesOptionLabel.Location = new System.Drawing.Point(3, 0);
             this.akazeOctavesOptionLabel.Name = "akazeOctavesOptionLabel";
-            this.akazeOctavesOptionLabel.Size = new System.Drawing.Size(185, 50);
+            this.akazeOctavesOptionLabel.Size = new System.Drawing.Size(205, 49);
             this.akazeOctavesOptionLabel.Style = Syncfusion.Windows.Forms.Tools.AutoLabelStyle.Office2016White;
             this.akazeOctavesOptionLabel.TabIndex = 0;
             this.akazeOctavesOptionLabel.Text = "Octaves:";
@@ -398,19 +496,19 @@
             this.akazeLayersOptionPanel.Controls.Add(this.akazeLayersOptionValueBox, 0, 0);
             this.akazeLayersOptionPanel.Controls.Add(this.akazeLayersOptionLabel, 0, 0);
             this.akazeLayersOptionPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.akazeLayersOptionPanel.Location = new System.Drawing.Point(0, 250);
+            this.akazeLayersOptionPanel.Location = new System.Drawing.Point(0, 245);
             this.akazeLayersOptionPanel.Margin = new System.Windows.Forms.Padding(0);
             this.akazeLayersOptionPanel.Name = "akazeLayersOptionPanel";
             this.akazeLayersOptionPanel.RowCount = 1;
             this.akazeLayersOptionPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.akazeLayersOptionPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
-            this.akazeLayersOptionPanel.Size = new System.Drawing.Size(383, 50);
+            this.akazeLayersOptionPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 49F));
+            this.akazeLayersOptionPanel.Size = new System.Drawing.Size(422, 49);
             this.akazeLayersOptionPanel.TabIndex = 27;
             // 
             // akazeLayersOptionValueBox
             // 
             this.akazeLayersOptionValueBox.BackGroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.akazeLayersOptionValueBox.BeforeTouchSize = new System.Drawing.Size(186, 42);
+            this.akazeLayersOptionValueBox.BeforeTouchSize = new System.Drawing.Size(205, 42);
             this.akazeLayersOptionValueBox.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(171)))), ((int)(((byte)(171)))));
             this.akazeLayersOptionValueBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.akazeLayersOptionValueBox.CornerRadius = 15;
@@ -420,12 +518,12 @@
             this.akazeLayersOptionValueBox.Font = new System.Drawing.Font("Dosis", 20.75F);
             this.akazeLayersOptionValueBox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
             this.akazeLayersOptionValueBox.IntegerValue = ((long)(4));
-            this.akazeLayersOptionValueBox.Location = new System.Drawing.Point(194, 3);
+            this.akazeLayersOptionValueBox.Location = new System.Drawing.Point(214, 3);
             this.akazeLayersOptionValueBox.MinimumSize = new System.Drawing.Size(34, 30);
             this.akazeLayersOptionValueBox.MinValue = ((long)(2));
             this.akazeLayersOptionValueBox.Name = "akazeLayersOptionValueBox";
             this.akazeLayersOptionValueBox.PositiveColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
-            this.akazeLayersOptionValueBox.Size = new System.Drawing.Size(186, 42);
+            this.akazeLayersOptionValueBox.Size = new System.Drawing.Size(205, 42);
             this.akazeLayersOptionValueBox.Style = Syncfusion.Windows.Forms.Tools.TextBoxExt.theme.Office2016White;
             this.akazeLayersOptionValueBox.TabIndex = 15;
             this.akazeLayersOptionValueBox.Text = "4";
@@ -442,7 +540,7 @@
             this.akazeLayersOptionLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
             this.akazeLayersOptionLabel.Location = new System.Drawing.Point(3, 0);
             this.akazeLayersOptionLabel.Name = "akazeLayersOptionLabel";
-            this.akazeLayersOptionLabel.Size = new System.Drawing.Size(185, 50);
+            this.akazeLayersOptionLabel.Size = new System.Drawing.Size(205, 49);
             this.akazeLayersOptionLabel.Style = Syncfusion.Windows.Forms.Tools.AutoLabelStyle.Office2016White;
             this.akazeLayersOptionLabel.TabIndex = 0;
             this.akazeLayersOptionLabel.Text = "Layers:";
@@ -457,18 +555,18 @@
             this.akazeDiffTypeOptionPanel.Controls.Add(this.akazeDiffTypeValueBox, 0, 0);
             this.akazeDiffTypeOptionPanel.Controls.Add(this.akazeDiffTypeOptionLabel, 0, 0);
             this.akazeDiffTypeOptionPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.akazeDiffTypeOptionPanel.Location = new System.Drawing.Point(0, 300);
+            this.akazeDiffTypeOptionPanel.Location = new System.Drawing.Point(0, 294);
             this.akazeDiffTypeOptionPanel.Margin = new System.Windows.Forms.Padding(0);
             this.akazeDiffTypeOptionPanel.Name = "akazeDiffTypeOptionPanel";
             this.akazeDiffTypeOptionPanel.RowCount = 1;
             this.akazeDiffTypeOptionPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.akazeDiffTypeOptionPanel.Size = new System.Drawing.Size(383, 50);
+            this.akazeDiffTypeOptionPanel.Size = new System.Drawing.Size(422, 49);
             this.akazeDiffTypeOptionPanel.TabIndex = 28;
             // 
             // akazeDiffTypeValueBox
             // 
             this.akazeDiffTypeValueBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.akazeDiffTypeValueBox.BeforeTouchSize = new System.Drawing.Size(186, 41);
+            this.akazeDiffTypeValueBox.BeforeTouchSize = new System.Drawing.Size(205, 41);
             this.akazeDiffTypeValueBox.Border3DStyle = System.Windows.Forms.Border3DStyle.Flat;
             this.akazeDiffTypeValueBox.BorderSides = System.Windows.Forms.Border3DSide.Bottom;
             this.akazeDiffTypeValueBox.CanOverrideStyle = true;
@@ -477,11 +575,11 @@
             this.akazeDiffTypeValueBox.FlatStyle = Syncfusion.Windows.Forms.Tools.ComboFlatStyle.Flat;
             this.akazeDiffTypeValueBox.Font = new System.Drawing.Font("Dosis", 19.25F);
             this.akazeDiffTypeValueBox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
-            this.akazeDiffTypeValueBox.Location = new System.Drawing.Point(194, 5);
+            this.akazeDiffTypeValueBox.Location = new System.Drawing.Point(214, 5);
             this.akazeDiffTypeValueBox.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
             this.akazeDiffTypeValueBox.MetroBorderColor = System.Drawing.Color.White;
             this.akazeDiffTypeValueBox.Name = "akazeDiffTypeValueBox";
-            this.akazeDiffTypeValueBox.Size = new System.Drawing.Size(186, 41);
+            this.akazeDiffTypeValueBox.Size = new System.Drawing.Size(205, 41);
             this.akazeDiffTypeValueBox.Style = Syncfusion.Windows.Forms.VisualStyle.Office2016White;
             this.akazeDiffTypeValueBox.TabIndex = 15;
             this.akazeDiffTypeValueBox.Text = "Diffusivity";
@@ -497,7 +595,7 @@
             this.akazeDiffTypeOptionLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
             this.akazeDiffTypeOptionLabel.Location = new System.Drawing.Point(3, 0);
             this.akazeDiffTypeOptionLabel.Name = "akazeDiffTypeOptionLabel";
-            this.akazeDiffTypeOptionLabel.Size = new System.Drawing.Size(185, 50);
+            this.akazeDiffTypeOptionLabel.Size = new System.Drawing.Size(205, 49);
             this.akazeDiffTypeOptionLabel.Style = Syncfusion.Windows.Forms.Tools.AutoLabelStyle.Office2016White;
             this.akazeDiffTypeOptionLabel.TabIndex = 0;
             this.akazeDiffTypeOptionLabel.Text = "Diffusivity Type:";
@@ -507,47 +605,46 @@
             // akazeUseStoreModelFeaturesToggleOptionsTablePanel
             // 
             this.akazeUseStoreModelFeaturesToggleOptionsTablePanel.ColumnCount = 2;
-            this.akazeUseStoreModelFeaturesToggleOptionsTablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 63.52941F));
-            this.akazeUseStoreModelFeaturesToggleOptionsTablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 36.47059F));
+            this.akazeUseStoreModelFeaturesToggleOptionsTablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.13055F));
+            this.akazeUseStoreModelFeaturesToggleOptionsTablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 49.86945F));
             this.akazeUseStoreModelFeaturesToggleOptionsTablePanel.Controls.Add(this.akazeUseStoredModelFeaturesToggle, 0, 0);
             this.akazeUseStoreModelFeaturesToggleOptionsTablePanel.Controls.Add(this.akazeUseModelFeaturesToggleLabel, 0, 0);
             this.akazeUseStoreModelFeaturesToggleOptionsTablePanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.akazeUseStoreModelFeaturesToggleOptionsTablePanel.Location = new System.Drawing.Point(0, 350);
+            this.akazeUseStoreModelFeaturesToggleOptionsTablePanel.Location = new System.Drawing.Point(0, 343);
             this.akazeUseStoreModelFeaturesToggleOptionsTablePanel.Margin = new System.Windows.Forms.Padding(0);
             this.akazeUseStoreModelFeaturesToggleOptionsTablePanel.Name = "akazeUseStoreModelFeaturesToggleOptionsTablePanel";
             this.akazeUseStoreModelFeaturesToggleOptionsTablePanel.RowCount = 1;
             this.akazeUseStoreModelFeaturesToggleOptionsTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.akazeUseStoreModelFeaturesToggleOptionsTablePanel.Size = new System.Drawing.Size(383, 52);
+            this.akazeUseStoreModelFeaturesToggleOptionsTablePanel.Size = new System.Drawing.Size(422, 49);
             this.akazeUseStoreModelFeaturesToggleOptionsTablePanel.TabIndex = 29;
             // 
             // akazeUseStoredModelFeaturesToggle
             // 
-            activeStateCollection2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(1)))), ((int)(((byte)(115)))), ((int)(((byte)(199)))));
-            activeStateCollection2.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(1)))), ((int)(((byte)(115)))), ((int)(((byte)(199)))));
-            activeStateCollection2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            activeStateCollection2.HoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(103)))), ((int)(((byte)(176)))));
-            this.akazeUseStoredModelFeaturesToggle.ActiveState = activeStateCollection2;
+            activeStateCollection1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(1)))), ((int)(((byte)(115)))), ((int)(((byte)(199)))));
+            activeStateCollection1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(1)))), ((int)(((byte)(115)))), ((int)(((byte)(199)))));
+            activeStateCollection1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            activeStateCollection1.HoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(103)))), ((int)(((byte)(176)))));
+            this.akazeUseStoredModelFeaturesToggle.ActiveState = activeStateCollection1;
+            this.akazeUseStoredModelFeaturesToggle.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
             this.akazeUseStoredModelFeaturesToggle.DisplayMode = Syncfusion.Windows.Forms.Tools.DisplayType.Image;
-            this.akazeUseStoredModelFeaturesToggle.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.akazeUseStoredModelFeaturesToggle.Enabled = false;
             this.akazeUseStoredModelFeaturesToggle.Font = new System.Drawing.Font("Dosis", 12F);
             this.akazeUseStoredModelFeaturesToggle.ForeColor = System.Drawing.Color.Black;
-            inactiveStateCollection2.BackColor = System.Drawing.Color.White;
-            inactiveStateCollection2.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(150)))), ((int)(((byte)(150)))), ((int)(((byte)(150)))));
-            inactiveStateCollection2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
-            inactiveStateCollection2.HoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.akazeUseStoredModelFeaturesToggle.InactiveState = inactiveStateCollection2;
-            this.akazeUseStoredModelFeaturesToggle.Location = new System.Drawing.Point(268, 10);
-            this.akazeUseStoredModelFeaturesToggle.Margin = new System.Windows.Forms.Padding(25, 10, 25, 10);
+            inactiveStateCollection1.BackColor = System.Drawing.Color.White;
+            inactiveStateCollection1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(150)))), ((int)(((byte)(150)))), ((int)(((byte)(150)))));
+            inactiveStateCollection1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
+            inactiveStateCollection1.HoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.akazeUseStoredModelFeaturesToggle.InactiveState = inactiveStateCollection1;
+            this.akazeUseStoredModelFeaturesToggle.Location = new System.Drawing.Point(281, 10);
+            this.akazeUseStoredModelFeaturesToggle.Margin = new System.Windows.Forms.Padding(65, 10, 65, 18);
             this.akazeUseStoredModelFeaturesToggle.MinimumSize = new System.Drawing.Size(52, 20);
             this.akazeUseStoredModelFeaturesToggle.Name = "akazeUseStoredModelFeaturesToggle";
-            this.akazeUseStoredModelFeaturesToggle.Size = new System.Drawing.Size(90, 32);
-            sliderCollection2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            sliderCollection2.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(171)))), ((int)(((byte)(171)))));
-            sliderCollection2.HoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            sliderCollection2.InactiveBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(150)))), ((int)(((byte)(150)))), ((int)(((byte)(150)))));
-            sliderCollection2.InactiveHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(94)))), ((int)(((byte)(94)))));
-            this.akazeUseStoredModelFeaturesToggle.Slider = sliderCollection2;
+            this.akazeUseStoredModelFeaturesToggle.Size = new System.Drawing.Size(70, 21);
+            sliderCollection1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            sliderCollection1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(171)))), ((int)(((byte)(171)))));
+            sliderCollection1.HoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            sliderCollection1.InactiveBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(150)))), ((int)(((byte)(150)))), ((int)(((byte)(150)))));
+            sliderCollection1.InactiveHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(94)))), ((int)(((byte)(94)))));
+            this.akazeUseStoredModelFeaturesToggle.Slider = sliderCollection1;
             this.akazeUseStoredModelFeaturesToggle.TabIndex = 45;
             this.akazeUseStoredModelFeaturesToggle.ThemeName = "Office2016White";
             this.akazeUseStoredModelFeaturesToggle.VisualStyle = Syncfusion.Windows.Forms.Tools.ToggleButtonStyle.Office2016White;
@@ -561,7 +658,7 @@
             this.akazeUseModelFeaturesToggleLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
             this.akazeUseModelFeaturesToggleLabel.Location = new System.Drawing.Point(3, 0);
             this.akazeUseModelFeaturesToggleLabel.Name = "akazeUseModelFeaturesToggleLabel";
-            this.akazeUseModelFeaturesToggleLabel.Size = new System.Drawing.Size(237, 52);
+            this.akazeUseModelFeaturesToggleLabel.Size = new System.Drawing.Size(205, 49);
             this.akazeUseModelFeaturesToggleLabel.Style = Syncfusion.Windows.Forms.Tools.AutoLabelStyle.Office2016White;
             this.akazeUseModelFeaturesToggleLabel.TabIndex = 0;
             this.akazeUseModelFeaturesToggleLabel.Text = "Use Model Features:";
@@ -572,13 +669,13 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.AutoScroll = true;
             this.BackColor = System.Drawing.Color.White;
             this.Controls.Add(this.akazeControlsPanel);
-            this.MinimumSize = new System.Drawing.Size(383, 402);
+            this.MinimumSize = new System.Drawing.Size(300, 300);
             this.Name = "AKazeSettingsControl";
-            this.Size = new System.Drawing.Size(383, 402);
+            this.Size = new System.Drawing.Size(422, 441);
             this.akazeControlsPanel.ResumeLayout(false);
+            this.registrationAlignmentMethodConfigControlsTablePanel.ResumeLayout(false);
             this.akazeDescTypeOptionPanel.ResumeLayout(false);
             this.akazeDescTypeOptionPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.akazeDescTypeValueBox)).EndInit();
@@ -634,5 +731,8 @@
         private System.Windows.Forms.TableLayoutPanel akazeUseStoreModelFeaturesToggleOptionsTablePanel;
         private Syncfusion.Windows.Forms.Tools.ToggleButton akazeUseStoredModelFeaturesToggle;
         private Syncfusion.Windows.Forms.Tools.AutoLabel akazeUseModelFeaturesToggleLabel;
+        private System.Windows.Forms.TableLayoutPanel registrationAlignmentMethodConfigControlsTablePanel;
+        private Syncfusion.Windows.Forms.ButtonAdv setBtn;
+        private Syncfusion.Windows.Forms.ButtonAdv doneBtn;
     }
 }

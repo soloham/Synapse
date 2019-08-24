@@ -523,6 +523,16 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Instrument_Test_Tube_WF {
+            get {
+                object obj = ResourceManager.GetObject("Instrument-Test-Tube-WF", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap InternalDataPointBtnIcon_DataTab {
             get {
                 object obj = ResourceManager.GetObject("InternalDataPointBtnIcon_DataTab", resourceCulture);

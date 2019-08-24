@@ -82,6 +82,8 @@ namespace Synapse.Core.Templates
             }
 
             public abstract bool ApplyMethod(IInputArray input, out IOutputArray output);
+            public abstract bool ApplyMethod(IInputArray template, IInputArray input, out IOutputArray output);
+
         }
         [Serializable]
         internal class AnchorAlignmentMethod : AlignmentMethod
@@ -185,6 +187,37 @@ namespace Synapse.Core.Templates
                 output = _output;
                 return isSuccess;
             }
+            public override bool ApplyMethod(IInputArray templateImage, IInputArray input, out IOutputArray output)
+            {
+                bool isSuccess = false;
+                Image<Gray, byte> _output = null;
+
+                PointF[] anchorCoordinates = new PointF[anchors.Count];
+                for (int i = 0; i < anchors.Count; i++)
+                {
+                    Anchor curAnchor = anchors[i];
+
+                    Mat result = null;
+                    CvInvoke.MatchTemplate(input, curAnchor.GetAnchorImage, result, Emgu.CV.CvEnum.TemplateMatchingType.CcoeffNormed);
+
+                    Point[] Max_Loc, Min_Loc;
+                    double[] min, max;
+
+                    result.MinMax(out min, out max, out Min_Loc, out Max_Loc);
+
+                    if (max[0] > 0.85)
+                        isSuccess = true;
+
+                    anchorCoordinates[i] = Max_Loc[0];
+                }
+
+                var homography = CvInvoke.FindHomography(anchorCoordinates, mainAnchorCoordinates, Emgu.CV.CvEnum.RobustEstimationAlgorithm.Ransac);
+                CvInvoke.WarpPerspective(input, _output, homography, outputSize);
+
+                output = _output;
+                return isSuccess;
+            }
+
             #endregion
         }
         [Serializable]
@@ -303,7 +336,7 @@ namespace Synapse.Core.Templates
                         using (UMat uObservedImage = observedImage.GetUMat(AccessType.Read))
                         {
                             using (Mat observedDescriptors = new Mat())
-                            using (Mat modelDescriptors = useStoredModelFeatures ? GetStoredModelDescriptors : new Mat())
+                            using (Mat modelDescriptors = useStoredModelFeatures ? GetStoredModelDescriptors.Clone() : new Mat())
                             {
                                 watch.Start();
 
@@ -342,7 +375,7 @@ namespace Synapse.Core.Templates
                                             {
                                                 foreach (var e in matches[i].ToArray())
                                                     ++total;
-                                                if ((int)mask.GetData().GetValue(i) == 0) continue;
+                                                if ((int)mask.GetRawData(i)[0] == 0) continue;
                                                 foreach (var e in matches[i].ToArray())
                                                     ++score;
                                             }
@@ -385,7 +418,9 @@ namespace Synapse.Core.Templates
                     VectorOfKeyPoint observedKeyPoints;
 
                     Mat mask;
-                    isSuccess = ExtractHomography((Mat)source, (Mat)observed, useStoredModelFeatures, out matchTime, out modelKeyPoints, out observedKeyPoints, out matches,
+                    var sourceImg = (Image<Gray, byte>)source;
+                    var observedImg = (Image<Gray, byte>)observed;
+                    isSuccess = ExtractHomography(sourceImg.Mat, observedImg.Mat, useStoredModelFeatures, out matchTime, out modelKeyPoints, out observedKeyPoints, out matches,
                         out mask, out _homography, out score);
 
                     homography = _homography;
@@ -539,7 +574,7 @@ namespace Synapse.Core.Templates
                                             {
                                                 foreach (var e in matches[i].ToArray())
                                                     ++total;
-                                                if ((int)mask.GetData().GetValue(i) == 0) continue;
+                                                if ((int)mask.GetRawData(i)[0] == 0) continue;
                                                 foreach (var e in matches[i].ToArray())
                                                     ++score;
                                             }
@@ -565,7 +600,7 @@ namespace Synapse.Core.Templates
                         }
 
                     }
-                    catch
+                    catch(Exception ex)
                     {
                         result = false;
                     }
@@ -582,7 +617,9 @@ namespace Synapse.Core.Templates
                     VectorOfKeyPoint observedKeyPoints;
 
                     Mat mask;
-                    isSuccess = ExtractHomography((Mat)source, (Mat)observed, useStoredModelFeatures, out matchTime, out modelKeyPoints, out observedKeyPoints, out matches,
+                    var sourceImg = (Image<Gray, byte>)source;
+                    var observedImg = (Image<Gray, byte>)observed;
+                    isSuccess = ExtractHomography(sourceImg.Mat, observedImg.Mat, useStoredModelFeatures, out matchTime, out modelKeyPoints, out observedKeyPoints, out matches,
                         out mask, out _homography, out score);
 
                     homography = _homography;
@@ -649,6 +686,29 @@ namespace Synapse.Core.Templates
                 bool result = false;
                 IOutputArray _homography;
                 registrationMethod.ApplyMethod(sourceImage, input, useStoredModelFeatures, out _homography, out VectorOfVectorOfDMatch matches, out long matchTime, out long score);
+                Mat homography = (Mat)_homography;
+
+                if (score > 0 && homography != null)
+                {
+                    Mat warped = new Mat();
+                    CvInvoke.WarpPerspective(input, warped, homography, outputWidth, Inter.Cubic, Warp.Default, BorderType.Replicate);
+
+                    output = warped;
+                    result = true;
+                }
+                else
+                {
+                    output = null;
+                    result = false;
+                }
+
+                return result;
+            }
+            public override bool ApplyMethod(IInputArray templateImage, IInputArray input, out IOutputArray output)
+            {
+                bool result = false;
+                IOutputArray _homography;
+                registrationMethod.ApplyMethod(templateImage, input, useStoredModelFeatures, out _homography, out VectorOfVectorOfDMatch matches, out long matchTime, out long score);
                 Mat homography = (Mat)_homography;
 
                 if (score > 0 && homography != null)

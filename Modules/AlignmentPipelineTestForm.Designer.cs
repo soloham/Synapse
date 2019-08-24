@@ -33,14 +33,16 @@
             this.MainLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.configureAnchorsPanel = new System.Windows.Forms.TableLayoutPanel();
             this.registrationAlignmentMethodConfigControlsTablePanel = new System.Windows.Forms.TableLayoutPanel();
-            this.setBtn = new Syncfusion.Windows.Forms.ButtonAdv();
+            this.testBtn = new Syncfusion.Windows.Forms.ButtonAdv();
             this.doneBtn = new Syncfusion.Windows.Forms.ButtonAdv();
             this.registrationMethodMainTablePanel = new System.Windows.Forms.TableLayoutPanel();
             this.alignmentPipelineTestMainTabControl = new Syncfusion.Windows.Forms.Tools.TabControlAdv();
             this.alignmentPipelineTabPage = new Syncfusion.Windows.Forms.Tools.TabPageAdv();
             this.alignmentPipelineTabControl = new Syncfusion.Windows.Forms.Tools.TabControlAdv();
             this.pipelineTestSettingsTabPage = new Syncfusion.Windows.Forms.Tools.TabPageAdv();
+            this.pipelineTestSettingsTablePanel = new System.Windows.Forms.TableLayoutPanel();
             this.testResultsTabPage = new Syncfusion.Windows.Forms.Tools.TabPageAdv();
+            this.imageBox = new Cyotek.Windows.Forms.Demo.ImageBoxEx();
             this.MainLayoutPanel.SuspendLayout();
             this.configureAnchorsPanel.SuspendLayout();
             this.registrationAlignmentMethodConfigControlsTablePanel.SuspendLayout();
@@ -49,6 +51,8 @@
             this.alignmentPipelineTestMainTabControl.SuspendLayout();
             this.alignmentPipelineTabPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.alignmentPipelineTabControl)).BeginInit();
+            this.pipelineTestSettingsTabPage.SuspendLayout();
+            this.testResultsTabPage.SuspendLayout();
             this.SuspendLayout();
             // 
             // MainLayoutPanel
@@ -86,7 +90,7 @@
             this.registrationAlignmentMethodConfigControlsTablePanel.ColumnCount = 2;
             this.registrationAlignmentMethodConfigControlsTablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.registrationAlignmentMethodConfigControlsTablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.registrationAlignmentMethodConfigControlsTablePanel.Controls.Add(this.setBtn, 0, 0);
+            this.registrationAlignmentMethodConfigControlsTablePanel.Controls.Add(this.testBtn, 0, 0);
             this.registrationAlignmentMethodConfigControlsTablePanel.Controls.Add(this.doneBtn, 1, 0);
             this.registrationAlignmentMethodConfigControlsTablePanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.registrationAlignmentMethodConfigControlsTablePanel.Location = new System.Drawing.Point(0, 0);
@@ -97,41 +101,42 @@
             this.registrationAlignmentMethodConfigControlsTablePanel.Size = new System.Drawing.Size(456, 62);
             this.registrationAlignmentMethodConfigControlsTablePanel.TabIndex = 0;
             // 
-            // setBtn
+            // testBtn
             // 
-            this.setBtn.Appearance = Syncfusion.Windows.Forms.ButtonAppearance.Metro;
-            this.setBtn.BackColor = System.Drawing.Color.MediumTurquoise;
-            this.setBtn.BeforeTouchSize = new System.Drawing.Size(222, 56);
-            this.setBtn.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Flat;
-            this.setBtn.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.setBtn.FlatAppearance.BorderSize = 0;
-            this.setBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.setBtn.Font = new System.Drawing.Font("Dosis", 20F);
-            this.setBtn.ForeColor = System.Drawing.Color.White;
-            this.setBtn.Image = ((System.Drawing.Image)(resources.GetObject("setBtn.Image")));
-            this.setBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.setBtn.Location = new System.Drawing.Point(3, 3);
-            this.setBtn.Name = "setBtn";
-            this.setBtn.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
-            this.setBtn.Size = new System.Drawing.Size(222, 56);
-            this.setBtn.TabIndex = 41;
-            this.setBtn.Text = "   SET";
-            this.setBtn.ThemeName = "Metro";
-            this.setBtn.ThemeStyle.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.setBtn.ThemeStyle.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(171)))), ((int)(((byte)(171)))));
-            this.setBtn.ThemeStyle.DisabledBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(243)))), ((int)(((byte)(243)))));
-            this.setBtn.ThemeStyle.DisabledBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(230)))), ((int)(((byte)(230)))));
-            this.setBtn.ThemeStyle.DisabledForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(171)))), ((int)(((byte)(171)))));
-            this.setBtn.ThemeStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-            this.setBtn.ThemeStyle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
-            this.setBtn.ThemeStyle.HoverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(236)))), ((int)(((byte)(249)))));
-            this.setBtn.ThemeStyle.HoverBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(113)))), ((int)(((byte)(175)))), ((int)(((byte)(229)))));
-            this.setBtn.ThemeStyle.HoverForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
-            this.setBtn.ThemeStyle.PressedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(230)))), ((int)(((byte)(247)))));
-            this.setBtn.ThemeStyle.PressedBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(120)))), ((int)(((byte)(212)))));
-            this.setBtn.ThemeStyle.PressedForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
-            this.setBtn.UseVisualStyle = false;
-            this.setBtn.UseVisualStyleBackColor = false;
+            this.testBtn.Appearance = Syncfusion.Windows.Forms.ButtonAppearance.Metro;
+            this.testBtn.BackColor = System.Drawing.Color.DodgerBlue;
+            this.testBtn.BeforeTouchSize = new System.Drawing.Size(222, 56);
+            this.testBtn.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Flat;
+            this.testBtn.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.testBtn.FlatAppearance.BorderSize = 0;
+            this.testBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.testBtn.Font = new System.Drawing.Font("Dosis", 20F);
+            this.testBtn.ForeColor = System.Drawing.Color.White;
+            this.testBtn.Image = global::Synapse.Properties.Resources.Instrument_Test_Tube_WF;
+            this.testBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.testBtn.Location = new System.Drawing.Point(3, 3);
+            this.testBtn.Name = "testBtn";
+            this.testBtn.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
+            this.testBtn.Size = new System.Drawing.Size(222, 56);
+            this.testBtn.TabIndex = 41;
+            this.testBtn.Text = "   TEST";
+            this.testBtn.ThemeName = "Metro";
+            this.testBtn.ThemeStyle.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.testBtn.ThemeStyle.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(171)))), ((int)(((byte)(171)))));
+            this.testBtn.ThemeStyle.DisabledBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(243)))), ((int)(((byte)(243)))));
+            this.testBtn.ThemeStyle.DisabledBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(230)))), ((int)(((byte)(230)))));
+            this.testBtn.ThemeStyle.DisabledForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(171)))), ((int)(((byte)(171)))));
+            this.testBtn.ThemeStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.testBtn.ThemeStyle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this.testBtn.ThemeStyle.HoverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(236)))), ((int)(((byte)(249)))));
+            this.testBtn.ThemeStyle.HoverBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(113)))), ((int)(((byte)(175)))), ((int)(((byte)(229)))));
+            this.testBtn.ThemeStyle.HoverForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this.testBtn.ThemeStyle.PressedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(230)))), ((int)(((byte)(247)))));
+            this.testBtn.ThemeStyle.PressedBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(120)))), ((int)(((byte)(212)))));
+            this.testBtn.ThemeStyle.PressedForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this.testBtn.UseVisualStyle = false;
+            this.testBtn.UseVisualStyleBackColor = false;
+            this.testBtn.Click += new System.EventHandler(this.TestBtn_Click);
             // 
             // doneBtn
             // 
@@ -178,9 +183,8 @@
             this.registrationMethodMainTablePanel.Location = new System.Drawing.Point(0, 0);
             this.registrationMethodMainTablePanel.Margin = new System.Windows.Forms.Padding(0);
             this.registrationMethodMainTablePanel.Name = "registrationMethodMainTablePanel";
-            this.registrationMethodMainTablePanel.RowCount = 2;
+            this.registrationMethodMainTablePanel.RowCount = 1;
             this.registrationMethodMainTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.registrationMethodMainTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
             this.registrationMethodMainTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.registrationMethodMainTablePanel.Size = new System.Drawing.Size(462, 368);
             this.registrationMethodMainTablePanel.TabIndex = 42;
@@ -189,7 +193,7 @@
             // 
             this.alignmentPipelineTestMainTabControl.ActiveTabFont = new System.Drawing.Font("Dosis", 16.25F);
             this.alignmentPipelineTestMainTabControl.ActiveTabForeColor = System.Drawing.Color.Empty;
-            this.alignmentPipelineTestMainTabControl.BeforeTouchSize = new System.Drawing.Size(456, 302);
+            this.alignmentPipelineTestMainTabControl.BeforeTouchSize = new System.Drawing.Size(456, 362);
             this.alignmentPipelineTestMainTabControl.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.alignmentPipelineTestMainTabControl.CloseButtonForeColor = System.Drawing.Color.Empty;
             this.alignmentPipelineTestMainTabControl.CloseButtonHoverForeColor = System.Drawing.Color.Empty;
@@ -206,7 +210,7 @@
             this.alignmentPipelineTestMainTabControl.RotateTextWhenVertical = true;
             this.alignmentPipelineTestMainTabControl.SeparatorColor = System.Drawing.SystemColors.ControlDark;
             this.alignmentPipelineTestMainTabControl.ShowSeparator = false;
-            this.alignmentPipelineTestMainTabControl.Size = new System.Drawing.Size(456, 302);
+            this.alignmentPipelineTestMainTabControl.Size = new System.Drawing.Size(456, 362);
             this.alignmentPipelineTestMainTabControl.TabIndex = 43;
             this.alignmentPipelineTestMainTabControl.TabStyle = typeof(Syncfusion.Windows.Forms.Tools.TabRendererOffice2016White);
             this.alignmentPipelineTestMainTabControl.ThemeName = "TabRenderer3D";
@@ -223,7 +227,7 @@
             this.alignmentPipelineTabPage.Location = new System.Drawing.Point(0, 36);
             this.alignmentPipelineTabPage.Name = "alignmentPipelineTabPage";
             this.alignmentPipelineTabPage.ShowCloseButton = true;
-            this.alignmentPipelineTabPage.Size = new System.Drawing.Size(456, 266);
+            this.alignmentPipelineTabPage.Size = new System.Drawing.Size(456, 326);
             this.alignmentPipelineTabPage.TabIndex = 1;
             this.alignmentPipelineTabPage.Text = "Alignment Pipeline";
             this.alignmentPipelineTabPage.ThemesEnabled = false;
@@ -233,7 +237,7 @@
             this.alignmentPipelineTabControl.ActiveTabFont = new System.Drawing.Font("Dosis", 16.25F);
             this.alignmentPipelineTabControl.ActiveTabForeColor = System.Drawing.Color.Empty;
             this.alignmentPipelineTabControl.Alignment = System.Windows.Forms.TabAlignment.Left;
-            this.alignmentPipelineTabControl.BeforeTouchSize = new System.Drawing.Size(456, 266);
+            this.alignmentPipelineTabControl.BeforeTouchSize = new System.Drawing.Size(456, 326);
             this.alignmentPipelineTabControl.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.alignmentPipelineTabControl.CloseButtonForeColor = System.Drawing.Color.Empty;
             this.alignmentPipelineTabControl.CloseButtonHoverForeColor = System.Drawing.Color.Empty;
@@ -247,7 +251,7 @@
             this.alignmentPipelineTabControl.RotateTextWhenVertical = true;
             this.alignmentPipelineTabControl.SeparatorColor = System.Drawing.SystemColors.ControlDark;
             this.alignmentPipelineTabControl.ShowSeparator = false;
-            this.alignmentPipelineTabControl.Size = new System.Drawing.Size(456, 266);
+            this.alignmentPipelineTabControl.Size = new System.Drawing.Size(456, 326);
             this.alignmentPipelineTabControl.TabIndex = 44;
             this.alignmentPipelineTabControl.TabStyle = typeof(Syncfusion.Windows.Forms.Tools.TabRendererOffice2016White);
             this.alignmentPipelineTabControl.ThemeName = "TabRenderer3D";
@@ -257,30 +261,64 @@
             // pipelineTestSettingsTabPage
             // 
             this.pipelineTestSettingsTabPage.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.pipelineTestSettingsTabPage.Controls.Add(this.pipelineTestSettingsTablePanel);
             this.pipelineTestSettingsTabPage.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(38)))), ((int)(((byte)(38)))));
             this.pipelineTestSettingsTabPage.Image = null;
             this.pipelineTestSettingsTabPage.ImageSize = new System.Drawing.Size(16, 16);
             this.pipelineTestSettingsTabPage.Location = new System.Drawing.Point(0, 36);
             this.pipelineTestSettingsTabPage.Name = "pipelineTestSettingsTabPage";
             this.pipelineTestSettingsTabPage.ShowCloseButton = true;
-            this.pipelineTestSettingsTabPage.Size = new System.Drawing.Size(456, 266);
+            this.pipelineTestSettingsTabPage.Size = new System.Drawing.Size(456, 326);
             this.pipelineTestSettingsTabPage.TabIndex = 2;
             this.pipelineTestSettingsTabPage.Text = "Test Settings";
             this.pipelineTestSettingsTabPage.ThemesEnabled = false;
             // 
+            // pipelineTestSettingsTablePanel
+            // 
+            this.pipelineTestSettingsTablePanel.AutoSize = true;
+            this.pipelineTestSettingsTablePanel.ColumnCount = 1;
+            this.pipelineTestSettingsTablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.pipelineTestSettingsTablePanel.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pipelineTestSettingsTablePanel.Location = new System.Drawing.Point(0, 0);
+            this.pipelineTestSettingsTablePanel.Name = "pipelineTestSettingsTablePanel";
+            this.pipelineTestSettingsTablePanel.RowCount = 1;
+            this.pipelineTestSettingsTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+            this.pipelineTestSettingsTablePanel.Size = new System.Drawing.Size(456, 50);
+            this.pipelineTestSettingsTablePanel.TabIndex = 0;
+            // 
             // testResultsTabPage
             // 
             this.testResultsTabPage.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.testResultsTabPage.Controls.Add(this.imageBox);
             this.testResultsTabPage.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(38)))), ((int)(((byte)(38)))));
             this.testResultsTabPage.Image = null;
             this.testResultsTabPage.ImageSize = new System.Drawing.Size(16, 16);
             this.testResultsTabPage.Location = new System.Drawing.Point(0, 36);
             this.testResultsTabPage.Name = "testResultsTabPage";
             this.testResultsTabPage.ShowCloseButton = true;
-            this.testResultsTabPage.Size = new System.Drawing.Size(456, 266);
+            this.testResultsTabPage.Size = new System.Drawing.Size(456, 326);
             this.testResultsTabPage.TabIndex = 3;
             this.testResultsTabPage.Text = "Results";
             this.testResultsTabPage.ThemesEnabled = false;
+            // 
+            // imageBox
+            // 
+            this.imageBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.imageBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.imageBox.DragHandleSize = 10;
+            this.imageBox.DropShadowSize = 5;
+            this.imageBox.Font = new System.Drawing.Font("Dosis", 14F);
+            this.imageBox.GridColor = System.Drawing.Color.White;
+            this.imageBox.ImageBorderColor = System.Drawing.SystemColors.ActiveBorder;
+            this.imageBox.ImageBorderStyle = Cyotek.Windows.Forms.ImageBoxBorderStyle.FixedSingleGlowShadow;
+            this.imageBox.Location = new System.Drawing.Point(0, 0);
+            this.imageBox.Margin = new System.Windows.Forms.Padding(0);
+            this.imageBox.Name = "imageBox";
+            this.imageBox.SelectionMode = Cyotek.Windows.Forms.ImageBoxSelectionMode.Rectangle;
+            this.imageBox.Size = new System.Drawing.Size(456, 326);
+            this.imageBox.StepSize = new System.Drawing.Size(8, 8);
+            this.imageBox.TabIndex = 3;
+            this.imageBox.Text = "The image obtained from the test will appear here.";
             // 
             // AlignmentPipelineTestForm
             // 
@@ -288,9 +326,8 @@
             this.ClientSize = new System.Drawing.Size(466, 443);
             this.Controls.Add(this.MainLayoutPanel);
             this.Font = new System.Drawing.Font("Dosis", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "AlignmentPipelineTestForm";
             this.Padding = new System.Windows.Forms.Padding(2, 2, 2, 5);
@@ -302,6 +339,7 @@
             this.Style.TitleBar.Font = new System.Drawing.Font("Dosis", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Style.TitleBar.TextHorizontalAlignment = System.Windows.Forms.HorizontalAlignment.Center;
             this.Text = "Alignment Pipeline Test Tool";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.MainLayoutPanel.ResumeLayout(false);
             this.configureAnchorsPanel.ResumeLayout(false);
             this.registrationAlignmentMethodConfigControlsTablePanel.ResumeLayout(false);
@@ -310,6 +348,9 @@
             this.alignmentPipelineTestMainTabControl.ResumeLayout(false);
             this.alignmentPipelineTabPage.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.alignmentPipelineTabControl)).EndInit();
+            this.pipelineTestSettingsTabPage.ResumeLayout(false);
+            this.pipelineTestSettingsTabPage.PerformLayout();
+            this.testResultsTabPage.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -319,12 +360,14 @@
         private System.Windows.Forms.TableLayoutPanel configureAnchorsPanel;
         private System.Windows.Forms.TableLayoutPanel registrationMethodMainTablePanel;
         private System.Windows.Forms.TableLayoutPanel registrationAlignmentMethodConfigControlsTablePanel;
-        private Syncfusion.Windows.Forms.ButtonAdv setBtn;
+        private Syncfusion.Windows.Forms.ButtonAdv testBtn;
         private Syncfusion.Windows.Forms.ButtonAdv doneBtn;
         private Syncfusion.Windows.Forms.Tools.TabControlAdv alignmentPipelineTestMainTabControl;
         private Syncfusion.Windows.Forms.Tools.TabPageAdv alignmentPipelineTabPage;
         private Syncfusion.Windows.Forms.Tools.TabControlAdv alignmentPipelineTabControl;
         private Syncfusion.Windows.Forms.Tools.TabPageAdv pipelineTestSettingsTabPage;
         private Syncfusion.Windows.Forms.Tools.TabPageAdv testResultsTabPage;
+        private System.Windows.Forms.TableLayoutPanel pipelineTestSettingsTablePanel;
+        private Cyotek.Windows.Forms.Demo.ImageBoxEx imageBox;
     }
 }

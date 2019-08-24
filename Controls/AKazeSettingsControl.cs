@@ -16,24 +16,38 @@ namespace Synapse.Controls
 {
     public partial class AKazeSettingsControl : UserControl
     {
+        #region Events
+
+        internal delegate void SetDataDelegate(Template.RegistrationAlignmentMethod.AKazeRegistrationMethod.AKazeData aKazeData, bool useStoredModelFeatures, int pipelineIndex);
+        internal SetDataDelegate OnSetDataEvent;
+
+        public event EventHandler<int> OnResetDataEvent;
+
+        #endregion
+
         #region Properties
         private Template.RegistrationAlignmentMethod.AKazeRegistrationMethod.AKazeData akazeData;
+
         #endregion
 
         #region Variables
         private SynchronizationContext synchronizationContext;
+        bool initialIsUseStoredModelFeaturesBool;
+        private int pipelineIndex;
         #endregion
 
         public AKazeSettingsControl()
         {
             InitializeComponent();
         }
-        internal AKazeSettingsControl(Template.RegistrationAlignmentMethod.AKazeRegistrationMethod.AKazeData akazeData)
+        internal AKazeSettingsControl(Template.RegistrationAlignmentMethod.AKazeRegistrationMethod.AKazeData akazeData, bool isUseStoredEnabled, int pipelineIndex)
         {
             InitializeComponent();
 
             synchronizationContext = SynchronizationContext.Current;
             this.akazeData = akazeData;
+            initialIsUseStoredModelFeaturesBool = isUseStoredEnabled;
+            this.pipelineIndex = pipelineIndex;
 
             akazeDiffTypeValueBox.DataSource = EnumHelper.ToList(typeof(KAZE.Diffusivity));
             akazeDiffTypeValueBox.DisplayMember = "Value";
@@ -43,10 +57,10 @@ namespace Synapse.Controls
             akazeDescTypeValueBox.DisplayMember = "Value";
             akazeDescTypeValueBox.ValueMember = "Key";
 
-            InitializeAKazePanel(akazeData);
+            InitializeAKazePanel(akazeData, isUseStoredEnabled);
         }
 
-        private void InitializeAKazePanel(Template.RegistrationAlignmentMethod.AKazeRegistrationMethod.AKazeData aKazeData)
+        internal void InitializeAKazePanel(Template.RegistrationAlignmentMethod.AKazeRegistrationMethod.AKazeData aKazeData, bool isUseStoredEnabled)
         {
             synchronizationContext.Send(new SendOrPostCallback(
             delegate (object state)
@@ -58,6 +72,7 @@ namespace Synapse.Controls
                 akazeOctavesValueBox.IntegerValue = aKazeData.Octaves;
                 akazeLayersOptionValueBox.IntegerValue = aKazeData.Layers;
                 akazeDiffTypeValueBox.SelectedValue = aKazeData.Diffusivity;
+                akazeUseStoredModelFeaturesToggle.ToggleState = isUseStoredEnabled ? Syncfusion.Windows.Forms.Tools.ToggleButtonState.Active : Syncfusion.Windows.Forms.Tools.ToggleButtonState.Inactive;
             }
             ), null);
         }
@@ -86,6 +101,20 @@ namespace Synapse.Controls
 
             Template.RegistrationAlignmentMethod.AKazeRegistrationMethod.AKazeData aKazeData = new Template.RegistrationAlignmentMethod.AKazeRegistrationMethod.AKazeData(descType, descSize, descChannels, descThresh, descOcts, descLayers, diffType);
             return aKazeData;
+        }
+
+        private void Reset()
+        {
+            InitializeAKazePanel(akazeData, initialIsUseStoredModelFeaturesBool);
+        }
+        private void SetBtn_Click(object sender, EventArgs e)
+        {
+            OnSetDataEvent?.Invoke(GetAKazeData(), akazeUseStoredModelFeaturesToggle.ToggleState == Syncfusion.Windows.Forms.Tools.ToggleButtonState.Active, pipelineIndex);
+        }
+        private void ResetBtn_Click(object sender, EventArgs e)
+        {
+            Reset();
+            OnResetDataEvent?.Invoke(this, pipelineIndex);
         }
     }
 }
