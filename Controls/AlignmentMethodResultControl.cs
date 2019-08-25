@@ -36,39 +36,28 @@ namespace Synapse.Controls
         {
             InitializeComponent();
             Awake();
-            this.alignmentMethodResult = alignmentMethodResult;
 
-            Initialize(alignmentMethodResult);
+            this.alignmentMethodResult = alignmentMethodResult;
+            alignmentTimeValueLabel.Text = $"{alignmentMethodResult.AlignmentTime}ms";
         }
 
         private void Awake()
         {
             synchronizationContext = SynchronizationContext.Current;
-
-            resultsDockingManager.SetEnableDocking(resultImageBoxPanel, true);
-            resultsDockingManager.DockControlInAutoHideMode(resultImageBoxPanel, DockingStyle.Right, 300);
-            resultsDockingManager.SetMenuButtonVisibility(resultImageBoxPanel, false);
-            resultsDockingManager.SetDockLabel(resultImageBoxPanel, "Result Image");
-
-            resultsDockingManager.SetEnableDocking(originalImageBoxPanel, true);
-            resultsDockingManager.DockControlInAutoHideMode(originalImageBoxPanel, DockingStyle.Right, 300);
-            resultsDockingManager.SetMenuButtonVisibility(originalImageBoxPanel, false);
-            resultsDockingManager.SetDockLabel(originalImageBoxPanel, "Original Image");
-
-            resultsDockingManager.SetEnableDocking(differenceImageBoxPanel, true);
-            resultsDockingManager.DockControlInAutoHideMode(differenceImageBoxPanel, DockingStyle.Right, 300);
-            resultsDockingManager.SetMenuButtonVisibility(differenceImageBoxPanel, false);
-            resultsDockingManager.SetDockLabel(differenceImageBoxPanel, "Difference Image");
+            alignmentTimeValueLabel.Text = "0ms";// $"{alignmentMethodResult.AlignmentTime}ms";
         }
 
-        private void Initialize(AlignmentPipelineResults.AlignmentMethodResult alignmentMethodResult)
+        internal void GetResultImages(out Image<Gray, byte> inputImage, out Image<Gray, byte> outputImage, out Image<Gray, byte> diffImage)
         {
-            var inputImage = alignmentMethodResult.InputImage;
-            originalImageBox.Image = inputImage.Bitmap;
-            var outputImage = alignmentMethodResult.OutputImage;
-            resultImageBox.Image = outputImage.Bitmap;
-            var diffImage = inputImage.Sub(outputImage);
-            differenceImageBox.Image = diffImage.Bitmap;
+            inputImage = alignmentMethodResult.InputImage;
+            outputImage = alignmentMethodResult.OutputImage;
+            if (outputImage.Size != inputImage.Size)
+            {
+                var resizedOutputImg = outputImage.Resize(inputImage.Size.Width, inputImage.Size.Height, Emgu.CV.CvEnum.Inter.Cubic);
+                diffImage = inputImage.Sub(resizedOutputImg);
+            }
+            else
+                diffImage = inputImage.Sub(outputImage);
         }
     }
 }

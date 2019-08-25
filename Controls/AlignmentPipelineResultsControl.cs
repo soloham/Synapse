@@ -18,6 +18,11 @@ namespace Synapse.Controls
 {
     public partial class AlignmentPipelineResultsControl : UserControl
     {
+        #region Events
+        internal delegate void OnSelectedMethodResultChanged(AlignmentMethodResultControl alignmentMethodResultControl, Image<Gray, byte> inputImage, Image<Gray, byte> outputImg, Image<Gray, byte> diffImg);
+        internal event OnSelectedMethodResultChanged OnSelectedMethodResultChangedEvent;
+        #endregion
+
         #region Properties
         internal AlignmentPipelineResults GetPipelineResults { get => pipelineResults; }
         private AlignmentPipelineResults pipelineResults; 
@@ -25,6 +30,7 @@ namespace Synapse.Controls
 
         #region Variables
         private SynchronizationContext synchronizationContext;
+        private List<AlignmentMethodResultControl> alignmentMethodResultControls = new List<AlignmentMethodResultControl>();
         #endregion
 
         public AlignmentPipelineResultsControl()
@@ -41,34 +47,35 @@ namespace Synapse.Controls
             Initialize(pipelineResults);
         }
 
-        private void Initialize(AlignmentPipelineResults pipelineResults)
+        internal void Initialize(AlignmentPipelineResults pipelineResults)
         {
+            pipelineResultsMainTabControl.TabPages.Clear();
             for (int i = 0; i < pipelineResults.AlignmentMethodTestResultsList.Count; i++)
             {
                 AlignmentPipelineResults.AlignmentMethodResult alignmentMethodResult = pipelineResults.AlignmentMethodTestResultsList[i];
+                AlignmentMethodResultControl alignmentMethodResultControl = new AlignmentMethodResultControl(alignmentMethodResult);
 
-                switch (alignmentMethodResult.GetAlignmentMethodType)
-                {
-                    case AlignmentMethodType.Anchors:
-                        AlignmentPipelineResults.AnchorAlignmentMethodResult anchorAlignmentMethodResult = (AlignmentPipelineResults.AnchorAlignmentMethodResult)alignmentMethodResult;
-                        AnchorAlignmentMethodResultControl anchorAlignmentMethodResultControl = new AnchorAlignmentMethodResultControl(anchorAlignmentMethodResult);
+                TabPageAdv methodTabPageAdv = new TabPageAdv(alignmentMethodResult.AlignmentMethod.MethodName);
+                methodTabPageAdv.Controls.Add(alignmentMethodResultControl);
+                alignmentMethodResultControl.Dock = DockStyle.Fill;
+                pipelineResultsMainTabControl.TabPages.Add(methodTabPageAdv);
 
-                        TabPageAdv anchorTabPageAdv = new TabPageAdv(anchorAlignmentMethodResult.AlignmentMethod.MethodName);
-                        anchorTabPageAdv.Controls.Add(anchorAlignmentMethodResultControl);
-                        anchorAlignmentMethodResultControl.Dock = DockStyle.Fill;
-                        pipelineResultsMainTabControl.TabPages.Add(anchorTabPageAdv);
-                        break;
-                    case AlignmentMethodType.Registration:
-                        AlignmentPipelineResults.RegistrationAlignmentMethodResult registrationAlignmentMethodResult = (AlignmentPipelineResults.RegistrationAlignmentMethodResult)alignmentMethodResult;
-                        RegistrationAlignmentMethodResultControl registrationAlignmentMethodResultControl = new RegistrationAlignmentMethodResultControl(registrationAlignmentMethodResult);
+                alignmentMethodResultControls.Add(alignmentMethodResultControl);
 
-                        TabPageAdv registrationTabPageAdv = new TabPageAdv(registrationAlignmentMethodResult.AlignmentMethod.MethodName);
-                        registrationTabPageAdv.Controls.Add(registrationAlignmentMethodResultControl);
-                        registrationAlignmentMethodResultControl.Dock = DockStyle.Fill;
-                        pipelineResultsMainTabControl.TabPages.Add(registrationTabPageAdv);
-                        break;
-                }
             }
+
+            var selectedAlignmentMethodResultControl = alignmentMethodResultControls[pipelineResultsMainTabControl.SelectedIndex];
+            selectedAlignmentMethodResultControl.GetResultImages(out Image<Gray, byte> inputImg, out Image<Gray, byte> outputImg, out Image<Gray, byte> diffImg);
+
+            OnSelectedMethodResultChangedEvent?.Invoke(selectedAlignmentMethodResultControl, inputImg, outputImg, diffImg);
+        }
+
+        private void PipelineResultsMainTabControl_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var selectedAlignmentMethodResultControl = alignmentMethodResultControls[pipelineResultsMainTabControl.SelectedIndex];
+            selectedAlignmentMethodResultControl.GetResultImages(out Image<Gray, byte> inputImg, out Image<Gray, byte> outputImg, out Image<Gray, byte> diffImg);
+
+            OnSelectedMethodResultChangedEvent?.Invoke(selectedAlignmentMethodResultControl, inputImg, outputImg, diffImg);
         }
     }
 }

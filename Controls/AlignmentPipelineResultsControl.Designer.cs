@@ -57,6 +57,7 @@
             this.pipelineResultsMainTabControl.ThemeName = "TabRenderer3D";
             this.pipelineResultsMainTabControl.ThemeStyle.PrimitiveButtonStyle.DisabledNextPageImage = null;
             this.pipelineResultsMainTabControl.VSLikeScrollButton = true;
+            this.pipelineResultsMainTabControl.SelectedIndexChanged += new System.EventHandler(this.PipelineResultsMainTabControl_SelectedIndexChanged);
             // 
             // AlignmentPipelineResultsControl
             // 

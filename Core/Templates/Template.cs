@@ -236,6 +236,7 @@ namespace Synapse.Core.Templates
             {
                 bool isSuccess = false;
                 var inputImg = (Image<Gray, byte>)input;
+                var templateImg = (Image<Gray, byte>)templateImage;
                 Mat _output = new Mat();
 
                 detectedAnchors = new RectangleF[anchors.Count];
@@ -245,6 +246,9 @@ namespace Synapse.Core.Templates
 
                 Stopwatch watch = new Stopwatch();
                 watch.Start();
+                if (inputImg.Size != templateImg.Size)
+                    inputImg = inputImg.Resize(templateImg.Width, templateImg.Height, Inter.Cubic);
+
                 for (int i = 0; i < anchors.Count; i++)
                 {
                     Anchor curAnchor = anchors[i];
@@ -266,7 +270,7 @@ namespace Synapse.Core.Templates
                 }
 
                 var homography = CvInvoke.FindHomography(anchorCoordinates, mainAnchorCoordinates, Emgu.CV.CvEnum.RobustEstimationAlgorithm.Ransac);
-                CvInvoke.WarpPerspective(input, _output, homography, outputSize);
+                CvInvoke.WarpPerspective(inputImg, _output, homography, outputSize);
                 var warpedPoints = CvInvoke.PerspectiveTransform(anchorCoordinates, homography);
 
                 for (int i = 0; i < anchors.Count; i++)

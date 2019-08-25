@@ -102,18 +102,6 @@
     <Compile Include="Controls\AlignmentMethodResultControl.Designer.cs">
       <DependentUpon>AlignmentMethodResultControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\RegistrationAlignmentMethodResultControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\RegistrationAlignmentMethodResultControl.Designer.cs">
-      <DependentUpon>RegistrationAlignmentMethodResultControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\AnchorAlignmentMethodResultControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\AnchorAlignmentMethodResultControl.Designer.cs">
-      <DependentUpon>AnchorAlignmentMethodResultControl.cs</DependentUpon>
-    </Compile>
     <Compile Include="Controls\AnchorPlaceholderControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -255,12 +243,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\AlignmentMethodResultControl.resx">
       <DependentUpon>AlignmentMethodResultControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\RegistrationAlignmentMethodResultControl.resx">
-      <DependentUpon>RegistrationAlignmentMethodResultControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\AnchorAlignmentMethodResultControl.resx">
-      <DependentUpon>AnchorAlignmentMethodResultControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\AnchorPlaceholderControl.resx">
       <DependentUpon>AnchorPlaceholderControl.cs</DependentUpon>

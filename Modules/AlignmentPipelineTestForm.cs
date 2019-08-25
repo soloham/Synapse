@@ -30,7 +30,8 @@ namespace Synapse.Modules
         #endregion
 
         #region Properties
-
+        internal AlignmentPipelineResults.AlignmentMethodResult SelectedAlignmentMethodResult { get { return selectedAlignmentMethodResult; } set { selectedAlignmentMethodResult = value; SelectedMethodResultChanged(value); } }
+        AlignmentPipelineResults.AlignmentMethodResult selectedAlignmentMethodResult;
         #endregion
 
         #region Variables
@@ -46,6 +47,8 @@ namespace Synapse.Modules
         Image<Gray, byte> outputImage;
         private AlignmentPipelineResults alignmentPipelineResults;
 
+        private AlignmentPipelineResults.AnchorAlignmentMethodResult anchorAlignmentMethodResult;
+        private bool drawResultAnchors = false;
         #endregion
 
         #region Events
@@ -73,6 +76,33 @@ namespace Synapse.Modules
         private void Awake()
         {
             synchronizationContext = SynchronizationContext.Current;
+
+            resultsDockingManager.SetEnableDocking(resultImageBoxPanel, true);
+            resultsDockingManager.DockControlInAutoHideMode(resultImageBoxPanel, DockingStyle.Right, 400);
+            resultsDockingManager.SetMenuButtonVisibility(resultImageBoxPanel, false);
+            resultsDockingManager.SetDockLabel(resultImageBoxPanel, "Result Image");
+            resultsDockingManager.SetDockVisibility(resultImageBoxPanel, false);
+
+            resultsDockingManager.SetEnableDocking(originalImageBoxPanel, true);
+            resultsDockingManager.DockControlInAutoHideMode(originalImageBoxPanel, DockingStyle.Left, 400);
+            resultsDockingManager.SetMenuButtonVisibility(originalImageBoxPanel, false);
+            resultsDockingManager.SetDockLabel(originalImageBoxPanel, "Original Image");
+            resultsDockingManager.SetDockVisibility(originalImageBoxPanel, false);
+
+            resultsDockingManager.SetEnableDocking(differenceImageBoxPanel, true);
+            resultsDockingManager.DockControlInAutoHideMode(differenceImageBoxPanel, DockingStyle.Left, 400);
+            resultsDockingManager.SetMenuButtonVisibility(differenceImageBoxPanel, false);
+            resultsDockingManager.SetDockLabel(differenceImageBoxPanel, "Difference Image");
+            resultsDockingManager.SetDockVisibility(differenceImageBoxPanel, false);
+
+            alignmentPipelineResultsControl.OnSelectedMethodResultChangedEvent += (AlignmentMethodResultControl alignmentMethodResultControl, Image<Gray, byte> inputImg, Image<Gray, byte> outputImg, Image<Gray, byte> diffImg) =>
+            {
+                originalImageBox.Image = inputImg.Bitmap;
+                resultImageBox.Image = outputImg.Bitmap;
+                differenceImageBox.Image = diffImg.Bitmap;
+
+                SelectedAlignmentMethodResult = alignmentMethodResultControl.GetAlignmentMethodResult;
+            };
         }
         #endregion
 
@@ -253,15 +283,122 @@ namespace Synapse.Modules
                 alignmentMethodResults.Add(alignmentMethodResult);
             }
 
-            testResultsTabPage.Controls.Clear();
-
             alignmentPipelineResults = new AlignmentPipelineResults(alignmentMethodResults);
-            AlignmentPipelineResultsControl alignmentPipelineResultsControl = new AlignmentPipelineResultsControl(alignmentPipelineResults);
-            testResultsTabPage.Controls.Add(alignmentPipelineResultsControl);
-            alignmentPipelineResultsControl.Dock = DockStyle.Fill;
+            alignmentPipelineResultsControl.Initialize(alignmentPipelineResults);
         }
-        #endregion
 
-        #endregion
+        private void SelectedMethodResultChanged(AlignmentPipelineResults.AlignmentMethodResult alignmentMethodResult)
+        {
+            switch (alignmentMethodResult.GetAlignmentMethodType)
+            {
+                case AlignmentMethodType.Anchors:
+                    anchorAlignmentMethodResult = (AlignmentPipelineResults.AnchorAlignmentMethodResult)alignmentMethodResult;
+                    drawResultAnchors = true;
+                    break;
+                case AlignmentMethodType.Registration:
+                    drawResultAnchors = false;
+                    break;
+            }
+        }
+
+        private void ResultImageBox_Paint(object sender, PaintEventArgs e)
+        {
+            if (resultImageBox.Image == null)
+                return;
+
+            if (drawResultAnchors)
+            {
+                var detectedAnchors = anchorAlignmentMethodResult.DetectedAnchors;
+                var warpedAnchors = anchorAlignmentMethodResult.WarpedAnchors;
+                var mainAnchors = anchorAlignmentMethodResult.MainAnchors;
+
+                for (int i0 = 0; i0 < detectedAnchors.Length; i0++)
+                {
+                    RectangleF detectedRect = detectedAnchors[i0];
+                    RectangleF warpedRect = warpedAnchors[i0];
+
+                    Graphics g = e.Graphics;
+
+                    //Functions.DrawBox(g, imageBox.GetOffsetRectangle(detectedRect), imageBox.ZoomFactor, Color.FromArgb(150, Color.Firebrick));
+                    Functions.DrawBox(g, resultImageBox.GetOffsetRectangle(mainAnchors[i0].GetAnchorRegion), resultImageBox.ZoomFactor, Color.FromArgb(100, Color.DodgerBlue), 2);
+                    Functions.DrawBox(g, resultImageBox.GetOffsetRectangle(warpedRect), resultImageBox.ZoomFactor, Color.FromArgb(120, Color.Crimson));
+                }
+            }
+        }
+
+        private void AlignmentPipelineTestMainTabControl_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (alignmentPipelineTestMainTabControl.SelectedTab.Text == "Results")
+            {
+                resultsDockingManager.SetDockVisibility(resultImageBoxPanel, true);
+                resultsDockingManager.SetDockVisibility(originalImageBoxPanel, true);
+                resultsDockingManager.SetDockVisibility(differenceImageBoxPanel, true);
+            }
+            else
+            {
+                resultsDockingManager.SetDockVisibility(resultImageBoxPanel, false);
+                resultsDockingManager.SetDockVisibility(originalImageBoxPanel, false);
+                resultsDockingManager.SetDockVisibility(differenceImageBoxPanel, false);
+            }
+        }
+
+        private void AlignmentPipelineTabControl_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void OriginalImageBox_Paint(object sender, PaintEventArgs e)
+        {
+            if (originalImageBox.Image == null)
+                return;
+
+            if (drawResultAnchors)
+            {
+                Size curSize = resultImageBox.Image.Size;
+                Size newSize = originalImageBox.Image.Size;
+
+                var detectedAnchors = ResizeAnchors(anchorAlignmentMethodResult.DetectedAnchors, curSize, newSize);
+                var warpedAnchors = ResizeAnchors(anchorAlignmentMethodResult.WarpedAnchors, curSize, newSize);
+                RectangleF[] mainAnchors = new RectangleF[anchorAlignmentMethodResult.MainAnchors.Length];
+
+                for (int i0 = 0; i0 < detectedAnchors.Length; i0++)
+                {
+                    mainAnchors[i0] = anchorAlignmentMethodResult.MainAnchors[i0].GetAnchorRegion;
+                }
+
+                mainAnchors = ResizeAnchors(mainAnchors, curSize, newSize);
+
+                for (int i0 = 0; i0 < detectedAnchors.Length; i0++)
+                {
+                    RectangleF detectedRect = detectedAnchors[i0];
+                    RectangleF warpedRect = warpedAnchors[i0];
+
+                    Graphics g = e.Graphics;
+
+                    //Functions.DrawBox(g, imageBox.GetOffsetRectangle(detectedRect), imageBox.ZoomFactor, Color.FromArgb(150, Color.Firebrick));
+                    Functions.DrawBox(g, originalImageBox.GetOffsetRectangle(mainAnchors[i0]), originalImageBox.ZoomFactor, Color.FromArgb(100, Color.DodgerBlue), 2);
+                    Functions.DrawBox(g, originalImageBox.GetOffsetRectangle(warpedRect), originalImageBox.ZoomFactor, Color.FromArgb(120, Color.Crimson));
+                }
+            }
+        }
+
+        private RectangleF[] ResizeAnchors(RectangleF[] rectangleFs, SizeF curSize, SizeF newSize)
+        {
+            RectangleF[] results = new RectangleF[rectangleFs.Length];
+
+            float xScaleRatio = newSize.Width / curSize.Width;
+            float yScaleRatio = newSize.Height / curSize.Height;
+
+            for (int i = 0; i < results.Length; i++)
+            {
+                results[i] = new RectangleF(new PointF(rectangleFs[i].X * xScaleRatio, rectangleFs[i].Y *yScaleRatio), new SizeF(rectangleFs[i].Size.Width * xScaleRatio, rectangleFs[i].Size.Height * yScaleRatio));
+            }
+            return results;
+        }
     }
+    #endregion
+
+    #endregion
+
+
 }
