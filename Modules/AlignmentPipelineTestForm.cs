@@ -158,7 +158,7 @@ namespace Synapse.Modules
 
                     TabPageAdv anchorTabPage = new TabPageAdv(alignmentMethod.MethodName);
                     anchorTabPage.Controls.Add(anchorSP);
-                    anchorSP.Dock = DockStyle.Top;
+                    anchorSP.Dock = DockStyle.Fill;
                     anchorTabPage.AutoScroll = true;
 
                     result = anchorTabPage;
@@ -251,6 +251,8 @@ namespace Synapse.Modules
             outputImage = templateImage;
             for (int i = 0; i < testAlignmentPipeline.Count; i++)
             {
+                Exception exception = null;
+
                 AlignmentPipelineResults.AlignmentMethodResult alignmentMethodResult = null;
                 AlignmentMethod alignmentMethod = testAlignmentPipeline[i];
 
@@ -260,28 +262,49 @@ namespace Synapse.Modules
                 if (alignmentMethod.GetAlignmentMethodType == AlignmentMethodType.Anchors)
                 {
                     var aIM = (AnchorAlignmentMethod)alignmentMethod;
-                    aIM.ApplyMethod(outputImage, testImage, out outputImageArr, out RectangleF[] detectedAnchors, out RectangleF[] warpedAnchors, out long alignmentTime);
+                    if (aIM.ApplyMethod(outputImage, testImage, out outputImageArr, out RectangleF[] detectedAnchors, out RectangleF[] warpedAnchors, out long alignmentTime, out exception))
+                    {
+                        var mainAnchors = aIM.GetAnchors.ToArray();
 
-                    var mainAnchors = aIM.GetAnchors.ToArray();
+                        var outputMat = (Mat)outputImageArr;
+                        outputImage = outputMat.ToImage<Gray, byte>();
 
-                    var outputMat = (Mat)outputImageArr;
-                    outputImage = outputMat.ToImage<Gray, byte>();
-
-                    AlignmentPipelineResults.AnchorAlignmentMethodResult anchorAlignmentMethodResult = new AlignmentPipelineResults.AnchorAlignmentMethodResult(alignmentMethod, testImage, outputImage, alignmentTime, mainAnchors, detectedAnchors, warpedAnchors);
-                    alignmentMethodResult = anchorAlignmentMethodResult;
+                        AlignmentPipelineResults.AnchorAlignmentMethodResult anchorAlignmentMethodResult = new AlignmentPipelineResults.AnchorAlignmentMethodResult(alignmentMethod, testImage, outputImage, alignmentTime, mainAnchors, detectedAnchors, warpedAnchors);
+                        alignmentMethodResult = anchorAlignmentMethodResult;
+                    }
                 }
                 else
                 {
-                    alignmentMethod.ApplyMethod(outputImage, testImage, out outputImageArr, out long alignmentTime);
+                    if (alignmentMethod.ApplyMethod(outputImage, testImage, out outputImageArr, out long alignmentTime, out exception))
+                    {
+                        var outputMat = (Mat)outputImageArr;
+                        outputImage = outputMat.ToImage<Gray, byte>();
 
-                    var outputMat = (Mat)outputImageArr;
-                    outputImage = outputMat.ToImage<Gray, byte>();
-
-                    alignmentMethodResult = new AlignmentPipelineResults.AlignmentMethodResult(alignmentMethod, testImage, outputImage, alignmentTime);
+                        alignmentMethodResult = new AlignmentPipelineResults.AlignmentMethodResult(alignmentMethod, testImage, outputImage, alignmentTime);
+                    }
                 }
 
-                alignmentMethodResults.Add(alignmentMethodResult);
+                if (alignmentMethodResult != null)
+                    alignmentMethodResults.Add(alignmentMethodResult);
+                else
+                {
+                    string personnelData = "";
+
+                    for (int i0 = exception.StackTrace.Length-1; i0 > 0; i0--)
+                    {
+                        if(exception.StackTrace[i0] == '/' || exception.StackTrace[i0] == '\\')
+                        {
+                            personnelData = exception.StackTrace.Substring(i0 + 1);
+                            break;
+                        }
+                    }
+                    Messages.ShowError("An error occured while applying the method: '" + alignmentMethod.MethodName + "' \n \n For concerned personnel: " + personnelData);
+
+                }
             }
+
+            if (alignmentMethodResults.Count == 0)
+                return;
 
             alignmentPipelineResults = new AlignmentPipelineResults(alignmentMethodResults);
             alignmentPipelineResultsControl.Initialize(alignmentPipelineResults);

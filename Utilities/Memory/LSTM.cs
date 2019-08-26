@@ -193,6 +193,7 @@ namespace Synapse.Utilities.Memory
         {
             bool isSaved = true;
 
+            string imageSaveLoc = "";
             try
             {
                 if (templateData.TemplateLocation == "" || !templateData.TemplateLocation.Contains(TemplatesRootDataPath))
@@ -203,8 +204,17 @@ namespace Synapse.Utilities.Memory
                     Directory.CreateDirectory(templateData.TemplateDataDirectory);
                 }
 
-                string imageSaveLoc = $"{templateData.TemplateDataDirectory}/{templateImageFileName}";
-                templateImage.Save(imageSaveLoc);
+                imageSaveLoc = $"{templateData.TemplateDataDirectory}/{templateImageFileName}";
+
+                // Grab the binary data.
+                byte[] data = File.ReadAllBytes(imageSaveLoc);
+
+                // Read in the data but do not close, before using the stream.
+                Stream originalBinaryDataStream = new MemoryStream(data);
+                System.Drawing.Bitmap image = new System.Drawing.Bitmap(originalBinaryDataStream);
+                image.Save(imageSaveLoc);
+                originalBinaryDataStream.Dispose();
+
                 templateData.GetTemplateImage.ImageLocation = imageSaveLoc;
 
                 using (FileStream fs = new FileStream($"{templateData.TemplateDataDirectory}/{templateDataFileName}", FileMode.Create))

@@ -69,6 +69,8 @@ namespace Synapse.Modules
 
         private SynchronizationContext synchronizationContext;
 
+        private Template referenceTemplate;
+
         #region Template Image
         private Image<Gray, byte> templateImageCopy;
         private Image<Gray, byte> preCroppedImage;
@@ -161,7 +163,6 @@ namespace Synapse.Modules
 
             TemplateImage = template == null ? TemplateImage : new Image<Gray, byte>(template);
             templateImageCopy = TemplateImage.Clone();
-            imageBox.Text = "";
             imageBox.Image = TemplateImage.Bitmap;
 
             StartWalkthrough();
@@ -187,8 +188,8 @@ namespace Synapse.Modules
 
             var configStatesList = EnumHelper.ToList(typeof(ConfigurationState));
             configStatesList.RemoveAt(0);
-            configStatesList.RemoveAt(1);
-            configStatesList.RemoveAt(2);
+            configStatesList.RemoveAt(0);
+            configStatesList.RemoveAt(0);
             selectStateComboBox.DataSource = configStatesList;
             selectStateComboBox.DisplayMember = "Value";
             selectStateComboBox.ValueMember = "Key";
@@ -198,8 +199,15 @@ namespace Synapse.Modules
 
             TemplateImage = tmpImg == null ? new Image<Gray, byte>(template.GetTemplateImage.GetBitmap) : new Image<Gray, byte>(tmpImg);
             templateImageCopy = TemplateImage.Clone();
-            imageBox.Text = "";
-            imageBox.Image = tmpImg;
+            imageBox.Image = TemplateImage.Bitmap;
+
+            selectedSize = template.GetTemplateImage.Size;
+            selectedScale = template.GetTemplateImage.TemplateScale;
+            selectedDeskewAngle = template.GetTemplateImage.DeskewAngle;
+
+            referenceTemplate = template;
+
+            alignmentMethods = new List<Template.AlignmentMethod>(template.TemplateData.GetAlignmentPipeline);
         }
 
         #region  ImageBoxPanel Setup
@@ -495,7 +503,10 @@ namespace Synapse.Modules
 
             imageBox.SelectNone();
 
-            OnConfigurationFinishedEvent?.Invoke(TemplateImage, new Template.TemplateImage(selectedSize, selectedScale, selectedDeskewAngle), alignmentMethods, alignmentPipelineResults);
+            var tmpImg = new Template.TemplateImage(selectedSize, selectedScale, selectedDeskewAngle);
+            if (referenceTemplate != null) tmpImg.ImageLocation = referenceTemplate.GetTemplateImage.ImageLocation;
+
+            OnConfigurationFinishedEvent?.Invoke(TemplateImage, tmpImg, alignmentMethods, alignmentPipelineResults);
         }
 
         #region Action Methods
@@ -570,7 +581,14 @@ namespace Synapse.Modules
 
         private void ReconfigureBtn_Click(object sender, EventArgs e)
         {
-            SetupForConfiguration();
+            MainLayoutPanel.RowStyles[1].Height = 165;
+            selectStateComboBox.Visible = true;
+
+            for (int i = 0; i < configureStatesPanel.RowCount; i++)
+            {
+                configureStatesPanel.RowStyles[i].SizeType = SizeType.Percent;
+                configureStatesPanel.RowStyles[i].Height = i == 0 ? 0 : i == 1 ? 35 : i == 2 ? 30 : i == 3 ? 35 : 0;
+            }
         }
         private void NextBtn_Click(object sender, EventArgs e)
         {
@@ -582,6 +600,9 @@ namespace Synapse.Modules
         }
         private void SelectStateComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (selectStateComboBox.SelectedIndex == -1)
+                return;
+
             ConfigurationState configurationState = (ConfigurationState)selectStateComboBox.SelectedIndex+3;
             ConfigWalkthroughState = configurationState;
         }
@@ -597,6 +618,9 @@ namespace Synapse.Modules
         {
             imageBox.SelectionRegion = RectangleF.Empty;
             double scaleValue = sizeScaleTrackBar.Value == 0 ? (double)1 / 20 : (double)sizeScaleTrackBar.Value / 10;
+
+            if (croppedImage == null)
+                return;
 
             TemplateImage = croppedImage.Resize(scaleValue, Emgu.CV.CvEnum.Inter.Cubic);
             imageBox.Image = TemplateImage.Bitmap;

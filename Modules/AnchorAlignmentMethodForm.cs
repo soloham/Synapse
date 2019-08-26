@@ -65,7 +65,6 @@ namespace Synapse.Modules
             var btm = templateImage.ToBitmap();
             pipelineIndex = anchorAlignmentMethod.PipelineIndex;
             methodName = anchorAlignmentMethod.MethodName;
-            imageBox.Text = "";
             imageBox.Image = btm;
 
             Initialize(anchorAlignmentMethod, btm);
@@ -81,7 +80,6 @@ namespace Synapse.Modules
             this.pipelineIndex = pipelineIndex;
             this.methodName = methodName;
             var btm = templateImage.ToBitmap();
-            imageBox.Text = "";
             imageBox.Image = btm;
 
             Initialize(btm);

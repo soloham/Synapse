@@ -47,7 +47,7 @@ namespace Synapse.Core.Templates
             private Size templateSize;
             public double TemplateScale { get => templateScale; set => templateScale = value; }
             private double templateScale;
-            public double DeskewPercent { get => deskewPercent; set => deskewPercent = value; }
+            public double DeskewAngle { get => deskewPercent; set => deskewPercent = value; }
             private double deskewPercent;
             public string ImageLocation { get => templateImageLocation; set => templateImageLocation = value; }
             private string templateImageLocation;
@@ -82,8 +82,8 @@ namespace Synapse.Core.Templates
                 PipelineIndex = pipelineIndex;
             }
 
-            public abstract bool ApplyMethod(IInputArray input, out IOutputArray output, out long matchTime);
-            public abstract bool ApplyMethod(IInputArray template, IInputArray input, out IOutputArray output, out long matchTime);
+            public abstract bool ApplyMethod(IInputArray input, out IOutputArray output, out long matchTime, out Exception ex);
+            public abstract bool ApplyMethod(IInputArray template, IInputArray input, out IOutputArray output, out long matchTime, out Exception ex);
 
         }
         [Serializable]
@@ -159,7 +159,7 @@ namespace Synapse.Core.Templates
             }
             #endregion
 
-            public override bool ApplyMethod(IInputArray input, out IOutputArray output, out long matchTime)
+            public override bool ApplyMethod(IInputArray input, out IOutputArray output, out long matchTime, out Exception ex)
             {
                 bool isSuccess = false;
                 var inputImg = (Image<Gray, byte>)input;
@@ -167,28 +167,39 @@ namespace Synapse.Core.Templates
 
                 PointF[] anchorCoordinates = new PointF[anchors.Count];
 
+                ex = new Exception();
+
                 Stopwatch watch = new Stopwatch();
                 watch.Start();
-                for (int i = 0; i < anchors.Count; i++)
+
+                try
                 {
-                    Anchor curAnchor = anchors[i];
+                    for (int i = 0; i < anchors.Count; i++)
+                    {
+                        Anchor curAnchor = anchors[i];
 
-                    Mat result = new Mat();
-                    CvInvoke.MatchTemplate(inputImg.Mat, curAnchor.GetAnchorImage, result, Emgu.CV.CvEnum.TemplateMatchingType.CcoeffNormed);
+                        Mat result = new Mat();
+                        CvInvoke.MatchTemplate(inputImg.Mat, curAnchor.GetAnchorImage, result, Emgu.CV.CvEnum.TemplateMatchingType.CcoeffNormed);
 
-                    Point[] Max_Loc, Min_Loc;
-                    double[] min, max;
+                        Point[] Max_Loc, Min_Loc;
+                        double[] min, max;
 
-                    result.MinMax(out min, out max, out Min_Loc, out Max_Loc);
+                        result.MinMax(out min, out max, out Min_Loc, out Max_Loc);
 
-                    if (max[0] > 0.85)
-                        isSuccess = true;
+                        if (max[0] > 0.85)
+                            isSuccess = true;
 
-                    anchorCoordinates[i] = Max_Loc[0];
+                        anchorCoordinates[i] = Max_Loc[0];
+                    }
+
+                    var homography = CvInvoke.FindHomography(anchorCoordinates, mainAnchorCoordinates, Emgu.CV.CvEnum.RobustEstimationAlgorithm.Ransac);
+                    CvInvoke.WarpPerspective(input, _output, homography, outputSize);
                 }
-
-                var homography = CvInvoke.FindHomography(anchorCoordinates, mainAnchorCoordinates, Emgu.CV.CvEnum.RobustEstimationAlgorithm.Ransac);
-                CvInvoke.WarpPerspective(input, _output, homography, outputSize);
+                catch (Exception _ex)
+                {
+                    ex = _ex;
+                    isSuccess = false;
+                }
 
                 watch.Stop();
                 matchTime = watch.ElapsedMilliseconds;
@@ -196,7 +207,7 @@ namespace Synapse.Core.Templates
                 output = _output;
                 return isSuccess;
             }
-            public override bool ApplyMethod(IInputArray templateImage, IInputArray input, out IOutputArray output, out long matchTime)
+            public override bool ApplyMethod(IInputArray templateImage, IInputArray input, out IOutputArray output, out long matchTime, out Exception ex)
             {
                 bool isSuccess = false;
                 var inputImg = (Image<Gray, byte>)input;
@@ -204,28 +215,39 @@ namespace Synapse.Core.Templates
 
                 PointF[] anchorCoordinates = new PointF[anchors.Count];
 
+                ex = new Exception();
+
                 Stopwatch watch = new Stopwatch();
                 watch.Start();
-                for (int i = 0; i < anchors.Count; i++)
+
+                try
                 {
-                    Anchor curAnchor = anchors[i];
+                    for (int i = 0; i < anchors.Count; i++)
+                    {
+                        Anchor curAnchor = anchors[i];
 
-                    Mat result = new Mat();
-                    CvInvoke.MatchTemplate(inputImg.Mat, curAnchor.GetAnchorImage, result, Emgu.CV.CvEnum.TemplateMatchingType.CcoeffNormed);
+                        Mat result = new Mat();
+                        CvInvoke.MatchTemplate(inputImg.Mat, curAnchor.GetAnchorImage, result, Emgu.CV.CvEnum.TemplateMatchingType.CcoeffNormed);
 
-                    Point[] Max_Loc, Min_Loc;
-                    double[] min, max;
+                        Point[] Max_Loc, Min_Loc;
+                        double[] min, max;
 
-                    result.MinMax(out min, out max, out Min_Loc, out Max_Loc);
+                        result.MinMax(out min, out max, out Min_Loc, out Max_Loc);
 
-                    if (max[0] > 0.85)
-                        isSuccess = true;
+                        if (max[0] > 0.85)
+                            isSuccess = true;
 
-                    anchorCoordinates[i] = Max_Loc[0];
+                        anchorCoordinates[i] = Max_Loc[0];
+                    }
+
+                    var homography = CvInvoke.FindHomography(anchorCoordinates, mainAnchorCoordinates, Emgu.CV.CvEnum.RobustEstimationAlgorithm.Ransac);
+                    CvInvoke.WarpPerspective(input, _output, homography, outputSize);
                 }
-
-                var homography = CvInvoke.FindHomography(anchorCoordinates, mainAnchorCoordinates, Emgu.CV.CvEnum.RobustEstimationAlgorithm.Ransac);
-                CvInvoke.WarpPerspective(input, _output, homography, outputSize);
+                catch(Exception _ex)
+                {
+                    ex = _ex;
+                    isSuccess = false;
+                }
 
                 watch.Stop();
                 matchTime = watch.ElapsedMilliseconds;
@@ -233,7 +255,7 @@ namespace Synapse.Core.Templates
                 output = _output;
                 return isSuccess;
             }
-            public bool ApplyMethod(IInputArray templateImage, IInputArray input, out IOutputArray output, out RectangleF[] detectedAnchors, out RectangleF[] warpedAnchors, out long matchTime)
+            public bool ApplyMethod(IInputArray templateImage, IInputArray input, out IOutputArray output, out RectangleF[] detectedAnchors, out RectangleF[] warpedAnchors, out long matchTime, out Exception ex)
             {
                 bool isSuccess = false;
                 var inputImg = (Image<Gray, byte>)input;
@@ -245,38 +267,49 @@ namespace Synapse.Core.Templates
 
                 PointF[] anchorCoordinates = new PointF[anchors.Count];
 
+                ex = new Exception();
+
                 Stopwatch watch = new Stopwatch();
                 watch.Start();
-                if (inputImg.Size != templateImg.Size)
-                    inputImg = inputImg.Resize(templateImg.Width, templateImg.Height, Inter.Cubic);
 
-                for (int i = 0; i < anchors.Count; i++)
+                try
                 {
-                    Anchor curAnchor = anchors[i];
+                    if (inputImg.Size != templateImg.Size)
+                        inputImg = inputImg.Resize(templateImg.Width, templateImg.Height, Inter.Cubic);
 
-                    Mat result = new Mat();
-                    CvInvoke.MatchTemplate(inputImg.Mat, curAnchor.GetAnchorImage, result, Emgu.CV.CvEnum.TemplateMatchingType.CcoeffNormed);
+                    for (int i = 0; i < anchors.Count; i++)
+                    {
+                        Anchor curAnchor = anchors[i];
 
-                    Point[] Max_Loc, Min_Loc;
-                    double[] min, max;
+                        Mat result = new Mat();
+                        CvInvoke.MatchTemplate(inputImg.Mat, curAnchor.GetAnchorImage, result, Emgu.CV.CvEnum.TemplateMatchingType.CcoeffNormed);
 
-                    result.MinMax(out min, out max, out Min_Loc, out Max_Loc);
+                        Point[] Max_Loc, Min_Loc;
+                        double[] min, max;
 
-                    if (max[0] > 0.85)
-                        isSuccess = true;
+                        result.MinMax(out min, out max, out Min_Loc, out Max_Loc);
 
-                    anchorCoordinates[i] = Max_Loc[0];
+                        if (max[0] > 0.85)
+                            isSuccess = true;
 
-                    detectedAnchors[i] = new RectangleF(anchorCoordinates[i], curAnchor.GetAnchorRegion.Size);
+                        anchorCoordinates[i] = Max_Loc[0];
+
+                        detectedAnchors[i] = new RectangleF(anchorCoordinates[i], curAnchor.GetAnchorRegion.Size);
+                    }
+
+                    var homography = CvInvoke.FindHomography(anchorCoordinates, mainAnchorCoordinates, Emgu.CV.CvEnum.RobustEstimationAlgorithm.Ransac);
+                    CvInvoke.WarpPerspective(inputImg, _output, homography, outputSize);
+                    var warpedPoints = CvInvoke.PerspectiveTransform(anchorCoordinates, homography);
+
+                    for (int i = 0; i < anchors.Count; i++)
+                    {
+                        warpedAnchors[i] = new RectangleF(warpedPoints[i], detectedAnchors[i].Size);
+                    }
                 }
-
-                var homography = CvInvoke.FindHomography(anchorCoordinates, mainAnchorCoordinates, Emgu.CV.CvEnum.RobustEstimationAlgorithm.Ransac);
-                CvInvoke.WarpPerspective(inputImg, _output, homography, outputSize);
-                var warpedPoints = CvInvoke.PerspectiveTransform(anchorCoordinates, homography);
-
-                for (int i = 0; i < anchors.Count; i++)
+                catch(Exception _ex)
                 {
-                    warpedAnchors[i] = new RectangleF(warpedPoints[i], detectedAnchors[i].Size);
+                    ex = _ex;
+                    isSuccess = false;
                 }
 
                 watch.Stop();
@@ -285,7 +318,7 @@ namespace Synapse.Core.Templates
                 output = _output;
                 return isSuccess;
             }
-            public bool ApplyMethod(IInputArray templateImage, IInputArray input, out IOutputArray output, out PointF[] detectedAnchors, out PointF[] warpedAnchors, out long matchTime)
+            public bool ApplyMethod(IInputArray templateImage, IInputArray input, out IOutputArray output, out PointF[] detectedAnchors, out PointF[] warpedAnchors, out long matchTime, out Exception ex)
             {
                 bool isSuccess = false;
                 var inputImg = (Image<Gray, byte>)input;
@@ -295,6 +328,8 @@ namespace Synapse.Core.Templates
                 warpedAnchors = new PointF[anchors.Count];
 
                 PointF[] anchorCoordinates = new PointF[anchors.Count];
+
+                ex = new Exception();
 
                 Stopwatch watch = new Stopwatch();
                 watch.Start();
@@ -360,7 +395,7 @@ namespace Synapse.Core.Templates
                 }
 
                 #region Methods
-                public abstract bool ApplyMethod(IInputArray source, IInputArray observed, bool useStoredModelFeatures, out IOutputArray homography, out VectorOfVectorOfDMatch matches, out long matchTime, out long score);
+                public abstract bool ApplyMethod(IInputArray source, IInputArray observed, bool useStoredModelFeatures, out IOutputArray homography, out VectorOfVectorOfDMatch matches, out long matchTime, out long score, out Exception ex);
                 public abstract bool GenerateFeatures(IInputArray source, out VectorOfKeyPoint generatedKeyPoints, out Mat generatedDescriptors);
 
                 public void StoreModelFeatures(IInputArray modelImage)
@@ -520,7 +555,7 @@ namespace Synapse.Core.Templates
                     matchTime = watch.ElapsedMilliseconds;
                     return result;
                 }
-                public override bool ApplyMethod(IInputArray source, IInputArray observed, bool useStoredModelFeatures, out IOutputArray homography, out VectorOfVectorOfDMatch matches, out long matchTime, out long score)
+                public override bool ApplyMethod(IInputArray source, IInputArray observed, bool useStoredModelFeatures, out IOutputArray homography, out VectorOfVectorOfDMatch matches, out long matchTime, out long score, out Exception ex)
                 {
                     bool isSuccess = false;
 
@@ -529,18 +564,35 @@ namespace Synapse.Core.Templates
                     VectorOfKeyPoint observedKeyPoints;
 
                     Mat mask;
-                    var sourceImg = (Image<Gray, byte>)source;
-                    var observedImg = (Image<Gray, byte>)observed;
-                    isSuccess = ExtractHomography(sourceImg.Mat, observedImg.Mat, useStoredModelFeatures, out matchTime, out modelKeyPoints, out observedKeyPoints, out matches,
-                        out mask, out _homography, out score);
 
-                    homography = _homography;
-                    if (isSuccess)
+                    matchTime = -1;
+                    matches = null;
+                    mask = null;
+                    homography = null;
+                    score = -1;
+                    ex = new Exception();
+
+                    try
                     {
-                        if (score > 0 && _homography != null)
-                            isSuccess = true;
-                        else
-                            isSuccess = false;
+                        var sourceImg = (Image<Gray, byte>)source;
+                        var observedImg = (Image<Gray, byte>)observed;
+                        isSuccess = ExtractHomography(sourceImg.Mat, observedImg.Mat, useStoredModelFeatures, out matchTime, out modelKeyPoints, out observedKeyPoints, out matches,
+                            out mask, out _homography, out score);
+
+                        if (isSuccess)
+                        {
+                            if (score > 0 && _homography != null)
+                                isSuccess = true;
+                            else
+                                isSuccess = false;
+                        }
+
+                        homography = _homography;
+                    }
+                    catch(Exception _ex)
+                    {
+                        ex = _ex;
+                        isSuccess = false;
                     }
 
                     return isSuccess;
@@ -719,7 +771,7 @@ namespace Synapse.Core.Templates
                     matchTime = watch.ElapsedMilliseconds;
                     return result;
                 }
-                public override bool ApplyMethod(IInputArray source, IInputArray observed, bool useStoredModelFeatures, out IOutputArray homography, out VectorOfVectorOfDMatch matches, out long matchTime, out long score)
+                public override bool ApplyMethod(IInputArray source, IInputArray observed, bool useStoredModelFeatures, out IOutputArray homography, out VectorOfVectorOfDMatch matches, out long matchTime, out long score, out Exception ex)
                 {
                     bool isSuccess = false;
 
@@ -728,18 +780,34 @@ namespace Synapse.Core.Templates
                     VectorOfKeyPoint observedKeyPoints;
 
                     Mat mask;
-                    var sourceImg = (Image<Gray, byte>)source;
-                    var observedImg = (Image<Gray, byte>)observed;
-                    isSuccess = ExtractHomography(sourceImg.Mat, observedImg.Mat, useStoredModelFeatures, out matchTime, out modelKeyPoints, out observedKeyPoints, out matches,
-                        out mask, out _homography, out score);
 
-                    homography = _homography;
-                    if (isSuccess)
+                    matchTime = -1;
+                    matches = null;
+                    mask = null;
+                    homography = null;
+                    score = -1;
+                    ex = new Exception();
+
+                    try
                     {
-                        if (score > 0 && _homography != null)
-                            isSuccess = true;
-                        else
-                            isSuccess = false;
+                        var sourceImg = (Image<Gray, byte>)source;
+                        var observedImg = (Image<Gray, byte>)observed;
+                        isSuccess = ExtractHomography(sourceImg.Mat, observedImg.Mat, useStoredModelFeatures, out matchTime, out modelKeyPoints, out observedKeyPoints, out matches,
+                            out mask, out _homography, out score);
+
+                        homography = _homography;
+                        if (isSuccess)
+                        {
+                            if (score > 0 && _homography != null)
+                                isSuccess = true;
+                            else
+                                isSuccess = false;
+                        }
+                    }
+                    catch (Exception _ex)
+                    {
+                        ex = _ex;
+                        isSuccess = false;
                     }
 
                     return isSuccess;
@@ -792,51 +860,84 @@ namespace Synapse.Core.Templates
                 this.outputWidth = outputWidth;
             }
 
-            public override bool ApplyMethod(IInputArray input, out IOutputArray output, out long matchTime)
+            public override bool ApplyMethod(IInputArray input, out IOutputArray output, out long matchTime, out Exception ex)
             {
-                bool result = false;
+                bool isSuccess = false;
                 IOutputArray _homography;
-                registrationMethod.ApplyMethod(sourceImage, input, useStoredModelFeatures, out _homography, out VectorOfVectorOfDMatch matches, out matchTime, out long score);
-                Mat homography = (Mat)_homography;
 
-                if (score > 0 && homography != null)
+                output = null;
+
+                isSuccess = registrationMethod.ApplyMethod(sourceImage, input, useStoredModelFeatures, out _homography, out VectorOfVectorOfDMatch matches, out matchTime, out long score, out Exception _ex);
+
+                ex = _ex;
+
+                if (isSuccess)
                 {
-                    Mat warped = new Mat();
-                    CvInvoke.WarpPerspective(input, warped, homography, outputWidth, Inter.Cubic, Warp.Default, BorderType.Replicate);
+                    try
+                    {
+                        Mat homography = (Mat)_homography;
 
-                    output = warped;
-                    result = true;
-                }
-                else
-                {
-                    output = null;
-                    result = false;
+                        if (score > 0 && homography != null)
+                        {
+                            Mat warped = new Mat();
+                            CvInvoke.WarpPerspective(input, warped, homography, outputWidth, Inter.Cubic, Warp.Default, BorderType.Replicate);
+
+                            output = warped;
+                            isSuccess = true;
+                        }
+                        else
+                        {
+                            output = null;
+                            isSuccess = false;
+                        }
+                    }
+                    catch(Exception __ex)
+                    {
+                        ex = __ex;
+                        isSuccess = false;
+                    }
                 }
 
-                return result;
+                return isSuccess;
             }
-            public override bool ApplyMethod(IInputArray templateImage, IInputArray input, out IOutputArray output, out long matchTime)
+            public override bool ApplyMethod(IInputArray templateImage, IInputArray input, out IOutputArray output, out long matchTime, out Exception ex)
             {
-                bool result = false;
+                bool isSuccess = false;
                 IOutputArray _homography;
-                registrationMethod.ApplyMethod(templateImage, input, useStoredModelFeatures, out _homography, out VectorOfVectorOfDMatch matches, out matchTime, out long score);
-                Mat homography = (Mat)_homography;
 
-                if (score > 0 && homography != null)
+                output = null;
+                isSuccess = false;
+
+                if (registrationMethod.ApplyMethod(templateImage, input, useStoredModelFeatures, out _homography, out VectorOfVectorOfDMatch matches, out matchTime, out long score, out ex))
                 {
-                    Mat warped = new Mat();
-                    CvInvoke.WarpPerspective(input, warped, homography, outputWidth, Inter.Cubic, Warp.Default, BorderType.Replicate);
+                    try
+                    {
+                        Mat homography = (Mat)_homography;
 
-                    output = warped;
-                    result = true;
-                }
-                else
-                {
-                    output = null;
-                    result = false;
+                        if (score > 0 && homography != null)
+                        {
+                            Mat warped = new Mat();
+                            CvInvoke.WarpPerspective(input, warped, homography, outputWidth, Inter.Cubic, Warp.Default, BorderType.Replicate);
+
+                            output = warped;
+                            isSuccess = true;
+                        }
+                        else
+                        {
+                            output = null;
+                            isSuccess = false;
+                        }
+                    }
+                    catch(Exception _ex)
+                    {
+                        ex = _ex;
+
+                        output = null;
+                        isSuccess = false;
+                    }
                 }
 
-                return result;
+                return isSuccess;
             }
             public void StoreModelFeatures(IInputArray model, bool use)
             {

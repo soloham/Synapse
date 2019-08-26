@@ -65,8 +65,6 @@ namespace Synapse
         #endregion
 
         #region Variables
-        private Dispatcher dispatcher;
-
         private PointF curImageMouseLoc;
 
         private List<OnTemplateConfig> OnTemplateConfigs = new List<OnTemplateConfig>();
@@ -106,7 +104,6 @@ namespace Synapse
             synapseMain = this;
 
             SynapseMain.currentTemplate = currentTemplate;
-            dispatcher = Dispatcher.CurrentDispatcher;
 
             Awake();
         }
@@ -226,6 +223,24 @@ namespace Synapse
             OnTemplateLoadedEvent += SynapseMain_OnTemplateLoadedEvent;
 
             StatusCheck();
+
+            if(TemplateStatus == StatusState.Green)
+            {
+                try
+                {
+                    Image tmpImage = Image.FromFile(GetCurrentTemplate.GetTemplateImage.ImageLocation);
+                    templateImageBox.Image = tmpImage;
+
+                    templateImageBox.TextDisplayMode = Cyotek.Windows.Forms.ImageBoxGridDisplayMode.None;
+                    templateImageBox.ZoomToFit();
+
+                    OnTemplateLoadedEvent?.Invoke(this, tmpImage);
+                }
+                catch (Exception ex)
+                {
+                    Messages.LoadFileException(ex);
+                }
+            }
         }
 
         private void SynapseMain_OnTemplateLoadedEvent(object sender, Image e)
@@ -569,7 +584,5 @@ namespace Synapse
         #endregion
 
         #endregion
-
-        
     }
 }

@@ -217,7 +217,6 @@ namespace Synapse.Modules
             configureStatesPanel.Visible = true;
 
             RegionImage = region == null? RegionImage : region;
-            imageBox.Text = "";
             imageBox.Image = RegionImage;
 
             StartWalkthrough();
@@ -258,7 +257,6 @@ namespace Synapse.Modules
             interFieldsSpaces = omrConfig.RegionData.InterFieldsSpaces.ToList();
 
             RegionImage = region == null? RegionImage : region;
-            imageBox.Text = "";
             imageBox.Image = region;
 
             drawFields = true;
@@ -291,7 +289,6 @@ namespace Synapse.Modules
             RegionData = regionData;
 
             RegionImage = region == null ? RegionImage : region;
-            imageBox.Text = "";
             imageBox.Image = region;
 
             drawFields = true;
