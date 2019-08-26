@@ -41,8 +41,8 @@ namespace Synapse.Modules
 
         #region Events 
 
-        public delegate void OnConfigurationFinshed(Bitmap templateImage);
-        public event OnConfigurationFinshed OnConfigurationFinishedEvent;
+        internal delegate void OnConfigurationFinshed(Image<Gray, byte> templateConfiguredImage, Template.TemplateImage templateImage, List<Template.AlignmentMethod> alignmentMethods, Template.AlignmentPipelineResults alignmentPipelineResults);
+        internal event OnConfigurationFinshed OnConfigurationFinishedEvent;
 
         public event EventHandler OnFormInitializedEvent;
 
@@ -84,6 +84,7 @@ namespace Synapse.Modules
 
         #region Alignment Methods Configuration
         private List<Template.AlignmentMethod> alignmentMethods = new List<Template.AlignmentMethod>();
+        private Template.AlignmentPipelineResults alignmentPipelineResults;
         #endregion
 
         #endregion
@@ -133,9 +134,9 @@ namespace Synapse.Modules
 
             OnFormInitializedEvent?.Invoke(this, EventArgs.Empty);
         }
-        private void OnConfigurationFinishedCallback(Bitmap templateImage)
+        private void OnConfigurationFinishedCallback(Image<Gray, byte> image, Template.TemplateImage templateImage, List<Template.AlignmentMethod> alignmentMethods, Template.AlignmentPipelineResults alignmentPipelineResults)
         {
-
+            Close();
         }
 
         private void SetupForConfiguration(Bitmap template = null)
@@ -179,14 +180,23 @@ namespace Synapse.Modules
                 configureStatesPanel.RowStyles[i].Height = i == 0 ? 100 : i == 1 ? 0 : i == 2 ? 0 : i == 3 ? 0 : 0;
             }
 
-            selectStateComboBox.DataSource = EnumHelper.ToList(typeof(ConfigurationState));
+            if (!curConfigureStatePanel.Controls.Contains(statePanelsPanel))
+                curConfigureStatePanel.Controls.Add(statePanelsPanel, 1, 0);
+            statePanelsPanel.Dock = DockStyle.Fill;
+            statePanelsPanel.Visible = true;
+
+            var configStatesList = EnumHelper.ToList(typeof(ConfigurationState));
+            configStatesList.RemoveAt(0);
+            configStatesList.RemoveAt(1);
+            configStatesList.RemoveAt(2);
+            selectStateComboBox.DataSource = configStatesList;
             selectStateComboBox.DisplayMember = "Value";
             selectStateComboBox.ValueMember = "Key";
 
             configureStatesPanel.Visible = true;
             CurrentStatePanel = LabelStatePanel;
 
-            TemplateImage = tmpImg == null ? TemplateImage : new Image<Gray, byte>(tmpImg);
+            TemplateImage = tmpImg == null ? new Image<Gray, byte>(template.GetTemplateImage.GetBitmap) : new Image<Gray, byte>(tmpImg);
             templateImageCopy = TemplateImage.Clone();
             imageBox.Text = "";
             imageBox.Image = tmpImg;
@@ -478,15 +488,14 @@ namespace Synapse.Modules
         }
         private void EndWalkthrough()
         {
-            LastStateAction();
+            LastStateAction?.Invoke();
 
             if (!isCurrentSetActionCompleted)
                 return;
 
             imageBox.SelectNone();
 
-            //OMRRegionData regionData = new OMRRegionData(totalFields, fieldsRegion, interFieldsSpaceType, interFieldsSpace, interFieldsSpaces.ToArray(), totalOptions, optionsRegion, interOptionsSpaceType, interOptionsSpace, interOptionsSpaces.ToArray());
-            //OnConfigurationFinishedEvent?.Invoke(TemplateName, orientation, regionData);
+            OnConfigurationFinishedEvent?.Invoke(TemplateImage, new Template.TemplateImage(selectedSize, selectedScale, selectedDeskewAngle), alignmentMethods, alignmentPipelineResults);
         }
 
         #region Action Methods
@@ -549,6 +558,10 @@ namespace Synapse.Modules
             if(ImageFileBrowser.ShowDialog() == DialogResult.OK && System.IO.File.Exists(ImageFileBrowser.FileName))
             {
                 AlignmentPipelineTestForm alignmentPipelineTestForm = new AlignmentPipelineTestForm(alignmentMethods, TemplateImage, new Image<Gray, byte>(ImageFileBrowser.FileName));
+                alignmentPipelineTestForm.OnResultsGeneratedEvent += (Template.AlignmentPipelineResults alignmentPipelineResults) =>
+                {
+                    this.alignmentPipelineResults = alignmentPipelineResults;
+                };
                 alignmentPipelineTestForm.ShowDialog();
             }
         }
@@ -569,7 +582,7 @@ namespace Synapse.Modules
         }
         private void SelectStateComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            ConfigurationState configurationState = (ConfigurationState)selectStateComboBox.SelectedIndex;
+            ConfigurationState configurationState = (ConfigurationState)selectStateComboBox.SelectedIndex+3;
             ConfigWalkthroughState = configurationState;
         }
         private void IntegerStateComboBox_SelectedIndexChanged(object sender, EventArgs e)

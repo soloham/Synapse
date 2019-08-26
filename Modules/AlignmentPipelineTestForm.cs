@@ -53,8 +53,8 @@ namespace Synapse.Modules
 
         #region Events
 
-        internal delegate void OnConfigurationFinshed(Template.RegistrationAlignmentMethod registrationAlignmentMethod);
-        internal event OnConfigurationFinshed OnConfigurationFinishedEvent;
+        internal delegate void OnResultsGenerated(AlignmentPipelineResults alignmentPipelineResults);
+        internal event OnResultsGenerated OnResultsGeneratedEvent;
 
         #endregion
 
@@ -285,6 +285,8 @@ namespace Synapse.Modules
 
             alignmentPipelineResults = new AlignmentPipelineResults(alignmentMethodResults);
             alignmentPipelineResultsControl.Initialize(alignmentPipelineResults);
+
+            OnResultsGeneratedEvent?.Invoke(alignmentPipelineResults);
         }
 
         private void SelectedMethodResultChanged(AlignmentPipelineResults.AlignmentMethodResult alignmentMethodResult)
@@ -394,6 +396,11 @@ namespace Synapse.Modules
                 results[i] = new RectangleF(new PointF(rectangleFs[i].X * xScaleRatio, rectangleFs[i].Y *yScaleRatio), new SizeF(rectangleFs[i].Size.Width * xScaleRatio, rectangleFs[i].Size.Height * yScaleRatio));
             }
             return results;
+        }
+
+        private void DoneBtn_Click(object sender, EventArgs e)
+        {
+            Close();
         }
     }
     #endregion

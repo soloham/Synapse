@@ -175,6 +175,7 @@
             this.doneBtn.ThemeStyle.PressedForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
             this.doneBtn.UseVisualStyle = false;
             this.doneBtn.UseVisualStyleBackColor = false;
+            this.doneBtn.Click += new System.EventHandler(this.DoneBtn_Click);
             // 
             // pipelineTestMainTablePanel
             // 

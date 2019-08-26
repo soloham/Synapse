@@ -90,6 +90,7 @@ namespace Synapse.Core.Templates
         internal class AnchorAlignmentMethod : AlignmentMethod
         {
             #region Objects
+            [Serializable]
             public class Anchor
             {
                 public RectangleF GetAnchorRegion { get => anchorRegion; }
@@ -925,6 +926,16 @@ namespace Synapse.Core.Templates
                 this.templateImage = templateImage;
                 this.alignmentPipeline = alignmentPipeline;
             }
+
+            internal void SetTemplateImage(TemplateImage templateImage)
+            {
+                this.templateImage = templateImage;
+            }
+
+            internal void SetAlignmentPipeline(List<AlignmentMethod> alignmentPipeline)
+            {
+                this.alignmentPipeline = alignmentPipeline;
+            }
         }
         #endregion
 
@@ -938,6 +949,9 @@ namespace Synapse.Core.Templates
         public delegate bool OnTemplateDataCallback(Data templateData);
         public delegate Template OnTemplateNameCallback(string templateName);
         public static event OnTemplateDataCallback OnSaveTemplateEvent;
+
+        public delegate bool OnTemplateConfiguredCallback(Data templateData, Image<Gray, byte> templateImage);
+        public static event OnTemplateConfiguredCallback OnSaveConfiguredTemplateEvent;
         #endregion
 
         #region Variables
@@ -983,6 +997,21 @@ namespace Synapse.Core.Templates
             }
             return isSaved;
         }
+        internal static bool SaveTemplate(Data tempData, Image<Gray, byte> configuredTemplateImage)
+        {
+            bool isSaved = true;
+
+            try
+            {
+                OnSaveConfiguredTemplateEvent?.Invoke(tempData, configuredTemplateImage);
+            }
+            catch (Exception ex)
+            {
+                isSaved = false;
+            }
+            return isSaved;
+        }
+
         internal static async Task<Template> LoadTemplate(string templateName)
         {
             return await Task.Run(() => Utilities.Memory.LSTM.LoadTemplate(templateName));
@@ -998,6 +1027,15 @@ namespace Synapse.Core.Templates
         internal static async Task<bool> DeleteTemplate(string templateName)
         {
             return await Task.Run(() => Utilities.Memory.LSTM.DeleteTemplate(templateName));
+        }
+
+        internal void SetTemplateImage(TemplateImage image)
+        {
+            this.TemplateData.SetTemplateImage(image);
+        }
+        internal void SetAlignmentPipeline(List<AlignmentMethod> alignmentPipeline)
+        {
+            this.TemplateData.SetAlignmentPipeline(alignmentPipeline);
         }
         #endregion
     }

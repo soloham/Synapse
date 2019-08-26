@@ -1,4 +1,6 @@
-﻿using Synapse.Core.Configurations;
+﻿using Emgu.CV;
+using Emgu.CV.Structure;
+using Synapse.Core.Configurations;
 using Synapse.Core.Managers;
 using Synapse.Core.Templates;
 using Synapse.Modules;
@@ -148,7 +150,12 @@ namespace Synapse
         public void StatusCheck()
         {
             //Template Status
-
+            StatusState templateStatus = StatusState.Red;
+            if (GetCurrentTemplate.GetTemplateImage != null && GetCurrentTemplate.TemplateData.GetAlignmentPipeline != null && GetCurrentTemplate.TemplateData.GetAlignmentPipeline.Count > 0)
+            {
+                templateStatus = StatusState.Green;
+            }
+            TemplateStatus = templateStatus;
 
             //Configuration Status
             StatusState configStatus = StatusState.Red;
@@ -272,8 +279,30 @@ namespace Synapse
             else
                 mainDockingManager.DockControlInAutoHideMode(configPropertiesPanel, DockingStyle.Right, 400);
         }
+
+        private async void TemplateConfigurationForm_OnConfigurationFinishedEvent(Image<Gray, byte> tempConfiguredImg, Template.TemplateImage templateImage, List<Template.AlignmentMethod> alignmentMethods, Template.AlignmentPipelineResults alignmentPipelineResults)
+        {
+            GetCurrentTemplate.SetTemplateImage(templateImage);
+            GetCurrentTemplate.SetAlignmentPipeline(alignmentMethods);
+
+            await Task.Run(() => Template.SaveTemplate(GetCurrentTemplate.TemplateData, tempConfiguredImg));
+
+            TemplateStatus = StatusState.Green;
+        }
         #endregion
         #region UI
+        private void TemplateConfigureToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            TemplateConfigurationForm templateConfigurationForm = null;
+            if(TemplateStatus == StatusState.Green)
+                templateConfigurationForm = new TemplateConfigurationForm(GetCurrentTemplate);
+            else
+                templateConfigurationForm = new TemplateConfigurationForm((Bitmap)templateImageBox.Image);
+
+            templateConfigurationForm.OnConfigurationFinishedEvent += TemplateConfigurationForm_OnConfigurationFinishedEvent;
+            templateConfigurationForm.WindowState = FormWindowState.Maximized;
+            templateConfigurationForm.ShowDialog();
+        }
         private void ConfigToolStripTabItem_Click(object sender, EventArgs e)
         {
             configTabPanel.Visible = true;
@@ -541,17 +570,6 @@ namespace Synapse
 
         #endregion
 
-        private void TemplateConfigureToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            TemplateConfigurationForm templateConfigurationForm = new TemplateConfigurationForm((Bitmap)templateImageBox.Image);
-            templateConfigurationForm.OnConfigurationFinishedEvent += TemplateConfigurationForm_OnConfigurationFinishedEvent;
-            templateConfigurationForm.WindowState = FormWindowState.Maximized;
-            templateConfigurationForm.ShowDialog();
-        }
-
-        private void TemplateConfigurationForm_OnConfigurationFinishedEvent(Bitmap templateImage)
-        {
-
-        }
+        
     }
 }

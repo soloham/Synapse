@@ -25,6 +25,8 @@ namespace Synapse.Utilities.Memory
         private static string appRootDataPath = Path.Combine(RootDataPath, "App Data");
         #endregion
         #region Extensions
+        public static string TemplateImageExt { get { return templateImageExt; } set { } }
+        private static string templateImageExt = "bmp";
         public static string TemplateDataExt { get { return templateDataExt; } set { } }
         private static string templateDataExt = "tmd";
         public static string TemplateListItemsDataExt { get { return templateListItemsDataExt; } set { } }
@@ -36,6 +38,8 @@ namespace Synapse.Utilities.Memory
         #region Files & Directories Name
         public static string TemplateDataFileName { get { return templateDataFileName; } set { } }
         private static string templateDataFileName = $"Data.{TemplateDataExt}";
+        public static string TemplateImageFileName { get { return templateImageFileName; } set { } }
+        private static string templateImageFileName = $"Template Image.{TemplateImageExt}";
         public static string TemplateListItemsDataFileName { get { return templateListItemsDataFileName; } set { } }
         private static string templateListItemsDataFileName = $"Templates.{templateListItemsDataExt}";
         public static string ConfigDataFileName { get { return configDataFileName; } set { } }
@@ -129,7 +133,9 @@ namespace Synapse.Utilities.Memory
         public static void Initialize()
         {
             Template.OnSaveTemplateEvent += SaveTemplate;
+            Template.OnSaveConfiguredTemplateEvent += SaveConfiguredTemplate;
         }
+
         public static bool DeleteTemplate(string templateName)
         {
             bool result = true;
@@ -169,6 +175,37 @@ namespace Synapse.Utilities.Memory
 
                     Directory.CreateDirectory(templateData.TemplateDataDirectory);
                 }
+
+                using (FileStream fs = new FileStream($"{templateData.TemplateDataDirectory}/{templateDataFileName}", FileMode.Create))
+                    bf.Serialize(fs, templateData);
+            }
+            catch (Exception ex)
+            {
+                if (LogLevelState >= LogLevel.Low)
+                    Messages.SaveFileException(ex);
+
+                isSaved = false;
+            }
+
+            return isSaved;
+        }
+        private static bool SaveConfiguredTemplate(Template.Data templateData, Emgu.CV.Image<Emgu.CV.Structure.Gray, byte> templateImage)
+        {
+            bool isSaved = true;
+
+            try
+            {
+                if (templateData.TemplateLocation == "" || !templateData.TemplateLocation.Contains(TemplatesRootDataPath))
+                {
+                    templateData.TemplateLocation = Path.Combine(TemplatesRootDataPath, templateData.TemplateName);
+                    templateData.TemplateDataDirectory = $"{templateData.TemplateLocation}/{TemplateDataDirName}";
+
+                    Directory.CreateDirectory(templateData.TemplateDataDirectory);
+                }
+
+                string imageSaveLoc = $"{templateData.TemplateDataDirectory}/{templateImageFileName}";
+                templateImage.Save(imageSaveLoc);
+                templateData.GetTemplateImage.ImageLocation = imageSaveLoc;
 
                 using (FileStream fs = new FileStream($"{templateData.TemplateDataDirectory}/{templateDataFileName}", FileMode.Create))
                     bf.Serialize(fs, templateData);
