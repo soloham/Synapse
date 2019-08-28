@@ -128,8 +128,8 @@ namespace Synapse.Core.Templates
             #region Properties
             public List<Anchor> GetAnchors { get => anchors; }
             private List<Anchor> anchors;
-            public Anchor GetTestRegion { get => testRegion; }
-            private Anchor testRegion;
+            public Anchor GetTestAnchor { get => testAnchor; }
+            private Anchor testAnchor;
             public Size GetDownscaleSize { get => downscaleSize; }
             private Size downscaleSize;
             public double GetDownscaleScale { get => downscaleScale; }
@@ -142,10 +142,10 @@ namespace Synapse.Core.Templates
             #endregion
 
             #region Methods
-            public AnchorAlignmentMethod(List<Anchor> anchors, Anchor testPoint, Size outputSize, int pipelineIndex, string methodName, Size downscaleSize, double downscaleScale) : base(methodName, AlignmentMethodType.Anchors, pipelineIndex)
+            public AnchorAlignmentMethod(List<Anchor> anchors, Anchor testAnchor, Size outputSize, int pipelineIndex, string methodName, Size downscaleSize, double downscaleScale) : base(methodName, AlignmentMethodType.Anchors, pipelineIndex)
             {
                 this.anchors = anchors;
-                this.testRegion = testPoint;
+                this.testAnchor = testAnchor;
                 this.outputSize = outputSize;
                 this.downscaleSize = downscaleSize;
                 this.downscaleScale = downscaleScale;
@@ -288,7 +288,7 @@ namespace Synapse.Core.Templates
                 warpedAnchors = new RectangleF[anchors.Count];
                 warpedTestRegion = new RectangleF();
 
-                PointF[] anchorCoordinates = new PointF[anchors.Count+1];
+                PointF[] anchorCoordinates = new PointF[anchors.Count];
 
                 ex = new Exception();
 
@@ -319,13 +319,13 @@ namespace Synapse.Core.Templates
 
                         detectedAnchors[i] = new RectangleF(anchorCoordinates[i], curAnchor.GetAnchorRegion.Size);
                     }
-                    anchorCoordinates[anchorCoordinates.Length - 1] = testRegion.GetAnchorRegion.Location;
-                    mainAnchorCoordinates[mainAnchorCoordinates.Length - 1] = testRegion.GetAnchorRegion;
+                    anchorCoordinates[anchorCoordinates.Length - 1] = testAnchor.GetAnchorRegion.Location;
+                    //mainAnchorCoordinates[mainAnchorCoordinates.Length - 1] = testRegion.GetAnchorRegion;
 
                     var homography = CvInvoke.FindHomography(anchorCoordinates, mainAnchorCoordinates, Emgu.CV.CvEnum.RobustEstimationAlgorithm.Ransac);
                     CvInvoke.WarpPerspective(inputImg, _output, homography, outputSize);
                     var warpedPoints = CvInvoke.PerspectiveTransform(anchorCoordinates, homography);
-                    warpedTestRegion = new RectangleF(warpedPoints[warpedPoints.Length - 1], testRegion.GetAnchorRegion.Size);
+                    warpedTestRegion = new RectangleF(warpedPoints[warpedPoints.Length - 1], testAnchor.GetAnchorRegion.Size);
 
                     for (int i = 0; i < anchors.Count; i++)
                     {

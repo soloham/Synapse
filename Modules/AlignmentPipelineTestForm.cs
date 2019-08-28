@@ -264,7 +264,7 @@ namespace Synapse.Modules
                     var aIM = (AnchorAlignmentMethod)alignmentMethod;
                     bool isSuccess = aIM.ApplyMethod(outputImage, testImage, out outputImageArr, out RectangleF[] detectedAnchors, out RectangleF[] warpedAnchors, out RectangleF warpedTestRegion, out long alignmentTime, out exception);
                     var mainAnchors = aIM.GetAnchors.ToArray();
-                    var mainTestRegion = aIM.GetTestRegion.GetAnchorRegion;
+                    var mainTestRegion = aIM.GetTestAnchor.GetAnchorRegion;
                     if (isSuccess)
                     {
                         var outputMat = (Mat)outputImageArr;

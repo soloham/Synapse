@@ -381,7 +381,7 @@ namespace Synapse.Modules
                 }
                 Template.AnchorAlignmentMethod.Anchor testPointAnchor = testPointPlaceholderControl.GetAnchor;
 
-                Template.AnchorAlignmentMethod anchorAlignmentMethod = new Template.AnchorAlignmentMethod(anchors, testPointAnchor, templateImage.Size, pipelineIndex, methodName, Size.Empty, 0);
+                Template.AnchorAlignmentMethod anchorAlignmentMethod = new Template.AnchorAlignmentMethod(anchors, testPointAnchor, templateImage.Size, pipelineIndex, methodName, selectedSize, selectedScale);
 
                 OnConfigurationFinishedEvent?.Invoke(anchorAlignmentMethod);
 
