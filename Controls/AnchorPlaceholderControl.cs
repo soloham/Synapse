@@ -15,6 +15,9 @@ namespace Synapse.Controls
     public partial class AnchorPlaceholderControl : UserControl
     {
         #region Properties
+        public Color AscentColor { get => ascentColor; set { ascentColor = value; OnAscentColorChangedCallback(value); } }
+        private Color ascentColor = Color.Crimson;
+
         internal Anchor GetAnchor { get => anchor; }
         private Anchor anchor;
         public int Index { get; set; }
@@ -71,6 +74,11 @@ namespace Synapse.Controls
                 BorderStyle = BorderStyle.FixedSingle;
             else
                 BorderStyle = BorderStyle.None;
+        }
+
+        private void OnAscentColorChangedCallback(Color color)
+        {
+            deleteAnchorBtn.BackColor = color;
         }
         #endregion
         #endregion

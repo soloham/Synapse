@@ -277,6 +277,11 @@ namespace Synapse.Modules
         {
             OnConfigurationFinishedEvent?.Invoke(AlignmentMethods);
         }
+        private void AlignmentPipelineConfigurationForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            
+        }
         #endregion
+
     }
 }

@@ -1,23 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Drawing.Drawing2D;
 using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Windows.Threading;
 using Emgu.CV;
 using Emgu.CV.Structure;
 using Synapse.Core.Templates;
+using Synapse.Utilities;
 using Synapse.Utilities.Attributes;
 using Synapse.Utilities.Enums;
 using Synapse.Utilities.Objects;
 using Syncfusion.WinForms.Controls;
-using WinFormAnimation;
 
 namespace Synapse.Modules
 {
@@ -41,7 +35,7 @@ namespace Synapse.Modules
 
         #region Events 
 
-        internal delegate void OnConfigurationFinshed(Image<Gray, byte> templateConfiguredImage, Template.TemplateImage templateImage, List<Template.AlignmentMethod> alignmentMethods, Template.AlignmentPipelineResults alignmentPipelineResults);
+        internal delegate void OnConfigurationFinshed(TemplateConfigurationForm templateConfigurationForm, Template.TemplateImage templateImage, List<Template.AlignmentMethod> alignmentMethods, Template.AlignmentPipelineResults alignmentPipelineResults);
         internal event OnConfigurationFinshed OnConfigurationFinishedEvent;
 
         public event EventHandler OnFormInitializedEvent;
@@ -71,10 +65,13 @@ namespace Synapse.Modules
 
         private Template referenceTemplate;
 
+        private bool isScaled = false;
+
         #region Template Image
         private Image<Gray, byte> templateImageCopy;
         private Image<Gray, byte> preCroppedImage;
         private Image<Gray, byte> croppedImage;
+        private Image<Gray, byte> resizedImage;
         private RectangleF cropRegion;
 
         private Size selectedSize;
@@ -136,7 +133,7 @@ namespace Synapse.Modules
 
             OnFormInitializedEvent?.Invoke(this, EventArgs.Empty);
         }
-        private void OnConfigurationFinishedCallback(Image<Gray, byte> image, Template.TemplateImage templateImage, List<Template.AlignmentMethod> alignmentMethods, Template.AlignmentPipelineResults alignmentPipelineResults)
+        private void OnConfigurationFinishedCallback(TemplateConfigurationForm templateConfigurationForm, Template.TemplateImage templateImage, List<Template.AlignmentMethod> alignmentMethods, Template.AlignmentPipelineResults alignmentPipelineResults)
         {
             Close();
         }
@@ -197,7 +194,7 @@ namespace Synapse.Modules
             configureStatesPanel.Visible = true;
             CurrentStatePanel = LabelStatePanel;
 
-            TemplateImage = tmpImg == null ? new Image<Gray, byte>(template.GetTemplateImage.GetBitmap) : new Image<Gray, byte>(tmpImg);
+            TemplateImage = tmpImg == null ? new Image<Gray, byte>(template.GetTemplateImage.GetBitmap ?? SynapseMain.GetSynapseMain.GetCurrentImage()) : new Image<Gray, byte>(tmpImg);
             templateImageCopy = TemplateImage.Clone();
             imageBox.Image = TemplateImage.Bitmap;
 
@@ -361,6 +358,12 @@ namespace Synapse.Modules
 
             SelectionRegionChangedAction = null;
             SelectionRegionResizedAction = null;
+
+            nextBtn.Text = "NEXT";
+            nextBtn.BackColor = Color.LightSlateGray;
+            nextBtn.Image = Properties.Resources.Login_Arrow;
+            CurrentNextAction = new Action(NextState);
+
             switch (walkthroughState)
             {
                 case ConfigurationState.APPLY_DESKEW:
@@ -368,10 +371,7 @@ namespace Synapse.Modules
                     CurrentSetAction = new Action(SetTemplateDeskew);
 
                     setBtn.Text = "APPLY";
-                    nextBtn.Text = "NEXT";
-                    nextBtn.BackColor = Color.LightSlateGray;
                     ValidateState();
-                    CurrentNextAction = new Action(NextState);
                     break;
                 case ConfigurationState.PERFORM_CROP:
                     if(preCroppedImage != null) imageBox.Image = preCroppedImage.Bitmap;
@@ -381,19 +381,14 @@ namespace Synapse.Modules
                     CurrentSetAction = new Action(CropTemplateImage);
 
                     setBtn.Text = "APPLY";
-                    nextBtn.Text = "NEXT";
-                    nextBtn.BackColor = Color.LightSlateGray;
                     ValidateState();
-                    CurrentNextAction = new Action(NextState);
                     break;
                 case ConfigurationState.SELECT_TEMPLATE_SIZE:
                     CurrentSetAction = new Action(SetTemplateSize);
 
                     setBtn.Text = "SET";
-                    nextBtn.Text = "NEXT";
-                    nextBtn.BackColor = Color.LightSlateGray;
+                    SetTemplateSize();
                     ValidateState();
-                    CurrentNextAction = new Action(NextState);
                     break;
                 case ConfigurationState.CONFIGURE_ALIGNMENT_PIPELINE:
                     walkthroughDescriptionLabel.Text = "Configure the template alignment pipeline";
@@ -401,9 +396,6 @@ namespace Synapse.Modules
 
                     setBtn.Image = Properties.Resources.Gear_WF;
                     setBtn.Text = "CONFIGURE";
-                    nextBtn.Text = "NEXT";
-                    nextBtn.BackColor = Color.LightSlateGray;
-                    CurrentNextAction = new Action(NextState);
                     break;
                 case ConfigurationState.TEST_ALIGNMENT_PIPELINE:
                     walkthroughDescriptionLabel.Text = "Browse a sheet to test the alignment pipeline";
@@ -413,7 +405,7 @@ namespace Synapse.Modules
                     setBtn.Text = "BROWSE";
                     nextBtn.Text = "FINISH";
                     nextBtn.BackColor = Color.MediumTurquoise;
-                    ValidateState();
+                    nextBtn.Image = Properties.Resources.Check;
                     CurrentNextAction = new Action(EndWalkthrough);
                     break;
             }
@@ -439,6 +431,7 @@ namespace Synapse.Modules
                     imageBox.Image = TemplateImage.Bitmap;
                     break;
                 case ConfigurationState.SELECT_TEMPLATE_SIZE:
+                    imageBox.Image = TemplateImage.Bitmap;
                     break;
                 case ConfigurationState.CONFIGURE_ALIGNMENT_PIPELINE:
                     break;
@@ -499,14 +492,19 @@ namespace Synapse.Modules
             LastStateAction?.Invoke();
 
             if (!isCurrentSetActionCompleted)
+            {
+                InvalidateState();
+
                 return;
+            }
 
             imageBox.SelectNone();
 
             var tmpImg = new Template.TemplateImage(selectedSize, selectedScale, selectedDeskewAngle);
+            tmpImg.SetBitmap(TemplateImage.ToBitmap());
             if (referenceTemplate != null) tmpImg.ImageLocation = referenceTemplate.GetTemplateImage.ImageLocation;
 
-            OnConfigurationFinishedEvent?.Invoke(TemplateImage, tmpImg, alignmentMethods, alignmentPipelineResults);
+            OnConfigurationFinishedEvent?.Invoke(this, tmpImg, alignmentMethods, alignmentPipelineResults);
         }
 
         #region Action Methods
@@ -546,6 +544,8 @@ namespace Synapse.Modules
         }
         private void SetTemplateSize()
         {
+            TemplateImage = resizedImage;
+
             selectedSize = TemplateImage.Size;
             selectedScale = sizeScaleTrackBar.Value == 0 ? (double)1/20 : (double)sizeScaleTrackBar.Value/10;
         }
@@ -555,23 +555,50 @@ namespace Synapse.Modules
             alignmentPipelineConfigurationForm.OnConfigurationFinishedEvent += (List<Template.AlignmentMethod> alignmentMethods) => 
             {
                 this.alignmentMethods = alignmentMethods;
-                alignmentPipelineConfigurationForm.Close();
 
                 if (this.alignmentMethods.Count == 0)
+                {
                     InvalidateState();
+
+                    if(referenceTemplate != null)
+                    {
+                        Messages.ShowError("A Minimum of one Alignment Method is required in order to continue");
+                        return;
+                    }
+                }
                 else
                     ValidateState();
+
+                alignmentPipelineConfigurationForm.Close();
             };
             alignmentPipelineConfigurationForm.ShowDialog();
         }
         private void TestAlignmentPipeline()
         {
-            if(ImageFileBrowser.ShowDialog() == DialogResult.OK && System.IO.File.Exists(ImageFileBrowser.FileName))
+            if (alignmentMethods.Count <= 0)
+            {
+                Messages.ShowError("A Minimum of one Alignment Method is required in order to perform testing");
+                InvalidateState();
+
+                return;
+            }
+
+            if (ImageFileBrowser.ShowDialog() == DialogResult.OK && System.IO.File.Exists(ImageFileBrowser.FileName))
             {
                 AlignmentPipelineTestForm alignmentPipelineTestForm = new AlignmentPipelineTestForm(alignmentMethods, TemplateImage, new Image<Gray, byte>(ImageFileBrowser.FileName));
                 alignmentPipelineTestForm.OnResultsGeneratedEvent += (Template.AlignmentPipelineResults alignmentPipelineResults) =>
                 {
                     this.alignmentPipelineResults = alignmentPipelineResults;
+
+                    if (alignmentPipelineResults.AlignmentMethodTestResultsList.Count > 0 && alignmentPipelineResults.AlignmentMethodTestResultsList.TrueForAll(x => x.GetAlignmentMethodResultType == Template.AlignmentPipelineResults.AlignmentMethodResultType.Successful))
+                        ValidateState();
+                    else
+                    {
+                        InvalidateState();
+
+                        Messages.ShowError($"The Alignment Method: '{alignmentPipelineResults.AlignmentMethodTestResultsList.First(x => x.GetAlignmentMethodResultType == Template.AlignmentPipelineResults.AlignmentMethodResultType.Failed).AlignmentMethod.MethodName}' failed to pass the testing process. \n\n Configure this method properly in order to complete the process.");
+                        ConfigWalkthroughState = ConfigurationState.CONFIGURE_ALIGNMENT_PIPELINE;
+                    }
                 };
                 alignmentPipelineTestForm.ShowDialog();
             }
@@ -606,30 +633,11 @@ namespace Synapse.Modules
             ConfigurationState configurationState = (ConfigurationState)selectStateComboBox.SelectedIndex+3;
             ConfigWalkthroughState = configurationState;
         }
-        private void IntegerStateComboBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            IntegerStateComboAction?.Invoke();
-        }
-        private void DoubleStateComboBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            DoubleStateComboAction?.Invoke();
-        }
-        private void SizeScaleTrackBar_ValueChanged(object sender, EventArgs e)
-        {
-            imageBox.SelectionRegion = RectangleF.Empty;
-            double scaleValue = sizeScaleTrackBar.Value == 0 ? (double)1 / 20 : (double)sizeScaleTrackBar.Value / 10;
-
-            if (croppedImage == null)
-                return;
-
-            TemplateImage = croppedImage.Resize(scaleValue, Emgu.CV.CvEnum.Inter.Cubic);
-            imageBox.Image = TemplateImage.Bitmap;
-
-            sizeWidthTextBox.IntegerValue = TemplateImage.Size.Width;
-            sizeHeightTextBox.IntegerValue = TemplateImage.Size.Height;
-        }
         private void SizeWidthTextBox_IntegerValueChanged(object sender, EventArgs e)
         {
+            if (isScaled)
+                return;
+
             imageBox.SelectionRegion = RectangleF.Empty;
             int width = (int)sizeWidthTextBox.IntegerValue;
             int height = (int)sizeHeightTextBox.IntegerValue;
@@ -639,12 +647,15 @@ namespace Synapse.Modules
                 if (height <= 1 || width <= 1)
                     return;
 
-                TemplateImage = croppedImage.Resize(width, height, Emgu.CV.CvEnum.Inter.Cubic);
-                imageBox.Image = TemplateImage.Bitmap;
+                resizedImage = croppedImage.Resize(width, height, Emgu.CV.CvEnum.Inter.Cubic);
+                imageBox.Image = resizedImage.Bitmap;
             }
         }
         private void SizeHeightTextBox_IntegerValueChanged(object sender, EventArgs e)
         {
+            if (isScaled)
+                return;
+
             imageBox.SelectionRegion = RectangleF.Empty;
             int width = (int)sizeWidthTextBox.IntegerValue;
             int height = (int)sizeHeightTextBox.IntegerValue;
@@ -654,9 +665,35 @@ namespace Synapse.Modules
                 if (height <= 1 || width <= 1)
                     return;
 
-                TemplateImage = croppedImage.Resize(width, height, Emgu.CV.CvEnum.Inter.Cubic);
-                imageBox.Image = TemplateImage.Bitmap;
+                resizedImage = croppedImage.Resize(width, height, Emgu.CV.CvEnum.Inter.Cubic);
+                imageBox.Image = resizedImage.Bitmap;
             }
+        }
+        private void SizeScaleTrackBar_ValueChanged(object sender, EventArgs e)
+        {
+            imageBox.SelectionRegion = RectangleF.Empty;
+            double scaleValue = sizeScaleTrackBar.Value == 0 ? (double)1 / 20 : (double)sizeScaleTrackBar.Value / 10;
+
+            if (croppedImage == null)
+                return;
+
+            resizedImage = croppedImage.Resize(scaleValue, Emgu.CV.CvEnum.Inter.Cubic);
+            imageBox.Image = resizedImage.Bitmap;
+
+            Size resizedSize = resizedImage.Size;
+
+            isScaled = true;
+            sizeWidthTextBox.IntegerValue = resizedSize.Width;
+            sizeHeightTextBox.IntegerValue = resizedSize.Height;
+            isScaled = false;
+        }
+        private void IntegerStateComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            IntegerStateComboAction?.Invoke();
+        }
+        private void DoubleStateComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            DoubleStateComboAction?.Invoke();
         }
         #endregion
 

@@ -32,19 +32,19 @@
             this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.mainTablePanel = new System.Windows.Forms.TableLayoutPanel();
             this.ComboBoxStatePanel = new System.Windows.Forms.Panel();
+            this.createMethodNameTextBox = new Syncfusion.Windows.Forms.Tools.TextBoxExt();
             this.comboBoxStateComboBox = new Syncfusion.Windows.Forms.Tools.ComboBoxAdv();
             this.addMethodBtn = new Syncfusion.Windows.Forms.ButtonAdv();
             this.containerFlowPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.emptyListLabel = new Syncfusion.Windows.Forms.Tools.AutoLabel();
-            this.createMethodNameTextBox = new Syncfusion.Windows.Forms.Tools.TextBoxExt();
             this.configControlsPanel = new System.Windows.Forms.TableLayoutPanel();
             this.addNewMethodBtn = new Syncfusion.Windows.Forms.ButtonAdv();
             this.finishBtn = new Syncfusion.Windows.Forms.ButtonAdv();
             this.mainTablePanel.SuspendLayout();
             this.ComboBoxStatePanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.createMethodNameTextBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxStateComboBox)).BeginInit();
             this.containerFlowPanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.createMethodNameTextBox)).BeginInit();
             this.configControlsPanel.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -78,6 +78,30 @@
             this.ComboBoxStatePanel.Size = new System.Drawing.Size(470, 40);
             this.ComboBoxStatePanel.TabIndex = 41;
             this.ComboBoxStatePanel.Visible = false;
+            // 
+            // createMethodNameTextBox
+            // 
+            this.createMethodNameTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.createMethodNameTextBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.createMethodNameTextBox.BeforeTouchSize = new System.Drawing.Size(257, 37);
+            this.createMethodNameTextBox.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(171)))), ((int)(((byte)(171)))));
+            this.createMethodNameTextBox.BorderSides = ((System.Windows.Forms.Border3DSide)(((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
+            | System.Windows.Forms.Border3DSide.Bottom)));
+            this.createMethodNameTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.createMethodNameTextBox.Font = new System.Drawing.Font("Dosis", 17.75F);
+            this.createMethodNameTextBox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this.createMethodNameTextBox.Location = new System.Drawing.Point(150, 2);
+            this.createMethodNameTextBox.Margin = new System.Windows.Forms.Padding(5, 0, 0, 8);
+            this.createMethodNameTextBox.MinimumSize = new System.Drawing.Size(1, 1);
+            this.createMethodNameTextBox.Name = "createMethodNameTextBox";
+            this.createMethodNameTextBox.Size = new System.Drawing.Size(257, 37);
+            this.createMethodNameTextBox.Style = Syncfusion.Windows.Forms.Tools.TextBoxExt.theme.Office2016White;
+            this.createMethodNameTextBox.TabIndex = 40;
+            this.createMethodNameTextBox.Text = "New Method";
+            this.createMethodNameTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.createMethodNameTextBox.ThemeName = "Office2016White";
+            this.createMethodNameTextBox.ThemeStyle.BorderColor = System.Drawing.Color.Gainsboro;
+            this.createMethodNameTextBox.ThemeStyle.CornerRadius = 0;
             // 
             // comboBoxStateComboBox
             // 
@@ -148,30 +172,6 @@
             this.emptyListLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.emptyListLabel.ThemeName = "Office2016White";
             this.emptyListLabel.Visible = false;
-            // 
-            // createMethodNameTextBox
-            // 
-            this.createMethodNameTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.createMethodNameTextBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.createMethodNameTextBox.BeforeTouchSize = new System.Drawing.Size(257, 37);
-            this.createMethodNameTextBox.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(171)))), ((int)(((byte)(171)))));
-            this.createMethodNameTextBox.BorderSides = ((System.Windows.Forms.Border3DSide)(((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Top) 
-            | System.Windows.Forms.Border3DSide.Bottom)));
-            this.createMethodNameTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.createMethodNameTextBox.Font = new System.Drawing.Font("Dosis", 17.75F);
-            this.createMethodNameTextBox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
-            this.createMethodNameTextBox.Location = new System.Drawing.Point(150, 2);
-            this.createMethodNameTextBox.Margin = new System.Windows.Forms.Padding(5, 0, 0, 8);
-            this.createMethodNameTextBox.MinimumSize = new System.Drawing.Size(1, 1);
-            this.createMethodNameTextBox.Name = "createMethodNameTextBox";
-            this.createMethodNameTextBox.Size = new System.Drawing.Size(257, 37);
-            this.createMethodNameTextBox.Style = Syncfusion.Windows.Forms.Tools.TextBoxExt.theme.Office2016White;
-            this.createMethodNameTextBox.TabIndex = 40;
-            this.createMethodNameTextBox.Text = "New Method";
-            this.createMethodNameTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.createMethodNameTextBox.ThemeName = "Office2016White";
-            this.createMethodNameTextBox.ThemeStyle.BorderColor = System.Drawing.Color.Gainsboro;
-            this.createMethodNameTextBox.ThemeStyle.CornerRadius = 0;
             // 
             // configControlsPanel
             // 
@@ -267,12 +267,13 @@
             this.Style.TitleBar.Font = new System.Drawing.Font("Dosis", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Style.TitleBar.TextHorizontalAlignment = System.Windows.Forms.HorizontalAlignment.Center;
             this.Text = "Configure Alignment Pipeline";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.AlignmentPipelineConfigurationForm_FormClosing);
             this.mainTablePanel.ResumeLayout(false);
             this.ComboBoxStatePanel.ResumeLayout(false);
             this.ComboBoxStatePanel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.createMethodNameTextBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxStateComboBox)).EndInit();
             this.containerFlowPanel.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.createMethodNameTextBox)).EndInit();
             this.configControlsPanel.ResumeLayout(false);
             this.ResumeLayout(false);
 

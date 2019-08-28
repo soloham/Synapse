@@ -26,7 +26,7 @@ namespace Synapse.Utilities.Memory
         #endregion
         #region Extensions
         public static string TemplateImageExt { get { return templateImageExt; } set { } }
-        private static string templateImageExt = "bmp";
+        private static string templateImageExt = "jpg";
         public static string TemplateDataExt { get { return templateDataExt; } set { } }
         private static string templateDataExt = "tmd";
         public static string TemplateListItemsDataExt { get { return templateListItemsDataExt; } set { } }
@@ -189,7 +189,7 @@ namespace Synapse.Utilities.Memory
 
             return isSaved;
         }
-        private static bool SaveConfiguredTemplate(Template.Data templateData, Emgu.CV.Image<Emgu.CV.Structure.Gray, byte> templateImage)
+        private static bool SaveConfiguredTemplate(Template.Data templateData, System.Drawing.Bitmap templateImage)
         {
             bool isSaved = true;
 
@@ -206,14 +206,15 @@ namespace Synapse.Utilities.Memory
 
                 imageSaveLoc = $"{templateData.TemplateDataDirectory}/{templateImageFileName}";
 
-                // Grab the binary data.
-                byte[] data = File.ReadAllBytes(imageSaveLoc);
+                //// Grab the binary data.
+                //byte[] data = File.ReadAllBytes(imageSaveLoc);
 
-                // Read in the data but do not close, before using the stream.
-                Stream originalBinaryDataStream = new MemoryStream(data);
-                System.Drawing.Bitmap image = new System.Drawing.Bitmap(originalBinaryDataStream);
-                image.Save(imageSaveLoc);
-                originalBinaryDataStream.Dispose();
+                //// Read in the data but do not close, before using the stream.
+                //Stream originalBinaryDataStream = new MemoryStream(data);
+                //System.Drawing.Bitmap image = new System.Drawing.Bitmap(originalBinaryDataStream);
+                //image.Save(imageSaveLoc);
+                //originalBinaryDataStream.Dispose();
+                templateImage.Save(imageSaveLoc);
 
                 templateData.GetTemplateImage.ImageLocation = imageSaveLoc;
 

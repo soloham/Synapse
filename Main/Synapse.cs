@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -57,7 +58,7 @@ namespace Synapse
 
         public StatusState TemplateStatus { get { return templateStatus; } set { templateStatus = value; ToggleTemplateStatus(value); } }
         private StatusState templateStatus;
-        public StatusState ConfigurationStatus { get { return configurationStatus; } set { configurationStatus = value; ToggleConfigurationStatus(value);  } }
+        public StatusState ConfigurationStatus { get { return configurationStatus; } set { configurationStatus = value; ToggleConfigurationDataStatus(value);  } }
         private StatusState configurationStatus;
         public StatusState AIStatus { get { return aiStatus; } set { aiStatus = value; ToggleAIStatus(value); } }
         private StatusState aiStatus;
@@ -86,6 +87,10 @@ namespace Synapse
 
         #region Events 
         public event EventHandler<Image> OnTemplateLoadedEvent;
+
+        public event EventHandler<StatusState> OnTemplateStateChangedEvent;
+        public event EventHandler<StatusState> OnConfigurationDataStateChangedEvent;
+        public event EventHandler<StatusState> OnAIStateChangedEvent;
         #endregion
 
         #region Static Methods
@@ -148,9 +153,11 @@ namespace Synapse
         {
             //Template Status
             StatusState templateStatus = StatusState.Red;
-            if (GetCurrentTemplate.GetTemplateImage != null && GetCurrentTemplate.TemplateData.GetAlignmentPipeline != null && GetCurrentTemplate.TemplateData.GetAlignmentPipeline.Count > 0)
+            if (GetCurrentTemplate.GetTemplateImage != null && File.Exists(GetCurrentTemplate.GetTemplateImage.ImageLocation))
+                templateStatus = StatusState.Yellow;
+            if (GetCurrentTemplate.TemplateData.GetAlignmentPipeline != null && GetCurrentTemplate.TemplateData.GetAlignmentPipeline.Count > 0)
             {
-                templateStatus = StatusState.Green;
+                if (templateStatus == StatusState.Yellow) templateStatus = StatusState.Green;
             }
             TemplateStatus = templateStatus;
 
@@ -167,14 +174,62 @@ namespace Synapse
         public void ToggleTemplateStatus(StatusState status)
         {
             templateConfigStatusIndicator.Image = status == StatusState.Green? Properties.Resources.StatusOk : status == StatusState.Yellow ? Properties.Resources.StatusInOk : Properties.Resources.StatusNotOk;
+
+            switch (status)
+            {
+                case StatusState.Red:
+                    configureDataToolStripBtn.Enabled = false;
+                    addAsOmrToolStripBtn.Enabled = false;
+                    addAsBarcodeToolStripBtn.Enabled = false;
+                    addAsICRToolStripBtn.Enabled = false;
+
+                    configureNetworksToolStripBtn.Enabled = false;
+                    break;
+                case StatusState.Yellow:
+                    break;
+                case StatusState.Green:
+                    configureDataToolStripBtn.Enabled = true;
+                    addAsOmrToolStripBtn.Enabled = true;
+                    addAsBarcodeToolStripBtn.Enabled = true;
+                    addAsICRToolStripBtn.Enabled = true;
+
+                    configureNetworksToolStripBtn.Enabled = true;
+                    break;
+            }
+
+            OnTemplateStateChangedEvent?.Invoke(this, status);
         }
-        public void ToggleConfigurationStatus(StatusState status)
+        public void ToggleConfigurationDataStatus(StatusState status)
         {
             dataConfigStatusIndicator.Image = status == StatusState.Green ? Properties.Resources.StatusOk : status == StatusState.Yellow ? Properties.Resources.StatusInOk : Properties.Resources.StatusNotOk;
+
+            switch (status)
+            {
+                case StatusState.Red:
+                    break;
+                case StatusState.Yellow:
+                    break;
+                case StatusState.Green:
+                    break;
+            }
+
+            OnConfigurationDataStateChangedEvent?.Invoke(this, status);
         }
         public void ToggleAIStatus(StatusState status)
         {
             aiConfigStatusIndicator.Image = status == StatusState.Green ? Properties.Resources.StatusOk : status == StatusState.Yellow ? Properties.Resources.StatusInOk : Properties.Resources.StatusNotOk;
+
+            switch (status)
+            {
+                case StatusState.Red:
+                    break;
+                case StatusState.Yellow:
+                    break;
+                case StatusState.Green:
+                    break;
+            }
+
+            OnAIStateChangedEvent?.Invoke(this, status);
         }
 
         public void ToggleMouseOverRegion(bool isOver)
@@ -188,6 +243,12 @@ namespace Synapse
                 Cursor.Current = Cursors.Arrow;
             }
         }
+
+        internal Bitmap GetCurrentImage()
+        {
+            return (Bitmap)templateImageBox.Image;
+        }
+
         public void ToggleMouseDownRegion(bool isDown)
         {
 
@@ -224,11 +285,16 @@ namespace Synapse
 
             StatusCheck();
 
-            if(TemplateStatus == StatusState.Green)
+            if (GetCurrentTemplate.GetTemplateImage != null && !string.IsNullOrEmpty(GetCurrentTemplate.GetTemplateImage.ImageLocation))
             {
                 try
                 {
-                    Image tmpImage = Image.FromFile(GetCurrentTemplate.GetTemplateImage.ImageLocation);
+                    //byte[] data = File.ReadAllBytes(GetCurrentTemplate.GetTemplateImage.ImageLocation);
+                    //// Read in the data but do not close, before using the stream.
+                    //Stream originalBinaryDataStream = new MemoryStream(data);
+                    //Image tmpImage = Image.FromStream(originalBinaryDataStream);
+
+                    Bitmap tmpImage = GetCurrentTemplate.GetTemplateImage.GetBitmap;
                     templateImageBox.Image = tmpImage;
 
                     templateImageBox.TextDisplayMode = Cyotek.Windows.Forms.ImageBoxGridDisplayMode.None;
@@ -246,6 +312,11 @@ namespace Synapse
         private void SynapseMain_OnTemplateLoadedEvent(object sender, Image e)
         {
             templateConfigureToolStripMenuItem.Enabled = true;
+
+            if(TemplateStatus == StatusState.Red)
+                TemplateStatus = StatusState.Yellow;
+            else if(TemplateStatus == StatusState.Green)
+                templateLoadToolStripMenuItem.Enabled = false;
         }
 
         private void ConfigurationsManager_OnConfigurationDeletedEvent(object sender, ConfigurationBase e)
@@ -295,14 +366,25 @@ namespace Synapse
                 mainDockingManager.DockControlInAutoHideMode(configPropertiesPanel, DockingStyle.Right, 400);
         }
 
-        private async void TemplateConfigurationForm_OnConfigurationFinishedEvent(Image<Gray, byte> tempConfiguredImg, Template.TemplateImage templateImage, List<Template.AlignmentMethod> alignmentMethods, Template.AlignmentPipelineResults alignmentPipelineResults)
+        private async void TemplateConfigurationForm_OnConfigurationFinishedEvent(TemplateConfigurationForm sender, Template.TemplateImage templateImage, List<Template.AlignmentMethod> alignmentMethods, Template.AlignmentPipelineResults alignmentPipelineResults)
         {
-            GetCurrentTemplate.SetTemplateImage(templateImage);
-            GetCurrentTemplate.SetAlignmentPipeline(alignmentMethods);
+            if (templateImage.Size != Size.Empty && alignmentMethods.Count > 0)
+            {
+                GetCurrentTemplate.SetTemplateImage(templateImage);
+                GetCurrentTemplate.SetAlignmentPipeline(alignmentMethods);
 
-            await Task.Run(() => Template.SaveTemplate(GetCurrentTemplate.TemplateData, tempConfiguredImg));
+                bool isSaved = await Task.Run(() => Template.SaveTemplate(GetCurrentTemplate.TemplateData, string.IsNullOrEmpty(GetCurrentTemplate.GetTemplateImage.ImageLocation)));
 
-            TemplateStatus = StatusState.Green;
+                if (isSaved)
+                {
+                    TemplateStatus = StatusState.Green;
+                    templateLoadToolStripMenuItem.Enabled = false;
+                }
+            }
+            else
+            {
+                Messages.ShowError("Invalid template configuration.");
+            }
         }
         #endregion
         #region UI

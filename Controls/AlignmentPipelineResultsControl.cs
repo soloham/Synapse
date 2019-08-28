@@ -61,7 +61,6 @@ namespace Synapse.Controls
                 pipelineResultsMainTabControl.TabPages.Add(methodTabPageAdv);
 
                 alignmentMethodResultControls.Add(alignmentMethodResultControl);
-
             }
 
             var selectedAlignmentMethodResultControl = alignmentMethodResultControls[pipelineResultsMainTabControl.SelectedIndex];

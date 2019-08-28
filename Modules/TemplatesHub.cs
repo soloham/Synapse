@@ -247,7 +247,7 @@ namespace Synapse.Modules
                 TemplateListItems.Add(templateListItem);
                 templatesLayoutPanel.Controls.Add(templateListItem);
             }
-        }
+        }   
         private async void LoadTemplate(object sender, string templateName)
         {
             Template template = await Template.LoadTemplate(templateName);
@@ -324,7 +324,7 @@ namespace Synapse.Modules
 
             emptyListLabel.Visible = false;
 
-            Template.SaveTemplate(tmp.TemplateData);
+            Template.SaveTemplate(tmp.TemplateData, true);
             SaveTemplateItems();
         }
         #endregion

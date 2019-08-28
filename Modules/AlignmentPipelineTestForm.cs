@@ -262,31 +262,31 @@ namespace Synapse.Modules
                 if (alignmentMethod.GetAlignmentMethodType == AlignmentMethodType.Anchors)
                 {
                     var aIM = (AnchorAlignmentMethod)alignmentMethod;
-                    if (aIM.ApplyMethod(outputImage, testImage, out outputImageArr, out RectangleF[] detectedAnchors, out RectangleF[] warpedAnchors, out long alignmentTime, out exception))
+                    bool isSuccess = aIM.ApplyMethod(outputImage, testImage, out outputImageArr, out RectangleF[] detectedAnchors, out RectangleF[] warpedAnchors, out RectangleF warpedTestRegion, out long alignmentTime, out exception);
+                    var mainAnchors = aIM.GetAnchors.ToArray();
+                    var mainTestRegion = aIM.GetTestRegion.GetAnchorRegion;
+                    if (isSuccess)
                     {
-                        var mainAnchors = aIM.GetAnchors.ToArray();
-
                         var outputMat = (Mat)outputImageArr;
                         outputImage = outputMat.ToImage<Gray, byte>();
-
-                        AlignmentPipelineResults.AnchorAlignmentMethodResult anchorAlignmentMethodResult = new AlignmentPipelineResults.AnchorAlignmentMethodResult(alignmentMethod, testImage, outputImage, alignmentTime, mainAnchors, detectedAnchors, warpedAnchors);
-                        alignmentMethodResult = anchorAlignmentMethodResult;
                     }
+                    AlignmentPipelineResults.AnchorAlignmentMethodResult anchorAlignmentMethodResult = new AlignmentPipelineResults.AnchorAlignmentMethodResult(alignmentMethod, isSuccess? AlignmentPipelineResults.AlignmentMethodResultType.Successful : AlignmentPipelineResults.AlignmentMethodResultType.Failed, testImage, outputImage, alignmentTime, mainAnchors, detectedAnchors, warpedAnchors, mainTestRegion, warpedTestRegion);
+                    alignmentMethodResult = anchorAlignmentMethodResult;
                 }
                 else
                 {
-                    if (alignmentMethod.ApplyMethod(outputImage, testImage, out outputImageArr, out long alignmentTime, out exception))
+                    bool isSuccess = alignmentMethod.ApplyMethod(outputImage, testImage, out outputImageArr, out long alignmentTime, out exception);
+                    if (isSuccess)
                     {
                         var outputMat = (Mat)outputImageArr;
                         outputImage = outputMat.ToImage<Gray, byte>();
-
-                        alignmentMethodResult = new AlignmentPipelineResults.AlignmentMethodResult(alignmentMethod, testImage, outputImage, alignmentTime);
                     }
+                    alignmentMethodResult = new AlignmentPipelineResults.AlignmentMethodResult(alignmentMethod, isSuccess? AlignmentPipelineResults.AlignmentMethodResultType.Successful : AlignmentPipelineResults.AlignmentMethodResultType.Failed, testImage, outputImage, alignmentTime);
                 }
 
-                if (alignmentMethodResult != null)
-                    alignmentMethodResults.Add(alignmentMethodResult);
-                else
+                alignmentMethodResults.Add(alignmentMethodResult);
+                
+                if(alignmentMethodResult.GetAlignmentMethodResultType == AlignmentPipelineResults.AlignmentMethodResultType.Failed)
                 {
                     string personnelData = "";
 
@@ -298,18 +298,17 @@ namespace Synapse.Modules
                             break;
                         }
                     }
-                    Messages.ShowError("An error occured while applying the method: '" + alignmentMethod.MethodName + "' \n \n For concerned personnel: " + personnelData);
-
+                    Messages.ShowError("An error occured while applying the method: '" + alignmentMethod.MethodName + "' \n\n For concerned personnel: " + personnelData);
                 }
             }
+
+            OnResultsGeneratedEvent?.Invoke(alignmentPipelineResults);
 
             if (alignmentMethodResults.Count == 0)
                 return;
 
             alignmentPipelineResults = new AlignmentPipelineResults(alignmentMethodResults);
             alignmentPipelineResultsControl.Initialize(alignmentPipelineResults);
-
-            OnResultsGeneratedEvent?.Invoke(alignmentPipelineResults);
         }
 
         private void SelectedMethodResultChanged(AlignmentPipelineResults.AlignmentMethodResult alignmentMethodResult)
@@ -336,18 +335,22 @@ namespace Synapse.Modules
                 var detectedAnchors = anchorAlignmentMethodResult.DetectedAnchors;
                 var warpedAnchors = anchorAlignmentMethodResult.WarpedAnchors;
                 var mainAnchors = anchorAlignmentMethodResult.MainAnchors;
+                var mainTestRegion = anchorAlignmentMethodResult.MainTestRegion;
+                var warpedTestRegion = anchorAlignmentMethodResult.WarpedTestRegion;
 
+                Graphics g = e.Graphics;
                 for (int i0 = 0; i0 < detectedAnchors.Length; i0++)
                 {
-                    RectangleF detectedRect = detectedAnchors[i0];
+                    //RectangleF detectedRect = detectedAnchors[i0];
                     RectangleF warpedRect = warpedAnchors[i0];
-
-                    Graphics g = e.Graphics;
 
                     //Functions.DrawBox(g, imageBox.GetOffsetRectangle(detectedRect), imageBox.ZoomFactor, Color.FromArgb(150, Color.Firebrick));
                     Functions.DrawBox(g, resultImageBox.GetOffsetRectangle(mainAnchors[i0].GetAnchorRegion), resultImageBox.ZoomFactor, Color.FromArgb(100, Color.DodgerBlue), 2);
                     Functions.DrawBox(g, resultImageBox.GetOffsetRectangle(warpedRect), resultImageBox.ZoomFactor, Color.FromArgb(120, Color.Crimson));
                 }
+
+                Functions.DrawBox(g, resultImageBox.GetOffsetRectangle(mainTestRegion), resultImageBox.ZoomFactor, Color.FromArgb(100, Color.MediumAquamarine));
+                Functions.DrawBox(g, resultImageBox.GetOffsetRectangle(warpedTestRegion), resultImageBox.ZoomFactor, Color.FromArgb(120, Color.MediumAquamarine));
             }
         }
 
@@ -385,6 +388,8 @@ namespace Synapse.Modules
                 var detectedAnchors = ResizeAnchors(anchorAlignmentMethodResult.DetectedAnchors, curSize, newSize);
                 var warpedAnchors = ResizeAnchors(anchorAlignmentMethodResult.WarpedAnchors, curSize, newSize);
                 RectangleF[] mainAnchors = new RectangleF[anchorAlignmentMethodResult.MainAnchors.Length];
+                var mainTestRegion = anchorAlignmentMethodResult.MainTestRegion;
+                var warpedTestRegion = anchorAlignmentMethodResult.WarpedTestRegion;
 
                 for (int i0 = 0; i0 < detectedAnchors.Length; i0++)
                 {
@@ -393,17 +398,20 @@ namespace Synapse.Modules
 
                 mainAnchors = ResizeAnchors(mainAnchors, curSize, newSize);
 
+                Graphics g = e.Graphics;
                 for (int i0 = 0; i0 < detectedAnchors.Length; i0++)
                 {
-                    RectangleF detectedRect = detectedAnchors[i0];
+                    //RectangleF detectedRect = detectedAnchors[i0];
                     RectangleF warpedRect = warpedAnchors[i0];
 
-                    Graphics g = e.Graphics;
 
                     //Functions.DrawBox(g, imageBox.GetOffsetRectangle(detectedRect), imageBox.ZoomFactor, Color.FromArgb(150, Color.Firebrick));
                     Functions.DrawBox(g, originalImageBox.GetOffsetRectangle(mainAnchors[i0]), originalImageBox.ZoomFactor, Color.FromArgb(100, Color.DodgerBlue), 2);
                     Functions.DrawBox(g, originalImageBox.GetOffsetRectangle(warpedRect), originalImageBox.ZoomFactor, Color.FromArgb(120, Color.Crimson));
                 }
+
+                Functions.DrawBox(g, originalImageBox.GetOffsetRectangle(mainTestRegion), originalImageBox.ZoomFactor, Color.FromArgb(100, Color.MediumAquamarine));
+                Functions.DrawBox(g, originalImageBox.GetOffsetRectangle(warpedTestRegion), originalImageBox.ZoomFactor, Color.FromArgb(120, Color.MediumAquamarine));
             }
         }
 
