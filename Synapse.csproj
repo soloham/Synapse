@@ -406,6 +406,8 @@
     <None Include="Resources\General\Delete-WF-Sm.png" />
     <None Include="Resources\General\Import-02-WF Big.png" />
     <None Include="Resources\General\Instrument-Test-Tube-WF.png" />
+    <None Include="Resources\General\Anchor-01.png" />
+    <None Include="Resources\General\3D shape -01-WF.png" />
     <Content Include="Resources\Ribbon\AddAsBarcodeBtnIcon1_ConfigTab.png" />
     <Content Include="Resources\Ribbon\AddAsBarcodeBtnIcon2_ConfigTab.png" />
     <Content Include="Resources\Ribbon\AddAsBarcodeBtnIcon3_ConfigTab.png" />

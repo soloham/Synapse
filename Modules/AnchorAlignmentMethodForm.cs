@@ -7,6 +7,8 @@ using Emgu.CV;
 using Emgu.CV.Structure;
 using Synapse.Controls;
 using Synapse.Core.Templates;
+using Synapse.Utilities.Attributes;
+using Synapse.Utilities.Enums;
 using Syncfusion.WinForms.Controls;
 
 namespace Synapse.Modules
@@ -16,7 +18,9 @@ namespace Synapse.Modules
         #region Enums
         public enum ConfigurationState
         {
+            [EnumDescription("Select Downscaling Factor")]
             SELECT_DOWNSCALING,
+            [EnumDescription("Select Anchors")]
             SELECT_ANCHORS
         }
         #endregion
@@ -33,6 +37,7 @@ namespace Synapse.Modules
         private int pipelineIndex;
         private string methodName;
 
+        private Template.AnchorAlignmentMethod referenceAnchorAlignmentMethod;
         private List<AnchorPlaceholderControl> anchorPlaceholderControls = new List<AnchorPlaceholderControl>();
 
         private Panel CurrentStatePanel;
@@ -125,6 +130,39 @@ namespace Synapse.Modules
 
         private void SetupForConfigured(Template.AnchorAlignmentMethod anchorAlignmentMethod, Bitmap templateImage)
         {
+            referenceAnchorAlignmentMethod = anchorAlignmentMethod;
+
+            MinimumSize = new Size(500, 600);
+
+            MainLayoutPanel.RowStyles[1].SizeType = SizeType.Absolute;
+            MainLayoutPanel.RowStyles[1].Height = 58;
+
+            statePanelsPanel.Controls.Remove(SizeValueStatePanel);
+
+            for (int i = 0; i < configureStatesPanel.RowCount; i++)
+            {
+                configureStatesPanel.RowStyles[i].SizeType = SizeType.Percent;
+                configureStatesPanel.RowStyles[i].Height = i == 0 ? 100 : i == 1 ? 0 : i == 2 ? 0 : i == 3 ? 0 : 0;
+            }
+
+            var list = EnumHelper.ToList(typeof(ConfigurationState));
+            list.RemoveAt(0);
+            selectStateComboBox.DataSource = list;
+            selectStateComboBox.DisplayMember = "Value";
+            selectStateComboBox.ValueMember = "Key";
+
+            if (!curConfigureStatePanel.Controls.Contains(statePanelsPanel))
+                curConfigureStatePanel.Controls.Add(statePanelsPanel, 1, 0);
+            statePanelsPanel.Dock = DockStyle.Fill;
+            statePanelsPanel.Visible = true;
+
+            configureStatesPanel.Visible = true;
+
+            resizedImage = new Image<Gray, byte>(templateImage).Resize(anchorAlignmentMethod.GetDownscaleSize.Width, anchorAlignmentMethod.GetDownscaleSize.Height, Emgu.CV.CvEnum.Inter.Cubic);
+            TemplateImage = templateImage == null ? TemplateImage : resizedImage;
+            templateImageCopy = TemplateImage.Clone();
+            imageBox.Image = TemplateImage.Bitmap;
+
             var anchors = anchorAlignmentMethod.GetAnchors;
             for (int i = 0; i < anchors.Count; i++)
             {
@@ -139,6 +177,7 @@ namespace Synapse.Modules
                 curAnchorIndex = anchorPlaceholderControls.Find(x => x.IsInitialized == false).Index;
                 anchorPlaceholderControls[curAnchorIndex].IsCurrent = true;
             }
+            testPointPlaceholderControl.Initialize(anchorAlignmentMethod.GetTestAnchor.GetAnchorRegion, (Mat)anchorAlignmentMethod.GetTestAnchor.GetAnchorImage, DeleteAnchorAction);
         }
         private void SetupForConfiguration(Bitmap templateImage = null)
         {
@@ -381,10 +420,18 @@ namespace Synapse.Modules
                 }
                 Template.AnchorAlignmentMethod.Anchor testPointAnchor = testPointPlaceholderControl.GetAnchor;
 
-                Template.AnchorAlignmentMethod anchorAlignmentMethod = new Template.AnchorAlignmentMethod(anchors, testPointAnchor, templateImage.Size, pipelineIndex, methodName, selectedSize, selectedScale);
+                if(referenceAnchorAlignmentMethod != null)
+                {
+                    referenceAnchorAlignmentMethod.SetAnchors(anchors);
+                    referenceAnchorAlignmentMethod.SetTestAnchor(testPointAnchor);
 
-                OnConfigurationFinishedEvent?.Invoke(anchorAlignmentMethod);
-
+                    OnConfigurationFinishedEvent?.Invoke(referenceAnchorAlignmentMethod);
+                }
+                else
+                { 
+                    Template.AnchorAlignmentMethod anchorAlignmentMethod = new Template.AnchorAlignmentMethod(anchors, testPointAnchor, templateImage.Size, pipelineIndex, methodName, selectedSize, selectedScale);
+                    OnConfigurationFinishedEvent?.Invoke(anchorAlignmentMethod);
+                }
                 ValidateState();
             }
             else
@@ -440,8 +487,20 @@ namespace Synapse.Modules
             anchorPlaceholder.Reset();
 
             anchorPlaceholderControls.ForEach(x => x.IsCurrent = false);
-            curAnchorIndex = anchorPlaceholderControls.Find(x => x.IsInitialized == false).Index;
-            anchorPlaceholderControls[curAnchorIndex].IsCurrent = true;
+            testPointPlaceholderControl.IsCurrent = false;
+            if (!anchorPlaceholderControls.Exists(x => x.IsInitialized == false))
+            {
+                if(testPointPlaceholderControl.IsInitialized == false)
+                {
+                    curAnchorIndex = testPointPlaceholderControl.Index;
+                    testPointPlaceholderControl.IsCurrent = true;
+                }
+            }
+            else
+            {
+                curAnchorIndex = anchorPlaceholderControls.Find(x => x.IsInitialized == false).Index;
+                anchorPlaceholderControls[curAnchorIndex].IsCurrent = true;
+            }
         }
         #endregion
 
@@ -469,8 +528,15 @@ namespace Synapse.Modules
             if (selectStateComboBox.SelectedIndex == -1)
                 return;
 
-            ConfigurationState configurationState = (ConfigurationState)selectStateComboBox.SelectedIndex + 3;
-            ConfigWalkthroughState = configurationState;
+            if (referenceAnchorAlignmentMethod != null)
+            {
+                ConfigWalkthroughState = ConfigurationState.SELECT_ANCHORS;
+            }
+            else
+            {
+                ConfigurationState configurationState = (ConfigurationState)selectStateComboBox.SelectedIndex;
+                ConfigWalkthroughState = configurationState;
+            }
         }
         private void SizeWidthTextBox_IntegerValueChanged(object sender, EventArgs e)
         {
@@ -487,7 +553,7 @@ namespace Synapse.Modules
                     return;
 
                 resizedImage = templateImage.Resize(width, height, Emgu.CV.CvEnum.Inter.Cubic);
-                imageBox.Image = TemplateImage.Bitmap;
+                imageBox.Image = resizedImage.Bitmap;
             }
         }
         private void SizeHeightTextBox_IntegerValueChanged(object sender, EventArgs e)
@@ -505,7 +571,7 @@ namespace Synapse.Modules
                     return;
 
                 resizedImage = templateImage.Resize(width, height, Emgu.CV.CvEnum.Inter.Cubic);
-                imageBox.Image = TemplateImage.Bitmap;
+                imageBox.Image = resizedImage.Bitmap;
             }
         }
         private void SizeScaleTrackBar_ValueChanged(object sender, EventArgs e)

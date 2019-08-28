@@ -88,10 +88,10 @@ namespace Synapse.Controls
         private string alignmentMethodName = "Alignment Method";
         [Description("Gets the Registration Method Type Icon."), Category("Options")]
         public Bitmap RegistrationMethodIcon { get { return registrationMethodIcon; } set { registrationMethodIcon = value; } }
-        private Bitmap registrationMethodIcon = Properties.Resources.Text_Braille_WF;
+        private Bitmap registrationMethodIcon = Properties.Resources._3D_shape__01_WF;
         [Description("Gets the Anchor Method Type Icon."), Category("Options")]
         public Bitmap AnchorMethodIcon { get { return anchorMethodIcon; } set { anchorMethodIcon = value; } }
-        private Bitmap anchorMethodIcon = Properties.Resources.QR_Code___02;
+        private Bitmap anchorMethodIcon = Properties.Resources.Anchor_01;
         #endregion
         #region Main
         [Description("Gets or Sets the Alignmen tMethod Type."), Category("Main Options")]

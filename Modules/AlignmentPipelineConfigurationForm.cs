@@ -178,6 +178,13 @@ namespace Synapse.Modules
                     emptyListLabel.Visible = true;
                 }
             }
+
+            for (int i = 0; i < AlignmentMethods.Count; i++)
+            {
+                AlignmentMethods[i].PipelineIndex = i;
+                AlignmentMethodListItem alignmentMethodListItem = (AlignmentMethodListItem) containerFlowPanel.Controls[i];
+                alignmentMethodListItem.listIndex = i;
+            }
         }
         private void MoveMethod(AlignmentMethodListItem methodListItem, bool isUp)
         {

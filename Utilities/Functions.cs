@@ -59,6 +59,45 @@ namespace Synapse.Utilities
             }
         }
 
+        public static RectangleF[] ResizeRegions(RectangleF[] rectangleFs, SizeF curSize, SizeF newSize)
+        {
+            RectangleF[] results = new RectangleF[rectangleFs.Length];
+
+            float xScaleRatio = newSize.Width / curSize.Width;
+            float yScaleRatio = newSize.Height / curSize.Height;
+
+            for (int i = 0; i < results.Length; i++)
+            {
+                results[i] = new RectangleF(new PointF(rectangleFs[i].X * xScaleRatio, rectangleFs[i].Y * yScaleRatio), new SizeF(rectangleFs[i].Size.Width * xScaleRatio, rectangleFs[i].Size.Height * yScaleRatio));
+            }
+            return results;
+        }
+        public static RectangleF ResizeRegion(RectangleF rectangleF, SizeF curSize, SizeF newSize)
+        {
+            RectangleF result = RectangleF.Empty;
+
+            float xScaleRatio = newSize.Width / curSize.Width;
+            float yScaleRatio = newSize.Height / curSize.Height;
+
+            result = new RectangleF(new PointF(rectangleF.X * xScaleRatio, rectangleF.Y * yScaleRatio), new SizeF(rectangleF.Size.Width * xScaleRatio, rectangleF.Size.Height * yScaleRatio));
+            return result;
+        }
+
+        public static PointF[] ResizePoints(PointF[] rectangleFs, SizeF curSize, SizeF newSize)
+        {
+            PointF[] results = new PointF[rectangleFs.Length];
+
+            float xScaleRatio = newSize.Width / curSize.Width;
+            float yScaleRatio = newSize.Height / curSize.Height;
+
+            for (int i = 0; i < results.Length; i++)
+            {
+                results[i] = new PointF(rectangleFs[i].X * xScaleRatio, rectangleFs[i].Y * yScaleRatio);
+            }
+            return results;
+        }
+
+
         public static void CopyControl(Control sourceControl, Control targetControl)
         {
             // make sure these are the same

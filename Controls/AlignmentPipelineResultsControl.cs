@@ -49,6 +49,9 @@ namespace Synapse.Controls
 
         internal void Initialize(AlignmentPipelineResults pipelineResults)
         {
+            if (pipelineResults == null || pipelineResults.AlignmentMethodTestResultsList.Count == 0)
+                return;
+
             pipelineResultsMainTabControl.TabPages.Clear();
             for (int i = 0; i < pipelineResults.AlignmentMethodTestResultsList.Count; i++)
             {

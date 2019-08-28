@@ -439,7 +439,10 @@ namespace Synapse.Modules
                     break;
             }
 
-            ConfigWalkthroughState++;
+            if (referenceTemplate != null)
+                selectStateComboBox.SelectedIndex = ((int)ConfigWalkthroughState + 1)-3;
+            else
+                ConfigWalkthroughState++;
         }
         private void ValidateState()
         {

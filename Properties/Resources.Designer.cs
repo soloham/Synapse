@@ -63,6 +63,16 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap _3D_shape__01_WF {
+            get {
+                object obj = ResourceManager.GetObject("_3D_shape__01_WF", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Add_New {
             get {
                 object obj = ResourceManager.GetObject("Add-New", resourceCulture);
@@ -136,6 +146,16 @@ namespace Synapse.Properties {
         internal static System.Drawing.Bitmap AddFieldBtnIcon_DataTab {
             get {
                 object obj = ResourceManager.GetObject("AddFieldBtnIcon_DataTab", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Anchor_01 {
+            get {
+                object obj = ResourceManager.GetObject("Anchor_01", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

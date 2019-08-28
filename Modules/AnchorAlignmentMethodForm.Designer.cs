@@ -188,7 +188,7 @@
             this.selectStateComboBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.selectStateComboBox.ThemeName = "Office2016White";
             this.selectStateComboBox.Visible = false;
-            this.selectStateComboBox.Click += new System.EventHandler(this.SelectStateComboBox_SelectedIndexChanged);
+            this.selectStateComboBox.SelectedIndexChanged += new System.EventHandler(this.SelectStateComboBox_SelectedIndexChanged);
             // 
             // reconfigureBtn
             // 
@@ -225,6 +225,7 @@
             this.reconfigureBtn.ThemeStyle.PressedForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
             this.reconfigureBtn.UseVisualStyle = false;
             this.reconfigureBtn.UseVisualStyleBackColor = false;
+            this.reconfigureBtn.Click += new System.EventHandler(this.ReconfigureBtn_Click);
             // 
             // initializationButtonsPanel
             // 
@@ -532,7 +533,7 @@
             // sizeHeightTextBox
             // 
             this.sizeHeightTextBox.BackGroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.sizeHeightTextBox.BeforeTouchSize = new System.Drawing.Size(69, 42);
+            this.sizeHeightTextBox.BeforeTouchSize = new System.Drawing.Size(92, 42);
             this.sizeHeightTextBox.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(171)))), ((int)(((byte)(171)))));
             this.sizeHeightTextBox.BorderSides = ((System.Windows.Forms.Border3DSide)((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Right)));
             this.sizeHeightTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -561,7 +562,7 @@
             // sizeWidthTextBox
             // 
             this.sizeWidthTextBox.BackGroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.sizeWidthTextBox.BeforeTouchSize = new System.Drawing.Size(69, 42);
+            this.sizeWidthTextBox.BeforeTouchSize = new System.Drawing.Size(92, 42);
             this.sizeWidthTextBox.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(171)))), ((int)(((byte)(171)))));
             this.sizeWidthTextBox.BorderSides = ((System.Windows.Forms.Border3DSide)((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Right)));
             this.sizeWidthTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
