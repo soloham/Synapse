@@ -49,6 +49,8 @@ namespace Synapse.Modules
 
         private AlignmentPipelineResults.AnchorAlignmentMethodResult anchorAlignmentMethodResult;
         private bool drawResultAnchors = false;
+
+        private List<int> ommittedAlignmetMethodIndeces = new List<int>();
         #endregion
 
         #region Events
@@ -90,16 +92,19 @@ namespace Synapse.Modules
             resultsDockingManager.SetDockVisibility(originalImageBoxPanel, true);
 
             resultsDockingManager.SetEnableDocking(differenceImageBoxPanel, true);
-            resultsDockingManager.DockControl(differenceImageBoxPanel, this, DockingStyle.Left, 400);
+            resultsDockingManager.DockControlInAutoHideMode(differenceImageBoxPanel, DockingStyle.Left, 400);
             resultsDockingManager.SetMenuButtonVisibility(differenceImageBoxPanel, false);
             resultsDockingManager.SetDockLabel(differenceImageBoxPanel, "Difference Image");
-            resultsDockingManager.SetDockVisibility(differenceImageBoxPanel, false);
+            resultsDockingManager.SetDockVisibility(differenceImageBoxPanel, true);
 
             alignmentPipelineResultsControl.OnSelectedMethodResultChangedEvent += (AlignmentMethodResultControl alignmentMethodResultControl, Image<Gray, byte> inputImg, Image<Gray, byte> outputImg, Image<Gray, byte> diffImg) =>
             {
                 originalImageBox.Image = inputImg.Bitmap;
+                //originalImageBox.ZoomToFit();
                 resultImageBox.Image = outputImg.Bitmap;
+                //resultImageBox.ZoomToFit();
                 differenceImageBox.Image = diffImg.Bitmap;
+                //differenceImageBox.ZoomToFit();
 
                 SelectedAlignmentMethodResult = alignmentMethodResultControl.GetAlignmentMethodResult;
             };
@@ -107,7 +112,7 @@ namespace Synapse.Modules
         #endregion
 
         #region Private Methods
-        private void Initialize(List<Template.AlignmentMethod> alignmentMethods)
+        private void Initialize(List<AlignmentMethod> alignmentMethods)
         {
             pipelineTestMainTablePanel.Dock = DockStyle.None;
             pipelineTestControlsPanel.Dock = DockStyle.None;
@@ -126,7 +131,7 @@ namespace Synapse.Modules
                 else
                 {
                     pipelineTestSettingsTablePanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 50));
-                    Template.AlignmentMethod alignmentMethod = alignmentMethods[i];
+                    AlignmentMethod alignmentMethod = alignmentMethods[i];
 
                     TabPageAdv methodTabPage = CreateAlignmentMethodTabPage(alignmentMethod);
                     alignmentPipelineTabControl.TabPages.Add(methodTabPage);
@@ -136,9 +141,9 @@ namespace Synapse.Modules
                     pipelineTestMethodSettingControl.OnEnabledChangedEvent += (int pipelineIndex, bool isEnabled) => 
                     {
                         if (!isEnabled)
-                            testAlignmentPipeline[pipelineIndex].PipelineIndex = -1;
+                            ommittedAlignmetMethodIndeces.Add(pipelineIndex);
                         else
-                            testAlignmentPipeline[pipelineIndex].PipelineIndex = pipelineIndex;
+                            ommittedAlignmetMethodIndeces.Remove(pipelineIndex);
                     };
                     pipelineTestSettingsTablePanel.Controls.Add(pipelineTestMethodSettingControl, 0, i);
                     pipelineTestMethodSettingControl.Dock = DockStyle.Top;
@@ -256,7 +261,7 @@ namespace Synapse.Modules
                 AlignmentPipelineResults.AlignmentMethodResult alignmentMethodResult = null;
                 AlignmentMethod alignmentMethod = testAlignmentPipeline[i];
 
-                if (alignmentMethod.PipelineIndex == -1)
+                if (alignmentMethod.PipelineIndex == -1 || ommittedAlignmetMethodIndeces.Contains(alignmentMethod.PipelineIndex))
                     continue;
 
                 if (alignmentMethod.GetAlignmentMethodType == AlignmentMethodType.Anchors)

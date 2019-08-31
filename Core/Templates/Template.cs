@@ -281,8 +281,8 @@ namespace Synapse.Core.Templates
             {
                 bool isSuccess = false;
                 Image<Gray, byte> inputImg = (Image<Gray, byte>)input;
-                inputImg = inputImg.Resize(outputSize.Width, outputSize.Height, Inter.Cubic);
                 var resizedInputImg = downscaleSize != Size.Empty? inputImg.Resize(downscaleSize.Width, downscaleSize.Height, Inter.Cubic) : inputImg;
+                inputImg = inputImg.Resize(outputSize.Width, outputSize.Height, Inter.Cubic);
                 Mat _output = new Mat();
 
                 var anchorRegions = new RectangleF[anchors.Count];
@@ -415,8 +415,8 @@ namespace Synapse.Core.Templates
             #region Enums
             public enum RegistrationMethodType
             {
-                KAZE,
-                AKAZE
+                AKAZE,
+                KAZE
             }
             #endregion
 
@@ -578,6 +578,7 @@ namespace Synapse.Core.Templates
                                                 if (nonZeroCount >= 4)
                                                     homography = Features2DToolbox.GetHomographyMatrixFromMatchedFeatures(modelKeyPoints, observedKeyPoints, matches, mask, 2);
                                             }
+                                            result = true;
                                         }
                                     }
                                     watch.Stop();
@@ -741,10 +742,11 @@ namespace Synapse.Core.Templates
                         using (UMat uObservedImage = observedImage.GetUMat(AccessType.Read))
                         {
                             using (Mat observedDescriptors = new Mat())
-                            using (Mat modelDescriptors = useStoredModelFeatures ? GetStoredModelDescriptors : new Mat())
+                            using (Mat modelDescriptors = useStoredModelFeatures ? GetStoredModelDescriptors.Clone() : new Mat())
                             {
                                 watch.Start();
 
+                                //akaze = new AKAZE();
                                 if (!useStoredModelFeatures)
                                     akaze.DetectAndCompute(uModelImage, null, modelKeyPoints, modelDescriptors, false);
                                 else
@@ -759,9 +761,9 @@ namespace Synapse.Core.Templates
                                     using (var sp = new SearchParams())
                                     using (DescriptorMatcher matcher = new FlannBasedMatcher(ip, sp))
                                     {
-                                        matcher.Add(modelDescriptors);
+                                        matcher.Add(observedDescriptors);
 
-                                        matcher.KnnMatch(observedDescriptors, matches, k, null);
+                                        matcher.KnnMatch(modelDescriptors, matches, k, null);
                                         if (matches.Size <= 0)
                                         {
                                             result = false;
@@ -794,6 +796,8 @@ namespace Synapse.Core.Templates
                                                 if (nonZeroCount >= 4)
                                                     homography = Features2DToolbox.GetHomographyMatrixFromMatchedFeatures(modelKeyPoints, observedKeyPoints, matches, mask, 2);
                                             }
+
+                                            result = true;
                                         }
                                     }
                                     watch.Stop();

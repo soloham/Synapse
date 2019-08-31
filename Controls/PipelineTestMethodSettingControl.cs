@@ -29,6 +29,8 @@ namespace Synapse.Controls
             MethodName = methodName;
             methodNameLabel.Text = MethodName;
 
+            PipelineIndex = pipelineIndex;
+
             methodEnabledSettingsToggle.ToggleState = Syncfusion.Windows.Forms.Tools.ToggleButtonState.Active;
         }
 

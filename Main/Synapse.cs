@@ -296,8 +296,6 @@ namespace Synapse
 
                     Bitmap tmpImage = GetCurrentTemplate.GetTemplateImage.GetBitmap;
                     templateImageBox.Image = tmpImage;
-
-                    templateImageBox.TextDisplayMode = Cyotek.Windows.Forms.ImageBoxGridDisplayMode.None;
                     templateImageBox.ZoomToFit();
 
                     OnTemplateLoadedEvent?.Invoke(this, tmpImage);
@@ -423,8 +421,6 @@ namespace Synapse
                 {
                     Image tmpImage = Image.FromFile(location);
                     templateImageBox.Image = tmpImage;
-
-                    templateImageBox.TextDisplayMode = Cyotek.Windows.Forms.ImageBoxGridDisplayMode.None;
                     templateImageBox.ZoomToFit();
 
                     OnTemplateLoadedEvent?.Invoke(this, tmpImage);

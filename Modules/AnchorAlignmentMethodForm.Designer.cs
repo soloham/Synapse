@@ -30,6 +30,9 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AnchorAlignmentMethodForm));
+            Syncfusion.Windows.Forms.Tools.ActiveStateCollection activeStateCollection1 = new Syncfusion.Windows.Forms.Tools.ActiveStateCollection();
+            Syncfusion.Windows.Forms.Tools.InactiveStateCollection inactiveStateCollection1 = new Syncfusion.Windows.Forms.Tools.InactiveStateCollection();
+            Syncfusion.Windows.Forms.Tools.SliderCollection sliderCollection1 = new Syncfusion.Windows.Forms.Tools.SliderCollection();
             this.MainLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.configureStatesPanel = new System.Windows.Forms.TableLayoutPanel();
             this.curConfigureStatePanel = new System.Windows.Forms.TableLayoutPanel();
@@ -46,9 +49,13 @@
             this.anchorPlaceholderControl4 = new Synapse.Controls.AnchorPlaceholderControl();
             this.anchorPlaceholderControl3 = new Synapse.Controls.AnchorPlaceholderControl();
             this.anchorPlaceholderControl2 = new Synapse.Controls.AnchorPlaceholderControl();
-            this.anchorsStatePanelLabel = new Syncfusion.Windows.Forms.Tools.AutoLabel();
             this.anchorPlaceholderControl1 = new Synapse.Controls.AnchorPlaceholderControl();
             this.testPointPlaceholderControl = new Synapse.Controls.AnchorPlaceholderControl();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.anchorsStatePanelLabel = new Syncfusion.Windows.Forms.Tools.AutoLabel();
+            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+            this.originalImageToggle = new Syncfusion.Windows.Forms.Tools.ToggleButton();
+            this.autoLabel1 = new Syncfusion.Windows.Forms.Tools.AutoLabel();
             this.SizeValueStatePanel = new System.Windows.Forms.Panel();
             this.sizeValueStatePanelTable = new System.Windows.Forms.TableLayoutPanel();
             this.sizeValueStatePanelLabel = new Syncfusion.Windows.Forms.Tools.AutoLabel();
@@ -79,6 +86,9 @@
             this.imageBoxPanel.SuspendLayout();
             this.statePanelsPanel.SuspendLayout();
             this.AnchorsStatePanel.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
+            this.tableLayoutPanel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.originalImageToggle)).BeginInit();
             this.SizeValueStatePanel.SuspendLayout();
             this.sizeValueStatePanelTable.SuspendLayout();
             this.sizeValueStatePanelControlsTable.SuspendLayout();
@@ -100,7 +110,7 @@
             this.MainLayoutPanel.RowCount = 2;
             this.MainLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.MainLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 130F));
-            this.MainLayoutPanel.Size = new System.Drawing.Size(461, 482);
+            this.MainLayoutPanel.Size = new System.Drawing.Size(680, 644);
             this.MainLayoutPanel.TabIndex = 43;
             // 
             // configureStatesPanel
@@ -113,14 +123,14 @@
             this.configureStatesPanel.Controls.Add(this.reconfigureBtn, 0, 0);
             this.configureStatesPanel.Controls.Add(this.initializationButtonsPanel, 0, 3);
             this.configureStatesPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.configureStatesPanel.Location = new System.Drawing.Point(3, 355);
+            this.configureStatesPanel.Location = new System.Drawing.Point(3, 517);
             this.configureStatesPanel.Name = "configureStatesPanel";
             this.configureStatesPanel.RowCount = 4;
             this.configureStatesPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 0F));
             this.configureStatesPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 0F));
             this.configureStatesPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 55F));
             this.configureStatesPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 45F));
-            this.configureStatesPanel.Size = new System.Drawing.Size(455, 124);
+            this.configureStatesPanel.Size = new System.Drawing.Size(674, 124);
             this.configureStatesPanel.TabIndex = 41;
             // 
             // curConfigureStatePanel
@@ -136,7 +146,7 @@
             this.curConfigureStatePanel.Name = "curConfigureStatePanel";
             this.curConfigureStatePanel.RowCount = 1;
             this.curConfigureStatePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.curConfigureStatePanel.Size = new System.Drawing.Size(455, 68);
+            this.curConfigureStatePanel.Size = new System.Drawing.Size(674, 68);
             this.curConfigureStatePanel.TabIndex = 43;
             // 
             // panel1
@@ -146,7 +156,7 @@
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Margin = new System.Windows.Forms.Padding(0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(45, 68);
+            this.panel1.Size = new System.Drawing.Size(67, 68);
             this.panel1.TabIndex = 9;
             // 
             // walkthroughIndexLabel
@@ -159,7 +169,7 @@
             this.walkthroughIndexLabel.Location = new System.Drawing.Point(0, 0);
             this.walkthroughIndexLabel.Margin = new System.Windows.Forms.Padding(0);
             this.walkthroughIndexLabel.Name = "walkthroughIndexLabel";
-            this.walkthroughIndexLabel.Size = new System.Drawing.Size(45, 68);
+            this.walkthroughIndexLabel.Size = new System.Drawing.Size(67, 68);
             this.walkthroughIndexLabel.Style = Syncfusion.Windows.Forms.Tools.AutoLabelStyle.Office2016White;
             this.walkthroughIndexLabel.TabIndex = 8;
             this.walkthroughIndexLabel.Text = "1.";
@@ -169,7 +179,7 @@
             // selectStateComboBox
             // 
             this.selectStateComboBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.selectStateComboBox.BeforeTouchSize = new System.Drawing.Size(449, 44);
+            this.selectStateComboBox.BeforeTouchSize = new System.Drawing.Size(668, 44);
             this.selectStateComboBox.Border3DStyle = System.Windows.Forms.Border3DStyle.Flat;
             this.selectStateComboBox.BorderSides = System.Windows.Forms.Border3DSide.Bottom;
             this.selectStateComboBox.CanOverrideStyle = true;
@@ -181,7 +191,7 @@
             this.selectStateComboBox.Location = new System.Drawing.Point(3, 3);
             this.selectStateComboBox.MetroBorderColor = System.Drawing.Color.White;
             this.selectStateComboBox.Name = "selectStateComboBox";
-            this.selectStateComboBox.Size = new System.Drawing.Size(449, 44);
+            this.selectStateComboBox.Size = new System.Drawing.Size(668, 44);
             this.selectStateComboBox.Style = Syncfusion.Windows.Forms.VisualStyle.Office2016White;
             this.selectStateComboBox.TabIndex = 41;
             this.selectStateComboBox.Text = "Template Settings";
@@ -194,7 +204,7 @@
             // 
             this.reconfigureBtn.Appearance = Syncfusion.Windows.Forms.ButtonAppearance.Metro;
             this.reconfigureBtn.BackColor = System.Drawing.Color.CornflowerBlue;
-            this.reconfigureBtn.BeforeTouchSize = new System.Drawing.Size(449, 1);
+            this.reconfigureBtn.BeforeTouchSize = new System.Drawing.Size(668, 1);
             this.reconfigureBtn.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Flat;
             this.reconfigureBtn.Dock = System.Windows.Forms.DockStyle.Fill;
             this.reconfigureBtn.FlatAppearance.BorderSize = 0;
@@ -206,7 +216,7 @@
             this.reconfigureBtn.Location = new System.Drawing.Point(3, 3);
             this.reconfigureBtn.Name = "reconfigureBtn";
             this.reconfigureBtn.Padding = new System.Windows.Forms.Padding(10, 0, 10, 0);
-            this.reconfigureBtn.Size = new System.Drawing.Size(449, 1);
+            this.reconfigureBtn.Size = new System.Drawing.Size(668, 1);
             this.reconfigureBtn.TabIndex = 42;
             this.reconfigureBtn.Text = "   CONFIGURE";
             this.reconfigureBtn.ThemeName = "Metro";
@@ -240,14 +250,14 @@
             this.initializationButtonsPanel.Name = "initializationButtonsPanel";
             this.initializationButtonsPanel.RowCount = 1;
             this.initializationButtonsPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.initializationButtonsPanel.Size = new System.Drawing.Size(455, 56);
+            this.initializationButtonsPanel.Size = new System.Drawing.Size(674, 56);
             this.initializationButtonsPanel.TabIndex = 7;
             // 
             // setBtn
             // 
             this.setBtn.Appearance = Syncfusion.Windows.Forms.ButtonAppearance.Metro;
             this.setBtn.BackColor = System.Drawing.Color.DodgerBlue;
-            this.setBtn.BeforeTouchSize = new System.Drawing.Size(221, 50);
+            this.setBtn.BeforeTouchSize = new System.Drawing.Size(331, 50);
             this.setBtn.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Flat;
             this.setBtn.Dock = System.Windows.Forms.DockStyle.Fill;
             this.setBtn.FlatAppearance.BorderSize = 0;
@@ -259,7 +269,7 @@
             this.setBtn.Location = new System.Drawing.Point(3, 3);
             this.setBtn.Name = "setBtn";
             this.setBtn.Padding = new System.Windows.Forms.Padding(10, 0, 10, 0);
-            this.setBtn.Size = new System.Drawing.Size(221, 50);
+            this.setBtn.Size = new System.Drawing.Size(331, 50);
             this.setBtn.TabIndex = 37;
             this.setBtn.Text = "   SET";
             this.setBtn.ThemeName = "Metro";
@@ -284,7 +294,7 @@
             // 
             this.nextBtn.Appearance = Syncfusion.Windows.Forms.ButtonAppearance.Metro;
             this.nextBtn.BackColor = System.Drawing.Color.LightSlateGray;
-            this.nextBtn.BeforeTouchSize = new System.Drawing.Size(222, 50);
+            this.nextBtn.BeforeTouchSize = new System.Drawing.Size(331, 50);
             this.nextBtn.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Flat;
             this.nextBtn.Dock = System.Windows.Forms.DockStyle.Fill;
             this.nextBtn.FlatAppearance.BorderSize = 0;
@@ -293,10 +303,10 @@
             this.nextBtn.ForeColor = System.Drawing.Color.White;
             this.nextBtn.Image = global::Synapse.Properties.Resources.Login_Arrow;
             this.nextBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.nextBtn.Location = new System.Drawing.Point(230, 3);
+            this.nextBtn.Location = new System.Drawing.Point(340, 3);
             this.nextBtn.Name = "nextBtn";
             this.nextBtn.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
-            this.nextBtn.Size = new System.Drawing.Size(222, 50);
+            this.nextBtn.Size = new System.Drawing.Size(331, 50);
             this.nextBtn.TabIndex = 38;
             this.nextBtn.Text = "   NEXT";
             this.nextBtn.ThemeName = "Metro";
@@ -325,39 +335,39 @@
             this.imageBoxPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.imageBoxPanel.Location = new System.Drawing.Point(3, 3);
             this.imageBoxPanel.Name = "imageBoxPanel";
-            this.imageBoxPanel.Size = new System.Drawing.Size(455, 346);
+            this.imageBoxPanel.Size = new System.Drawing.Size(674, 508);
             this.imageBoxPanel.TabIndex = 5;
             // 
             // statePanelsPanel
             // 
             this.statePanelsPanel.Controls.Add(this.AnchorsStatePanel);
             this.statePanelsPanel.Controls.Add(this.SizeValueStatePanel);
-            this.statePanelsPanel.Location = new System.Drawing.Point(0, 44);
+            this.statePanelsPanel.Location = new System.Drawing.Point(3, 295);
             this.statePanelsPanel.Name = "statePanelsPanel";
-            this.statePanelsPanel.Size = new System.Drawing.Size(458, 213);
+            this.statePanelsPanel.Size = new System.Drawing.Size(668, 213);
             this.statePanelsPanel.TabIndex = 17;
             // 
             // AnchorsStatePanel
             // 
             this.AnchorsStatePanel.ColumnCount = 6;
-            this.AnchorsStatePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 31.69399F));
-            this.AnchorsStatePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 13.6612F));
-            this.AnchorsStatePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 13.6612F));
-            this.AnchorsStatePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 13.6612F));
-            this.AnchorsStatePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 13.6612F));
-            this.AnchorsStatePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 13.6612F));
+            this.AnchorsStatePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 44.44444F));
+            this.AnchorsStatePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 11.11111F));
+            this.AnchorsStatePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 11.11111F));
+            this.AnchorsStatePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 11.11111F));
+            this.AnchorsStatePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 11.11111F));
+            this.AnchorsStatePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 11.11111F));
             this.AnchorsStatePanel.Controls.Add(this.anchorPlaceholderControl4, 4, 0);
             this.AnchorsStatePanel.Controls.Add(this.anchorPlaceholderControl3, 3, 0);
             this.AnchorsStatePanel.Controls.Add(this.anchorPlaceholderControl2, 2, 0);
-            this.AnchorsStatePanel.Controls.Add(this.anchorsStatePanelLabel, 0, 0);
             this.AnchorsStatePanel.Controls.Add(this.anchorPlaceholderControl1, 1, 0);
             this.AnchorsStatePanel.Controls.Add(this.testPointPlaceholderControl, 5, 0);
+            this.AnchorsStatePanel.Controls.Add(this.tableLayoutPanel1, 0, 0);
             this.AnchorsStatePanel.Location = new System.Drawing.Point(3, 10);
             this.AnchorsStatePanel.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.AnchorsStatePanel.Name = "AnchorsStatePanel";
             this.AnchorsStatePanel.RowCount = 1;
             this.AnchorsStatePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.AnchorsStatePanel.Size = new System.Drawing.Size(449, 66);
+            this.AnchorsStatePanel.Size = new System.Drawing.Size(668, 66);
             this.AnchorsStatePanel.TabIndex = 9;
             this.AnchorsStatePanel.Visible = false;
             // 
@@ -368,10 +378,10 @@
             this.anchorPlaceholderControl4.Index = 3;
             this.anchorPlaceholderControl4.IsCurrent = false;
             this.anchorPlaceholderControl4.IsInitialized = false;
-            this.anchorPlaceholderControl4.Location = new System.Drawing.Point(326, 1);
+            this.anchorPlaceholderControl4.Location = new System.Drawing.Point(519, 1);
             this.anchorPlaceholderControl4.Margin = new System.Windows.Forms.Padding(1);
             this.anchorPlaceholderControl4.Name = "anchorPlaceholderControl4";
-            this.anchorPlaceholderControl4.Size = new System.Drawing.Size(59, 64);
+            this.anchorPlaceholderControl4.Size = new System.Drawing.Size(72, 64);
             this.anchorPlaceholderControl4.TabIndex = 4;
             // 
             // anchorPlaceholderControl3
@@ -381,10 +391,10 @@
             this.anchorPlaceholderControl3.Index = 2;
             this.anchorPlaceholderControl3.IsCurrent = false;
             this.anchorPlaceholderControl3.IsInitialized = false;
-            this.anchorPlaceholderControl3.Location = new System.Drawing.Point(265, 1);
+            this.anchorPlaceholderControl3.Location = new System.Drawing.Point(445, 1);
             this.anchorPlaceholderControl3.Margin = new System.Windows.Forms.Padding(1);
             this.anchorPlaceholderControl3.Name = "anchorPlaceholderControl3";
-            this.anchorPlaceholderControl3.Size = new System.Drawing.Size(59, 64);
+            this.anchorPlaceholderControl3.Size = new System.Drawing.Size(72, 64);
             this.anchorPlaceholderControl3.TabIndex = 3;
             // 
             // anchorPlaceholderControl2
@@ -394,22 +404,11 @@
             this.anchorPlaceholderControl2.Index = 1;
             this.anchorPlaceholderControl2.IsCurrent = false;
             this.anchorPlaceholderControl2.IsInitialized = false;
-            this.anchorPlaceholderControl2.Location = new System.Drawing.Point(204, 1);
+            this.anchorPlaceholderControl2.Location = new System.Drawing.Point(371, 1);
             this.anchorPlaceholderControl2.Margin = new System.Windows.Forms.Padding(1);
             this.anchorPlaceholderControl2.Name = "anchorPlaceholderControl2";
-            this.anchorPlaceholderControl2.Size = new System.Drawing.Size(59, 64);
+            this.anchorPlaceholderControl2.Size = new System.Drawing.Size(72, 64);
             this.anchorPlaceholderControl2.TabIndex = 2;
-            // 
-            // anchorsStatePanelLabel
-            // 
-            this.anchorsStatePanelLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.anchorsStatePanelLabel.Font = new System.Drawing.Font("Dosis", 20.25F);
-            this.anchorsStatePanelLabel.Location = new System.Drawing.Point(3, 0);
-            this.anchorsStatePanelLabel.Name = "anchorsStatePanelLabel";
-            this.anchorsStatePanelLabel.Size = new System.Drawing.Size(136, 66);
-            this.anchorsStatePanelLabel.TabIndex = 0;
-            this.anchorsStatePanelLabel.Text = "Anchors:";
-            this.anchorsStatePanelLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // anchorPlaceholderControl1
             // 
@@ -419,10 +418,10 @@
             this.anchorPlaceholderControl1.Index = 0;
             this.anchorPlaceholderControl1.IsCurrent = true;
             this.anchorPlaceholderControl1.IsInitialized = false;
-            this.anchorPlaceholderControl1.Location = new System.Drawing.Point(143, 1);
+            this.anchorPlaceholderControl1.Location = new System.Drawing.Point(297, 1);
             this.anchorPlaceholderControl1.Margin = new System.Windows.Forms.Padding(1);
             this.anchorPlaceholderControl1.Name = "anchorPlaceholderControl1";
-            this.anchorPlaceholderControl1.Size = new System.Drawing.Size(59, 64);
+            this.anchorPlaceholderControl1.Size = new System.Drawing.Size(72, 64);
             this.anchorPlaceholderControl1.TabIndex = 1;
             // 
             // testPointPlaceholderControl
@@ -432,11 +431,98 @@
             this.testPointPlaceholderControl.Index = 4;
             this.testPointPlaceholderControl.IsCurrent = false;
             this.testPointPlaceholderControl.IsInitialized = false;
-            this.testPointPlaceholderControl.Location = new System.Drawing.Point(387, 1);
+            this.testPointPlaceholderControl.Location = new System.Drawing.Point(593, 1);
             this.testPointPlaceholderControl.Margin = new System.Windows.Forms.Padding(1);
             this.testPointPlaceholderControl.Name = "testPointPlaceholderControl";
-            this.testPointPlaceholderControl.Size = new System.Drawing.Size(61, 64);
+            this.testPointPlaceholderControl.Size = new System.Drawing.Size(74, 64);
             this.testPointPlaceholderControl.TabIndex = 5;
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.ColumnCount = 2;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 42.16028F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 57.83972F));
+            this.tableLayoutPanel1.Controls.Add(this.anchorsStatePanelLabel, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel3, 1, 0);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 1;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(296, 66);
+            this.tableLayoutPanel1.TabIndex = 6;
+            // 
+            // anchorsStatePanelLabel
+            // 
+            this.anchorsStatePanelLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.anchorsStatePanelLabel.Font = new System.Drawing.Font("Dosis", 20.25F);
+            this.anchorsStatePanelLabel.Location = new System.Drawing.Point(3, 0);
+            this.anchorsStatePanelLabel.Name = "anchorsStatePanelLabel";
+            this.anchorsStatePanelLabel.Size = new System.Drawing.Size(118, 66);
+            this.anchorsStatePanelLabel.TabIndex = 0;
+            this.anchorsStatePanelLabel.Text = "Anchors:";
+            this.anchorsStatePanelLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // tableLayoutPanel3
+            // 
+            this.tableLayoutPanel3.ColumnCount = 2;
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 61.67665F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 38.32335F));
+            this.tableLayoutPanel3.Controls.Add(this.originalImageToggle, 1, 0);
+            this.tableLayoutPanel3.Controls.Add(this.autoLabel1, 0, 0);
+            this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(124, 0);
+            this.tableLayoutPanel3.Margin = new System.Windows.Forms.Padding(0);
+            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
+            this.tableLayoutPanel3.RowCount = 1;
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(172, 66);
+            this.tableLayoutPanel3.TabIndex = 7;
+            // 
+            // originalImageToggle
+            // 
+            activeStateCollection1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(1)))), ((int)(((byte)(115)))), ((int)(((byte)(199)))));
+            activeStateCollection1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(1)))), ((int)(((byte)(115)))), ((int)(((byte)(199)))));
+            activeStateCollection1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            activeStateCollection1.HoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(103)))), ((int)(((byte)(176)))));
+            this.originalImageToggle.ActiveState = activeStateCollection1;
+            this.originalImageToggle.DisplayMode = Syncfusion.Windows.Forms.Tools.DisplayType.Image;
+            this.originalImageToggle.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.originalImageToggle.Font = new System.Drawing.Font("Dosis", 12F);
+            this.originalImageToggle.ForeColor = System.Drawing.Color.Black;
+            inactiveStateCollection1.BackColor = System.Drawing.Color.White;
+            inactiveStateCollection1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(150)))), ((int)(((byte)(150)))), ((int)(((byte)(150)))));
+            inactiveStateCollection1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
+            inactiveStateCollection1.HoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.originalImageToggle.InactiveState = inactiveStateCollection1;
+            this.originalImageToggle.Location = new System.Drawing.Point(111, 10);
+            this.originalImageToggle.Margin = new System.Windows.Forms.Padding(5, 10, 15, 15);
+            this.originalImageToggle.MaximumSize = new System.Drawing.Size(100, 36);
+            this.originalImageToggle.MinimumSize = new System.Drawing.Size(52, 20);
+            this.originalImageToggle.Name = "originalImageToggle";
+            this.originalImageToggle.Size = new System.Drawing.Size(52, 36);
+            sliderCollection1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            sliderCollection1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(171)))), ((int)(((byte)(171)))));
+            sliderCollection1.HoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            sliderCollection1.InactiveBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(150)))), ((int)(((byte)(150)))), ((int)(((byte)(150)))));
+            sliderCollection1.InactiveHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(94)))), ((int)(((byte)(94)))));
+            this.originalImageToggle.Slider = sliderCollection1;
+            this.originalImageToggle.TabIndex = 49;
+            this.originalImageToggle.ThemeName = "Office2016White";
+            this.originalImageToggle.VisualStyle = Syncfusion.Windows.Forms.Tools.ToggleButtonStyle.Office2016White;
+            this.originalImageToggle.ToggleStateChanged += new Syncfusion.Windows.Forms.Tools.ToggleStateChangedEventHandler(this.OriginalImageToggle_ToggleStateChanged);
+            // 
+            // autoLabel1
+            // 
+            this.autoLabel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.autoLabel1.Font = new System.Drawing.Font("Dosis", 20.25F);
+            this.autoLabel1.Location = new System.Drawing.Point(3, 0);
+            this.autoLabel1.Name = "autoLabel1";
+            this.autoLabel1.Size = new System.Drawing.Size(100, 66);
+            this.autoLabel1.TabIndex = 48;
+            this.autoLabel1.Text = "Original:";
+            this.autoLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // SizeValueStatePanel
             // 
@@ -444,7 +530,7 @@
             this.SizeValueStatePanel.Location = new System.Drawing.Point(5, 92);
             this.SizeValueStatePanel.Margin = new System.Windows.Forms.Padding(0);
             this.SizeValueStatePanel.Name = "SizeValueStatePanel";
-            this.SizeValueStatePanel.Size = new System.Drawing.Size(449, 50);
+            this.SizeValueStatePanel.Size = new System.Drawing.Size(665, 50);
             this.SizeValueStatePanel.TabIndex = 16;
             this.SizeValueStatePanel.Visible = false;
             // 
@@ -460,7 +546,7 @@
             this.sizeValueStatePanelTable.Name = "sizeValueStatePanelTable";
             this.sizeValueStatePanelTable.RowCount = 1;
             this.sizeValueStatePanelTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.sizeValueStatePanelTable.Size = new System.Drawing.Size(449, 50);
+            this.sizeValueStatePanelTable.Size = new System.Drawing.Size(665, 50);
             this.sizeValueStatePanelTable.TabIndex = 0;
             // 
             // sizeValueStatePanelLabel
@@ -473,7 +559,7 @@
             this.sizeValueStatePanelLabel.Location = new System.Drawing.Point(3, 3);
             this.sizeValueStatePanelLabel.Margin = new System.Windows.Forms.Padding(3);
             this.sizeValueStatePanelLabel.Name = "sizeValueStatePanelLabel";
-            this.sizeValueStatePanelLabel.Size = new System.Drawing.Size(100, 44);
+            this.sizeValueStatePanelLabel.Size = new System.Drawing.Size(151, 44);
             this.sizeValueStatePanelLabel.Style = Syncfusion.Windows.Forms.Tools.AutoLabelStyle.Office2016White;
             this.sizeValueStatePanelLabel.TabIndex = 15;
             this.sizeValueStatePanelLabel.Text = "Size:";
@@ -488,24 +574,24 @@
             this.sizeValueStatePanelControlsTable.Controls.Add(this.sizeScaleTrackBar, 0, 0);
             this.sizeValueStatePanelControlsTable.Controls.Add(this.tableLayoutPanel2, 1, 0);
             this.sizeValueStatePanelControlsTable.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.sizeValueStatePanelControlsTable.Location = new System.Drawing.Point(106, 0);
+            this.sizeValueStatePanelControlsTable.Location = new System.Drawing.Point(157, 0);
             this.sizeValueStatePanelControlsTable.Margin = new System.Windows.Forms.Padding(0);
             this.sizeValueStatePanelControlsTable.Name = "sizeValueStatePanelControlsTable";
             this.sizeValueStatePanelControlsTable.RowCount = 1;
             this.sizeValueStatePanelControlsTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.sizeValueStatePanelControlsTable.Size = new System.Drawing.Size(343, 50);
+            this.sizeValueStatePanelControlsTable.Size = new System.Drawing.Size(508, 50);
             this.sizeValueStatePanelControlsTable.TabIndex = 14;
             // 
             // sizeScaleTrackBar
             // 
             this.sizeScaleTrackBar.AutoSize = false;
             this.sizeScaleTrackBar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(114)))), ((int)(((byte)(198)))));
-            this.sizeScaleTrackBar.BeforeTouchSize = new System.Drawing.Size(141, 44);
+            this.sizeScaleTrackBar.BeforeTouchSize = new System.Drawing.Size(212, 44);
             this.sizeScaleTrackBar.CanOverrideStyle = true;
             this.sizeScaleTrackBar.Dock = System.Windows.Forms.DockStyle.Fill;
             this.sizeScaleTrackBar.Location = new System.Drawing.Point(3, 3);
             this.sizeScaleTrackBar.Name = "sizeScaleTrackBar";
-            this.sizeScaleTrackBar.Size = new System.Drawing.Size(141, 44);
+            this.sizeScaleTrackBar.Size = new System.Drawing.Size(212, 44);
             this.sizeScaleTrackBar.SliderSize = new System.Drawing.Size(4, 14);
             this.sizeScaleTrackBar.Style = Syncfusion.Windows.Forms.Tools.TrackBarEx.Theme.Office2016White;
             this.sizeScaleTrackBar.TabIndex = 0;
@@ -523,17 +609,17 @@
             this.tableLayoutPanel2.Controls.Add(this.sizeHeightTextBox, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.sizeWidthTextBox, 0, 0);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(150, 3);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(221, 3);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 1;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(190, 44);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(284, 44);
             this.tableLayoutPanel2.TabIndex = 1;
             // 
             // sizeHeightTextBox
             // 
             this.sizeHeightTextBox.BackGroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.sizeHeightTextBox.BeforeTouchSize = new System.Drawing.Size(92, 42);
+            this.sizeHeightTextBox.BeforeTouchSize = new System.Drawing.Size(138, 42);
             this.sizeHeightTextBox.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(171)))), ((int)(((byte)(171)))));
             this.sizeHeightTextBox.BorderSides = ((System.Windows.Forms.Border3DSide)((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Right)));
             this.sizeHeightTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -542,7 +628,7 @@
             this.sizeHeightTextBox.Font = new System.Drawing.Font("Dosis", 18.75F);
             this.sizeHeightTextBox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
             this.sizeHeightTextBox.IntegerValue = ((long)(740));
-            this.sizeHeightTextBox.Location = new System.Drawing.Point(98, 1);
+            this.sizeHeightTextBox.Location = new System.Drawing.Point(145, 1);
             this.sizeHeightTextBox.Margin = new System.Windows.Forms.Padding(3, 1, 1, 1);
             this.sizeHeightTextBox.MaxValue = ((long)(10000));
             this.sizeHeightTextBox.MinimumSize = new System.Drawing.Size(76, 42);
@@ -550,7 +636,7 @@
             this.sizeHeightTextBox.Name = "sizeHeightTextBox";
             this.sizeHeightTextBox.NegativeColor = System.Drawing.Color.Crimson;
             this.sizeHeightTextBox.PositiveColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
-            this.sizeHeightTextBox.Size = new System.Drawing.Size(91, 42);
+            this.sizeHeightTextBox.Size = new System.Drawing.Size(138, 42);
             this.sizeHeightTextBox.Style = Syncfusion.Windows.Forms.Tools.TextBoxExt.theme.Office2016White;
             this.sizeHeightTextBox.TabIndex = 16;
             this.sizeHeightTextBox.Text = "740";
@@ -562,7 +648,7 @@
             // sizeWidthTextBox
             // 
             this.sizeWidthTextBox.BackGroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.sizeWidthTextBox.BeforeTouchSize = new System.Drawing.Size(92, 42);
+            this.sizeWidthTextBox.BeforeTouchSize = new System.Drawing.Size(138, 42);
             this.sizeWidthTextBox.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(171)))), ((int)(((byte)(171)))));
             this.sizeWidthTextBox.BorderSides = ((System.Windows.Forms.Border3DSide)((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Right)));
             this.sizeWidthTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -579,7 +665,7 @@
             this.sizeWidthTextBox.Name = "sizeWidthTextBox";
             this.sizeWidthTextBox.NegativeColor = System.Drawing.Color.Crimson;
             this.sizeWidthTextBox.PositiveColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
-            this.sizeWidthTextBox.Size = new System.Drawing.Size(92, 42);
+            this.sizeWidthTextBox.Size = new System.Drawing.Size(139, 42);
             this.sizeWidthTextBox.Style = Syncfusion.Windows.Forms.Tools.TextBoxExt.theme.Office2016White;
             this.sizeWidthTextBox.TabIndex = 15;
             this.sizeWidthTextBox.Text = "1,024";
@@ -604,10 +690,11 @@
             this.imageBox.Margin = new System.Windows.Forms.Padding(0);
             this.imageBox.Name = "imageBox";
             this.imageBox.SelectionMode = Cyotek.Windows.Forms.ImageBoxSelectionMode.Rectangle;
-            this.imageBox.Size = new System.Drawing.Size(458, 320);
+            this.imageBox.Size = new System.Drawing.Size(677, 482);
             this.imageBox.StepSize = new System.Drawing.Size(8, 8);
             this.imageBox.TabIndex = 5;
             this.imageBox.Text = "Template Image";
+            this.imageBox.Paint += new System.Windows.Forms.PaintEventHandler(this.imageBox_Paint);
             // 
             // imageBoxControlsToolStrip
             // 
@@ -631,7 +718,7 @@
             this.imageBoxControlsToolStrip.Name = "imageBoxControlsToolStrip";
             this.imageBoxControlsToolStrip.Padding = new System.Windows.Forms.Padding(0);
             this.imageBoxControlsToolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.imageBoxControlsToolStrip.Size = new System.Drawing.Size(455, 25);
+            this.imageBoxControlsToolStrip.Size = new System.Drawing.Size(674, 25);
             this.imageBoxControlsToolStrip.TabIndex = 4;
             // 
             // showImageRegionToolStripButton
@@ -729,12 +816,12 @@
             // AnchorAlignmentMethodForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
-            this.ClientSize = new System.Drawing.Size(465, 489);
+            this.ClientSize = new System.Drawing.Size(684, 651);
             this.Controls.Add(this.MainLayoutPanel);
             this.Font = new System.Drawing.Font("Dosis", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.MinimizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(700, 690);
             this.Name = "AnchorAlignmentMethodForm";
             this.Padding = new System.Windows.Forms.Padding(2, 2, 2, 5);
             this.ShowToolTip = false;
@@ -756,7 +843,11 @@
             this.imageBoxPanel.PerformLayout();
             this.statePanelsPanel.ResumeLayout(false);
             this.AnchorsStatePanel.ResumeLayout(false);
-            this.AnchorsStatePanel.PerformLayout();
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.tableLayoutPanel1.PerformLayout();
+            this.tableLayoutPanel3.ResumeLayout(false);
+            this.tableLayoutPanel3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.originalImageToggle)).EndInit();
             this.SizeValueStatePanel.ResumeLayout(false);
             this.sizeValueStatePanelTable.ResumeLayout(false);
             this.sizeValueStatePanelControlsTable.ResumeLayout(false);
@@ -812,5 +903,9 @@
         private System.Windows.Forms.Panel panel1;
         private Syncfusion.Windows.Forms.Tools.AutoLabel walkthroughIndexLabel;
         private System.Windows.Forms.Panel statePanelsPanel;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
+        private Syncfusion.Windows.Forms.Tools.ToggleButton originalImageToggle;
+        private Syncfusion.Windows.Forms.Tools.AutoLabel autoLabel1;
     }
 }

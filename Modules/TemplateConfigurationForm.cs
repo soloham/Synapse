@@ -599,7 +599,14 @@ namespace Synapse.Modules
                     {
                         InvalidateState();
 
-                        Messages.ShowError($"The Alignment Method: '{alignmentPipelineResults.AlignmentMethodTestResultsList.First(x => x.GetAlignmentMethodResultType == Template.AlignmentPipelineResults.AlignmentMethodResultType.Failed).AlignmentMethod.MethodName}' failed to pass the testing process. \n\n Configure this method properly in order to complete the process.");
+                        if (alignmentPipelineResults.AlignmentMethodTestResultsList.Count > 0)
+                        {
+                            Messages.ShowError($"The Alignment Method: '{alignmentPipelineResults.AlignmentMethodTestResultsList.First(x => x.GetAlignmentMethodResultType == Template.AlignmentPipelineResults.AlignmentMethodResultType.Failed).AlignmentMethod.MethodName}' failed to pass the testing process. \n\n Configure this method properly in order to complete the process.");
+                        }
+                        else
+                        {
+                            Messages.ShowError($"A minimum of one alignment method must be enabled to apply testing operations.");
+                        }
                         ConfigWalkthroughState = ConfigurationState.CONFIGURE_ALIGNMENT_PIPELINE;
                     }
                 };

@@ -204,6 +204,7 @@ namespace Synapse.Modules
             AlignmentMethods.Insert(moveIndex, method);
             method.PipelineIndex = moveIndex;
             AlignmentMethods[curIndex].PipelineIndex = curIndex;
+            methodListItem.listIndex = moveIndex;
         }
         private void ConfigureMethod(AlignmentMethod alignmentMethod)
         {

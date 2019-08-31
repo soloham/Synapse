@@ -278,8 +278,8 @@
             this.registrationTypeTabControl.CloseButtonHoverForeColor = System.Drawing.Color.Empty;
             this.registrationTypeTabControl.CloseButtonPressedForeColor = System.Drawing.Color.Empty;
             this.registrationTypeTabControl.CloseTabOnMiddleClick = false;
-            this.registrationTypeTabControl.Controls.Add(this.kazeTabPage);
             this.registrationTypeTabControl.Controls.Add(this.akazeTabPage);
+            this.registrationTypeTabControl.Controls.Add(this.kazeTabPage);
             this.registrationTypeTabControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.registrationTypeTabControl.Font = new System.Drawing.Font("Dosis", 15.25F);
             this.registrationTypeTabControl.InActiveTabForeColor = System.Drawing.Color.Empty;
@@ -707,11 +707,12 @@
             this.akazeTabPage.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(38)))), ((int)(((byte)(38)))));
             this.akazeTabPage.Image = null;
             this.akazeTabPage.ImageSize = new System.Drawing.Size(16, 16);
-            this.akazeTabPage.Location = new System.Drawing.Point(-1, 0);
+            this.akazeTabPage.Location = new System.Drawing.Point(72, 0);
             this.akazeTabPage.Name = "akazeTabPage";
             this.akazeTabPage.ShowCloseButton = true;
-            this.akazeTabPage.Size = new System.Drawing.Size(456, 302);
+            this.akazeTabPage.Size = new System.Drawing.Size(383, 302);
             this.akazeTabPage.TabIndex = 2;
+            this.akazeTabPage.TabVisible = false;
             this.akazeTabPage.Text = "AKAZE";
             this.akazeTabPage.ThemesEnabled = false;
             this.akazeTabPage.UseCustomScrollerFrame = true;
@@ -730,7 +731,7 @@
             this.akazeOptionsFlowPanel.Location = new System.Drawing.Point(0, 0);
             this.akazeOptionsFlowPanel.Margin = new System.Windows.Forms.Padding(0);
             this.akazeOptionsFlowPanel.Name = "akazeOptionsFlowPanel";
-            this.akazeOptionsFlowPanel.Size = new System.Drawing.Size(456, 302);
+            this.akazeOptionsFlowPanel.Size = new System.Drawing.Size(383, 302);
             this.akazeOptionsFlowPanel.TabIndex = 0;
             // 
             // akazeDescTypeOptionPanel

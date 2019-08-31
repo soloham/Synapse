@@ -7,6 +7,7 @@ using Emgu.CV;
 using Emgu.CV.Structure;
 using Synapse.Controls;
 using Synapse.Core.Templates;
+using Synapse.Utilities;
 using Synapse.Utilities.Attributes;
 using Synapse.Utilities.Enums;
 using Syncfusion.WinForms.Controls;
@@ -39,7 +40,7 @@ namespace Synapse.Modules
 
         private Template.AnchorAlignmentMethod referenceAnchorAlignmentMethod;
         private List<AnchorPlaceholderControl> anchorPlaceholderControls = new List<AnchorPlaceholderControl>();
-
+        private List<Template.AnchorAlignmentMethod.Anchor> anchors = new List<Template.AnchorAlignmentMethod.Anchor>();
         private Panel CurrentStatePanel;
         private ConfigurationState walkthroughState;
         private bool isCurrentSetActionCompleted;
@@ -163,13 +164,13 @@ namespace Synapse.Modules
             templateImageCopy = TemplateImage.Clone();
             imageBox.Image = TemplateImage.Bitmap;
 
-            var anchors = anchorAlignmentMethod.GetAnchors;
-            for (int i = 0; i < anchors.Count; i++)
+            var refAnchors = anchorAlignmentMethod.GetAnchors;
+            for (int i = 0; i < refAnchors.Count; i++)
             {
                 AnchorPlaceholderControl anchorPlaceholder = anchorPlaceholderControls[i];
-                anchorPlaceholder.Initialize(anchors[i].GetAnchorRegion, (Mat)anchors[i].GetAnchorImage, DeleteAnchorAction);
-
+                anchorPlaceholder.Initialize(refAnchors[i].GetAnchorRegion, (Mat)refAnchors[i].GetAnchorImage, DeleteAnchorAction);
                 anchorPlaceholder.IsCurrent = false;
+                anchors.Add(anchorPlaceholder.GetAnchor);
 
                 if (!anchorPlaceholderControls.Exists(x => x.IsInitialized == false))
                     continue;
@@ -209,13 +210,36 @@ namespace Synapse.Modules
         #region  ImageBoxPanel Setup
         private void imageBox_Paint(object sender, PaintEventArgs e)
         {
+            Graphics g = e.Graphics;
             // highlight the image
             if (showImageRegionToolStripButton.Checked)
-                Utilities.Functions.DrawBox(e.Graphics, Color.CornflowerBlue, imageBox.GetImageViewPort(), imageBox.ZoomFactor);
+                Functions.DrawBox(g, Color.CornflowerBlue, imageBox.GetImageViewPort(), imageBox.ZoomFactor);
 
             // show the region that will be drawn from the source image
             if (showSourceImageRegionToolStripButton.Checked)
-                Utilities.Functions.DrawBox(e.Graphics, Color.Firebrick, new RectangleF(imageBox.GetImageViewPort().Location, imageBox.GetSourceImageRegion().Size), imageBox.ZoomFactor);
+                Functions.DrawBox(g, Color.Firebrick, new RectangleF(imageBox.GetImageViewPort().Location, imageBox.GetSourceImageRegion().Size), imageBox.ZoomFactor);
+
+            if (anchors.Count > 0)
+            {
+                for (int i = 0; i < anchors.Count; i++)
+                {
+                    var anchor = anchors[i];
+
+                    RectangleF anchorRegion = anchor.GetAnchorRegion;
+                    if (originalImageToggle.ToggleState == Syncfusion.Windows.Forms.Tools.ToggleButtonState.Active && resizedImage != null)
+                        anchorRegion = Functions.ResizeRegion(anchorRegion, resizedImage.Size, templateImage.Size);
+
+                    Functions.DrawBox(g, imageBox.GetOffsetRectangle(anchorRegion), imageBox.ZoomFactor, Color.FromArgb(150, Color.DodgerBlue));
+                }
+            }
+            if (testPointPlaceholderControl.IsInitialized)
+            {
+                RectangleF testRegion = testPointPlaceholderControl.GetAnchor.GetAnchorRegion;
+                if (originalImageToggle.ToggleState == Syncfusion.Windows.Forms.Tools.ToggleButtonState.Active && resizedImage != null)
+                    testRegion = Functions.ResizeRegion(testRegion, resizedImage.Size, templateImage.Size);
+
+                Functions.DrawBox(g, imageBox.GetOffsetRectangle(testRegion), imageBox.ZoomFactor, Color.FromArgb(150, Color.MediumAquamarine));
+            }
         }
         private void imageBox_Resize(object sender, EventArgs e)
         {
@@ -227,7 +251,7 @@ namespace Synapse.Modules
         }
         private void imageBox_SelectionRegionChanged(object sender, EventArgs e)
         {
-            selectionToolStripStatusLabel.Text = Utilities.Functions.FormatRectangle(imageBox.SelectionRegion);
+            selectionToolStripStatusLabel.Text = Functions.FormatRectangle(imageBox.SelectionRegion);
 
             SelectionRegionChangedAction?.Invoke();
         }
@@ -448,20 +472,21 @@ namespace Synapse.Modules
         }
         private void AddSelectedAnchor()
         {
-            if (imageBox.SelectionRegion != RectangleF.Empty && imageBox.SelectionRegion.Width != 0 && imageBox.SelectionRegion.Height != 0)
+            if (imageBox.SelectionRegion != RectangleF.Empty && imageBox.SelectionRegion.Width != 0 && imageBox.SelectionRegion.Height != 0 && (anchorPlaceholderControls.Exists(x => x.IsCurrent == true) || testPointPlaceholderControl.IsCurrent == true))
             {
-                anchorsStatePanelLabel.Text = curAnchorIndex == 0? "Top Right:" : curAnchorIndex == 1? "Bottom Right:" : curAnchorIndex == 2 ? "Bottom Left:" : curAnchorIndex == 3 ? "Test Region:" : "Anchors:";
+                RectangleF selectionRegion = imageBox.SelectionRegion;
+                if (originalImageToggle.ToggleState == Syncfusion.Windows.Forms.Tools.ToggleButtonState.Active && resizedImage != null)
+                    selectionRegion = Functions.ResizeRegion(selectionRegion, templateImage.Size, resizedImage.Size);
 
                 if (curAnchorIndex == testPointPlaceholderControl.Index)
                 {
-                    testPointPlaceholderControl.Initialize(imageBox.SelectionRegion, TemplateImage.Copy(imageBox.SelectionRegion).Mat, DeleteAnchorAction);
+                    testPointPlaceholderControl.Initialize(selectionRegion, TemplateImage.Copy(selectionRegion).Mat, DeleteAnchorAction);
                     testPointPlaceholderControl.IsCurrent = false;
                 }
                 else
                 {
-
                     AnchorPlaceholderControl anchorPlaceholder = anchorPlaceholderControls[curAnchorIndex];
-                    anchorPlaceholder.Initialize(imageBox.SelectionRegion, TemplateImage.Copy(imageBox.SelectionRegion).Mat, DeleteAnchorAction);
+                    anchorPlaceholder.Initialize(selectionRegion, TemplateImage.Copy(selectionRegion).Mat, DeleteAnchorAction);
 
                     anchorPlaceholderControls.ForEach(x => x.IsCurrent = false);
                     testPointPlaceholderControl.IsCurrent = false;
@@ -478,14 +503,26 @@ namespace Synapse.Modules
                     {
                         curAnchorIndex = anchorPlaceholderControls.Find(x => x.IsInitialized == false).Index;
                         anchorPlaceholderControls[curAnchorIndex].IsCurrent = true;
+
                     }
+
+                    anchors.Add(anchorPlaceholder.GetAnchor);
                 }
             }
+            if (curAnchorIndex != testPointPlaceholderControl.Index)
+            {
+                anchorsStatePanelLabel.Text = anchorPlaceholderControls[curAnchorIndex].IsInitialized? "Anchors:" : (curAnchorIndex == 0 ? "Top Left:" : curAnchorIndex == 1 ? "Top Right:" : curAnchorIndex == 2 ? "Bottom Right:" : curAnchorIndex == 3 ? "Bottom Left:" : "Anchors:");
+            }
+            else
+                anchorsStatePanelLabel.Text = testPointPlaceholderControl.IsInitialized? "Anchors:" : "Test Region:";
+
+            imageBox.Invalidate();
         }
         private void DeleteAnchorAction(AnchorPlaceholderControl anchorPlaceholder)
         {
-            anchorPlaceholder.Reset();
+            if (anchors.Contains(anchorPlaceholder.GetAnchor)) anchors.Remove(anchorPlaceholder.GetAnchor);
 
+            anchorPlaceholder.Reset();
             anchorPlaceholderControls.ForEach(x => x.IsCurrent = false);
             testPointPlaceholderControl.IsCurrent = false;
             if (!anchorPlaceholderControls.Exists(x => x.IsInitialized == false))
@@ -501,18 +538,22 @@ namespace Synapse.Modules
                 curAnchorIndex = anchorPlaceholderControls.Find(x => x.IsInitialized == false).Index;
                 anchorPlaceholderControls[curAnchorIndex].IsCurrent = true;
             }
+
+            anchorsStatePanelLabel.Text = curAnchorIndex == 0 ? "Top Left:" : curAnchorIndex == 1? "Top Right:" : curAnchorIndex == 2 ? "Bottom Right:" : curAnchorIndex == 3 ? "Bottom Left:" : curAnchorIndex == 4 ? "Test Region:" : "Anchors:";
+
+            imageBox.Invalidate();
         }
         #endregion
 
         private void ReconfigureBtn_Click(object sender, EventArgs e)
         {
-            MainLayoutPanel.RowStyles[1].Height = 165;
+            MainLayoutPanel.RowStyles[1].Height = 185;
             selectStateComboBox.Visible = true;
 
             for (int i = 0; i < configureStatesPanel.RowCount; i++)
             {
                 configureStatesPanel.RowStyles[i].SizeType = SizeType.Percent;
-                configureStatesPanel.RowStyles[i].Height = i == 0 ? 0 : i == 1 ? 35 : i == 2 ? 30 : i == 3 ? 35 : 0;
+                configureStatesPanel.RowStyles[i].Height = i == 0 ? 0 : i == 1 ? 35 : i == 2 ? 35 : i == 3 ? 30 : 0;
             }
         }
         private void NextBtn_Click(object sender, EventArgs e)
@@ -595,5 +636,24 @@ namespace Synapse.Modules
         #endregion
 
         #endregion
+
+        private void OriginalImageToggle_ToggleStateChanged(object sender, Syncfusion.Windows.Forms.Tools.ToggleStateChangedEventArgs e)
+        {
+            switch (e.ToggleState)
+            {
+                case Syncfusion.Windows.Forms.Tools.ToggleButtonState.Active:
+                    imageBox.Image = templateImage.Bitmap;
+
+                    if (imageBox.SelectionRegion != RectangleF.Empty)
+                        imageBox.SelectionRegion = Functions.ResizeRegion(imageBox.SelectionRegion, resizedImage.Size, templateImage.Size);
+                    break;
+                case Syncfusion.Windows.Forms.Tools.ToggleButtonState.Inactive:
+                    imageBox.Image = resizedImage.Bitmap;
+
+                    if (imageBox.SelectionRegion != RectangleF.Empty)
+                        imageBox.SelectionRegion = Functions.ResizeRegion(imageBox.SelectionRegion, templateImage.Size, resizedImage.Size);
+                    break;
+            }
+        }
     }
 }
