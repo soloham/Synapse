@@ -446,7 +446,7 @@ namespace Synapse.Utilities.Memory
                     BinaryFormatter bf = new BinaryFormatter();
                     using (FileStream fs = new FileStream(configDataFilePath, FileMode.Open))
                     {
-                        ConfigurationBase configurationBase = (OMRConfiguration)bf.Deserialize(fs);
+                        ConfigurationBase configurationBase = (ConfigurationBase)bf.Deserialize(fs);
                         configurationBases.Add(configurationBase);
                     }
                 }

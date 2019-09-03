@@ -71,6 +71,11 @@ namespace Synapse.Core.Managers
                 case MainConfigType.BARCODE:
                     break;
                 case MainConfigType.ICR:
+                    ICRConfiguration icrConfiguration = (ICRConfiguration)configuration;
+                    isRemoved = allConfigurations.Remove(icrConfiguration);
+
+                    if (isRemoved)
+                        OnConfigurationDeletedEvent?.Invoke(sender, icrConfiguration);
                     break;
             }
             return isRemoved;

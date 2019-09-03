@@ -21,7 +21,7 @@ using static Synapse.Core.Configurations.ConfigurationBase;
 
 namespace Synapse
 {
-    public partial class SynapseMain : Syncfusion.Windows.Forms.Tools.RibbonForm
+    public partial class SynapseMain : RibbonForm
     {
         #region Enums
 
@@ -66,6 +66,7 @@ namespace Synapse
         #endregion
 
         #region Variables
+        #region Configuration Panel
         private PointF curImageMouseLoc;
 
         private List<OnTemplateConfig> OnTemplateConfigs = new List<OnTemplateConfig>();
@@ -83,6 +84,10 @@ namespace Synapse
         private bool isMouseDownRegion;
         public bool IsMouseUpRegion { get => isMouseUpRegion; set { isMouseUpRegion = value; ToggleMouseUpRegion(value); } }
         private bool isMouseUpRegion;
+        #endregion
+        #region Reading Panel
+        private SheetsData loadedSheetsData = new SheetsData();
+        #endregion
         #endregion
 
         #region Events 
@@ -265,6 +270,11 @@ namespace Synapse
             OnAIStateChangedEvent?.Invoke(this, status);
         }
 
+        internal Bitmap GetCurrentImage()
+        {
+            return (Bitmap)templateImageBox.Image;
+        }
+
         public void ToggleMouseOverRegion(bool isOver)
         {
             if (isOver)
@@ -276,12 +286,6 @@ namespace Synapse
                 Cursor.Current = Cursors.Arrow;
             }
         }
-
-        internal Bitmap GetCurrentImage()
-        {
-            return (Bitmap)templateImageBox.Image;
-        }
-
         public void ToggleMouseDownRegion(bool isDown)
         {
 
@@ -341,6 +345,7 @@ namespace Synapse
             }
         }
 
+        #region Configuration Panel
         private void SynapseMain_OnTemplateLoadedEvent(object sender, Image e)
         {
             templateConfigureToolStripMenuItem.Enabled = true;
@@ -357,6 +362,35 @@ namespace Synapse
             templateImageBox.Invalidate(); 
         }
 
+        private void DrawConfiguration(OnTemplateConfig onTemplateConfig, Graphics g)
+        {
+            ConfigArea configArea = onTemplateConfig.Configuration.GetConfigArea;
+            MainConfigType mainConfigType = onTemplateConfig.Configuration.GetMainConfigType;
+
+            ColorStates colorStates = onTemplateConfig.ColorStates;
+
+            GraphicsState originalState;
+            RectangleF curDrawFieldRectF = templateImageBox.GetOffsetRectangle(configArea.ConfigRect);
+            onTemplateConfig.OffsetRectangle = curDrawFieldRectF;
+
+            originalState = g.Save();
+
+            switch (mainConfigType)
+            {
+                case MainConfigType.OMR:
+                    Utilities.Functions.DrawBox(g, curDrawFieldRectF, templateImageBox.ZoomFactor, colorStates.CurrentColor, 0);
+                    break;
+                case MainConfigType.BARCODE:
+                    Utilities.Functions.DrawBox(g, curDrawFieldRectF, templateImageBox.ZoomFactor, colorStates.CurrentColor, 0);
+                    break;
+                case MainConfigType.ICR:
+                    //if (configArea.ConfigRect.Contains(curImageMouseLoc))
+                    Utilities.Functions.DrawBox(g, curDrawFieldRectF, templateImageBox.ZoomFactor, colorStates.CurrentColor, 0);
+                    break;
+            }
+
+            g.Restore(originalState);
+        }
         private void CalculateTemplateConfigs()
         {
             SelectedTemplateConfig = null;
@@ -419,7 +453,28 @@ namespace Synapse
             }
         }
         #endregion
+        #region Reading Panel
+        public async Task<bool> InitializeSheetsToRead(string path, bool incSubDirs)
+        {
+            string error = "";
+            bool success = false;
+
+            loadedSheetsData = new SheetsData();
+            success = await Task.Run(() => loadedSheetsData.Scan(path, incSubDirs, out error));
+
+            //err = error;
+            return success;
+        }
+        #endregion
+
+        #endregion
         #region UI
+        private void SynapseMain_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Application.Exit();
+        }
+
+        #region Configuration Tab
         private void TemplateConfigureToolStripMenuItem_Click(object sender, EventArgs e)
         {
             TemplateConfigurationForm templateConfigurationForm = null;
@@ -465,10 +520,6 @@ namespace Synapse
                 }
             }
         }
-        private void SynapseMain_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            Application.Exit();
-        }
 
         private void ConfigureDataToolStripBtn_Click(object sender, EventArgs e)
         {
@@ -496,37 +547,6 @@ namespace Synapse
             }
 
             AddRegionAsICR(selectedRegion);
-        }
-
-        private void DrawConfiguration(OnTemplateConfig onTemplateConfig, Graphics g)
-        {
-            ConfigArea configArea = onTemplateConfig.Configuration.GetConfigArea;
-            MainConfigType mainConfigType = onTemplateConfig.Configuration.GetMainConfigType;
-
-            ColorStates colorStates = onTemplateConfig.ColorStates;
-
-            GraphicsState originalState;
-            RectangleF curDrawFieldRectF = templateImageBox.GetOffsetRectangle(configArea.ConfigRect);
-            onTemplateConfig.OffsetRectangle = curDrawFieldRectF;
-
-            originalState = g.Save();
-
-            switch (mainConfigType)
-            {
-                case MainConfigType.OMR:
-                        Utilities.Functions.DrawBox(g, curDrawFieldRectF, templateImageBox.ZoomFactor, colorStates.CurrentColor, 0);
-                    break;
-                case MainConfigType.BARCODE:
-                    if (configArea.ConfigRect.Contains(curImageMouseLoc))
-                        Utilities.Functions.DrawBox(g, curDrawFieldRectF, templateImageBox.ZoomFactor, colorStates.CurrentColor, 0);
-                    break;
-                case MainConfigType.ICR:
-                    if (configArea.ConfigRect.Contains(curImageMouseLoc))
-                        Utilities.Functions.DrawBox(g, curDrawFieldRectF, templateImageBox.ZoomFactor, colorStates.CurrentColor, 0);
-                    break;
-            }
-
-            g.Restore(originalState);
         }
 
         private void TemplateImageBox_Paint(object sender, PaintEventArgs e)
@@ -703,6 +723,28 @@ namespace Synapse
                 }
             }
         }
+        #endregion
+        #region Reading Tab
+        private async void ScanDirectoryToolStripBtn_Click(object sender, EventArgs e)
+        {
+            if(folderBrowserDialog.ShowDialog() == DialogResult.OK)
+            {
+                string selectedFolder = folderBrowserDialog.SelectedPath;
+                bool includeSubDirs = includeSubFoldersToolStripCheckBox.Checked;
+
+                await InitializeSheetsToRead(selectedFolder, includeSubDirs);
+                //if(loadedSheetsData.SheetsLoaded)
+                //{
+                //    scanType = ScanType.Directory;
+                //    StatusPanel.Text = "Status: Scan Directory Loaded, Successfully";
+                //}
+                //else
+                //{
+                //    StatusPanel.Text = "Status: Directory To Scan Failed To Load, Error: " + err;
+                //}
+            }
+        }
+        #endregion
 
         #endregion
 

@@ -71,8 +71,11 @@ namespace Synapse.Modules
         {
             string name = icrRegionNameTextBox.Text;
 
-            if(ValidateName(name))
+            if (ValidateName(name))
+            {
+                RegionName = name;
                 OnConfigurationFinishedEvent?.Invoke(RegionName);
+            }
         }
         #endregion
     }
