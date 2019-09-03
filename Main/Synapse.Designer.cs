@@ -723,7 +723,7 @@ namespace Synapse
             this.includeSubFoldersToolStripCheckBox.Font = new System.Drawing.Font("Dosis", 10.25F);
             this.includeSubFoldersToolStripCheckBox.Margin = new System.Windows.Forms.Padding(23, 1, 0, 2);
             this.includeSubFoldersToolStripCheckBox.Name = "includeSubFoldersToolStripCheckBox";
-            this.includeSubFoldersToolStripCheckBox.Size = new System.Drawing.Size(137, 21);
+            this.includeSubFoldersToolStripCheckBox.Size = new System.Drawing.Size(137, 22);
             this.includeSubFoldersToolStripCheckBox.Text = "Include Sub Folder(s)";
             // 
             // scanSheetsToolStripDropDownBtn
@@ -747,13 +747,13 @@ namespace Synapse
             // scanLoadToolStripMenuItem
             // 
             this.scanLoadToolStripMenuItem.Name = "scanLoadToolStripMenuItem";
-            this.scanLoadToolStripMenuItem.Size = new System.Drawing.Size(166, 26);
+            this.scanLoadToolStripMenuItem.Size = new System.Drawing.Size(166, 28);
             this.scanLoadToolStripMenuItem.Text = "Load";
             // 
             // scanReadToolStripMenuItem
             // 
             this.scanReadToolStripMenuItem.Name = "scanReadToolStripMenuItem";
-            this.scanReadToolStripMenuItem.Size = new System.Drawing.Size(166, 26);
+            this.scanReadToolStripMenuItem.Size = new System.Drawing.Size(166, 28);
             this.scanReadToolStripMenuItem.Text = "Scan && Read";
             // 
             // toolStripSeparator7
@@ -1003,7 +1003,7 @@ namespace Synapse
             this.deleteSelectedToolStripBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.deleteSelectedToolStripBtn.Name = "deleteSelectedToolStripBtn";
             this.deleteSelectedToolStripBtn.Padding = new System.Windows.Forms.Padding(8, 0, 8, 0);
-            this.deleteSelectedToolStripBtn.Size = new System.Drawing.Size(81, 122);
+            this.deleteSelectedToolStripBtn.Size = new System.Drawing.Size(80, 122);
             this.deleteSelectedToolStripBtn.Text = "Delete\r\nSelected";
             this.deleteSelectedToolStripBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
@@ -1047,19 +1047,19 @@ namespace Synapse
             // markManualToolStripMenuItem
             // 
             this.markManualToolStripMenuItem.Name = "markManualToolStripMenuItem";
-            this.markManualToolStripMenuItem.Size = new System.Drawing.Size(156, 24);
+            this.markManualToolStripMenuItem.Size = new System.Drawing.Size(155, 24);
             this.markManualToolStripMenuItem.Text = "Manual";
             // 
             // markFaultyToolStripMenuItem
             // 
             this.markFaultyToolStripMenuItem.Name = "markFaultyToolStripMenuItem";
-            this.markFaultyToolStripMenuItem.Size = new System.Drawing.Size(156, 24);
+            this.markFaultyToolStripMenuItem.Size = new System.Drawing.Size(155, 24);
             this.markFaultyToolStripMenuItem.Text = "Faulty";
             // 
             // markIncompatibleToolStripMenuItem
             // 
             this.markIncompatibleToolStripMenuItem.Name = "markIncompatibleToolStripMenuItem";
-            this.markIncompatibleToolStripMenuItem.Size = new System.Drawing.Size(156, 24);
+            this.markIncompatibleToolStripMenuItem.Size = new System.Drawing.Size(155, 24);
             this.markIncompatibleToolStripMenuItem.Text = "Incompatible";
             // 
             // dataPointStorageToolStripEx

@@ -18,13 +18,9 @@ namespace Synapse.Core.Configurations
     internal class ICRConfiguration : ConfigurationBase
     {
         #region Public Properties
-        
-        #endregion
-
-        #region Private Properties
-        #endregion
-
-        #region Variables
+        [Category("Behaviour"), Description("Get or set the name of the ICR Region.")]
+        public string RegionName { get; set; }
+        [Category("Behaviour"), Description("Get or set the type of output result expected from the ICR Region.")]
         #endregion
 
         #region Public Methods
