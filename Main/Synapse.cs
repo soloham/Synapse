@@ -117,7 +117,7 @@ namespace Synapse
         #region Public Methods
         public void AddRegionAsOMR(RectangleF region)
         {
-            RectangleF configAreaRect = templateImageBox.SelectionRegion;
+            RectangleF configAreaRect = region;
             ConfigArea configArea = new ConfigArea(configAreaRect, (Bitmap)templateImageBox.GetSelectedImage());
             OMRConfigurationForm configurationForm = new OMRConfigurationForm(configArea.ConfigBitmap);
             configurationForm.OnConfigurationFinishedEvent += async (string name, Orientation orientation, OMRRegionData regionData) =>
@@ -145,6 +145,39 @@ namespace Synapse
             configurationForm.OnFormInitializedEvent += (object sender, EventArgs args) =>
             {
                 
+            };
+            configurationForm.ShowDialog();
+        }
+        public void AddRegionAsICR(RectangleF region)
+        {
+            RectangleF configAreaRect = region;
+            ConfigArea configArea = new ConfigArea(configAreaRect, (Bitmap)templateImageBox.GetSelectedImage());
+            ICRConfigurationForm configurationForm = new ICRConfigurationForm(configArea.ConfigBitmap);
+            configurationForm.OnConfigurationFinishedEvent += async (string name, Orientation orientation, OMRRegionData regionData) =>
+            {
+                bool isSaved = false;
+                Exception ex = new Exception();
+
+                OMRConfiguration omrConfig = null;
+                await Task.Run(() =>
+                {
+                    omrConfig = OMRConfiguration.CreateDefault(name, orientation, configArea, regionData, ConfigurationsManager.GetAllConfigurations.Count);
+                    isSaved = OMRConfiguration.Save(omrConfig, out ex);
+                });
+
+                if (isSaved)
+                {
+                    configurationForm.Close();
+
+                    ConfigurationsManager.AddConfiguration(omrConfig);
+                    CalculateTemplateConfigs();
+                }
+                else
+                    Messages.SaveFileException(ex);
+            };
+            configurationForm.OnFormInitializedEvent += (object sender, EventArgs args) =>
+            {
+
             };
             configurationForm.ShowDialog();
         }
@@ -451,6 +484,17 @@ namespace Synapse
             }
 
             AddRegionAsOMR(selectedRegion);
+        }
+        private void AddAsIcrToolStripBtn_Click(object sender, EventArgs e)
+        {
+            RectangleF selectedRegion = templateImageBox.SelectionRegion;
+            if (selectedRegion.IsEmpty)
+            {
+                Messages.ShowError("Please select a reagion on the template to do this operation.");
+                return;
+            }
+
+            AddRegionAsICR(selectedRegion);
         }
 
         private void DrawConfiguration(OnTemplateConfig onTemplateConfig, Graphics g)

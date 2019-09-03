@@ -163,6 +163,7 @@
       <DependentUpon>TemplateListItem.cs</DependentUpon>
     </Compile>
     <Compile Include="Core\Configurations\ConfigurationBase.cs" />
+    <Compile Include="Core\Configurations\ICRConfiguration.cs" />
     <Compile Include="Core\Configurations\OMRConfiguration.cs" />
     <Compile Include="Core\Keys\AnswerKey.cs" />
     <Compile Include="Core\Keys\Parameter.cs" />
@@ -179,6 +180,12 @@
     </Compile>
     <Compile Include="Modules\AlignmentPipelineTestForm.Designer.cs">
       <DependentUpon>AlignmentPipelineTestForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\ICRConfigurationForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modules\ICRConfigurationForm.Designer.cs">
+      <DependentUpon>ICRConfigurationForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Modules\RegistrationAlignmentMethodForm.cs">
       <SubType>Form</SubType>
@@ -279,6 +286,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Modules\AlignmentPipelineTestForm.resx">
       <DependentUpon>AlignmentPipelineTestForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modules\ICRConfigurationForm.resx">
+      <DependentUpon>ICRConfigurationForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Modules\RegistrationAlignmentMethodForm.resx">
       <DependentUpon>RegistrationAlignmentMethodForm.cs</DependentUpon>
