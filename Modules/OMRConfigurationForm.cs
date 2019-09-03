@@ -13,6 +13,7 @@ using System.Windows.Threading;
 using Emgu.CV;
 using Emgu.CV.Structure;
 using Synapse.Core.Configurations;
+using Synapse.Core.Managers;
 using Synapse.Utilities.Attributes;
 using Synapse.Utilities.Enums;
 using Syncfusion.WinForms.Controls;
@@ -1226,6 +1227,9 @@ namespace Synapse.Modules
 
             if (name == "" || name[0] == ' ' || name[name.Length-1] == ' ')
                 isValid = false;
+
+            if (isValid)
+                isValid = ConfigurationsManager.ValidateName(name);
 
             return isValid;
         }

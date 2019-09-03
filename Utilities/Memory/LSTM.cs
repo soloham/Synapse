@@ -294,14 +294,14 @@ namespace Synapse.Utilities.Memory
             switch (mainConfigType)
             {
                 case MainConfigType.OMR:
-                    OMRConfiguration oMRConfiguration = (OMRConfiguration)config;
+                    OMRConfiguration omrConfiguration = (OMRConfiguration)config;
 
                     try
                     {
                         BinaryFormatter bf = new BinaryFormatter();
                         using (FileStream fs = new FileStream(configDataFilePath, FileMode.Create))
                         {
-                            bf.Serialize(fs, oMRConfiguration);
+                            bf.Serialize(fs, omrConfiguration);
                         }
                     }
                     catch(Exception ex)
@@ -324,11 +324,15 @@ namespace Synapse.Utilities.Memory
                     }
                     break;
                 case MainConfigType.ICR:
-
+                    ICRConfiguration icrConfiguration = (ICRConfiguration)config;
 
                     try
                     {
-                        
+                        BinaryFormatter bf = new BinaryFormatter();
+                        using (FileStream fs = new FileStream(configDataFilePath, FileMode.Create))
+                        {
+                            bf.Serialize(fs, icrConfiguration);
+                        }
                     }
                     catch (Exception ex)
                     {
