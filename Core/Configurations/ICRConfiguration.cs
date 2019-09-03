@@ -26,12 +26,12 @@ namespace Synapse.Core.Configurations
         #region Public Methods
         public ICRConfiguration(ConfigurationBase _base) : base(_base)
         {
-
         }
         #endregion
 
         #region Static Methods
-        public static ICRConfiguration CreateDefault(string regionName, Orientation orientation, ConfigArea configArea, OMRRegionData regionData, int processingIndex)
+
+        public static ICRConfiguration CreateDefault(string regionName, ConfigArea configArea, int processingIndex)
         {
             ConfigurationBase configurationBase = new ConfigurationBase(regionName, MainConfigType.ICR, configArea, ValueDataType.Integer, Typography.Continious, ValueRepresentation.Collective, ValueEditType.ReadOnly, new ConfigRange(), processingIndex);
             return new ICRConfiguration(configurationBase);

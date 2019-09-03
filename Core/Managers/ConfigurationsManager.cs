@@ -82,7 +82,10 @@ namespace Synapse.Core.Managers
 
             return result;
         }
-
+        public static bool ValidateName(string configTitle)
+        {
+            return allConfigurations.TrueForAll(x => x.Title != configTitle);
+        }
         #endregion
     }
 }

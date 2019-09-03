@@ -1,24 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Collections.ObjectModel;
-using System.Data;
 using System.Drawing;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using Synapse.Controls;
-using Synapse.Core.Configurations;
-using Synapse.Core.Managers;
-using Synapse.Core.Templates;
-using Synapse.Utilities;
-using Synapse.Utilities.Memory;
-using Syncfusion.DataSource.Extensions;
 using Syncfusion.WinForms.Controls;
-using static Synapse.Controls.ConfigureDataListItem;
 using System.Threading;
-using System.Windows.Threading;
-using System.Linq;
+using Synapse.Core.Managers;
 
 namespace Synapse.Modules
 {
@@ -26,7 +10,7 @@ namespace Synapse.Modules
     {
         #region Events 
 
-        public delegate void OnConfigurationFinshed(string regionName, Orientation regionOrientaion, OMRRegionData regionData);
+        public delegate void OnConfigurationFinshed(string regionName);
         public event OnConfigurationFinshed OnConfigurationFinishedEvent;
 
         public event EventHandler OnFormInitializedEvent;
@@ -35,7 +19,6 @@ namespace Synapse.Modules
 
         #region Properties
         public string RegionName { get; set; }
-        public Bitmap RegionImage { get; set; }
         #endregion
 
         #region Variables
@@ -43,54 +26,53 @@ namespace Synapse.Modules
         #endregion
 
         #region Public Methods
-        public ICRConfigurationForm(Bitmap regionImage)
+        internal ICRConfigurationForm(Bitmap configAreaBmp, string regionName = "")
         {
             InitializeComponent();
+            synchronizationContext = SynchronizationContext.Current;
 
-            Initialize(regionImage);
-
-            OnConfigurationFinishedEvent += OnConfigurationFinishedCallback;
-
-            OnFormInitializedEvent?.Invoke(this, EventArgs.Empty);
-        }
-        internal ICRConfigurationForm(ICRConfiguration icrConfig, Bitmap regionImage)
-        {
-            InitializeComponent();
-
-            Initialize(icrConfig, regionImage);
-
-            OnConfigurationFinishedEvent += OnConfigurationFinishedCallback;
-
-            OnFormInitializedEvent?.Invoke(this, EventArgs.Empty);
+            Initialize(configAreaBmp, regionName);
         }
         #endregion
 
         #region Private Methods
-        private void Initialize(ICRConfiguration icrConfig, Bitmap regionImage)
+        private void Initialize(Bitmap configAreaBmp, string regionName = "")
         {
-            synchronizationContext = SynchronizationContext.Current;
-
-            SetupForConfigured(icrConfig, regionImage);
-        }
-        private void Initialize(Bitmap regionImage)
-        {
-            synchronizationContext = SynchronizationContext.Current;
-
-            SetupForConfiguration(regionImage);
+            imageBox.Image = configAreaBmp;
+            RegionName = regionName == "" ? "ICR Region Name" : regionName;
+            icrRegionNameTextBox.Text = RegionName;
         }
 
-        private void OnConfigurationFinishedCallback(string name, Orientation orientation, OMRRegionData _regionData)
+        private bool ValidateName(string name)
         {
+            bool isValid = true;
 
+            if (name == "" || name[0] == ' ' || name[name.Length - 1] == ' ')
+                isValid = false;
+
+            if (isValid)
+                isValid = ConfigurationsManager.ValidateName(name);
+
+            if (isValid)
+            {
+                icrRegionNameLabel.ForeColor = Color.FromArgb(255, 68, 68, 68);
+                icrRegionNameTextBox.ForeColor = Color.FromArgb(255, 68, 68, 68);
+            }
+            else
+            {
+                icrRegionNameLabel.ForeColor = Color.Crimson;
+                icrRegionNameTextBox.ForeColor = Color.Crimson;
+            }
+
+            return isValid;
         }
 
-        private void SetupForConfiguration(Bitmap region = null)
+        private void FinishBtn_Click(object sender, EventArgs e)
         {
-            RegionImage = region;
-        }
-        private void SetupForConfigured(ICRConfiguration icrConfig, Bitmap region = null)
-        {
-           
+            string name = icrRegionNameTextBox.Text;
+
+            if(ValidateName(name))
+                OnConfigurationFinishedEvent?.Invoke(RegionName);
         }
         #endregion
     }
