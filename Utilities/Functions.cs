@@ -12,6 +12,19 @@ namespace Synapse.Utilities
 {
     public class Functions
     {
+        public static T[,] Make2DArray<T>(T[] input, int height, int width)
+        {
+            T[,] output = new T[height, width];
+            for (int i = 0; i < height; i++)
+            {
+                for (int j = 0; j < width; j++)
+                {
+                    output[i, j] = input[i * width + j];
+                }
+            }
+            return output;
+        }
+
         public static string FormatRectangle(RectangleF rect)
         {
             return string.Format("X:{0}, Y:{1}, W:{2}, H:{3}", (int)rect.X, (int)rect.Y, (int)rect.Width, (int)rect.Height);
@@ -96,8 +109,6 @@ namespace Synapse.Utilities
             }
             return results;
         }
-
-
         public static void CopyControl(Control sourceControl, Control targetControl)
         {
             // make sure these are the same

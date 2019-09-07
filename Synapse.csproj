@@ -170,6 +170,10 @@
     <Compile Include="Core\Configurations\ConfigurationBase.cs" />
     <Compile Include="Core\Configurations\ICRConfiguration.cs" />
     <Compile Include="Core\Configurations\OMRConfiguration.cs" />
+    <Compile Include="Core\Engines\Data\ProcessedDataEntry.cs" />
+    <Compile Include="Core\Engines\Data\ProcessedDataRow.cs" />
+    <Compile Include="Core\Engines\Interface\IEngine.cs" />
+    <Compile Include="Core\Engines\OMREngine.cs" />
     <Compile Include="Core\Keys\AnswerKey.cs" />
     <Compile Include="Core\Keys\Parameter.cs" />
     <Compile Include="Core\Managers\ConfigurationsManager.cs" />
@@ -250,7 +254,7 @@
     <Compile Include="Utilities\Messages.cs" />
     <Compile Include="Utilities\Objects\Deskew.cs" />
     <Compile Include="Utilities\Objects\ColorStates.cs" />
-    <Compile Include="Utilities\Objects\SheetsData.cs" />
+    <Compile Include="Utilities\Objects\SheetsList.cs" />
     <EmbeddedResource Include="Controls\AKazeSettingsControl.resx">
       <DependentUpon>AKazeSettingsControl.cs</DependentUpon>
     </EmbeddedResource>

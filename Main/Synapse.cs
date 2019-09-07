@@ -18,6 +18,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Threading;
 using static Synapse.Core.Configurations.ConfigurationBase;
+using static Synapse.Core.Templates.Template;
 
 namespace Synapse
 {
@@ -86,7 +87,7 @@ namespace Synapse
         private bool isMouseUpRegion;
         #endregion
         #region Reading Panel
-        private SheetsData loadedSheetsData = new SheetsData();
+        private SheetsList loadedSheetsData = new SheetsList();
         #endregion
         #endregion
 
@@ -274,6 +275,10 @@ namespace Synapse
         {
             return (Bitmap)templateImageBox.Image;
         }
+        internal void SetCurrentImage(Bitmap bitmap)
+        {
+            templateImageBox.Image = bitmap;
+        }
 
         public void ToggleMouseOverRegion(bool isOver)
         {
@@ -459,11 +464,105 @@ namespace Synapse
             string error = "";
             bool success = false;
 
-            loadedSheetsData = new SheetsData();
+            loadedSheetsData = new SheetsList();
             success = await Task.Run(() => loadedSheetsData.Scan(path, incSubDirs, out error));
 
             //err = error;
             return success;
+        }
+        private async void StartReadingToolStripBtn_Click(object sender, EventArgs e)
+        {
+            string[] sheetsPaths = loadedSheetsData.GetSheetsPath;
+            for (int i = 0; i < sheetsPaths.Length; i++)
+            {
+                Mat curSheet = new Mat(sheetsPaths[i]);
+                var alignedSheet = AlignSheet(curSheet.ToImage<Gray, byte>(), out AlignmentPipelineResults alignmentPipelineResults);
+
+                var allConfigurations = ConfigurationsManager.GetAllConfigurations;
+                for (int i1 = 0; i1 < allConfigurations.Count; i1++)
+                {
+                    var entry = await allConfigurations[i1].ProcessSheet(alignedSheet.Mat);
+                }
+            }
+        }
+
+        private Image<Gray, byte> AlignSheet(Image<Gray, byte> sheetImage, out AlignmentPipelineResults alignmentPipelineResults)
+        {
+            Image<Gray, byte> outputImage = sheetImage.Clone();
+            List<AlignmentMethod> alignmentPipeline = GetCurrentTemplate.TemplateData.GetAlignmentPipeline;
+            Image<Gray, byte> templateImage =  new Image<Gray, byte>(GetCurrentTemplate.GetTemplateImage.GetBitmap);
+
+            alignmentPipelineResults = null;
+
+            if (alignmentPipeline.Count <= 0)
+                return outputImage;
+
+            List<AlignmentPipelineResults.AlignmentMethodResult> alignmentMethodResults = new List<AlignmentPipelineResults.AlignmentMethodResult>();
+
+            IOutputArray outputImageArr;
+            outputImage = sheetImage.Resize(templateImage.Width, templateImage.Height, Emgu.CV.CvEnum.Inter.Cubic);
+            for (int i = 0; i < alignmentPipeline.Count; i++)
+            {
+                Exception exception = null;
+
+                AlignmentPipelineResults.AlignmentMethodResult alignmentMethodResult = null;
+                AlignmentMethod alignmentMethod = alignmentPipeline[i];
+
+                if (alignmentMethod.PipelineIndex == -1) //|| ommittedAlignmetMethodIndeces.Contains(alignmentMethod.PipelineIndex))
+                    continue;
+
+                if (alignmentMethod.GetAlignmentMethodType == AlignmentMethodType.Anchors)
+                {
+                    var aIM = (AnchorAlignmentMethod)alignmentMethod;
+                    bool isSuccess = aIM.ApplyMethod(outputImage, out outputImageArr, out RectangleF[] detectedAnchors, out RectangleF[] warpedAnchors, out RectangleF[] scaledMainAnchorRegions, out RectangleF scaledMainTestRegion, out long alignmentTime, out exception);
+                    var mainAnchors = aIM.GetAnchors.ToArray();
+                    if (isSuccess)
+                    {
+                        var outputMat = (Mat)outputImageArr;
+                        outputImage = outputMat.ToImage<Gray, byte>();
+                    }
+                    AlignmentPipelineResults.AnchorAlignmentMethodResult anchorAlignmentMethodResult = new AlignmentPipelineResults.AnchorAlignmentMethodResult(alignmentMethod, isSuccess ? AlignmentPipelineResults.AlignmentMethodResultType.Successful : AlignmentPipelineResults.AlignmentMethodResultType.Failed, sheetImage, outputImage, alignmentTime, mainAnchors, detectedAnchors, warpedAnchors, scaledMainAnchorRegions, scaledMainTestRegion);
+                    alignmentMethodResult = anchorAlignmentMethodResult;
+                }
+                else
+                {
+                    bool isSuccess = alignmentMethod.ApplyMethod(templateImage, outputImage, out outputImageArr, out long alignmentTime, out exception);
+                    if (isSuccess)
+                    {
+                        var outputMat = (Mat)outputImageArr;
+                        outputImage = outputMat.ToImage<Gray, byte>();
+                    }
+                    alignmentMethodResult = new AlignmentPipelineResults.AlignmentMethodResult(alignmentMethod, isSuccess ? AlignmentPipelineResults.AlignmentMethodResultType.Successful : AlignmentPipelineResults.AlignmentMethodResultType.Failed, sheetImage, outputImage, alignmentTime);
+                }
+
+                alignmentMethodResults.Add(alignmentMethodResult);
+
+                if (alignmentMethodResult.GetAlignmentMethodResultType == AlignmentPipelineResults.AlignmentMethodResultType.Failed)
+                {
+                    string personnelData = exception.Message;
+
+                    if (exception.StackTrace == null)
+                    {
+                        Messages.ShowError("An error occured while applying the method: '" + alignmentMethod.MethodName + "' \n\n For concerned personnel: " + personnelData);
+                        return outputImage;
+                    }
+
+                    for (int i0 = exception.StackTrace.Length - 1; i0 > 0; i0--)
+                    {
+                        if (exception.StackTrace[i0] == '/' || exception.StackTrace[i0] == '\\')
+                        {
+                            personnelData = exception.StackTrace.Substring(i0 + 1);
+                            break;
+                        }
+                    }
+                    Messages.ShowError("An error occured while applying the method: '" + alignmentMethod.MethodName + "' \n\n For concerned personnel: " + personnelData);
+                }
+            }
+
+            alignmentPipelineResults = new AlignmentPipelineResults(alignmentMethodResults);
+            //OnResultsGeneratedEvent?.Invoke(alignmentPipelineResults);
+
+            return outputImage;
         }
         #endregion
 

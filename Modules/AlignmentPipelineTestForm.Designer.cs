@@ -271,10 +271,10 @@
             this.pipelineTestSettingsTabPage.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(38)))), ((int)(((byte)(38)))));
             this.pipelineTestSettingsTabPage.Image = null;
             this.pipelineTestSettingsTabPage.ImageSize = new System.Drawing.Size(16, 16);
-            this.pipelineTestSettingsTabPage.Location = new System.Drawing.Point(0, -1);
+            this.pipelineTestSettingsTabPage.Location = new System.Drawing.Point(0, 36);
             this.pipelineTestSettingsTabPage.Name = "pipelineTestSettingsTabPage";
             this.pipelineTestSettingsTabPage.ShowCloseButton = true;
-            this.pipelineTestSettingsTabPage.Size = new System.Drawing.Size(313, 363);
+            this.pipelineTestSettingsTabPage.Size = new System.Drawing.Size(313, 326);
             this.pipelineTestSettingsTabPage.TabIndex = 2;
             this.pipelineTestSettingsTabPage.Text = "Test Settings";
             this.pipelineTestSettingsTabPage.ThemesEnabled = false;
@@ -299,10 +299,10 @@
             this.testResultsTabPage.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(38)))), ((int)(((byte)(38)))));
             this.testResultsTabPage.Image = null;
             this.testResultsTabPage.ImageSize = new System.Drawing.Size(16, 16);
-            this.testResultsTabPage.Location = new System.Drawing.Point(0, -1);
+            this.testResultsTabPage.Location = new System.Drawing.Point(0, 36);
             this.testResultsTabPage.Name = "testResultsTabPage";
             this.testResultsTabPage.ShowCloseButton = true;
-            this.testResultsTabPage.Size = new System.Drawing.Size(313, 363);
+            this.testResultsTabPage.Size = new System.Drawing.Size(313, 326);
             this.testResultsTabPage.TabIndex = 3;
             this.testResultsTabPage.Text = "Results";
             this.testResultsTabPage.ThemesEnabled = false;
@@ -313,7 +313,7 @@
             this.alignmentPipelineResultsControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.alignmentPipelineResultsControl.Location = new System.Drawing.Point(0, 0);
             this.alignmentPipelineResultsControl.Name = "alignmentPipelineResultsControl";
-            this.alignmentPipelineResultsControl.Size = new System.Drawing.Size(313, 363);
+            this.alignmentPipelineResultsControl.Size = new System.Drawing.Size(313, 326);
             this.alignmentPipelineResultsControl.TabIndex = 12;
             // 
             // MainLayoutPanel

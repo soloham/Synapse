@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Synapse.Utilities.Objects
 {
-    public class SheetsData
+    public class SheetsList
     {
         #region Properties
         public bool SheetsLoaded { get; set; }

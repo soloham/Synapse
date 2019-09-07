@@ -1,4 +1,6 @@
-﻿using Synapse.Core.Keys;
+﻿using Emgu.CV;
+using Synapse.Core.Engines.Data;
+using Synapse.Core.Keys;
 using Synapse.Utilities;
 using Synapse.Utilities.Attributes;
 using Synapse.Utilities.Memory;
@@ -27,14 +29,22 @@ namespace Synapse.Core.Configurations
         public ICRConfiguration(ConfigurationBase _base) : base(_base)
         {
         }
+        public ICRConfiguration(BaseData _baseData) : base(_baseData)
+        {
+        }
         #endregion
 
         #region Static Methods
 
         public static ICRConfiguration CreateDefault(string regionName, ConfigArea configArea, int processingIndex)
         {
-            ConfigurationBase configurationBase = new ConfigurationBase(regionName, MainConfigType.ICR, configArea, ValueDataType.Integer, Typography.Continious, ValueRepresentation.Collective, ValueEditType.ReadOnly, new ConfigRange(), processingIndex);
-            return new ICRConfiguration(configurationBase);
+            ConfigurationBase.BaseData baseData = new ConfigurationBase.BaseData(regionName, MainConfigType.ICR, configArea, ValueDataType.Integer, Typography.Continious, ValueRepresentation.Collective, ValueEditType.ReadOnly, new ConfigRange(), processingIndex);
+            return new ICRConfiguration(baseData);
+        }
+
+        public async override Task<ProcessedDataEntry> ProcessSheet(Mat sheet)
+        {
+            throw new NotImplementedException();
         }
         #endregion
     }

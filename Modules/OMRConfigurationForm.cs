@@ -297,7 +297,6 @@ namespace Synapse.Modules
             CalculateRegion();
         }
 
-
         private void CalculateFieldsRects()
         {
             drawFieldsRects.Clear();
@@ -1217,7 +1216,7 @@ namespace Synapse.Modules
 
             imageBox.SelectNone();
 
-            OMRRegionData regionData = new OMRRegionData(totalFields, fieldsRegion, interFieldsSpaceType, interFieldsSpace, interFieldsSpaces.ToArray(), totalOptions, optionsRegion, interOptionsSpaceType, interOptionsSpace, interOptionsSpaces.ToArray());
+            OMRRegionData regionData = new OMRRegionData(orientation, totalFields, fieldsRegion, interFieldsSpaceType, interFieldsSpace, interFieldsSpaces.ToArray(), totalOptions, optionsRegion, interOptionsSpaceType, interOptionsSpace, interOptionsSpaces.ToArray());
             OnConfigurationFinishedEvent?.Invoke(RegionName, orientation, regionData);
         }
 

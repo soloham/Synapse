@@ -1,4 +1,7 @@
-﻿using Synapse.Core.Keys;
+﻿using Emgu.CV;
+using Emgu.CV.Structure;
+using Synapse.Core.Engines.Data;
+using Synapse.Core.Keys;
 using Synapse.Utilities.Attributes;
 using Synapse.Utilities.Memory;
 using System;
@@ -123,7 +126,7 @@ namespace Synapse.Core.Configurations
     #endregion
 
     [Serializable]
-    internal class ConfigurationBase
+    internal abstract class ConfigurationBase
     {
         #region Objects
         [Serializable]
@@ -137,6 +140,44 @@ namespace Synapse.Core.Configurations
 
             public RectangleF ConfigRect;
             public Bitmap ConfigBitmap;
+        }
+        [Serializable]
+        internal struct BaseData
+        {
+            public string title;
+            public MainConfigType mainConfigType;
+            public ConfigArea configArea;
+            public ValueDataType valueDataType;
+            public Typography typography;
+            public ValueRepresentation valueRepresentation;
+            public ValueEditType valueEditType;
+            public ConfigRange configRange;
+            public int processingIndex;
+
+            public BaseData(string title, MainConfigType mainConfigType, ConfigArea configArea, ValueDataType valueDataType, Typography typography, ValueRepresentation valueRepresentation, ValueEditType valueEditType, ConfigRange configRange, int processingIndex)
+            {
+                this.title = title;
+                this.mainConfigType = mainConfigType;
+                this.configArea = configArea;
+                this.valueDataType = valueDataType;
+                this.typography = typography;
+                this.valueRepresentation = valueRepresentation;
+                this.valueEditType = valueEditType;
+                this.configRange = configRange;
+                this.processingIndex = processingIndex;
+            }
+            public BaseData(ConfigurationBase initializationData)
+            {
+                title = initializationData.Title;
+                mainConfigType = initializationData.GetMainConfigType;
+                configArea = initializationData.GetConfigArea;
+                valueDataType = initializationData.ValueDataType;
+                typography = initializationData.Typography;
+                valueRepresentation = initializationData.ValueRepresentation;
+                valueEditType = initializationData.ValueEditType;
+                configRange = initializationData.configRange;
+                this.processingIndex = initializationData.ProcessingIndex;
+            }
         }
         #endregion
 
@@ -184,6 +225,18 @@ namespace Synapse.Core.Configurations
             this.configRange = configRange;
             ProcessingIndex = processingIndex;
         }
+        public ConfigurationBase(BaseData baseData)
+        {
+            Title = baseData.title;
+            this.mainConfigType = baseData.mainConfigType;
+            this.configArea = baseData.configArea;
+            ValueDataType = baseData.valueDataType;
+            Typography = baseData.typography;
+            ValueRepresentation = baseData.valueRepresentation;
+            ValueEditType = baseData.valueEditType;
+            this.configRange = baseData.configRange;
+            ProcessingIndex = baseData.processingIndex;
+        }
         public ConfigurationBase(ConfigurationBase initializationData)
         {
             Title = initializationData.Title;
@@ -195,6 +248,19 @@ namespace Synapse.Core.Configurations
             ValueEditType = initializationData.ValueEditType;
             this.configRange = initializationData.configRange;
         }
+
+        #region NotInUse
+        //public ConfigurationBase Create(string title, MainConfigType mainConfigType, ConfigArea configArea, ValueDataType valueDataType, Typography typography, ValueRepresentation valueRepresentation, ValueEditType valueEditType, ConfigRange configRange, int processingIndex)
+        //{
+        //    return new ConfigurationBase(title, mainConfigType, configArea, valueDataType, typography, valueRepresentation, valueEditType, configRange, processingIndex);
+        //}
+        //public ConfigurationBase Create(ConfigurationBase initializationData)
+        //{
+        //    return new ConfigurationBase(initializationData);
+        //}
+        #endregion
+
+        public abstract Task<ProcessedDataEntry> ProcessSheet(Mat sheet);
         #endregion
         #region Static
         public static bool Save(ConfigurationBase config, out Exception ex)
@@ -215,6 +281,5 @@ namespace Synapse.Core.Configurations
         }
         #endregion
         #endregion
-
     }
 }
