@@ -42,7 +42,7 @@ namespace Synapse.Core.Configurations
             return new ICRConfiguration(baseData);
         }
 
-        public async override Task<ProcessedDataEntry> ProcessSheet(Mat sheet)
+        public override ProcessedDataEntry ProcessSheet(Mat sheet)
         {
             throw new NotImplementedException();
         }

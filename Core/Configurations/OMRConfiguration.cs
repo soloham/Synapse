@@ -560,10 +560,10 @@ namespace Synapse.Core.Configurations
             return new OMRConfiguration(configurationBase, regionData, orientation, OMRType.NonGradable, MultiMarkAction.MarkAsManual, KeyType.General);
         }
 
-        public async override Task<ProcessedDataEntry> ProcessSheet(Mat sheet)
+        public override ProcessedDataEntry ProcessSheet(Mat sheet)
         {
             OMREngine omrEngine = new OMREngine();
-            return await omrEngine.ProcessSheet(this, sheet);
+            return omrEngine.ProcessSheet(this, sheet);
         }
         #endregion
     }

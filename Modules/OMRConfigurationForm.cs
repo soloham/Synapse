@@ -84,7 +84,6 @@ namespace Synapse.Modules
         private Action SelectionRegionResizedAction;
 
         private SynchronizationContext synchronizationContext;
-        private Dispatcher dispatcher;
 
         private Orientation orientation;
 
@@ -131,7 +130,6 @@ namespace Synapse.Modules
         #region Private Methods
         private void Initialize(OMRConfiguration omrConfig, Bitmap regionImage)
         {
-            dispatcher = Dispatcher.CurrentDispatcher;
             synchronizationContext = SynchronizationContext.Current;
 
             InitializeComponent();
@@ -151,7 +149,6 @@ namespace Synapse.Modules
         }
         private void Initialize(Bitmap regionImage)
         {
-            dispatcher = Dispatcher.CurrentDispatcher;
             synchronizationContext = SynchronizationContext.Current;
 
             InitializeComponent();

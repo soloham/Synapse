@@ -222,7 +222,7 @@ namespace Synapse
             this.backStage1.ShowSeparator = false;
             this.backStage1.Size = new System.Drawing.Size(1329, 697);
             this.backStage1.TabIndex = 2;
-            this.backStage1.ThemeName = "BackStageRenderer";
+            this.backStage1.ThemeName = "BackStage2016Renderer";
             this.backStage1.ThemeStyle.BorderFillColor = System.Drawing.Color.White;
             this.backStage1.ThemeStyle.PrimitiveButtonStyle.DisabledNextPageImage = null;
             this.backStage1.Visible = false;
@@ -506,7 +506,7 @@ namespace Synapse
             this.addAsBarcodeToolStripBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.addAsBarcodeToolStripBtn.Name = "addAsBarcodeToolStripBtn";
             this.addAsBarcodeToolStripBtn.Padding = new System.Windows.Forms.Padding(13, 0, 13, 0);
-            this.addAsBarcodeToolStripBtn.Size = new System.Drawing.Size(89, 121);
+            this.addAsBarcodeToolStripBtn.Size = new System.Drawing.Size(88, 121);
             this.addAsBarcodeToolStripBtn.Text = "Add As\r\nBarcode";
             this.addAsBarcodeToolStripBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
@@ -699,7 +699,7 @@ namespace Synapse
             this.sheetsToolStripPanelItem.Name = "sheetsToolStripPanelItem";
             this.sheetsToolStripPanelItem.Padding = new System.Windows.Forms.Padding(1, 0, 2, 2);
             this.sheetsToolStripPanelItem.RowCount = 2;
-            this.sheetsToolStripPanelItem.Size = new System.Drawing.Size(192, 72);
+            this.sheetsToolStripPanelItem.Size = new System.Drawing.Size(192, 85);
             this.sheetsToolStripPanelItem.Transparent = true;
             // 
             // scanDirectoryToolStripBtn
@@ -723,7 +723,7 @@ namespace Synapse
             this.includeSubFoldersToolStripCheckBox.Font = new System.Drawing.Font("Dosis", 10.25F);
             this.includeSubFoldersToolStripCheckBox.Margin = new System.Windows.Forms.Padding(23, 1, 0, 2);
             this.includeSubFoldersToolStripCheckBox.Name = "includeSubFoldersToolStripCheckBox";
-            this.includeSubFoldersToolStripCheckBox.Size = new System.Drawing.Size(137, 21);
+            this.includeSubFoldersToolStripCheckBox.Size = new System.Drawing.Size(137, 22);
             this.includeSubFoldersToolStripCheckBox.Text = "Include Sub Folder(s)";
             // 
             // scanSheetsToolStripDropDownBtn
@@ -739,7 +739,7 @@ namespace Synapse
             this.scanSheetsToolStripDropDownBtn.Margin = new System.Windows.Forms.Padding(3, 1, 5, 2);
             this.scanSheetsToolStripDropDownBtn.Name = "scanSheetsToolStripDropDownBtn";
             this.scanSheetsToolStripDropDownBtn.Padding = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            this.scanSheetsToolStripDropDownBtn.Size = new System.Drawing.Size(71, 121);
+            this.scanSheetsToolStripDropDownBtn.Size = new System.Drawing.Size(71, 75);
             this.scanSheetsToolStripDropDownBtn.Text = "Scan";
             this.scanSheetsToolStripDropDownBtn.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.scanSheetsToolStripDropDownBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
@@ -747,13 +747,13 @@ namespace Synapse
             // scanLoadToolStripMenuItem
             // 
             this.scanLoadToolStripMenuItem.Name = "scanLoadToolStripMenuItem";
-            this.scanLoadToolStripMenuItem.Size = new System.Drawing.Size(166, 26);
+            this.scanLoadToolStripMenuItem.Size = new System.Drawing.Size(166, 28);
             this.scanLoadToolStripMenuItem.Text = "Load";
             // 
             // scanReadToolStripMenuItem
             // 
             this.scanReadToolStripMenuItem.Name = "scanReadToolStripMenuItem";
-            this.scanReadToolStripMenuItem.Size = new System.Drawing.Size(166, 26);
+            this.scanReadToolStripMenuItem.Size = new System.Drawing.Size(166, 28);
             this.scanReadToolStripMenuItem.Text = "Scan && Read";
             // 
             // toolStripSeparator7
@@ -811,7 +811,7 @@ namespace Synapse
             this.stopReadingToolStripBtn.Margin = new System.Windows.Forms.Padding(0, 6, 0, 2);
             this.stopReadingToolStripBtn.Name = "stopReadingToolStripBtn";
             this.stopReadingToolStripBtn.Padding = new System.Windows.Forms.Padding(7, 0, 7, 0);
-            this.stopReadingToolStripBtn.Size = new System.Drawing.Size(67, 78);
+            this.stopReadingToolStripBtn.Size = new System.Drawing.Size(67, 116);
             this.stopReadingToolStripBtn.Text = "Stop";
             this.stopReadingToolStripBtn.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.stopReadingToolStripBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
@@ -912,7 +912,7 @@ namespace Synapse
             this.findDuplicatesToolStripBtn.Margin = new System.Windows.Forms.Padding(0, 5, 0, 2);
             this.findDuplicatesToolStripBtn.Name = "findDuplicatesToolStripBtn";
             this.findDuplicatesToolStripBtn.Padding = new System.Windows.Forms.Padding(7, 0, 7, 0);
-            this.findDuplicatesToolStripBtn.Size = new System.Drawing.Size(90, 117);
+            this.findDuplicatesToolStripBtn.Size = new System.Drawing.Size(89, 117);
             this.findDuplicatesToolStripBtn.Text = "Find\r\nDuplicates";
             this.findDuplicatesToolStripBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
@@ -1004,7 +1004,7 @@ namespace Synapse
             this.deleteSelectedToolStripBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.deleteSelectedToolStripBtn.Name = "deleteSelectedToolStripBtn";
             this.deleteSelectedToolStripBtn.Padding = new System.Windows.Forms.Padding(8, 0, 8, 0);
-            this.deleteSelectedToolStripBtn.Size = new System.Drawing.Size(81, 122);
+            this.deleteSelectedToolStripBtn.Size = new System.Drawing.Size(80, 122);
             this.deleteSelectedToolStripBtn.Text = "Delete\r\nSelected";
             this.deleteSelectedToolStripBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
@@ -1048,19 +1048,19 @@ namespace Synapse
             // markManualToolStripMenuItem
             // 
             this.markManualToolStripMenuItem.Name = "markManualToolStripMenuItem";
-            this.markManualToolStripMenuItem.Size = new System.Drawing.Size(156, 24);
+            this.markManualToolStripMenuItem.Size = new System.Drawing.Size(155, 24);
             this.markManualToolStripMenuItem.Text = "Manual";
             // 
             // markFaultyToolStripMenuItem
             // 
             this.markFaultyToolStripMenuItem.Name = "markFaultyToolStripMenuItem";
-            this.markFaultyToolStripMenuItem.Size = new System.Drawing.Size(156, 24);
+            this.markFaultyToolStripMenuItem.Size = new System.Drawing.Size(155, 24);
             this.markFaultyToolStripMenuItem.Text = "Faulty";
             // 
             // markIncompatibleToolStripMenuItem
             // 
             this.markIncompatibleToolStripMenuItem.Name = "markIncompatibleToolStripMenuItem";
-            this.markIncompatibleToolStripMenuItem.Size = new System.Drawing.Size(156, 24);
+            this.markIncompatibleToolStripMenuItem.Size = new System.Drawing.Size(155, 24);
             this.markIncompatibleToolStripMenuItem.Text = "Incompatible";
             // 
             // dataPointStorageToolStripEx

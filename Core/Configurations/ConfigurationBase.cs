@@ -260,7 +260,7 @@ namespace Synapse.Core.Configurations
         //}
         #endregion
 
-        public abstract Task<ProcessedDataEntry> ProcessSheet(Mat sheet);
+        public abstract ProcessedDataEntry ProcessSheet(Mat sheet);
         #endregion
         #region Static
         public static bool Save(ConfigurationBase config, out Exception ex)

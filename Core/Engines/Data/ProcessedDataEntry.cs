@@ -16,8 +16,8 @@ namespace Synapse.Core.Engines.Data
         public MainConfigType GetMainConfigType { get => GetConfigurationBase.GetMainConfigType; }
         public ProcessedDataResultType DataEntryResultType { get; set; }
 
-        public string[] GetRawDataValues { get => rawDataValues; }
-        private string[] rawDataValues;
+        public char[] GetRawDataValues { get => rawDataValues; }
+        private char[] rawDataValues;
         public string[] GetDataValues { get => dataValues; }
         private string[] dataValues;
 
@@ -25,7 +25,7 @@ namespace Synapse.Core.Engines.Data
         #endregion
 
         #region Methods
-        public ProcessedDataEntry(ConfigurationBase configurationBase, string[] rawDataValues, ProcessedDataResultType processedDataResultType)
+        public ProcessedDataEntry(ConfigurationBase configurationBase, char[] rawDataValues, ProcessedDataResultType processedDataResultType)
         {
             this.configurationBase = configurationBase;
             this.rawDataValues = rawDataValues;
@@ -46,7 +46,7 @@ namespace Synapse.Core.Engines.Data
                 case ValueRepresentation.Indiviual:
                     for (int i = 0; i < rawDataValues.Length; i++)
                     {
-                        result.Add(rawDataValues[i]);
+                        result.Add(rawDataValues[i] + "");
                     }
                     break;
                 case ValueRepresentation.CombineTwo:
@@ -54,14 +54,14 @@ namespace Synapse.Core.Engines.Data
                     {
                         for (int i = 0; i < rawDataValues.Length; i += 2)
                         {
-                            result.Add(rawDataValues[i] + rawDataValues[i + 1]);
+                            result.Add(string.Concat(rawDataValues[i] + rawDataValues[i + 1]));
                         }
                     }
                     else
                     {
                         for (int i = 0; i < rawDataValues.Length; i++)
                         {
-                            result.Add(rawDataValues[i]);
+                            result.Add(rawDataValues[i] + "");
                         }
                     }
                     break;

@@ -14,7 +14,7 @@ namespace Synapse.Core.Engines
 {
     internal class OMREngine : IEngine
     {
-        public async Task<ProcessedDataEntry> ProcessSheet(ConfigurationBase configuration, Mat sheetMat)
+        public ProcessedDataEntry ProcessSheet(ConfigurationBase configuration, Mat sheetMat)
         {
             OMRConfiguration omrConfiguration = (OMRConfiguration)configuration;
 
@@ -25,26 +25,87 @@ namespace Synapse.Core.Engines
             byte[,] rawDataValues = new byte[totalFields, totalOptions];
             ProcessedDataResultType processedDataResultType = ProcessedDataResultType.NORMAL;
 
+            PointF regionLocation = omrConfiguration.GetConfigArea.ConfigRect.Location;
             List<RectangleF> optionsRects = regionData.GetOptionsRects;
+            List<RectangleF> fieldsRects = regionData.GetFieldsRects;
 
+            char[] regionFieldsOutputs = new char[totalFields];
+            string regionOutput = "";
+
+            int curOptionRectIndex = 0;
+            List<byte> filledIndexes = new List<byte>();
             for (int i = 0; i < totalFields; i++)
             {
+                char curFieldOutput = '0';
+                filledIndexes = new List<byte>();
                 for (int j = 0; j < totalOptions; j++)
                 {
-                    Mat curOption = new Mat(sheetMat, Rectangle.Round(optionsRects[i]));
+                    Rectangle curOptionRect = Rectangle.Round(optionsRects[curOptionRectIndex]);
+                    curOptionRect.X += (int)regionLocation.X;
+                    curOptionRect.Y += (int)regionLocation.Y;
+
+                    Mat curOption = new Mat(sheetMat, curOptionRect);
                     var data = curOption.GetRawData();
-                    int blackCount = data.Count(x => x < 80);
+                    int blackCount = data.Count(x => x < 150);
                     double blackCountPercent = blackCount / (double)data.Length;
-                    if (blackCountPercent > 0.8)
+                    bool isFilled = blackCountPercent > 0.30;
+                    if (isFilled)
+                    {
                         rawDataValues[i, j] = 1;
+
+                        filledIndexes.Add((byte)j);
+                    }
                     else
                         rawDataValues[i, j] = 0;
 
+                    curOptionRectIndex++;
                 }
-            }
-            await Task.Run(() => SynapseMain.GetSynapseMain.SetCurrentImage(sheetMat.Bitmap));
 
-            ProcessedDataEntry processedDataEntry = new ProcessedDataEntry(configuration, new string[0], processedDataResultType);
+                byte totalFilled = (byte)filledIndexes.Count;
+                if (totalFilled > 0)
+                {
+                    if (totalFilled > 1)
+                    {
+                        curFieldOutput = '#';
+
+                        if(omrConfiguration.MultiMarkAction == MultiMarkAction.MarkAsManual)
+                            processedDataResultType = ProcessedDataResultType.MANUAL;
+                    }
+                    else
+                    {
+                        switch (omrConfiguration.ValueDataType)
+                        {
+                            case ValueDataType.String:
+                                break;
+                            case ValueDataType.Text:
+                                break;
+                            case ValueDataType.Alphabet:
+                                curFieldOutput = (char)(filledIndexes[0] + 65);
+                                break;
+                            case ValueDataType.WholeNumber:
+                                curFieldOutput = (char)(filledIndexes[0] + 48);
+                                break;
+                            case ValueDataType.NaturalNumber:
+                                curFieldOutput = (char)(filledIndexes[0] + 49);
+                                break;
+                            case ValueDataType.Integer:
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
+                else
+                {
+                    curFieldOutput = '*';
+                    processedDataResultType = ProcessedDataResultType.MANUAL;
+                }
+
+                regionFieldsOutputs[i] = curFieldOutput;
+                regionOutput += curFieldOutput.ToString();
+            }
+
+            ProcessedDataEntry processedDataEntry = new ProcessedDataEntry(configuration, regionFieldsOutputs, processedDataResultType);
             return processedDataEntry;
         }
     }

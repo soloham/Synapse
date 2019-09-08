@@ -11,7 +11,7 @@ namespace Synapse.Core.Engines.Interface
     internal interface IEngine
     {
         #region Methods
-        Task<ProcessedDataEntry> ProcessSheet(Configurations.ConfigurationBase configuration, Mat sheet);
+        ProcessedDataEntry ProcessSheet(Configurations.ConfigurationBase configuration, Mat sheet);
         #endregion
     }
 }

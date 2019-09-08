@@ -14,6 +14,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Threading;
@@ -67,6 +68,8 @@ namespace Synapse
         #endregion
 
         #region Variables
+        private SynchronizationContext synchronizationContext;
+
         #region Configuration Panel
         private PointF curImageMouseLoc;
 
@@ -112,6 +115,7 @@ namespace Synapse
         internal SynapseMain(Template currentTemplate)
         {
             InitializeComponent();
+            synchronizationContext = SynchronizationContext.Current;
             synapseMain = this;
 
             SynapseMain.currentTemplate = currentTemplate;
@@ -478,10 +482,12 @@ namespace Synapse
                 Mat curSheet = new Mat(sheetsPaths[i]);
                 var alignedSheet = AlignSheet(curSheet.ToImage<Gray, byte>(), out AlignmentPipelineResults alignmentPipelineResults);
 
+                templateImageBox.Image = alignedSheet.Bitmap;
+                await Task.Delay(TimeSpan.FromMilliseconds(0.5));
                 var allConfigurations = ConfigurationsManager.GetAllConfigurations;
                 for (int i1 = 0; i1 < allConfigurations.Count; i1++)
                 {
-                    var entry = await allConfigurations[i1].ProcessSheet(alignedSheet.Mat);
+                    var entry = allConfigurations[i1].ProcessSheet(alignedSheet.Mat);
                 }
             }
         }
@@ -846,7 +852,6 @@ namespace Synapse
         #endregion
 
         #endregion
-
         #endregion
     }
 }
