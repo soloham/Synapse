@@ -2,13 +2,9 @@
 using Synapse.Core.Configurations;
 using Synapse.Core.Engines.Data;
 using Synapse.Core.Engines.Interface;
-using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Synapse.Core.Engines
 {
@@ -28,6 +24,11 @@ namespace Synapse.Core.Engines
             PointF regionLocation = omrConfiguration.GetConfigArea.ConfigRect.Location;
             List<RectangleF> optionsRects = regionData.GetOptionsRects;
             List<RectangleF> fieldsRects = regionData.GetFieldsRects;
+
+            char muliMarkSymbol = omrConfiguration.MultiMarkSymbol;
+            MultiMarkAction multiMarkAction = omrConfiguration.MultiMarkAction;
+            char noneMarkedSymbol = omrConfiguration.NoneMarkedSymbol;
+            NoneMarkedAction noneMarkedAction = omrConfiguration.NoneMarkedAction;
 
             char[] regionFieldsOutputs = new char[totalFields];
             string regionOutput = "";
@@ -66,10 +67,22 @@ namespace Synapse.Core.Engines
                 {
                     if (totalFilled > 1)
                     {
-                        curFieldOutput = '#';
-
-                        if(omrConfiguration.MultiMarkAction == MultiMarkAction.MarkAsManual)
-                            processedDataResultType = ProcessedDataResultType.MANUAL;
+                        switch (multiMarkAction)
+                        {
+                            case MultiMarkAction.MarkAsManual:
+                                curFieldOutput = muliMarkSymbol;
+                                processedDataResultType = ProcessedDataResultType.MANUAL;
+                                break;
+                            case MultiMarkAction.ConsiderFirst:
+                                break;
+                            case MultiMarkAction.ConsiderLast:
+                                break;
+                            case MultiMarkAction.ConsiderCorrect:
+                                break;
+                            case MultiMarkAction.Invalidate:
+                                curFieldOutput = muliMarkSymbol;
+                                break;
+                        }
                     }
                     else
                     {
@@ -97,15 +110,23 @@ namespace Synapse.Core.Engines
                 }
                 else
                 {
-                    curFieldOutput = '*';
-                    processedDataResultType = ProcessedDataResultType.MANUAL;
+                    switch (noneMarkedAction)
+                    {
+                        case NoneMarkedAction.MarkAsManual:
+                            curFieldOutput = noneMarkedSymbol;
+                            processedDataResultType = ProcessedDataResultType.MANUAL;
+                            break;
+                        case NoneMarkedAction.Invalidate:
+                            curFieldOutput = noneMarkedSymbol;
+                            break;
+                    }
                 }
 
                 regionFieldsOutputs[i] = curFieldOutput;
                 regionOutput += curFieldOutput.ToString();
             }
 
-            ProcessedDataEntry processedDataEntry = new ProcessedDataEntry(configuration, regionFieldsOutputs, processedDataResultType);
+            ProcessedDataEntry processedDataEntry = new ProcessedDataEntry(configuration, rawDataValues, regionFieldsOutputs, processedDataResultType);
             return processedDataEntry;
         }
     }

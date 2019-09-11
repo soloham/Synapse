@@ -53,7 +53,8 @@ namespace Synapse.Core.Templates
             private double deskewPercent;
             public string ImageLocation { get => templateImageLocation; set => templateImageLocation = value; }
             private string templateImageLocation;
-
+            public Image<Gray, byte> GetGrayImage { get => grayImage; set => grayImage = value; }
+            private Image<Gray, byte> grayImage;
             public TemplateImage(Size templateSize, double templateScale, double deskewPercent)
             {
                 this.templateSize = templateSize;
@@ -64,6 +65,9 @@ namespace Synapse.Core.Templates
             public void Initialize()
             {
                 bitmap = string.IsNullOrEmpty(ImageLocation)? null : new Bitmap(ImageLocation);
+
+                if(bitmap != null)
+                    grayImage = new Image<Gray, byte>(bitmap);
             }
 
             public void SetBitmap(Bitmap bitmap)
@@ -93,8 +97,8 @@ namespace Synapse.Core.Templates
                 PipelineIndex = pipelineIndex;
             }
 
-            public abstract bool ApplyMethod(IInputArray input, out IOutputArray output, out long matchTime, out Exception ex);
-            public abstract bool ApplyMethod(IInputArray template, IInputArray input, out IOutputArray output, out long matchTime, out Exception ex);
+            public abstract bool ApplyMethod(IInputArray input, out IOutputArray output, out Mat homography, out long matchTime, out Exception ex);
+            public abstract bool ApplyMethod(IInputArray template, IInputArray input, out IOutputArray output, out Mat homography, out long matchTime, out Exception ex);
 
         }
         [Serializable]
@@ -179,12 +183,13 @@ namespace Synapse.Core.Templates
             }
             #endregion
 
-            public override bool ApplyMethod(IInputArray input, out IOutputArray output, out long matchTime, out Exception ex)
+            public override bool ApplyMethod(IInputArray input, out IOutputArray output, out Mat homography, out long matchTime, out Exception ex)
             {
                 bool isSuccess = false;
                 var inputImg = (Image<Gray, byte>)input;
                 inputImg = downscaleScale <= 0? inputImg.Resize(downscaleSize.Width, downscaleSize.Height, Inter.Cubic) : inputImg.Resize(downscaleScale, Inter.Cubic);
                 Mat _output = new Mat();
+                homography = null;
 
                 PointF[] anchorCoordinates = new PointF[anchors.Count];
 
@@ -213,7 +218,7 @@ namespace Synapse.Core.Templates
                         anchorCoordinates[i] = Max_Loc[0];
                     }
 
-                    var homography = CvInvoke.FindHomography(anchorCoordinates, mainAnchorCoordinates, RobustEstimationAlgorithm.Ransac);
+                    homography = CvInvoke.FindHomography(anchorCoordinates, mainAnchorCoordinates, RobustEstimationAlgorithm.Ransac);
                     CvInvoke.WarpPerspective(input, _output, homography, outputSize);
                 }
                 catch (Exception _ex)
@@ -228,12 +233,13 @@ namespace Synapse.Core.Templates
                 output = _output;
                 return isSuccess;
             }
-            public override bool ApplyMethod(IInputArray templateImage, IInputArray input, out IOutputArray output, out long matchTime, out Exception ex)
+            public override bool ApplyMethod(IInputArray templateImage, IInputArray input, out IOutputArray output, out Mat homography, out long matchTime, out Exception ex)
             {
                 bool isSuccess = false;
                 var inputImg = (Image<Gray, byte>)input;
                 inputImg = downscaleScale <= 0 ? inputImg.Resize(downscaleSize.Width, downscaleSize.Height, Inter.Cubic) : inputImg.Resize(downscaleScale, Inter.Cubic);
                 Mat _output = new Mat();
+                homography = null;
 
                 PointF[] anchorCoordinates = new PointF[anchors.Count];
 
@@ -262,7 +268,7 @@ namespace Synapse.Core.Templates
                         anchorCoordinates[i] = Max_Loc[0];
                     }
 
-                    var homography = CvInvoke.FindHomography(anchorCoordinates, mainAnchorCoordinates, RobustEstimationAlgorithm.Ransac);
+                    homography = CvInvoke.FindHomography(anchorCoordinates, mainAnchorCoordinates, RobustEstimationAlgorithm.Ransac);
                     CvInvoke.WarpPerspective(input, _output, homography, outputSize);
                 }
                 catch(Exception _ex)
@@ -277,13 +283,14 @@ namespace Synapse.Core.Templates
                 output = _output;
                 return isSuccess;
             }
-            public bool ApplyMethod(IInputArray input, out IOutputArray output, out RectangleF[] detectedAnchors, out RectangleF[] warpedAnchors, out RectangleF[] scaledMainAnchors, out RectangleF scaledMainTestRegion, out long matchTime, out Exception ex)
+            public bool ApplyMethod(IInputArray input, out IOutputArray output, out RectangleF[] detectedAnchors, out RectangleF[] warpedAnchors, out RectangleF[] scaledMainAnchors, out RectangleF scaledMainTestRegion, out Mat homography, out long matchTime, out Exception ex)
             {
                 bool isSuccess = false;
                 Image<Gray, byte> inputImg = (Image<Gray, byte>)input;
                 var resizedInputImg = downscaleSize != Size.Empty? inputImg.Resize(downscaleSize.Width, downscaleSize.Height, Inter.Cubic) : inputImg;
                 inputImg = inputImg.Resize(outputSize.Width, outputSize.Height, Inter.Cubic);
                 Mat _output = new Mat();
+                homography = null;
 
                 var anchorRegions = new RectangleF[anchors.Count];
                 detectedAnchors = new RectangleF[anchors.Count];
@@ -326,7 +333,7 @@ namespace Synapse.Core.Templates
                     var scaledMainAnchorPoints = Functions.ResizePoints(mainAnchorCoordinates, downscaleSize, outputSize);
                     anchorCoordinates = Functions.ResizePoints(anchorCoordinates, downscaleSize, outputSize);
 
-                    var homography = CvInvoke.FindHomography(anchorCoordinates, scaledMainAnchorPoints, RobustEstimationAlgorithm.Ransac);
+                    homography = CvInvoke.FindHomography(anchorCoordinates, scaledMainAnchorPoints, RobustEstimationAlgorithm.Ransac);
                     CvInvoke.WarpPerspective(inputImg, _output, homography, outputSize);
                     var warpedPoints = CvInvoke.PerspectiveTransform(anchorCoordinates, homography);
 
@@ -348,12 +355,13 @@ namespace Synapse.Core.Templates
                 output = _output;
                 return isSuccess;
             }
-            public bool ApplyMethod(IInputArray templateImage, IInputArray input, out IOutputArray output, out PointF[] detectedAnchors, out PointF[] warpedAnchors, out PointF warpedTestPoint, out long matchTime, out Exception ex)
+            public bool ApplyMethod(IInputArray templateImage, IInputArray input, out IOutputArray output, out PointF[] detectedAnchors, out PointF[] warpedAnchors, out PointF warpedTestPoint, out Mat homography, out long matchTime, out Exception ex)
             {
                 bool isSuccess = false;
                 var inputImg = (Image<Gray, byte>)input;
                 inputImg = downscaleScale <= 0 ? inputImg.Resize(downscaleSize.Width, downscaleSize.Height, Inter.Cubic) : inputImg.Resize(downscaleScale, Inter.Cubic);
                 Mat _output = new Mat();
+                homography = null;
 
                 detectedAnchors = new PointF[anchors.Count];
                 warpedAnchors = new PointF[anchors.Count];
@@ -386,7 +394,7 @@ namespace Synapse.Core.Templates
                 }
                 warpedTestPoint = anchorCoordinates[anchorCoordinates.Length - 1];
 
-                var homography = CvInvoke.FindHomography(anchorCoordinates, mainAnchorCoordinates, RobustEstimationAlgorithm.Ransac);
+                homography = CvInvoke.FindHomography(anchorCoordinates, mainAnchorCoordinates, RobustEstimationAlgorithm.Ransac);
                 CvInvoke.WarpPerspective(input, _output, homography, outputSize);
                 warpedAnchors = CvInvoke.PerspectiveTransform(anchorCoordinates, homography);
                 watch.Stop();
@@ -457,6 +465,7 @@ namespace Synapse.Core.Templates
             public class KazeRegistrationMethod : RegistrationMethod
             {
                 #region Objects
+                [Serializable]
                 public class KazeData
                 {
                     public KazeData(bool extended, bool upright, double threshold, int octaves, int sublevels, KAZE.Diffusivity diffusivity)
@@ -671,6 +680,7 @@ namespace Synapse.Core.Templates
             public class AKazeRegistrationMethod : RegistrationMethod
             {
                 #region Objects
+                [Serializable]
                 public class AKazeData
                 {
                     public AKazeData(AKAZE.DescriptorType descriptorType, int descriptorSize, int channels, double threshold, int octaves, int layers, KAZE.Diffusivity diffusivity)
@@ -907,10 +917,11 @@ namespace Synapse.Core.Templates
                 this.outputWidth = outputWidth;
             }
 
-            public override bool ApplyMethod(IInputArray input, out IOutputArray output, out long matchTime, out Exception ex)
+            public override bool ApplyMethod(IInputArray input, out IOutputArray output, out Mat homography, out long matchTime, out Exception ex)
             {
                 bool isSuccess = false;
                 IOutputArray _homography;
+                homography = null;
 
                 output = null;
 
@@ -922,7 +933,7 @@ namespace Synapse.Core.Templates
                 {
                     try
                     {
-                        Mat homography = (Mat)_homography;
+                        homography = (Mat)_homography;
 
                         if (score > 0 && homography != null)
                         {
@@ -947,10 +958,11 @@ namespace Synapse.Core.Templates
 
                 return isSuccess;
             }
-            public override bool ApplyMethod(IInputArray templateImage, IInputArray input, out IOutputArray output, out long matchTime, out Exception ex)
+            public override bool ApplyMethod(IInputArray templateImage, IInputArray input, out IOutputArray output, out Mat homography, out long matchTime, out Exception ex)
             {
                 bool isSuccess = false;
                 IOutputArray _homography;
+                homography = null;
 
                 output = null;
                 isSuccess = false;
@@ -959,7 +971,7 @@ namespace Synapse.Core.Templates
                 {
                     try
                     {
-                        Mat homography = (Mat)_homography;
+                        homography = (Mat)_homography;
 
                         if (score > 0 && homography != null)
                         {
@@ -1016,9 +1028,10 @@ namespace Synapse.Core.Templates
                 public Image<Gray, byte> InputImage { get; set; }
                 public Image<Gray, byte> OutputImage { get; set; }
                 public long AlignmentTime { get; set; }
+                public Mat AlignmentHomography { get; set; }
                 #endregion
 
-                internal AlignmentMethodResult(Template.AlignmentMethod alignmentMethod, AlignmentMethodResultType alignmentMethodResultType, Image<Gray, byte> inputImage, Image<Gray, byte> outputImage, long alignmentTime)
+                internal AlignmentMethodResult(Template.AlignmentMethod alignmentMethod, AlignmentMethodResultType alignmentMethodResultType, Mat alignmentHomography, Image<Gray, byte> inputImage, Image<Gray, byte> outputImage, long alignmentTime)
                 {
                     AlignmentMethod = alignmentMethod;
                     InputImage = inputImage;
@@ -1026,6 +1039,7 @@ namespace Synapse.Core.Templates
                     AlignmentTime = alignmentTime;
 
                     this.alignmentMethodResultType = alignmentMethodResultType;
+                    AlignmentHomography = alignmentHomography;
                 }
             }
             public class AnchorAlignmentMethodResult : AlignmentMethodResult
@@ -1038,7 +1052,7 @@ namespace Synapse.Core.Templates
                 public RectangleF ScaledMainTestRegion = new RectangleF();
                 #endregion
 
-                internal AnchorAlignmentMethodResult(AlignmentMethod alignmentMethod, AlignmentMethodResultType alignmentMethodResultType, Image<Gray, byte> inputImage, Image<Gray, byte> outputImage, long alignmentTime, Template.AnchorAlignmentMethod.Anchor[] mainAnchors, RectangleF[] detectedAnchors, RectangleF[] warpedAnchors, RectangleF[] scaledMainAnchors, RectangleF scaledMainTestRegion) : base(alignmentMethod, alignmentMethodResultType, inputImage, outputImage, alignmentTime)
+                internal AnchorAlignmentMethodResult(AlignmentMethod alignmentMethod, AlignmentMethodResultType alignmentMethodResultType, Mat alignmentHomography, Image<Gray, byte> inputImage, Image<Gray, byte> outputImage, long alignmentTime, Template.AnchorAlignmentMethod.Anchor[] mainAnchors, RectangleF[] detectedAnchors, RectangleF[] warpedAnchors, RectangleF[] scaledMainAnchors, RectangleF scaledMainTestRegion) : base(alignmentMethod, alignmentMethodResultType, alignmentHomography, inputImage, outputImage, alignmentTime)
                 {
                     MainAnchors = mainAnchors;
                     DetectedAnchors = detectedAnchors;
@@ -1049,7 +1063,7 @@ namespace Synapse.Core.Templates
             }
             public class RegistrationAlignmentMethodResult : AlignmentMethodResult
             {
-                internal RegistrationAlignmentMethodResult(Template.AlignmentMethod alignmentMethod, AlignmentMethodResultType alignmentMethodResultType, Image<Gray, byte> inputImage, Image<Gray, byte> outputImage, long alignmentTime) : base(alignmentMethod, alignmentMethodResultType, inputImage, outputImage, alignmentTime)
+                internal RegistrationAlignmentMethodResult(Template.AlignmentMethod alignmentMethod, AlignmentMethodResultType alignmentMethodResultType, Mat alignmentHomography, Image<Gray, byte> inputImage, Image<Gray, byte> outputImage, long alignmentTime) : base(alignmentMethod, alignmentMethodResultType, alignmentHomography, inputImage, outputImage, alignmentTime)
                 {
                 }
             }
@@ -1208,6 +1222,85 @@ namespace Synapse.Core.Templates
         {
             this.TemplateData.SetAlignmentPipeline(alignmentPipeline);
         }
+        internal Image<Gray, byte> AlignSheet(Image<Gray, byte> sheetImage, out AlignmentPipelineResults alignmentPipelineResults)
+        {
+            Image<Gray, byte> outputImage = sheetImage.Clone();
+            List<AlignmentMethod> alignmentPipeline = TemplateData.GetAlignmentPipeline;
+            Image<Gray, byte> grayImage = GetTemplateImage.GetGrayImage;
+
+            alignmentPipelineResults = null;
+
+            if (alignmentPipeline.Count <= 0)
+                return outputImage;
+
+            List<AlignmentPipelineResults.AlignmentMethodResult> alignmentMethodResults = new List<AlignmentPipelineResults.AlignmentMethodResult>();
+
+            IOutputArray outputImageArr;
+            outputImage = sheetImage.Resize(grayImage.Width, grayImage.Height, Emgu.CV.CvEnum.Inter.Cubic);
+            for (int i = 0; i < alignmentPipeline.Count; i++)
+            {
+                Exception exception = null;
+
+                AlignmentPipelineResults.AlignmentMethodResult alignmentMethodResult = null;
+                AlignmentMethod alignmentMethod = alignmentPipeline[i];
+
+                if (alignmentMethod.PipelineIndex == -1) //|| ommittedAlignmetMethodIndeces.Contains(alignmentMethod.PipelineIndex))
+                    continue;
+
+                if (alignmentMethod.GetAlignmentMethodType == AlignmentMethodType.Anchors)
+                {
+                    var aIM = (AnchorAlignmentMethod)alignmentMethod;
+                    bool isSuccess = aIM.ApplyMethod(outputImage, out outputImageArr, out RectangleF[] detectedAnchors, out RectangleF[] warpedAnchors, out RectangleF[] scaledMainAnchorRegions, out RectangleF scaledMainTestRegion, out Mat alignmentHomography, out long alignmentTime, out exception);
+                    var mainAnchors = aIM.GetAnchors.ToArray();
+                    if (isSuccess)
+                    {
+                        var outputMat = (Mat)outputImageArr;
+                        outputImage = outputMat.ToImage<Gray, byte>();
+                    }
+                    AlignmentPipelineResults.AnchorAlignmentMethodResult anchorAlignmentMethodResult = new AlignmentPipelineResults.AnchorAlignmentMethodResult(alignmentMethod, isSuccess ? AlignmentPipelineResults.AlignmentMethodResultType.Successful : AlignmentPipelineResults.AlignmentMethodResultType.Failed, alignmentHomography, sheetImage, outputImage, alignmentTime, mainAnchors, detectedAnchors, warpedAnchors, scaledMainAnchorRegions, scaledMainTestRegion);
+                    alignmentMethodResult = anchorAlignmentMethodResult;
+                }
+                else
+                {
+                    bool isSuccess = alignmentMethod.ApplyMethod(grayImage, outputImage, out outputImageArr, out Mat alignmentHomography, out long alignmentTime, out exception);
+                    if (isSuccess)
+                    {
+                        var outputMat = (Mat)outputImageArr;
+                        outputImage = outputMat.ToImage<Gray, byte>();
+                    }
+                    alignmentMethodResult = new AlignmentPipelineResults.AlignmentMethodResult(alignmentMethod, isSuccess ? AlignmentPipelineResults.AlignmentMethodResultType.Successful : AlignmentPipelineResults.AlignmentMethodResultType.Failed, alignmentHomography, sheetImage, outputImage, alignmentTime);
+                }
+
+                alignmentMethodResults.Add(alignmentMethodResult);
+
+                if (alignmentMethodResult.GetAlignmentMethodResultType == AlignmentPipelineResults.AlignmentMethodResultType.Failed)
+                {
+                    string personnelData = exception.Message;
+
+                    if (exception.StackTrace == null)
+                    {
+                        Messages.ShowError("An error occured while applying the method: '" + alignmentMethod.MethodName + "' \n\n For concerned personnel: " + personnelData);
+                        return outputImage;
+                    }
+
+                    for (int i0 = exception.StackTrace.Length - 1; i0 > 0; i0--)
+                    {
+                        if (exception.StackTrace[i0] == '/' || exception.StackTrace[i0] == '\\')
+                        {
+                            personnelData = exception.StackTrace.Substring(i0 + 1);
+                            break;
+                        }
+                    }
+                    Messages.ShowError("An error occured while applying the method: '" + alignmentMethod.MethodName + "' \n\n For concerned personnel: " + personnelData);
+                }
+            }
+
+            alignmentPipelineResults = new AlignmentPipelineResults(alignmentMethodResults);
+            //OnResultsGeneratedEvent?.Invoke(alignmentPipelineResults);
+
+            return outputImage;
+        }
+
         #endregion
     }
 }

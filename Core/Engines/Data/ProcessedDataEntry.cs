@@ -16,8 +16,10 @@ namespace Synapse.Core.Engines.Data
         public MainConfigType GetMainConfigType { get => GetConfigurationBase.GetMainConfigType; }
         public ProcessedDataResultType DataEntryResultType { get; set; }
 
-        public char[] GetRawDataValues { get => rawDataValues; }
-        private char[] rawDataValues;
+        public byte[,] GetRawDataValues { get => rawDataValues; }
+        private byte[,] rawDataValues;
+        public char[] GetFieldsOutputs { get => fieldsOutputs; }
+        private char[] fieldsOutputs;
         public string[] GetDataValues { get => dataValues; }
         private string[] dataValues;
 
@@ -25,13 +27,14 @@ namespace Synapse.Core.Engines.Data
         #endregion
 
         #region Methods
-        public ProcessedDataEntry(ConfigurationBase configurationBase, char[] rawDataValues, ProcessedDataResultType processedDataResultType)
+        public ProcessedDataEntry(ConfigurationBase configurationBase, byte[,] rawDataValues, char[] fieldsOutputs, ProcessedDataResultType processedDataResultType)
         {
             this.configurationBase = configurationBase;
+            this.fieldsOutputs = fieldsOutputs;
             this.rawDataValues = rawDataValues;
 
-            FormatData();
             DataEntryResultType = processedDataResultType;
+            FormatData();
         }
 
         public string[] FormatData()
@@ -41,27 +44,27 @@ namespace Synapse.Core.Engines.Data
             switch (configurationBase.ValueRepresentation)
             {
                 case ValueRepresentation.Collective:
-                    result.Add(string.Concat(rawDataValues));
+                    result.Add(string.Concat(fieldsOutputs));
                     break;
                 case ValueRepresentation.Indiviual:
-                    for (int i = 0; i < rawDataValues.Length; i++)
+                    for (int i = 0; i < fieldsOutputs.Length; i++)
                     {
-                        result.Add(rawDataValues[i] + "");
+                        result.Add(fieldsOutputs[i] + "");
                     }
                     break;
                 case ValueRepresentation.CombineTwo:
-                    if (rawDataValues.Length % 2 == 0)
+                    if (fieldsOutputs.Length % 2 == 0)
                     {
-                        for (int i = 0; i < rawDataValues.Length; i += 2)
+                        for (int i = 0; i < fieldsOutputs.Length; i += 2)
                         {
-                            result.Add(string.Concat(rawDataValues[i] + rawDataValues[i + 1]));
+                            result.Add(string.Concat(fieldsOutputs[i] + fieldsOutputs[i + 1]));
                         }
                     }
                     else
                     {
-                        for (int i = 0; i < rawDataValues.Length; i++)
+                        for (int i = 0; i < fieldsOutputs.Length; i++)
                         {
-                            result.Add(rawDataValues[i] + "");
+                            result.Add(fieldsOutputs[i] + "");
                         }
                     }
                     break;

@@ -119,6 +119,8 @@ namespace Synapse
             this.configPropertiesPanel = new System.Windows.Forms.Panel();
             this.configPropertyEditor = new Syncfusion.Windows.Forms.Diagram.Controls.PropertyEditor(this.components);
             this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
+            this.dataImageBoxPanel = new System.Windows.Forms.Panel();
+            this.dataImageBox = new Cyotek.Windows.Forms.Demo.ImageBoxEx();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
             this.ribbonControl.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.backStage1)).BeginInit();
@@ -142,6 +144,7 @@ namespace Synapse
             ((System.ComponentModel.ISupportInitialize)(this.mainDataGrid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.mainDockingManager)).BeginInit();
             this.configPropertiesPanel.SuspendLayout();
+            this.dataImageBoxPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // ribbonControl
@@ -177,7 +180,7 @@ namespace Synapse
             this.ribbonControl.QuickPanelVisible = false;
             this.ribbonControl.RibbonHeaderImage = Syncfusion.Windows.Forms.Tools.RibbonHeaderImage.RoundedSquares;
             this.ribbonControl.RibbonStyle = Syncfusion.Windows.Forms.Tools.RibbonStyle.Office2016;
-            this.ribbonControl.SelectedTab = this.readingToolStripTabItem;
+            this.ribbonControl.SelectedTab = this.configToolStripTabItem;
             this.ribbonControl.ShowLauncher = false;
             this.ribbonControl.ShowRibbonDisplayOptionButton = true;
             this.ribbonControl.Size = new System.Drawing.Size(1333, 209);
@@ -222,7 +225,7 @@ namespace Synapse
             this.backStage1.ShowSeparator = false;
             this.backStage1.Size = new System.Drawing.Size(1329, 697);
             this.backStage1.TabIndex = 2;
-            this.backStage1.ThemeName = "BackStage2016Renderer";
+            this.backStage1.ThemeName = "BackStageRenderer";
             this.backStage1.ThemeStyle.BorderFillColor = System.Drawing.Color.White;
             this.backStage1.ThemeStyle.PrimitiveButtonStyle.DisabledNextPageImage = null;
             this.backStage1.Visible = false;
@@ -344,19 +347,19 @@ namespace Synapse
             this.tmpLoadScanToolStripMenuItem,
             this.tmpLoadBrowseToolStripMenuItem});
             this.templateLoadToolStripMenuItem.Name = "templateLoadToolStripMenuItem";
-            this.templateLoadToolStripMenuItem.Size = new System.Drawing.Size(136, 24);
+            this.templateLoadToolStripMenuItem.Size = new System.Drawing.Size(180, 24);
             this.templateLoadToolStripMenuItem.Text = "Load";
             // 
             // tmpLoadScanToolStripMenuItem
             // 
             this.tmpLoadScanToolStripMenuItem.Name = "tmpLoadScanToolStripMenuItem";
-            this.tmpLoadScanToolStripMenuItem.Size = new System.Drawing.Size(123, 24);
+            this.tmpLoadScanToolStripMenuItem.Size = new System.Drawing.Size(180, 24);
             this.tmpLoadScanToolStripMenuItem.Text = "Scan";
             // 
             // tmpLoadBrowseToolStripMenuItem
             // 
             this.tmpLoadBrowseToolStripMenuItem.Name = "tmpLoadBrowseToolStripMenuItem";
-            this.tmpLoadBrowseToolStripMenuItem.Size = new System.Drawing.Size(123, 24);
+            this.tmpLoadBrowseToolStripMenuItem.Size = new System.Drawing.Size(180, 24);
             this.tmpLoadBrowseToolStripMenuItem.Text = "Browse";
             this.tmpLoadBrowseToolStripMenuItem.Click += new System.EventHandler(this.TmpLoadBrowseToolStripMenuItem_Click);
             // 
@@ -364,7 +367,7 @@ namespace Synapse
             // 
             this.templateConfigureToolStripMenuItem.Enabled = false;
             this.templateConfigureToolStripMenuItem.Name = "templateConfigureToolStripMenuItem";
-            this.templateConfigureToolStripMenuItem.Size = new System.Drawing.Size(136, 24);
+            this.templateConfigureToolStripMenuItem.Size = new System.Drawing.Size(180, 24);
             this.templateConfigureToolStripMenuItem.Text = "Configure";
             this.templateConfigureToolStripMenuItem.Click += new System.EventHandler(this.TemplateConfigureToolStripMenuItem_Click);
             // 
@@ -407,7 +410,7 @@ namespace Synapse
             this.addAsOmrToolStripBtn,
             this.addAsBarcodeToolStripBtn,
             this.addAsICRToolStripBtn});
-            this.dataConfigToolStripEx.Location = new System.Drawing.Point(0, 1);
+            this.dataConfigToolStripEx.Location = new System.Drawing.Point(328, 1);
             this.dataConfigToolStripEx.Name = "dataConfigToolStripEx";
             this.dataConfigToolStripEx.Office12Mode = false;
             this.dataConfigToolStripEx.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
@@ -539,7 +542,7 @@ namespace Synapse
             this.aiConfigStatusToolStripPanel,
             this.toolStripSeparator2,
             this.configureNetworksToolStripBtn});
-            this.aiConfigToolStripEx.Location = new System.Drawing.Point(0, 1);
+            this.aiConfigToolStripEx.Location = new System.Drawing.Point(781, 1);
             this.aiConfigToolStripEx.Name = "aiConfigToolStripEx";
             this.aiConfigToolStripEx.Office12Mode = false;
             this.aiConfigToolStripEx.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
@@ -699,7 +702,7 @@ namespace Synapse
             this.sheetsToolStripPanelItem.Name = "sheetsToolStripPanelItem";
             this.sheetsToolStripPanelItem.Padding = new System.Windows.Forms.Padding(1, 0, 2, 2);
             this.sheetsToolStripPanelItem.RowCount = 2;
-            this.sheetsToolStripPanelItem.Size = new System.Drawing.Size(192, 85);
+            this.sheetsToolStripPanelItem.Size = new System.Drawing.Size(192, 79);
             this.sheetsToolStripPanelItem.Transparent = true;
             // 
             // scanDirectoryToolStripBtn
@@ -739,7 +742,7 @@ namespace Synapse
             this.scanSheetsToolStripDropDownBtn.Margin = new System.Windows.Forms.Padding(3, 1, 5, 2);
             this.scanSheetsToolStripDropDownBtn.Name = "scanSheetsToolStripDropDownBtn";
             this.scanSheetsToolStripDropDownBtn.Padding = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            this.scanSheetsToolStripDropDownBtn.Size = new System.Drawing.Size(71, 75);
+            this.scanSheetsToolStripDropDownBtn.Size = new System.Drawing.Size(71, 121);
             this.scanSheetsToolStripDropDownBtn.Text = "Scan";
             this.scanSheetsToolStripDropDownBtn.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.scanSheetsToolStripDropDownBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
@@ -1287,6 +1290,8 @@ namespace Synapse
             this.mainDataGrid.SelectionMode = Syncfusion.WinForms.DataGrid.Enums.GridSelectionMode.Extended;
             this.mainDataGrid.Size = new System.Drawing.Size(692, 522);
             this.mainDataGrid.TabIndex = 0;
+            this.mainDataGrid.SelectionChanged += new Syncfusion.WinForms.DataGrid.Events.SelectionChangedEventHandler(this.MainDataGrid_SelectionChanged);
+            this.mainDataGrid.CellClick += new Syncfusion.WinForms.DataGrid.Events.CellClickEventHandler(this.MainDataGrid_CellClick);
             // 
             // ImageFileBrowser
             // 
@@ -1331,6 +1336,7 @@ namespace Synapse
             // 
             // configPropertiesPanel
             // 
+            this.configPropertiesPanel.Controls.Add(this.dataImageBoxPanel);
             this.configPropertiesPanel.Controls.Add(this.configPropertyEditor);
             this.configPropertiesPanel.Dock = System.Windows.Forms.DockStyle.Right;
             this.configPropertiesPanel.Location = new System.Drawing.Point(1129, 209);
@@ -1347,6 +1353,34 @@ namespace Synapse
             this.configPropertyEditor.Name = "configPropertyEditor";
             this.configPropertyEditor.Size = new System.Drawing.Size(200, 539);
             this.configPropertyEditor.TabIndex = 1;
+            // 
+            // dataImageBoxPanel
+            // 
+            this.dataImageBoxPanel.Controls.Add(this.dataImageBox);
+            this.dataImageBoxPanel.Dock = System.Windows.Forms.DockStyle.Right;
+            this.dataImageBoxPanel.Location = new System.Drawing.Point(0, 0);
+            this.dataImageBoxPanel.Name = "dataImageBoxPanel";
+            this.dataImageBoxPanel.Size = new System.Drawing.Size(200, 539);
+            this.dataImageBoxPanel.TabIndex = 4;
+            // 
+            // dataImageBox
+            // 
+            this.dataImageBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.dataImageBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataImageBox.DragHandleSize = 10;
+            this.dataImageBox.DropShadowSize = 5;
+            this.dataImageBox.Font = new System.Drawing.Font("Dosis", 13F);
+            this.dataImageBox.GridColor = System.Drawing.Color.White;
+            this.dataImageBox.ImageBorderColor = System.Drawing.SystemColors.ActiveBorder;
+            this.dataImageBox.ImageBorderStyle = Cyotek.Windows.Forms.ImageBoxBorderStyle.FixedSingleGlowShadow;
+            this.dataImageBox.Location = new System.Drawing.Point(0, 0);
+            this.dataImageBox.Name = "dataImageBox";
+            this.dataImageBox.SelectionMode = Cyotek.Windows.Forms.ImageBoxSelectionMode.Rectangle;
+            this.dataImageBox.Size = new System.Drawing.Size(200, 539);
+            this.dataImageBox.StepSize = new System.Drawing.Size(8, 8);
+            this.dataImageBox.TabIndex = 5;
+            this.dataImageBox.Text = "The image of the sheet of which the data is selected in the data grid will appear" +
+    " here.";
             // 
             // SynapseMain
             // 
@@ -1404,6 +1438,7 @@ namespace Synapse
             ((System.ComponentModel.ISupportInitialize)(this.mainDataGrid)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.mainDockingManager)).EndInit();
             this.configPropertiesPanel.ResumeLayout(false);
+            this.dataImageBoxPanel.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -1497,5 +1532,7 @@ namespace Synapse
         private ImageBoxEx templateImageBox;
         private Syncfusion.WinForms.DataGrid.SfDataGrid mainDataGrid;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog;
+        private System.Windows.Forms.Panel dataImageBoxPanel;
+        private ImageBoxEx dataImageBox;
     }
 }

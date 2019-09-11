@@ -1,4 +1,5 @@
 ﻿using Emgu.CV;
+using Emgu.CV.Structure;
 using Synapse.Utilities.Attributes;
 using System;
 using System.Collections.Generic;
@@ -29,8 +30,8 @@ namespace Synapse.Core.Engines.Data
         public int GetRowIndex { get => rowIndex; }
         private int rowIndex;
         public string RowSheetPath { get; set; }
-        public Mat GetAlignmentHomography { get => alignmentHomography?? new Mat(); }
-        private Mat alignmentHomography;
+        public Templates.Template.AlignmentPipelineResults GetAlignmentPipelineResults { get => alignmentPipelineResults?? null; }
+        private Templates.Template.AlignmentPipelineResults alignmentPipelineResults;
         public ProcessedDataResultType DataRowResultType { get; set; }
         public List<ProcessedDataEntry> GetProcessedDataEntries { get => processedDataEntries; }
         private List<ProcessedDataEntry> processedDataEntries = new List<ProcessedDataEntry>();
@@ -39,20 +40,23 @@ namespace Synapse.Core.Engines.Data
         #endregion
 
         #region Methods
-        internal ProcessedDataRow(List<ProcessedDataEntry> processedDataEntries, int rowIndex, string rowSheetPath, ProcessedDataResultType processedDataResultType, Mat alignmentHomography)
+        internal ProcessedDataRow(List<ProcessedDataEntry> processedDataEntries, int rowIndex, string rowSheetPath, ProcessedDataResultType processedDataResultType, Templates.Template.AlignmentPipelineResults alignmentPipelineResults)
         {
             this.processedDataEntries = processedDataEntries;
             this.rowIndex = rowIndex;
             RowSheetPath = rowSheetPath;
             DataRowResultType = processedDataResultType;
-            this.alignmentHomography = alignmentHomography;
+            this.alignmentPipelineResults = alignmentPipelineResults;
         }
         internal Mat GetAlignedImage()
         {
             Mat result = new Mat();
-            Mat unAligned = new Mat(RowSheetPath, Emgu.CV.CvEnum.ImreadModes.AnyColor);
+            Mat unAlignedMat = new Mat(RowSheetPath, Emgu.CV.CvEnum.ImreadModes.AnyColor);
+            Image<Gray, byte> unAligned = unAlignedMat.ToImage<Gray, byte>();
 
-            CvInvoke.WarpPerspective(unAligned, result, GetAlignmentHomography, unAligned.Size, Emgu.CV.CvEnum.Inter.Cubic, Emgu.CV.CvEnum.Warp.Default, Emgu.CV.CvEnum.BorderType.Default);
+            var resultImg = SynapseMain.GetCurrentTemplate.AlignSheet(unAligned, out Templates.Template.AlignmentPipelineResults alignmentPipelineResults);
+            result = resultImg.Mat;
+            //CvInvoke.WarpPerspective(unAligned, result, GetAlignmentHomography, unAligned.Size, Emgu.CV.CvEnum.Inter.Cubic, Emgu.CV.CvEnum.Warp.Default, Emgu.CV.CvEnum.BorderType.Default);
             return result;
         }
         internal PointF[] GetInvAignedPointsF(RectangleF input)
@@ -60,7 +64,7 @@ namespace Synapse.Core.Engines.Data
             PointF[] inputRectFCoordinates = new PointF[] { input.Location, new PointF(input.X + input.Width, input.Y), new PointF(input.X + input.Width, input.Y + input.Height), new PointF(input.X, input.Y + input.Height) };
             PointF[] outputRectFCoordinates = new PointF[0];
 
-            outputRectFCoordinates = CvInvoke.PerspectiveTransform(inputRectFCoordinates, GetAlignmentHomography);
+            //outputRectFCoordinates = CvInvoke.PerspectiveTransform(inputRectFCoordinates, GetAlignmentHomography);
             return outputRectFCoordinates;
         }
         #endregion

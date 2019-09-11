@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Dynamic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -144,6 +145,25 @@ namespace Synapse.Utilities
             }
 
             return p;
+        }
+
+        public static void AddProperty(ExpandoObject expando, string propertyName, object propertyValue)
+        {
+            //Take use of the IDictionary implementation
+            var expandoDict = (IDictionary<string, object>)expando;
+            if (expandoDict.ContainsKey(propertyName))
+                expandoDict[propertyName] = propertyValue;
+            else
+                expandoDict.Add(propertyName, propertyValue);
+        }
+        public static object GetProperty(ExpandoObject expando, string propertyName)
+        {
+            //Take use of the IDictionary implementation
+            var expandoDict = (IDictionary<string, object>)expando;
+            if (expandoDict.ContainsKey(propertyName))
+                return expandoDict[propertyName];
+            else
+                return null;
         }
     }
 }

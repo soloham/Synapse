@@ -177,6 +177,7 @@
     <Compile Include="Core\Keys\AnswerKey.cs" />
     <Compile Include="Core\Keys\Parameter.cs" />
     <Compile Include="Core\Managers\ConfigurationsManager.cs" />
+    <Compile Include="Core\Managers\ProcessingManager.cs" />
     <Compile Include="Core\Templates\Template.cs" />
     <Compile Include="Modules\AlignmentPipelineConfigurationForm.cs">
       <SubType>Form</SubType>

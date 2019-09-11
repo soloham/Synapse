@@ -29,6 +29,19 @@ namespace Synapse.Core.Configurations
     {
         [EnumDescription("Mark As Manual")]
         MarkAsManual,
+        [EnumDescription("Consider First")]
+        ConsiderFirst,
+        [EnumDescription("Consider Last")]
+        ConsiderLast,
+        [EnumDescription("Consider Correct")]
+        ConsiderCorrect,
+        [EnumDescription("Invalidate")]
+        Invalidate
+    }
+    public enum NoneMarkedAction
+    {
+        [EnumDescription("Mark As Manual")]
+        MarkAsManual,
         [EnumDescription("Invalidate")]
         Invalidate
     }
@@ -381,14 +394,20 @@ namespace Synapse.Core.Configurations
         public int GetTotalFields { get { return RegionData.TotalFields; } set { } }
         [Browsable(false)]
         public int GetTotalOptions { get { return RegionData.TotalOptions; } set { } }
-        [Category("Layout"), Description("Get or set the orientation of the OMR Region.")]
+        [Category("Layout"), Description("Gets or sets the orientation of the OMR Region.")]
         public Orientation Orientation { get => RegionData.Orientation; set => RegionData.Orientation = value; }
-        [Category("Behaviour"), Description("Get or set the type of the OMR Region.")]
+        [Category("Behaviour"), Description("Gets or sets the type of the OMR Region.")]
         public OMRType OMRType { get; set; }
-        [Category("Behaviour"), Description("Get or set the action upon multiple markings in the same row or column depending on the orientation for the OMR Region.")]
+        [Category("Behaviour"), Description("Gets or sets the action upon multiple markings in a field for the OMR Region.")]
         public MultiMarkAction MultiMarkAction { get; set; }
-        [Category("Behaviour"), Description("Get or set the type of key to use for the OMR Region.")]
+        [Category("Behaviour"), Description("Gets or sets the action taken when none of the options in a field is marked for the OMR Region.")]
+        public NoneMarkedAction NoneMarkedAction { get; set; }
+        [Category("Behaviour"), Description("Gets or sets the type of key to use for the OMR Region.")]
         public KeyType KeyType { get; set; }
+        [Category("Behaviour"), Description("Gets or sets the type of character shown for multi marked field for the OMR Region.")]
+        public char MultiMarkSymbol { get; set; }
+        [Category("Behaviour"), Description("Gets or sets the type of character shown for multi marked field for the OMR Region.")]
+        public char NoneMarkedSymbol { get; set; }
         #endregion
 
         #region Private Properties
@@ -401,21 +420,25 @@ namespace Synapse.Core.Configurations
         #endregion
 
         #region Public Methods
-        public OMRConfiguration(ConfigurationBase _base, OMRRegionData regionData, Orientation orientation, OMRType oMRType, MultiMarkAction multiMarkAction, KeyType keyType) : base(_base)
+        public OMRConfiguration(ConfigurationBase _base, OMRRegionData regionData, Orientation orientation, OMRType oMRType, MultiMarkAction multiMarkAction, KeyType keyType, char multiMarkSymbol, char noneMarkedSymbol) : base(_base)
         {
             this.regionData = regionData;
             Orientation = orientation;
             OMRType = oMRType;
             MultiMarkAction = multiMarkAction;
             KeyType = keyType;
+            MultiMarkSymbol = multiMarkSymbol;
+            NoneMarkedSymbol = noneMarkedSymbol;
         }
-        public OMRConfiguration(BaseData _baseData, OMRRegionData regionData, Orientation orientation, OMRType oMRType, MultiMarkAction multiMarkAction, KeyType keyType) : base(_baseData)
+        public OMRConfiguration(BaseData _baseData, OMRRegionData regionData, Orientation orientation, OMRType oMRType, MultiMarkAction multiMarkAction, KeyType keyType, char multiMarkSymbol, char noneMarkedSymbol) : base(_baseData)
         {
             this.regionData = regionData;
             Orientation = orientation;
             OMRType = oMRType;
             MultiMarkAction = multiMarkAction;
             KeyType = keyType;
+            MultiMarkSymbol = multiMarkSymbol;
+            NoneMarkedSymbol = noneMarkedSymbol;
         }
 
         #region Answer Key
@@ -557,7 +580,7 @@ namespace Synapse.Core.Configurations
         public static OMRConfiguration CreateDefault(string regionName, Orientation orientation, ConfigArea configArea, OMRRegionData regionData, int processingIndex)
         {
             BaseData configurationBase = new BaseData(regionName, MainConfigType.OMR, configArea, ValueDataType.Integer, Typography.Continious, ValueRepresentation.Collective, ValueEditType.ReadOnly, new ConfigRange(), processingIndex);
-            return new OMRConfiguration(configurationBase, regionData, orientation, OMRType.NonGradable, MultiMarkAction.MarkAsManual, KeyType.General);
+            return new OMRConfiguration(configurationBase, regionData, orientation, OMRType.NonGradable, MultiMarkAction.MarkAsManual, KeyType.General, '#', '*');
         }
 
         public override ProcessedDataEntry ProcessSheet(Mat sheet)

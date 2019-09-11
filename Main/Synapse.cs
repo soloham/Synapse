@@ -1,23 +1,24 @@
 ﻿using Emgu.CV;
 using Emgu.CV.Structure;
 using Synapse.Core.Configurations;
+using Synapse.Core.Engines.Data;
 using Synapse.Core.Managers;
 using Synapse.Core.Templates;
 using Synapse.Modules;
 using Synapse.Utilities;
 using Synapse.Utilities.Objects;
-using Syncfusion.Windows.Forms.Diagram;
 using Syncfusion.Windows.Forms.Tools;
+using Syncfusion.WinForms.DataGrid;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Dynamic;
 using System.IO;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Windows.Threading;
 using static Synapse.Core.Configurations.ConfigurationBase;
 using static Synapse.Core.Templates.Template;
 
@@ -90,7 +91,11 @@ namespace Synapse
         private bool isMouseUpRegion;
         #endregion
         #region Reading Panel
+        internal ProcessingManager MainProcessingManager { get; set; }
+
         private SheetsList loadedSheetsData = new SheetsList();
+        private List<ProcessedDataRow> processedData = new List<ProcessedDataRow>();
+        private ObservableCollection<dynamic> processedDataSource = new ObservableCollection<dynamic>();
         #endregion
         #endregion
 
@@ -321,6 +326,11 @@ namespace Synapse
             mainDockingManager.SetMenuButtonVisibility(configPropertiesPanel, false);
             mainDockingManager.SetDockLabel(configPropertiesPanel, "Properties");
 
+            mainDockingManager.SetEnableDocking(dataImageBoxPanel, true);
+            mainDockingManager.DockControlInAutoHideMode(dataImageBoxPanel, DockingStyle.Right, 450);
+            mainDockingManager.SetMenuButtonVisibility(dataImageBoxPanel, false);
+            mainDockingManager.SetDockLabel(dataImageBoxPanel, "Image");
+
             OMRRegionColorStates = new ColorStates(Color.FromArgb(55, Color.Firebrick), Color.FromArgb(95, Color.Firebrick), Color.FromArgb(85, Color.Firebrick), Color.FromArgb(110, Color.Firebrick));
             ICRRegionColorStates = new ColorStates(Color.FromArgb(55, Color.SlateGray), Color.FromArgb(95, Color.SlateGray), Color.FromArgb(85, Color.SlateGray), Color.FromArgb(110, Color.SlateGray));
 
@@ -352,6 +362,8 @@ namespace Synapse
                     Messages.LoadFileException(ex);
                 }
             }
+
+            MainProcessingManager = new ProcessingManager(GetCurrentTemplate);
         }
 
         #region Configuration Panel
@@ -445,6 +457,7 @@ namespace Synapse
         {
             if (templateImage.Size != Size.Empty && alignmentMethods.Count > 0)
             {
+                templateImageBox.Image = templateImage.GetBitmap;
                 GetCurrentTemplate.SetTemplateImage(templateImage);
                 GetCurrentTemplate.SetAlignmentPipeline(alignmentMethods);
 
@@ -476,99 +489,32 @@ namespace Synapse
         }
         private async void StartReadingToolStripBtn_Click(object sender, EventArgs e)
         {
-            string[] sheetsPaths = loadedSheetsData.GetSheetsPath;
-            for (int i = 0; i < sheetsPaths.Length; i++)
+            if (!loadedSheetsData.SheetsLoaded)
             {
-                Mat curSheet = new Mat(sheetsPaths[i]);
-                var alignedSheet = AlignSheet(curSheet.ToImage<Gray, byte>(), out AlignmentPipelineResults alignmentPipelineResults);
-
-                templateImageBox.Image = alignedSheet.Bitmap;
-                await Task.Delay(TimeSpan.FromMilliseconds(0.5));
-                var allConfigurations = ConfigurationsManager.GetAllConfigurations;
-                for (int i1 = 0; i1 < allConfigurations.Count; i1++)
-                {
-                    var entry = allConfigurations[i1].ProcessSheet(alignedSheet.Mat);
-                }
+                Messages.ShowError("Unable to start procesing as there are no sheets loaded for processing. \n\n Please load sheets in order to start processing");
+                return;
             }
+
+            bool keepData = false;
+            if (MainProcessingManager.DataExists())
+                keepData = Messages.ShowQuestion("Would you like to keep the current processed data?") == DialogResult.Yes;
+
+            MainProcessingManager.LoadSheets(loadedSheetsData);
+            await MainProcessingManager.StartProcessing(keepData);
         }
 
-        private Image<Gray, byte> AlignSheet(Image<Gray, byte> sheetImage, out AlignmentPipelineResults alignmentPipelineResults)
+        internal void InitializeMainDataGrid(List<ProcessedDataEntry> processedDataEntries, ObservableCollection<dynamic> processedDataSource)
         {
-            Image<Gray, byte> outputImage = sheetImage.Clone();
-            List<AlignmentMethod> alignmentPipeline = GetCurrentTemplate.TemplateData.GetAlignmentPipeline;
-            Image<Gray, byte> templateImage =  new Image<Gray, byte>(GetCurrentTemplate.GetTemplateImage.GetBitmap);
-
-            alignmentPipelineResults = null;
-
-            if (alignmentPipeline.Count <= 0)
-                return outputImage;
-
-            List<AlignmentPipelineResults.AlignmentMethodResult> alignmentMethodResults = new List<AlignmentPipelineResults.AlignmentMethodResult>();
-
-            IOutputArray outputImageArr;
-            outputImage = sheetImage.Resize(templateImage.Width, templateImage.Height, Emgu.CV.CvEnum.Inter.Cubic);
-            for (int i = 0; i < alignmentPipeline.Count; i++)
+            mainDataGrid.AutoGenerateColumns = false;
+            mainDataGrid.Columns.Clear();
+            for (int i3 = 0; i3 < processedDataEntries.Count; i3++)
             {
-                Exception exception = null;
-
-                AlignmentPipelineResults.AlignmentMethodResult alignmentMethodResult = null;
-                AlignmentMethod alignmentMethod = alignmentPipeline[i];
-
-                if (alignmentMethod.PipelineIndex == -1) //|| ommittedAlignmetMethodIndeces.Contains(alignmentMethod.PipelineIndex))
-                    continue;
-
-                if (alignmentMethod.GetAlignmentMethodType == AlignmentMethodType.Anchors)
-                {
-                    var aIM = (AnchorAlignmentMethod)alignmentMethod;
-                    bool isSuccess = aIM.ApplyMethod(outputImage, out outputImageArr, out RectangleF[] detectedAnchors, out RectangleF[] warpedAnchors, out RectangleF[] scaledMainAnchorRegions, out RectangleF scaledMainTestRegion, out long alignmentTime, out exception);
-                    var mainAnchors = aIM.GetAnchors.ToArray();
-                    if (isSuccess)
-                    {
-                        var outputMat = (Mat)outputImageArr;
-                        outputImage = outputMat.ToImage<Gray, byte>();
-                    }
-                    AlignmentPipelineResults.AnchorAlignmentMethodResult anchorAlignmentMethodResult = new AlignmentPipelineResults.AnchorAlignmentMethodResult(alignmentMethod, isSuccess ? AlignmentPipelineResults.AlignmentMethodResultType.Successful : AlignmentPipelineResults.AlignmentMethodResultType.Failed, sheetImage, outputImage, alignmentTime, mainAnchors, detectedAnchors, warpedAnchors, scaledMainAnchorRegions, scaledMainTestRegion);
-                    alignmentMethodResult = anchorAlignmentMethodResult;
-                }
-                else
-                {
-                    bool isSuccess = alignmentMethod.ApplyMethod(templateImage, outputImage, out outputImageArr, out long alignmentTime, out exception);
-                    if (isSuccess)
-                    {
-                        var outputMat = (Mat)outputImageArr;
-                        outputImage = outputMat.ToImage<Gray, byte>();
-                    }
-                    alignmentMethodResult = new AlignmentPipelineResults.AlignmentMethodResult(alignmentMethod, isSuccess ? AlignmentPipelineResults.AlignmentMethodResultType.Successful : AlignmentPipelineResults.AlignmentMethodResultType.Failed, sheetImage, outputImage, alignmentTime);
-                }
-
-                alignmentMethodResults.Add(alignmentMethodResult);
-
-                if (alignmentMethodResult.GetAlignmentMethodResultType == AlignmentPipelineResults.AlignmentMethodResultType.Failed)
-                {
-                    string personnelData = exception.Message;
-
-                    if (exception.StackTrace == null)
-                    {
-                        Messages.ShowError("An error occured while applying the method: '" + alignmentMethod.MethodName + "' \n\n For concerned personnel: " + personnelData);
-                        return outputImage;
-                    }
-
-                    for (int i0 = exception.StackTrace.Length - 1; i0 > 0; i0--)
-                    {
-                        if (exception.StackTrace[i0] == '/' || exception.StackTrace[i0] == '\\')
-                        {
-                            personnelData = exception.StackTrace.Substring(i0 + 1);
-                            break;
-                        }
-                    }
-                    Messages.ShowError("An error occured while applying the method: '" + alignmentMethod.MethodName + "' \n\n For concerned personnel: " + personnelData);
-                }
+                GridTextColumn col1 = new GridTextColumn();
+                col1.MappingName = processedDataEntries[i3].GetConfigurationBase.Title;
+                col1.HeaderText = processedDataEntries[i3].GetConfigurationBase.Title;
+                mainDataGrid.Columns.Add(col1);
             }
-
-            alignmentPipelineResults = new AlignmentPipelineResults(alignmentMethodResults);
-            //OnResultsGeneratedEvent?.Invoke(alignmentPipelineResults);
-
-            return outputImage;
+            mainDataGrid.DataSource = processedDataSource;
         }
         #endregion
 
@@ -598,12 +544,14 @@ namespace Synapse
             readingTabPanel.Visible = false;
 
             mainDockingManager.SetDockVisibility(configPropertiesPanel, true);
+            mainDockingManager.SetDockVisibility(dataImageBoxPanel, false);
         }
         private void ReadingToolStripTabItem_Click(object sender, EventArgs e)
         {
             readingTabPanel.Visible = true;
             configTabPanel.Visible = false;
 
+            mainDockingManager.SetDockVisibility(dataImageBoxPanel, true);
             mainDockingManager.SetDockVisibility(configPropertiesPanel, false);
         }
         private void TmpLoadBrowseToolStripMenuItem_Click(object sender, EventArgs e)
@@ -849,9 +797,25 @@ namespace Synapse
                 //}
             }
         }
+
+        private void MainDataGrid_SelectionChanged(object sender, Syncfusion.WinForms.DataGrid.Events.SelectionChangedEventArgs e)
+        {
+
+        }
+        private void MainDataGrid_CellClick(object sender, Syncfusion.WinForms.DataGrid.Events.CellClickEventArgs e)
+        {
+            if (e.DataRow.RowType != Syncfusion.WinForms.DataGrid.Enums.RowType.DefaultRow)
+                return;
+
+            var dataObject = (dynamic)e.DataRow.RowData;
+            var processedDataRow = (ProcessedDataRow)dataObject.DataRowObject;
+
+            dataImageBox.Image = processedDataRow.GetAlignedImage().Bitmap;
+        }
         #endregion
 
         #endregion
+
         #endregion
     }
 }

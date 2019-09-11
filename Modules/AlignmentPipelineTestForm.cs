@@ -267,25 +267,25 @@ namespace Synapse.Modules
                 if (alignmentMethod.GetAlignmentMethodType == AlignmentMethodType.Anchors)
                 {
                     var aIM = (AnchorAlignmentMethod)alignmentMethod;
-                    bool isSuccess = aIM.ApplyMethod(outputImage, out outputImageArr, out RectangleF[] detectedAnchors, out RectangleF[] warpedAnchors, out RectangleF[] scaledMainAnchorRegions, out RectangleF scaledMainTestRegion, out long alignmentTime, out exception);
+                    bool isSuccess = aIM.ApplyMethod(outputImage, out outputImageArr, out RectangleF[] detectedAnchors, out RectangleF[] warpedAnchors, out RectangleF[] scaledMainAnchorRegions, out RectangleF scaledMainTestRegion, out Mat homography, out long alignmentTime, out exception);
                     var mainAnchors = aIM.GetAnchors.ToArray();
                     if (isSuccess)
                     {
                         var outputMat = (Mat)outputImageArr;
                         outputImage = outputMat.ToImage<Gray, byte>();
                     }
-                    AlignmentPipelineResults.AnchorAlignmentMethodResult anchorAlignmentMethodResult = new AlignmentPipelineResults.AnchorAlignmentMethodResult(alignmentMethod, isSuccess ? AlignmentPipelineResults.AlignmentMethodResultType.Successful : AlignmentPipelineResults.AlignmentMethodResultType.Failed, testImage, outputImage, alignmentTime, mainAnchors, detectedAnchors, warpedAnchors, scaledMainAnchorRegions, scaledMainTestRegion);
+                    AlignmentPipelineResults.AnchorAlignmentMethodResult anchorAlignmentMethodResult = new AlignmentPipelineResults.AnchorAlignmentMethodResult(alignmentMethod, isSuccess ? AlignmentPipelineResults.AlignmentMethodResultType.Successful : AlignmentPipelineResults.AlignmentMethodResultType.Failed, homography, testImage, outputImage, alignmentTime, mainAnchors, detectedAnchors, warpedAnchors, scaledMainAnchorRegions, scaledMainTestRegion);
                     alignmentMethodResult = anchorAlignmentMethodResult;
                 }
                 else
                 {
-                    bool isSuccess = alignmentMethod.ApplyMethod(templateImage, outputImage, out outputImageArr, out long alignmentTime, out exception);
+                    bool isSuccess = alignmentMethod.ApplyMethod(templateImage, outputImage, out outputImageArr, out Mat homography, out long alignmentTime, out exception);
                     if (isSuccess)
                     {
                         var outputMat = (Mat)outputImageArr;
                         outputImage = outputMat.ToImage<Gray, byte>();
                     }
-                    alignmentMethodResult = new AlignmentPipelineResults.AlignmentMethodResult(alignmentMethod, isSuccess ? AlignmentPipelineResults.AlignmentMethodResultType.Successful : AlignmentPipelineResults.AlignmentMethodResultType.Failed, testImage, outputImage, alignmentTime);
+                    alignmentMethodResult = new AlignmentPipelineResults.AlignmentMethodResult(alignmentMethod, isSuccess ? AlignmentPipelineResults.AlignmentMethodResultType.Successful : AlignmentPipelineResults.AlignmentMethodResultType.Failed, homography, testImage, outputImage, alignmentTime);
                 }
 
                 alignmentMethodResults.Add(alignmentMethodResult);
