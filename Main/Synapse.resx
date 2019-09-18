@@ -123,6 +123,32 @@
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>112</value>
   </metadata>
+  <metadata name="dataToolStripTabItem.TabGroup" type="System.Resources.ResXNullRef, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value />
+  </metadata>
+  <metadata name="dataManipulationToolStripEx.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>309, 63</value>
+  </metadata>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="addFieldToolStripBtn.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAGxSURBVGhD7ZchT8QwFMcrEAgEAoFAIBAIPgACgUQgEAgE
+        CUhCjmztELjDIZAIJBLBR0AsYWsH4SMgkAgEAoFAcP0/1m0QptpejuT9kpdb/7e8t//1re0JhmEYhmEY
+        hmEYxnJ0vyCU3hKqWBNJPlur/4ikWhRS5yIxH/SpTCX2zKeQ5lwM8+n6rglH6WUyoMyXnYln0mCMxojy
+        ljRvkNTFMJ+q1TAgH3795qH/MmIjLQ9I9wKJkvKFiqCHQ5LplaadvlvqmvTjh/mOBqOPpHsBI1m1Xo/C
+        IsvdZhb6oG6wZr2JaSTV2zTbyI+QxSrpaDnXzljBlHkn3Yuukd+96xPSDGws/dT73hFdkO4FEsUw4h5O
+        mptW7zGi9CbpXiBRDCMU2PzyOTKAsWszqXc691xQbW+QLJaRgX6lleswnxGqurTaW/v93RO9Q8FA0mgz
+        YgM7eGbOyAzAEh/leIJiMY200e4V0qS0EAQFRcZipLOf4NrVDAaKuKQ4wOE6Rrg9BEQ3Mi6iGUn1lV0S
+        T6P/R0j1CdXCTh7cCAy4iG1Emg17bN+nwMGRYRiGYRiGYRhm4hFiBMLLdMKU3iZQAAAAAElFTkSuQmCC
+</value>
+  </data>
+  <metadata name="dataPointStorageToolStripEx.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>518, 63</value>
+  </metadata>
+  <metadata name="exportToolStripEx.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>179, 62</value>
+  </metadata>
   <metadata name="configToolStripTabItem.TabGroup" type="System.Resources.ResXNullRef, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value />
   </metadata>
@@ -135,7 +161,6 @@
   <metadata name="aiConfigToolStripEx.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>189, 23</value>
   </metadata>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="dataConfigStatusLabel.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
@@ -237,31 +262,6 @@
         YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABySURBVGhD7djBCcNADEXBLdlxBe4kpQQC3qsLcDEJ6wYU
         wcqHMAP/LN5VDQCAQmv/lK/cdeh9tmV/Tt/aj/sixsEKj30T8TMRAREZIgIiMkQERGSICIjIEBEQkSEi
         ICLjbyLGV2IcnL/XnRG1AwCgSGtfL3pxZvPVIQoAAAAASUVORK5CYII=
-</value>
-  </data>
-  <metadata name="dataToolStripTabItem.TabGroup" type="System.Resources.ResXNullRef, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value />
-  </metadata>
-  <metadata name="dataManipulationToolStripEx.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>309, 63</value>
-  </metadata>
-  <metadata name="dataPointStorageToolStripEx.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>518, 63</value>
-  </metadata>
-  <metadata name="exportToolStripEx.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>179, 62</value>
-  </metadata>
-  <data name="addFieldToolStripBtn.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAGxSURBVGhD7ZchT8QwFMcrEAgEAoFAIBAIPgACgUQgEAgE
-        CUhCjmztELjDIZAIJBLBR0AsYWsH4SMgkAgEAoFAcP0/1m0QptpejuT9kpdb/7e8t//1re0JhmEYhmEY
-        hmEYxnJ0vyCU3hKqWBNJPlur/4ikWhRS5yIxH/SpTCX2zKeQ5lwM8+n6rglH6WUyoMyXnYln0mCMxojy
-        ljRvkNTFMJ+q1TAgH3795qH/MmIjLQ9I9wKJkvKFiqCHQ5LplaadvlvqmvTjh/mOBqOPpHsBI1m1Xo/C
-        IsvdZhb6oG6wZr2JaSTV2zTbyI+QxSrpaDnXzljBlHkn3Yuukd+96xPSDGws/dT73hFdkO4FEsUw4h5O
-        mptW7zGi9CbpXiBRDCMU2PzyOTKAsWszqXc691xQbW+QLJaRgX6lleswnxGqurTaW/v93RO9Q8FA0mgz
-        YgM7eGbOyAzAEh/leIJiMY200e4V0qS0EAQFRcZipLOf4NrVDAaKuKQ4wOE6Rrg9BEQ3Mi6iGUn1lV0S
-        T6P/R0j1CdXCTh7cCAy4iG1Emg17bN+nwMGRYRiGYRiGYRhm4hFiBMLLdMKU3iZQAAAAAElFTkSuQmCC
 </value>
   </data>
   <metadata name="ImageFileBrowser.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">

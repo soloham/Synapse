@@ -723,6 +723,16 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Play_WF {
+            get {
+                object obj = ResourceManager.GetObject("Play-WF", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap QR_Code___02 {
             get {
                 object obj = ResourceManager.GetObject("QR-Code - 02", resourceCulture);
@@ -783,6 +793,26 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap ScanFolderIcon {
+            get {
+                object obj = ResourceManager.GetObject("ScanFolderIcon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ScanFolderIcon1 {
+            get {
+                object obj = ResourceManager.GetObject("ScanFolderIcon1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap ScanScannerBtnIcon_ReadingTab {
             get {
                 object obj = ResourceManager.GetObject("ScanScannerBtnIcon_ReadingTab", resourceCulture);
@@ -796,6 +826,26 @@ namespace Synapse.Properties {
         internal static System.Drawing.Bitmap selection {
             get {
                 object obj = ResourceManager.GetObject("selection", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Shape_Square_2_WF {
+            get {
+                object obj = ResourceManager.GetObject("Shape Square 2-WF", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Shape_Square_2_WF_Gray {
+            get {
+                object obj = ResourceManager.GetObject("Shape Square 2-WF Gray", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

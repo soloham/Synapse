@@ -2,15 +2,17 @@
 using Synapse.Core.Configurations;
 using Synapse.Core.Engines.Data;
 using Synapse.Core.Engines.Interface;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Synapse.Core.Engines
 {
     internal class OMREngine : IEngine
     {
-        public ProcessedDataEntry ProcessSheet(ConfigurationBase configuration, Mat sheetMat)
+        public ProcessedDataEntry ProcessSheet(ConfigurationBase configuration, Mat sheetMat, Action<RectangleF, bool> OnOptionProcessed = null)
         {
             OMRConfiguration omrConfiguration = (OMRConfiguration)configuration;
 
@@ -23,7 +25,6 @@ namespace Synapse.Core.Engines
 
             PointF regionLocation = omrConfiguration.GetConfigArea.ConfigRect.Location;
             List<RectangleF> optionsRects = regionData.GetOptionsRects;
-            List<RectangleF> fieldsRects = regionData.GetFieldsRects;
 
             char muliMarkSymbol = omrConfiguration.MultiMarkSymbol;
             MultiMarkAction multiMarkAction = omrConfiguration.MultiMarkAction;
@@ -35,6 +36,8 @@ namespace Synapse.Core.Engines
 
             int curOptionRectIndex = 0;
             List<byte> filledIndexes = new List<byte>();
+
+            double curBlackCountThreshold = omrConfiguration.BlackCountThreshold;
             for (int i = 0; i < totalFields; i++)
             {
                 char curFieldOutput = '0';
@@ -47,9 +50,9 @@ namespace Synapse.Core.Engines
 
                     Mat curOption = new Mat(sheetMat, curOptionRect);
                     var data = curOption.GetRawData();
-                    int blackCount = data.Count(x => x < 150);
+                    int blackCount = data.Count(x => x < 180);
                     double blackCountPercent = blackCount / (double)data.Length;
-                    bool isFilled = blackCountPercent > 0.30;
+                    bool isFilled = blackCountPercent > curBlackCountThreshold;
                     if (isFilled)
                     {
                         rawDataValues[i, j] = 1;
@@ -58,6 +61,134 @@ namespace Synapse.Core.Engines
                     }
                     else
                         rawDataValues[i, j] = 0;
+
+                    OnOptionProcessed?.Invoke(optionsRects[curOptionRectIndex], isFilled);
+
+                    curOptionRectIndex++;
+                }
+
+                byte totalFilled = (byte)filledIndexes.Count;
+                if (totalFilled > 0)
+                {
+                    if (totalFilled > 1)
+                    {
+                        switch (multiMarkAction)
+                        {
+                            case MultiMarkAction.MarkAsManual:
+                                curFieldOutput = muliMarkSymbol;
+                                processedDataResultType = ProcessedDataResultType.MANUAL;
+                                break;
+                            case MultiMarkAction.ConsiderFirst:
+                                break;
+                            case MultiMarkAction.ConsiderLast:
+                                break;
+                            case MultiMarkAction.ConsiderCorrect:
+                                break;
+                            case MultiMarkAction.Invalidate:
+                                curFieldOutput = muliMarkSymbol;
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        switch (omrConfiguration.ValueDataType)
+                        {
+                            case ValueDataType.String:
+                                break;
+                            case ValueDataType.Text:
+                                break;
+                            case ValueDataType.Alphabet:
+                                curFieldOutput = (char)(filledIndexes[0] + 65);
+                                break;
+                            case ValueDataType.WholeNumber:
+                                curFieldOutput = (char)(filledIndexes[0] + 48);
+                                break;
+                            case ValueDataType.NaturalNumber:
+                                curFieldOutput = (char)(filledIndexes[0] + 49);
+                                break;
+                            case ValueDataType.Integer:
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
+                else
+                {
+                    switch (noneMarkedAction)
+                    {
+                        case NoneMarkedAction.MarkAsManual:
+                            curFieldOutput = noneMarkedSymbol;
+                            processedDataResultType = ProcessedDataResultType.MANUAL;
+                            break;
+                        case NoneMarkedAction.Invalidate:
+                            curFieldOutput = noneMarkedSymbol;
+                            break;
+                    }
+                }
+
+                regionFieldsOutputs[i] = curFieldOutput;
+                regionOutput += curFieldOutput.ToString();
+            }
+
+            ProcessedDataEntry processedDataEntry = new ProcessedDataEntry(configuration, rawDataValues, regionFieldsOutputs, processedDataResultType);
+            return processedDataEntry;
+        }
+
+        public async Task<ProcessedDataEntry> ProcessSheetRaw(ConfigurationBase configuration, Mat sheetMat, Action<RectangleF, bool> OnOptionProcessed = null, Func<double> GetWaitMS = null)
+        {
+            OMRConfiguration omrConfiguration = (OMRConfiguration)configuration;
+
+            OMRRegionData regionData = omrConfiguration.RegionData;
+            int totalFields = regionData.TotalFields;
+            int totalOptions = regionData.TotalOptions;
+
+            byte[,] rawDataValues = new byte[totalFields, totalOptions];
+            ProcessedDataResultType processedDataResultType = ProcessedDataResultType.NORMAL;
+
+            PointF regionLocation = omrConfiguration.GetConfigArea.ConfigRect.Location;
+            List<RectangleF> optionsRects = regionData.GetOptionsRects;
+
+            char muliMarkSymbol = omrConfiguration.MultiMarkSymbol;
+            MultiMarkAction multiMarkAction = omrConfiguration.MultiMarkAction;
+            char noneMarkedSymbol = omrConfiguration.NoneMarkedSymbol;
+            NoneMarkedAction noneMarkedAction = omrConfiguration.NoneMarkedAction;
+
+            char[] regionFieldsOutputs = new char[totalFields];
+            string regionOutput = "";
+
+            int curOptionRectIndex = 0;
+            List<byte> filledIndexes = new List<byte>();
+
+            double curBlackCountThreshold = omrConfiguration.BlackCountThreshold;
+            for (int i = 0; i < totalFields; i++)
+            {
+                char curFieldOutput = '0';
+                filledIndexes = new List<byte>();
+                for (int j = 0; j < totalOptions; j++)
+                {
+                    Rectangle curOptionRect = Rectangle.Round(optionsRects[curOptionRectIndex]);
+                    //curOptionRect = Rectangle.Round(optionsRects[(j == 0 && i == 0)? 0 : (j == totalOptions-1 && i == totalFields-1)? optionsRects.Count - 1 : curOptionRectIndex+1]);
+                    curOptionRect.X += (int)regionLocation.X;
+                    curOptionRect.Y += (int)regionLocation.Y;
+
+                    Mat curOption = new Mat(sheetMat, curOptionRect);
+                    var data = curOption.GetRawData();
+                    int blackCount = data.Count(x => x < 150);
+                    double blackCountPercent = blackCount / (double)data.Length;
+                    bool isFilled = blackCountPercent > curBlackCountThreshold;
+                    if (isFilled)
+                    {
+                        rawDataValues[i, j] = 1;
+
+                        filledIndexes.Add((byte)j);
+                    }
+                    else
+                        rawDataValues[i, j] = 0;
+
+                    OnOptionProcessed?.Invoke(curOptionRect, isFilled);
+                    if(OnOptionProcessed != null)
+                        await Task.Delay(TimeSpan.FromMilliseconds(GetWaitMS()));
 
                     curOptionRectIndex++;
                 }

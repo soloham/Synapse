@@ -408,6 +408,8 @@ namespace Synapse.Core.Configurations
         public char MultiMarkSymbol { get; set; }
         [Category("Behaviour"), Description("Gets or sets the type of character shown for multi marked field for the OMR Region.")]
         public char NoneMarkedSymbol { get; set; }
+        [Category("Behaviour"), Description("Gets or sets the type of character shown for multi marked field for the OMR Region.")]
+        public double BlackCountThreshold { get; set; }
         #endregion
 
         #region Private Properties
@@ -420,7 +422,7 @@ namespace Synapse.Core.Configurations
         #endregion
 
         #region Public Methods
-        public OMRConfiguration(ConfigurationBase _base, OMRRegionData regionData, Orientation orientation, OMRType oMRType, MultiMarkAction multiMarkAction, KeyType keyType, char multiMarkSymbol, char noneMarkedSymbol) : base(_base)
+        public OMRConfiguration(ConfigurationBase _base, OMRRegionData regionData, Orientation orientation, OMRType oMRType, MultiMarkAction multiMarkAction, KeyType keyType, char multiMarkSymbol, char noneMarkedSymbol, double blackCountThreshold) : base(_base)
         {
             this.regionData = regionData;
             Orientation = orientation;
@@ -429,8 +431,9 @@ namespace Synapse.Core.Configurations
             KeyType = keyType;
             MultiMarkSymbol = multiMarkSymbol;
             NoneMarkedSymbol = noneMarkedSymbol;
+            BlackCountThreshold = blackCountThreshold;
         }
-        public OMRConfiguration(BaseData _baseData, OMRRegionData regionData, Orientation orientation, OMRType oMRType, MultiMarkAction multiMarkAction, KeyType keyType, char multiMarkSymbol, char noneMarkedSymbol) : base(_baseData)
+        public OMRConfiguration(BaseData _baseData, OMRRegionData regionData, Orientation orientation, OMRType oMRType, MultiMarkAction multiMarkAction, KeyType keyType, char multiMarkSymbol, char noneMarkedSymbol, double blackCountThreshold) : base(_baseData)
         {
             this.regionData = regionData;
             Orientation = orientation;
@@ -439,6 +442,7 @@ namespace Synapse.Core.Configurations
             KeyType = keyType;
             MultiMarkSymbol = multiMarkSymbol;
             NoneMarkedSymbol = noneMarkedSymbol;
+            BlackCountThreshold = blackCountThreshold;
         }
 
         #region Answer Key
@@ -580,13 +584,18 @@ namespace Synapse.Core.Configurations
         public static OMRConfiguration CreateDefault(string regionName, Orientation orientation, ConfigArea configArea, OMRRegionData regionData, int processingIndex)
         {
             BaseData configurationBase = new BaseData(regionName, MainConfigType.OMR, configArea, ValueDataType.Integer, Typography.Continious, ValueRepresentation.Collective, ValueEditType.ReadOnly, new ConfigRange(), processingIndex);
-            return new OMRConfiguration(configurationBase, regionData, orientation, OMRType.NonGradable, MultiMarkAction.MarkAsManual, KeyType.General, '#', '*');
+            return new OMRConfiguration(configurationBase, regionData, orientation, OMRType.NonGradable, MultiMarkAction.MarkAsManual, KeyType.General, '#', '*', 0.45);
         }
 
         public override ProcessedDataEntry ProcessSheet(Mat sheet)
         {
             OMREngine omrEngine = new OMREngine();
             return omrEngine.ProcessSheet(this, sheet);
+        }
+        public async Task<ProcessedDataEntry> ProcessSheetRaw(Mat sheet, Action<RectangleF, bool> OnOptionProcessed, Func<double> GetWaitMS)
+        {
+            OMREngine omrEngine = new OMREngine();
+            return await omrEngine.ProcessSheetRaw(this, sheet, OnOptionProcessed, GetWaitMS);
         }
         #endregion
     }

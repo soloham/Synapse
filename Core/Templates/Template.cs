@@ -72,7 +72,8 @@ namespace Synapse.Core.Templates
 
             public void SetBitmap(Bitmap bitmap)
             {
-                this.bitmap = new Bitmap(bitmap);
+                this.bitmap = new Bitmap(bitmap);if(bitmap != null)
+                grayImage = new Image<Gray, byte>(bitmap);
             }
             public static TemplateImage Empty()
             {

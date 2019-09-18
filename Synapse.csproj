@@ -57,6 +57,8 @@
     <Reference Include="Emgu.CV.World, Version=4.1.0.3420, Culture=neutral, PublicKeyToken=7281126722ab4438, processorArchitecture=MSIL">
       <HintPath>..\packages\EMGU.CV.4.1.0.3420\lib\net35\Emgu.CV.World.dll</HintPath>
     </Reference>
+    <Reference Include="Syncfusion.Compression.Base, Version=17.2460.0.46, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
+    <Reference Include="Syncfusion.Core.WinForms, Version=17.2460.0.46, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
     <Reference Include="Syncfusion.Data.WinForms, Version=17.2460.0.46, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
     <Reference Include="Syncfusion.DataSource.WinForms, Version=17.2460.0.46, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
     <Reference Include="Syncfusion.Diagram.Base, Version=17.2460.0.46, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
@@ -66,12 +68,15 @@
     <Reference Include="Syncfusion.Schedule.Base, Version=17.2460.0.46, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
     <Reference Include="Syncfusion.Schedule.Windows, Version=17.2460.0.46, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
     <Reference Include="Syncfusion.SfDataGrid.WinForms, Version=17.2460.0.46, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL" />
+    <Reference Include="Syncfusion.SfDataGridConverter.WinForms, Version=17.2460.0.46, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
     <Reference Include="Syncfusion.SfInput.WinForms, Version=17.2460.0.46, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
     <Reference Include="Syncfusion.SfListView.WinForms, Version=17.2460.0.46, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL" />
     <Reference Include="Syncfusion.Shared.Base, Version=17.2460.0.46, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
     <Reference Include="Syncfusion.Shared.Windows, Version=17.2460.0.46, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
     <Reference Include="Syncfusion.Tools.Base, Version=17.2460.0.46, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
     <Reference Include="Syncfusion.Tools.Windows, Version=17.2460.0.46, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
+    <Reference Include="Syncfusion.XlsIO.Base, Version=17.2460.0.46, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
+    <Reference Include="Syncfusion.XlsIO.Windows, Version=17.2460.0.46, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -191,6 +196,12 @@
     <Compile Include="Modules\AlignmentPipelineTestForm.Designer.cs">
       <DependentUpon>AlignmentPipelineTestForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Modules\ConfigurationsTestForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modules\ConfigurationsTestForm.Designer.cs">
+      <DependentUpon>ConfigurationsTestForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Modules\ICRConfigurationForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -297,6 +308,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Modules\AlignmentPipelineTestForm.resx">
       <DependentUpon>AlignmentPipelineTestForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modules\ConfigurationsTestForm.resx">
+      <DependentUpon>ConfigurationsTestForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Modules\ICRConfigurationForm.resx">
       <DependentUpon>ICRConfigurationForm.cs</DependentUpon>
@@ -429,6 +443,9 @@
     <None Include="Resources\General\Instrument-Test-Tube-WF.png" />
     <None Include="Resources\General\Anchor-01.png" />
     <None Include="Resources\General\3D shape -01-WF.png" />
+    <None Include="Resources\General\ScanFolderIcon.png" />
+    <None Include="Resources\General\Shape Square 2-WF.png" />
+    <None Include="Resources\General\Shape Square 2-WF Gray.png" />
     <Content Include="Resources\Ribbon\AddAsBarcodeBtnIcon1_ConfigTab.png" />
     <Content Include="Resources\Ribbon\AddAsBarcodeBtnIcon2_ConfigTab.png" />
     <Content Include="Resources\Ribbon\AddAsBarcodeBtnIcon3_ConfigTab.png" />

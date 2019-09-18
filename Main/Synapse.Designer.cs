@@ -53,7 +53,8 @@ namespace Synapse
             this.dataConfigStatusLabel = new System.Windows.Forms.ToolStripLabel();
             this.dataConfigStatusIndicator = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.configureDataToolStripBtn = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
+            this.configurationTestToolToolStripBtn = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.addAsOmrToolStripBtn = new System.Windows.Forms.ToolStripButton();
             this.addAsBarcodeToolStripBtn = new System.Windows.Forms.ToolStripButton();
@@ -117,10 +118,10 @@ namespace Synapse
             this.ImageFileBrowser = new System.Windows.Forms.OpenFileDialog();
             this.mainDockingManager = new Syncfusion.Windows.Forms.Tools.DockingManager(this.components);
             this.configPropertiesPanel = new System.Windows.Forms.Panel();
-            this.configPropertyEditor = new Syncfusion.Windows.Forms.Diagram.Controls.PropertyEditor(this.components);
-            this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.dataImageBoxPanel = new System.Windows.Forms.Panel();
             this.dataImageBox = new Cyotek.Windows.Forms.Demo.ImageBoxEx();
+            this.configPropertyEditor = new Syncfusion.Windows.Forms.Diagram.Controls.PropertyEditor(this.components);
+            this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
             this.ribbonControl.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.backStage1)).BeginInit();
@@ -180,7 +181,7 @@ namespace Synapse
             this.ribbonControl.QuickPanelVisible = false;
             this.ribbonControl.RibbonHeaderImage = Syncfusion.Windows.Forms.Tools.RibbonHeaderImage.RoundedSquares;
             this.ribbonControl.RibbonStyle = Syncfusion.Windows.Forms.Tools.RibbonStyle.Office2016;
-            this.ribbonControl.SelectedTab = this.configToolStripTabItem;
+            this.ribbonControl.SelectedTab = this.dataToolStripTabItem;
             this.ribbonControl.ShowLauncher = false;
             this.ribbonControl.ShowRibbonDisplayOptionButton = true;
             this.ribbonControl.Size = new System.Drawing.Size(1333, 209);
@@ -291,7 +292,7 @@ namespace Synapse
             this.templateConfigStatusIndicator});
             this.templateConfigStatusToolStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow;
             this.templateConfigStatusToolStrip.Name = "templateConfigStatusToolStrip";
-            this.templateConfigStatusToolStrip.Padding = new System.Windows.Forms.Padding(3, 17, 2, 2);
+            this.templateConfigStatusToolStrip.Padding = new System.Windows.Forms.Padding(3, 11, 2, 2);
             this.templateConfigStatusToolStrip.Size = new System.Drawing.Size(71, 124);
             this.templateConfigStatusToolStrip.Transparent = true;
             // 
@@ -347,19 +348,19 @@ namespace Synapse
             this.tmpLoadScanToolStripMenuItem,
             this.tmpLoadBrowseToolStripMenuItem});
             this.templateLoadToolStripMenuItem.Name = "templateLoadToolStripMenuItem";
-            this.templateLoadToolStripMenuItem.Size = new System.Drawing.Size(180, 24);
+            this.templateLoadToolStripMenuItem.Size = new System.Drawing.Size(136, 24);
             this.templateLoadToolStripMenuItem.Text = "Load";
             // 
             // tmpLoadScanToolStripMenuItem
             // 
             this.tmpLoadScanToolStripMenuItem.Name = "tmpLoadScanToolStripMenuItem";
-            this.tmpLoadScanToolStripMenuItem.Size = new System.Drawing.Size(180, 24);
+            this.tmpLoadScanToolStripMenuItem.Size = new System.Drawing.Size(123, 24);
             this.tmpLoadScanToolStripMenuItem.Text = "Scan";
             // 
             // tmpLoadBrowseToolStripMenuItem
             // 
             this.tmpLoadBrowseToolStripMenuItem.Name = "tmpLoadBrowseToolStripMenuItem";
-            this.tmpLoadBrowseToolStripMenuItem.Size = new System.Drawing.Size(180, 24);
+            this.tmpLoadBrowseToolStripMenuItem.Size = new System.Drawing.Size(123, 24);
             this.tmpLoadBrowseToolStripMenuItem.Text = "Browse";
             this.tmpLoadBrowseToolStripMenuItem.Click += new System.EventHandler(this.TmpLoadBrowseToolStripMenuItem_Click);
             // 
@@ -367,7 +368,7 @@ namespace Synapse
             // 
             this.templateConfigureToolStripMenuItem.Enabled = false;
             this.templateConfigureToolStripMenuItem.Name = "templateConfigureToolStripMenuItem";
-            this.templateConfigureToolStripMenuItem.Size = new System.Drawing.Size(180, 24);
+            this.templateConfigureToolStripMenuItem.Size = new System.Drawing.Size(136, 24);
             this.templateConfigureToolStripMenuItem.Text = "Configure";
             this.templateConfigureToolStripMenuItem.Click += new System.EventHandler(this.TemplateConfigureToolStripMenuItem_Click);
             // 
@@ -405,7 +406,8 @@ namespace Synapse
             this.dataConfigToolStripEx.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.dataConfigStatusToolStripPanel,
             this.toolStripSeparator3,
-            this.configureDataToolStripBtn,
+            this.toolStripButton1,
+            this.configurationTestToolToolStripBtn,
             this.toolStripSeparator4,
             this.addAsOmrToolStripBtn,
             this.addAsBarcodeToolStripBtn,
@@ -414,7 +416,7 @@ namespace Synapse
             this.dataConfigToolStripEx.Name = "dataConfigToolStripEx";
             this.dataConfigToolStripEx.Office12Mode = false;
             this.dataConfigToolStripEx.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
-            this.dataConfigToolStripEx.Size = new System.Drawing.Size(451, 140);
+            this.dataConfigToolStripEx.Size = new System.Drawing.Size(565, 140);
             this.dataConfigToolStripEx.TabIndex = 3;
             this.dataConfigToolStripEx.Text = "Data Configuration";
             this.dataConfigToolStripEx.ThemeName = "Office2016White";
@@ -430,7 +432,7 @@ namespace Synapse
             this.dataConfigStatusIndicator});
             this.dataConfigStatusToolStripPanel.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow;
             this.dataConfigStatusToolStripPanel.Name = "dataConfigStatusToolStripPanel";
-            this.dataConfigStatusToolStripPanel.Padding = new System.Windows.Forms.Padding(2, 17, 2, 2);
+            this.dataConfigStatusToolStripPanel.Padding = new System.Windows.Forms.Padding(2, 11, 2, 2);
             this.dataConfigStatusToolStripPanel.Size = new System.Drawing.Size(70, 124);
             this.dataConfigStatusToolStripPanel.Transparent = true;
             // 
@@ -464,20 +466,35 @@ namespace Synapse
             this.toolStripSeparator3.Name = "toolStripSeparator3";
             this.toolStripSeparator3.Size = new System.Drawing.Size(6, 95);
             // 
-            // configureDataToolStripBtn
+            // toolStripButton1
             // 
-            this.configureDataToolStripBtn.Font = new System.Drawing.Font("Dosis", 12F);
-            this.configureDataToolStripBtn.Image = global::Synapse.Properties.Resources.ConfigDataBtnIcon2_ConfigTab;
-            this.configureDataToolStripBtn.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.configureDataToolStripBtn.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.configureDataToolStripBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.configureDataToolStripBtn.Margin = new System.Windows.Forms.Padding(0, 1, 1, 2);
-            this.configureDataToolStripBtn.Name = "configureDataToolStripBtn";
-            this.configureDataToolStripBtn.Padding = new System.Windows.Forms.Padding(10, 0, 10, 0);
-            this.configureDataToolStripBtn.Size = new System.Drawing.Size(91, 121);
-            this.configureDataToolStripBtn.Text = "Configure\r\nData";
-            this.configureDataToolStripBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.configureDataToolStripBtn.Click += new System.EventHandler(this.ConfigureDataToolStripBtn_Click);
+            this.toolStripButton1.Font = new System.Drawing.Font("Dosis", 12F);
+            this.toolStripButton1.Image = global::Synapse.Properties.Resources.ConfigDataBtnIcon2_ConfigTab;
+            this.toolStripButton1.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.toolStripButton1.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton1.Margin = new System.Windows.Forms.Padding(0, 1, 1, 2);
+            this.toolStripButton1.Name = "toolStripButton1";
+            this.toolStripButton1.Padding = new System.Windows.Forms.Padding(10, 0, 10, 0);
+            this.toolStripButton1.Size = new System.Drawing.Size(91, 121);
+            this.toolStripButton1.Text = "Configure\r\nData";
+            this.toolStripButton1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolStripButton1.Click += new System.EventHandler(this.ConfigureDataToolStripBtn_Click);
+            // 
+            // configurationTestToolToolStripBtn
+            // 
+            this.configurationTestToolToolStripBtn.Font = new System.Drawing.Font("Dosis", 12F);
+            this.configurationTestToolToolStripBtn.Image = global::Synapse.Properties.Resources.ConfigDataBtnIcon2_ConfigTab;
+            this.configurationTestToolToolStripBtn.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.configurationTestToolToolStripBtn.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.configurationTestToolToolStripBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.configurationTestToolToolStripBtn.Margin = new System.Windows.Forms.Padding(0, 1, 1, 2);
+            this.configurationTestToolToolStripBtn.Name = "configurationTestToolToolStripBtn";
+            this.configurationTestToolToolStripBtn.Padding = new System.Windows.Forms.Padding(10, 0, 10, 0);
+            this.configurationTestToolToolStripBtn.Size = new System.Drawing.Size(120, 121);
+            this.configurationTestToolToolStripBtn.Text = "Test\r\nConfigurations";
+            this.configurationTestToolToolStripBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.configurationTestToolToolStripBtn.Click += new System.EventHandler(this.ConfigurationTestToolToolStripBtn_Click);
             // 
             // toolStripSeparator4
             // 
@@ -542,7 +559,7 @@ namespace Synapse
             this.aiConfigStatusToolStripPanel,
             this.toolStripSeparator2,
             this.configureNetworksToolStripBtn});
-            this.aiConfigToolStripEx.Location = new System.Drawing.Point(781, 1);
+            this.aiConfigToolStripEx.Location = new System.Drawing.Point(895, 1);
             this.aiConfigToolStripEx.Name = "aiConfigToolStripEx";
             this.aiConfigToolStripEx.Office12Mode = false;
             this.aiConfigToolStripEx.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
@@ -560,7 +577,7 @@ namespace Synapse
             this.aiConfigStatusIndicator});
             this.aiConfigStatusToolStripPanel.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow;
             this.aiConfigStatusToolStripPanel.Name = "aiConfigStatusToolStripPanel";
-            this.aiConfigStatusToolStripPanel.Padding = new System.Windows.Forms.Padding(2, 17, 2, 2);
+            this.aiConfigStatusToolStripPanel.Padding = new System.Windows.Forms.Padding(2, 11, 2, 2);
             this.aiConfigStatusToolStripPanel.Size = new System.Drawing.Size(70, 124);
             this.aiConfigStatusToolStripPanel.Transparent = true;
             // 
@@ -648,7 +665,7 @@ namespace Synapse
             this.scoresToolStripEx.Name = "scoresToolStripEx";
             this.scoresToolStripEx.Office12Mode = false;
             this.scoresToolStripEx.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
-            this.scoresToolStripEx.Size = new System.Drawing.Size(98, 140);
+            this.scoresToolStripEx.Size = new System.Drawing.Size(98, 134);
             this.scoresToolStripEx.TabIndex = 8;
             this.scoresToolStripEx.Text = "Scores";
             // 
@@ -662,7 +679,7 @@ namespace Synapse
             this.answerKeyToolStripBtn.Margin = new System.Windows.Forms.Padding(4, 1, 1, 2);
             this.answerKeyToolStripBtn.Name = "answerKeyToolStripBtn";
             this.answerKeyToolStripBtn.Padding = new System.Windows.Forms.Padding(8, 0, 8, 0);
-            this.answerKeyToolStripBtn.Size = new System.Drawing.Size(82, 121);
+            this.answerKeyToolStripBtn.Size = new System.Drawing.Size(82, 115);
             this.answerKeyToolStripBtn.Text = "Answer\r\nKey";
             this.answerKeyToolStripBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
@@ -682,11 +699,11 @@ namespace Synapse
             this.sheetsToolStripPanelItem,
             this.scanSheetsToolStripDropDownBtn,
             this.toolStripSeparator7});
-            this.sheetsToolStripEx.Location = new System.Drawing.Point(100, 1);
+            this.sheetsToolStripEx.Location = new System.Drawing.Point(0, 1);
             this.sheetsToolStripEx.Name = "sheetsToolStripEx";
             this.sheetsToolStripEx.Office12Mode = false;
             this.sheetsToolStripEx.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
-            this.sheetsToolStripEx.Size = new System.Drawing.Size(291, 140);
+            this.sheetsToolStripEx.Size = new System.Drawing.Size(291, 134);
             this.sheetsToolStripEx.TabIndex = 7;
             this.sheetsToolStripEx.Text = "OMR Sheets";
             // 
@@ -700,9 +717,9 @@ namespace Synapse
             this.includeSubFoldersToolStripCheckBox});
             this.sheetsToolStripPanelItem.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow;
             this.sheetsToolStripPanelItem.Name = "sheetsToolStripPanelItem";
-            this.sheetsToolStripPanelItem.Padding = new System.Windows.Forms.Padding(1, 0, 2, 2);
+            this.sheetsToolStripPanelItem.Padding = new System.Windows.Forms.Padding(1, 0, 2, 0);
             this.sheetsToolStripPanelItem.RowCount = 2;
-            this.sheetsToolStripPanelItem.Size = new System.Drawing.Size(192, 79);
+            this.sheetsToolStripPanelItem.Size = new System.Drawing.Size(192, 80);
             this.sheetsToolStripPanelItem.Transparent = true;
             // 
             // scanDirectoryToolStripBtn
@@ -714,7 +731,7 @@ namespace Synapse
             this.scanDirectoryToolStripBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.scanDirectoryToolStripBtn.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.scanDirectoryToolStripBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.scanDirectoryToolStripBtn.Margin = new System.Windows.Forms.Padding(0, 2, 0, 2);
+            this.scanDirectoryToolStripBtn.Margin = new System.Windows.Forms.Padding(0, 2, 0, 0);
             this.scanDirectoryToolStripBtn.Name = "scanDirectoryToolStripBtn";
             this.scanDirectoryToolStripBtn.Size = new System.Drawing.Size(190, 53);
             this.scanDirectoryToolStripBtn.Text = "Scan Directory ";
@@ -742,7 +759,7 @@ namespace Synapse
             this.scanSheetsToolStripDropDownBtn.Margin = new System.Windows.Forms.Padding(3, 1, 5, 2);
             this.scanSheetsToolStripDropDownBtn.Name = "scanSheetsToolStripDropDownBtn";
             this.scanSheetsToolStripDropDownBtn.Padding = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            this.scanSheetsToolStripDropDownBtn.Size = new System.Drawing.Size(71, 121);
+            this.scanSheetsToolStripDropDownBtn.Size = new System.Drawing.Size(71, 115);
             this.scanSheetsToolStripDropDownBtn.Text = "Scan";
             this.scanSheetsToolStripDropDownBtn.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.scanSheetsToolStripDropDownBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
@@ -781,11 +798,11 @@ namespace Synapse
             this.processingToolStripEx.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.startReadingToolStripBtn,
             this.stopReadingToolStripBtn});
-            this.processingToolStripEx.Location = new System.Drawing.Point(393, 1);
+            this.processingToolStripEx.Location = new System.Drawing.Point(0, 1);
             this.processingToolStripEx.Name = "processingToolStripEx";
             this.processingToolStripEx.Office12Mode = false;
             this.processingToolStripEx.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
-            this.processingToolStripEx.Size = new System.Drawing.Size(146, 140);
+            this.processingToolStripEx.Size = new System.Drawing.Size(146, 134);
             this.processingToolStripEx.TabIndex = 6;
             this.processingToolStripEx.Text = "Processing";
             // 
@@ -798,7 +815,7 @@ namespace Synapse
             this.startReadingToolStripBtn.Margin = new System.Windows.Forms.Padding(0, 5, 0, 2);
             this.startReadingToolStripBtn.Name = "startReadingToolStripBtn";
             this.startReadingToolStripBtn.Padding = new System.Windows.Forms.Padding(7, 0, 7, 0);
-            this.startReadingToolStripBtn.Size = new System.Drawing.Size(68, 117);
+            this.startReadingToolStripBtn.Size = new System.Drawing.Size(68, 111);
             this.startReadingToolStripBtn.Text = "Start";
             this.startReadingToolStripBtn.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.startReadingToolStripBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
@@ -814,7 +831,7 @@ namespace Synapse
             this.stopReadingToolStripBtn.Margin = new System.Windows.Forms.Padding(0, 6, 0, 2);
             this.stopReadingToolStripBtn.Name = "stopReadingToolStripBtn";
             this.stopReadingToolStripBtn.Padding = new System.Windows.Forms.Padding(7, 0, 7, 0);
-            this.stopReadingToolStripBtn.Size = new System.Drawing.Size(67, 116);
+            this.stopReadingToolStripBtn.Size = new System.Drawing.Size(67, 110);
             this.stopReadingToolStripBtn.Text = "Stop";
             this.stopReadingToolStripBtn.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.stopReadingToolStripBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
@@ -835,11 +852,11 @@ namespace Synapse
             this.reReadFaultySheetsToolStripBtn,
             this.moveFaultySheetsToolStripBtn,
             this.locateOptionsToolStripBtn});
-            this.postOperationsToolStripEx.Location = new System.Drawing.Point(541, 1);
+            this.postOperationsToolStripEx.Location = new System.Drawing.Point(0, 1);
             this.postOperationsToolStripEx.Name = "postOperationsToolStripEx";
             this.postOperationsToolStripEx.Office12Mode = false;
             this.postOperationsToolStripEx.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
-            this.postOperationsToolStripEx.Size = new System.Drawing.Size(280, 140);
+            this.postOperationsToolStripEx.Size = new System.Drawing.Size(280, 134);
             this.postOperationsToolStripEx.TabIndex = 5;
             this.postOperationsToolStripEx.Text = "Post Operations";
             // 
@@ -852,7 +869,7 @@ namespace Synapse
             this.reReadFaultySheetsToolStripBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.reReadFaultySheetsToolStripBtn.Name = "reReadFaultySheetsToolStripBtn";
             this.reReadFaultySheetsToolStripBtn.Padding = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.reReadFaultySheetsToolStripBtn.Size = new System.Drawing.Size(101, 121);
+            this.reReadFaultySheetsToolStripBtn.Size = new System.Drawing.Size(101, 115);
             this.reReadFaultySheetsToolStripBtn.Text = "Re-Read\r\nFaulty Sheets";
             this.reReadFaultySheetsToolStripBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
@@ -866,7 +883,7 @@ namespace Synapse
             this.moveFaultySheetsToolStripBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.moveFaultySheetsToolStripBtn.Name = "moveFaultySheetsToolStripBtn";
             this.moveFaultySheetsToolStripBtn.Padding = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.moveFaultySheetsToolStripBtn.Size = new System.Drawing.Size(101, 121);
+            this.moveFaultySheetsToolStripBtn.Size = new System.Drawing.Size(101, 115);
             this.moveFaultySheetsToolStripBtn.Text = "Move\r\nFaulty Sheets";
             this.moveFaultySheetsToolStripBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
@@ -880,7 +897,7 @@ namespace Synapse
             this.locateOptionsToolStripBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.locateOptionsToolStripBtn.Name = "locateOptionsToolStripBtn";
             this.locateOptionsToolStripBtn.Padding = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.locateOptionsToolStripBtn.Size = new System.Drawing.Size(67, 121);
+            this.locateOptionsToolStripBtn.Size = new System.Drawing.Size(67, 115);
             this.locateOptionsToolStripBtn.Text = "Locate\r\nOptions";
             this.locateOptionsToolStripBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
@@ -898,11 +915,11 @@ namespace Synapse
             this.dataMiningToolStripEx.Image = null;
             this.dataMiningToolStripEx.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.findDuplicatesToolStripBtn});
-            this.dataMiningToolStripEx.Location = new System.Drawing.Point(823, 1);
+            this.dataMiningToolStripEx.Location = new System.Drawing.Point(0, 1);
             this.dataMiningToolStripEx.Name = "dataMiningToolStripEx";
             this.dataMiningToolStripEx.Office12Mode = false;
             this.dataMiningToolStripEx.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
-            this.dataMiningToolStripEx.Size = new System.Drawing.Size(101, 140);
+            this.dataMiningToolStripEx.Size = new System.Drawing.Size(101, 134);
             this.dataMiningToolStripEx.TabIndex = 4;
             this.dataMiningToolStripEx.Text = "Data Mining";
             // 
@@ -915,7 +932,7 @@ namespace Synapse
             this.findDuplicatesToolStripBtn.Margin = new System.Windows.Forms.Padding(0, 5, 0, 2);
             this.findDuplicatesToolStripBtn.Name = "findDuplicatesToolStripBtn";
             this.findDuplicatesToolStripBtn.Padding = new System.Windows.Forms.Padding(7, 0, 7, 0);
-            this.findDuplicatesToolStripBtn.Size = new System.Drawing.Size(89, 117);
+            this.findDuplicatesToolStripBtn.Size = new System.Drawing.Size(89, 111);
             this.findDuplicatesToolStripBtn.Text = "Find\r\nDuplicates";
             this.findDuplicatesToolStripBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
@@ -963,7 +980,7 @@ namespace Synapse
             this.dataManipulationToolStripEx.Name = "dataManipulationToolStripEx";
             this.dataManipulationToolStripEx.Office12Mode = false;
             this.dataManipulationToolStripEx.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
-            this.dataManipulationToolStripEx.Size = new System.Drawing.Size(423, 141);
+            this.dataManipulationToolStripEx.Size = new System.Drawing.Size(423, 140);
             this.dataManipulationToolStripEx.TabIndex = 7;
             this.dataManipulationToolStripEx.Text = "Data Manipulation";
             // 
@@ -1078,11 +1095,11 @@ namespace Synapse
             this.dataPointStorageToolStripEx.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.internalDataPointDropDownBtn,
             this.externalDataPointDropDownBtn});
-            this.dataPointStorageToolStripEx.Location = new System.Drawing.Point(0, 1);
+            this.dataPointStorageToolStripEx.Location = new System.Drawing.Point(425, 1);
             this.dataPointStorageToolStripEx.Name = "dataPointStorageToolStripEx";
             this.dataPointStorageToolStripEx.Office12Mode = false;
             this.dataPointStorageToolStripEx.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
-            this.dataPointStorageToolStripEx.Size = new System.Drawing.Size(211, 141);
+            this.dataPointStorageToolStripEx.Size = new System.Drawing.Size(211, 140);
             this.dataPointStorageToolStripEx.TabIndex = 8;
             this.dataPointStorageToolStripEx.Text = "Data Point Storage";
             this.dataPointStorageToolStripEx.ThemeName = "Office2016White";
@@ -1165,11 +1182,11 @@ namespace Synapse
             this.exportCSVoolStripBtn,
             this.toolStripSeparator9,
             this.SQLDatabaseExportToolStripBtn});
-            this.exportToolStripEx.Location = new System.Drawing.Point(0, 1);
+            this.exportToolStripEx.Location = new System.Drawing.Point(638, 1);
             this.exportToolStripEx.Name = "exportToolStripEx";
             this.exportToolStripEx.Office12Mode = false;
             this.exportToolStripEx.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
-            this.exportToolStripEx.Size = new System.Drawing.Size(250, 141);
+            this.exportToolStripEx.Size = new System.Drawing.Size(250, 140);
             this.exportToolStripEx.TabIndex = 9;
             this.exportToolStripEx.Text = "Export Data";
             // 
@@ -1182,9 +1199,10 @@ namespace Synapse
             this.exportExcelToolStripBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.exportExcelToolStripBtn.Name = "exportExcelToolStripBtn";
             this.exportExcelToolStripBtn.Padding = new System.Windows.Forms.Padding(8, 0, 8, 0);
-            this.exportExcelToolStripBtn.Size = new System.Drawing.Size(71, 122);
+            this.exportExcelToolStripBtn.Size = new System.Drawing.Size(71, 121);
             this.exportExcelToolStripBtn.Text = "Excel";
             this.exportExcelToolStripBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.exportExcelToolStripBtn.Click += new System.EventHandler(this.ExportExcelToolStripBtn_Click);
             // 
             // exportCSVoolStripBtn
             // 
@@ -1344,16 +1362,6 @@ namespace Synapse
             this.configPropertiesPanel.Size = new System.Drawing.Size(200, 539);
             this.configPropertiesPanel.TabIndex = 3;
             // 
-            // configPropertyEditor
-            // 
-            this.configPropertyEditor.Diagram = null;
-            this.configPropertyEditor.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.configPropertyEditor.Font = new System.Drawing.Font("Dosis", 10.25F);
-            this.configPropertyEditor.Location = new System.Drawing.Point(0, 0);
-            this.configPropertyEditor.Name = "configPropertyEditor";
-            this.configPropertyEditor.Size = new System.Drawing.Size(200, 539);
-            this.configPropertyEditor.TabIndex = 1;
-            // 
             // dataImageBoxPanel
             // 
             this.dataImageBoxPanel.Controls.Add(this.dataImageBox);
@@ -1381,6 +1389,17 @@ namespace Synapse
             this.dataImageBox.TabIndex = 5;
             this.dataImageBox.Text = "The image of the sheet of which the data is selected in the data grid will appear" +
     " here.";
+            this.dataImageBox.Paint += new System.Windows.Forms.PaintEventHandler(this.DataImageBox_Paint);
+            // 
+            // configPropertyEditor
+            // 
+            this.configPropertyEditor.Diagram = null;
+            this.configPropertyEditor.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.configPropertyEditor.Font = new System.Drawing.Font("Dosis", 10.25F);
+            this.configPropertyEditor.Location = new System.Drawing.Point(0, 0);
+            this.configPropertyEditor.Name = "configPropertyEditor";
+            this.configPropertyEditor.Size = new System.Drawing.Size(200, 539);
+            this.configPropertyEditor.TabIndex = 1;
             // 
             // SynapseMain
             // 
@@ -1491,7 +1510,7 @@ namespace Synapse
         private Syncfusion.Windows.Forms.Tools.ToolStripPanelItem aiConfigStatusToolStripPanel;
         private System.Windows.Forms.ToolStripLabel aiConfigStatusLabel;
         private System.Windows.Forms.ToolStripButton aiConfigStatusIndicator;
-        private System.Windows.Forms.ToolStripButton configureDataToolStripBtn;
+        private System.Windows.Forms.ToolStripButton configurationTestToolToolStripBtn;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private Syncfusion.Windows.Forms.Tools.ToolStripPanelItem templateConfigStatusToolStrip;
         private System.Windows.Forms.ToolStripLabel templateConfigStatusLabel;
@@ -1534,5 +1553,6 @@ namespace Synapse
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog;
         private System.Windows.Forms.Panel dataImageBoxPanel;
         private ImageBoxEx dataImageBox;
+        private System.Windows.Forms.ToolStripButton toolStripButton1;
     }
 }

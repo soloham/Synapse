@@ -3,6 +3,7 @@ using System.Drawing;
 using Syncfusion.WinForms.Controls;
 using System.Threading;
 using Synapse.Core.Managers;
+using System.Windows.Forms;
 
 namespace Synapse.Modules
 {
@@ -77,6 +78,57 @@ namespace Synapse.Modules
                 OnConfigurationFinishedEvent?.Invoke(RegionName);
             }
         }
+
+        #region  ImageBoxPanel Setup
+        private void imageBox_Paint(object sender, PaintEventArgs e)
+        {
+            
+        }
+        private void imageBox_Resize(object sender, EventArgs e)
+        {
+
+        }
+        private void imageBox_Scroll(object sender, ScrollEventArgs e)
+        {
+
+        }
+        private void imageBox_SelectionRegionChanged(object sender, EventArgs e)
+        {
+            selectionToolStripStatusLabel.Text = Utilities.Functions.FormatRectangle(imageBox.SelectionRegion);
+        }
+        private void imageBox_Selected(object sender, EventArgs e)
+        {
+
+        }
+        private void ImageBox_SelectionResized(object sender, EventArgs e)
+        {
+        }
+
+        private void actualSizeToolStripButton_Click(object sender, EventArgs e)
+        {
+            imageBox.ActualSize();
+        }
+        private void selectAllToolStripButton_Click(object sender, EventArgs e)
+        {
+            imageBox.SelectAll();
+        }
+        private void selectNoneToolStripButton_Click(object sender, EventArgs e)
+        {
+            imageBox.SelectNone();
+        }
+        private void showImageRegionToolStripButton_Click(object sender, EventArgs e)
+        {
+            imageBox.Invalidate();
+        }
+        private void zoomInToolStripButton_Click(object sender, EventArgs e)
+        {
+            imageBox.ZoomIn();
+        }
+        private void zoomOutToolStripButton_Click(object sender, EventArgs e)
+        {
+            imageBox.ZoomOut();
+        }
+        #endregion
         #endregion
     }
 }

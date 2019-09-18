@@ -19,8 +19,10 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Syncfusion.WinForms.DataGridConverter;
 using static Synapse.Core.Configurations.ConfigurationBase;
 using static Synapse.Core.Templates.Template;
+using Syncfusion.XlsIO;
 
 namespace Synapse
 {
@@ -96,6 +98,11 @@ namespace Synapse
         private SheetsList loadedSheetsData = new SheetsList();
         private List<ProcessedDataRow> processedData = new List<ProcessedDataRow>();
         private ObservableCollection<dynamic> processedDataSource = new ObservableCollection<dynamic>();
+
+        private List<RectangleF> curOptionRects = new List<RectangleF>();
+        private List<RectangleF> curMarkedOptionRects = new List<RectangleF>();
+        Color primaryRectColor = Color.FromArgb(120, Color.DarkSlateGray);
+        Color secondaryRectColor = Color.FromArgb(180, Color.MediumTurquoise);
         #endregion
         #endregion
 
@@ -226,7 +233,7 @@ namespace Synapse
             switch (status)
             {
                 case StatusState.Red:
-                    configureDataToolStripBtn.Enabled = false;
+                    configurationTestToolToolStripBtn.Enabled = false;
                     addAsOmrToolStripBtn.Enabled = false;
                     addAsBarcodeToolStripBtn.Enabled = false;
                     addAsICRToolStripBtn.Enabled = false;
@@ -236,7 +243,7 @@ namespace Synapse
                 case StatusState.Yellow:
                     break;
                 case StatusState.Green:
-                    configureDataToolStripBtn.Enabled = true;
+                    configurationTestToolToolStripBtn.Enabled = true;
                     addAsOmrToolStripBtn.Enabled = true;
                     addAsBarcodeToolStripBtn.Enabled = true;
                     addAsICRToolStripBtn.Enabled = true;
@@ -579,6 +586,11 @@ namespace Synapse
             DataConfigurationForm dataConfigurationForm = new DataConfigurationForm(ConfigurationsManager.GetAllConfigurations);
             dataConfigurationForm.ShowDialog();
         }
+        private void ConfigurationTestToolToolStripBtn_Click(object sender, EventArgs e)
+        {
+            ConfigurationsTestForm configurationsTestForm = new ConfigurationsTestForm(ConfigurationsManager.GetAllConfigurations);
+            configurationsTestForm.ShowDialog();
+        }
         private void AddAsOmrToolStripBtn_Click(object sender, EventArgs e)
         {
             RectangleF selectedRegion = templateImageBox.SelectionRegion;
@@ -811,11 +823,91 @@ namespace Synapse
             var processedDataRow = (ProcessedDataRow)dataObject.DataRowObject;
 
             dataImageBox.Image = processedDataRow.GetAlignedImage().Bitmap;
+
+            curOptionRects.Clear();
+            curMarkedOptionRects.Clear();
+            var entries = processedDataRow.GetProcessedDataEntries;
+            for (int i = 0; i < entries.Count; i++)
+            {
+                if (entries[i].GetMainConfigType != MainConfigType.OMR)
+                    continue;
+
+                List<Point> markedRectIndexes = new List<Point>();
+                var rawDataValues = entries[i].GetRawDataValues;
+                var omrConfig = (OMRConfiguration)entries[i].GetConfigurationBase;
+                int totalFields = omrConfig.GetTotalFields;
+                int totalOptions = omrConfig.GetTotalOptions;
+                for (int i1 = 0; i1 < totalFields; i1++)
+                {
+                    for (int j = 0; j < totalOptions; j++)
+                    {
+                        if (rawDataValues[i1, j] == 1)
+                            markedRectIndexes.Add(new Point(i1, j));
+                    }
+                }
+                var _curOptionRects = omrConfig.RegionData.GetOptionsRects;
+                var _alignedCurOptionRects = new List<RectangleF>();
+                var regionLocation = omrConfig.GetConfigArea.ConfigRect.Location;
+                for (int i1 = 0; i1 < _curOptionRects.Count; i1++)
+                {
+                    var optionRect = _curOptionRects[i1];
+                    optionRect.X += regionLocation.X;
+                    optionRect.Y += regionLocation.Y;
+
+                    curOptionRects.Add(optionRect);
+                    _alignedCurOptionRects.Add(optionRect);
+                }
+                for (int i2 = 0; i2 < markedRectIndexes.Count; i2++)
+                {
+                    int index = markedRectIndexes[i2].X * totalOptions + markedRectIndexes[i2].Y;
+                    curMarkedOptionRects.Add(_alignedCurOptionRects[index]);
+                }
+                curOptionRects.RemoveAll(x => curMarkedOptionRects.Contains(x));
+            }
+            
         }
-        #endregion
+        private void DataImageBox_Paint(object sender, PaintEventArgs e)
+        {
+            if (curOptionRects.Count > 0)
+            {
+                for (int i = 0; i < curOptionRects.Count; i++)
+                {
+                    Functions.DrawBox(e.Graphics, dataImageBox.GetOffsetRectangle(curOptionRects[i]), dataImageBox.ZoomFactor, primaryRectColor, 1);
+                }
+            }
+            if (curMarkedOptionRects.Count > 0)
+            {
+                for (int i = 0; i < curMarkedOptionRects.Count; i++)
+                {
+                    Functions.DrawBox(e.Graphics, dataImageBox.GetOffsetRectangle(curMarkedOptionRects[i]), dataImageBox.ZoomFactor, secondaryRectColor, 1);
+                }
+            }
+        }
 
         #endregion
 
         #endregion
+
+        #endregion
+
+        private void ExportExcelToolStripBtn_Click(object sender, EventArgs e)
+        {
+            if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
+            {
+                string path = "";
+                if (folderBrowserDialog.SelectedPath != "")
+                    path = folderBrowserDialog.SelectedPath;
+
+                var options = new ExcelExportingOptions
+                {
+                    ExportBorders = true,
+                    ExportStyle = false,
+                    ExcelVersion = ExcelVersion.Excel2016
+                };
+                var excelEngine = mainDataGrid.ExportToExcel(mainDataGrid.View, options);
+                var workBook = excelEngine.Excel.Workbooks[0];
+                workBook.SaveAs(path + "\\ProcessedData.xlsx");
+            }
+        }
     }
 }
