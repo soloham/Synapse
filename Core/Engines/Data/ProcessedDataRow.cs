@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace Synapse.Core.Engines.Data
 {
     [Serializable]
-    internal enum ProcessedDataResultType
+    internal enum ProcessedDataType
     {
         [EnumDescription("Incompatible")]
         INCOMPATIBLE,
@@ -20,7 +20,7 @@ namespace Synapse.Core.Engines.Data
         [EnumDescription("Manual")]
         MANUAL,
         [EnumDescription("Normal")]
-        NORMAL
+        NORMAL,
     }
 
     [Serializable]
@@ -32,7 +32,7 @@ namespace Synapse.Core.Engines.Data
         public string RowSheetPath { get; set; }
         public Templates.Template.AlignmentPipelineResults GetAlignmentPipelineResults { get => alignmentPipelineResults?? null; }
         private Templates.Template.AlignmentPipelineResults alignmentPipelineResults;
-        public ProcessedDataResultType DataRowResultType { get; set; }
+        public ProcessedDataType DataRowResultType { get; set; }
         public List<ProcessedDataEntry> GetProcessedDataEntries { get => processedDataEntries; }
         private List<ProcessedDataEntry> processedDataEntries = new List<ProcessedDataEntry>();
 
@@ -40,7 +40,7 @@ namespace Synapse.Core.Engines.Data
         #endregion
 
         #region Methods
-        internal ProcessedDataRow(List<ProcessedDataEntry> processedDataEntries, int rowIndex, string rowSheetPath, ProcessedDataResultType processedDataResultType, Templates.Template.AlignmentPipelineResults alignmentPipelineResults)
+        internal ProcessedDataRow(List<ProcessedDataEntry> processedDataEntries, int rowIndex, string rowSheetPath, ProcessedDataType processedDataResultType, Templates.Template.AlignmentPipelineResults alignmentPipelineResults)
         {
             this.processedDataEntries = processedDataEntries;
             this.rowIndex = rowIndex;

@@ -14,7 +14,7 @@ namespace Synapse.Core.Engines.Data
         public ConfigurationBase GetConfigurationBase { get => configurationBase; }
         private ConfigurationBase configurationBase;
         public MainConfigType GetMainConfigType { get => GetConfigurationBase.GetMainConfigType; }
-        public ProcessedDataResultType DataEntryResultType { get; set; }
+        public ProcessedDataType DataEntryResultType { get; set; }
 
         public byte[,] GetRawDataValues { get => rawDataValues; }
         private byte[,] rawDataValues;
@@ -27,7 +27,7 @@ namespace Synapse.Core.Engines.Data
         #endregion
 
         #region Methods
-        public ProcessedDataEntry(ConfigurationBase configurationBase, byte[,] rawDataValues, char[] fieldsOutputs, ProcessedDataResultType processedDataResultType)
+        public ProcessedDataEntry(ConfigurationBase configurationBase, byte[,] rawDataValues, char[] fieldsOutputs, ProcessedDataType processedDataResultType)
         {
             this.configurationBase = configurationBase;
             this.fieldsOutputs = fieldsOutputs;

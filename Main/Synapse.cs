@@ -99,6 +99,9 @@ namespace Synapse
         private List<ProcessedDataRow> processedData = new List<ProcessedDataRow>();
         private ObservableCollection<dynamic> processedDataSource = new ObservableCollection<dynamic>();
 
+        private List<string> gridColumns = new List<string>();
+        private List<string> usedNonCollectiveDataLabels = new List<string>();
+
         private List<RectangleF> curOptionRects = new List<RectangleF>();
         private List<RectangleF> curMarkedOptionRects = new List<RectangleF>();
         Color primaryRectColor = Color.FromArgb(120, Color.DarkSlateGray);
@@ -120,6 +123,10 @@ namespace Synapse
             SynapseMain synapseMain = new SynapseMain(template);
             synapseMain.Text = "Synapse - " + template.GetTemplateName;
             synapseMain.Show();
+        }
+        internal static void UpdateMainStatus(string status)
+        {
+            GetSynapseMain.UpdateStatus(status);
         }
         #endregion
 
@@ -315,6 +322,11 @@ namespace Synapse
         {
 
         }
+
+        public void UpdateStatus(string status)
+        {
+            statusPanelStatusLabel.Text = status;
+        }
         #endregion
 
         #region Private Methods
@@ -371,6 +383,56 @@ namespace Synapse
             }
 
             MainProcessingManager = new ProcessingManager(GetCurrentTemplate);
+            MainProcessingManager.OnDataSourceUpdated += MainProcessingManager_OnDataSourceUpdated;
+        }
+
+        private void MainProcessingManager_OnDataSourceUpdated(object sender, ProcessedDataType e)
+        {
+            SfDataGrid dataGrid = mainDataGrid;
+            int rowCount = 0;
+            switch (e)
+            {
+                case ProcessedDataType.INCOMPATIBLE:
+                    //dataGrid = incompatibleDataGrid;
+                    rowCount = dataGrid.RowCount - 1;
+                    if (rowCount == 0)
+                        return;
+
+                    if (!incompatibleDataStatusPanel.Visible)
+                        incompatibleDataStatusPanel.Visible = true;
+                    totalIncompatibleDataLabel.Text = rowCount + "";
+                    break;
+                case ProcessedDataType.FAULTY:
+                    //dataGrid = faultyDataGrid;
+                    rowCount = dataGrid.RowCount - 1;
+                    if (rowCount == 0)
+                        return;
+
+                    if (!faultyDataTypeStatusPanel.Visible)
+                        faultyDataTypeStatusPanel.Visible = true;
+                    totalFaultyDataLabel.Text = rowCount + "";
+                    break;
+                case ProcessedDataType.MANUAL:
+                    //dataGrid = manualDataGrid;
+                    rowCount = dataGrid.RowCount - 1;
+                    if (rowCount == 0)
+                        return;
+
+                    if (!manualDataTypeStatusPanel.Visible)
+                        manualDataTypeStatusPanel.Visible = true;
+                    totalManualDataLabel.Text = rowCount + "";
+                    break;
+                case ProcessedDataType.NORMAL:
+                    //dataGrid = mainDataGrid;
+                    rowCount = dataGrid.RowCount - 1;
+                    if (rowCount == 0)
+                        return;
+
+                    if (!normalDataTypePanel.Visible)
+                        normalDataTypePanel.Visible = true;
+                    totalNormalDataLabel.Text = rowCount + "";
+                    break;
+            }
         }
 
         #region Configuration Panel
@@ -506,23 +568,254 @@ namespace Synapse
             if (MainProcessingManager.DataExists())
                 keepData = Messages.ShowQuestion("Would you like to keep the current processed data?") == DialogResult.Yes;
 
+            GenerateGridColumns();
             MainProcessingManager.LoadSheets(loadedSheetsData);
-            await MainProcessingManager.StartProcessing(keepData);
+            int totalSheets = loadedSheetsData.GetSheetsPath.Length;
+            TimeSpan totalTimeTaken = TimeSpan.Zero;
+            double finalAverage = 0;
+            Action<ProcessedDataRow, double, double> OnSheetsProcessed = (ProcessedDataRow dataRow, double runningAverage, double runningTotal) =>
+            {
+                int curIndex = MainProcessingManager.GetCurProcessingIndex+1;
+                int progressValue = (int)(curIndex / (float)totalSheets * 100);
+                processingProgressBar.Value = progressValue;
+                if(processingProgressBar.Value > 47) 
+                    processingProgressBar.FontColor = Color.White;  
+
+                string timeLeft = TimeSpan.FromMilliseconds(runningAverage * (totalSheets - curIndex)).ToString(@"hh\:mm\:ss");
+                processingTimeLeftLabel.Text = "TOTAL TIME: " + timeLeft;
+
+                string status = $"[{curIndex}/{totalSheets}] Processing...";
+                UpdateStatus(status);
+
+                if (curIndex == totalSheets)
+                {
+                    totalTimeTaken = TimeSpan.FromMilliseconds(runningTotal);
+                    finalAverage = runningAverage / 1000;
+                    finalAverage = Math.Round(finalAverage, 2);
+                }
+            };
+            processingProgressBar.FontColor = Color.Black;
+
+            progressStatusTablePanel.Visible = true;
+            await MainProcessingManager.StartProcessing(keepData, OnSheetsProcessed, gridColumns);
+            progressStatusTablePanel.Visible = false;
+
+            processingTimeLeftLabel.Text = "TOTAL TIME: 00:00:00";
+            processingProgressBar.Value = 0;
+
+            UpdateStatus($"Processing Complete: {totalSheets} sheets in {totalTimeTaken.ToString(@"hh\:mm\:ss")} at an average of {finalAverage} seconds per sheet.");
         }
 
-        internal void InitializeMainDataGrid(List<ProcessedDataEntry> processedDataEntries, ObservableCollection<dynamic> processedDataSource)
+        private void GenerateGridColumns()
         {
+            gridColumns.Clear();
             mainDataGrid.AutoGenerateColumns = false;
             mainDataGrid.Columns.Clear();
-            for (int i3 = 0; i3 < processedDataEntries.Count; i3++)
+
+            var allConfigs = ConfigurationsManager.GetAllConfigurations;
+            for (int i = 0; i < allConfigs.Count; i++)
             {
-                GridTextColumn col1 = new GridTextColumn();
-                col1.MappingName = processedDataEntries[i3].GetConfigurationBase.Title;
-                col1.HeaderText = processedDataEntries[i3].GetConfigurationBase.Title;
-                mainDataGrid.Columns.Add(col1);
+                switch (allConfigs[i].GetMainConfigType)
+                {
+                    case MainConfigType.OMR:
+                        OMRConfiguration omrConfiguration = (OMRConfiguration)allConfigs[i];
+
+                        switch (omrConfiguration.ValueRepresentation)
+                        {
+                            case ValueRepresentation.Collective:
+                                GridTextColumn omrCol = new GridTextColumn();
+                                omrCol.MappingName = omrConfiguration.Title;
+                                omrCol.HeaderText = omrConfiguration.Title;
+                                mainDataGrid.Columns.Add(omrCol);
+
+                                gridColumns.Add(omrCol.HeaderText);
+                                break;
+                            case ValueRepresentation.Indiviual:
+                                int totalIndFields = omrConfiguration.GetTotalFields;
+                                string indDataLabel = omrConfiguration.Title[0] + "";
+                                while (usedNonCollectiveDataLabels.Contains(indDataLabel))
+                                {
+                                    for (int i2 = 1; i2 < indDataLabel.Length; i2++)
+                                    {
+                                        indDataLabel += omrConfiguration.Title[i2] + "";
+                                    }
+                                }
+                                for (int i1 = 0; i1 < totalIndFields; i1++)
+                                {
+                                    GridTextColumn omrIndCol = new GridTextColumn();
+                                    omrIndCol.MappingName = indDataLabel + (i1+1).ToString();
+                                    omrIndCol.HeaderText = omrIndCol.MappingName;
+                                    mainDataGrid.Columns.Add(omrIndCol);
+
+                                    gridColumns.Add(omrIndCol.HeaderText);
+                                }
+                                break;
+                            case ValueRepresentation.CombineTwo:
+                                int totalCom2Fields = omrConfiguration.GetTotalFields / 2;
+                                if (totalCom2Fields % 2 == 0)
+                                {
+                                    string com2DataLabel = omrConfiguration.Title[0] + "";
+                                    while (usedNonCollectiveDataLabels.Contains(com2DataLabel))
+                                    {
+                                        for (int i2 = 1; i2 < com2DataLabel.Length; i2++)
+                                        {
+                                            com2DataLabel += omrConfiguration.Title[i2] + "";
+                                        }
+                                    }
+                                    for (int i1 = 0; i1 < totalCom2Fields; i1++)
+                                    {
+                                        GridTextColumn omrCom2Col = new GridTextColumn();
+                                        omrCom2Col.MappingName = com2DataLabel + (i1+1).ToString();
+                                        omrCom2Col.HeaderText = omrCom2Col.MappingName;
+                                        mainDataGrid.Columns.Add(omrCom2Col);
+
+                                        gridColumns.Add(omrCom2Col.HeaderText);
+                                    }
+                                }
+                                else
+                                {
+                                    string _indDataLabel = omrConfiguration.Title[0] + "";
+                                    while (usedNonCollectiveDataLabels.Contains(_indDataLabel))
+                                    {
+                                        for (int i2 = 1; i2 < _indDataLabel.Length; i2++)
+                                        {
+                                            _indDataLabel += omrConfiguration.Title[i2] + "";
+                                        }
+                                    }
+                                    for (int i1 = 0; i1 < omrConfiguration.GetTotalFields; i1++)
+                                    {
+                                        GridTextColumn omrIndCol = new GridTextColumn();
+                                        omrIndCol.MappingName = _indDataLabel + (i1+1).ToString();
+                                        omrIndCol.HeaderText = omrIndCol.MappingName;
+                                        mainDataGrid.Columns.Add(omrIndCol);
+
+                                        gridColumns.Add(omrIndCol.HeaderText);
+                                    }
+                                }
+                                break;
+                        }
+                        break;
+                    case MainConfigType.BARCODE:
+                        OMRConfiguration obrConfiguration = (OMRConfiguration)allConfigs[i];
+
+                        GridTextColumn obrCol = new GridTextColumn();
+                        obrCol.MappingName = obrConfiguration.Title;
+                        obrCol.HeaderText = obrConfiguration.Title;
+                        mainDataGrid.Columns.Add(obrCol);
+
+                        gridColumns.Add(obrCol.HeaderText);
+                        break;
+                    case MainConfigType.ICR:
+                        ICRConfiguration icrConfiguration = (ICRConfiguration)allConfigs[i];
+
+                        GridTextColumn icrCol = new GridTextColumn();
+                        icrCol.MappingName = icrConfiguration.Title;
+                        icrCol.HeaderText = icrConfiguration.Title;
+                        mainDataGrid.Columns.Add(icrCol);
+
+                        gridColumns.Add(icrCol.HeaderText);
+                        break;
+                 }
             }
-            mainDataGrid.DataSource = processedDataSource;
         }
+        internal void InitializeMainDataGrid(List<ProcessedDataEntry> processedDataEntries, ObservableCollection<dynamic> processedDataSource)
+        {
+            if (this.gridColumns.Count > 0)
+            {
+                var gridColumns = mainDataGrid.Columns;
+                int dataDynamicTotalColumns = 0;
+                for (int i = 0; i < processedDataEntries.Count; i++)
+                {
+                    dataDynamicTotalColumns += processedDataEntries[i].GetDataValues.Length;
+                }
+                if (gridColumns.Count != dataDynamicTotalColumns)
+                {
+
+                }
+                else
+                {
+                    bool areValid = false;
+                    for (int i = 0; i < gridColumns.Count; i++)
+                    {
+                        areValid = gridColumns[i].HeaderText == this.gridColumns[i];
+                    }
+
+                    if (areValid)
+                    {
+                        #region DataDynamicColumnGeneration
+                        //mainDataGrid.AutoGenerateColumns = false;
+                        //mainDataGrid.Columns.Clear();
+                        //for (int i3 = 0; i3 < processedDataEntries.Count; i3++)
+                        //{
+                        //    GridTextColumn col1 = new GridTextColumn();
+                        //    col1.MappingName = processedDataEntries[i3].GetConfigurationBase.Title;
+                        //    col1.HeaderText = processedDataEntries[i3].GetConfigurationBase.Title;
+                        //    mainDataGrid.Columns.Add(col1);
+                        //}
+                        #endregion
+                        mainDataGrid.DataSource = processedDataSource;
+                    }
+                    else
+                    {
+
+                    }
+                    #region TableSummary
+                    //mainDataGrid.TableSummaryRows.Clear();
+                    //GridTableSummaryRow tableSummaryRow = new GridTableSummaryRow();
+                    //tableSummaryRow.Name = "TotalSheetsRow";
+                    //tableSummaryRow.ShowSummaryInRow = true;
+                    //tableSummaryRow.Title = "Total Processed Sheets: {TotalSheets}";
+                    //tableSummaryRow.Position = Syncfusion.WinForms.DataGrid.Enums.VerticalPosition.Bottom;
+
+                    //GridSummaryColumn summaryColumn = new GridSummaryColumn();
+                    //summaryColumn.Name = "TotalSheets";
+                    //summaryColumn.SummaryType = Syncfusion.Data.SummaryType.CountAggregate;
+                    //summaryColumn.Format = "{Count}";
+                    //summaryColumn.MappingName = mainDataGrid.Columns[1].MappingName;
+
+                    //tableSummaryRow.SummaryColumns.Add(summaryColumn);
+                    //mainDataGrid.TableSummaryRows.Add(tableSummaryRow);
+                    #endregion
+                }
+            }
+            else
+            {
+                #region DataDynamicColumnGeneration
+                mainDataGrid.AutoGenerateColumns = false;
+                mainDataGrid.Columns.Clear();
+                for (int i3 = 0; i3 < processedDataEntries.Count; i3++)
+                {
+                    GridTextColumn col1 = new GridTextColumn();
+                    col1.MappingName = processedDataEntries[i3].GetConfigurationBase.Title;
+                    col1.HeaderText = processedDataEntries[i3].GetConfigurationBase.Title;
+                    mainDataGrid.Columns.Add(col1);
+                }
+                #endregion
+                mainDataGrid.DataSource = processedDataSource;
+            }
+        }
+        #endregion
+        #region Data Panel
+        private void ExportExcel()
+        {
+            if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
+            {
+                string path = "";
+                if (folderBrowserDialog.SelectedPath != "")
+                    path = folderBrowserDialog.SelectedPath;
+
+                var options = new ExcelExportingOptions
+                {
+                    ExportBorders = true,
+                    ExportStyle = false,
+                    ExcelVersion = ExcelVersion.Excel2016
+                };
+                var excelEngine = mainDataGrid.ExportToExcel(mainDataGrid.View, options);
+                var workBook = excelEngine.Excel.Workbooks[0];
+                workBook.SaveAs(path + "\\ProcessedData.xlsx");
+            }
+        }
+        
         #endregion
 
         #endregion
@@ -547,19 +840,14 @@ namespace Synapse
         }
         private void ConfigToolStripTabItem_Click(object sender, EventArgs e)
         {
+            if (configTabPanel.Visible)
+                return;
+
             configTabPanel.Visible = true;
             readingTabPanel.Visible = false;
 
             mainDockingManager.SetDockVisibility(configPropertiesPanel, true);
             mainDockingManager.SetDockVisibility(dataImageBoxPanel, false);
-        }
-        private void ReadingToolStripTabItem_Click(object sender, EventArgs e)
-        {
-            readingTabPanel.Visible = true;
-            configTabPanel.Visible = false;
-
-            mainDockingManager.SetDockVisibility(dataImageBoxPanel, true);
-            mainDockingManager.SetDockVisibility(configPropertiesPanel, false);
         }
         private void TmpLoadBrowseToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -790,6 +1078,19 @@ namespace Synapse
         }
         #endregion
         #region Reading Tab
+        private void ReadingToolStripTabItem_Click(object sender, EventArgs e)
+        {
+            if (readingTabPanel.Visible)
+                return;
+
+            readingTabPanel.Visible = true;
+            configTabPanel.Visible = false;
+
+            mainDockingManager.SetDockVisibility(dataImageBoxPanel, true);
+            mainDockingManager.SetDockVisibility(configPropertiesPanel, false);
+
+            GenerateGridColumns();
+        }
         private async void ScanDirectoryToolStripBtn_Click(object sender, EventArgs e)
         {
             if(folderBrowserDialog.ShowDialog() == DialogResult.OK)
@@ -798,15 +1099,14 @@ namespace Synapse
                 bool includeSubDirs = includeSubFoldersToolStripCheckBox.Checked;
 
                 await InitializeSheetsToRead(selectedFolder, includeSubDirs);
-                //if(loadedSheetsData.SheetsLoaded)
-                //{
-                //    scanType = ScanType.Directory;
-                //    StatusPanel.Text = "Status: Scan Directory Loaded, Successfully";
-                //}
-                //else
-                //{
-                //    StatusPanel.Text = "Status: Directory To Scan Failed To Load, Error: " + err;
-                //}
+                if (loadedSheetsData.SheetsLoaded)
+                {
+                    UpdateStatus("Scan Directory Loaded, Successfully");
+                }
+                else
+                {
+                    UpdateStatus("Directory To Scan Failed To Load");
+                }
             }
         }
 
@@ -866,6 +1166,10 @@ namespace Synapse
             }
             
         }
+        private void MainDataGrid_QueryRowStyle(object sender, Syncfusion.WinForms.DataGrid.Events.QueryRowStyleEventArgs e)
+        {
+            e.Style.HorizontalAlignment = HorizontalAlignment.Center;
+        }
         private void DataImageBox_Paint(object sender, PaintEventArgs e)
         {
             if (curOptionRects.Count > 0)
@@ -885,29 +1189,21 @@ namespace Synapse
         }
 
         #endregion
-
-        #endregion
-
-        #endregion
-
+        #region Data Tab
         private void ExportExcelToolStripBtn_Click(object sender, EventArgs e)
         {
-            if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
-            {
-                string path = "";
-                if (folderBrowserDialog.SelectedPath != "")
-                    path = folderBrowserDialog.SelectedPath;
-
-                var options = new ExcelExportingOptions
-                {
-                    ExportBorders = true,
-                    ExportStyle = false,
-                    ExcelVersion = ExcelVersion.Excel2016
-                };
-                var excelEngine = mainDataGrid.ExportToExcel(mainDataGrid.View, options);
-                var workBook = excelEngine.Excel.Workbooks[0];
-                workBook.SaveAs(path + "\\ProcessedData.xlsx");
-            }
+            ExportExcel();
         }
+        private void ReadingTabStatusBar_SizeChanged(object sender, EventArgs e)
+        {
+            statusGeneralPanel.Width = Size.Width-35;
+            statusPanelStatusLabel.Width = statusTextStatusPanel.Width - 48;
+        }
+
+        #endregion
+
+        #endregion
+
+        #endregion
     }
 }

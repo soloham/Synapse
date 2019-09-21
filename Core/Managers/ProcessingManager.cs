@@ -5,6 +5,7 @@ using Synapse.Core.Configurations;
 using Synapse.Core.Engines.Data;
 using Synapse.Core.Templates;
 using Synapse.Utilities;
+using Synapse.Utilities.Enums;
 using Synapse.Utilities.Objects;
 using Syncfusion.WinForms.DataGrid;
 using System;
@@ -25,8 +26,14 @@ namespace Synapse.Core.Managers
 
         private Template CurrentTemplate;
         private SheetsList loadedSheetsData = new SheetsList();
+        private List<string> dataColumns = new List<string>();
         private List<ProcessedDataRow> processedData = new List<ProcessedDataRow>();
-        private ObservableCollection<dynamic> processedDataSource = new ObservableCollection<dynamic>();
+        private ObservableCollection<dynamic> normalProcessedDataSource = new ObservableCollection<dynamic>();
+        private ObservableCollection<dynamic> manualProcessedDataSource = new ObservableCollection<dynamic>();
+        private ObservableCollection<dynamic> faultyProcessedDataSource = new ObservableCollection<dynamic>();
+        private ObservableCollection<dynamic> incompatibleProcessedDataSource = new ObservableCollection<dynamic>();
+
+        public event EventHandler<ProcessedDataType> OnDataSourceUpdated;
 
         public ProcessingManager(Template currentTemplate)
         {
@@ -37,30 +44,79 @@ namespace Synapse.Core.Managers
         {
             this.loadedSheetsData = sheetsList;
         }
-        internal async Task StartProcessing(bool keepData)
+        internal void ClearData(ProcessedDataType processedDataType)
         {
+            switch (processedDataType)
+            {
+                case ProcessedDataType.INCOMPATIBLE:
+                    incompatibleProcessedDataSource.Clear();
+                    break;
+                case ProcessedDataType.FAULTY:
+                    faultyProcessedDataSource.Clear();
+                    break;
+                case ProcessedDataType.MANUAL:
+                    manualProcessedDataSource.Clear();
+                    break;
+                case ProcessedDataType.NORMAL:
+                    normalProcessedDataSource.Clear();
+                    break;
+            }
+
+            processedData.RemoveAll(x => x.DataRowResultType == processedDataType);
+
+            OnDataSourceUpdated?.Invoke(this, processedDataType);
+        }
+        internal void ClearAllData()
+        {
+            incompatibleProcessedDataSource.Clear();
+            faultyProcessedDataSource.Clear();
+            manualProcessedDataSource.Clear();
+            normalProcessedDataSource.Clear();
+
+            processedData.Clear();
+
+            var processedDataTypes = EnumHelper.ToList(typeof(ProcessedDataType));
+            for (int i = 0; i < processedDataTypes.Count; i++)
+            {
+                OnDataSourceUpdated?.Invoke(this, (ProcessedDataType)i);
+            }
+        }
+
+        internal void UpdateDataColumns(List<string> dataColumns)
+        {
+            this.dataColumns = dataColumns;
+        }
+        internal async Task StartProcessing(bool keepData, Action<ProcessedDataRow, double, double> OnSheetProcessed, List<string> dataColumns = null)
+        {
+            this.dataColumns = dataColumns;
+
             if (!keepData)
-                processedDataSource.Clear();
+                ClearAllData();
 
             string[] sheetsPaths = loadedSheetsData.GetSheetsPath;
             var allConfigurations = ConfigurationsManager.GetAllConfigurations;
 
+            double runningAverage = 0;
+            double runningTotal = 0;
             for (int i = 0; i < sheetsPaths.Length; i++)
             {
+                var t0 = DateTime.Now;
                 GetCurProcessingIndex = i;
 
                 dynamic dynamicDataRow = new ExpandoObject();
                 Mat curSheet = new Mat(sheetsPaths[i]);
+                Image<Gray, byte> curSheetImage = curSheet.ToImage<Gray, byte>();
                 AlignmentPipelineResults alignmentPipelineResults = null;
                 Image<Gray, byte> alignedSheet = null;
-                await Task.Run(() => { alignedSheet = CurrentTemplate.AlignSheet(curSheet.ToImage<Gray, byte>(), out AlignmentPipelineResults _alignmentPipelineResults); alignmentPipelineResults = _alignmentPipelineResults; });
+                await Task.Run(() => { alignedSheet = CurrentTemplate.AlignSheet(curSheetImage, out AlignmentPipelineResults _alignmentPipelineResults); alignmentPipelineResults = _alignmentPipelineResults; });
+                curSheetImage.Dispose();
+                curSheet.Dispose();
                 if (alignmentPipelineResults.AlignmentMethodTestResultsList.TrueForAll(x => x.GetAlignmentMethodResultType == AlignmentPipelineResults.AlignmentMethodResultType.Failed))
                     continue;
 
-                //templateImageBox.Image = alignedSheet.Bitmap;
-                //await Task.Delay(TimeSpan.FromMilliseconds(0.5));
-
+                ProcessedDataType processedRowType = ProcessedDataType.NORMAL;
                 List<ProcessedDataEntry> processedDataEntries = new List<ProcessedDataEntry>();
+                int lastDataColumnsIndex = 0;
                 for (int i1 = 0; i1 < allConfigurations.Count; i1++)
                 {
                     var processedDataEntry = allConfigurations[i1].ProcessSheet(alignedSheet.Mat);
@@ -69,25 +125,51 @@ namespace Synapse.Core.Managers
                     string[] formattedOutput = processedDataEntry.FormatData();
                     if (formattedOutput.Length == 1)
                     {
-                        Functions.AddProperty(dynamicDataRow, allConfigurations[i1].Title, formattedOutput[0]);
+                        string dataTitle = dataColumns != null && dataColumns.Count > 0 ? dataColumns[lastDataColumnsIndex+1] : allConfigurations[i1].Title;
+                        Functions.AddProperty(dynamicDataRow, dataTitle, formattedOutput[0]);
+
+                        lastDataColumnsIndex++;
                     }
                     else
                     {
                         for (int i2 = 0; i2 < formattedOutput.Length; i2++)
                         {
-                            Functions.AddProperty(dynamicDataRow, allConfigurations[i1].Title[0] + (i2 + 1).ToString(), formattedOutput[i2]);
+                            string dataTitle = dataColumns != null && dataColumns.Count > 0 ? dataColumns[lastDataColumnsIndex + i2] : allConfigurations[i1].Title[0] + (i2 + 1).ToString();
+                            Functions.AddProperty(dynamicDataRow, dataTitle, formattedOutput[i2]);
+
                         }
+                        lastDataColumnsIndex += formattedOutput.Length-1;
                     }
                 }
 
-                ProcessedDataRow processedDataRow = new ProcessedDataRow(processedDataEntries, i, sheetsPaths[i], ProcessedDataResultType.NORMAL, alignmentPipelineResults);
+                ProcessedDataRow processedDataRow = new ProcessedDataRow(processedDataEntries, i, sheetsPaths[i], processedRowType, alignmentPipelineResults);
                 processedData.Add(processedDataRow);
 
                 Functions.AddProperty(dynamicDataRow, "DataRowObject", processedDataRow);
-                processedDataSource.Add(dynamicDataRow);
-
+                switch(processedRowType)
+                {
+                    case ProcessedDataType.INCOMPATIBLE:
+                        incompatibleProcessedDataSource.Add(dynamicDataRow);
+                    break;
+                    case ProcessedDataType.FAULTY:
+                        faultyProcessedDataSource.Add(dynamicDataRow);
+                    break;
+                    case ProcessedDataType.MANUAL:
+                        manualProcessedDataSource.Add(dynamicDataRow);
+                    break;
+                    case ProcessedDataType.NORMAL:
+                        normalProcessedDataSource.Add(dynamicDataRow);
+                    break;
+                }
                 if (i == 0 && !keepData)
-                    SynapseMain.GetSynapseMain.InitializeMainDataGrid(processedDataEntries, processedDataSource);
+                    SynapseMain.GetSynapseMain.InitializeMainDataGrid(processedDataEntries, normalProcessedDataSource);
+
+                OnDataSourceUpdated?.Invoke(this, processedRowType);
+
+                var t1 = DateTime.Now;
+                runningTotal += (t1 - t0).TotalMilliseconds;
+                runningAverage = runningTotal / (i+1);
+                OnSheetProcessed(processedDataRow, runningAverage, runningTotal);
             }
         }
         internal async Task StartProcessingRaw(Func<bool> GetAlignSheet, Action<Bitmap> OnSheetAligned, Action<RectangleF, bool> OnOptionProcessed, Action<string> OnRegionProcessed, Func<double> GetWaitMS, Action OnProcessFinished)
@@ -146,7 +228,7 @@ namespace Synapse.Core.Managers
                     }
                 }
 
-                ProcessedDataRow processedDataRow = new ProcessedDataRow(processedDataEntries, i, sheetsPaths[i], ProcessedDataResultType.NORMAL, alignmentPipelineResults);
+                ProcessedDataRow processedDataRow = new ProcessedDataRow(processedDataEntries, i, sheetsPaths[i], ProcessedDataType.NORMAL, alignmentPipelineResults);
                 processedData.Add(processedDataRow);
             }
 
@@ -157,9 +239,10 @@ namespace Synapse.Core.Managers
         {
             bool result = false;
 
-            result = processedDataSource.Count > 0;
+            result = processedData.Count > 0;
 
             return result;
         }
+        
     }
 }

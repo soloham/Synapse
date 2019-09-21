@@ -21,7 +21,7 @@ namespace Synapse.Core.Engines
             int totalOptions = regionData.TotalOptions;
 
             byte[,] rawDataValues = new byte[totalFields, totalOptions];
-            ProcessedDataResultType processedDataResultType = ProcessedDataResultType.NORMAL;
+            ProcessedDataType processedDataResultType = ProcessedDataType.NORMAL;
 
             PointF regionLocation = omrConfiguration.GetConfigArea.ConfigRect.Location;
             List<RectangleF> optionsRects = regionData.GetOptionsRects;
@@ -76,7 +76,7 @@ namespace Synapse.Core.Engines
                         {
                             case MultiMarkAction.MarkAsManual:
                                 curFieldOutput = muliMarkSymbol;
-                                processedDataResultType = ProcessedDataResultType.MANUAL;
+                                processedDataResultType = ProcessedDataType.MANUAL;
                                 break;
                             case MultiMarkAction.ConsiderFirst:
                                 break;
@@ -119,7 +119,7 @@ namespace Synapse.Core.Engines
                     {
                         case NoneMarkedAction.MarkAsManual:
                             curFieldOutput = noneMarkedSymbol;
-                            processedDataResultType = ProcessedDataResultType.MANUAL;
+                            processedDataResultType = ProcessedDataType.MANUAL;
                             break;
                         case NoneMarkedAction.Invalidate:
                             curFieldOutput = noneMarkedSymbol;
@@ -144,7 +144,7 @@ namespace Synapse.Core.Engines
             int totalOptions = regionData.TotalOptions;
 
             byte[,] rawDataValues = new byte[totalFields, totalOptions];
-            ProcessedDataResultType processedDataResultType = ProcessedDataResultType.NORMAL;
+            ProcessedDataType processedDataResultType = ProcessedDataType.NORMAL;
 
             PointF regionLocation = omrConfiguration.GetConfigArea.ConfigRect.Location;
             List<RectangleF> optionsRects = regionData.GetOptionsRects;
@@ -202,7 +202,7 @@ namespace Synapse.Core.Engines
                         {
                             case MultiMarkAction.MarkAsManual:
                                 curFieldOutput = muliMarkSymbol;
-                                processedDataResultType = ProcessedDataResultType.MANUAL;
+                                processedDataResultType = ProcessedDataType.MANUAL;
                                 break;
                             case MultiMarkAction.ConsiderFirst:
                                 break;
@@ -245,7 +245,7 @@ namespace Synapse.Core.Engines
                     {
                         case NoneMarkedAction.MarkAsManual:
                             curFieldOutput = noneMarkedSymbol;
-                            processedDataResultType = ProcessedDataResultType.MANUAL;
+                            processedDataResultType = ProcessedDataType.MANUAL;
                             break;
                         case NoneMarkedAction.Invalidate:
                             curFieldOutput = noneMarkedSymbol;

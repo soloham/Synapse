@@ -44,7 +44,7 @@ namespace Synapse.Core.Configurations
 
         public override ProcessedDataEntry ProcessSheet(Mat sheet)
         {
-            return new ProcessedDataEntry(this, new byte[1, 1], new char[1], ProcessedDataResultType.FAULTY);
+            return new ProcessedDataEntry(this, new byte[1, 1], new char[1], ProcessedDataType.FAULTY);
         }
         #endregion
     }
