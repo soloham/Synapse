@@ -454,6 +454,7 @@
     <None Include="Resources\General\ScanFolderIcon.png" />
     <None Include="Resources\General\Shape Square 2-WF.png" />
     <None Include="Resources\General\Shape Square 2-WF Gray.png" />
+    <None Include="Resources\General\Login-Arrow Padd 0.png" />
     <Content Include="Resources\Ribbon\AddAsBarcodeBtnIcon1_ConfigTab.png" />
     <Content Include="Resources\Ribbon\AddAsBarcodeBtnIcon2_ConfigTab.png" />
     <Content Include="Resources\Ribbon\AddAsBarcodeBtnIcon3_ConfigTab.png" />

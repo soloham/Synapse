@@ -600,15 +600,9 @@ namespace Synapse
             };
             processingProgressBar.FontColor = Color.Black;
 
-            mainDataGrid.AllowSorting = false;
-            mainDataGrid.AllowFiltering = false;
-
             progressStatusTablePanel.Visible = true;
             await MainProcessingManager.StartProcessing(keepData, OnSheetsProcessed, gridColumns);
             progressStatusTablePanel.Visible = false;
-
-            mainDataGrid.AllowFiltering = true;
-            mainDataGrid.AllowSorting = true;
 
             processingTimeLeftLabel.Text = "TOTAL TIME: 00:00:00";
             processingProgressBar.Value = 0;

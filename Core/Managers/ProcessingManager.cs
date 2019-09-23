@@ -123,9 +123,11 @@ namespace Synapse.Core.Managers
                 ProcessedDataType processedRowType = ProcessedDataType.NORMAL;
                 List<ProcessedDataEntry> processedDataEntries = new List<ProcessedDataEntry>();
                 int lastDataColumnsIndex = 0;
+                ConfigurationBase curConfigurationBase = null;
                 for (int i1 = 0; i1 < allConfigurations.Count; i1++)
                 {
-                    var processedDataEntry = allConfigurations[i1].ProcessSheet(alignedSheet.Mat);
+                    curConfigurationBase = allConfigurations[i1];
+                    var processedDataEntry = curConfigurationBase.ProcessSheet(alignedSheet.Mat);
                     processedDataEntries.Add(processedDataEntry);
 
                     string[] formattedOutput = processedDataEntry.FormatData();
@@ -145,6 +147,35 @@ namespace Synapse.Core.Managers
 
                         }
                         lastDataColumnsIndex += formattedOutput.Length-1;
+                    }
+
+                    switch (curConfigurationBase.GetMainConfigType)
+                    {
+                        case MainConfigType.OMR:
+                            OMRConfiguration omrConfig = (OMRConfiguration)curConfigurationBase;
+                            switch (omrConfig.OMRType)
+                            {
+                                case OMRType.Gradable:
+                                    switch (omrConfig.KeyType)
+                                    {
+                                        case Keys.KeyType.General:
+                                            break;
+                                        case Keys.KeyType.ParameterBased:
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                    break;
+                                case OMRType.NonGradable:
+                                    break;
+                                default:
+                                    break;
+                            }
+                            break;
+                        case MainConfigType.BARCODE:
+                            break;
+                        case MainConfigType.ICR:
+                            break;
                     }
                 }
 

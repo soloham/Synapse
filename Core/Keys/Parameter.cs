@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 namespace Synapse.Core.Keys
 {
     [Serializable]
-    internal class Parameter
+    internal struct Parameter
     {
         public ConfigurationBase parameterConfig;
-        public string parameterValue = "";
+        public string parameterValue;
 
         public Parameter(ConfigurationBase parameterConfig, string parameterValue)
         {
