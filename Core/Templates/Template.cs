@@ -6,6 +6,7 @@ using Emgu.CV.Structure;
 using Emgu.CV.Util;
 using Synapse.Utilities;
 using Synapse.Utilities.Attributes;
+using Synapse.Utilities.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -205,7 +206,7 @@ namespace Synapse.Core.Templates
                     {
                         Anchor curAnchor = anchors[i];
 
-                        Mat result = new Mat();
+                        Mat result = null;
                         CvInvoke.MatchTemplate(inputImg.Mat, curAnchor.GetAnchorImage, result, TemplateMatchingType.CcoeffNormed);
 
                         Point[] Max_Loc, Min_Loc;
@@ -255,7 +256,7 @@ namespace Synapse.Core.Templates
                     {
                         Anchor curAnchor = anchors[i];
 
-                        Mat result = new Mat();
+                        Mat result = null;
                         CvInvoke.MatchTemplate(inputImg.Mat, curAnchor.GetAnchorImage, result, TemplateMatchingType.CcoeffNormed);
 
                         Point[] Max_Loc, Min_Loc;
@@ -289,7 +290,7 @@ namespace Synapse.Core.Templates
                 bool isSuccess = false;
                 Image<Gray, byte> inputImg = (Image<Gray, byte>)input;
                 var resizedInputImg = downscaleSize != Size.Empty? inputImg.Resize(downscaleSize.Width, downscaleSize.Height, Inter.Cubic) : inputImg;
-                inputImg = inputImg.Resize(outputSize.Width, outputSize.Height, Inter.Cubic);
+                //inputImg = inputImg.Resize(outputSize.Width, outputSize.Height, Inter.Cubic);
                 Mat _output = new Mat();
                 homography = null;
 
@@ -308,11 +309,10 @@ namespace Synapse.Core.Templates
 
                 try
                 { 
+                    Mat result = new Mat();
                     for (int i = 0; i < anchors.Count; i++)
                     {
                         Anchor curAnchor = anchors[i];
-
-                        Mat result = new Mat();
 
                         CvInvoke.MatchTemplate(resizedInputImg.Mat, curAnchor.GetAnchorImage, result, TemplateMatchingType.CcoeffNormed);
 
@@ -323,6 +323,21 @@ namespace Synapse.Core.Templates
 
                         if (max[0] > 0.65)
                             isSuccess = true;
+
+                        //if(isSuccess)
+                        //{
+                        //    double threshold = max[0] * 0.7;
+                        //    List<Point> allPossibleMatches = new List<Point>();
+                        //    for (int i0 = 0; i0 < result.Width; i0++)
+                        //    {
+                        //        for (int j = 0; j < result.Height; j++)
+                        //        {
+                        //            double dataValue = (double)result.GetValue(i0, j);
+                        //            if (dataValue >= threshold)
+                        //                allPossibleMatches.Add(new Point(i0, j));
+                        //        }
+                        //    }
+                        //}
 
                         anchorCoordinates[i] = Max_Loc[0];
                         anchorRegions[i] = curAnchor.GetAnchorRegion;
@@ -378,7 +393,7 @@ namespace Synapse.Core.Templates
                 {
                     Anchor curAnchor = anchors[i];
 
-                    Mat result = new Mat();
+                    Mat result = null;
                     CvInvoke.MatchTemplate(inputImg.Mat, curAnchor.GetAnchorImage, result, TemplateMatchingType.CcoeffNormed);
 
                     Point[] Max_Loc, Min_Loc;
@@ -1225,7 +1240,7 @@ namespace Synapse.Core.Templates
         }
         internal Image<Gray, byte> AlignSheet(Image<Gray, byte> sheetImage, out AlignmentPipelineResults alignmentPipelineResults)
         {
-            Image<Gray, byte> outputImage = sheetImage.Clone();
+            Image<Gray, byte> outputImage = sheetImage;
             List<AlignmentMethod> alignmentPipeline = TemplateData.GetAlignmentPipeline;
             Image<Gray, byte> grayImage = GetTemplateImage.GetGrayImage;
 
@@ -1237,7 +1252,7 @@ namespace Synapse.Core.Templates
             List<AlignmentPipelineResults.AlignmentMethodResult> alignmentMethodResults = new List<AlignmentPipelineResults.AlignmentMethodResult>();
 
             IOutputArray outputImageArr;
-            outputImage = sheetImage.Resize(grayImage.Width, grayImage.Height, Emgu.CV.CvEnum.Inter.Cubic);
+            outputImage = sheetImage.Resize(grayImage.Width, grayImage.Height, Inter.Cubic);
             for (int i = 0; i < alignmentPipeline.Count; i++)
             {
                 Exception exception = null;
@@ -1258,7 +1273,7 @@ namespace Synapse.Core.Templates
                         var outputMat = (Mat)outputImageArr;
                         outputImage = outputMat.ToImage<Gray, byte>();
                     }
-                    AlignmentPipelineResults.AnchorAlignmentMethodResult anchorAlignmentMethodResult = new AlignmentPipelineResults.AnchorAlignmentMethodResult(alignmentMethod, isSuccess ? AlignmentPipelineResults.AlignmentMethodResultType.Successful : AlignmentPipelineResults.AlignmentMethodResultType.Failed, alignmentHomography, sheetImage, outputImage, alignmentTime, mainAnchors, detectedAnchors, warpedAnchors, scaledMainAnchorRegions, scaledMainTestRegion);
+                    AlignmentPipelineResults.AnchorAlignmentMethodResult anchorAlignmentMethodResult = new AlignmentPipelineResults.AnchorAlignmentMethodResult(alignmentMethod, isSuccess ? AlignmentPipelineResults.AlignmentMethodResultType.Successful : AlignmentPipelineResults.AlignmentMethodResultType.Failed, null, null, null, alignmentTime, mainAnchors, detectedAnchors, warpedAnchors, scaledMainAnchorRegions, scaledMainTestRegion);
                     alignmentMethodResult = anchorAlignmentMethodResult;
                 }
                 else
@@ -1269,7 +1284,7 @@ namespace Synapse.Core.Templates
                         var outputMat = (Mat)outputImageArr;
                         outputImage = outputMat.ToImage<Gray, byte>();
                     }
-                    alignmentMethodResult = new AlignmentPipelineResults.AlignmentMethodResult(alignmentMethod, isSuccess ? AlignmentPipelineResults.AlignmentMethodResultType.Successful : AlignmentPipelineResults.AlignmentMethodResultType.Failed, alignmentHomography, sheetImage, outputImage, alignmentTime);
+                    alignmentMethodResult = new AlignmentPipelineResults.AlignmentMethodResult(alignmentMethod, isSuccess ? AlignmentPipelineResults.AlignmentMethodResultType.Successful : AlignmentPipelineResults.AlignmentMethodResultType.Failed, null, null, null, alignmentTime);
                 }
 
                 alignmentMethodResults.Add(alignmentMethodResult);

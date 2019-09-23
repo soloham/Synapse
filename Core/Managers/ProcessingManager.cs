@@ -28,10 +28,16 @@ namespace Synapse.Core.Managers
         private SheetsList loadedSheetsData = new SheetsList();
         private List<string> dataColumns = new List<string>();
         private List<ProcessedDataRow> processedData = new List<ProcessedDataRow>();
-        private ObservableCollection<dynamic> normalProcessedDataSource = new ObservableCollection<dynamic>();
+
+        private ObservableCollection<dynamic> allProcessedDataSource = new ObservableCollection<dynamic>();
         private ObservableCollection<dynamic> manualProcessedDataSource = new ObservableCollection<dynamic>();
         private ObservableCollection<dynamic> faultyProcessedDataSource = new ObservableCollection<dynamic>();
         private ObservableCollection<dynamic> incompatibleProcessedDataSource = new ObservableCollection<dynamic>();
+
+        public int GetTotalProcessedData { get => allProcessedDataSource.Count; }
+        public int GetTotalManualProcessedData { get => manualProcessedDataSource.Count; }
+        public int GetTotalFaultyProcessedData { get => faultyProcessedDataSource.Count; }
+        public int GetTotalIncompatibleProcessedData { get => incompatibleProcessedDataSource.Count; }
 
         public event EventHandler<ProcessedDataType> OnDataSourceUpdated;
 
@@ -58,7 +64,7 @@ namespace Synapse.Core.Managers
                     manualProcessedDataSource.Clear();
                     break;
                 case ProcessedDataType.NORMAL:
-                    normalProcessedDataSource.Clear();
+                    allProcessedDataSource.Clear();
                     break;
             }
 
@@ -71,7 +77,7 @@ namespace Synapse.Core.Managers
             incompatibleProcessedDataSource.Clear();
             faultyProcessedDataSource.Clear();
             manualProcessedDataSource.Clear();
-            normalProcessedDataSource.Clear();
+            allProcessedDataSource.Clear();
 
             processedData.Clear();
 
@@ -142,7 +148,7 @@ namespace Synapse.Core.Managers
                     }
                 }
 
-                ProcessedDataRow processedDataRow = new ProcessedDataRow(processedDataEntries, i, sheetsPaths[i], processedRowType, alignmentPipelineResults);
+                ProcessedDataRow processedDataRow = new ProcessedDataRow(processedDataEntries, i, sheetsPaths[i], processedRowType);
                 processedData.Add(processedDataRow);
 
                 Functions.AddProperty(dynamicDataRow, "DataRowObject", processedDataRow);
@@ -158,11 +164,11 @@ namespace Synapse.Core.Managers
                         manualProcessedDataSource.Add(dynamicDataRow);
                     break;
                     case ProcessedDataType.NORMAL:
-                        normalProcessedDataSource.Add(dynamicDataRow);
+                        allProcessedDataSource.Add(dynamicDataRow);
                     break;
                 }
                 if (i == 0 && !keepData)
-                    SynapseMain.GetSynapseMain.InitializeMainDataGrid(processedDataEntries, normalProcessedDataSource);
+                    SynapseMain.GetSynapseMain.InitializeMainDataGrid(processedDataEntries, allProcessedDataSource);
 
                 OnDataSourceUpdated?.Invoke(this, processedRowType);
 
@@ -198,7 +204,7 @@ namespace Synapse.Core.Managers
                 List<ProcessedDataEntry> processedDataEntries = new List<ProcessedDataEntry>();
                 for (int i1 = 0; i1 < allConfigurations.Count; i1++)
                 {
-                    ProcessedDataEntry processedDataEntry = null;
+                    ProcessedDataEntry processedDataEntry = new ProcessedDataEntry();
                     if (allConfigurations[i1].GetMainConfigType == MainConfigType.OMR)
                     {
                         OMRConfiguration omrConfiguration = (OMRConfiguration)allConfigurations[i1];
@@ -228,7 +234,7 @@ namespace Synapse.Core.Managers
                     }
                 }
 
-                ProcessedDataRow processedDataRow = new ProcessedDataRow(processedDataEntries, i, sheetsPaths[i], ProcessedDataType.NORMAL, alignmentPipelineResults);
+                ProcessedDataRow processedDataRow = new ProcessedDataRow(processedDataEntries, i, sheetsPaths[i], ProcessedDataType.NORMAL);
                 processedData.Add(processedDataRow);
             }
 

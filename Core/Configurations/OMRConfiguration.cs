@@ -578,6 +578,11 @@ namespace Synapse.Core.Configurations
             return result;
         }
         #endregion
+
+        public char[] GetEscapeSymbols()
+        {
+            return new char[] { MultiMarkSymbol, NoneMarkedSymbol };
+        }
         #endregion
 
         #region Static Methods

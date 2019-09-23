@@ -325,7 +325,10 @@ namespace Synapse
 
         public void UpdateStatus(string status)
         {
-            statusPanelStatusLabel.Text = status;
+            synchronizationContext.Send(new SendOrPostCallback((object target) =>
+            {
+                statusPanelStatusLabel.Text = status;
+            }), null);
         }
         #endregion
 
@@ -394,7 +397,7 @@ namespace Synapse
             {
                 case ProcessedDataType.INCOMPATIBLE:
                     //dataGrid = incompatibleDataGrid;
-                    rowCount = dataGrid.RowCount - 1;
+                    rowCount = MainProcessingManager.GetTotalIncompatibleProcessedData;
                     if (rowCount == 0)
                         return;
 
@@ -404,7 +407,7 @@ namespace Synapse
                     break;
                 case ProcessedDataType.FAULTY:
                     //dataGrid = faultyDataGrid;
-                    rowCount = dataGrid.RowCount - 1;
+                    rowCount = MainProcessingManager.GetTotalFaultyProcessedData;
                     if (rowCount == 0)
                         return;
 
@@ -414,7 +417,7 @@ namespace Synapse
                     break;
                 case ProcessedDataType.MANUAL:
                     //dataGrid = manualDataGrid;
-                    rowCount = dataGrid.RowCount - 1;
+                    rowCount = MainProcessingManager.GetTotalManualProcessedData;
                     if (rowCount == 0)
                         return;
 
@@ -424,13 +427,13 @@ namespace Synapse
                     break;
                 case ProcessedDataType.NORMAL:
                     //dataGrid = mainDataGrid;
-                    rowCount = dataGrid.RowCount - 1;
+                    rowCount = MainProcessingManager.GetTotalProcessedData;
                     if (rowCount == 0)
                         return;
 
                     if (!normalDataTypePanel.Visible)
                         normalDataTypePanel.Visible = true;
-                    totalNormalDataLabel.Text = rowCount + "";
+                    totalMainDataLabel.Text = rowCount + "";
                     break;
             }
         }
@@ -584,7 +587,8 @@ namespace Synapse
                 string timeLeft = TimeSpan.FromMilliseconds(runningAverage * (totalSheets - curIndex)).ToString(@"hh\:mm\:ss");
                 processingTimeLeftLabel.Text = "TOTAL TIME: " + timeLeft;
 
-                string status = $"[{curIndex}/{totalSheets}] Processing...";
+                double spsAvg = 1/(runningAverage / 1000);
+                string status = $"[{curIndex}/{totalSheets}] Processing...     AVG: {Math.Round(spsAvg, 1)} Sheets per second.";
                 UpdateStatus(status);
 
                 if (curIndex == totalSheets)
@@ -596,9 +600,15 @@ namespace Synapse
             };
             processingProgressBar.FontColor = Color.Black;
 
+            mainDataGrid.AllowSorting = false;
+            mainDataGrid.AllowFiltering = false;
+
             progressStatusTablePanel.Visible = true;
             await MainProcessingManager.StartProcessing(keepData, OnSheetsProcessed, gridColumns);
             progressStatusTablePanel.Visible = false;
+
+            mainDataGrid.AllowFiltering = true;
+            mainDataGrid.AllowSorting = true;
 
             processingTimeLeftLabel.Text = "TOTAL TIME: 00:00:00";
             processingProgressBar.Value = 0;
@@ -609,6 +619,7 @@ namespace Synapse
         private void GenerateGridColumns()
         {
             gridColumns.Clear();
+            usedNonCollectiveDataLabels.Clear();
             mainDataGrid.AutoGenerateColumns = false;
             mainDataGrid.Columns.Clear();
 
@@ -632,14 +643,16 @@ namespace Synapse
                                 break;
                             case ValueRepresentation.Indiviual:
                                 int totalIndFields = omrConfiguration.GetTotalFields;
-                                string indDataLabel = omrConfiguration.Title[0] + "";
+                                string indConfigTitle = omrConfiguration.Title;
+                                string indDataLabel = indConfigTitle[0] + "";
                                 while (usedNonCollectiveDataLabels.Contains(indDataLabel))
                                 {
-                                    for (int i2 = 1; i2 < indDataLabel.Length; i2++)
-                                    {
-                                        indDataLabel += omrConfiguration.Title[i2] + "";
-                                    }
+                                    if (indDataLabel.Length == indConfigTitle.Length)
+                                        indDataLabel = indConfigTitle + "_";
+                                    else
+                                        indDataLabel += indConfigTitle[indDataLabel.Length] + "";
                                 }
+                                usedNonCollectiveDataLabels.Add(indDataLabel);
                                 for (int i1 = 0; i1 < totalIndFields; i1++)
                                 {
                                     GridTextColumn omrIndCol = new GridTextColumn();
@@ -654,14 +667,16 @@ namespace Synapse
                                 int totalCom2Fields = omrConfiguration.GetTotalFields / 2;
                                 if (totalCom2Fields % 2 == 0)
                                 {
-                                    string com2DataLabel = omrConfiguration.Title[0] + "";
+                                    string com2ConfigTitle = omrConfiguration.Title;
+                                    string com2DataLabel = com2ConfigTitle[0] + "";
                                     while (usedNonCollectiveDataLabels.Contains(com2DataLabel))
                                     {
-                                        for (int i2 = 1; i2 < com2DataLabel.Length; i2++)
-                                        {
-                                            com2DataLabel += omrConfiguration.Title[i2] + "";
-                                        }
+                                        if (com2DataLabel.Length == com2ConfigTitle.Length)
+                                            com2DataLabel = com2ConfigTitle + "_";
+                                        else
+                                            com2DataLabel += com2ConfigTitle[com2DataLabel.Length] + "";
                                     }
+                                    usedNonCollectiveDataLabels.Add(com2DataLabel);
                                     for (int i1 = 0; i1 < totalCom2Fields; i1++)
                                     {
                                         GridTextColumn omrCom2Col = new GridTextColumn();
@@ -674,14 +689,16 @@ namespace Synapse
                                 }
                                 else
                                 {
-                                    string _indDataLabel = omrConfiguration.Title[0] + "";
+                                    string _indConfigTitle = omrConfiguration.Title;
+                                    string _indDataLabel = _indConfigTitle[0] + "";
                                     while (usedNonCollectiveDataLabels.Contains(_indDataLabel))
                                     {
-                                        for (int i2 = 1; i2 < _indDataLabel.Length; i2++)
-                                        {
-                                            _indDataLabel += omrConfiguration.Title[i2] + "";
-                                        }
+                                        if (_indDataLabel.Length == _indConfigTitle.Length)
+                                            _indDataLabel = _indConfigTitle + "_";
+                                        else
+                                            _indDataLabel += _indConfigTitle[_indDataLabel.Length] + "";
                                     }
+                                    usedNonCollectiveDataLabels.Add(_indDataLabel);
                                     for (int i1 = 0; i1 < omrConfiguration.GetTotalFields; i1++)
                                     {
                                         GridTextColumn omrIndCol = new GridTextColumn();
@@ -753,7 +770,7 @@ namespace Synapse
                         //    mainDataGrid.Columns.Add(col1);
                         //}
                         #endregion
-                        mainDataGrid.DataSource = processedDataSource;
+                        mainDataGridPager.DataSource = processedDataSource;
                     }
                     else
                     {
@@ -791,8 +808,9 @@ namespace Synapse
                     mainDataGrid.Columns.Add(col1);
                 }
                 #endregion
-                mainDataGrid.DataSource = processedDataSource;
+                mainDataGridPager.DataSource = processedDataSource;
             }
+            mainDataGrid.DataSource = mainDataGridPager.PagedSource;
         }
         #endregion
         #region Data Panel
@@ -844,7 +862,8 @@ namespace Synapse
                 return;
 
             configTabPanel.Visible = true;
-            readingTabPanel.Visible = false;
+            configTabPanel.BringToFront();
+            //readingTabPanel.Visible = false;
 
             mainDockingManager.SetDockVisibility(configPropertiesPanel, true);
             mainDockingManager.SetDockVisibility(dataImageBoxPanel, false);
@@ -1080,11 +1099,12 @@ namespace Synapse
         #region Reading Tab
         private void ReadingToolStripTabItem_Click(object sender, EventArgs e)
         {
-            if (readingTabPanel.Visible)
+            if (!configTabPanel.Visible)
                 return;
 
-            readingTabPanel.Visible = true;
+            //readingTabPanel.Visible = true;
             configTabPanel.Visible = false;
+            configTabPanel.SendToBack();
 
             mainDockingManager.SetDockVisibility(dataImageBoxPanel, true);
             mainDockingManager.SetDockVisibility(configPropertiesPanel, false);
@@ -1133,8 +1153,8 @@ namespace Synapse
                     continue;
 
                 List<Point> markedRectIndexes = new List<Point>();
-                var rawDataValues = entries[i].GetRawDataValues;
                 var omrConfig = (OMRConfiguration)entries[i].GetConfigurationBase;
+                var rawDataValues = ProcessedDataEntry.GenerateRawOMRDataValues(omrConfig, entries[i].GetFieldsOutputs, omrConfig.GetEscapeSymbols());
                 int totalFields = omrConfig.GetTotalFields;
                 int totalOptions = omrConfig.GetTotalOptions;
                 for (int i1 = 0; i1 < totalFields; i1++)

@@ -61,25 +61,28 @@ namespace Synapse.Utilities.Objects
 
             if (path != "")
             {
-                //GraderAI.UpdateStatus("Status: Scanning the directory...");
+                SynapseMain.UpdateMainStatus("Status: Scanning the directory...");
 
                 var filters = new String[] { "jpg", "jpeg", "png", "gif", "tiff", "bmp", "tif" };
                 var imgFiles = GetSheetsFrom(path, filters, includeSubDirs, out newDirIndexes);
                 if (imgFiles.Length > 0)
                 {
                     sheetsPath = imgFiles;
-                    //GraderAI.UpdateStatus("Status: Scan Completed successfully.");
+                    SynapseMain.UpdateMainStatus("Status: Scan Completed successfully.");
+
+                    success = true;
                 }
                 else
                 {
                     err = "Image files not found.";
-                    //GraderAI.UpdateStatus("Status: Scan Completed un-successfully.");
+                    SynapseMain.UpdateMainStatus("Status: Scan Completed un-successfully.");
+
+                    success = false;
                 }
-                //GraderAI.UpdateStatus("Status: Loading has been completed.");
+                SynapseMain.UpdateMainStatus("Status: Loading has been completed.");
 
                 curPath = path;
                 curIncludeSubDirs = includeSubDirs;
-                success = true;
             }
             else
             {

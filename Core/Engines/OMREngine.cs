@@ -20,7 +20,6 @@ namespace Synapse.Core.Engines
             int totalFields = regionData.TotalFields;
             int totalOptions = regionData.TotalOptions;
 
-            byte[,] rawDataValues = new byte[totalFields, totalOptions];
             ProcessedDataType processedDataResultType = ProcessedDataType.NORMAL;
 
             PointF regionLocation = omrConfiguration.GetConfigArea.ConfigRect.Location;
@@ -54,13 +53,7 @@ namespace Synapse.Core.Engines
                     double blackCountPercent = blackCount / (double)data.Length;
                     bool isFilled = blackCountPercent > curBlackCountThreshold;
                     if (isFilled)
-                    {
-                        rawDataValues[i, j] = 1;
-
                         filledIndexes.Add((byte)j);
-                    }
-                    else
-                        rawDataValues[i, j] = 0;
 
                     OnOptionProcessed?.Invoke(optionsRects[curOptionRectIndex], isFilled);
 
@@ -131,7 +124,7 @@ namespace Synapse.Core.Engines
                 regionOutput += curFieldOutput.ToString();
             }
 
-            ProcessedDataEntry processedDataEntry = new ProcessedDataEntry(configuration, rawDataValues, regionFieldsOutputs, processedDataResultType);
+            ProcessedDataEntry processedDataEntry = new ProcessedDataEntry(configuration.Title, regionFieldsOutputs, processedDataResultType);
             return processedDataEntry;
         }
 
@@ -143,7 +136,6 @@ namespace Synapse.Core.Engines
             int totalFields = regionData.TotalFields;
             int totalOptions = regionData.TotalOptions;
 
-            byte[,] rawDataValues = new byte[totalFields, totalOptions];
             ProcessedDataType processedDataResultType = ProcessedDataType.NORMAL;
 
             PointF regionLocation = omrConfiguration.GetConfigArea.ConfigRect.Location;
@@ -178,13 +170,7 @@ namespace Synapse.Core.Engines
                     double blackCountPercent = blackCount / (double)data.Length;
                     bool isFilled = blackCountPercent > curBlackCountThreshold;
                     if (isFilled)
-                    {
-                        rawDataValues[i, j] = 1;
-
                         filledIndexes.Add((byte)j);
-                    }
-                    else
-                        rawDataValues[i, j] = 0;
 
                     OnOptionProcessed?.Invoke(curOptionRect, isFilled);
                     if(OnOptionProcessed != null)
@@ -257,7 +243,7 @@ namespace Synapse.Core.Engines
                 regionOutput += curFieldOutput.ToString();
             }
 
-            ProcessedDataEntry processedDataEntry = new ProcessedDataEntry(configuration, rawDataValues, regionFieldsOutputs, processedDataResultType);
+            ProcessedDataEntry processedDataEntry = new ProcessedDataEntry(configuration.Title, regionFieldsOutputs, processedDataResultType);
             return processedDataEntry;
         }
     }

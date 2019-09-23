@@ -4,20 +4,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Synapse.Core.Configurations;
+using Synapse.Core.Managers;
 
 namespace Synapse.Core.Engines.Data
 {
     [Serializable]
-    internal class ProcessedDataEntry
+    internal struct ProcessedDataEntry
     {
         #region Properties
-        public ConfigurationBase GetConfigurationBase { get => configurationBase; }
-        private ConfigurationBase configurationBase;
+        public ConfigurationBase GetConfigurationBase { get => ConfigurationsManager.GetConfiguration(configurationTitle); }
+        private string configurationTitle;
         public MainConfigType GetMainConfigType { get => GetConfigurationBase.GetMainConfigType; }
         public ProcessedDataType DataEntryResultType { get; set; }
 
-        public byte[,] GetRawDataValues { get => rawDataValues; }
-        private byte[,] rawDataValues;
         public char[] GetFieldsOutputs { get => fieldsOutputs; }
         private char[] fieldsOutputs;
         public string[] GetDataValues { get => dataValues; }
@@ -27,21 +26,23 @@ namespace Synapse.Core.Engines.Data
         #endregion
 
         #region Methods
-        public ProcessedDataEntry(ConfigurationBase configurationBase, byte[,] rawDataValues, char[] fieldsOutputs, ProcessedDataType processedDataResultType)
+        public ProcessedDataEntry(string configurationTitle, char[] fieldsOutputs, ProcessedDataType processedDataResultType)
         {
-            this.configurationBase = configurationBase;
+            this.configurationTitle = configurationTitle;
             this.fieldsOutputs = fieldsOutputs;
-            this.rawDataValues = rawDataValues;
 
             DataEntryResultType = processedDataResultType;
+            dataValues = null;
+            IsEdited = false;
+
             FormatData();
         }
 
         public string[] FormatData()
         {
             List<string> result = new List<string>();
-
-            switch (configurationBase.ValueRepresentation)
+            var config = GetConfigurationBase;
+            switch (config.ValueRepresentation)
             {
                 case ValueRepresentation.Collective:
                     result.Add(string.Concat(fieldsOutputs));
@@ -73,6 +74,60 @@ namespace Synapse.Core.Engines.Data
             dataValues = result.ToArray();
 
             return dataValues;
+        }
+        public static byte[,] GenerateRawOMRDataValues(OMRConfiguration omrConfiguration, char[] fieldsOutputs, char[] escapeChars)
+        {
+            byte totalFields = (byte)omrConfiguration.GetTotalFields;
+            byte totalOptions = (byte)omrConfiguration.GetTotalOptions;
+
+            byte[,] result = new byte[totalFields, totalOptions];
+
+            var outputType = omrConfiguration.ValueDataType;
+            byte[] ascii = Encoding.ASCII.GetBytes(fieldsOutputs);
+            byte[] escapeAscii = Encoding.ASCII.GetBytes(escapeChars);
+            switch (outputType)
+            {
+                case ValueDataType.String:
+                    break;
+                case ValueDataType.Text:
+                    break;
+                case ValueDataType.Alphabet:
+                    for (int i = 0; i < ascii.Length; i++)
+                    {
+                        if (escapeAscii.Contains(ascii[i]))
+                            continue;
+
+                        int optionIndex = ascii[i] - 65;
+                        result[i, optionIndex] = 1;
+                    }
+                    break;
+                case ValueDataType.WholeNumber:
+                    for (int i = 0; i < ascii.Length; i++)
+                    {
+                        if (escapeAscii.Contains(ascii[i]))
+                            continue;
+
+                        int optionIndex = ascii[i] - 48;
+                        result[i, optionIndex] = 1;
+                    }
+                    break;
+                case ValueDataType.NaturalNumber:
+                    for (int i = 0; i < ascii.Length; i++)
+                    {
+                        if (escapeAscii.Contains(ascii[i]))
+                            continue;
+
+                        int optionIndex = ascii[i] - 49;
+                        result[i, optionIndex] = 1;
+                    }
+                    break;
+                case ValueDataType.Integer:
+                    break;
+                default:
+                    break;
+            }
+
+            return result;
         }
         #endregion
     }

@@ -57,28 +57,29 @@
     <Reference Include="Emgu.CV.World, Version=4.1.0.3420, Culture=neutral, PublicKeyToken=7281126722ab4438, processorArchitecture=MSIL">
       <HintPath>..\packages\EMGU.CV.4.1.0.3420\lib\net35\Emgu.CV.World.dll</HintPath>
     </Reference>
-    <Reference Include="Syncfusion.Compression.Base, Version=17.2460.0.46, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
-    <Reference Include="Syncfusion.Core.WinForms, Version=17.2460.0.46, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
-    <Reference Include="Syncfusion.Data.WinForms, Version=17.2460.0.46, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
-    <Reference Include="Syncfusion.DataSource.WinForms, Version=17.2460.0.46, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
-    <Reference Include="Syncfusion.Diagram.Base, Version=17.2460.0.46, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
-    <Reference Include="Syncfusion.Diagram.Windows, Version=17.2460.0.46, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL" />
-    <Reference Include="Syncfusion.Grid.Windows, Version=17.2460.0.46, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
-    <Reference Include="Syncfusion.GridCommon.WinForms, Version=17.2460.0.46, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
-    <Reference Include="Syncfusion.Schedule.Base, Version=17.2460.0.46, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
-    <Reference Include="Syncfusion.Schedule.Windows, Version=17.2460.0.46, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
-    <Reference Include="Syncfusion.SfDataGrid.WinForms, Version=17.2460.0.46, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL" />
-    <Reference Include="Syncfusion.SfDataGridConverter.WinForms, Version=17.2460.0.46, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
-    <Reference Include="Syncfusion.SfInput.WinForms, Version=17.2460.0.46, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
-    <Reference Include="Syncfusion.SfListView.WinForms, Version=17.2460.0.46, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL" />
-    <Reference Include="Syncfusion.Shared.Base, Version=17.2460.0.46, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
-    <Reference Include="Syncfusion.Shared.Windows, Version=17.2460.0.46, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
-    <Reference Include="Syncfusion.Tools.Base, Version=17.2460.0.46, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
-    <Reference Include="Syncfusion.Tools.Windows, Version=17.2460.0.46, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
-    <Reference Include="Syncfusion.XlsIO.Base, Version=17.2460.0.46, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
-    <Reference Include="Syncfusion.XlsIO.Windows, Version=17.2460.0.46, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
+    <Reference Include="Syncfusion.Compression.Base, Version=17.3460.0.9, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
+    <Reference Include="Syncfusion.Core.WinForms, Version=17.3460.0.9, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
+    <Reference Include="Syncfusion.Data.WinForms, Version=17.3460.0.9, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
+    <Reference Include="Syncfusion.DataSource.WinForms, Version=17.3460.0.9, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
+    <Reference Include="Syncfusion.Diagram.Base, Version=17.3460.0.9, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
+    <Reference Include="Syncfusion.Diagram.Windows, Version=17.3460.0.9, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL" />
+    <Reference Include="Syncfusion.Grid.Windows, Version=17.3460.0.9, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
+    <Reference Include="Syncfusion.GridCommon.WinForms, Version=17.3460.0.9, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
+    <Reference Include="Syncfusion.Schedule.Base, Version=17.3460.0.9, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
+    <Reference Include="Syncfusion.Schedule.Windows, Version=17.3460.0.9, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
+    <Reference Include="Syncfusion.SfDataGrid.WinForms, Version=17.3460.0.9, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL" />
+    <Reference Include="Syncfusion.SfDataGridConverter.WinForms, Version=17.3460.0.9, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
+    <Reference Include="Syncfusion.SfInput.WinForms, Version=17.3460.0.9, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
+    <Reference Include="Syncfusion.SfListView.WinForms, Version=17.3460.0.9, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL" />
+    <Reference Include="Syncfusion.Shared.Base, Version=17.3460.0.9, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
+    <Reference Include="Syncfusion.Shared.Windows, Version=17.3460.0.9, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
+    <Reference Include="Syncfusion.Tools.Base, Version=17.3460.0.9, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
+    <Reference Include="Syncfusion.Tools.Windows, Version=17.3460.0.9, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
+    <Reference Include="Syncfusion.XlsIO.Base, Version=17.3460.0.9, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
+    <Reference Include="Syncfusion.XlsIO.Windows, Version=17.3460.0.9, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Design" />
     <Reference Include="System.Runtime.Serialization" />
@@ -165,6 +166,12 @@
     </Compile>
     <Compile Include="Controls\PipelineTestMethodSettingControl.Designer.cs">
       <DependentUpon>PipelineTestMethodSettingControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\SfDataGridEx.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\SfDataGridEx.Designer.cs">
+      <DependentUpon>SfDataGridEx.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\TemplateListItem.cs">
       <SubType>UserControl</SubType>
@@ -261,6 +268,7 @@
     <Compile Include="Utilities\Enums\EnumHelper.cs" />
     <Compile Include="Utilities\Enums\Basic.cs" />
     <Compile Include="Utilities\Extensions\ControlExtension.cs" />
+    <Compile Include="Utilities\Extensions\MatExtensions.cs" />
     <Compile Include="Utilities\Functions.cs" />
     <Compile Include="Utilities\Memory\LSTM.cs" />
     <Compile Include="Utilities\Messages.cs" />
