@@ -47,17 +47,21 @@ namespace Synapse.Controls
             alignmentTimeValueLabel.Text = "0ms";// $"{alignmentMethodResult.AlignmentTime}ms";
         }
 
-        internal void GetResultImages(out Image<Gray, byte> inputImage, out Image<Gray, byte> outputImage, out Image<Gray, byte> diffImage)
+        internal void GetResultImages(out Mat inputImage, out Mat outputImage, out Mat diffImage)
         {
             inputImage = alignmentMethodResult.InputImage;
             outputImage = alignmentMethodResult.OutputImage;
+            diffImage = new Mat();
             if (outputImage.Size != inputImage.Size)
             {
-                var resizedOutputImg = outputImage.Resize(inputImage.Size.Width, inputImage.Size.Height, Emgu.CV.CvEnum.Inter.Cubic);
-                diffImage = inputImage.Sub(resizedOutputImg);
+                Mat resizedOutputImg = new Mat();
+                CvInvoke.Resize(outputImage, resizedOutputImg, inputImage.Size);
+                CvInvoke.Subtract(inputImage, resizedOutputImg, diffImage);
+                //var resizedOutputImg = outputImage.Resize(inputImage.Size.Width, inputImage.Size.Height, Emgu.CV.CvEnum.Inter.Cubic);
+                //diffImage = inputImage.ToImage<Gray, byte>().Sub(resizedOutputImg);
             }
             else
-                diffImage = inputImage.Sub(outputImage);
+                CvInvoke.Subtract(inputImage, outputImage, diffImage);
         }
     }
 }

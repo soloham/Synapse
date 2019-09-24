@@ -110,7 +110,7 @@ namespace Synapse
         #endregion
 
         #region Events 
-        public event EventHandler<Image> OnTemplateLoadedEvent;
+        public event EventHandler<Mat> OnTemplateLoadedEvent;
 
         public event EventHandler<StatusState> OnTemplateStateChangedEvent;
         public event EventHandler<StatusState> OnConfigurationDataStateChangedEvent;
@@ -373,8 +373,8 @@ namespace Synapse
                     //Stream originalBinaryDataStream = new MemoryStream(data);
                     //Image tmpImage = Image.FromStream(originalBinaryDataStream);
 
-                    Bitmap tmpImage = GetCurrentTemplate.GetTemplateImage.GetBitmap;
-                    templateImageBox.Image = tmpImage;
+                    var tmpImage = GetCurrentTemplate.GetTemplateImage.GetGrayImage.Mat;
+                    templateImageBox.Image = tmpImage.Bitmap;
                     templateImageBox.ZoomToFit();
 
                     OnTemplateLoadedEvent?.Invoke(this, tmpImage);
@@ -439,7 +439,7 @@ namespace Synapse
         }
 
         #region Configuration Panel
-        private void SynapseMain_OnTemplateLoadedEvent(object sender, Image e)
+        private void SynapseMain_OnTemplateLoadedEvent(object sender, Mat e)
         {
             templateConfigureToolStripMenuItem.Enabled = true;
 
@@ -869,8 +869,8 @@ namespace Synapse
                 string location = ImageFileBrowser.FileName;
                 try
                 {
-                    Image tmpImage = Image.FromFile(location);
-                    templateImageBox.Image = tmpImage;
+                    Mat tmpImage = CvInvoke.Imread(location, Emgu.CV.CvEnum.ImreadModes.Grayscale);
+                    templateImageBox.Image = tmpImage.Bitmap;
                     templateImageBox.ZoomToFit();
 
                     OnTemplateLoadedEvent?.Invoke(this, tmpImage);

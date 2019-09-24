@@ -52,10 +52,9 @@ namespace Synapse.Core.Engines.Data
         {
             Mat result = new Mat();
             Mat unAlignedMat = new Mat(RowSheetPath, Emgu.CV.CvEnum.ImreadModes.AnyColor);
-            Image<Gray, byte> unAligned = unAlignedMat.ToImage<Gray, byte>();
 
-            var resultImg = SynapseMain.GetCurrentTemplate.AlignSheet(unAligned, out Templates.Template.AlignmentPipelineResults alignmentPipelineResults);
-            result = resultImg.Mat;
+            var resultImg = SynapseMain.GetCurrentTemplate.AlignSheet(unAlignedMat, out Templates.Template.AlignmentPipelineResults alignmentPipelineResults);
+            result = resultImg;
             //CvInvoke.WarpPerspective(unAligned, result, GetAlignmentHomography, unAligned.Size, Emgu.CV.CvEnum.Inter.Cubic, Emgu.CV.CvEnum.Warp.Default, Emgu.CV.CvEnum.BorderType.Default);
             return result;
         }

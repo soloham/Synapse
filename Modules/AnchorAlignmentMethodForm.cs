@@ -33,7 +33,7 @@ namespace Synapse.Modules
 
         #region Variables
 
-        private Image<Gray, byte> templateImage;
+        private Mat templateImage;
 
         private int pipelineIndex;
         private string methodName;
@@ -73,14 +73,14 @@ namespace Synapse.Modules
         #endregion
 
         #region General Methods
-        internal AnchorAlignmentMethodForm(Template.AnchorAlignmentMethod anchorAlignmentMethod, Image<Gray, byte> templateImage)
+        internal AnchorAlignmentMethodForm(Template.AnchorAlignmentMethod anchorAlignmentMethod, Mat templateImage)
         {
             InitializeComponent();
 
             Awake();
 
             this.templateImage = templateImage;
-            var btm = templateImage.ToBitmap();
+            var btm = templateImage.Bitmap;
             pipelineIndex = anchorAlignmentMethod.PipelineIndex;
             methodName = anchorAlignmentMethod.MethodName;
             imageBox.Image = btm;
@@ -88,7 +88,7 @@ namespace Synapse.Modules
             Initialize(anchorAlignmentMethod, btm);
 
         }
-        internal AnchorAlignmentMethodForm(Image<Gray, byte> templateImage, int pipelineIndex, string methodName = "Anchors Method")
+        internal AnchorAlignmentMethodForm(Mat templateImage, int pipelineIndex, string methodName = "Anchors Method")
         {
             InitializeComponent();
 
@@ -97,7 +97,7 @@ namespace Synapse.Modules
             this.templateImage = templateImage;
             this.pipelineIndex = pipelineIndex;
             this.methodName = methodName;
-            var btm = templateImage.ToBitmap();
+            var btm = templateImage.Bitmap;
             imageBox.Image = btm;
 
             Initialize(btm);
@@ -593,7 +593,8 @@ namespace Synapse.Modules
                 if (height <= 1 || width <= 1)
                     return;
 
-                resizedImage = templateImage.Resize(width, height, Emgu.CV.CvEnum.Inter.Cubic);
+                CvInvoke.Resize(templateImage, resizedImage, new Size(width, height));
+                //resizedImage = templateImage.Resize(width, height, Emgu.CV.CvEnum.Inter.Cubic);
                 imageBox.Image = resizedImage.Bitmap;
             }
         }
@@ -611,7 +612,8 @@ namespace Synapse.Modules
                 if (height <= 1 || width <= 1)
                     return;
 
-                resizedImage = templateImage.Resize(width, height, Emgu.CV.CvEnum.Inter.Cubic);
+                CvInvoke.Resize(templateImage, resizedImage, new Size(width, height));
+                //resizedImage = templateImage.Resize(width, height, Emgu.CV.CvEnum.Inter.Cubic);
                 imageBox.Image = resizedImage.Bitmap;
             }
         }
@@ -623,7 +625,8 @@ namespace Synapse.Modules
             if (templateImage == null)
                 return;
 
-            resizedImage = templateImage.Resize(scaleValue, Emgu.CV.CvEnum.Inter.Cubic);
+            //CvInvoke.Resize(templateImage, resizedImage, new Size(width, height));
+            resizedImage = templateImage.ToImage<Gray, byte>().Resize(scaleValue, Emgu.CV.CvEnum.Inter.Cubic);
             imageBox.Image = resizedImage.Bitmap;
 
             Size resizedSize = resizedImage.Size;

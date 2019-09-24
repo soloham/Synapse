@@ -43,7 +43,7 @@ namespace Synapse.Modules
         #endregion
 
         #region Properties
-        public Image<Gray, byte> TemplateImage { get; set; }
+        public Mat TemplateImage { get; set; }
         public ConfigurationState ConfigWalkthroughState { get { return walkthroughState; } set { walkthroughState = value; SetupState(value); } }
         #endregion
 
@@ -68,10 +68,10 @@ namespace Synapse.Modules
         private bool isScaled = false;
 
         #region Template Image
-        private Image<Gray, byte> templateImageCopy;
-        private Image<Gray, byte> preCroppedImage;
-        private Image<Gray, byte> croppedImage;
-        private Image<Gray, byte> resizedImage;
+        private Mat templateImageCopy;
+        private Mat preCroppedImage;
+        private Mat croppedImage;
+        private Mat resizedImage;
         private RectangleF cropRegion;
 
         private Size selectedSize;
@@ -158,13 +158,13 @@ namespace Synapse.Modules
 
             configureStatesPanel.Visible = true;
 
-            TemplateImage = template == null ? TemplateImage : new Image<Gray, byte>(template);
+            TemplateImage = template == null ? TemplateImage : new Image<Gray, byte>(template).Mat;
             templateImageCopy = TemplateImage.Clone();
             imageBox.Image = TemplateImage.Bitmap;
 
             StartWalkthrough();
         }
-        private void SetupForConfigured(Template template, Bitmap tmpImg = null)
+        private void SetupForConfigured(Template template, Mat tmpImg = null)
         {
             //Size = new Size(450, 456);
             MinimumSize = new Size(500, 456);
@@ -194,7 +194,7 @@ namespace Synapse.Modules
             configureStatesPanel.Visible = true;
             CurrentStatePanel = LabelStatePanel;
 
-            TemplateImage = tmpImg == null ? new Image<Gray, byte>(template.GetTemplateImage.GetBitmap ?? SynapseMain.GetSynapseMain.GetCurrentImage()) : new Image<Gray, byte>(tmpImg);
+            TemplateImage = tmpImg == null ? new Image<Gray, byte>(template.GetTemplateImage.GetBitmap ?? SynapseMain.GetSynapseMain.GetCurrentImage()).Mat : tmpImg.ToImage<Gray, byte>().Mat;
             templateImageCopy = TemplateImage.Clone();
             imageBox.Image = TemplateImage.Bitmap;
 
@@ -504,7 +504,7 @@ namespace Synapse.Modules
             imageBox.SelectNone();
 
             var tmpImg = new Template.TemplateImage(selectedSize, selectedScale, selectedDeskewAngle);
-            tmpImg.SetBitmap(TemplateImage.ToBitmap());
+            tmpImg.SetBitmap(TemplateImage.Bitmap);
             if (referenceTemplate != null) tmpImg.ImageLocation = referenceTemplate.GetTemplateImage.ImageLocation;
 
             OnConfigurationFinishedEvent?.Invoke(this, tmpImg, alignmentMethods, alignmentPipelineResults);
@@ -516,7 +516,7 @@ namespace Synapse.Modules
             switch (deskewType)
             {
                 case Deskew.DeskewType.Auto:
-                    TemplateImage = Deskew.DeskewImage(templateImageCopy, 100, out selectedDeskewAngle);
+                    TemplateImage = new Image<Gray, Byte>(Deskew.DeskewImage(templateImageCopy.Bitmap, 100, out selectedDeskewAngle)).Mat;
                     imageBox.Image = TemplateImage.Bitmap;
 
                     if (selectedDeskewAngle == 0)
@@ -530,7 +530,7 @@ namespace Synapse.Modules
                     if (selectedDeskewAngle == 0)
                         break;
 
-                    TemplateImage = Deskew.DeskewImage(templateImageCopy, selectedDeskewAngle);
+                    TemplateImage = new Image<Gray, Byte>(Deskew.DeskewImage(templateImageCopy.Bitmap, selectedDeskewAngle)).Mat;
                     imageBox.Image = TemplateImage.Bitmap;
                     break;
             }
@@ -541,7 +541,7 @@ namespace Synapse.Modules
 
             cropRegion = imageBox.SelectionRegion;
 
-            croppedImage = cropRegion == RectangleF.Empty? TemplateImage : TemplateImage.Copy(cropRegion);
+            croppedImage = cropRegion == RectangleF.Empty? TemplateImage : new Mat(TemplateImage, Rectangle.Round(cropRegion));
 
             imageBox.Invalidate();
         }
@@ -588,7 +588,7 @@ namespace Synapse.Modules
 
             if (ImageFileBrowser.ShowDialog() == DialogResult.OK && System.IO.File.Exists(ImageFileBrowser.FileName))
             {
-                AlignmentPipelineTestForm alignmentPipelineTestForm = new AlignmentPipelineTestForm(alignmentMethods, TemplateImage, new Image<Gray, byte>(ImageFileBrowser.FileName));
+                AlignmentPipelineTestForm alignmentPipelineTestForm = new AlignmentPipelineTestForm(alignmentMethods, TemplateImage, CvInvoke.Imread(ImageFileBrowser.FileName, Emgu.CV.CvEnum.ImreadModes.Grayscale));
                 alignmentPipelineTestForm.OnResultsGeneratedEvent += (Template.AlignmentPipelineResults alignmentPipelineResults) =>
                 {
                     this.alignmentPipelineResults = alignmentPipelineResults;
@@ -657,7 +657,8 @@ namespace Synapse.Modules
                 if (height <= 1 || width <= 1)
                     return;
 
-                resizedImage = croppedImage.Resize(width, height, Emgu.CV.CvEnum.Inter.Cubic);
+                CvInvoke.Resize(croppedImage, resizedImage, new Size(width, height));
+                //resizedImage = croppedImage.Resize(width, height, Emgu.CV.CvEnum.Inter.Cubic);
                 imageBox.Image = resizedImage.Bitmap;
             }
         }
@@ -675,7 +676,8 @@ namespace Synapse.Modules
                 if (height <= 1 || width <= 1)
                     return;
 
-                resizedImage = croppedImage.Resize(width, height, Emgu.CV.CvEnum.Inter.Cubic);
+                CvInvoke.Resize(croppedImage, resizedImage, new Size(width, height));
+                //resizedImage = croppedImage.Resize(width, height, Emgu.CV.CvEnum.Inter.Cubic);
                 imageBox.Image = resizedImage.Bitmap;
             }
         }
@@ -687,7 +689,8 @@ namespace Synapse.Modules
             if (croppedImage == null)
                 return;
 
-            resizedImage = croppedImage.Resize(scaleValue, Emgu.CV.CvEnum.Inter.Cubic);
+            //CvInvoke.Resize(croppedImage, resizedImage, new Size(width, height));
+            resizedImage = croppedImage.ToImage<Gray, byte>().Resize(scaleValue, Emgu.CV.CvEnum.Inter.Cubic).Mat;
             imageBox.Image = resizedImage.Bitmap;
 
             Size resizedSize = resizedImage.Size;

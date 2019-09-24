@@ -110,12 +110,10 @@ namespace Synapse.Core.Managers
                 GetCurProcessingIndex = i;
 
                 dynamic dynamicDataRow = new ExpandoObject();
-                Mat curSheet = new Mat(sheetsPaths[i]);
-                Image<Gray, byte> curSheetImage = curSheet.ToImage<Gray, byte>();
+                Mat curSheet = CvInvoke.Imread(sheetsPaths[i], Emgu.CV.CvEnum.ImreadModes.Grayscale);
                 AlignmentPipelineResults alignmentPipelineResults = null;
-                Image<Gray, byte> alignedSheet = null;
-                await Task.Run(() => { alignedSheet = CurrentTemplate.AlignSheet(curSheetImage, out AlignmentPipelineResults _alignmentPipelineResults); alignmentPipelineResults = _alignmentPipelineResults; });
-                curSheetImage.Dispose();
+                Mat alignedSheet = null;
+                await Task.Run(() => { alignedSheet = CurrentTemplate.AlignSheet(curSheet, out AlignmentPipelineResults _alignmentPipelineResults); alignmentPipelineResults = _alignmentPipelineResults; });
                 curSheet.Dispose();
                 if (alignmentPipelineResults.AlignmentMethodTestResultsList.TrueForAll(x => x.GetAlignmentMethodResultType == AlignmentPipelineResults.AlignmentMethodResultType.Failed))
                     continue;
@@ -127,7 +125,7 @@ namespace Synapse.Core.Managers
                 for (int i1 = 0; i1 < allConfigurations.Count; i1++)
                 {
                     curConfigurationBase = allConfigurations[i1];
-                    var processedDataEntry = curConfigurationBase.ProcessSheet(alignedSheet.Mat);
+                    var processedDataEntry = curConfigurationBase.ProcessSheet(alignedSheet);
                     processedDataEntries.Add(processedDataEntry);
 
                     string[] formattedOutput = processedDataEntry.FormatData();
@@ -218,17 +216,17 @@ namespace Synapse.Core.Managers
             {
                 GetCurProcessingIndex = i;
 
-                Mat curSheet = new Mat(sheetsPaths[i]);
+                Mat curSheet = CvInvoke.Imread(sheetsPaths[i], Emgu.CV.CvEnum.ImreadModes.Grayscale);
                 AlignmentPipelineResults alignmentPipelineResults = null;
-                Image<Gray, byte> alignedSheet = null;
+                Mat alignedSheet = null;
                 if (GetAlignSheet())
                 {
-                    await Task.Run(() => { alignedSheet = CurrentTemplate.AlignSheet(curSheet.ToImage<Gray, byte>(), out AlignmentPipelineResults _alignmentPipelineResults); alignmentPipelineResults = _alignmentPipelineResults; });
+                    await Task.Run(() => { alignedSheet = CurrentTemplate.AlignSheet(curSheet, out AlignmentPipelineResults _alignmentPipelineResults); alignmentPipelineResults = _alignmentPipelineResults; });
                     if (alignmentPipelineResults.AlignmentMethodTestResultsList.TrueForAll(x => x.GetAlignmentMethodResultType == AlignmentPipelineResults.AlignmentMethodResultType.Failed))
                         continue;
                 }
                 else
-                    alignedSheet = curSheet.ToImage<Gray, byte>();
+                    alignedSheet = curSheet;
 
                 await Task.Run(() => OnSheetAligned(alignedSheet.Bitmap));
 
@@ -239,10 +237,10 @@ namespace Synapse.Core.Managers
                     if (allConfigurations[i1].GetMainConfigType == MainConfigType.OMR)
                     {
                         OMRConfiguration omrConfiguration = (OMRConfiguration)allConfigurations[i1];
-                        processedDataEntry = await omrConfiguration.ProcessSheetRaw(alignedSheet.Mat, OnOptionProcessed, GetWaitMS);
+                        processedDataEntry = await omrConfiguration.ProcessSheetRaw(alignedSheet, OnOptionProcessed, GetWaitMS);
                     }
                     else
-                        processedDataEntry = allConfigurations[i1].ProcessSheet(alignedSheet.Mat);
+                        processedDataEntry = allConfigurations[i1].ProcessSheet(alignedSheet);
 
                     processedDataEntries.Add(processedDataEntry);
 

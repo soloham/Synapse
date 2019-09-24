@@ -19,7 +19,7 @@ namespace Synapse.Controls
     public partial class AlignmentPipelineResultsControl : UserControl
     {
         #region Events
-        internal delegate void OnSelectedMethodResultChanged(AlignmentMethodResultControl alignmentMethodResultControl, Image<Gray, byte> inputImage, Image<Gray, byte> outputImg, Image<Gray, byte> diffImg);
+        internal delegate void OnSelectedMethodResultChanged(AlignmentMethodResultControl alignmentMethodResultControl, Mat inputImage, Mat outputImg, Mat diffImg);
         internal event OnSelectedMethodResultChanged OnSelectedMethodResultChangedEvent;
         #endregion
 
@@ -67,7 +67,7 @@ namespace Synapse.Controls
             }
 
             var selectedAlignmentMethodResultControl = alignmentMethodResultControls[pipelineResultsMainTabControl.SelectedIndex];
-            selectedAlignmentMethodResultControl.GetResultImages(out Image<Gray, byte> inputImg, out Image<Gray, byte> outputImg, out Image<Gray, byte> diffImg);
+            selectedAlignmentMethodResultControl.GetResultImages(out Mat inputImg, out Mat outputImg, out Mat diffImg);
 
             OnSelectedMethodResultChangedEvent?.Invoke(selectedAlignmentMethodResultControl, inputImg, outputImg, diffImg);
         }
@@ -75,7 +75,7 @@ namespace Synapse.Controls
         private void PipelineResultsMainTabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
             var selectedAlignmentMethodResultControl = alignmentMethodResultControls[pipelineResultsMainTabControl.SelectedIndex];
-            selectedAlignmentMethodResultControl.GetResultImages(out Image<Gray, byte> inputImg, out Image<Gray, byte> outputImg, out Image<Gray, byte> diffImg);
+            selectedAlignmentMethodResultControl.GetResultImages(out Mat inputImg, out Mat outputImg, out Mat diffImg);
 
             OnSelectedMethodResultChangedEvent?.Invoke(selectedAlignmentMethodResultControl, inputImg, outputImg, diffImg);
         }

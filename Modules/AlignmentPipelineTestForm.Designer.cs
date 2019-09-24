@@ -216,7 +216,7 @@
             this.alignmentPipelineTestMainTabControl.ShowSeparator = false;
             this.alignmentPipelineTestMainTabControl.Size = new System.Drawing.Size(313, 362);
             this.alignmentPipelineTestMainTabControl.TabIndex = 43;
-            this.alignmentPipelineTestMainTabControl.TabStyle = typeof(Syncfusion.Windows.Forms.Tools.TabRendererOffice2016White);
+            this.alignmentPipelineTestMainTabControl.TabPanelBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.alignmentPipelineTestMainTabControl.ThemeName = "TabRenderer3D";
             this.alignmentPipelineTestMainTabControl.ThemeStyle.PrimitiveButtonStyle.DisabledNextPageImage = null;
             this.alignmentPipelineTestMainTabControl.VSLikeScrollButton = true;
@@ -229,10 +229,10 @@
             this.alignmentPipelineTabPage.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(38)))), ((int)(((byte)(38)))));
             this.alignmentPipelineTabPage.Image = null;
             this.alignmentPipelineTabPage.ImageSize = new System.Drawing.Size(16, 16);
-            this.alignmentPipelineTabPage.Location = new System.Drawing.Point(0, 36);
+            this.alignmentPipelineTabPage.Location = new System.Drawing.Point(0, 39);
             this.alignmentPipelineTabPage.Name = "alignmentPipelineTabPage";
             this.alignmentPipelineTabPage.ShowCloseButton = true;
-            this.alignmentPipelineTabPage.Size = new System.Drawing.Size(313, 326);
+            this.alignmentPipelineTabPage.Size = new System.Drawing.Size(313, 323);
             this.alignmentPipelineTabPage.TabIndex = 1;
             this.alignmentPipelineTabPage.Text = "Alignment Pipeline";
             this.alignmentPipelineTabPage.ThemesEnabled = false;
@@ -242,7 +242,7 @@
             this.alignmentPipelineTabControl.ActiveTabFont = new System.Drawing.Font("Dosis", 16.25F);
             this.alignmentPipelineTabControl.ActiveTabForeColor = System.Drawing.Color.Empty;
             this.alignmentPipelineTabControl.Alignment = System.Windows.Forms.TabAlignment.Left;
-            this.alignmentPipelineTabControl.BeforeTouchSize = new System.Drawing.Size(313, 326);
+            this.alignmentPipelineTabControl.BeforeTouchSize = new System.Drawing.Size(313, 323);
             this.alignmentPipelineTabControl.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.alignmentPipelineTabControl.CloseButtonForeColor = System.Drawing.Color.Empty;
             this.alignmentPipelineTabControl.CloseButtonHoverForeColor = System.Drawing.Color.Empty;
@@ -256,9 +256,9 @@
             this.alignmentPipelineTabControl.RotateTextWhenVertical = true;
             this.alignmentPipelineTabControl.SeparatorColor = System.Drawing.SystemColors.ControlDark;
             this.alignmentPipelineTabControl.ShowSeparator = false;
-            this.alignmentPipelineTabControl.Size = new System.Drawing.Size(313, 326);
+            this.alignmentPipelineTabControl.Size = new System.Drawing.Size(313, 323);
             this.alignmentPipelineTabControl.TabIndex = 44;
-            this.alignmentPipelineTabControl.TabStyle = typeof(Syncfusion.Windows.Forms.Tools.TabRendererOffice2016White);
+            this.alignmentPipelineTabControl.TabPanelBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.alignmentPipelineTabControl.ThemeName = "TabRenderer3D";
             this.alignmentPipelineTabControl.ThemeStyle.PrimitiveButtonStyle.DisabledNextPageImage = null;
             this.alignmentPipelineTabControl.VSLikeScrollButton = true;
@@ -271,10 +271,10 @@
             this.pipelineTestSettingsTabPage.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(38)))), ((int)(((byte)(38)))));
             this.pipelineTestSettingsTabPage.Image = null;
             this.pipelineTestSettingsTabPage.ImageSize = new System.Drawing.Size(16, 16);
-            this.pipelineTestSettingsTabPage.Location = new System.Drawing.Point(0, 36);
+            this.pipelineTestSettingsTabPage.Location = new System.Drawing.Point(0, 39);
             this.pipelineTestSettingsTabPage.Name = "pipelineTestSettingsTabPage";
             this.pipelineTestSettingsTabPage.ShowCloseButton = true;
-            this.pipelineTestSettingsTabPage.Size = new System.Drawing.Size(313, 326);
+            this.pipelineTestSettingsTabPage.Size = new System.Drawing.Size(313, 323);
             this.pipelineTestSettingsTabPage.TabIndex = 2;
             this.pipelineTestSettingsTabPage.Text = "Test Settings";
             this.pipelineTestSettingsTabPage.ThemesEnabled = false;
@@ -299,10 +299,10 @@
             this.testResultsTabPage.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(38)))), ((int)(((byte)(38)))));
             this.testResultsTabPage.Image = null;
             this.testResultsTabPage.ImageSize = new System.Drawing.Size(16, 16);
-            this.testResultsTabPage.Location = new System.Drawing.Point(0, 36);
+            this.testResultsTabPage.Location = new System.Drawing.Point(0, 39);
             this.testResultsTabPage.Name = "testResultsTabPage";
             this.testResultsTabPage.ShowCloseButton = true;
-            this.testResultsTabPage.Size = new System.Drawing.Size(313, 326);
+            this.testResultsTabPage.Size = new System.Drawing.Size(313, 323);
             this.testResultsTabPage.TabIndex = 3;
             this.testResultsTabPage.Text = "Results";
             this.testResultsTabPage.ThemesEnabled = false;
@@ -313,7 +313,7 @@
             this.alignmentPipelineResultsControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.alignmentPipelineResultsControl.Location = new System.Drawing.Point(0, 0);
             this.alignmentPipelineResultsControl.Name = "alignmentPipelineResultsControl";
-            this.alignmentPipelineResultsControl.Size = new System.Drawing.Size(313, 326);
+            this.alignmentPipelineResultsControl.Size = new System.Drawing.Size(313, 323);
             this.alignmentPipelineResultsControl.TabIndex = 12;
             // 
             // MainLayoutPanel

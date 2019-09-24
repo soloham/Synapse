@@ -39,12 +39,12 @@ namespace Synapse.Modules
         private List<Template.AlignmentMethod> mainAlignmentPipeline;
         private List<Template.AlignmentMethod> testAlignmentPipeline;
 
-        private Image<Gray, byte> templateImage;
-        private Image<Gray, byte> testImage;
+        private Mat templateImage;
+        private Mat testImage;
 
         private SynchronizationContext synchronizationContext;
 
-        Image<Gray, byte> outputImage;
+        Mat outputImage = new Mat();
         private AlignmentPipelineResults alignmentPipelineResults;
 
         private AlignmentPipelineResults.AnchorAlignmentMethodResult anchorAlignmentMethodResult;
@@ -61,7 +61,7 @@ namespace Synapse.Modules
         #endregion
 
         #region General Methods
-        internal AlignmentPipelineTestForm(List<Template.AlignmentMethod> alignmentPipeline, Image<Gray, byte> templateImage, Image<Gray, byte> testImage)
+        internal AlignmentPipelineTestForm(List<Template.AlignmentMethod> alignmentPipeline, Mat templateImage, Mat testImage)
         {
             InitializeComponent();
             Awake();
@@ -97,7 +97,7 @@ namespace Synapse.Modules
             resultsDockingManager.SetDockLabel(differenceImageBoxPanel, "Difference Image");
             resultsDockingManager.SetDockVisibility(differenceImageBoxPanel, true);
 
-            alignmentPipelineResultsControl.OnSelectedMethodResultChangedEvent += (AlignmentMethodResultControl alignmentMethodResultControl, Image<Gray, byte> inputImg, Image<Gray, byte> outputImg, Image<Gray, byte> diffImg) =>
+            alignmentPipelineResultsControl.OnSelectedMethodResultChangedEvent += (AlignmentMethodResultControl alignmentMethodResultControl, Mat inputImg, Mat outputImg, Mat diffImg) =>
             {
                 originalImageBox.Image = inputImg.Bitmap;
                 //originalImageBox.ZoomToFit();
@@ -253,7 +253,9 @@ namespace Synapse.Modules
             List<AlignmentPipelineResults.AlignmentMethodResult> alignmentMethodResults = new List<AlignmentPipelineResults.AlignmentMethodResult>();
 
             IOutputArray outputImageArr;
-            outputImage = testImage.Resize(templateImage.Width, templateImage.Height, Emgu.CV.CvEnum.Inter.Cubic);
+            outputImage = testImage;
+            CvInvoke.Resize(testImage, outputImage, templateImage.Size);
+            //outputImage = testImage.Resize(templateImage.Width, templateImage.Height, Emgu.CV.CvEnum.Inter.Cubic);
             for (int i = 0; i < testAlignmentPipeline.Count; i++)
             {
                 Exception exception = null;
@@ -272,7 +274,7 @@ namespace Synapse.Modules
                     if (isSuccess)
                     {
                         var outputMat = (Mat)outputImageArr;
-                        outputImage = outputMat.ToImage<Gray, byte>();
+                        outputImage = outputMat;
                     }
                     AlignmentPipelineResults.AnchorAlignmentMethodResult anchorAlignmentMethodResult = new AlignmentPipelineResults.AnchorAlignmentMethodResult(alignmentMethod, isSuccess ? AlignmentPipelineResults.AlignmentMethodResultType.Successful : AlignmentPipelineResults.AlignmentMethodResultType.Failed, homography, testImage, outputImage, alignmentTime, mainAnchors, detectedAnchors, warpedAnchors, scaledMainAnchorRegions, scaledMainTestRegion);
                     alignmentMethodResult = anchorAlignmentMethodResult;
@@ -283,7 +285,7 @@ namespace Synapse.Modules
                     if (isSuccess)
                     {
                         var outputMat = (Mat)outputImageArr;
-                        outputImage = outputMat.ToImage<Gray, byte>();
+                        outputImage = outputMat;
                     }
                     alignmentMethodResult = new AlignmentPipelineResults.AlignmentMethodResult(alignmentMethod, isSuccess ? AlignmentPipelineResults.AlignmentMethodResultType.Successful : AlignmentPipelineResults.AlignmentMethodResultType.Failed, homography, testImage, outputImage, alignmentTime);
                 }

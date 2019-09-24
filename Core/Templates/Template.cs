@@ -44,7 +44,7 @@ namespace Synapse.Core.Templates
         [Serializable]
         internal class TemplateImage
         {
-            public Bitmap GetBitmap { get { return bitmap == null ? new Bitmap(ImageLocation) : bitmap; } }
+            public Bitmap GetBitmap { get { return bitmap == null ? CvInvoke.Imread(ImageLocation, ImreadModes.Grayscale).Bitmap : bitmap; } }
             private Bitmap bitmap;
             public Size Size { get => templateSize; set => templateSize = value; }
             private Size templateSize;
@@ -189,7 +189,8 @@ namespace Synapse.Core.Templates
             {
                 bool isSuccess = false;
                 var inputImg = (Image<Gray, byte>)input;
-                inputImg = downscaleScale <= 0? inputImg.Resize(downscaleSize.Width, downscaleSize.Height, Inter.Cubic) : inputImg.Resize(downscaleScale, Inter.Cubic);
+                CvInvoke.Resize(inputImg, inputImg, downscaleSize);
+
                 Mat _output = new Mat();
                 homography = null;
 
@@ -238,8 +239,9 @@ namespace Synapse.Core.Templates
             public override bool ApplyMethod(IInputArray templateImage, IInputArray input, out IOutputArray output, out Mat homography, out long matchTime, out Exception ex)
             {
                 bool isSuccess = false;
-                var inputImg = (Image<Gray, byte>)input;
-                inputImg = downscaleScale <= 0 ? inputImg.Resize(downscaleSize.Width, downscaleSize.Height, Inter.Cubic) : inputImg.Resize(downscaleScale, Inter.Cubic);
+                var inputImg = (Mat)input;
+                CvInvoke.Resize(inputImg, inputImg, downscaleSize);
+
                 Mat _output = new Mat();
                 homography = null;
 
@@ -257,7 +259,7 @@ namespace Synapse.Core.Templates
                         Anchor curAnchor = anchors[i];
 
                         Mat result = null;
-                        CvInvoke.MatchTemplate(inputImg.Mat, curAnchor.GetAnchorImage, result, TemplateMatchingType.CcoeffNormed);
+                        CvInvoke.MatchTemplate(inputImg, curAnchor.GetAnchorImage, result, TemplateMatchingType.CcoeffNormed);
 
                         Point[] Max_Loc, Min_Loc;
                         double[] min, max;
@@ -288,8 +290,11 @@ namespace Synapse.Core.Templates
             public bool ApplyMethod(IInputArray input, out IOutputArray output, out RectangleF[] detectedAnchors, out RectangleF[] warpedAnchors, out RectangleF[] scaledMainAnchors, out RectangleF scaledMainTestRegion, out Mat homography, out long matchTime, out Exception ex)
             {
                 bool isSuccess = false;
-                Image<Gray, byte> inputImg = (Image<Gray, byte>)input;
-                var resizedInputImg = downscaleSize != Size.Empty? inputImg.Resize(downscaleSize.Width, downscaleSize.Height, Inter.Cubic) : inputImg;
+                Mat inputImg = (Mat)input;
+                Mat resizedInputImg = new Mat();
+                //var resizedInputImg = downscaleSize != Size.Empty?  inputImg.Resize(downscaleSize.Width, downscaleSize.Height, Inter.Cubic) : inputImg;
+                if (downscaleSize != Size.Empty)
+                    CvInvoke.Resize(inputImg, resizedInputImg, downscaleSize);
                 //inputImg = inputImg.Resize(outputSize.Width, outputSize.Height, Inter.Cubic);
                 Mat _output = new Mat();
                 homography = null;
@@ -314,7 +319,7 @@ namespace Synapse.Core.Templates
                     {
                         Anchor curAnchor = anchors[i];
 
-                        CvInvoke.MatchTemplate(resizedInputImg.Mat, curAnchor.GetAnchorImage, result, TemplateMatchingType.CcoeffNormed);
+                        CvInvoke.MatchTemplate(resizedInputImg, curAnchor.GetAnchorImage, result, TemplateMatchingType.CcoeffNormed);
 
                         Point[] Max_Loc, Min_Loc;
                         double[] min, max;
@@ -375,7 +380,7 @@ namespace Synapse.Core.Templates
             {
                 bool isSuccess = false;
                 var inputImg = (Image<Gray, byte>)input;
-                inputImg = downscaleScale <= 0 ? inputImg.Resize(downscaleSize.Width, downscaleSize.Height, Inter.Cubic) : inputImg.Resize(downscaleScale, Inter.Cubic);
+                CvInvoke.Resize(inputImg, inputImg, downscaleSize);
                 Mat _output = new Mat();
                 homography = null;
 
@@ -1041,13 +1046,13 @@ namespace Synapse.Core.Templates
                 internal Template.AlignmentMethod AlignmentMethod;
                 public AlignmentMethodResultType GetAlignmentMethodResultType { get => alignmentMethodResultType; }
                 private AlignmentMethodResultType alignmentMethodResultType;
-                public Image<Gray, byte> InputImage { get; set; }
-                public Image<Gray, byte> OutputImage { get; set; }
+                public Mat InputImage { get; set; }
+                public Mat OutputImage { get; set; }
                 public long AlignmentTime { get; set; }
                 public Mat AlignmentHomography { get; set; }
                 #endregion
 
-                internal AlignmentMethodResult(Template.AlignmentMethod alignmentMethod, AlignmentMethodResultType alignmentMethodResultType, Mat alignmentHomography, Image<Gray, byte> inputImage, Image<Gray, byte> outputImage, long alignmentTime)
+                internal AlignmentMethodResult(Template.AlignmentMethod alignmentMethod, AlignmentMethodResultType alignmentMethodResultType, Mat alignmentHomography, Mat inputImage, Mat outputImage, long alignmentTime)
                 {
                     AlignmentMethod = alignmentMethod;
                     InputImage = inputImage;
@@ -1068,7 +1073,7 @@ namespace Synapse.Core.Templates
                 public RectangleF ScaledMainTestRegion = new RectangleF();
                 #endregion
 
-                internal AnchorAlignmentMethodResult(AlignmentMethod alignmentMethod, AlignmentMethodResultType alignmentMethodResultType, Mat alignmentHomography, Image<Gray, byte> inputImage, Image<Gray, byte> outputImage, long alignmentTime, Template.AnchorAlignmentMethod.Anchor[] mainAnchors, RectangleF[] detectedAnchors, RectangleF[] warpedAnchors, RectangleF[] scaledMainAnchors, RectangleF scaledMainTestRegion) : base(alignmentMethod, alignmentMethodResultType, alignmentHomography, inputImage, outputImage, alignmentTime)
+                internal AnchorAlignmentMethodResult(AlignmentMethod alignmentMethod, AlignmentMethodResultType alignmentMethodResultType, Mat alignmentHomography, Mat inputImage, Mat outputImage, long alignmentTime, Template.AnchorAlignmentMethod.Anchor[] mainAnchors, RectangleF[] detectedAnchors, RectangleF[] warpedAnchors, RectangleF[] scaledMainAnchors, RectangleF scaledMainTestRegion) : base(alignmentMethod, alignmentMethodResultType, alignmentHomography, inputImage, outputImage, alignmentTime)
                 {
                     MainAnchors = mainAnchors;
                     DetectedAnchors = detectedAnchors;
@@ -1079,7 +1084,7 @@ namespace Synapse.Core.Templates
             }
             public class RegistrationAlignmentMethodResult : AlignmentMethodResult
             {
-                internal RegistrationAlignmentMethodResult(Template.AlignmentMethod alignmentMethod, AlignmentMethodResultType alignmentMethodResultType, Mat alignmentHomography, Image<Gray, byte> inputImage, Image<Gray, byte> outputImage, long alignmentTime) : base(alignmentMethod, alignmentMethodResultType, alignmentHomography, inputImage, outputImage, alignmentTime)
+                internal RegistrationAlignmentMethodResult(Template.AlignmentMethod alignmentMethod, AlignmentMethodResultType alignmentMethodResultType, Mat alignmentHomography, Mat inputImage, Mat outputImage, long alignmentTime) : base(alignmentMethod, alignmentMethodResultType, alignmentHomography, inputImage, outputImage, alignmentTime)
                 {
                 }
             }
@@ -1238,11 +1243,11 @@ namespace Synapse.Core.Templates
         {
             this.TemplateData.SetAlignmentPipeline(alignmentPipeline);
         }
-        internal Image<Gray, byte> AlignSheet(Image<Gray, byte> sheetImage, out AlignmentPipelineResults alignmentPipelineResults)
+        internal Mat AlignSheet(Mat sheetImage, out AlignmentPipelineResults alignmentPipelineResults)
         {
-            Image<Gray, byte> outputImage = sheetImage;
+            Mat outputImage = sheetImage;
             List<AlignmentMethod> alignmentPipeline = TemplateData.GetAlignmentPipeline;
-            Image<Gray, byte> grayImage = GetTemplateImage.GetGrayImage;
+            Mat grayImage = GetTemplateImage.GetGrayImage.Mat;
 
             alignmentPipelineResults = null;
 
@@ -1252,7 +1257,8 @@ namespace Synapse.Core.Templates
             List<AlignmentPipelineResults.AlignmentMethodResult> alignmentMethodResults = new List<AlignmentPipelineResults.AlignmentMethodResult>();
 
             IOutputArray outputImageArr;
-            outputImage = sheetImage.Resize(grayImage.Width, grayImage.Height, Inter.Cubic);
+            CvInvoke.Resize(sheetImage, outputImage, grayImage.Size);
+            //outputImage = sheetImage.Resize(grayImage.Width, grayImage.Height, Inter.Cubic);
             for (int i = 0; i < alignmentPipeline.Count; i++)
             {
                 Exception exception = null;
@@ -1271,7 +1277,7 @@ namespace Synapse.Core.Templates
                     if (isSuccess)
                     {
                         var outputMat = (Mat)outputImageArr;
-                        outputImage = outputMat.ToImage<Gray, byte>();
+                        outputImage = outputMat;
                     }
                     AlignmentPipelineResults.AnchorAlignmentMethodResult anchorAlignmentMethodResult = new AlignmentPipelineResults.AnchorAlignmentMethodResult(alignmentMethod, isSuccess ? AlignmentPipelineResults.AlignmentMethodResultType.Successful : AlignmentPipelineResults.AlignmentMethodResultType.Failed, null, null, null, alignmentTime, mainAnchors, detectedAnchors, warpedAnchors, scaledMainAnchorRegions, scaledMainTestRegion);
                     alignmentMethodResult = anchorAlignmentMethodResult;
@@ -1282,7 +1288,7 @@ namespace Synapse.Core.Templates
                     if (isSuccess)
                     {
                         var outputMat = (Mat)outputImageArr;
-                        outputImage = outputMat.ToImage<Gray, byte>();
+                        outputImage = outputMat;
                     }
                     alignmentMethodResult = new AlignmentPipelineResults.AlignmentMethodResult(alignmentMethod, isSuccess ? AlignmentPipelineResults.AlignmentMethodResultType.Successful : AlignmentPipelineResults.AlignmentMethodResultType.Failed, null, null, null, alignmentTime);
                 }

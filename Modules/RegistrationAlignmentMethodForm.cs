@@ -33,7 +33,7 @@ namespace Synapse.Modules
 
         #region Variables
 
-        private Image<Gray, byte> templateImage;
+        private Mat templateImage;
 
         private int pipelineIndex;
         private string methodName;
@@ -50,7 +50,7 @@ namespace Synapse.Modules
         #endregion
 
         #region General Methods
-        internal RegistrationAlignmentMethodForm(Template.RegistrationAlignmentMethod registrationAlignmentMethod, Image<Gray, byte> templateImage)
+        internal RegistrationAlignmentMethodForm(Template.RegistrationAlignmentMethod registrationAlignmentMethod, Mat templateImage)
         {
             InitializeComponent();
 
@@ -63,7 +63,7 @@ namespace Synapse.Modules
             Initialize(registrationAlignmentMethod);
 
         }
-        internal RegistrationAlignmentMethodForm(Image<Gray, byte> templateImage, int pipelineIndex, string methodName = "Registration Method")
+        internal RegistrationAlignmentMethodForm(Mat templateImage, int pipelineIndex, string methodName = "Registration Method")
         {
             InitializeComponent();
 
@@ -225,14 +225,14 @@ namespace Synapse.Modules
             if (selectedRegistrationAlignmentMethod == null)
                 return;
 
-            selectedRegistrationAlignmentMethod.StoreModelFeatures(templateImage.Mat, useStoredModelFeaturesToggle.ToggleState == ToggleButtonState.Active);
+            selectedRegistrationAlignmentMethod.StoreModelFeatures(templateImage, useStoredModelFeaturesToggle.ToggleState == ToggleButtonState.Active);
         }
         private void UseStoredModelFeaturesToggle_ToggleStateChanged(object sender, ToggleStateChangedEventArgs e)
         {
             if (selectedRegistrationAlignmentMethod == null)
                 return;
 
-            selectedRegistrationAlignmentMethod.StoreModelFeatures(templateImage.Mat, e.ToggleState == ToggleButtonState.Active);
+            selectedRegistrationAlignmentMethod.StoreModelFeatures(templateImage, e.ToggleState == ToggleButtonState.Active);
         }
 
         private void DoneBtn_Click(object sender, EventArgs e)
@@ -247,12 +247,12 @@ namespace Synapse.Modules
                 case Template.RegistrationAlignmentMethod.RegistrationMethodType.KAZE:
                     Template.RegistrationAlignmentMethod.KazeRegistrationMethod.KazeData kazeData = GetKazeData();
                     Template.RegistrationAlignmentMethod.KazeRegistrationMethod kazeRegistrationMethod = new Template.RegistrationAlignmentMethod.KazeRegistrationMethod(kazeData);
-                    selectedRegistrationAlignmentMethod = new Template.RegistrationAlignmentMethod(pipelineIndex, methodName, kazeRegistrationMethod, templateImage.Mat, templateImage.Size);
+                    selectedRegistrationAlignmentMethod = new Template.RegistrationAlignmentMethod(pipelineIndex, methodName, kazeRegistrationMethod, templateImage, templateImage.Size);
                     break;
                 case Template.RegistrationAlignmentMethod.RegistrationMethodType.AKAZE:
                     Template.RegistrationAlignmentMethod.AKazeRegistrationMethod.AKazeData aKazeData = GetAKazeData();
                     Template.RegistrationAlignmentMethod.AKazeRegistrationMethod aKazeRegistrationMethod = new Template.RegistrationAlignmentMethod.AKazeRegistrationMethod(aKazeData);
-                    selectedRegistrationAlignmentMethod = new Template.RegistrationAlignmentMethod(pipelineIndex, methodName, aKazeRegistrationMethod, templateImage.Mat, templateImage.Size);
+                    selectedRegistrationAlignmentMethod = new Template.RegistrationAlignmentMethod(pipelineIndex, methodName, aKazeRegistrationMethod, templateImage, templateImage.Size);
                     break;
             }
 

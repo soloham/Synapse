@@ -39,7 +39,7 @@ namespace Synapse.Modules
 
         #region Variables
         private SynchronizationContext synchronizationContext;
-        private Image<Gray, byte> templateImage;
+        private Mat templateImage;
         private string newMethodName;
         #endregion
 
@@ -51,7 +51,7 @@ namespace Synapse.Modules
         #endregion
 
         #region General Methods
-        internal AlignmentPipelineConfigurationForm(List<AlignmentMethod> alignmentMethods, Image<Gray,byte> templateImage)
+        internal AlignmentPipelineConfigurationForm(List<AlignmentMethod> alignmentMethods, Mat templateImage)
         {
             InitializeComponent();
             this.templateImage = templateImage;
