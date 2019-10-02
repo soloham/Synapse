@@ -51,12 +51,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Emgu.CV.UI, Version=4.1.0.3420, Culture=neutral, PublicKeyToken=7281126722ab4438, processorArchitecture=MSIL">
-      <HintPath>..\packages\EMGU.CV.4.1.0.3420\lib\net35\Emgu.CV.UI.dll</HintPath>
-    </Reference>
-    <Reference Include="Emgu.CV.World, Version=4.1.0.3420, Culture=neutral, PublicKeyToken=7281126722ab4438, processorArchitecture=MSIL">
-      <HintPath>..\packages\EMGU.CV.4.1.0.3420\lib\net35\Emgu.CV.World.dll</HintPath>
-    </Reference>
     <Reference Include="Syncfusion.Compression.Base, Version=17.3460.0.9, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
     <Reference Include="Syncfusion.Core.WinForms, Version=17.3460.0.9, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
     <Reference Include="Syncfusion.Data.WinForms, Version=17.3460.0.9, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
@@ -93,12 +87,6 @@
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
-    <Reference Include="WinFormAnimation, Version=1.6.0.4, Culture=neutral, PublicKeyToken=310fd07b25df79b3, processorArchitecture=MSIL">
-      <HintPath>..\packages\WinFormAnimation.1.6.0.4\lib\net40\WinFormAnimation.dll</HintPath>
-    </Reference>
-    <Reference Include="ZedGraph, Version=5.1.7.430, Culture=neutral, PublicKeyToken=02a83cbd123fcd60, processorArchitecture=MSIL">
-      <HintPath>..\packages\ZedGraph.5.1.7\lib\net35-Client\ZedGraph.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controls\AKazeSettingsControl.cs">
@@ -131,6 +119,12 @@
     <Compile Include="Controls\AnchorsSettingsPanel.Designer.cs">
       <DependentUpon>AnchorsSettingsPanel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Answer Key\AnswerKeyFieldControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Answer Key\AnswerKeyFieldControl.Designer.cs">
+      <DependentUpon>AnswerKeyFieldControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\AutoLabelEx.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -149,11 +143,29 @@
     <Compile Include="Controls\AlignmentMethodListItem.Designer.cs">
       <DependentUpon>AlignmentMethodListItem.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\PaperDataListItem.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\PaperDataListItem.Designer.cs">
+      <DependentUpon>PaperDataListItem.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\ConfigureDataListItem.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Controls\ConfigureDataListItem.Designer.cs">
       <DependentUpon>ConfigureDataListItem.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Custom\CheckboxEx.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\Custom\CheckboxEx.Designer.cs">
+      <DependentUpon>CheckboxEx.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Custom\TextBoxAdvEx.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\Custom\TextBoxAdvEx.Designer.cs">
+      <DependentUpon>TextBoxAdvEx.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\KazeSettingsControl.cs">
       <SubType>UserControl</SubType>
@@ -189,7 +201,9 @@
     <Compile Include="Core\Keys\AnswerKey.cs" />
     <Compile Include="Core\Keys\Parameter.cs" />
     <Compile Include="Core\Managers\ConfigurationsManager.cs" />
+    <Compile Include="Core\Managers\GeneralManager.cs" />
     <Compile Include="Core\Managers\ProcessingManager.cs" />
+    <Compile Include="Core\Paper.cs" />
     <Compile Include="Core\Templates\Template.cs" />
     <Compile Include="Modules\AlignmentPipelineConfigurationForm.cs">
       <SubType>Form</SubType>
@@ -208,6 +222,12 @@
     </Compile>
     <Compile Include="Modules\ConfigurationsTestForm.Designer.cs">
       <DependentUpon>ConfigurationsTestForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\ExamPapersConfigurationForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modules\ExamPapersConfigurationForm.Designer.cs">
+      <DependentUpon>ExamPapersConfigurationForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Modules\ICRConfigurationForm.cs">
       <SubType>Form</SubType>
@@ -270,6 +290,7 @@
     <Compile Include="Utilities\Extensions\ControlExtension.cs" />
     <Compile Include="Utilities\Extensions\MatExtensions.cs" />
     <Compile Include="Utilities\Functions.cs" />
+    <Compile Include="Utilities\Helpers\GridColSizeHelper.cs" />
     <Compile Include="Utilities\Memory\LSTM.cs" />
     <Compile Include="Utilities\Messages.cs" />
     <Compile Include="Utilities\Objects\Deskew.cs" />
@@ -290,11 +311,17 @@
     <EmbeddedResource Include="Controls\AnchorsSettingsPanel.resx">
       <DependentUpon>AnchorsSettingsPanel.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Answer Key\AnswerKeyFieldControl.resx">
+      <DependentUpon>AnswerKeyFieldControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\AutoLabelEx.resx">
       <DependentUpon>AutoLabelEx.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\AlignmentMethodListItem.resx">
       <DependentUpon>AlignmentMethodListItem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\PaperDataListItem.resx">
+      <DependentUpon>PaperDataListItem.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\ConfigureDataListItem.resx">
       <DependentUpon>ConfigureDataListItem.cs</DependentUpon>
@@ -319,6 +346,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Modules\ConfigurationsTestForm.resx">
       <DependentUpon>ConfigurationsTestForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modules\ExamPapersConfigurationForm.resx">
+      <DependentUpon>ExamPapersConfigurationForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Modules\ICRConfigurationForm.resx">
       <DependentUpon>ICRConfigurationForm.cs</DependentUpon>
@@ -347,7 +377,6 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="app.config" />
-    <None Include="packages.config" />
     <None Include="Properties\DataSources\Synapse.Controls.TemplateListItem.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -361,62 +390,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\zone.png" />
-    <None Include="Resources\TemplateStatusIcon_ConfigTab.png" />
-    <None Include="Resources\TemplateBtnIcon1_ConfigTab.png" />
-    <None Include="Resources\TemplateBtnIcon2_ConfigTab.png" />
-    <None Include="Resources\TemplateBtnIcon4_ConfigTab.png" />
-    <None Include="Resources\ConfigEmarkingBtnIcon1_ConfigTab.png" />
-    <None Include="Resources\ConfigEmarkingBtnIcon_ConfigTab.png" />
-    <None Include="Resources\ConfigDataBtnIcon_ConfigTab.png" />
-    <None Include="Resources\ConfigDataBtnIcon1_ConfigTab.png" />
-    <None Include="Resources\ConfigDataBtnIcon2_ConfigTab.png" />
-    <None Include="Resources\ConfigDataBtnIcon3_ConfigTab.png" />
-    <None Include="Resources\ConfigDataBtnIcon4_ConfigTab.png" />
-    <None Include="Resources\AddAsBarcodeBtnIcon_ConfigTab.png" />
-    <None Include="Resources\AddAsBarcodeBtnIcon1_ConfigTab.png" />
-    <None Include="Resources\AddAsBarcodeBtnIcon2_ConfigTab.png" />
-    <None Include="Resources\AddAsBarcodeBtnIcon3_ConfigTab.png" />
-    <None Include="Resources\AddAsICRBtnIcon_ConfigTab.png" />
-    <None Include="Resources\AddAsOMRBtnIcon_ConfigTab.png" />
-    <None Include="Resources\TemplateBtnIcon5_ConfigTab.png" />
-    <None Include="Resources\ConfigEmarkingBtnIcon2_ConfigTab.png" />
-    <None Include="Resources\ConfigAIModelBtnIcon_ConfigTab.png" />
-    <None Include="Resources\ConfigAIModelBtnIcon1_ConfigTab.png" />
-    <None Include="Resources\AnswerKeyBtnIcon_ReadingTab.png" />
-    <None Include="Resources\AnswerKeyBtnIcon1_ReadingTab.png" />
-    <None Include="Resources\AnswerKeyBtnIcon2_ReadingTab.png" />
-    <None Include="Resources\ScanDirBtnIcon_ReadingTab.png" />
-    <None Include="Resources\ScanDirBtnIcon1_ReadingTab.png" />
-    <None Include="Resources\ScanScannerBtnIcon_ReadingTab.png" />
-    <None Include="Resources\startBtnIcon_ReadingTab.png" />
-    <None Include="Resources\startBtnIcon1_ReadingTab.png" />
-    <None Include="Resources\StopBtnIcon_ReadingTab.png" />
-    <None Include="Resources\StopBtnIcon1_ReadingTab.png" />
-    <None Include="Resources\FindDuplicatesBtnIcon_ConfigTab.png" />
-    <None Include="Resources\rereadFaultySheetsBtnIcon_ReadingTab.png" />
-    <None Include="Resources\rereadFaultySheetsBtnIcon1_ReadingTab.png" />
-    <None Include="Resources\MoveFaultySheetsBtnIcon_ReadingTab.png" />
-    <None Include="Resources\MoveFaultySheetsBtnIcon1_ReadingTab.png" />
-    <None Include="Resources\MoveFaultySheetsBtnIcon2_ReadingTab.png" />
-    <None Include="Resources\MoveFaultySheetsBtnIcon3_ReadingTab.png" />
-    <None Include="Resources\locateOptionsBtnIcon_ReadingTab.png" />
-    <None Include="Resources\locateOptionsBtnIcon1_ReadingTab.png" />
-    <None Include="Resources\AddFieldBtnIcon_DataTab.png" />
-    <None Include="Resources\DeleteAllBtnIcon_DataTab.png" />
-    <None Include="Resources\DeleteAllBtnIcon1_DataTab.png" />
-    <None Include="Resources\DeleteSelectedBtnIcon_DataTab.png" />
-    <None Include="Resources\EditValueBtnIcon_DataTab.png" />
-    <None Include="Resources\EditValueBtnIcon1_DataTab.png" />
-    <None Include="Resources\MarkzSheetsAsBtnIcon_DataTAb.png" />
-    <None Include="Resources\InternalDataPointBtnIcon_DataTab.png" />
-    <None Include="Resources\ExcelExportBtnIcon_DataTab.png" />
-    <None Include="Resources\ExcelExportBtnIcon1_DataTab.png" />
-    <None Include="Resources\ExcelExportBtnIcon3_DataTab.png" />
-    <None Include="Resources\CSVExportBtnIcon_DataTab.png" />
-    <None Include="Resources\CSVExportBtnIcon1_DataTab.png" />
-    <None Include="Resources\DatabaseExportBtnIcon_DataTab.png" />
-    <None Include="Resources\ExternalDataPointBtnIcon_DataTab.png" />
-    <None Include="Resources\InternalDataPointBtnIcon1_DataTab.png" />
     <None Include="Resources\General\Text-Highlight.png" />
     <None Include="Resources\General\Delete-WF.png" />
     <None Include="Resources\General\Upload-01-WF.png" />
@@ -431,7 +404,6 @@
     <None Include="Resources\General\Unpin_White.png" />
     <None Include="Resources\General\Pin_White.png" />
     <None Include="Resources\General\Check.png" />
-    <Content Include="License-LGPL.txt" />
     <None Include="Resources\General\Next.png" />
     <None Include="Resources\General\Navigation Right-WF.png" />
     <None Include="Resources\General\Follow.png" />
@@ -455,6 +427,11 @@
     <None Include="Resources\General\Shape Square 2-WF.png" />
     <None Include="Resources\General\Shape Square 2-WF Gray.png" />
     <None Include="Resources\General\Login-Arrow Padd 0.png" />
+    <None Include="Resources\CustomCheckBox_Checked_MouseOver.png" />
+    <None Include="Resources\CustomCheckBox_Unchecked_MouseOver.png" />
+    <None Include="Resources\CustomCheckBox_Checked.png" />
+    <None Include="Resources\CustomCheckBox_Checked_MouseOver1.png" />
+    <None Include="Resources\CustomCheckBox_Unchecked.png" />
     <Content Include="Resources\Ribbon\AddAsBarcodeBtnIcon1_ConfigTab.png" />
     <Content Include="Resources\Ribbon\AddAsBarcodeBtnIcon2_ConfigTab.png" />
     <Content Include="Resources\Ribbon\AddAsBarcodeBtnIcon3_ConfigTab.png" />
@@ -484,6 +461,7 @@
     <Content Include="Resources\Ribbon\DeleteSelectedBtnIcon_DataTab.png" />
     <Content Include="Resources\Ribbon\EditValueBtnIcon1_DataTab.png" />
     <Content Include="Resources\Ribbon\EditValueBtnIcon_DataTab.png" />
+    <None Include="Resources\Ribbon\ExamPapersBtnIcon_ReadingTab.png" />
     <Content Include="Resources\Ribbon\ExcelExportBtnIcon1_DataTab.png" />
     <Content Include="Resources\Ribbon\ExcelExportBtnIcon3_DataTab.png" />
     <Content Include="Resources\Ribbon\ExcelExportBtnIcon_DataTab.png" />
@@ -518,10 +496,6 @@
     <Content Include="Resources\Ribbon\TemplateBtnIcon_ConfigTab.png" />
     <Content Include="Resources\Ribbon\TemplateStatusIcon_ConfigTab.png" />
     <None Include="Resources\selection.png" />
-    <Content Include="Resources\TemplateBtnIcon_ConfigTab.png" />
-    <None Include="Resources\StatusInOk.jpg" />
-    <None Include="Resources\StatusNotOk.jpg" />
-    <Content Include="Resources\StatusOk.jpg" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
@@ -548,14 +522,15 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="EMGU.CV">
+      <Version>4.1.0.3420</Version>
+    </PackageReference>
+    <PackageReference Include="WinFormAnimation">
+      <Version>1.6.0.4</Version>
+    </PackageReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="..\packages\EMGU.CV.4.1.0.3420\build\EMGU.CV.targets" Condition="Exists('..\packages\EMGU.CV.4.1.0.3420\build\EMGU.CV.targets')" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\packages\EMGU.CV.4.1.0.3420\build\EMGU.CV.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EMGU.CV.4.1.0.3420\build\EMGU.CV.targets'))" />
-  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

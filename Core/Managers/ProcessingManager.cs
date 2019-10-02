@@ -164,7 +164,7 @@ namespace Synapse.Core.Managers
                                             break;
                                     }
                                     break;
-                                case OMRType.NonGradable:
+                                case OMRType.Parameter:
                                     break;
                                 default:
                                     break;

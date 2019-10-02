@@ -23,7 +23,7 @@ namespace Synapse.Core.Configurations
         [EnumDescription("Gradable")]
         Gradable,
         [EnumDescription("Non Gradable")]
-        NonGradable
+        Parameter
     }
     public enum MultiMarkAction
     {
@@ -483,10 +483,52 @@ namespace Synapse.Core.Configurations
             if (PB_AnswerKeys == null)
                 PB_AnswerKeys = new Dictionary<Parameter, AnswerKey>();
 
-            if (parameter.parameterValue == "" || parameter.parameterConfig == null)
+            string paramValue = parameter.parameterValue;
+            if (paramValue == "" || parameter.parameterConfig == null)
             {
-                err = "Invalid Parameter";
+                err = "Invalid parameter value and/or configuration.";
                 return false;
+            }
+
+            switch (parameter.parameterConfig.ValueDataType)
+            {
+                case ValueDataType.String:
+                    break;
+                case ValueDataType.Text:
+                    if (!paramValue.All(char.IsLetter))
+                    {
+                        err = "Invalid parameter value, Text was expected.";
+                        return false;
+                    }
+                    break;
+                case ValueDataType.Alphabet:
+                    if (!paramValue.All(char.IsLetter))
+                    {
+                        err = "Invalid parameter value, Text was expected.";
+                        return false;
+                    }
+                    break;
+                case ValueDataType.WholeNumber:
+                    if (!paramValue.All(char.IsDigit))
+                    {
+                        err = "Invalid parameter value, Whole Number was expected.";
+                        return false;
+                    }
+                    break;
+                case ValueDataType.NaturalNumber:
+                    if (!paramValue.All(char.IsDigit) || paramValue == "0")
+                    {
+                        err = "Invalid parameter value, Natural Number was expected.";
+                        return false;
+                    }
+                    break;
+                case ValueDataType.Integer:
+                    if (!paramValue.All(char.IsDigit))
+                    {
+                        err = "Invalid parameter value, Integer was expected.";
+                        return false;
+                    }
+                    break;
             }
 
             if (PB_AnswerKeys.Keys.Any(x => x.parameterConfig == parameter.parameterConfig && x.parameterValue == parameter.parameterValue))
@@ -589,7 +631,7 @@ namespace Synapse.Core.Configurations
         public static OMRConfiguration CreateDefault(string regionName, Orientation orientation, ConfigArea configArea, OMRRegionData regionData, int processingIndex)
         {
             BaseData configurationBase = new BaseData(regionName, MainConfigType.OMR, configArea, ValueDataType.Integer, Typography.Continious, ValueRepresentation.Collective, ValueEditType.ReadOnly, new ConfigRange(), processingIndex);
-            return new OMRConfiguration(configurationBase, regionData, orientation, OMRType.NonGradable, MultiMarkAction.MarkAsManual, KeyType.General, '#', '*', 0.45);
+            return new OMRConfiguration(configurationBase, regionData, orientation, OMRType.Parameter, MultiMarkAction.MarkAsManual, KeyType.General, '#', '*', 0.45);
         }
 
         public override ProcessedDataEntry ProcessSheet(Mat sheet)

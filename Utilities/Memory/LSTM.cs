@@ -1,4 +1,5 @@
 ﻿using Synapse.Controls;
+using Synapse.Core;
 using Synapse.Core.Configurations;
 using Synapse.Core.Templates;
 using Synapse.Utilities.Enums;
@@ -34,6 +35,8 @@ namespace Synapse.Utilities.Memory
 
         public static string ConfigDataFileExt { get { return configDataFileExt; } set { } }
         private static string configDataFileExt = "dat";
+        public static string PapersDataFileExt { get { return papersDataFileExt; } set { } }
+        private static string papersDataFileExt = "exp";
         #endregion
         #region Files & Directories Name
         public static string TemplateDataFileName { get { return templateDataFileName; } set { } }
@@ -44,6 +47,8 @@ namespace Synapse.Utilities.Memory
         private static string templateListItemsDataFileName = $"Templates.{templateListItemsDataExt}";
         public static string ConfigDataFileName { get { return configDataFileName; } set { } }
         private static string configDataFileName = $"Configuration.{ConfigDataFileExt}";
+        public static string PapersDataFileName { get { return papersDataFileName; } set { } }
+        private static string papersDataFileName = $"Exam Papers.{PapersDataFileExt}";
         public static string TemplateDataDirName { get { return templateDataDirName; } set { } }
         private static string templateDataDirName = "Template Data";
 
@@ -453,6 +458,46 @@ namespace Synapse.Utilities.Memory
             });
 
             return configurationBases;
+        }
+        public static async Task<ExamPapers> LoadPapers()
+        {
+            ExamPapers examPapers = null;
+
+            string paperDataFilePath = Path.Combine(AppRootDataPath, PapersDataFileName);
+            if (!File.Exists(paperDataFilePath))
+                return examPapers;
+
+            await Task.Run(() =>
+            {
+                BinaryFormatter bf = new BinaryFormatter();
+                using (FileStream fs = new FileStream(paperDataFilePath, FileMode.Open))
+                {
+                    examPapers = (ExamPapers)bf.Deserialize(fs);
+                }
+            });
+
+            return examPapers;
+        }
+        public static async Task<bool> SavePapers(ExamPapers examPapers)
+        {
+            string paperDataFilePath = Path.Combine(AppRootDataPath, PapersDataFileName);
+
+            try
+            {
+                await Task.Run(() =>
+                {
+                    BinaryFormatter bf = new BinaryFormatter();
+                    using (FileStream fs = new FileStream(paperDataFilePath, FileMode.Create))
+                    {
+                        bf.Serialize(fs, examPapers);
+                    }
+                });
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
         #endregion
     }

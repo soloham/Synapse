@@ -1,9 +1,5 @@
 ﻿using Synapse.Utilities.Attributes;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Synapse.Core.Keys
 {
@@ -20,11 +16,24 @@ namespace Synapse.Core.Keys
     [Serializable]
     internal class AnswerKey
     {
-        private AnswerKey key;
+        public string Title { get; private set; }
+        public string GetConfigName { get; private set; }
+        public int[][] GetKey { get; private set; }
+        public Paper GetPaperCode { get; private set; }
 
         public AnswerKey(AnswerKey key)
         {
-            this.key = key;
+            Title = key.Title;
+            GetConfigName = key.GetConfigName;
+            GetKey = key.GetKey;
+            GetPaperCode = key.GetPaperCode;
+        }
+        public AnswerKey(string title, string getConfigName, int[][] getKey, Paper getPaperCode)
+        {
+            Title = title;
+            GetConfigName = getConfigName;
+            GetKey = getKey;
+            GetPaperCode = getPaperCode;
         }
     }
 }

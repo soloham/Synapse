@@ -14,9 +14,6 @@ namespace Synapse.Core.Managers
         #region Properties
         public static List<ConfigurationBase> GetAllConfigurations { get => allConfigurations; set { } }
         private static List<ConfigurationBase> allConfigurations = new List<ConfigurationBase>();
-
-        public static List<OMRConfiguration> GetOMRConfigurations { get => omrConfigurations; set { } }
-        private static List<OMRConfiguration> omrConfigurations = new List<OMRConfiguration>();
         #endregion
 
         #region Events
@@ -40,17 +37,17 @@ namespace Synapse.Core.Managers
         }
         public static void AddConfiguration(ConfigurationBase configuration)
         {
-            switch (configuration.GetMainConfigType)
-            {
-                case MainConfigType.OMR:
-                    OMRConfiguration omrConfiguration = (OMRConfiguration)configuration;
-                    omrConfigurations.Add(omrConfiguration);
-                    break;
-                case MainConfigType.BARCODE:
-                    break;
-                case MainConfigType.ICR:
-                    break;
-            }
+            //switch (configuration.GetMainConfigType)
+            //{
+            //    case MainConfigType.OMR:
+            //        OMRConfiguration omrConfiguration = (OMRConfiguration)configuration;
+            //        omrConfigurations.Add(omrConfiguration);
+            //        break;
+            //    case MainConfigType.BARCODE:
+            //        break;
+            //    case MainConfigType.ICR:
+            //        break;
+            //}
 
             allConfigurations.Add(configuration);
 
@@ -86,6 +83,13 @@ namespace Synapse.Core.Managers
             result = allConfigurations.Find(x => x.Title == configTitle);
 
             return result;
+        }
+        public static List<ConfigurationBase> GetConfigurations(MainConfigType mainConfigType, Func<ConfigurationBase, bool> selector)
+        {
+            if (allConfigurations == null || allConfigurations.Count == 0)
+                return null;
+
+            return allConfigurations.FindAll(x => x.GetMainConfigType == mainConfigType && selector(x) == true);
         }
         public static bool ValidateName(string configTitle)
         {

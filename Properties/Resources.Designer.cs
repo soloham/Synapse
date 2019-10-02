@@ -343,6 +343,66 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap CustomCheckBox_Checked {
+            get {
+                object obj = ResourceManager.GetObject("CustomCheckBox_Checked", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap CustomCheckBox_Checked_MouseOver {
+            get {
+                object obj = ResourceManager.GetObject("CustomCheckBox_Checked_MouseOver", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap CustomCheckBox_Checked_MouseOver1 {
+            get {
+                object obj = ResourceManager.GetObject("CustomCheckBox_Checked_MouseOver1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap CustomCheckBox_Checked1 {
+            get {
+                object obj = ResourceManager.GetObject("CustomCheckBox_Checked1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap CustomCheckBox_Unchecked {
+            get {
+                object obj = ResourceManager.GetObject("CustomCheckBox_Unchecked", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap CustomCheckBox_Unchecked_MouseOver {
+            get {
+                object obj = ResourceManager.GetObject("CustomCheckBox_Unchecked_MouseOver", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap DatabaseExportBtnIcon_DataTab {
             get {
                 object obj = ResourceManager.GetObject("DatabaseExportBtnIcon_DataTab", resourceCulture);
@@ -416,6 +476,16 @@ namespace Synapse.Properties {
         internal static System.Drawing.Bitmap EditValueBtnIcon1_DataTab {
             get {
                 object obj = ResourceManager.GetObject("EditValueBtnIcon1_DataTab", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ExamPapersBtnIcon_ReadingTab {
+            get {
+                object obj = ResourceManager.GetObject("ExamPapersBtnIcon_ReadingTab", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

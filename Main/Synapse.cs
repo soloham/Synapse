@@ -23,6 +23,10 @@ using Syncfusion.WinForms.DataGridConverter;
 using static Synapse.Core.Configurations.ConfigurationBase;
 using static Synapse.Core.Templates.Template;
 using Syncfusion.XlsIO;
+using Synapse.Controls.Answer_Key;
+using Synapse.Core;
+using Synapse.Core.Keys;
+using System.Linq;
 
 namespace Synapse
 {
@@ -134,11 +138,85 @@ namespace Synapse
         internal SynapseMain(Template currentTemplate)
         {
             InitializeComponent();
+            #region SetupComponents
+            this.templateConfigToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.templateConfigStatusToolStrip,
+            this.toolStripSeparator1,
+            this.templateToolStripBtn,
+            this.toolStripSeparator5,
+            this.eMarkingToolStripBtn});
+            this.templateConfigToolStrip.Size = new System.Drawing.Size(326, 135);
+
+            this.dataConfigToolStripEx.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.dataConfigStatusToolStripPanel,
+            this.toolStripSeparator3,
+            this.toolStripButton1,
+            this.configurationTestToolToolStripBtn,
+            this.toolStripSeparator4,
+            this.addAsOmrToolStripBtn,
+            this.addAsBarcodeToolStripBtn,
+            this.addAsICRToolStripBtn});
+            this.dataConfigToolStripEx.Size = new System.Drawing.Size(565, 135);
+
+            this.aiConfigToolStripEx.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.aiConfigStatusToolStripPanel,
+            this.toolStripSeparator2,
+            this.configureNetworksToolStripBtn});
+            this.aiConfigToolStripEx.Size = new System.Drawing.Size(202, 135);
+
+
+            this.generalToolStripEx.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.answerKeyToolStripBtn,
+            this.papersToolStripBtn});
+            this.generalToolStripEx.Size = new System.Drawing.Size(186, 135);
+
+            this.sheetsToolStripEx.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.sheetsToolStripPanelItem,
+            this.scanSheetsToolStripDropDownBtn,
+            this.toolStripSeparator7});
+            this.sheetsToolStripEx.Size = new System.Drawing.Size(291, 135);
+
+            this.processingToolStripEx.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.startReadingToolStripBtn,
+            this.stopReadingToolStripBtn});
+            this.processingToolStripEx.Size = new System.Drawing.Size(146, 135);
+
+            this.postOperationsToolStripEx.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.reReadFaultySheetsToolStripBtn,
+            this.moveFaultySheetsToolStripBtn,
+            this.locateOptionsToolStripBtn});
+            this.postOperationsToolStripEx.Size = new System.Drawing.Size(280, 135);
+
+            this.dataMiningToolStripEx.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.findDuplicatesToolStripBtn});
+            this.dataMiningToolStripEx.Size = new System.Drawing.Size(101, 135);
+
+
+            this.dataManipulationToolStripEx.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.addFieldToolStripBtn,
+            this.toolStripSeparator6,
+            this.deleteAllToolStripBtn,
+            this.deleteSelectedToolStripBtn,
+            this.toolStripSeparator8,
+            this.editValueToolStripBtn,
+            this.markAsToolStripBtn});
+            this.dataManipulationToolStripEx.Size = new System.Drawing.Size(423, 135);
+
+            this.dataPointStorageToolStripEx.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.internalDataPointDropDownBtn,
+            this.externalDataPointDropDownBtn});
+            this.dataPointStorageToolStripEx.Size = new System.Drawing.Size(211, 135);
+
+            this.exportToolStripEx.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.exportCSVoolStripBtn,
+            this.exportExcelToolStripBtn,
+            this.SQLDatabaseExportToolStripBtn});
+            this.exportToolStripEx.Size = new System.Drawing.Size(238, 135);
+            #endregion
             synchronizationContext = SynchronizationContext.Current;
             synapseMain = this;
 
             SynapseMain.currentTemplate = currentTemplate;
-
             Awake();
         }
         #endregion
@@ -343,6 +421,8 @@ namespace Synapse
             configTabPanel.Dock = DockStyle.Fill;
             ribbonControl.SelectedTab = configToolStripTabItem;
 
+            sheetsToolStripPanelItem.Height = 80;
+
             mainDockingManager.SetEnableDocking(configPropertiesPanel, true);
             mainDockingManager.DockControlInAutoHideMode(configPropertiesPanel, DockingStyle.Right, 400);
             mainDockingManager.SetMenuButtonVisibility(configPropertiesPanel, false);
@@ -352,10 +432,20 @@ namespace Synapse
             mainDockingManager.DockControlInAutoHideMode(dataImageBoxPanel, DockingStyle.Right, 450);
             mainDockingManager.SetMenuButtonVisibility(dataImageBoxPanel, false);
             mainDockingManager.SetDockLabel(dataImageBoxPanel, "Image");
+            if (!readingToolStripTabItem.Checked)
+                mainDockingManager.SetDockVisibility(dataImageBoxPanel, false);
+
+            mainDockingManager.SetEnableDocking(answerKeyPanel, true);
+            mainDockingManager.SetMenuButtonVisibility(answerKeyPanel, false);
+            mainDockingManager.SetAutoHideButtonVisibility(answerKeyPanel, false);
+            mainDockingManager.SetCloseButtonVisibility(answerKeyPanel, true);
+            mainDockingManager.SetDockLabel(answerKeyPanel, "Answer Key");
+            mainDockingManager.SetDockVisibility(answerKeyPanel, false);
 
             OMRRegionColorStates = new ColorStates(Color.FromArgb(55, Color.Firebrick), Color.FromArgb(95, Color.Firebrick), Color.FromArgb(85, Color.Firebrick), Color.FromArgb(110, Color.Firebrick));
             ICRRegionColorStates = new ColorStates(Color.FromArgb(55, Color.SlateGray), Color.FromArgb(95, Color.SlateGray), Color.FromArgb(85, Color.SlateGray), Color.FromArgb(110, Color.SlateGray));
 
+            await GeneralManager.Initialize();
             await ConfigurationsManager.Initialize();
             ConfigurationsManager.OnConfigurationDeletedEvent += ConfigurationsManager_OnConfigurationDeletedEvent;
             CalculateTemplateConfigs();
@@ -855,12 +945,19 @@ namespace Synapse
             if (configTabPanel.Visible)
                 return;
 
-            configTabPanel.Visible = true;
-            configTabPanel.BringToFront();
-            //readingTabPanel.Visible = false;
+            
+        }
+        private void ConfigToolStripTabItem_CheckedChanged(object sender, EventArgs e)
+        {
+            if (configToolStripTabItem.Checked)
+            {
+                configTabPanel.Visible = true;
+                configTabPanel.BringToFront();
+                //readingTabPanel.Visible = false;
 
-            mainDockingManager.SetDockVisibility(configPropertiesPanel, true);
-            mainDockingManager.SetDockVisibility(dataImageBoxPanel, false);
+                mainDockingManager.SetDockVisibility(configPropertiesPanel, true);
+                mainDockingManager.SetDockVisibility(dataImageBoxPanel, false);
+            }
         }
         private void TmpLoadBrowseToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1096,15 +1193,219 @@ namespace Synapse
             if (!configTabPanel.Visible)
                 return;
 
-            //readingTabPanel.Visible = true;
-            configTabPanel.Visible = false;
-            configTabPanel.SendToBack();
-
-            mainDockingManager.SetDockVisibility(dataImageBoxPanel, true);
-            mainDockingManager.SetDockVisibility(configPropertiesPanel, false);
-
-            GenerateGridColumns();
+            
         }
+        private void ReadingToolStripTabItem_CheckedChanged(object sender, EventArgs e)
+        {
+            if(readingToolStripTabItem.Checked)
+            {
+                //readingTabPanel.Visible = true;
+                configTabPanel.Visible = false;
+                configTabPanel.SendToBack();
+
+                mainDockingManager.SetDockVisibility(dataImageBoxPanel, true);
+                mainDockingManager.SetDockVisibility(configPropertiesPanel, false);
+
+                GenerateGridColumns();
+            }
+        }
+        private void AnswerKeyToolStripBtn_Click(object sender, EventArgs e)
+        {
+            if (mainDockingManager.GetDockVisibility(answerKeyPanel))
+                mainDockingManager.SetDockVisibility(answerKeyPanel, false);
+            else
+            {
+                answerKeyMainPanel.Visible = true;
+                addAnswerKeyPanel.Visible = false;
+                addAnswerKeyPanel.Dock = DockStyle.Fill;
+                answerKeyMainPanel.Dock = DockStyle.Fill;
+                configurationComboBox.DataSource = ConfigurationsManager.GetConfigurations(MainConfigType.OMR, new Func<ConfigurationBase, bool>((ConfigurationBase x) => { OMRConfiguration omrX = (OMRConfiguration)x; return omrX.OMRType == OMRType.Gradable; }));
+                configurationComboBox.DisplayMember = "Title";
+
+                mainDockingManager.DockControl(answerKeyPanel, this, DockingStyle.Left, 350);
+                mainDockingManager.SetDockVisibility(answerKeyPanel, true);
+            }
+        }
+        private void PapersToolStripBtn_Click(object sender, EventArgs e)
+        {
+            GeneralManager.Initialize();
+            ExamPapersConfigurationForm examPapersConfigurationForm = new ExamPapersConfigurationForm(GeneralManager.GetExamPapers);
+            examPapersConfigurationForm.ShowDialog();
+        }
+        #region Answer Key Panel
+        private void addAnswerKeyBtn_Click(object sender, EventArgs e)
+        {
+            answerKeyMainPanel.Visible = false;
+            addAnswerKeyPanel.Visible = true;
+            addAnswerKeyPanel.Dock = DockStyle.Fill;
+            //configurationComboBox.DataSource = ConfigurationsManager.GetConfigurations(MainConfigType.OMR, new Func<ConfigurationBase, bool>((ConfigurationBase x) => { OMRConfiguration omrX = (OMRConfiguration)x; return omrX.OMRType == OMRType.Gradable; }));
+            //configurationComboBox.DisplayMember = "Title";
+
+            var exmPapers = GeneralManager.GetExamPapers;
+            answerKeyPaperComboBox.DataSource = exmPapers != null ? exmPapers.GetPapers : null;
+            answerKeyPaperComboBox.DisplayMember = "Title";
+        }
+
+        private void configurationComboBox_SelectedValueChanged(object sender, EventArgs e)
+        {
+            OMRConfiguration selectedOMRConfig = (OMRConfiguration)configurationComboBox.SelectedItem;
+            if (selectedOMRConfig == null)
+                return;
+
+            switch (selectedOMRConfig.KeyType)
+            {
+                case Core.Keys.KeyType.General:
+                    answerKeyParameterTable.Visible = false;
+                    answerKeyControlsSplitterContainer.SplitterDistance = 85;
+                    break;
+                case Core.Keys.KeyType.ParameterBased:
+                    answerKeyParameterTable.Visible = true;
+                    answerKeyControlsSplitterContainer.SplitterDistance = 125;
+
+                    answerKeyParameterField.DataSource = ConfigurationsManager.GetConfigurations(MainConfigType.OMR, new Func<ConfigurationBase, bool>((ConfigurationBase x) => { OMRConfiguration omrX = (OMRConfiguration)x; return omrX.OMRType == OMRType.Parameter; }));
+                    answerKeyParameterField.DisplayMember = "Title";
+                    break;
+            }
+
+            SetupKeyFields(selectedOMRConfig);
+        }
+
+        private void SetupKeyFields(OMRConfiguration omrConfiguration)
+        {
+            int totalFields = omrConfiguration.GetTotalFields;
+            int totalOptions = omrConfiguration.GetTotalOptions;
+            Orientation orientation = omrConfiguration.Orientation;
+
+            for (int i = 0; i < answerKeyFieldsTable.Controls.Count; i++)
+            {
+                answerKeyFieldsTable.Controls[i].Dispose();
+            }
+            answerKeyFieldsTable.Controls.Clear();
+            answerKeyFieldsTable.ColumnStyles.Clear();
+            answerKeyFieldsTable.RowStyles.Clear();
+            answerKeyFieldsTable.Dock = DockStyle.None;
+            answerKeyFieldsTable.Size = new Size(100, 100);
+            answerKeyFieldsTable.Dock = DockStyle.Fill;
+
+            switch (orientation)
+            {
+                case Orientation.Horizontal:
+                    answerKeyFieldsTable.ColumnCount = 1;
+                    answerKeyFieldsTable.RowCount = totalFields+1;
+
+                    for (int i = 0; i < totalFields; i++)
+                    {
+                        answerKeyFieldsTable.RowStyles.Add(new RowStyle(SizeType.Absolute, 50));
+                        AnswerKeyFieldControl keyFieldControl = new AnswerKeyFieldControl();
+                        answerKeyFieldsTable.Controls.Add(keyFieldControl);
+                        answerKeyFieldsTable.SetRow(keyFieldControl, i);
+                        keyFieldControl.Initialize(i+1);
+                        keyFieldControl.TotalOptions = totalOptions;
+                        keyFieldControl.FieldOrientation = orientation;
+                        keyFieldControl.OptionsValueType = omrConfiguration.ValueDataType;
+                        keyFieldControl.Dock = DockStyle.Fill;
+                    }
+                    break;
+                case Orientation.Vertical:
+                    answerKeyFieldsTable.RowCount = 1;
+                    answerKeyFieldsTable.ColumnCount = totalFields+1;
+
+
+                    for (int i = 0; i < totalFields; i++)
+                    {
+                        answerKeyFieldsTable.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50));
+                        AnswerKeyFieldControl keyFieldControl = new AnswerKeyFieldControl();
+                        answerKeyFieldsTable.Controls.Add(keyFieldControl);
+                        answerKeyFieldsTable.SetColumn(keyFieldControl, i);
+                        keyFieldControl.Initialize(i + 1);
+                        keyFieldControl.TotalOptions = totalOptions;
+                        keyFieldControl.FieldOrientation = orientation;
+                        keyFieldControl.OptionsValueType = omrConfiguration.ValueDataType;
+                        keyFieldControl.Dock = DockStyle.Fill;
+                    }
+                    break;
+            }
+
+        }
+
+        private void setBtn_Click(object sender, EventArgs e)
+        {
+            OMRConfiguration selectedOMRConfig = (OMRConfiguration)configurationComboBox.SelectedItem;
+            if (selectedOMRConfig == null)
+                return;
+
+            Paper selectedPaper = (Paper)answerKeyPaperComboBox.SelectedItem;
+            if(selectedPaper == null)
+            {
+                Messages.ShowError("Please select a valid paper or create one to link with the answer key.");
+                return;
+            }
+            int totalFields = selectedPaper.GetFieldsCount;
+            int totalOptions = selectedPaper.GetOptionsCount;
+
+            string keyTitle = answerKeyTitleField.Text;
+            int[][] answerKeyOptions = new int[totalFields][];
+
+            for (int i = 0; i < totalFields; i++)
+            {
+                if (i > answerKeyFieldsTable.Controls.Count)
+                {
+                    Messages.ShowError("Couldn't add the answer key because not enough fields found to satisfy the paper.");
+                    return;
+                }
+
+                var curField = (AnswerKeyFieldControl)answerKeyFieldsTable.Controls[i];
+                int[] optionsValues = new int[totalOptions];
+                var marked = curField.GetMarkedOptions();
+                if (marked == null)
+                {
+                    Messages.ShowError("Couldn't add the answer key due to invalid answer key fields.");
+                    return;
+                }
+                else if(marked.Length == 0)
+                {
+                    Messages.ShowError("Couldn't add the answer key due to invalid answer key fields, All fields must be filled.");
+                    return;
+                }
+                for (int j = 0; j < marked.Length; j++)
+                {
+                    optionsValues[marked[j]] = 1;
+                }
+                answerKeyOptions[i] = optionsValues;
+            }
+
+            AnswerKey answerKey = new AnswerKey(keyTitle, selectedOMRConfig.Title, answerKeyOptions, selectedPaper);
+
+            bool isSuccess;
+            string err = "";
+            switch (selectedOMRConfig.KeyType)
+            {
+                case KeyType.General:
+                    isSuccess = selectedOMRConfig.SetGeneralAnswerKey(answerKey, out err);
+                    if (!isSuccess && err != "User Denied")
+                        Messages.ShowError("Couldn't add the answer key due to invalid answer key. \n\n Error: " + err);
+                    break;
+                case KeyType.ParameterBased:
+                    var paramConfig = (ConfigurationBase)answerKeyParameterField.SelectedItem;
+                    if (paramConfig == null)
+                    {
+                        Messages.ShowError("Couldn't add the answer key due to invalid answer key parameter. \n\n Please select a valid parameter to link with the answer key.");
+                        return;
+                    }
+                    string paramValue = answerKeyParameterValueField.Text;
+                    if (paramValue == "")
+                    {
+                        Messages.ShowError("Couldn't add the answer key due to invalid answer key parameter. \n\n Please select a valid parameter value to link with the answer key parameter.");
+                        return;
+                    }
+                    Parameter keyParameter = new Parameter(paramConfig, paramValue);
+                    isSuccess = selectedOMRConfig.AddPBAnswerKey(keyParameter, answerKey, out err);
+                    if (!isSuccess && err != "User Denied")
+                        Messages.ShowError("Couldn't add the key due to invalid answer key properties. \n\n Error: " + err);
+                    break;
+            }
+        }
+        #endregion
         private async void ScanDirectoryToolStripBtn_Click(object sender, EventArgs e)
         {
             if(folderBrowserDialog.ShowDialog() == DialogResult.OK)
@@ -1201,7 +1502,6 @@ namespace Synapse
                 }
             }
         }
-
         #endregion
         #region Data Tab
         private void ExportExcelToolStripBtn_Click(object sender, EventArgs e)
@@ -1214,10 +1514,15 @@ namespace Synapse
             statusPanelStatusLabel.Width = statusTextStatusPanel.Width - 48;
         }
 
-        #endregion
+
+
 
         #endregion
 
         #endregion
+
+        #endregion
+
+        
     }
 }

@@ -25,7 +25,7 @@ namespace Synapse.Core.Configurations
         [EnumDescription("ICR")]
         ICR        
     }
-    internal enum ValueDataType
+    public enum ValueDataType
     {
         [EnumDescription("String")]
         String,

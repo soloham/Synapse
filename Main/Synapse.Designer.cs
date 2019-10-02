@@ -66,8 +66,9 @@ namespace Synapse
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.configureNetworksToolStripBtn = new System.Windows.Forms.ToolStripButton();
             this.readingToolStripTabItem = new Syncfusion.Windows.Forms.Tools.ToolStripTabItem();
-            this.scoresToolStripEx = new Syncfusion.Windows.Forms.Tools.ToolStripEx();
+            this.generalToolStripEx = new Syncfusion.Windows.Forms.Tools.ToolStripEx();
             this.answerKeyToolStripBtn = new System.Windows.Forms.ToolStripButton();
+            this.papersToolStripBtn = new System.Windows.Forms.ToolStripButton();
             this.sheetsToolStripEx = new Syncfusion.Windows.Forms.Tools.ToolStripEx();
             this.sheetsToolStripPanelItem = new Syncfusion.Windows.Forms.Tools.ToolStripPanelItem();
             this.scanDirectoryToolStripBtn = new System.Windows.Forms.ToolStripButton();
@@ -120,9 +121,9 @@ namespace Synapse
             this.ImageFileBrowser = new System.Windows.Forms.OpenFileDialog();
             this.mainDockingManager = new Syncfusion.Windows.Forms.Tools.DockingManager(this.components);
             this.configPropertiesPanel = new System.Windows.Forms.Panel();
+            this.configPropertyEditor = new Syncfusion.Windows.Forms.Diagram.Controls.PropertyEditor(this.components);
             this.dataImageBoxPanel = new System.Windows.Forms.Panel();
             this.dataImageBox = new Cyotek.Windows.Forms.Demo.ImageBoxEx();
-            this.configPropertyEditor = new Syncfusion.Windows.Forms.Diagram.Controls.PropertyEditor(this.components);
             this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.readingTabStatusBar = new Syncfusion.Windows.Forms.Tools.StatusBarAdv();
             this.statusGeneralPanel = new System.Windows.Forms.Panel();
@@ -147,6 +148,26 @@ namespace Synapse
             this.statusPanelStatusLabel = new Syncfusion.Windows.Forms.Tools.AutoLabel();
             this.toolStripPanelItem1 = new Syncfusion.Windows.Forms.Tools.ToolStripPanelItem();
             this.toolStripPanelItem2 = new Syncfusion.Windows.Forms.Tools.ToolStripPanelItem();
+            this.answerKeyPanel = new System.Windows.Forms.Panel();
+            this.addAnswerKeyPanel = new System.Windows.Forms.Panel();
+            this.addAnswerKeyTablePanel = new System.Windows.Forms.TableLayoutPanel();
+            this.initializationButtonsPanel = new System.Windows.Forms.TableLayoutPanel();
+            this.setBtn = new Syncfusion.Windows.Forms.ButtonAdv();
+            this.nextBtn = new Syncfusion.Windows.Forms.ButtonAdv();
+            this.answerKeyControlsSplitterContainer = new Syncfusion.Windows.Forms.Tools.SplitContainerAdv();
+            this.answerKeyParameterTable = new System.Windows.Forms.TableLayoutPanel();
+            this.answerKeyParameterValueField = new Syncfusion.Windows.Forms.Tools.ComboBoxAdv();
+            this.answerKeyParameterField = new Syncfusion.Windows.Forms.Tools.ComboBoxAdv();
+            this.answerKeyTitleField = new Syncfusion.Windows.Forms.Tools.TextBoxExt();
+            this.answerKeyTitleFieldsTable = new System.Windows.Forms.TableLayoutPanel();
+            this.configurationComboBox = new Syncfusion.Windows.Forms.Tools.ComboBoxAdv();
+            this.answerKeyPaperComboBox = new Syncfusion.Windows.Forms.Tools.ComboBoxAdv();
+            this.answerKeyFieldsTable = new System.Windows.Forms.TableLayoutPanel();
+            this.answerKeyMainPanel = new System.Windows.Forms.Panel();
+            this.answerKeyPanelContentContainer = new System.Windows.Forms.TableLayoutPanel();
+            this.addAnswerKeyBtn = new Syncfusion.Windows.Forms.ButtonAdv();
+            this.emptyListLabel = new Syncfusion.Windows.Forms.Tools.AutoLabel();
+            this.comboBoxAdv1 = new Syncfusion.Windows.Forms.Tools.ComboBoxAdv();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
             this.ribbonControl.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.backStage1)).BeginInit();
@@ -155,7 +176,7 @@ namespace Synapse
             this.dataConfigToolStripEx.SuspendLayout();
             this.aiConfigToolStripEx.SuspendLayout();
             this.readingToolStripTabItem.Panel.SuspendLayout();
-            this.scoresToolStripEx.SuspendLayout();
+            this.generalToolStripEx.SuspendLayout();
             this.sheetsToolStripEx.SuspendLayout();
             this.processingToolStripEx.SuspendLayout();
             this.postOperationsToolStripEx.SuspendLayout();
@@ -184,6 +205,24 @@ namespace Synapse
             ((System.ComponentModel.ISupportInitialize)(this.processingProgressBar)).BeginInit();
             this.statusTextStatusPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.statusPanelStatusPictureBox)).BeginInit();
+            this.answerKeyPanel.SuspendLayout();
+            this.addAnswerKeyPanel.SuspendLayout();
+            this.addAnswerKeyTablePanel.SuspendLayout();
+            this.initializationButtonsPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.answerKeyControlsSplitterContainer)).BeginInit();
+            this.answerKeyControlsSplitterContainer.Panel1.SuspendLayout();
+            this.answerKeyControlsSplitterContainer.Panel2.SuspendLayout();
+            this.answerKeyControlsSplitterContainer.SuspendLayout();
+            this.answerKeyParameterTable.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.answerKeyParameterValueField)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.answerKeyParameterField)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.answerKeyTitleField)).BeginInit();
+            this.answerKeyTitleFieldsTable.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.configurationComboBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.answerKeyPaperComboBox)).BeginInit();
+            this.answerKeyMainPanel.SuspendLayout();
+            this.answerKeyPanelContentContainer.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxAdv1)).BeginInit();
             this.SuspendLayout();
             // 
             // ribbonControl
@@ -291,6 +330,7 @@ namespace Synapse
             this.configToolStripTabItem.Size = new System.Drawing.Size(134, 30);
             this.configToolStripTabItem.Tag = "1";
             this.configToolStripTabItem.Text = "CONFIGURATION";
+            this.configToolStripTabItem.CheckedChanged += new System.EventHandler(this.ConfigToolStripTabItem_CheckedChanged);
             this.configToolStripTabItem.Click += new System.EventHandler(this.ConfigToolStripTabItem_Click);
             // 
             // templateConfigToolStrip
@@ -669,7 +709,7 @@ namespace Synapse
             // 
             // ribbonControl.ribbonPanel2
             // 
-            this.readingToolStripTabItem.Panel.Controls.Add(this.scoresToolStripEx);
+            this.readingToolStripTabItem.Panel.Controls.Add(this.generalToolStripEx);
             this.readingToolStripTabItem.Panel.Controls.Add(this.sheetsToolStripEx);
             this.readingToolStripTabItem.Panel.Controls.Add(this.processingToolStripEx);
             this.readingToolStripTabItem.Panel.Controls.Add(this.postOperationsToolStripEx);
@@ -683,29 +723,31 @@ namespace Synapse
             this.readingToolStripTabItem.Size = new System.Drawing.Size(83, 30);
             this.readingToolStripTabItem.Tag = "2";
             this.readingToolStripTabItem.Text = "READING";
+            this.readingToolStripTabItem.CheckedChanged += new System.EventHandler(this.ReadingToolStripTabItem_CheckedChanged);
             this.readingToolStripTabItem.Click += new System.EventHandler(this.ReadingToolStripTabItem_Click);
             // 
-            // scoresToolStripEx
+            // generalToolStripEx
             // 
-            this.scoresToolStripEx.AutoSize = false;
-            this.scoresToolStripEx.CaptionFont = new System.Drawing.Font("Dosis", 9.749999F);
-            this.scoresToolStripEx.CaptionMinHeight = 0;
-            this.scoresToolStripEx.CaptionStyle = Syncfusion.Windows.Forms.Tools.CaptionStyle.Bottom;
-            this.scoresToolStripEx.CaptionTextStyle = Syncfusion.Windows.Forms.Tools.CaptionTextStyle.Plain;
-            this.scoresToolStripEx.Dock = System.Windows.Forms.DockStyle.None;
-            this.scoresToolStripEx.Font = new System.Drawing.Font("Segoe UI", 8.25F);
-            this.scoresToolStripEx.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.scoresToolStripEx.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-            this.scoresToolStripEx.Image = null;
-            this.scoresToolStripEx.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.answerKeyToolStripBtn});
-            this.scoresToolStripEx.Location = new System.Drawing.Point(0, 1);
-            this.scoresToolStripEx.Name = "scoresToolStripEx";
-            this.scoresToolStripEx.Office12Mode = false;
-            this.scoresToolStripEx.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
-            this.scoresToolStripEx.Size = new System.Drawing.Size(98, 135);
-            this.scoresToolStripEx.TabIndex = 8;
-            this.scoresToolStripEx.Text = "Scores";
+            this.generalToolStripEx.AutoSize = false;
+            this.generalToolStripEx.CaptionFont = new System.Drawing.Font("Dosis", 9.749999F);
+            this.generalToolStripEx.CaptionMinHeight = 0;
+            this.generalToolStripEx.CaptionStyle = Syncfusion.Windows.Forms.Tools.CaptionStyle.Bottom;
+            this.generalToolStripEx.CaptionTextStyle = Syncfusion.Windows.Forms.Tools.CaptionTextStyle.Plain;
+            this.generalToolStripEx.Dock = System.Windows.Forms.DockStyle.None;
+            this.generalToolStripEx.Font = new System.Drawing.Font("Segoe UI", 8.25F);
+            this.generalToolStripEx.ForeColor = System.Drawing.Color.MidnightBlue;
+            this.generalToolStripEx.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.generalToolStripEx.Image = null;
+            this.generalToolStripEx.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.answerKeyToolStripBtn,
+            this.papersToolStripBtn});
+            this.generalToolStripEx.Location = new System.Drawing.Point(0, 1);
+            this.generalToolStripEx.Name = "generalToolStripEx";
+            this.generalToolStripEx.Office12Mode = false;
+            this.generalToolStripEx.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
+            this.generalToolStripEx.Size = new System.Drawing.Size(186, 135);
+            this.generalToolStripEx.TabIndex = 8;
+            this.generalToolStripEx.Text = "General";
             // 
             // answerKeyToolStripBtn
             // 
@@ -720,6 +762,22 @@ namespace Synapse
             this.answerKeyToolStripBtn.Size = new System.Drawing.Size(82, 116);
             this.answerKeyToolStripBtn.Text = "Answer\r\nKey";
             this.answerKeyToolStripBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.answerKeyToolStripBtn.Click += new System.EventHandler(this.AnswerKeyToolStripBtn_Click);
+            // 
+            // papersToolStripBtn
+            // 
+            this.papersToolStripBtn.Font = new System.Drawing.Font("Dosis", 13.5F);
+            this.papersToolStripBtn.Image = global::Synapse.Properties.Resources.ExamPapersBtnIcon_ReadingTab;
+            this.papersToolStripBtn.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.papersToolStripBtn.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.papersToolStripBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.papersToolStripBtn.Margin = new System.Windows.Forms.Padding(4, 1, 1, 2);
+            this.papersToolStripBtn.Name = "papersToolStripBtn";
+            this.papersToolStripBtn.Padding = new System.Windows.Forms.Padding(8, 0, 8, 0);
+            this.papersToolStripBtn.Size = new System.Drawing.Size(77, 116);
+            this.papersToolStripBtn.Text = "Exam\r\nPapers";
+            this.papersToolStripBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.papersToolStripBtn.Click += new System.EventHandler(this.PapersToolStripBtn_Click);
             // 
             // sheetsToolStripEx
             // 
@@ -737,7 +795,7 @@ namespace Synapse
             this.sheetsToolStripPanelItem,
             this.scanSheetsToolStripDropDownBtn,
             this.toolStripSeparator7});
-            this.sheetsToolStripEx.Location = new System.Drawing.Point(100, 1);
+            this.sheetsToolStripEx.Location = new System.Drawing.Point(188, 1);
             this.sheetsToolStripEx.Name = "sheetsToolStripEx";
             this.sheetsToolStripEx.Office12Mode = false;
             this.sheetsToolStripEx.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
@@ -757,7 +815,7 @@ namespace Synapse
             this.sheetsToolStripPanelItem.Name = "sheetsToolStripPanelItem";
             this.sheetsToolStripPanelItem.Padding = new System.Windows.Forms.Padding(1, 0, 2, 0);
             this.sheetsToolStripPanelItem.RowCount = 2;
-            this.sheetsToolStripPanelItem.Size = new System.Drawing.Size(192, 51);
+            this.sheetsToolStripPanelItem.Size = new System.Drawing.Size(192, 44);
             this.sheetsToolStripPanelItem.Transparent = true;
             // 
             // scanDirectoryToolStripBtn
@@ -797,7 +855,7 @@ namespace Synapse
             this.scanSheetsToolStripDropDownBtn.Margin = new System.Windows.Forms.Padding(3, 1, 5, 2);
             this.scanSheetsToolStripDropDownBtn.Name = "scanSheetsToolStripDropDownBtn";
             this.scanSheetsToolStripDropDownBtn.Padding = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            this.scanSheetsToolStripDropDownBtn.Size = new System.Drawing.Size(71, 75);
+            this.scanSheetsToolStripDropDownBtn.Size = new System.Drawing.Size(71, 116);
             this.scanSheetsToolStripDropDownBtn.Text = "Scan";
             this.scanSheetsToolStripDropDownBtn.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.scanSheetsToolStripDropDownBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
@@ -836,7 +894,7 @@ namespace Synapse
             this.processingToolStripEx.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.startReadingToolStripBtn,
             this.stopReadingToolStripBtn});
-            this.processingToolStripEx.Location = new System.Drawing.Point(393, 1);
+            this.processingToolStripEx.Location = new System.Drawing.Point(481, 1);
             this.processingToolStripEx.Name = "processingToolStripEx";
             this.processingToolStripEx.Office12Mode = false;
             this.processingToolStripEx.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
@@ -890,7 +948,7 @@ namespace Synapse
             this.reReadFaultySheetsToolStripBtn,
             this.moveFaultySheetsToolStripBtn,
             this.locateOptionsToolStripBtn});
-            this.postOperationsToolStripEx.Location = new System.Drawing.Point(541, 1);
+            this.postOperationsToolStripEx.Location = new System.Drawing.Point(629, 1);
             this.postOperationsToolStripEx.Name = "postOperationsToolStripEx";
             this.postOperationsToolStripEx.Office12Mode = false;
             this.postOperationsToolStripEx.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
@@ -953,7 +1011,7 @@ namespace Synapse
             this.dataMiningToolStripEx.Image = null;
             this.dataMiningToolStripEx.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.findDuplicatesToolStripBtn});
-            this.dataMiningToolStripEx.Location = new System.Drawing.Point(823, 1);
+            this.dataMiningToolStripEx.Location = new System.Drawing.Point(911, 1);
             this.dataMiningToolStripEx.Name = "dataMiningToolStripEx";
             this.dataMiningToolStripEx.Office12Mode = false;
             this.dataMiningToolStripEx.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
@@ -1316,9 +1374,9 @@ namespace Synapse
             this.nonDockingClientArea.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.nonDockingClientArea.Controls.Add(this.configTabPanel);
             this.nonDockingClientArea.Controls.Add(this.readingTabPanel);
-            this.nonDockingClientArea.Location = new System.Drawing.Point(2, 204);
+            this.nonDockingClientArea.Location = new System.Drawing.Point(370, 204);
             this.nonDockingClientArea.Name = "nonDockingClientArea";
-            this.nonDockingClientArea.Size = new System.Drawing.Size(1280, 514);
+            this.nonDockingClientArea.Size = new System.Drawing.Size(712, 514);
             this.nonDockingClientArea.SizeToFit = true;
             this.nonDockingClientArea.TabIndex = 2;
             // 
@@ -1434,19 +1492,28 @@ namespace Synapse
             // 
             // configPropertiesPanel
             // 
-            this.configPropertiesPanel.Controls.Add(this.dataImageBoxPanel);
             this.configPropertiesPanel.Controls.Add(this.configPropertyEditor);
             this.configPropertiesPanel.Dock = System.Windows.Forms.DockStyle.Right;
-            this.configPropertiesPanel.Location = new System.Drawing.Point(1282, 204);
+            this.configPropertiesPanel.Location = new System.Drawing.Point(1082, 204);
             this.configPropertiesPanel.Name = "configPropertiesPanel";
             this.configPropertiesPanel.Size = new System.Drawing.Size(200, 544);
             this.configPropertiesPanel.TabIndex = 3;
+            // 
+            // configPropertyEditor
+            // 
+            this.configPropertyEditor.Diagram = null;
+            this.configPropertyEditor.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.configPropertyEditor.Font = new System.Drawing.Font("Dosis", 10.25F);
+            this.configPropertyEditor.Location = new System.Drawing.Point(0, 0);
+            this.configPropertyEditor.Name = "configPropertyEditor";
+            this.configPropertyEditor.Size = new System.Drawing.Size(200, 544);
+            this.configPropertyEditor.TabIndex = 1;
             // 
             // dataImageBoxPanel
             // 
             this.dataImageBoxPanel.Controls.Add(this.dataImageBox);
             this.dataImageBoxPanel.Dock = System.Windows.Forms.DockStyle.Right;
-            this.dataImageBoxPanel.Location = new System.Drawing.Point(0, 0);
+            this.dataImageBoxPanel.Location = new System.Drawing.Point(1282, 204);
             this.dataImageBoxPanel.Name = "dataImageBoxPanel";
             this.dataImageBoxPanel.Size = new System.Drawing.Size(200, 544);
             this.dataImageBoxPanel.TabIndex = 4;
@@ -1471,20 +1538,10 @@ namespace Synapse
     " here.";
             this.dataImageBox.Paint += new System.Windows.Forms.PaintEventHandler(this.DataImageBox_Paint);
             // 
-            // configPropertyEditor
-            // 
-            this.configPropertyEditor.Diagram = null;
-            this.configPropertyEditor.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.configPropertyEditor.Font = new System.Drawing.Font("Dosis", 10.25F);
-            this.configPropertyEditor.Location = new System.Drawing.Point(0, 0);
-            this.configPropertyEditor.Name = "configPropertyEditor";
-            this.configPropertyEditor.Size = new System.Drawing.Size(200, 544);
-            this.configPropertyEditor.TabIndex = 1;
-            // 
             // readingTabStatusBar
             // 
             this.readingTabStatusBar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(128)))), ((int)(((byte)(215)))));
-            this.readingTabStatusBar.BeforeTouchSize = new System.Drawing.Size(1280, 30);
+            this.readingTabStatusBar.BeforeTouchSize = new System.Drawing.Size(1080, 30);
             this.readingTabStatusBar.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(128)))), ((int)(((byte)(215)))));
             this.readingTabStatusBar.BorderSides = System.Windows.Forms.Border3DSide.Top;
             this.readingTabStatusBar.BorderSingle = System.Windows.Forms.ButtonBorderStyle.None;
@@ -1499,7 +1556,7 @@ namespace Synapse
             this.readingTabStatusBar.MetroColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(128)))), ((int)(((byte)(215)))));
             this.readingTabStatusBar.Name = "readingTabStatusBar";
             this.readingTabStatusBar.Padding = new System.Windows.Forms.Padding(1);
-            this.readingTabStatusBar.Size = new System.Drawing.Size(1280, 30);
+            this.readingTabStatusBar.Size = new System.Drawing.Size(1080, 30);
             this.readingTabStatusBar.Spacing = new System.Drawing.Size(2, 2);
             this.readingTabStatusBar.Style = Syncfusion.Windows.Forms.Tools.StatusbarStyle.Metro;
             this.readingTabStatusBar.TabIndex = 4;
@@ -1834,6 +1891,441 @@ namespace Synapse
             this.toolStripPanelItem2.Transparent = true;
             this.toolStripPanelItem2.UseStandardLayout = true;
             // 
+            // answerKeyPanel
+            // 
+            this.answerKeyPanel.Controls.Add(this.addAnswerKeyPanel);
+            this.answerKeyPanel.Controls.Add(this.answerKeyMainPanel);
+            this.answerKeyPanel.Dock = System.Windows.Forms.DockStyle.Left;
+            this.answerKeyPanel.Location = new System.Drawing.Point(2, 204);
+            this.answerKeyPanel.Name = "answerKeyPanel";
+            this.answerKeyPanel.Size = new System.Drawing.Size(368, 514);
+            this.answerKeyPanel.TabIndex = 5;
+            // 
+            // addAnswerKeyPanel
+            // 
+            this.addAnswerKeyPanel.Controls.Add(this.addAnswerKeyTablePanel);
+            this.addAnswerKeyPanel.Dock = System.Windows.Forms.DockStyle.Top;
+            this.addAnswerKeyPanel.Location = new System.Drawing.Point(0, 21);
+            this.addAnswerKeyPanel.Name = "addAnswerKeyPanel";
+            this.addAnswerKeyPanel.Size = new System.Drawing.Size(368, 493);
+            this.addAnswerKeyPanel.TabIndex = 1;
+            // 
+            // addAnswerKeyTablePanel
+            // 
+            this.addAnswerKeyTablePanel.ColumnCount = 1;
+            this.addAnswerKeyTablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.addAnswerKeyTablePanel.Controls.Add(this.initializationButtonsPanel, 0, 1);
+            this.addAnswerKeyTablePanel.Controls.Add(this.answerKeyControlsSplitterContainer, 0, 0);
+            this.addAnswerKeyTablePanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.addAnswerKeyTablePanel.Location = new System.Drawing.Point(0, 0);
+            this.addAnswerKeyTablePanel.Name = "addAnswerKeyTablePanel";
+            this.addAnswerKeyTablePanel.RowCount = 2;
+            this.addAnswerKeyTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.addAnswerKeyTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+            this.addAnswerKeyTablePanel.Size = new System.Drawing.Size(368, 493);
+            this.addAnswerKeyTablePanel.TabIndex = 0;
+            // 
+            // initializationButtonsPanel
+            // 
+            this.initializationButtonsPanel.ColumnCount = 2;
+            this.initializationButtonsPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 52.10843F));
+            this.initializationButtonsPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 47.89157F));
+            this.initializationButtonsPanel.Controls.Add(this.setBtn, 0, 0);
+            this.initializationButtonsPanel.Controls.Add(this.nextBtn, 0, 0);
+            this.initializationButtonsPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.initializationButtonsPanel.Location = new System.Drawing.Point(0, 443);
+            this.initializationButtonsPanel.Margin = new System.Windows.Forms.Padding(0);
+            this.initializationButtonsPanel.Name = "initializationButtonsPanel";
+            this.initializationButtonsPanel.RowCount = 1;
+            this.initializationButtonsPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.initializationButtonsPanel.Size = new System.Drawing.Size(368, 50);
+            this.initializationButtonsPanel.TabIndex = 8;
+            // 
+            // setBtn
+            // 
+            this.setBtn.Appearance = Syncfusion.Windows.Forms.ButtonAppearance.Metro;
+            this.setBtn.BackColor = System.Drawing.Color.DodgerBlue;
+            this.setBtn.BeforeTouchSize = new System.Drawing.Size(171, 44);
+            this.setBtn.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Flat;
+            this.setBtn.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.setBtn.FlatAppearance.BorderSize = 0;
+            this.setBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.setBtn.Font = new System.Drawing.Font("Dosis", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.setBtn.ForeColor = System.Drawing.Color.White;
+            this.setBtn.Image = ((System.Drawing.Image)(resources.GetObject("setBtn.Image")));
+            this.setBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.setBtn.Location = new System.Drawing.Point(194, 3);
+            this.setBtn.Name = "setBtn";
+            this.setBtn.Padding = new System.Windows.Forms.Padding(10, 0, 10, 0);
+            this.setBtn.Size = new System.Drawing.Size(171, 44);
+            this.setBtn.TabIndex = 39;
+            this.setBtn.Text = "     ADD";
+            this.setBtn.ThemeName = "Metro";
+            this.setBtn.ThemeStyle.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.setBtn.ThemeStyle.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(171)))), ((int)(((byte)(171)))));
+            this.setBtn.ThemeStyle.DisabledBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(243)))), ((int)(((byte)(243)))));
+            this.setBtn.ThemeStyle.DisabledBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(230)))), ((int)(((byte)(230)))));
+            this.setBtn.ThemeStyle.DisabledForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(171)))), ((int)(((byte)(171)))));
+            this.setBtn.ThemeStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.setBtn.ThemeStyle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this.setBtn.ThemeStyle.HoverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(236)))), ((int)(((byte)(249)))));
+            this.setBtn.ThemeStyle.HoverBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(113)))), ((int)(((byte)(175)))), ((int)(((byte)(229)))));
+            this.setBtn.ThemeStyle.HoverForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this.setBtn.ThemeStyle.PressedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(230)))), ((int)(((byte)(247)))));
+            this.setBtn.ThemeStyle.PressedBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(120)))), ((int)(((byte)(212)))));
+            this.setBtn.ThemeStyle.PressedForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this.setBtn.UseVisualStyle = false;
+            this.setBtn.UseVisualStyleBackColor = false;
+            this.setBtn.Click += new System.EventHandler(this.setBtn_Click);
+            // 
+            // nextBtn
+            // 
+            this.nextBtn.Appearance = Syncfusion.Windows.Forms.ButtonAppearance.Metro;
+            this.nextBtn.BackColor = System.Drawing.Color.LightSlateGray;
+            this.nextBtn.BeforeTouchSize = new System.Drawing.Size(185, 44);
+            this.nextBtn.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Flat;
+            this.nextBtn.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.nextBtn.FlatAppearance.BorderSize = 0;
+            this.nextBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.nextBtn.Font = new System.Drawing.Font("Dosis", 20F);
+            this.nextBtn.ForeColor = System.Drawing.Color.White;
+            this.nextBtn.Image = ((System.Drawing.Image)(resources.GetObject("nextBtn.Image")));
+            this.nextBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.nextBtn.Location = new System.Drawing.Point(3, 3);
+            this.nextBtn.Name = "nextBtn";
+            this.nextBtn.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
+            this.nextBtn.Size = new System.Drawing.Size(185, 44);
+            this.nextBtn.TabIndex = 38;
+            this.nextBtn.Text = "     IMPORT";
+            this.nextBtn.ThemeName = "Metro";
+            this.nextBtn.ThemeStyle.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.nextBtn.ThemeStyle.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(171)))), ((int)(((byte)(171)))));
+            this.nextBtn.ThemeStyle.DisabledBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(243)))), ((int)(((byte)(243)))));
+            this.nextBtn.ThemeStyle.DisabledBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(230)))), ((int)(((byte)(230)))));
+            this.nextBtn.ThemeStyle.DisabledForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(171)))), ((int)(((byte)(171)))));
+            this.nextBtn.ThemeStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.nextBtn.ThemeStyle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this.nextBtn.ThemeStyle.HoverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(236)))), ((int)(((byte)(249)))));
+            this.nextBtn.ThemeStyle.HoverBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(113)))), ((int)(((byte)(175)))), ((int)(((byte)(229)))));
+            this.nextBtn.ThemeStyle.HoverForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this.nextBtn.ThemeStyle.PressedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(230)))), ((int)(((byte)(247)))));
+            this.nextBtn.ThemeStyle.PressedBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(120)))), ((int)(((byte)(212)))));
+            this.nextBtn.ThemeStyle.PressedForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this.nextBtn.UseVisualStyle = false;
+            this.nextBtn.UseVisualStyleBackColor = false;
+            // 
+            // answerKeyControlsSplitterContainer
+            // 
+            this.answerKeyControlsSplitterContainer.BeforeTouchSize = 6;
+            this.answerKeyControlsSplitterContainer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.answerKeyControlsSplitterContainer.FixedPanel = Syncfusion.Windows.Forms.Tools.Enums.FixedPanel.Panel2;
+            this.answerKeyControlsSplitterContainer.Font = new System.Drawing.Font("Dosis", 11F);
+            this.answerKeyControlsSplitterContainer.GripDark = new Syncfusion.Drawing.BrushInfo(System.Drawing.SystemColors.Window);
+            this.answerKeyControlsSplitterContainer.GripLight = new Syncfusion.Drawing.BrushInfo(System.Drawing.SystemColors.Window);
+            this.answerKeyControlsSplitterContainer.HotBackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(250)))), ((int)(((byte)(250))))));
+            this.answerKeyControlsSplitterContainer.HotExpandLine = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.answerKeyControlsSplitterContainer.Location = new System.Drawing.Point(0, 0);
+            this.answerKeyControlsSplitterContainer.Margin = new System.Windows.Forms.Padding(0);
+            this.answerKeyControlsSplitterContainer.Name = "answerKeyControlsSplitterContainer";
+            this.answerKeyControlsSplitterContainer.Orientation = System.Windows.Forms.Orientation.Vertical;
+            // 
+            // answerKeyControlsSplitterContainer.Panel1
+            // 
+            this.answerKeyControlsSplitterContainer.Panel1.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255))))));
+            this.answerKeyControlsSplitterContainer.Panel1.Controls.Add(this.answerKeyParameterTable);
+            this.answerKeyControlsSplitterContainer.Panel1.Controls.Add(this.answerKeyTitleField);
+            this.answerKeyControlsSplitterContainer.Panel1.Controls.Add(this.answerKeyTitleFieldsTable);
+            this.answerKeyControlsSplitterContainer.Panel1.Margin = new System.Windows.Forms.Padding(0);
+            this.answerKeyControlsSplitterContainer.Panel1MinSize = 50;
+            // 
+            // answerKeyControlsSplitterContainer.Panel2
+            // 
+            this.answerKeyControlsSplitterContainer.Panel2.BackgroundColor = new Syncfusion.Drawing.BrushInfo(System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255))))));
+            this.answerKeyControlsSplitterContainer.Panel2.Controls.Add(this.answerKeyFieldsTable);
+            this.answerKeyControlsSplitterContainer.Panel2.Margin = new System.Windows.Forms.Padding(0);
+            this.answerKeyControlsSplitterContainer.Panel2MinSize = 50;
+            this.answerKeyControlsSplitterContainer.PanelToBeCollapsed = Syncfusion.Windows.Forms.Tools.Enums.CollapsedPanel.Panel1;
+            this.answerKeyControlsSplitterContainer.Size = new System.Drawing.Size(368, 443);
+            this.answerKeyControlsSplitterContainer.SplitterDistance = 120;
+            this.answerKeyControlsSplitterContainer.SplitterWidth = 6;
+            this.answerKeyControlsSplitterContainer.Style = Syncfusion.Windows.Forms.Tools.Enums.Style.Office2016White;
+            this.answerKeyControlsSplitterContainer.TabIndex = 0;
+            this.answerKeyControlsSplitterContainer.ThemeName = "Office2016White";
+            this.answerKeyControlsSplitterContainer.ThemesEnabled = true;
+            // 
+            // answerKeyParameterTable
+            // 
+            this.answerKeyParameterTable.ColumnCount = 2;
+            this.answerKeyParameterTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 59.33735F));
+            this.answerKeyParameterTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40.66265F));
+            this.answerKeyParameterTable.Controls.Add(this.answerKeyParameterValueField, 0, 0);
+            this.answerKeyParameterTable.Controls.Add(this.answerKeyParameterField, 0, 0);
+            this.answerKeyParameterTable.Dock = System.Windows.Forms.DockStyle.Top;
+            this.answerKeyParameterTable.Location = new System.Drawing.Point(0, 82);
+            this.answerKeyParameterTable.Margin = new System.Windows.Forms.Padding(0);
+            this.answerKeyParameterTable.Name = "answerKeyParameterTable";
+            this.answerKeyParameterTable.RowCount = 1;
+            this.answerKeyParameterTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.answerKeyParameterTable.Size = new System.Drawing.Size(368, 44);
+            this.answerKeyParameterTable.TabIndex = 24;
+            this.answerKeyParameterTable.Visible = false;
+            // 
+            // answerKeyParameterValueField
+            // 
+            this.answerKeyParameterValueField.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.answerKeyParameterValueField.BeforeTouchSize = new System.Drawing.Size(149, 36);
+            this.answerKeyParameterValueField.Border3DStyle = System.Windows.Forms.Border3DStyle.Flat;
+            this.answerKeyParameterValueField.BorderSides = System.Windows.Forms.Border3DSide.Bottom;
+            this.answerKeyParameterValueField.CanOverrideStyle = true;
+            this.answerKeyParameterValueField.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.answerKeyParameterValueField.FlatBorderColor = System.Drawing.Color.White;
+            this.answerKeyParameterValueField.FlatStyle = Syncfusion.Windows.Forms.Tools.ComboFlatStyle.Flat;
+            this.answerKeyParameterValueField.Font = new System.Drawing.Font("Dosis", 16.75F);
+            this.answerKeyParameterValueField.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this.answerKeyParameterValueField.Location = new System.Drawing.Point(219, 0);
+            this.answerKeyParameterValueField.Margin = new System.Windows.Forms.Padding(1, 0, 0, 0);
+            this.answerKeyParameterValueField.MetroBorderColor = System.Drawing.Color.White;
+            this.answerKeyParameterValueField.MinimumSize = new System.Drawing.Size(100, 40);
+            this.answerKeyParameterValueField.Name = "answerKeyParameterValueField";
+            this.answerKeyParameterValueField.Size = new System.Drawing.Size(149, 36);
+            this.answerKeyParameterValueField.Style = Syncfusion.Windows.Forms.VisualStyle.Office2016White;
+            this.answerKeyParameterValueField.TabIndex = 21;
+            this.answerKeyParameterValueField.Text = "Value";
+            this.answerKeyParameterValueField.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.answerKeyParameterValueField.ThemeName = "Office2016White";
+            // 
+            // answerKeyParameterField
+            // 
+            this.answerKeyParameterField.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.answerKeyParameterField.BeforeTouchSize = new System.Drawing.Size(217, 36);
+            this.answerKeyParameterField.Border3DStyle = System.Windows.Forms.Border3DStyle.Flat;
+            this.answerKeyParameterField.BorderSides = ((System.Windows.Forms.Border3DSide)((System.Windows.Forms.Border3DSide.Right | System.Windows.Forms.Border3DSide.Bottom)));
+            this.answerKeyParameterField.CanOverrideStyle = true;
+            this.answerKeyParameterField.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.answerKeyParameterField.FlatBorderColor = System.Drawing.Color.White;
+            this.answerKeyParameterField.FlatStyle = Syncfusion.Windows.Forms.Tools.ComboFlatStyle.Flat;
+            this.answerKeyParameterField.Font = new System.Drawing.Font("Dosis", 16.75F);
+            this.answerKeyParameterField.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this.answerKeyParameterField.Location = new System.Drawing.Point(1, 0);
+            this.answerKeyParameterField.Margin = new System.Windows.Forms.Padding(1, 0, 0, 0);
+            this.answerKeyParameterField.MetroBorderColor = System.Drawing.Color.White;
+            this.answerKeyParameterField.MinimumSize = new System.Drawing.Size(100, 40);
+            this.answerKeyParameterField.Name = "answerKeyParameterField";
+            this.answerKeyParameterField.Size = new System.Drawing.Size(217, 36);
+            this.answerKeyParameterField.Style = Syncfusion.Windows.Forms.VisualStyle.Office2016White;
+            this.answerKeyParameterField.TabIndex = 20;
+            this.answerKeyParameterField.Text = "Parameter";
+            this.answerKeyParameterField.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.answerKeyParameterField.ThemeName = "Office2016White";
+            // 
+            // answerKeyTitleField
+            // 
+            this.answerKeyTitleField.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.answerKeyTitleField.BeforeTouchSize = new System.Drawing.Size(368, 40);
+            this.answerKeyTitleField.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(171)))), ((int)(((byte)(171)))));
+            this.answerKeyTitleField.BorderSides = ((System.Windows.Forms.Border3DSide)(((System.Windows.Forms.Border3DSide.Left | System.Windows.Forms.Border3DSide.Right) 
+            | System.Windows.Forms.Border3DSide.Bottom)));
+            this.answerKeyTitleField.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.answerKeyTitleField.Dock = System.Windows.Forms.DockStyle.Top;
+            this.answerKeyTitleField.Font = new System.Drawing.Font("Dosis", 17.75F);
+            this.answerKeyTitleField.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this.answerKeyTitleField.Location = new System.Drawing.Point(0, 42);
+            this.answerKeyTitleField.Margin = new System.Windows.Forms.Padding(0);
+            this.answerKeyTitleField.MaximumSize = new System.Drawing.Size(999, 40);
+            this.answerKeyTitleField.MinimumSize = new System.Drawing.Size(100, 40);
+            this.answerKeyTitleField.Name = "answerKeyTitleField";
+            this.answerKeyTitleField.Size = new System.Drawing.Size(368, 40);
+            this.answerKeyTitleField.Style = Syncfusion.Windows.Forms.Tools.TextBoxExt.theme.Office2016White;
+            this.answerKeyTitleField.TabIndex = 23;
+            this.answerKeyTitleField.Text = "Key Title";
+            this.answerKeyTitleField.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.answerKeyTitleField.ThemeName = "Office2016White";
+            this.answerKeyTitleField.ThemeStyle.BorderColor = System.Drawing.Color.Gainsboro;
+            this.answerKeyTitleField.ThemeStyle.CornerRadius = 0;
+            // 
+            // answerKeyTitleFieldsTable
+            // 
+            this.answerKeyTitleFieldsTable.ColumnCount = 2;
+            this.answerKeyTitleFieldsTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 59.33735F));
+            this.answerKeyTitleFieldsTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40.66265F));
+            this.answerKeyTitleFieldsTable.Controls.Add(this.configurationComboBox, 0, 0);
+            this.answerKeyTitleFieldsTable.Controls.Add(this.answerKeyPaperComboBox, 1, 0);
+            this.answerKeyTitleFieldsTable.Dock = System.Windows.Forms.DockStyle.Top;
+            this.answerKeyTitleFieldsTable.Location = new System.Drawing.Point(0, 0);
+            this.answerKeyTitleFieldsTable.Margin = new System.Windows.Forms.Padding(0);
+            this.answerKeyTitleFieldsTable.Name = "answerKeyTitleFieldsTable";
+            this.answerKeyTitleFieldsTable.RowCount = 1;
+            this.answerKeyTitleFieldsTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.answerKeyTitleFieldsTable.Size = new System.Drawing.Size(368, 42);
+            this.answerKeyTitleFieldsTable.TabIndex = 21;
+            // 
+            // configurationComboBox
+            // 
+            this.configurationComboBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.configurationComboBox.BeforeTouchSize = new System.Drawing.Size(210, 38);
+            this.configurationComboBox.Border3DStyle = System.Windows.Forms.Border3DStyle.Flat;
+            this.configurationComboBox.BorderSides = System.Windows.Forms.Border3DSide.Bottom;
+            this.configurationComboBox.CanOverrideStyle = true;
+            this.configurationComboBox.Dock = System.Windows.Forms.DockStyle.Top;
+            this.configurationComboBox.FlatBorderColor = System.Drawing.Color.White;
+            this.configurationComboBox.FlatStyle = Syncfusion.Windows.Forms.Tools.ComboFlatStyle.Flat;
+            this.configurationComboBox.Font = new System.Drawing.Font("Dosis", 17.75F);
+            this.configurationComboBox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this.configurationComboBox.Location = new System.Drawing.Point(3, 3);
+            this.configurationComboBox.Margin = new System.Windows.Forms.Padding(3, 3, 5, 3);
+            this.configurationComboBox.MetroBorderColor = System.Drawing.Color.White;
+            this.configurationComboBox.Name = "configurationComboBox";
+            this.configurationComboBox.Size = new System.Drawing.Size(210, 38);
+            this.configurationComboBox.Style = Syncfusion.Windows.Forms.VisualStyle.Office2016White;
+            this.configurationComboBox.TabIndex = 22;
+            this.configurationComboBox.Text = "Select Configuration";
+            this.configurationComboBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.configurationComboBox.ThemeName = "Office2016White";
+            this.configurationComboBox.SelectedValueChanged += new System.EventHandler(this.configurationComboBox_SelectedValueChanged);
+            // 
+            // answerKeyPaperComboBox
+            // 
+            this.answerKeyPaperComboBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.answerKeyPaperComboBox.BeforeTouchSize = new System.Drawing.Size(142, 38);
+            this.answerKeyPaperComboBox.Border3DStyle = System.Windows.Forms.Border3DStyle.Flat;
+            this.answerKeyPaperComboBox.BorderSides = System.Windows.Forms.Border3DSide.Bottom;
+            this.answerKeyPaperComboBox.CanOverrideStyle = true;
+            this.answerKeyPaperComboBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.answerKeyPaperComboBox.FlatBorderColor = System.Drawing.Color.White;
+            this.answerKeyPaperComboBox.FlatStyle = Syncfusion.Windows.Forms.Tools.ComboFlatStyle.Flat;
+            this.answerKeyPaperComboBox.Font = new System.Drawing.Font("Dosis", 17.75F);
+            this.answerKeyPaperComboBox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this.answerKeyPaperComboBox.Location = new System.Drawing.Point(221, 3);
+            this.answerKeyPaperComboBox.Margin = new System.Windows.Forms.Padding(3, 3, 5, 3);
+            this.answerKeyPaperComboBox.MetroBorderColor = System.Drawing.Color.White;
+            this.answerKeyPaperComboBox.Name = "answerKeyPaperComboBox";
+            this.answerKeyPaperComboBox.Size = new System.Drawing.Size(142, 38);
+            this.answerKeyPaperComboBox.Style = Syncfusion.Windows.Forms.VisualStyle.Office2016White;
+            this.answerKeyPaperComboBox.TabIndex = 21;
+            this.answerKeyPaperComboBox.Text = "Paper";
+            this.answerKeyPaperComboBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.answerKeyPaperComboBox.ThemeName = "Office2016White";
+            // 
+            // answerKeyFieldsTable
+            // 
+            this.answerKeyFieldsTable.AutoScroll = true;
+            this.answerKeyFieldsTable.ColumnCount = 1;
+            this.answerKeyFieldsTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 368F));
+            this.answerKeyFieldsTable.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.answerKeyFieldsTable.Location = new System.Drawing.Point(0, 0);
+            this.answerKeyFieldsTable.Margin = new System.Windows.Forms.Padding(0);
+            this.answerKeyFieldsTable.Name = "answerKeyFieldsTable";
+            this.answerKeyFieldsTable.Padding = new System.Windows.Forms.Padding(0, 0, 10, 0);
+            this.answerKeyFieldsTable.RowCount = 1;
+            this.answerKeyFieldsTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.answerKeyFieldsTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 317F));
+            this.answerKeyFieldsTable.Size = new System.Drawing.Size(368, 317);
+            this.answerKeyFieldsTable.TabIndex = 0;
+            // 
+            // answerKeyMainPanel
+            // 
+            this.answerKeyMainPanel.Controls.Add(this.answerKeyPanelContentContainer);
+            this.answerKeyMainPanel.Dock = System.Windows.Forms.DockStyle.Top;
+            this.answerKeyMainPanel.Location = new System.Drawing.Point(0, 0);
+            this.answerKeyMainPanel.Margin = new System.Windows.Forms.Padding(0);
+            this.answerKeyMainPanel.Name = "answerKeyMainPanel";
+            this.answerKeyMainPanel.Size = new System.Drawing.Size(368, 21);
+            this.answerKeyMainPanel.TabIndex = 0;
+            // 
+            // answerKeyPanelContentContainer
+            // 
+            this.answerKeyPanelContentContainer.ColumnCount = 1;
+            this.answerKeyPanelContentContainer.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.answerKeyPanelContentContainer.Controls.Add(this.addAnswerKeyBtn, 0, 1);
+            this.answerKeyPanelContentContainer.Controls.Add(this.emptyListLabel, 0, 0);
+            this.answerKeyPanelContentContainer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.answerKeyPanelContentContainer.Location = new System.Drawing.Point(0, 0);
+            this.answerKeyPanelContentContainer.Name = "answerKeyPanelContentContainer";
+            this.answerKeyPanelContentContainer.RowCount = 2;
+            this.answerKeyPanelContentContainer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.answerKeyPanelContentContainer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+            this.answerKeyPanelContentContainer.Size = new System.Drawing.Size(368, 21);
+            this.answerKeyPanelContentContainer.TabIndex = 1;
+            // 
+            // addAnswerKeyBtn
+            // 
+            this.addAnswerKeyBtn.Appearance = Syncfusion.Windows.Forms.ButtonAppearance.Metro;
+            this.addAnswerKeyBtn.BackColor = System.Drawing.Color.DeepSkyBlue;
+            this.addAnswerKeyBtn.BeforeTouchSize = new System.Drawing.Size(362, 44);
+            this.addAnswerKeyBtn.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Flat;
+            this.addAnswerKeyBtn.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.addAnswerKeyBtn.FlatAppearance.BorderSize = 0;
+            this.addAnswerKeyBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.addAnswerKeyBtn.Font = new System.Drawing.Font("Dosis", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.addAnswerKeyBtn.ForeColor = System.Drawing.Color.White;
+            this.addAnswerKeyBtn.Image = global::Synapse.Properties.Resources.Add_New;
+            this.addAnswerKeyBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.addAnswerKeyBtn.Location = new System.Drawing.Point(3, -26);
+            this.addAnswerKeyBtn.Name = "addAnswerKeyBtn";
+            this.addAnswerKeyBtn.Padding = new System.Windows.Forms.Padding(10, 0, 10, 0);
+            this.addAnswerKeyBtn.Size = new System.Drawing.Size(362, 44);
+            this.addAnswerKeyBtn.TabIndex = 39;
+            this.addAnswerKeyBtn.Text = "  ADD NEW";
+            this.addAnswerKeyBtn.ThemeName = "Metro";
+            this.addAnswerKeyBtn.ThemeStyle.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.addAnswerKeyBtn.ThemeStyle.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(171)))), ((int)(((byte)(171)))));
+            this.addAnswerKeyBtn.ThemeStyle.DisabledBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(243)))), ((int)(((byte)(243)))));
+            this.addAnswerKeyBtn.ThemeStyle.DisabledBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(230)))), ((int)(((byte)(230)))));
+            this.addAnswerKeyBtn.ThemeStyle.DisabledForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(171)))), ((int)(((byte)(171)))));
+            this.addAnswerKeyBtn.ThemeStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.addAnswerKeyBtn.ThemeStyle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this.addAnswerKeyBtn.ThemeStyle.HoverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(236)))), ((int)(((byte)(249)))));
+            this.addAnswerKeyBtn.ThemeStyle.HoverBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(113)))), ((int)(((byte)(175)))), ((int)(((byte)(229)))));
+            this.addAnswerKeyBtn.ThemeStyle.HoverForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this.addAnswerKeyBtn.ThemeStyle.PressedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(230)))), ((int)(((byte)(247)))));
+            this.addAnswerKeyBtn.ThemeStyle.PressedBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(120)))), ((int)(((byte)(212)))));
+            this.addAnswerKeyBtn.ThemeStyle.PressedForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this.addAnswerKeyBtn.UseVisualStyle = false;
+            this.addAnswerKeyBtn.UseVisualStyleBackColor = false;
+            this.addAnswerKeyBtn.Click += new System.EventHandler(this.addAnswerKeyBtn_Click);
+            // 
+            // emptyListLabel
+            // 
+            this.emptyListLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.emptyListLabel.AutoSize = false;
+            this.emptyListLabel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.emptyListLabel.Font = new System.Drawing.Font("Dosis", 18.25F);
+            this.emptyListLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this.emptyListLabel.Location = new System.Drawing.Point(0, 0);
+            this.emptyListLabel.Margin = new System.Windows.Forms.Padding(0);
+            this.emptyListLabel.Name = "emptyListLabel";
+            this.emptyListLabel.Size = new System.Drawing.Size(368, 1);
+            this.emptyListLabel.Style = Syncfusion.Windows.Forms.Tools.AutoLabelStyle.Office2016White;
+            this.emptyListLabel.TabIndex = 2;
+            this.emptyListLabel.Text = "You have no answer keys";
+            this.emptyListLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.emptyListLabel.ThemeName = "Office2016White";
+            this.emptyListLabel.Visible = false;
+            // 
+            // comboBoxAdv1
+            // 
+            this.comboBoxAdv1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.comboBoxAdv1.BeforeTouchSize = new System.Drawing.Size(149, 40);
+            this.comboBoxAdv1.Border3DStyle = System.Windows.Forms.Border3DStyle.Flat;
+            this.comboBoxAdv1.BorderSides = System.Windows.Forms.Border3DSide.Bottom;
+            this.comboBoxAdv1.CanOverrideStyle = true;
+            this.comboBoxAdv1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.comboBoxAdv1.FlatBorderColor = System.Drawing.Color.White;
+            this.comboBoxAdv1.FlatStyle = Syncfusion.Windows.Forms.Tools.ComboFlatStyle.Flat;
+            this.comboBoxAdv1.Font = new System.Drawing.Font("Dosis", 16.75F);
+            this.comboBoxAdv1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this.comboBoxAdv1.Location = new System.Drawing.Point(219, 0);
+            this.comboBoxAdv1.Margin = new System.Windows.Forms.Padding(1, 0, 0, 0);
+            this.comboBoxAdv1.MetroBorderColor = System.Drawing.Color.White;
+            this.comboBoxAdv1.MinimumSize = new System.Drawing.Size(100, 40);
+            this.comboBoxAdv1.Name = "comboBoxAdv1";
+            this.comboBoxAdv1.Size = new System.Drawing.Size(149, 40);
+            this.comboBoxAdv1.Style = Syncfusion.Windows.Forms.VisualStyle.Office2016White;
+            this.comboBoxAdv1.TabIndex = 21;
+            this.comboBoxAdv1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.comboBoxAdv1.ThemeName = "Office2016White";
+            // 
             // SynapseMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 14F);
@@ -1841,8 +2333,10 @@ namespace Synapse
             this.BackColor = System.Drawing.Color.White;
             this.Borders = new System.Windows.Forms.Padding(0);
             this.ClientSize = new System.Drawing.Size(1484, 749);
+            this.Controls.Add(this.answerKeyPanel);
             this.Controls.Add(this.readingTabStatusBar);
             this.Controls.Add(this.configPropertiesPanel);
+            this.Controls.Add(this.dataImageBoxPanel);
             this.Controls.Add(this.nonDockingClientArea);
             this.Controls.Add(this.backStage1);
             this.Controls.Add(this.ribbonControl);
@@ -1867,8 +2361,8 @@ namespace Synapse
             this.aiConfigToolStripEx.ResumeLayout(false);
             this.aiConfigToolStripEx.PerformLayout();
             this.readingToolStripTabItem.Panel.ResumeLayout(false);
-            this.scoresToolStripEx.ResumeLayout(false);
-            this.scoresToolStripEx.PerformLayout();
+            this.generalToolStripEx.ResumeLayout(false);
+            this.generalToolStripEx.PerformLayout();
             this.sheetsToolStripEx.ResumeLayout(false);
             this.sheetsToolStripEx.PerformLayout();
             this.processingToolStripEx.ResumeLayout(false);
@@ -1904,6 +2398,25 @@ namespace Synapse
             ((System.ComponentModel.ISupportInitialize)(this.processingProgressBar)).EndInit();
             this.statusTextStatusPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.statusPanelStatusPictureBox)).EndInit();
+            this.answerKeyPanel.ResumeLayout(false);
+            this.addAnswerKeyPanel.ResumeLayout(false);
+            this.addAnswerKeyTablePanel.ResumeLayout(false);
+            this.initializationButtonsPanel.ResumeLayout(false);
+            this.answerKeyControlsSplitterContainer.Panel1.ResumeLayout(false);
+            this.answerKeyControlsSplitterContainer.Panel1.PerformLayout();
+            this.answerKeyControlsSplitterContainer.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.answerKeyControlsSplitterContainer)).EndInit();
+            this.answerKeyControlsSplitterContainer.ResumeLayout(false);
+            this.answerKeyParameterTable.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.answerKeyParameterValueField)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.answerKeyParameterField)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.answerKeyTitleField)).EndInit();
+            this.answerKeyTitleFieldsTable.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.configurationComboBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.answerKeyPaperComboBox)).EndInit();
+            this.answerKeyMainPanel.ResumeLayout(false);
+            this.answerKeyPanelContentContainer.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxAdv1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1930,7 +2443,7 @@ namespace Synapse
         private System.Windows.Forms.ToolStripButton configureNetworksToolStripBtn;
         private System.Windows.Forms.ToolStripButton addAsBarcodeToolStripBtn;
         private System.Windows.Forms.ToolStripButton addAsICRToolStripBtn;
-        private Syncfusion.Windows.Forms.Tools.ToolStripEx scoresToolStripEx;
+        private Syncfusion.Windows.Forms.Tools.ToolStripEx generalToolStripEx;
         private System.Windows.Forms.ToolStripButton answerKeyToolStripBtn;
         private Syncfusion.Windows.Forms.Tools.ToolStripEx sheetsToolStripEx;
         private Syncfusion.Windows.Forms.Tools.ToolStripPanelItem sheetsToolStripPanelItem;
@@ -1994,7 +2507,6 @@ namespace Synapse
         private Syncfusion.Windows.Forms.Tools.DockingManager mainDockingManager;
         private System.Windows.Forms.Panel configPropertiesPanel;
         private Syncfusion.Windows.Forms.Diagram.Controls.PropertyEditor configPropertyEditor;
-        private ImageBoxEx templateImageBox;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog;
         private System.Windows.Forms.Panel dataImageBoxPanel;
         private ImageBoxEx dataImageBox;
@@ -2025,5 +2537,27 @@ namespace Synapse
         private Syncfusion.WinForms.DataGrid.SfDataGrid mainDataGrid;
         private Syncfusion.Windows.Forms.Tools.ToolStripPanelItem toolStripPanelItem1;
         private Syncfusion.Windows.Forms.Tools.ToolStripPanelItem toolStripPanelItem2;
+        private ImageBoxEx templateImageBox;
+        private System.Windows.Forms.Panel answerKeyPanel;
+        private System.Windows.Forms.Panel answerKeyMainPanel;
+        private System.Windows.Forms.TableLayoutPanel answerKeyPanelContentContainer;
+        private Syncfusion.Windows.Forms.ButtonAdv addAnswerKeyBtn;
+        private Syncfusion.Windows.Forms.Tools.AutoLabel emptyListLabel;
+        private System.Windows.Forms.Panel addAnswerKeyPanel;
+        private System.Windows.Forms.TableLayoutPanel addAnswerKeyTablePanel;
+        private Syncfusion.Windows.Forms.Tools.SplitContainerAdv answerKeyControlsSplitterContainer;
+        private System.Windows.Forms.TableLayoutPanel initializationButtonsPanel;
+        private Syncfusion.Windows.Forms.ButtonAdv setBtn;
+        private Syncfusion.Windows.Forms.ButtonAdv nextBtn;
+        private System.Windows.Forms.TableLayoutPanel answerKeyFieldsTable;
+        private System.Windows.Forms.TableLayoutPanel answerKeyTitleFieldsTable;
+        private Syncfusion.Windows.Forms.Tools.ComboBoxAdv comboBoxAdv1;
+        private System.Windows.Forms.TableLayoutPanel answerKeyParameterTable;
+        private Syncfusion.Windows.Forms.Tools.ComboBoxAdv answerKeyParameterValueField;
+        private Syncfusion.Windows.Forms.Tools.ComboBoxAdv answerKeyParameterField;
+        private Syncfusion.Windows.Forms.Tools.TextBoxExt answerKeyTitleField;
+        private Syncfusion.Windows.Forms.Tools.ComboBoxAdv configurationComboBox;
+        private Syncfusion.Windows.Forms.Tools.ComboBoxAdv answerKeyPaperComboBox;
+        private System.Windows.Forms.ToolStripButton papersToolStripBtn;
     }
 }
