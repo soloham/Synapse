@@ -37,34 +37,8 @@ namespace Synapse
             this.backStage1 = new Syncfusion.Windows.Forms.BackStage();
             this.configToolStripTabItem = new Syncfusion.Windows.Forms.Tools.ToolStripTabItem();
             this.templateConfigToolStrip = new Syncfusion.Windows.Forms.Tools.ToolStripEx();
-            this.templateConfigStatusToolStrip = new Syncfusion.Windows.Forms.Tools.ToolStripPanelItem();
-            this.templateConfigStatusLabel = new System.Windows.Forms.ToolStripLabel();
-            this.templateConfigStatusIndicator = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.templateToolStripBtn = new System.Windows.Forms.ToolStripDropDownButton();
-            this.templateLoadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.tmpLoadScanToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.tmpLoadBrowseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.templateConfigureToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
-            this.eMarkingToolStripBtn = new System.Windows.Forms.ToolStripButton();
             this.dataConfigToolStripEx = new Syncfusion.Windows.Forms.Tools.ToolStripEx();
-            this.dataConfigStatusToolStripPanel = new Syncfusion.Windows.Forms.Tools.ToolStripPanelItem();
-            this.dataConfigStatusLabel = new System.Windows.Forms.ToolStripLabel();
-            this.dataConfigStatusIndicator = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
-            this.configurationTestToolToolStripBtn = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
-            this.addAsOmrToolStripBtn = new System.Windows.Forms.ToolStripButton();
-            this.addAsBarcodeToolStripBtn = new System.Windows.Forms.ToolStripButton();
-            this.addAsICRToolStripBtn = new System.Windows.Forms.ToolStripButton();
             this.aiConfigToolStripEx = new Syncfusion.Windows.Forms.Tools.ToolStripEx();
-            this.aiConfigStatusToolStripPanel = new Syncfusion.Windows.Forms.Tools.ToolStripPanelItem();
-            this.aiConfigStatusLabel = new System.Windows.Forms.ToolStripLabel();
-            this.aiConfigStatusIndicator = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.configureNetworksToolStripBtn = new System.Windows.Forms.ToolStripButton();
             this.readingToolStripTabItem = new Syncfusion.Windows.Forms.Tools.ToolStripTabItem();
             this.generalToolStripEx = new Syncfusion.Windows.Forms.Tools.ToolStripEx();
             this.answerKeyToolStripBtn = new System.Windows.Forms.ToolStripButton();
@@ -88,6 +62,34 @@ namespace Synapse
             this.findDuplicatesToolStripBtn = new System.Windows.Forms.ToolStripButton();
             this.dataToolStripTabItem = new Syncfusion.Windows.Forms.Tools.ToolStripTabItem();
             this.dataManipulationToolStripEx = new Syncfusion.Windows.Forms.Tools.ToolStripEx();
+            this.dataPointStorageToolStripEx = new Syncfusion.Windows.Forms.Tools.ToolStripEx();
+            this.exportToolStripEx = new Syncfusion.Windows.Forms.Tools.ToolStripEx();
+            this.templateConfigStatusToolStrip = new Syncfusion.Windows.Forms.Tools.ToolStripPanelItem();
+            this.templateConfigStatusLabel = new System.Windows.Forms.ToolStripLabel();
+            this.templateConfigStatusIndicator = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.templateToolStripBtn = new System.Windows.Forms.ToolStripDropDownButton();
+            this.templateLoadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tmpLoadScanToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tmpLoadBrowseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.templateConfigureToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
+            this.eMarkingToolStripBtn = new System.Windows.Forms.ToolStripButton();
+            this.dataConfigStatusToolStripPanel = new Syncfusion.Windows.Forms.Tools.ToolStripPanelItem();
+            this.dataConfigStatusLabel = new System.Windows.Forms.ToolStripLabel();
+            this.dataConfigStatusIndicator = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
+            this.configurationTestToolToolStripBtn = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.addAsOmrToolStripBtn = new System.Windows.Forms.ToolStripButton();
+            this.addAsBarcodeToolStripBtn = new System.Windows.Forms.ToolStripButton();
+            this.addAsICRToolStripBtn = new System.Windows.Forms.ToolStripButton();
+            this.aiConfigStatusToolStripPanel = new Syncfusion.Windows.Forms.Tools.ToolStripPanelItem();
+            this.aiConfigStatusLabel = new System.Windows.Forms.ToolStripLabel();
+            this.aiConfigStatusIndicator = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.configureNetworksToolStripBtn = new System.Windows.Forms.ToolStripButton();
             this.addFieldToolStripBtn = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.deleteAllToolStripBtn = new System.Windows.Forms.ToolStripButton();
@@ -98,7 +100,6 @@ namespace Synapse
             this.markManualToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.markFaultyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.markIncompatibleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.dataPointStorageToolStripEx = new Syncfusion.Windows.Forms.Tools.ToolStripEx();
             this.internalDataPointDropDownBtn = new System.Windows.Forms.ToolStripDropDownButton();
             this.internalLoadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.internalSaveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -106,7 +107,6 @@ namespace Synapse
             this.externalDataPointDropDownBtn = new System.Windows.Forms.ToolStripDropDownButton();
             this.externalLoadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.externalSaveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.exportToolStripEx = new Syncfusion.Windows.Forms.Tools.ToolStripEx();
             this.exportCSVoolStripBtn = new System.Windows.Forms.ToolStripButton();
             this.exportExcelToolStripBtn = new System.Windows.Forms.ToolStripButton();
             this.SQLDatabaseExportToolStripBtn = new System.Windows.Forms.ToolStripButton();
@@ -151,9 +151,6 @@ namespace Synapse
             this.answerKeyPanel = new System.Windows.Forms.Panel();
             this.addAnswerKeyPanel = new System.Windows.Forms.Panel();
             this.addAnswerKeyTablePanel = new System.Windows.Forms.TableLayoutPanel();
-            this.initializationButtonsPanel = new System.Windows.Forms.TableLayoutPanel();
-            this.setBtn = new Syncfusion.Windows.Forms.ButtonAdv();
-            this.nextBtn = new Syncfusion.Windows.Forms.ButtonAdv();
             this.answerKeyControlsSplitterContainer = new Syncfusion.Windows.Forms.Tools.SplitContainerAdv();
             this.answerKeyParameterTable = new System.Windows.Forms.TableLayoutPanel();
             this.answerKeyParameterValueField = new Syncfusion.Windows.Forms.Tools.ComboBoxAdv();
@@ -163,18 +160,19 @@ namespace Synapse
             this.configurationComboBox = new Syncfusion.Windows.Forms.Tools.ComboBoxAdv();
             this.answerKeyPaperComboBox = new Syncfusion.Windows.Forms.Tools.ComboBoxAdv();
             this.answerKeyFieldsTable = new System.Windows.Forms.TableLayoutPanel();
+            this.initializationButtonsPanel = new System.Windows.Forms.TableLayoutPanel();
+            this.setBtn = new Syncfusion.Windows.Forms.ButtonAdv();
+            this.nextBtn = new Syncfusion.Windows.Forms.ButtonAdv();
             this.answerKeyMainPanel = new System.Windows.Forms.Panel();
             this.answerKeyPanelContentContainer = new System.Windows.Forms.TableLayoutPanel();
             this.addAnswerKeyBtn = new Syncfusion.Windows.Forms.ButtonAdv();
-            this.emptyListLabel = new Syncfusion.Windows.Forms.Tools.AutoLabel();
             this.comboBoxAdv1 = new Syncfusion.Windows.Forms.Tools.ComboBoxAdv();
+            this.answerKeyListFlowPanel = new System.Windows.Forms.Panel();
+            this.answerKeysEmptyListLabel = new Syncfusion.Windows.Forms.Tools.AutoLabel();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
             this.ribbonControl.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.backStage1)).BeginInit();
             this.configToolStripTabItem.Panel.SuspendLayout();
-            this.templateConfigToolStrip.SuspendLayout();
-            this.dataConfigToolStripEx.SuspendLayout();
-            this.aiConfigToolStripEx.SuspendLayout();
             this.readingToolStripTabItem.Panel.SuspendLayout();
             this.generalToolStripEx.SuspendLayout();
             this.sheetsToolStripEx.SuspendLayout();
@@ -182,9 +180,6 @@ namespace Synapse
             this.postOperationsToolStripEx.SuspendLayout();
             this.dataMiningToolStripEx.SuspendLayout();
             this.dataToolStripTabItem.Panel.SuspendLayout();
-            this.dataManipulationToolStripEx.SuspendLayout();
-            this.dataPointStorageToolStripEx.SuspendLayout();
-            this.exportToolStripEx.SuspendLayout();
             this.configTabPanel.SuspendLayout();
             this.nonDockingClientArea.SuspendLayout();
             this.readingTabPanel.SuspendLayout();
@@ -208,7 +203,6 @@ namespace Synapse
             this.answerKeyPanel.SuspendLayout();
             this.addAnswerKeyPanel.SuspendLayout();
             this.addAnswerKeyTablePanel.SuspendLayout();
-            this.initializationButtonsPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.answerKeyControlsSplitterContainer)).BeginInit();
             this.answerKeyControlsSplitterContainer.Panel1.SuspendLayout();
             this.answerKeyControlsSplitterContainer.Panel2.SuspendLayout();
@@ -220,9 +214,11 @@ namespace Synapse
             this.answerKeyTitleFieldsTable.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.configurationComboBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.answerKeyPaperComboBox)).BeginInit();
+            this.initializationButtonsPanel.SuspendLayout();
             this.answerKeyMainPanel.SuspendLayout();
             this.answerKeyPanelContentContainer.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxAdv1)).BeginInit();
+            this.answerKeyListFlowPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // ribbonControl
@@ -344,131 +340,15 @@ namespace Synapse
             this.templateConfigToolStrip.ForeColor = System.Drawing.Color.MidnightBlue;
             this.templateConfigToolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.templateConfigToolStrip.Image = null;
-            this.templateConfigToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.templateConfigStatusToolStrip,
-            this.toolStripSeparator1,
-            this.templateToolStripBtn,
-            this.toolStripSeparator5,
-            this.eMarkingToolStripBtn});
             this.templateConfigToolStrip.Location = new System.Drawing.Point(0, 1);
             this.templateConfigToolStrip.Name = "templateConfigToolStrip";
             this.templateConfigToolStrip.Office12Mode = false;
             this.templateConfigToolStrip.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
             this.templateConfigToolStrip.ShowLauncher = false;
-            this.templateConfigToolStrip.Size = new System.Drawing.Size(326, 135);
+            this.templateConfigToolStrip.Size = new System.Drawing.Size(42, 135);
             this.templateConfigToolStrip.TabIndex = 4;
             this.templateConfigToolStrip.Text = "Template Configuration";
             this.templateConfigToolStrip.ThemeName = "Default";
-            // 
-            // templateConfigStatusToolStrip
-            // 
-            this.templateConfigStatusToolStrip.CausesValidation = false;
-            this.templateConfigStatusToolStrip.Font = new System.Drawing.Font("Dosis", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.templateConfigStatusToolStrip.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.templateConfigStatusToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.templateConfigStatusLabel,
-            this.templateConfigStatusIndicator});
-            this.templateConfigStatusToolStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow;
-            this.templateConfigStatusToolStrip.Name = "templateConfigStatusToolStrip";
-            this.templateConfigStatusToolStrip.Padding = new System.Windows.Forms.Padding(3, 10, 2, 2);
-            this.templateConfigStatusToolStrip.Size = new System.Drawing.Size(71, 119);
-            this.templateConfigStatusToolStrip.Transparent = true;
-            // 
-            // templateConfigStatusLabel
-            // 
-            this.templateConfigStatusLabel.AutoSize = false;
-            this.templateConfigStatusLabel.Font = new System.Drawing.Font("Dosis", 12.25F);
-            this.templateConfigStatusLabel.Image = ((System.Drawing.Image)(resources.GetObject("templateConfigStatusLabel.Image")));
-            this.templateConfigStatusLabel.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.templateConfigStatusLabel.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.templateConfigStatusLabel.Margin = new System.Windows.Forms.Padding(0, 1, 0, 5);
-            this.templateConfigStatusLabel.Name = "templateConfigStatusLabel";
-            this.templateConfigStatusLabel.Size = new System.Drawing.Size(66, 75);
-            this.templateConfigStatusLabel.Text = "Status";
-            this.templateConfigStatusLabel.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            // 
-            // templateConfigStatusIndicator
-            // 
-            this.templateConfigStatusIndicator.AutoSize = false;
-            this.templateConfigStatusIndicator.BackColor = System.Drawing.SystemColors.Control;
-            this.templateConfigStatusIndicator.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.templateConfigStatusIndicator.Image = ((System.Drawing.Image)(resources.GetObject("templateConfigStatusIndicator.Image")));
-            this.templateConfigStatusIndicator.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.templateConfigStatusIndicator.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.templateConfigStatusIndicator.Name = "templateConfigStatusIndicator";
-            this.templateConfigStatusIndicator.Size = new System.Drawing.Size(66, 5);
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.AutoSize = false;
-            this.toolStripSeparator1.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 95);
-            // 
-            // templateToolStripBtn
-            // 
-            this.templateToolStripBtn.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.templateLoadToolStripMenuItem,
-            this.templateConfigureToolStripMenuItem});
-            this.templateToolStripBtn.Font = new System.Drawing.Font("Dosis", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.templateToolStripBtn.Image = ((System.Drawing.Image)(resources.GetObject("templateToolStripBtn.Image")));
-            this.templateToolStripBtn.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.templateToolStripBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.templateToolStripBtn.Name = "templateToolStripBtn";
-            this.templateToolStripBtn.Padding = new System.Windows.Forms.Padding(15, 0, 15, 0);
-            this.templateToolStripBtn.Size = new System.Drawing.Size(107, 116);
-            this.templateToolStripBtn.Text = "Template";
-            this.templateToolStripBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            // 
-            // templateLoadToolStripMenuItem
-            // 
-            this.templateLoadToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tmpLoadScanToolStripMenuItem,
-            this.tmpLoadBrowseToolStripMenuItem});
-            this.templateLoadToolStripMenuItem.Name = "templateLoadToolStripMenuItem";
-            this.templateLoadToolStripMenuItem.Size = new System.Drawing.Size(136, 24);
-            this.templateLoadToolStripMenuItem.Text = "Load";
-            // 
-            // tmpLoadScanToolStripMenuItem
-            // 
-            this.tmpLoadScanToolStripMenuItem.Name = "tmpLoadScanToolStripMenuItem";
-            this.tmpLoadScanToolStripMenuItem.Size = new System.Drawing.Size(123, 24);
-            this.tmpLoadScanToolStripMenuItem.Text = "Scan";
-            // 
-            // tmpLoadBrowseToolStripMenuItem
-            // 
-            this.tmpLoadBrowseToolStripMenuItem.Name = "tmpLoadBrowseToolStripMenuItem";
-            this.tmpLoadBrowseToolStripMenuItem.Size = new System.Drawing.Size(123, 24);
-            this.tmpLoadBrowseToolStripMenuItem.Text = "Browse";
-            this.tmpLoadBrowseToolStripMenuItem.Click += new System.EventHandler(this.TmpLoadBrowseToolStripMenuItem_Click);
-            // 
-            // templateConfigureToolStripMenuItem
-            // 
-            this.templateConfigureToolStripMenuItem.Enabled = false;
-            this.templateConfigureToolStripMenuItem.Name = "templateConfigureToolStripMenuItem";
-            this.templateConfigureToolStripMenuItem.Size = new System.Drawing.Size(136, 24);
-            this.templateConfigureToolStripMenuItem.Text = "Configure";
-            this.templateConfigureToolStripMenuItem.Click += new System.EventHandler(this.TemplateConfigureToolStripMenuItem_Click);
-            // 
-            // toolStripSeparator5
-            // 
-            this.toolStripSeparator5.AutoSize = false;
-            this.toolStripSeparator5.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
-            this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(6, 88);
-            // 
-            // eMarkingToolStripBtn
-            // 
-            this.eMarkingToolStripBtn.Font = new System.Drawing.Font("Dosis", 12F);
-            this.eMarkingToolStripBtn.Image = ((System.Drawing.Image)(resources.GetObject("eMarkingToolStripBtn.Image")));
-            this.eMarkingToolStripBtn.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.eMarkingToolStripBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.eMarkingToolStripBtn.Name = "eMarkingToolStripBtn";
-            this.eMarkingToolStripBtn.Padding = new System.Windows.Forms.Padding(15, 0, 15, 0);
-            this.eMarkingToolStripBtn.Size = new System.Drawing.Size(99, 116);
-            this.eMarkingToolStripBtn.Text = "EMarking\r\nSetup";
-            this.eMarkingToolStripBtn.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.eMarkingToolStripBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
             // dataConfigToolStripEx
             // 
@@ -481,146 +361,15 @@ namespace Synapse
             this.dataConfigToolStripEx.ForeColor = System.Drawing.Color.MidnightBlue;
             this.dataConfigToolStripEx.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.dataConfigToolStripEx.Image = null;
-            this.dataConfigToolStripEx.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.dataConfigStatusToolStripPanel,
-            this.toolStripSeparator3,
-            this.toolStripButton1,
-            this.configurationTestToolToolStripBtn,
-            this.toolStripSeparator4,
-            this.addAsOmrToolStripBtn,
-            this.addAsBarcodeToolStripBtn,
-            this.addAsICRToolStripBtn});
             this.dataConfigToolStripEx.Location = new System.Drawing.Point(0, 1);
             this.dataConfigToolStripEx.Name = "dataConfigToolStripEx";
             this.dataConfigToolStripEx.Office12Mode = false;
             this.dataConfigToolStripEx.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
-            this.dataConfigToolStripEx.Size = new System.Drawing.Size(565, 135);
+            this.dataConfigToolStripEx.Size = new System.Drawing.Size(42, 135);
             this.dataConfigToolStripEx.TabIndex = 3;
             this.dataConfigToolStripEx.Text = "Data Configuration";
             this.dataConfigToolStripEx.ThemeName = "Office2016White";
             this.dataConfigToolStripEx.VisualStyle = Syncfusion.Windows.Forms.Tools.ToolStripExStyle.Office2016White;
-            // 
-            // dataConfigStatusToolStripPanel
-            // 
-            this.dataConfigStatusToolStripPanel.CausesValidation = false;
-            this.dataConfigStatusToolStripPanel.Font = new System.Drawing.Font("Dosis", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dataConfigStatusToolStripPanel.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.dataConfigStatusToolStripPanel.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.dataConfigStatusLabel,
-            this.dataConfigStatusIndicator});
-            this.dataConfigStatusToolStripPanel.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow;
-            this.dataConfigStatusToolStripPanel.Name = "dataConfigStatusToolStripPanel";
-            this.dataConfigStatusToolStripPanel.Padding = new System.Windows.Forms.Padding(2, 10, 2, 2);
-            this.dataConfigStatusToolStripPanel.Size = new System.Drawing.Size(70, 119);
-            this.dataConfigStatusToolStripPanel.Transparent = true;
-            // 
-            // dataConfigStatusLabel
-            // 
-            this.dataConfigStatusLabel.AutoSize = false;
-            this.dataConfigStatusLabel.Font = new System.Drawing.Font("Dosis", 12.25F);
-            this.dataConfigStatusLabel.Image = ((System.Drawing.Image)(resources.GetObject("dataConfigStatusLabel.Image")));
-            this.dataConfigStatusLabel.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.dataConfigStatusLabel.Margin = new System.Windows.Forms.Padding(0, 1, 0, 5);
-            this.dataConfigStatusLabel.Name = "dataConfigStatusLabel";
-            this.dataConfigStatusLabel.Size = new System.Drawing.Size(66, 75);
-            this.dataConfigStatusLabel.Text = "Status";
-            this.dataConfigStatusLabel.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            // 
-            // dataConfigStatusIndicator
-            // 
-            this.dataConfigStatusIndicator.AutoSize = false;
-            this.dataConfigStatusIndicator.BackColor = System.Drawing.SystemColors.Control;
-            this.dataConfigStatusIndicator.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.dataConfigStatusIndicator.Image = ((System.Drawing.Image)(resources.GetObject("dataConfigStatusIndicator.Image")));
-            this.dataConfigStatusIndicator.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.dataConfigStatusIndicator.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.dataConfigStatusIndicator.Name = "dataConfigStatusIndicator";
-            this.dataConfigStatusIndicator.Size = new System.Drawing.Size(66, 5);
-            // 
-            // toolStripSeparator3
-            // 
-            this.toolStripSeparator3.AutoSize = false;
-            this.toolStripSeparator3.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
-            this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 95);
-            // 
-            // toolStripButton1
-            // 
-            this.toolStripButton1.Font = new System.Drawing.Font("Dosis", 12F);
-            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
-            this.toolStripButton1.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.toolStripButton1.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton1.Margin = new System.Windows.Forms.Padding(0, 1, 1, 2);
-            this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Padding = new System.Windows.Forms.Padding(10, 0, 10, 0);
-            this.toolStripButton1.Size = new System.Drawing.Size(91, 116);
-            this.toolStripButton1.Text = "Configure\r\nData";
-            this.toolStripButton1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.toolStripButton1.Click += new System.EventHandler(this.ConfigureDataToolStripBtn_Click);
-            // 
-            // configurationTestToolToolStripBtn
-            // 
-            this.configurationTestToolToolStripBtn.Font = new System.Drawing.Font("Dosis", 12F);
-            this.configurationTestToolToolStripBtn.Image = ((System.Drawing.Image)(resources.GetObject("configurationTestToolToolStripBtn.Image")));
-            this.configurationTestToolToolStripBtn.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.configurationTestToolToolStripBtn.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.configurationTestToolToolStripBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.configurationTestToolToolStripBtn.Margin = new System.Windows.Forms.Padding(0, 1, 1, 2);
-            this.configurationTestToolToolStripBtn.Name = "configurationTestToolToolStripBtn";
-            this.configurationTestToolToolStripBtn.Padding = new System.Windows.Forms.Padding(10, 0, 10, 0);
-            this.configurationTestToolToolStripBtn.Size = new System.Drawing.Size(120, 116);
-            this.configurationTestToolToolStripBtn.Text = "Test\r\nConfigurations";
-            this.configurationTestToolToolStripBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.configurationTestToolToolStripBtn.Click += new System.EventHandler(this.ConfigurationTestToolToolStripBtn_Click);
-            // 
-            // toolStripSeparator4
-            // 
-            this.toolStripSeparator4.AutoSize = false;
-            this.toolStripSeparator4.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
-            this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 88);
-            // 
-            // addAsOmrToolStripBtn
-            // 
-            this.addAsOmrToolStripBtn.Font = new System.Drawing.Font("Dosis", 12F);
-            this.addAsOmrToolStripBtn.Image = ((System.Drawing.Image)(resources.GetObject("addAsOmrToolStripBtn.Image")));
-            this.addAsOmrToolStripBtn.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.addAsOmrToolStripBtn.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.addAsOmrToolStripBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.addAsOmrToolStripBtn.Name = "addAsOmrToolStripBtn";
-            this.addAsOmrToolStripBtn.Padding = new System.Windows.Forms.Padding(13, 0, 13, 0);
-            this.addAsOmrToolStripBtn.Size = new System.Drawing.Size(80, 116);
-            this.addAsOmrToolStripBtn.Text = "Add As\r\nOMR";
-            this.addAsOmrToolStripBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.addAsOmrToolStripBtn.Click += new System.EventHandler(this.AddAsOmrToolStripBtn_Click);
-            // 
-            // addAsBarcodeToolStripBtn
-            // 
-            this.addAsBarcodeToolStripBtn.Font = new System.Drawing.Font("Dosis", 12F);
-            this.addAsBarcodeToolStripBtn.Image = ((System.Drawing.Image)(resources.GetObject("addAsBarcodeToolStripBtn.Image")));
-            this.addAsBarcodeToolStripBtn.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.addAsBarcodeToolStripBtn.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.addAsBarcodeToolStripBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.addAsBarcodeToolStripBtn.Name = "addAsBarcodeToolStripBtn";
-            this.addAsBarcodeToolStripBtn.Padding = new System.Windows.Forms.Padding(13, 0, 13, 0);
-            this.addAsBarcodeToolStripBtn.Size = new System.Drawing.Size(88, 116);
-            this.addAsBarcodeToolStripBtn.Text = "Add As\r\nBarcode";
-            this.addAsBarcodeToolStripBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            // 
-            // addAsICRToolStripBtn
-            // 
-            this.addAsICRToolStripBtn.Font = new System.Drawing.Font("Dosis", 12F);
-            this.addAsICRToolStripBtn.Image = ((System.Drawing.Image)(resources.GetObject("addAsICRToolStripBtn.Image")));
-            this.addAsICRToolStripBtn.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.addAsICRToolStripBtn.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.addAsICRToolStripBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.addAsICRToolStripBtn.Name = "addAsICRToolStripBtn";
-            this.addAsICRToolStripBtn.Padding = new System.Windows.Forms.Padding(13, 0, 13, 0);
-            this.addAsICRToolStripBtn.Size = new System.Drawing.Size(80, 116);
-            this.addAsICRToolStripBtn.Text = "Add As\r\nICR";
-            this.addAsICRToolStripBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.addAsICRToolStripBtn.Click += new System.EventHandler(this.AddAsICRToolStripBtn_Click);
             // 
             // aiConfigToolStripEx
             // 
@@ -633,74 +382,13 @@ namespace Synapse
             this.aiConfigToolStripEx.ForeColor = System.Drawing.Color.MidnightBlue;
             this.aiConfigToolStripEx.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.aiConfigToolStripEx.Image = null;
-            this.aiConfigToolStripEx.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.aiConfigStatusToolStripPanel,
-            this.toolStripSeparator2,
-            this.configureNetworksToolStripBtn});
             this.aiConfigToolStripEx.Location = new System.Drawing.Point(0, 1);
             this.aiConfigToolStripEx.Name = "aiConfigToolStripEx";
             this.aiConfigToolStripEx.Office12Mode = false;
             this.aiConfigToolStripEx.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
-            this.aiConfigToolStripEx.Size = new System.Drawing.Size(202, 135);
+            this.aiConfigToolStripEx.Size = new System.Drawing.Size(42, 135);
             this.aiConfigToolStripEx.TabIndex = 1;
             this.aiConfigToolStripEx.Text = "AI Configuration";
-            // 
-            // aiConfigStatusToolStripPanel
-            // 
-            this.aiConfigStatusToolStripPanel.CausesValidation = false;
-            this.aiConfigStatusToolStripPanel.Font = new System.Drawing.Font("Dosis", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.aiConfigStatusToolStripPanel.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.aiConfigStatusToolStripPanel.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.aiConfigStatusLabel,
-            this.aiConfigStatusIndicator});
-            this.aiConfigStatusToolStripPanel.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow;
-            this.aiConfigStatusToolStripPanel.Name = "aiConfigStatusToolStripPanel";
-            this.aiConfigStatusToolStripPanel.Padding = new System.Windows.Forms.Padding(2, 10, 2, 2);
-            this.aiConfigStatusToolStripPanel.Size = new System.Drawing.Size(70, 119);
-            this.aiConfigStatusToolStripPanel.Transparent = true;
-            // 
-            // aiConfigStatusLabel
-            // 
-            this.aiConfigStatusLabel.AutoSize = false;
-            this.aiConfigStatusLabel.Font = new System.Drawing.Font("Dosis", 12.25F);
-            this.aiConfigStatusLabel.Image = ((System.Drawing.Image)(resources.GetObject("aiConfigStatusLabel.Image")));
-            this.aiConfigStatusLabel.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.aiConfigStatusLabel.Margin = new System.Windows.Forms.Padding(0, 1, 0, 5);
-            this.aiConfigStatusLabel.Name = "aiConfigStatusLabel";
-            this.aiConfigStatusLabel.Size = new System.Drawing.Size(66, 75);
-            this.aiConfigStatusLabel.Text = "Status";
-            this.aiConfigStatusLabel.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            // 
-            // aiConfigStatusIndicator
-            // 
-            this.aiConfigStatusIndicator.AutoSize = false;
-            this.aiConfigStatusIndicator.BackColor = System.Drawing.SystemColors.Control;
-            this.aiConfigStatusIndicator.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.aiConfigStatusIndicator.Image = ((System.Drawing.Image)(resources.GetObject("aiConfigStatusIndicator.Image")));
-            this.aiConfigStatusIndicator.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.aiConfigStatusIndicator.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.aiConfigStatusIndicator.Name = "aiConfigStatusIndicator";
-            this.aiConfigStatusIndicator.Size = new System.Drawing.Size(66, 5);
-            // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.AutoSize = false;
-            this.toolStripSeparator2.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 95);
-            // 
-            // configureNetworksToolStripBtn
-            // 
-            this.configureNetworksToolStripBtn.Font = new System.Drawing.Font("Dosis", 12F);
-            this.configureNetworksToolStripBtn.Image = ((System.Drawing.Image)(resources.GetObject("configureNetworksToolStripBtn.Image")));
-            this.configureNetworksToolStripBtn.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.configureNetworksToolStripBtn.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.configureNetworksToolStripBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.configureNetworksToolStripBtn.Name = "configureNetworksToolStripBtn";
-            this.configureNetworksToolStripBtn.Padding = new System.Windows.Forms.Padding(18, 0, 18, 0);
-            this.configureNetworksToolStripBtn.Size = new System.Drawing.Size(107, 116);
-            this.configureNetworksToolStripBtn.Text = "Configure\r\nAI Model";
-            this.configureNetworksToolStripBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
             // readingToolStripTabItem
             // 
@@ -815,7 +503,7 @@ namespace Synapse
             this.sheetsToolStripPanelItem.Name = "sheetsToolStripPanelItem";
             this.sheetsToolStripPanelItem.Padding = new System.Windows.Forms.Padding(1, 0, 2, 0);
             this.sheetsToolStripPanelItem.RowCount = 2;
-            this.sheetsToolStripPanelItem.Size = new System.Drawing.Size(192, 44);
+            this.sheetsToolStripPanelItem.Size = new System.Drawing.Size(192, 35);
             this.sheetsToolStripPanelItem.Transparent = true;
             // 
             // scanDirectoryToolStripBtn
@@ -1064,23 +752,343 @@ namespace Synapse
             this.dataManipulationToolStripEx.ForeColor = System.Drawing.Color.MidnightBlue;
             this.dataManipulationToolStripEx.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.dataManipulationToolStripEx.Image = null;
-            this.dataManipulationToolStripEx.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.addFieldToolStripBtn,
-            this.toolStripSeparator6,
-            this.deleteAllToolStripBtn,
-            this.deleteSelectedToolStripBtn,
-            this.toolStripSeparator8,
-            this.editValueToolStripBtn,
-            this.markAsToolStripBtn});
             this.dataManipulationToolStripEx.Location = new System.Drawing.Point(0, 1);
             this.dataManipulationToolStripEx.Name = "dataManipulationToolStripEx";
             this.dataManipulationToolStripEx.Office12Mode = false;
             this.dataManipulationToolStripEx.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
-            this.dataManipulationToolStripEx.Size = new System.Drawing.Size(423, 135);
+            this.dataManipulationToolStripEx.Size = new System.Drawing.Size(42, 135);
             this.dataManipulationToolStripEx.TabIndex = 7;
             this.dataManipulationToolStripEx.Text = "Data Manipulation";
             this.dataManipulationToolStripEx.ThemeName = "Office2016White";
             this.dataManipulationToolStripEx.VisualStyle = Syncfusion.Windows.Forms.Tools.ToolStripExStyle.Office2016White;
+            // 
+            // dataPointStorageToolStripEx
+            // 
+            this.dataPointStorageToolStripEx.AutoSize = false;
+            this.dataPointStorageToolStripEx.CaptionFont = new System.Drawing.Font("Dosis", 9.749999F);
+            this.dataPointStorageToolStripEx.Dock = System.Windows.Forms.DockStyle.None;
+            this.dataPointStorageToolStripEx.Font = new System.Drawing.Font("Segoe UI", 8.25F);
+            this.dataPointStorageToolStripEx.ForeColor = System.Drawing.Color.MidnightBlue;
+            this.dataPointStorageToolStripEx.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.dataPointStorageToolStripEx.Image = null;
+            this.dataPointStorageToolStripEx.Location = new System.Drawing.Point(0, 1);
+            this.dataPointStorageToolStripEx.Name = "dataPointStorageToolStripEx";
+            this.dataPointStorageToolStripEx.Office12Mode = false;
+            this.dataPointStorageToolStripEx.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
+            this.dataPointStorageToolStripEx.Size = new System.Drawing.Size(42, 135);
+            this.dataPointStorageToolStripEx.TabIndex = 8;
+            this.dataPointStorageToolStripEx.Text = "Data Point Storage";
+            this.dataPointStorageToolStripEx.ThemeName = "Office2016White";
+            this.dataPointStorageToolStripEx.VisualStyle = Syncfusion.Windows.Forms.Tools.ToolStripExStyle.Office2016White;
+            // 
+            // exportToolStripEx
+            // 
+            this.exportToolStripEx.AutoSize = false;
+            this.exportToolStripEx.CaptionFont = new System.Drawing.Font("Dosis", 9.749999F);
+            this.exportToolStripEx.Dock = System.Windows.Forms.DockStyle.None;
+            this.exportToolStripEx.Font = new System.Drawing.Font("Segoe UI", 8.25F);
+            this.exportToolStripEx.ForeColor = System.Drawing.Color.MidnightBlue;
+            this.exportToolStripEx.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.exportToolStripEx.Image = null;
+            this.exportToolStripEx.Location = new System.Drawing.Point(0, 1);
+            this.exportToolStripEx.Name = "exportToolStripEx";
+            this.exportToolStripEx.Office12Mode = false;
+            this.exportToolStripEx.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
+            this.exportToolStripEx.ShowLauncher = false;
+            this.exportToolStripEx.Size = new System.Drawing.Size(42, 135);
+            this.exportToolStripEx.TabIndex = 9;
+            this.exportToolStripEx.Text = "Export Data";
+            this.exportToolStripEx.ThemeName = "Office2016White";
+            this.exportToolStripEx.VisualStyle = Syncfusion.Windows.Forms.Tools.ToolStripExStyle.Office2016White;
+            // 
+            // templateConfigStatusToolStrip
+            // 
+            this.templateConfigStatusToolStrip.CausesValidation = false;
+            this.templateConfigStatusToolStrip.Font = new System.Drawing.Font("Dosis", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.templateConfigStatusToolStrip.ForeColor = System.Drawing.Color.MidnightBlue;
+            this.templateConfigStatusToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.templateConfigStatusLabel,
+            this.templateConfigStatusIndicator});
+            this.templateConfigStatusToolStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow;
+            this.templateConfigStatusToolStrip.Name = "templateConfigStatusToolStrip";
+            this.templateConfigStatusToolStrip.Padding = new System.Windows.Forms.Padding(3, 10, 2, 2);
+            this.templateConfigStatusToolStrip.Size = new System.Drawing.Size(71, 25);
+            this.templateConfigStatusToolStrip.Transparent = true;
+            // 
+            // templateConfigStatusLabel
+            // 
+            this.templateConfigStatusLabel.AutoSize = false;
+            this.templateConfigStatusLabel.Font = new System.Drawing.Font("Dosis", 12.25F);
+            this.templateConfigStatusLabel.Image = ((System.Drawing.Image)(resources.GetObject("templateConfigStatusLabel.Image")));
+            this.templateConfigStatusLabel.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.templateConfigStatusLabel.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.templateConfigStatusLabel.Margin = new System.Windows.Forms.Padding(0, 1, 0, 5);
+            this.templateConfigStatusLabel.Name = "templateConfigStatusLabel";
+            this.templateConfigStatusLabel.Size = new System.Drawing.Size(66, 75);
+            this.templateConfigStatusLabel.Text = "Status";
+            this.templateConfigStatusLabel.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            // 
+            // templateConfigStatusIndicator
+            // 
+            this.templateConfigStatusIndicator.AutoSize = false;
+            this.templateConfigStatusIndicator.BackColor = System.Drawing.SystemColors.Control;
+            this.templateConfigStatusIndicator.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.templateConfigStatusIndicator.Image = ((System.Drawing.Image)(resources.GetObject("templateConfigStatusIndicator.Image")));
+            this.templateConfigStatusIndicator.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.templateConfigStatusIndicator.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.templateConfigStatusIndicator.Name = "templateConfigStatusIndicator";
+            this.templateConfigStatusIndicator.Size = new System.Drawing.Size(66, 5);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.AutoSize = false;
+            this.toolStripSeparator1.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 95);
+            // 
+            // templateToolStripBtn
+            // 
+            this.templateToolStripBtn.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.templateLoadToolStripMenuItem,
+            this.templateConfigureToolStripMenuItem});
+            this.templateToolStripBtn.Font = new System.Drawing.Font("Dosis", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.templateToolStripBtn.Image = ((System.Drawing.Image)(resources.GetObject("templateToolStripBtn.Image")));
+            this.templateToolStripBtn.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.templateToolStripBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.templateToolStripBtn.Name = "templateToolStripBtn";
+            this.templateToolStripBtn.Padding = new System.Windows.Forms.Padding(15, 0, 15, 0);
+            this.templateToolStripBtn.Size = new System.Drawing.Size(107, 69);
+            this.templateToolStripBtn.Text = "Template";
+            this.templateToolStripBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            // 
+            // templateLoadToolStripMenuItem
+            // 
+            this.templateLoadToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tmpLoadScanToolStripMenuItem,
+            this.tmpLoadBrowseToolStripMenuItem});
+            this.templateLoadToolStripMenuItem.Name = "templateLoadToolStripMenuItem";
+            this.templateLoadToolStripMenuItem.Size = new System.Drawing.Size(136, 24);
+            this.templateLoadToolStripMenuItem.Text = "Load";
+            // 
+            // tmpLoadScanToolStripMenuItem
+            // 
+            this.tmpLoadScanToolStripMenuItem.Name = "tmpLoadScanToolStripMenuItem";
+            this.tmpLoadScanToolStripMenuItem.Size = new System.Drawing.Size(123, 24);
+            this.tmpLoadScanToolStripMenuItem.Text = "Scan";
+            // 
+            // tmpLoadBrowseToolStripMenuItem
+            // 
+            this.tmpLoadBrowseToolStripMenuItem.Name = "tmpLoadBrowseToolStripMenuItem";
+            this.tmpLoadBrowseToolStripMenuItem.Size = new System.Drawing.Size(123, 24);
+            this.tmpLoadBrowseToolStripMenuItem.Text = "Browse";
+            this.tmpLoadBrowseToolStripMenuItem.Click += new System.EventHandler(this.TmpLoadBrowseToolStripMenuItem_Click);
+            // 
+            // templateConfigureToolStripMenuItem
+            // 
+            this.templateConfigureToolStripMenuItem.Enabled = false;
+            this.templateConfigureToolStripMenuItem.Name = "templateConfigureToolStripMenuItem";
+            this.templateConfigureToolStripMenuItem.Size = new System.Drawing.Size(136, 24);
+            this.templateConfigureToolStripMenuItem.Text = "Configure";
+            this.templateConfigureToolStripMenuItem.Click += new System.EventHandler(this.TemplateConfigureToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator5
+            // 
+            this.toolStripSeparator5.AutoSize = false;
+            this.toolStripSeparator5.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
+            this.toolStripSeparator5.Name = "toolStripSeparator5";
+            this.toolStripSeparator5.Size = new System.Drawing.Size(6, 88);
+            // 
+            // eMarkingToolStripBtn
+            // 
+            this.eMarkingToolStripBtn.Font = new System.Drawing.Font("Dosis", 12F);
+            this.eMarkingToolStripBtn.Image = ((System.Drawing.Image)(resources.GetObject("eMarkingToolStripBtn.Image")));
+            this.eMarkingToolStripBtn.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.eMarkingToolStripBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.eMarkingToolStripBtn.Name = "eMarkingToolStripBtn";
+            this.eMarkingToolStripBtn.Padding = new System.Windows.Forms.Padding(15, 0, 15, 0);
+            this.eMarkingToolStripBtn.Size = new System.Drawing.Size(99, 97);
+            this.eMarkingToolStripBtn.Text = "EMarking\r\nSetup";
+            this.eMarkingToolStripBtn.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.eMarkingToolStripBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            // 
+            // dataConfigStatusToolStripPanel
+            // 
+            this.dataConfigStatusToolStripPanel.CausesValidation = false;
+            this.dataConfigStatusToolStripPanel.Font = new System.Drawing.Font("Dosis", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dataConfigStatusToolStripPanel.ForeColor = System.Drawing.Color.MidnightBlue;
+            this.dataConfigStatusToolStripPanel.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.dataConfigStatusLabel,
+            this.dataConfigStatusIndicator});
+            this.dataConfigStatusToolStripPanel.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow;
+            this.dataConfigStatusToolStripPanel.Name = "dataConfigStatusToolStripPanel";
+            this.dataConfigStatusToolStripPanel.Padding = new System.Windows.Forms.Padding(2, 10, 2, 2);
+            this.dataConfigStatusToolStripPanel.Size = new System.Drawing.Size(70, 25);
+            this.dataConfigStatusToolStripPanel.Transparent = true;
+            // 
+            // dataConfigStatusLabel
+            // 
+            this.dataConfigStatusLabel.AutoSize = false;
+            this.dataConfigStatusLabel.Font = new System.Drawing.Font("Dosis", 12.25F);
+            this.dataConfigStatusLabel.Image = ((System.Drawing.Image)(resources.GetObject("dataConfigStatusLabel.Image")));
+            this.dataConfigStatusLabel.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.dataConfigStatusLabel.Margin = new System.Windows.Forms.Padding(0, 1, 0, 5);
+            this.dataConfigStatusLabel.Name = "dataConfigStatusLabel";
+            this.dataConfigStatusLabel.Size = new System.Drawing.Size(66, 75);
+            this.dataConfigStatusLabel.Text = "Status";
+            this.dataConfigStatusLabel.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            // 
+            // dataConfigStatusIndicator
+            // 
+            this.dataConfigStatusIndicator.AutoSize = false;
+            this.dataConfigStatusIndicator.BackColor = System.Drawing.SystemColors.Control;
+            this.dataConfigStatusIndicator.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.dataConfigStatusIndicator.Image = ((System.Drawing.Image)(resources.GetObject("dataConfigStatusIndicator.Image")));
+            this.dataConfigStatusIndicator.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.dataConfigStatusIndicator.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.dataConfigStatusIndicator.Name = "dataConfigStatusIndicator";
+            this.dataConfigStatusIndicator.Size = new System.Drawing.Size(66, 5);
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.AutoSize = false;
+            this.toolStripSeparator3.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 95);
+            // 
+            // toolStripButton1
+            // 
+            this.toolStripButton1.Font = new System.Drawing.Font("Dosis", 12F);
+            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
+            this.toolStripButton1.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.toolStripButton1.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton1.Margin = new System.Windows.Forms.Padding(0, 1, 1, 2);
+            this.toolStripButton1.Name = "toolStripButton1";
+            this.toolStripButton1.Padding = new System.Windows.Forms.Padding(10, 0, 10, 0);
+            this.toolStripButton1.Size = new System.Drawing.Size(91, 92);
+            this.toolStripButton1.Text = "Configure\r\nData";
+            this.toolStripButton1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolStripButton1.Click += new System.EventHandler(this.ConfigureDataToolStripBtn_Click);
+            // 
+            // configurationTestToolToolStripBtn
+            // 
+            this.configurationTestToolToolStripBtn.Font = new System.Drawing.Font("Dosis", 12F);
+            this.configurationTestToolToolStripBtn.Image = ((System.Drawing.Image)(resources.GetObject("configurationTestToolToolStripBtn.Image")));
+            this.configurationTestToolToolStripBtn.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.configurationTestToolToolStripBtn.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.configurationTestToolToolStripBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.configurationTestToolToolStripBtn.Margin = new System.Windows.Forms.Padding(0, 1, 1, 2);
+            this.configurationTestToolToolStripBtn.Name = "configurationTestToolToolStripBtn";
+            this.configurationTestToolToolStripBtn.Padding = new System.Windows.Forms.Padding(10, 0, 10, 0);
+            this.configurationTestToolToolStripBtn.Size = new System.Drawing.Size(120, 92);
+            this.configurationTestToolToolStripBtn.Text = "Test\r\nConfigurations";
+            this.configurationTestToolToolStripBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.configurationTestToolToolStripBtn.Click += new System.EventHandler(this.ConfigurationTestToolToolStripBtn_Click);
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.AutoSize = false;
+            this.toolStripSeparator4.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 88);
+            // 
+            // addAsOmrToolStripBtn
+            // 
+            this.addAsOmrToolStripBtn.Font = new System.Drawing.Font("Dosis", 12F);
+            this.addAsOmrToolStripBtn.Image = ((System.Drawing.Image)(resources.GetObject("addAsOmrToolStripBtn.Image")));
+            this.addAsOmrToolStripBtn.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.addAsOmrToolStripBtn.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.addAsOmrToolStripBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.addAsOmrToolStripBtn.Name = "addAsOmrToolStripBtn";
+            this.addAsOmrToolStripBtn.Padding = new System.Windows.Forms.Padding(13, 0, 13, 0);
+            this.addAsOmrToolStripBtn.Size = new System.Drawing.Size(80, 92);
+            this.addAsOmrToolStripBtn.Text = "Add As\r\nOMR";
+            this.addAsOmrToolStripBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.addAsOmrToolStripBtn.Click += new System.EventHandler(this.AddAsOmrToolStripBtn_Click);
+            // 
+            // addAsBarcodeToolStripBtn
+            // 
+            this.addAsBarcodeToolStripBtn.Font = new System.Drawing.Font("Dosis", 12F);
+            this.addAsBarcodeToolStripBtn.Image = ((System.Drawing.Image)(resources.GetObject("addAsBarcodeToolStripBtn.Image")));
+            this.addAsBarcodeToolStripBtn.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.addAsBarcodeToolStripBtn.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.addAsBarcodeToolStripBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.addAsBarcodeToolStripBtn.Name = "addAsBarcodeToolStripBtn";
+            this.addAsBarcodeToolStripBtn.Padding = new System.Windows.Forms.Padding(13, 0, 13, 0);
+            this.addAsBarcodeToolStripBtn.Size = new System.Drawing.Size(88, 92);
+            this.addAsBarcodeToolStripBtn.Text = "Add As\r\nBarcode";
+            this.addAsBarcodeToolStripBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            // 
+            // addAsICRToolStripBtn
+            // 
+            this.addAsICRToolStripBtn.Font = new System.Drawing.Font("Dosis", 12F);
+            this.addAsICRToolStripBtn.Image = ((System.Drawing.Image)(resources.GetObject("addAsICRToolStripBtn.Image")));
+            this.addAsICRToolStripBtn.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.addAsICRToolStripBtn.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.addAsICRToolStripBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.addAsICRToolStripBtn.Name = "addAsICRToolStripBtn";
+            this.addAsICRToolStripBtn.Padding = new System.Windows.Forms.Padding(13, 0, 13, 0);
+            this.addAsICRToolStripBtn.Size = new System.Drawing.Size(80, 92);
+            this.addAsICRToolStripBtn.Text = "Add As\r\nICR";
+            this.addAsICRToolStripBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.addAsICRToolStripBtn.Click += new System.EventHandler(this.AddAsICRToolStripBtn_Click);
+            // 
+            // aiConfigStatusToolStripPanel
+            // 
+            this.aiConfigStatusToolStripPanel.CausesValidation = false;
+            this.aiConfigStatusToolStripPanel.Font = new System.Drawing.Font("Dosis", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.aiConfigStatusToolStripPanel.ForeColor = System.Drawing.Color.MidnightBlue;
+            this.aiConfigStatusToolStripPanel.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.aiConfigStatusLabel,
+            this.aiConfigStatusIndicator});
+            this.aiConfigStatusToolStripPanel.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow;
+            this.aiConfigStatusToolStripPanel.Name = "aiConfigStatusToolStripPanel";
+            this.aiConfigStatusToolStripPanel.Padding = new System.Windows.Forms.Padding(2, 10, 2, 2);
+            this.aiConfigStatusToolStripPanel.Size = new System.Drawing.Size(70, 25);
+            this.aiConfigStatusToolStripPanel.Transparent = true;
+            // 
+            // aiConfigStatusLabel
+            // 
+            this.aiConfigStatusLabel.AutoSize = false;
+            this.aiConfigStatusLabel.Font = new System.Drawing.Font("Dosis", 12.25F);
+            this.aiConfigStatusLabel.Image = ((System.Drawing.Image)(resources.GetObject("aiConfigStatusLabel.Image")));
+            this.aiConfigStatusLabel.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.aiConfigStatusLabel.Margin = new System.Windows.Forms.Padding(0, 1, 0, 5);
+            this.aiConfigStatusLabel.Name = "aiConfigStatusLabel";
+            this.aiConfigStatusLabel.Size = new System.Drawing.Size(66, 75);
+            this.aiConfigStatusLabel.Text = "Status";
+            this.aiConfigStatusLabel.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            // 
+            // aiConfigStatusIndicator
+            // 
+            this.aiConfigStatusIndicator.AutoSize = false;
+            this.aiConfigStatusIndicator.BackColor = System.Drawing.SystemColors.Control;
+            this.aiConfigStatusIndicator.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.aiConfigStatusIndicator.Image = ((System.Drawing.Image)(resources.GetObject("aiConfigStatusIndicator.Image")));
+            this.aiConfigStatusIndicator.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.aiConfigStatusIndicator.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.aiConfigStatusIndicator.Name = "aiConfigStatusIndicator";
+            this.aiConfigStatusIndicator.Size = new System.Drawing.Size(66, 5);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.AutoSize = false;
+            this.toolStripSeparator2.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 95);
+            // 
+            // configureNetworksToolStripBtn
+            // 
+            this.configureNetworksToolStripBtn.Font = new System.Drawing.Font("Dosis", 12F);
+            this.configureNetworksToolStripBtn.Image = ((System.Drawing.Image)(resources.GetObject("configureNetworksToolStripBtn.Image")));
+            this.configureNetworksToolStripBtn.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.configureNetworksToolStripBtn.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.configureNetworksToolStripBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.configureNetworksToolStripBtn.Name = "configureNetworksToolStripBtn";
+            this.configureNetworksToolStripBtn.Padding = new System.Windows.Forms.Padding(18, 0, 18, 0);
+            this.configureNetworksToolStripBtn.Size = new System.Drawing.Size(107, 96);
+            this.configureNetworksToolStripBtn.Text = "Configure\r\nAI Model";
+            this.configureNetworksToolStripBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
             // addFieldToolStripBtn
             // 
@@ -1090,7 +1098,7 @@ namespace Synapse
             this.addFieldToolStripBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.addFieldToolStripBtn.Name = "addFieldToolStripBtn";
             this.addFieldToolStripBtn.Padding = new System.Windows.Forms.Padding(10, 0, 10, 0);
-            this.addFieldToolStripBtn.Size = new System.Drawing.Size(74, 116);
+            this.addFieldToolStripBtn.Size = new System.Drawing.Size(74, 22);
             this.addFieldToolStripBtn.Text = "Add\r\nField";
             this.addFieldToolStripBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
@@ -1109,7 +1117,7 @@ namespace Synapse
             this.deleteAllToolStripBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.deleteAllToolStripBtn.Name = "deleteAllToolStripBtn";
             this.deleteAllToolStripBtn.Padding = new System.Windows.Forms.Padding(8, 0, 8, 0);
-            this.deleteAllToolStripBtn.Size = new System.Drawing.Size(67, 116);
+            this.deleteAllToolStripBtn.Size = new System.Drawing.Size(67, 90);
             this.deleteAllToolStripBtn.Text = "Delete\r\nAll";
             this.deleteAllToolStripBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
@@ -1122,7 +1130,7 @@ namespace Synapse
             this.deleteSelectedToolStripBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.deleteSelectedToolStripBtn.Name = "deleteSelectedToolStripBtn";
             this.deleteSelectedToolStripBtn.Padding = new System.Windows.Forms.Padding(8, 0, 8, 0);
-            this.deleteSelectedToolStripBtn.Size = new System.Drawing.Size(80, 116);
+            this.deleteSelectedToolStripBtn.Size = new System.Drawing.Size(80, 90);
             this.deleteSelectedToolStripBtn.Text = "Delete\r\nSelected";
             this.deleteSelectedToolStripBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
@@ -1141,7 +1149,7 @@ namespace Synapse
             this.editValueToolStripBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.editValueToolStripBtn.Name = "editValueToolStripBtn";
             this.editValueToolStripBtn.Padding = new System.Windows.Forms.Padding(8, 0, 8, 0);
-            this.editValueToolStripBtn.Size = new System.Drawing.Size(66, 116);
+            this.editValueToolStripBtn.Size = new System.Drawing.Size(66, 90);
             this.editValueToolStripBtn.Text = "Edit\r\nValue";
             this.editValueToolStripBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
@@ -1159,7 +1167,7 @@ namespace Synapse
             this.markAsToolStripBtn.Margin = new System.Windows.Forms.Padding(0, 2, 0, 2);
             this.markAsToolStripBtn.Name = "markAsToolStripBtn";
             this.markAsToolStripBtn.Padding = new System.Windows.Forms.Padding(8, 0, 8, 0);
-            this.markAsToolStripBtn.Size = new System.Drawing.Size(112, 115);
+            this.markAsToolStripBtn.Size = new System.Drawing.Size(112, 80);
             this.markAsToolStripBtn.Text = "Mark Sheets\r\nAs";
             this.markAsToolStripBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
@@ -1181,28 +1189,6 @@ namespace Synapse
             this.markIncompatibleToolStripMenuItem.Size = new System.Drawing.Size(155, 24);
             this.markIncompatibleToolStripMenuItem.Text = "Incompatible";
             // 
-            // dataPointStorageToolStripEx
-            // 
-            this.dataPointStorageToolStripEx.AutoSize = false;
-            this.dataPointStorageToolStripEx.CaptionFont = new System.Drawing.Font("Dosis", 9.749999F);
-            this.dataPointStorageToolStripEx.Dock = System.Windows.Forms.DockStyle.None;
-            this.dataPointStorageToolStripEx.Font = new System.Drawing.Font("Segoe UI", 8.25F);
-            this.dataPointStorageToolStripEx.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.dataPointStorageToolStripEx.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-            this.dataPointStorageToolStripEx.Image = null;
-            this.dataPointStorageToolStripEx.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.internalDataPointDropDownBtn,
-            this.externalDataPointDropDownBtn});
-            this.dataPointStorageToolStripEx.Location = new System.Drawing.Point(0, 1);
-            this.dataPointStorageToolStripEx.Name = "dataPointStorageToolStripEx";
-            this.dataPointStorageToolStripEx.Office12Mode = false;
-            this.dataPointStorageToolStripEx.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
-            this.dataPointStorageToolStripEx.Size = new System.Drawing.Size(211, 135);
-            this.dataPointStorageToolStripEx.TabIndex = 8;
-            this.dataPointStorageToolStripEx.Text = "Data Point Storage";
-            this.dataPointStorageToolStripEx.ThemeName = "Office2016White";
-            this.dataPointStorageToolStripEx.VisualStyle = Syncfusion.Windows.Forms.Tools.ToolStripExStyle.Office2016White;
-            // 
             // internalDataPointDropDownBtn
             // 
             this.internalDataPointDropDownBtn.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -1216,7 +1202,7 @@ namespace Synapse
             this.internalDataPointDropDownBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.internalDataPointDropDownBtn.Name = "internalDataPointDropDownBtn";
             this.internalDataPointDropDownBtn.Padding = new System.Windows.Forms.Padding(8, 0, 8, 0);
-            this.internalDataPointDropDownBtn.Size = new System.Drawing.Size(100, 116);
+            this.internalDataPointDropDownBtn.Size = new System.Drawing.Size(100, 87);
             this.internalDataPointDropDownBtn.Text = "Internal\r\nData Point";
             this.internalDataPointDropDownBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
@@ -1250,7 +1236,7 @@ namespace Synapse
             this.externalDataPointDropDownBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.externalDataPointDropDownBtn.Name = "externalDataPointDropDownBtn";
             this.externalDataPointDropDownBtn.Padding = new System.Windows.Forms.Padding(8, 0, 8, 0);
-            this.externalDataPointDropDownBtn.Size = new System.Drawing.Size(100, 116);
+            this.externalDataPointDropDownBtn.Size = new System.Drawing.Size(100, 86);
             this.externalDataPointDropDownBtn.Text = "External\r\nData Point";
             this.externalDataPointDropDownBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
@@ -1266,30 +1252,6 @@ namespace Synapse
             this.externalSaveToolStripMenuItem.Size = new System.Drawing.Size(107, 24);
             this.externalSaveToolStripMenuItem.Text = "Save";
             // 
-            // exportToolStripEx
-            // 
-            this.exportToolStripEx.AutoSize = false;
-            this.exportToolStripEx.CaptionFont = new System.Drawing.Font("Dosis", 9.749999F);
-            this.exportToolStripEx.Dock = System.Windows.Forms.DockStyle.None;
-            this.exportToolStripEx.Font = new System.Drawing.Font("Segoe UI", 8.25F);
-            this.exportToolStripEx.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.exportToolStripEx.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-            this.exportToolStripEx.Image = null;
-            this.exportToolStripEx.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.exportCSVoolStripBtn,
-            this.exportExcelToolStripBtn,
-            this.SQLDatabaseExportToolStripBtn});
-            this.exportToolStripEx.Location = new System.Drawing.Point(0, 1);
-            this.exportToolStripEx.Name = "exportToolStripEx";
-            this.exportToolStripEx.Office12Mode = false;
-            this.exportToolStripEx.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
-            this.exportToolStripEx.ShowLauncher = false;
-            this.exportToolStripEx.Size = new System.Drawing.Size(238, 135);
-            this.exportToolStripEx.TabIndex = 9;
-            this.exportToolStripEx.Text = "Export Data";
-            this.exportToolStripEx.ThemeName = "Office2016White";
-            this.exportToolStripEx.VisualStyle = Syncfusion.Windows.Forms.Tools.ToolStripExStyle.Office2016White;
-            // 
             // exportCSVoolStripBtn
             // 
             this.exportCSVoolStripBtn.Font = new System.Drawing.Font("Dosis", 12F);
@@ -1299,7 +1261,7 @@ namespace Synapse
             this.exportCSVoolStripBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.exportCSVoolStripBtn.Name = "exportCSVoolStripBtn";
             this.exportCSVoolStripBtn.Padding = new System.Windows.Forms.Padding(8, 0, 8, 0);
-            this.exportCSVoolStripBtn.Size = new System.Drawing.Size(71, 116);
+            this.exportCSVoolStripBtn.Size = new System.Drawing.Size(71, 22);
             this.exportCSVoolStripBtn.Text = "CSV";
             this.exportCSVoolStripBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
@@ -1312,7 +1274,7 @@ namespace Synapse
             this.exportExcelToolStripBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.exportExcelToolStripBtn.Name = "exportExcelToolStripBtn";
             this.exportExcelToolStripBtn.Padding = new System.Windows.Forms.Padding(8, 0, 8, 0);
-            this.exportExcelToolStripBtn.Size = new System.Drawing.Size(71, 116);
+            this.exportExcelToolStripBtn.Size = new System.Drawing.Size(71, 75);
             this.exportExcelToolStripBtn.Text = "Excel";
             this.exportExcelToolStripBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.exportExcelToolStripBtn.Click += new System.EventHandler(this.ExportExcelToolStripBtn_Click);
@@ -1326,7 +1288,7 @@ namespace Synapse
             this.SQLDatabaseExportToolStripBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.SQLDatabaseExportToolStripBtn.Name = "SQLDatabaseExportToolStripBtn";
             this.SQLDatabaseExportToolStripBtn.Padding = new System.Windows.Forms.Padding(8, 0, 8, 0);
-            this.SQLDatabaseExportToolStripBtn.Size = new System.Drawing.Size(85, 116);
+            this.SQLDatabaseExportToolStripBtn.Size = new System.Drawing.Size(85, 95);
             this.SQLDatabaseExportToolStripBtn.Text = "SQL\r\nDatabase";
             this.SQLDatabaseExportToolStripBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
@@ -1904,115 +1866,27 @@ namespace Synapse
             // addAnswerKeyPanel
             // 
             this.addAnswerKeyPanel.Controls.Add(this.addAnswerKeyTablePanel);
-            this.addAnswerKeyPanel.Dock = System.Windows.Forms.DockStyle.Top;
-            this.addAnswerKeyPanel.Location = new System.Drawing.Point(0, 21);
+            this.addAnswerKeyPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.addAnswerKeyPanel.Location = new System.Drawing.Point(0, 147);
             this.addAnswerKeyPanel.Name = "addAnswerKeyPanel";
-            this.addAnswerKeyPanel.Size = new System.Drawing.Size(368, 493);
+            this.addAnswerKeyPanel.Size = new System.Drawing.Size(368, 367);
             this.addAnswerKeyPanel.TabIndex = 1;
             // 
             // addAnswerKeyTablePanel
             // 
             this.addAnswerKeyTablePanel.ColumnCount = 1;
             this.addAnswerKeyTablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.addAnswerKeyTablePanel.Controls.Add(this.initializationButtonsPanel, 0, 1);
             this.addAnswerKeyTablePanel.Controls.Add(this.answerKeyControlsSplitterContainer, 0, 0);
+            this.addAnswerKeyTablePanel.Controls.Add(this.initializationButtonsPanel, 0, 1);
             this.addAnswerKeyTablePanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.addAnswerKeyTablePanel.Location = new System.Drawing.Point(0, 0);
             this.addAnswerKeyTablePanel.Name = "addAnswerKeyTablePanel";
             this.addAnswerKeyTablePanel.RowCount = 2;
             this.addAnswerKeyTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.addAnswerKeyTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
-            this.addAnswerKeyTablePanel.Size = new System.Drawing.Size(368, 493);
-            this.addAnswerKeyTablePanel.TabIndex = 0;
-            // 
-            // initializationButtonsPanel
-            // 
-            this.initializationButtonsPanel.ColumnCount = 2;
-            this.initializationButtonsPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 52.10843F));
-            this.initializationButtonsPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 47.89157F));
-            this.initializationButtonsPanel.Controls.Add(this.setBtn, 0, 0);
-            this.initializationButtonsPanel.Controls.Add(this.nextBtn, 0, 0);
-            this.initializationButtonsPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.initializationButtonsPanel.Location = new System.Drawing.Point(0, 443);
-            this.initializationButtonsPanel.Margin = new System.Windows.Forms.Padding(0);
-            this.initializationButtonsPanel.Name = "initializationButtonsPanel";
-            this.initializationButtonsPanel.RowCount = 1;
-            this.initializationButtonsPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.initializationButtonsPanel.Size = new System.Drawing.Size(368, 50);
-            this.initializationButtonsPanel.TabIndex = 8;
-            // 
-            // setBtn
-            // 
-            this.setBtn.Appearance = Syncfusion.Windows.Forms.ButtonAppearance.Metro;
-            this.setBtn.BackColor = System.Drawing.Color.DodgerBlue;
-            this.setBtn.BeforeTouchSize = new System.Drawing.Size(171, 44);
-            this.setBtn.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Flat;
-            this.setBtn.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.setBtn.FlatAppearance.BorderSize = 0;
-            this.setBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.setBtn.Font = new System.Drawing.Font("Dosis", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.setBtn.ForeColor = System.Drawing.Color.White;
-            this.setBtn.Image = ((System.Drawing.Image)(resources.GetObject("setBtn.Image")));
-            this.setBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.setBtn.Location = new System.Drawing.Point(194, 3);
-            this.setBtn.Name = "setBtn";
-            this.setBtn.Padding = new System.Windows.Forms.Padding(10, 0, 10, 0);
-            this.setBtn.Size = new System.Drawing.Size(171, 44);
-            this.setBtn.TabIndex = 39;
-            this.setBtn.Text = "     ADD";
-            this.setBtn.ThemeName = "Metro";
-            this.setBtn.ThemeStyle.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.setBtn.ThemeStyle.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(171)))), ((int)(((byte)(171)))));
-            this.setBtn.ThemeStyle.DisabledBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(243)))), ((int)(((byte)(243)))));
-            this.setBtn.ThemeStyle.DisabledBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(230)))), ((int)(((byte)(230)))));
-            this.setBtn.ThemeStyle.DisabledForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(171)))), ((int)(((byte)(171)))));
-            this.setBtn.ThemeStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-            this.setBtn.ThemeStyle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
-            this.setBtn.ThemeStyle.HoverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(236)))), ((int)(((byte)(249)))));
-            this.setBtn.ThemeStyle.HoverBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(113)))), ((int)(((byte)(175)))), ((int)(((byte)(229)))));
-            this.setBtn.ThemeStyle.HoverForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
-            this.setBtn.ThemeStyle.PressedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(230)))), ((int)(((byte)(247)))));
-            this.setBtn.ThemeStyle.PressedBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(120)))), ((int)(((byte)(212)))));
-            this.setBtn.ThemeStyle.PressedForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
-            this.setBtn.UseVisualStyle = false;
-            this.setBtn.UseVisualStyleBackColor = false;
-            this.setBtn.Click += new System.EventHandler(this.setBtn_Click);
-            // 
-            // nextBtn
-            // 
-            this.nextBtn.Appearance = Syncfusion.Windows.Forms.ButtonAppearance.Metro;
-            this.nextBtn.BackColor = System.Drawing.Color.LightSlateGray;
-            this.nextBtn.BeforeTouchSize = new System.Drawing.Size(185, 44);
-            this.nextBtn.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Flat;
-            this.nextBtn.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.nextBtn.FlatAppearance.BorderSize = 0;
-            this.nextBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.nextBtn.Font = new System.Drawing.Font("Dosis", 20F);
-            this.nextBtn.ForeColor = System.Drawing.Color.White;
-            this.nextBtn.Image = ((System.Drawing.Image)(resources.GetObject("nextBtn.Image")));
-            this.nextBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.nextBtn.Location = new System.Drawing.Point(3, 3);
-            this.nextBtn.Name = "nextBtn";
-            this.nextBtn.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
-            this.nextBtn.Size = new System.Drawing.Size(185, 44);
-            this.nextBtn.TabIndex = 38;
-            this.nextBtn.Text = "     IMPORT";
-            this.nextBtn.ThemeName = "Metro";
-            this.nextBtn.ThemeStyle.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.nextBtn.ThemeStyle.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(171)))), ((int)(((byte)(171)))));
-            this.nextBtn.ThemeStyle.DisabledBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(243)))), ((int)(((byte)(243)))));
-            this.nextBtn.ThemeStyle.DisabledBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(230)))), ((int)(((byte)(230)))));
-            this.nextBtn.ThemeStyle.DisabledForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(171)))), ((int)(((byte)(171)))));
-            this.nextBtn.ThemeStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-            this.nextBtn.ThemeStyle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
-            this.nextBtn.ThemeStyle.HoverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(236)))), ((int)(((byte)(249)))));
-            this.nextBtn.ThemeStyle.HoverBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(113)))), ((int)(((byte)(175)))), ((int)(((byte)(229)))));
-            this.nextBtn.ThemeStyle.HoverForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
-            this.nextBtn.ThemeStyle.PressedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(230)))), ((int)(((byte)(247)))));
-            this.nextBtn.ThemeStyle.PressedBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(120)))), ((int)(((byte)(212)))));
-            this.nextBtn.ThemeStyle.PressedForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
-            this.nextBtn.UseVisualStyle = false;
-            this.nextBtn.UseVisualStyleBackColor = false;
+            this.addAnswerKeyTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.addAnswerKeyTablePanel.Size = new System.Drawing.Size(368, 367);
+            this.addAnswerKeyTablePanel.TabIndex = 1;
             // 
             // answerKeyControlsSplitterContainer
             // 
@@ -2045,11 +1919,11 @@ namespace Synapse
             this.answerKeyControlsSplitterContainer.Panel2.Margin = new System.Windows.Forms.Padding(0);
             this.answerKeyControlsSplitterContainer.Panel2MinSize = 50;
             this.answerKeyControlsSplitterContainer.PanelToBeCollapsed = Syncfusion.Windows.Forms.Tools.Enums.CollapsedPanel.Panel1;
-            this.answerKeyControlsSplitterContainer.Size = new System.Drawing.Size(368, 443);
-            this.answerKeyControlsSplitterContainer.SplitterDistance = 120;
+            this.answerKeyControlsSplitterContainer.Size = new System.Drawing.Size(368, 324);
+            this.answerKeyControlsSplitterContainer.SplitterDistance = 50;
             this.answerKeyControlsSplitterContainer.SplitterWidth = 6;
             this.answerKeyControlsSplitterContainer.Style = Syncfusion.Windows.Forms.Tools.Enums.Style.Office2016White;
-            this.answerKeyControlsSplitterContainer.TabIndex = 0;
+            this.answerKeyControlsSplitterContainer.TabIndex = 9;
             this.answerKeyControlsSplitterContainer.ThemeName = "Office2016White";
             this.answerKeyControlsSplitterContainer.ThemesEnabled = true;
             // 
@@ -2218,9 +2092,98 @@ namespace Synapse
             this.answerKeyFieldsTable.Padding = new System.Windows.Forms.Padding(0, 0, 10, 0);
             this.answerKeyFieldsTable.RowCount = 1;
             this.answerKeyFieldsTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.answerKeyFieldsTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 317F));
-            this.answerKeyFieldsTable.Size = new System.Drawing.Size(368, 317);
+            this.answerKeyFieldsTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 268F));
+            this.answerKeyFieldsTable.Size = new System.Drawing.Size(368, 268);
             this.answerKeyFieldsTable.TabIndex = 0;
+            // 
+            // initializationButtonsPanel
+            // 
+            this.initializationButtonsPanel.ColumnCount = 2;
+            this.initializationButtonsPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 52.10843F));
+            this.initializationButtonsPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 47.89157F));
+            this.initializationButtonsPanel.Controls.Add(this.setBtn, 0, 0);
+            this.initializationButtonsPanel.Controls.Add(this.nextBtn, 0, 0);
+            this.initializationButtonsPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.initializationButtonsPanel.Location = new System.Drawing.Point(0, 317);
+            this.initializationButtonsPanel.Margin = new System.Windows.Forms.Padding(0);
+            this.initializationButtonsPanel.Name = "initializationButtonsPanel";
+            this.initializationButtonsPanel.RowCount = 1;
+            this.initializationButtonsPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.initializationButtonsPanel.Size = new System.Drawing.Size(368, 50);
+            this.initializationButtonsPanel.TabIndex = 8;
+            // 
+            // setBtn
+            // 
+            this.setBtn.Appearance = Syncfusion.Windows.Forms.ButtonAppearance.Metro;
+            this.setBtn.BackColor = System.Drawing.Color.DarkTurquoise;
+            this.setBtn.BeforeTouchSize = new System.Drawing.Size(171, 44);
+            this.setBtn.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Flat;
+            this.setBtn.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.setBtn.FlatAppearance.BorderSize = 0;
+            this.setBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.setBtn.Font = new System.Drawing.Font("Dosis", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.setBtn.ForeColor = System.Drawing.Color.White;
+            this.setBtn.Image = ((System.Drawing.Image)(resources.GetObject("setBtn.Image")));
+            this.setBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.setBtn.Location = new System.Drawing.Point(194, 3);
+            this.setBtn.Name = "setBtn";
+            this.setBtn.Padding = new System.Windows.Forms.Padding(10, 0, 10, 0);
+            this.setBtn.Size = new System.Drawing.Size(171, 44);
+            this.setBtn.TabIndex = 39;
+            this.setBtn.Text = "     FINSIH";
+            this.setBtn.ThemeName = "Metro";
+            this.setBtn.ThemeStyle.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.setBtn.ThemeStyle.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(171)))), ((int)(((byte)(171)))));
+            this.setBtn.ThemeStyle.DisabledBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(243)))), ((int)(((byte)(243)))));
+            this.setBtn.ThemeStyle.DisabledBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(230)))), ((int)(((byte)(230)))));
+            this.setBtn.ThemeStyle.DisabledForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(171)))), ((int)(((byte)(171)))));
+            this.setBtn.ThemeStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.setBtn.ThemeStyle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this.setBtn.ThemeStyle.HoverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(236)))), ((int)(((byte)(249)))));
+            this.setBtn.ThemeStyle.HoverBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(113)))), ((int)(((byte)(175)))), ((int)(((byte)(229)))));
+            this.setBtn.ThemeStyle.HoverForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this.setBtn.ThemeStyle.PressedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(230)))), ((int)(((byte)(247)))));
+            this.setBtn.ThemeStyle.PressedBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(120)))), ((int)(((byte)(212)))));
+            this.setBtn.ThemeStyle.PressedForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this.setBtn.UseVisualStyle = false;
+            this.setBtn.UseVisualStyleBackColor = false;
+            this.setBtn.Click += new System.EventHandler(this.setBtn_Click);
+            // 
+            // nextBtn
+            // 
+            this.nextBtn.Appearance = Syncfusion.Windows.Forms.ButtonAppearance.Metro;
+            this.nextBtn.BackColor = System.Drawing.Color.LightSlateGray;
+            this.nextBtn.BeforeTouchSize = new System.Drawing.Size(185, 44);
+            this.nextBtn.BorderStyleAdv = Syncfusion.Windows.Forms.ButtonAdvBorderStyle.Flat;
+            this.nextBtn.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.nextBtn.FlatAppearance.BorderSize = 0;
+            this.nextBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.nextBtn.Font = new System.Drawing.Font("Dosis", 20F);
+            this.nextBtn.ForeColor = System.Drawing.Color.White;
+            this.nextBtn.Image = ((System.Drawing.Image)(resources.GetObject("nextBtn.Image")));
+            this.nextBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.nextBtn.Location = new System.Drawing.Point(3, 3);
+            this.nextBtn.Name = "nextBtn";
+            this.nextBtn.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
+            this.nextBtn.Size = new System.Drawing.Size(185, 44);
+            this.nextBtn.TabIndex = 38;
+            this.nextBtn.Text = "     IMPORT";
+            this.nextBtn.ThemeName = "Metro";
+            this.nextBtn.ThemeStyle.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.nextBtn.ThemeStyle.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(171)))), ((int)(((byte)(171)))));
+            this.nextBtn.ThemeStyle.DisabledBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(243)))), ((int)(((byte)(243)))));
+            this.nextBtn.ThemeStyle.DisabledBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(230)))), ((int)(((byte)(230)))));
+            this.nextBtn.ThemeStyle.DisabledForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(171)))), ((int)(((byte)(171)))));
+            this.nextBtn.ThemeStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.nextBtn.ThemeStyle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this.nextBtn.ThemeStyle.HoverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(236)))), ((int)(((byte)(249)))));
+            this.nextBtn.ThemeStyle.HoverBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(113)))), ((int)(((byte)(175)))), ((int)(((byte)(229)))));
+            this.nextBtn.ThemeStyle.HoverForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this.nextBtn.ThemeStyle.PressedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(230)))), ((int)(((byte)(247)))));
+            this.nextBtn.ThemeStyle.PressedBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(120)))), ((int)(((byte)(212)))));
+            this.nextBtn.ThemeStyle.PressedForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this.nextBtn.UseVisualStyle = false;
+            this.nextBtn.UseVisualStyleBackColor = false;
             // 
             // answerKeyMainPanel
             // 
@@ -2229,23 +2192,23 @@ namespace Synapse
             this.answerKeyMainPanel.Location = new System.Drawing.Point(0, 0);
             this.answerKeyMainPanel.Margin = new System.Windows.Forms.Padding(0);
             this.answerKeyMainPanel.Name = "answerKeyMainPanel";
-            this.answerKeyMainPanel.Size = new System.Drawing.Size(368, 21);
+            this.answerKeyMainPanel.Size = new System.Drawing.Size(368, 147);
             this.answerKeyMainPanel.TabIndex = 0;
             // 
             // answerKeyPanelContentContainer
             // 
             this.answerKeyPanelContentContainer.ColumnCount = 1;
             this.answerKeyPanelContentContainer.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.answerKeyPanelContentContainer.Controls.Add(this.addAnswerKeyBtn, 0, 1);
-            this.answerKeyPanelContentContainer.Controls.Add(this.emptyListLabel, 0, 0);
+            this.answerKeyPanelContentContainer.Controls.Add(this.addAnswerKeyBtn, -1, 1);
+            this.answerKeyPanelContentContainer.Controls.Add(this.answerKeyListFlowPanel, 0, 0);
             this.answerKeyPanelContentContainer.Dock = System.Windows.Forms.DockStyle.Fill;
             this.answerKeyPanelContentContainer.Location = new System.Drawing.Point(0, 0);
             this.answerKeyPanelContentContainer.Name = "answerKeyPanelContentContainer";
             this.answerKeyPanelContentContainer.RowCount = 2;
             this.answerKeyPanelContentContainer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.answerKeyPanelContentContainer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
-            this.answerKeyPanelContentContainer.Size = new System.Drawing.Size(368, 21);
-            this.answerKeyPanelContentContainer.TabIndex = 1;
+            this.answerKeyPanelContentContainer.Size = new System.Drawing.Size(368, 147);
+            this.answerKeyPanelContentContainer.TabIndex = 0;
             // 
             // addAnswerKeyBtn
             // 
@@ -2260,11 +2223,11 @@ namespace Synapse
             this.addAnswerKeyBtn.ForeColor = System.Drawing.Color.White;
             this.addAnswerKeyBtn.Image = global::Synapse.Properties.Resources.Add_New;
             this.addAnswerKeyBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.addAnswerKeyBtn.Location = new System.Drawing.Point(3, -26);
+            this.addAnswerKeyBtn.Location = new System.Drawing.Point(3, 100);
             this.addAnswerKeyBtn.Name = "addAnswerKeyBtn";
             this.addAnswerKeyBtn.Padding = new System.Windows.Forms.Padding(10, 0, 10, 0);
             this.addAnswerKeyBtn.Size = new System.Drawing.Size(362, 44);
-            this.addAnswerKeyBtn.TabIndex = 39;
+            this.addAnswerKeyBtn.TabIndex = 42;
             this.addAnswerKeyBtn.Text = "  ADD NEW";
             this.addAnswerKeyBtn.ThemeName = "Metro";
             this.addAnswerKeyBtn.ThemeStyle.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
@@ -2283,25 +2246,6 @@ namespace Synapse
             this.addAnswerKeyBtn.UseVisualStyle = false;
             this.addAnswerKeyBtn.UseVisualStyleBackColor = false;
             this.addAnswerKeyBtn.Click += new System.EventHandler(this.addAnswerKeyBtn_Click);
-            // 
-            // emptyListLabel
-            // 
-            this.emptyListLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.emptyListLabel.AutoSize = false;
-            this.emptyListLabel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.emptyListLabel.Font = new System.Drawing.Font("Dosis", 18.25F);
-            this.emptyListLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
-            this.emptyListLabel.Location = new System.Drawing.Point(0, 0);
-            this.emptyListLabel.Margin = new System.Windows.Forms.Padding(0);
-            this.emptyListLabel.Name = "emptyListLabel";
-            this.emptyListLabel.Size = new System.Drawing.Size(368, 1);
-            this.emptyListLabel.Style = Syncfusion.Windows.Forms.Tools.AutoLabelStyle.Office2016White;
-            this.emptyListLabel.TabIndex = 2;
-            this.emptyListLabel.Text = "You have no answer keys";
-            this.emptyListLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.emptyListLabel.ThemeName = "Office2016White";
-            this.emptyListLabel.Visible = false;
             // 
             // comboBoxAdv1
             // 
@@ -2325,6 +2269,33 @@ namespace Synapse
             this.comboBoxAdv1.TabIndex = 21;
             this.comboBoxAdv1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.comboBoxAdv1.ThemeName = "Office2016White";
+            // 
+            // answerKeyListFlowPanel
+            // 
+            this.answerKeyListFlowPanel.Controls.Add(this.answerKeysEmptyListLabel);
+            this.answerKeyListFlowPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.answerKeyListFlowPanel.Location = new System.Drawing.Point(3, 3);
+            this.answerKeyListFlowPanel.Name = "answerKeyListFlowPanel";
+            this.answerKeyListFlowPanel.Size = new System.Drawing.Size(362, 91);
+            this.answerKeyListFlowPanel.TabIndex = 43;
+            // 
+            // answerKeysEmptyListLabel
+            // 
+            this.answerKeysEmptyListLabel.AutoSize = false;
+            this.answerKeysEmptyListLabel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.answerKeysEmptyListLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.answerKeysEmptyListLabel.Font = new System.Drawing.Font("Dosis", 18.25F);
+            this.answerKeysEmptyListLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this.answerKeysEmptyListLabel.Location = new System.Drawing.Point(0, 0);
+            this.answerKeysEmptyListLabel.Margin = new System.Windows.Forms.Padding(0);
+            this.answerKeysEmptyListLabel.Name = "answerKeysEmptyListLabel";
+            this.answerKeysEmptyListLabel.Size = new System.Drawing.Size(362, 91);
+            this.answerKeysEmptyListLabel.Style = Syncfusion.Windows.Forms.Tools.AutoLabelStyle.Office2016White;
+            this.answerKeysEmptyListLabel.TabIndex = 4;
+            this.answerKeysEmptyListLabel.Text = "You currently have no answer keys.\r\nAdd new by creating or importing one.";
+            this.answerKeysEmptyListLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.answerKeysEmptyListLabel.ThemeName = "Office2016White";
+            this.answerKeysEmptyListLabel.Visible = false;
             // 
             // SynapseMain
             // 
@@ -2354,12 +2325,6 @@ namespace Synapse
             this.ribbonControl.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.backStage1)).EndInit();
             this.configToolStripTabItem.Panel.ResumeLayout(false);
-            this.templateConfigToolStrip.ResumeLayout(false);
-            this.templateConfigToolStrip.PerformLayout();
-            this.dataConfigToolStripEx.ResumeLayout(false);
-            this.dataConfigToolStripEx.PerformLayout();
-            this.aiConfigToolStripEx.ResumeLayout(false);
-            this.aiConfigToolStripEx.PerformLayout();
             this.readingToolStripTabItem.Panel.ResumeLayout(false);
             this.generalToolStripEx.ResumeLayout(false);
             this.generalToolStripEx.PerformLayout();
@@ -2372,12 +2337,6 @@ namespace Synapse
             this.dataMiningToolStripEx.ResumeLayout(false);
             this.dataMiningToolStripEx.PerformLayout();
             this.dataToolStripTabItem.Panel.ResumeLayout(false);
-            this.dataManipulationToolStripEx.ResumeLayout(false);
-            this.dataManipulationToolStripEx.PerformLayout();
-            this.dataPointStorageToolStripEx.ResumeLayout(false);
-            this.dataPointStorageToolStripEx.PerformLayout();
-            this.exportToolStripEx.ResumeLayout(false);
-            this.exportToolStripEx.PerformLayout();
             this.configTabPanel.ResumeLayout(false);
             this.nonDockingClientArea.ResumeLayout(false);
             this.readingTabPanel.ResumeLayout(false);
@@ -2401,7 +2360,6 @@ namespace Synapse
             this.answerKeyPanel.ResumeLayout(false);
             this.addAnswerKeyPanel.ResumeLayout(false);
             this.addAnswerKeyTablePanel.ResumeLayout(false);
-            this.initializationButtonsPanel.ResumeLayout(false);
             this.answerKeyControlsSplitterContainer.Panel1.ResumeLayout(false);
             this.answerKeyControlsSplitterContainer.Panel1.PerformLayout();
             this.answerKeyControlsSplitterContainer.Panel2.ResumeLayout(false);
@@ -2414,9 +2372,11 @@ namespace Synapse
             this.answerKeyTitleFieldsTable.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.configurationComboBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.answerKeyPaperComboBox)).EndInit();
+            this.initializationButtonsPanel.ResumeLayout(false);
             this.answerKeyMainPanel.ResumeLayout(false);
             this.answerKeyPanelContentContainer.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxAdv1)).EndInit();
+            this.answerKeyListFlowPanel.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -2540,24 +2500,25 @@ namespace Synapse
         private ImageBoxEx templateImageBox;
         private System.Windows.Forms.Panel answerKeyPanel;
         private System.Windows.Forms.Panel answerKeyMainPanel;
-        private System.Windows.Forms.TableLayoutPanel answerKeyPanelContentContainer;
-        private Syncfusion.Windows.Forms.ButtonAdv addAnswerKeyBtn;
-        private Syncfusion.Windows.Forms.Tools.AutoLabel emptyListLabel;
         private System.Windows.Forms.Panel addAnswerKeyPanel;
+        private Syncfusion.Windows.Forms.Tools.ComboBoxAdv comboBoxAdv1;
+        private System.Windows.Forms.ToolStripButton papersToolStripBtn;
         private System.Windows.Forms.TableLayoutPanel addAnswerKeyTablePanel;
         private Syncfusion.Windows.Forms.Tools.SplitContainerAdv answerKeyControlsSplitterContainer;
-        private System.Windows.Forms.TableLayoutPanel initializationButtonsPanel;
-        private Syncfusion.Windows.Forms.ButtonAdv setBtn;
-        private Syncfusion.Windows.Forms.ButtonAdv nextBtn;
-        private System.Windows.Forms.TableLayoutPanel answerKeyFieldsTable;
-        private System.Windows.Forms.TableLayoutPanel answerKeyTitleFieldsTable;
-        private Syncfusion.Windows.Forms.Tools.ComboBoxAdv comboBoxAdv1;
         private System.Windows.Forms.TableLayoutPanel answerKeyParameterTable;
         private Syncfusion.Windows.Forms.Tools.ComboBoxAdv answerKeyParameterValueField;
         private Syncfusion.Windows.Forms.Tools.ComboBoxAdv answerKeyParameterField;
         private Syncfusion.Windows.Forms.Tools.TextBoxExt answerKeyTitleField;
+        private System.Windows.Forms.TableLayoutPanel answerKeyTitleFieldsTable;
         private Syncfusion.Windows.Forms.Tools.ComboBoxAdv configurationComboBox;
         private Syncfusion.Windows.Forms.Tools.ComboBoxAdv answerKeyPaperComboBox;
-        private System.Windows.Forms.ToolStripButton papersToolStripBtn;
+        private System.Windows.Forms.TableLayoutPanel answerKeyFieldsTable;
+        private System.Windows.Forms.TableLayoutPanel initializationButtonsPanel;
+        private Syncfusion.Windows.Forms.ButtonAdv setBtn;
+        private Syncfusion.Windows.Forms.ButtonAdv nextBtn;
+        private System.Windows.Forms.TableLayoutPanel answerKeyPanelContentContainer;
+        private Syncfusion.Windows.Forms.ButtonAdv addAnswerKeyBtn;
+        private System.Windows.Forms.Panel answerKeyListFlowPanel;
+        private Syncfusion.Windows.Forms.Tools.AutoLabel answerKeysEmptyListLabel;
     }
 }

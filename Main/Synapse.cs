@@ -27,6 +27,7 @@ using Synapse.Controls.Answer_Key;
 using Synapse.Core;
 using Synapse.Core.Keys;
 using System.Linq;
+using Synapse.Controls;
 
 namespace Synapse
 {
@@ -817,9 +818,69 @@ namespace Synapse
                         gridColumns.Add(icrCol.HeaderText);
                         break;
                  }
+                switch (allConfigs[i].GetMainConfigType)
+                {
+                    case MainConfigType.OMR:
+                        OMRConfiguration omrConfig = (OMRConfiguration)allConfigs[i];
+                        switch (omrConfig.OMRType)
+                        {
+                            case OMRType.Gradable:
+                                GridTextColumn omrScoreCol = new GridTextColumn();
+                                omrScoreCol.MappingName = omrConfig.Title + " Score";
+                                omrScoreCol.HeaderText = omrConfig.Title + " Score";
+                                mainDataGrid.Columns.Add(omrScoreCol);
+
+                                GridTextColumn omrTotalCol = new GridTextColumn();
+                                omrTotalCol.MappingName = omrConfig.Title + " Total";
+                                omrTotalCol.HeaderText = omrConfig.Title + " Total";
+                                mainDataGrid.Columns.Add(omrTotalCol);
+
+                                GridTextColumn omrPaperCol = new GridTextColumn();
+                                omrPaperCol.MappingName = omrConfig.Title + " Paper";
+                                omrPaperCol.HeaderText = omrConfig.Title + " Paper";
+                                mainDataGrid.Columns.Add(omrPaperCol);
+
+                                GridTextColumn omrKeyCol = new GridTextColumn();
+                                omrKeyCol.MappingName = omrConfig.Title + " Key";
+                                omrKeyCol.HeaderText = omrConfig.Title + " Key";
+                                mainDataGrid.Columns.Add(omrKeyCol);
+
+                                gridColumns.Add(omrScoreCol.HeaderText);
+                                gridColumns.Add(omrTotalCol.HeaderText);
+                                gridColumns.Add(omrPaperCol.HeaderText);
+                                gridColumns.Add(omrKeyCol.HeaderText);
+
+                                switch (omrConfig.KeyType)
+                                {
+                                    case KeyType.General:
+                                        break;
+                                    case KeyType.ParameterBased:
+                                        //GridTextColumn omrParameterCol = new GridTextColumn();
+                                        //omrParameterCol.MappingName = omrConfig.Title + " Parameter";
+                                        //omrParameterCol.HeaderText = omrConfig.Title + " Parameter";
+                                        //mainDataGrid.Columns.Add(omrParameterCol);
+
+                                        //gridColumns.Add(omrParameterCol.HeaderText);
+                                        break;
+                                    default:
+                                        break;
+                                }
+                                break;
+                            case OMRType.Parameter:
+                                break;
+                            default:
+                                break;
+                        }
+                        break;
+                    case MainConfigType.BARCODE:
+                        break;
+                    case MainConfigType.ICR:
+                        break;
+                }
             }
+
         }
-        internal void InitializeMainDataGrid(List<ProcessedDataEntry> processedDataEntries, ObservableCollection<dynamic> processedDataSource)
+        internal void InitializeMainDataGrid(List<ProcessedDataEntry> processedDataEntries, ObservableCollection<dynamic> processedDataSource, int extraCols)
         {
             if (this.gridColumns.Count > 0)
             {
@@ -829,7 +890,7 @@ namespace Synapse
                 {
                     dataDynamicTotalColumns += processedDataEntries[i].GetDataValues.Length;
                 }
-                if (gridColumns.Count != dataDynamicTotalColumns)
+                if (gridColumns.Count != dataDynamicTotalColumns + extraCols)
                 {
 
                 }
@@ -1219,23 +1280,81 @@ namespace Synapse
                 addAnswerKeyPanel.Visible = false;
                 addAnswerKeyPanel.Dock = DockStyle.Fill;
                 answerKeyMainPanel.Dock = DockStyle.Fill;
-                configurationComboBox.DataSource = ConfigurationsManager.GetConfigurations(MainConfigType.OMR, new Func<ConfigurationBase, bool>((ConfigurationBase x) => { OMRConfiguration omrX = (OMRConfiguration)x; return omrX.OMRType == OMRType.Gradable; }));
+
+                var omrConfigs = ConfigurationsManager.GetConfigurations(MainConfigType.OMR, new Func<ConfigurationBase, bool>((ConfigurationBase x) => { OMRConfiguration omrX = (OMRConfiguration)x; return omrX.OMRType == OMRType.Gradable; })).ConvertAll(x => (OMRConfiguration)x);
+                configurationComboBox.DataSource = omrConfigs;
                 configurationComboBox.DisplayMember = "Title";
 
-                mainDockingManager.DockControl(answerKeyPanel, this, DockingStyle.Left, 350);
-                mainDockingManager.SetDockVisibility(answerKeyPanel, true);
+                PopulateAnswerKeyFields(omrConfigs);
             }
         }
-        private void PapersToolStripBtn_Click(object sender, EventArgs e)
+
+        private async void PapersToolStripBtn_Click(object sender, EventArgs e)
         {
-            GeneralManager.Initialize();
+            await GeneralManager.Initialize();
+
             ExamPapersConfigurationForm examPapersConfigurationForm = new ExamPapersConfigurationForm(GeneralManager.GetExamPapers);
             examPapersConfigurationForm.ShowDialog();
         }
         #region Answer Key Panel
+        async Task PopulateAnswerKeyFields(List<OMRConfiguration> omrConfigs)
+        {
+            if (answerKeyListFlowPanel.Controls.Count > 0)
+            {
+                for (int i = 0; i < answerKeyListFlowPanel.Controls.Count; i++)
+                {
+                    answerKeyListFlowPanel.Controls[i].Dispose();
+                }
+                answerKeyListFlowPanel.Controls.Clear();
+            }
+
+            await Task.Run(() =>
+            {
+                for (int i = 0; i < omrConfigs.Count; i++)
+                {
+                    var omrConfig = omrConfigs[i];
+                    AnswerKey generalKey = omrConfig.GeneralAnswerKey;
+                    if (generalKey != null)
+                    {
+                        AnswerKeyListItem answerKeyListItem = AnswerKeyListItem.Create(omrConfig.Title, generalKey, OnAnswerKeyListItemControlButtonPressed);
+                        synchronizationContext.Post(new SendOrPostCallback((state) =>
+                        {
+                            answerKeyListFlowPanel.Controls.Add(answerKeyListItem);
+                            answerKeyListItem.Dock = DockStyle.Top;
+                            answerKeysEmptyListLabel.Visible = false;
+                        }), null);
+                    }
+
+                    if (omrConfig.PB_AnswerKeys != null && omrConfig.PB_AnswerKeys.Count > 0)
+                    {
+                        var keys = omrConfig.PB_AnswerKeys.Values.ToList();
+                        for (int i1 = 0; i1 < keys.Count; i1++)
+                        {
+                            AnswerKeyListItem answerKeyListItem = AnswerKeyListItem.Create(omrConfig.Title, keys[i1], OnAnswerKeyListItemControlButtonPressed);
+                            synchronizationContext.Post(new SendOrPostCallback((state) =>
+                            {
+                                answerKeyListFlowPanel.Controls.Add(answerKeyListItem);
+                                answerKeyListItem.Dock = DockStyle.Top;
+                            }), null);
+                        }
+                        synchronizationContext.Post(new SendOrPostCallback((state) =>
+                        {
+                            answerKeysEmptyListLabel.Visible = false;
+                        }), null);
+                    }
+                }
+            });
+
+            mainDockingManager.DockControl(answerKeyPanel, this, DockingStyle.Left, 350);
+            mainDockingManager.SetDockVisibility(answerKeyPanel, true);
+        }
+
         private void addAnswerKeyBtn_Click(object sender, EventArgs e)
         {
             answerKeyMainPanel.Visible = false;
+
+            answerKeyTitleField.Text = "New Key Title";
+            answerKeyParameterValueField.Text = "Value";
             addAnswerKeyPanel.Visible = true;
             addAnswerKeyPanel.Dock = DockStyle.Fill;
             //configurationComboBox.DataSource = ConfigurationsManager.GetConfigurations(MainConfigType.OMR, new Func<ConfigurationBase, bool>((ConfigurationBase x) => { OMRConfiguration omrX = (OMRConfiguration)x; return omrX.OMRType == OMRType.Gradable; }));
@@ -1327,8 +1446,52 @@ namespace Synapse
             }
 
         }
+        private void PopulateFields(AnswerKey key)
+        {
+            int curTotalFields = answerKeyFieldsTable.Controls.Count;
+            if(curTotalFields > 0)
+            {
+                AnswerKeyFieldControl keyFieldControl = (AnswerKeyFieldControl)answerKeyFieldsTable.Controls[0];
+                int curTotalOptions = keyFieldControl.TotalOptions;
 
-        private void setBtn_Click(object sender, EventArgs e)
+                List<int[]> _key = key.GetKey.ToList();
+                if (_key.Count == curTotalFields && _key.TrueForAll(x => x.Length == curTotalOptions))
+                {
+                    for (int i = 0; i < curTotalFields; i++)
+                    {
+                        AnswerKeyFieldControl _keyFieldControl = (AnswerKeyFieldControl)answerKeyFieldsTable.Controls[i];
+                        _keyFieldControl.SetOptions(_key[i]);
+                    }
+                }
+            }
+        }
+
+        System.Action DeleteToEditKeyItem;
+        private void DeleteAnswerKeyItem(OMRConfiguration omrConfig, AnswerKeyListItem keyListItem, bool ask = true)
+        {
+            if (omrConfig.GeneralAnswerKey != null && omrConfig.GeneralAnswerKey.Title == keyListItem.KeyTitle)
+            {
+                if (!ask || Messages.ShowQuestion($"Answer Key: {keyListItem.KeyTitle} - Configuration: {omrConfig.Title ?? "N/A"} \nAre you sure you want to delete this answer key?") == DialogResult.Yes)
+                {
+                    omrConfig.GeneralAnswerKey = null;
+                    answerKeyListFlowPanel.Controls.Remove(keyListItem);
+                    keyListItem.Dispose();
+                }
+            }
+            else if (omrConfig.PB_AnswerKeys != null && omrConfig.PB_AnswerKeys.Count > 0 && omrConfig.PB_AnswerKeys.Values.Any(x => x.Title == keyListItem.KeyTitle))
+            {
+                var dicItem = omrConfig.PB_AnswerKeys.First(x => x.Value.Title == keyListItem.KeyTitle);
+                if (!ask || Messages.ShowQuestion($"Answer Key: {keyListItem.KeyTitle} - Parameter: {dicItem.Key.parameterConfig.Title ?? "N/A"} - Configuration: {omrConfig.Title ?? "N/A"} \nAre you sure you want to delete this answer key?") == DialogResult.Yes)
+                {
+                    omrConfig.PB_AnswerKeys.Remove(dicItem.Key);
+                    answerKeyListFlowPanel.Controls.Remove(keyListItem);
+                    keyListItem.Dispose();
+                }
+            }
+            if (answerKeyListFlowPanel.Controls.Count == 0)
+                answerKeysEmptyListLabel.Visible = true;
+        }
+        private async void setBtn_Click(object sender, EventArgs e)
         {
             OMRConfiguration selectedOMRConfig = (OMRConfiguration)configurationComboBox.SelectedItem;
             if (selectedOMRConfig == null)
@@ -1373,10 +1536,13 @@ namespace Synapse
                 }
                 answerKeyOptions[i] = optionsValues;
             }
-
+            
             AnswerKey answerKey = new AnswerKey(keyTitle, selectedOMRConfig.Title, answerKeyOptions, selectedPaper);
 
-            bool isSuccess;
+            DeleteToEditKeyItem?.Invoke();
+            DeleteToEditKeyItem = null;
+
+            bool isSuccess = false;
             string err = "";
             switch (selectedOMRConfig.KeyType)
             {
@@ -1402,6 +1568,59 @@ namespace Synapse
                     isSuccess = selectedOMRConfig.AddPBAnswerKey(keyParameter, answerKey, out err);
                     if (!isSuccess && err != "User Denied")
                         Messages.ShowError("Couldn't add the key due to invalid answer key properties. \n\n Error: " + err);
+                    break;
+            }
+
+            if(isSuccess)
+            {
+                await PopulateAnswerKeyFields((List<OMRConfiguration>)configurationComboBox.DataSource);
+
+                addAnswerKeyPanel.Visible = false;
+                answerKeyMainPanel.Visible = true;
+                answerKeyMainPanel.Dock = DockStyle.Fill;
+            }
+        }
+        private void OnAnswerKeyListItemControlButtonPressed(object sender, AnswerKeyListItem.ControlButton controlButton)
+        {
+            AnswerKeyListItem keyListItem = (AnswerKeyListItem)sender;
+            OMRConfiguration omrConfig = (OMRConfiguration)ConfigurationsManager.GetConfiguration(keyListItem.ConfigTitle);
+            switch (controlButton)
+            {
+                case AnswerKeyListItem.ControlButton.Delete:
+                    DeleteAnswerKeyItem(omrConfig, keyListItem);
+                    break;
+                case AnswerKeyListItem.ControlButton.Configure:
+                    DeleteToEditKeyItem = () => { DeleteAnswerKeyItem(omrConfig, keyListItem, false); };
+
+                    answerKeyMainPanel.Visible = false;
+                    addAnswerKeyPanel.Dock = DockStyle.Fill;
+                    var exmPapers = GeneralManager.GetExamPapers;
+                    answerKeyPaperComboBox.DataSource = exmPapers != null ? exmPapers.GetPapers : null;
+                    answerKeyPaperComboBox.DisplayMember = "Title";
+                    if (omrConfig.GeneralAnswerKey != null && omrConfig.GeneralAnswerKey.Title == keyListItem.KeyTitle)
+                    {
+                        AnswerKey answerKey = omrConfig.GeneralAnswerKey;
+
+                        configurationComboBox.SelectedItem = omrConfig;
+                        answerKeyTitleField.Text = answerKey.Title;
+
+                        answerKeyPaperComboBox.SelectedItem = answerKey.GetPaper;
+
+                        PopulateFields(answerKey);
+                    }
+                    else if (omrConfig.PB_AnswerKeys != null && omrConfig.PB_AnswerKeys.Count > 0 && omrConfig.PB_AnswerKeys.Values.Any(x => x.Title == keyListItem.KeyTitle))
+                    {
+                        var dicItem = omrConfig.PB_AnswerKeys.First(x => x.Value.Title == keyListItem.KeyTitle);
+
+                        configurationComboBox.SelectedItem = omrConfig;
+                        answerKeyTitleField.Text = keyListItem.KeyTitle;
+                        answerKeyParameterValueField.Text = dicItem.Key.parameterValue;
+
+                        answerKeyPaperComboBox.SelectedItem = dicItem.Value.GetPaper;
+
+                        PopulateFields(dicItem.Value);
+                    }
+                    addAnswerKeyPanel.Visible = true;
                     break;
             }
         }
@@ -1522,7 +1741,5 @@ namespace Synapse
         #endregion
 
         #endregion
-
-        
     }
 }

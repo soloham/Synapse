@@ -19,21 +19,21 @@ namespace Synapse.Core.Keys
         public string Title { get; private set; }
         public string GetConfigName { get; private set; }
         public int[][] GetKey { get; private set; }
-        public Paper GetPaperCode { get; private set; }
+        public Paper GetPaper { get; private set; }
 
         public AnswerKey(AnswerKey key)
         {
             Title = key.Title;
             GetConfigName = key.GetConfigName;
             GetKey = key.GetKey;
-            GetPaperCode = key.GetPaperCode;
+            GetPaper = key.GetPaper;
         }
         public AnswerKey(string title, string getConfigName, int[][] getKey, Paper getPaperCode)
         {
             Title = title;
             GetConfigName = getConfigName;
             GetKey = getKey;
-            GetPaperCode = getPaperCode;
+            GetPaper = getPaperCode;
         }
     }
 }

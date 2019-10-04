@@ -2,7 +2,9 @@
 using Emgu.CV;
 using Emgu.CV.Structure;
 using Synapse.Core.Configurations;
+using Synapse.Core.Engines;
 using Synapse.Core.Engines.Data;
+using Synapse.Core.Keys;
 using Synapse.Core.Templates;
 using Synapse.Utilities;
 using Synapse.Utilities.Enums;
@@ -104,6 +106,8 @@ namespace Synapse.Core.Managers
 
             double runningAverage = 0;
             double runningTotal = 0;
+
+            int extraColumns = 0;
             for (int i = 0; i < sheetsPaths.Length; i++)
             {
                 var t0 = DateTime.Now;
@@ -122,6 +126,8 @@ namespace Synapse.Core.Managers
                 List<ProcessedDataEntry> processedDataEntries = new List<ProcessedDataEntry>();
                 int lastDataColumnsIndex = 0;
                 ConfigurationBase curConfigurationBase = null;
+
+                var parameterBasedGradings = new List<(ProcessedDataEntry toGradeEntry, Parameter[] gradingParameters)>();
                 for (int i1 = 0; i1 < allConfigurations.Count; i1++)
                 {
                     curConfigurationBase = allConfigurations[i1];
@@ -157,8 +163,36 @@ namespace Synapse.Core.Managers
                                     switch (omrConfig.KeyType)
                                     {
                                         case Keys.KeyType.General:
+                                            try
+                                            {
+                                                var generalKey = omrConfig.GeneralAnswerKey;
+                                                var rawValues = ProcessedDataEntry.GenerateRawOMRDataValues(omrConfig, processedDataEntry.GetFieldsOutputs, omrConfig.GetEscapeSymbols());
+                                                var gradeResult = OMREngine.GradeSheet(generalKey, rawValues);
+
+                                                for (int i2 = 0; i2 < 4; i2++)
+                                                {
+                                                    string dataTitle = i2 == 0 ? omrConfig.Title + " Score" : i2 == 1 ? omrConfig.Title + " Total" : i2 == 2 ? omrConfig.Title + " Paper" : i2 == 3 ? omrConfig.Title + " Key" : omrConfig.Title + $" x{i2}";
+                                                    Functions.AddProperty(dynamicDataRow, dataTitle, i2 == 0 ? gradeResult.obtainedMarks + "" : i2 == 1 ? gradeResult.totalMarks + "" : i2 == 2? generalKey.GetPaper.Title : generalKey.Title);
+
+                                                    lastDataColumnsIndex++;
+                                                    extraColumns++;
+                                                }
+                                            }
+                                            catch
+                                            {
+                                                for (int i2 = 0; i2 < 4; i2++)
+                                                {
+                                                    string dataTitle = i2 == 0 ? omrConfig.Title + " Score" : i2 == 1 ? omrConfig.Title + " Total" : i2 == 2 ? omrConfig.Title + " Paper" : i2 == 3? omrConfig.Title + " Key" : omrConfig.Title + $" x{i2}";
+                                                    Functions.AddProperty(dynamicDataRow, dataTitle, i2 == 0 ? "—" : i2 == 1 ? "—" : i2 == 2? "—" : "—");
+
+                                                    lastDataColumnsIndex++;
+                                                    extraColumns++;
+                                                }
+                                            }
                                             break;
                                         case Keys.KeyType.ParameterBased:
+                                            parameterBasedGradings.Add((processedDataEntry, omrConfig.PB_AnswerKeys.Keys.ToArray()));
+                                            lastDataColumnsIndex += 4;
                                             break;
                                         default:
                                             break;
@@ -174,6 +208,39 @@ namespace Synapse.Core.Managers
                             break;
                         case MainConfigType.ICR:
                             break;
+                    }
+                }
+
+                for (int pbEntryIndex = 0; pbEntryIndex < parameterBasedGradings.Count; pbEntryIndex++)
+                {
+                    var pbGradingData = parameterBasedGradings[pbEntryIndex];
+                    var omrConfig = (OMRConfiguration)pbGradingData.toGradeEntry.GetConfigurationBase;
+                    var gradingParameters = pbGradingData.gradingParameters;
+                    try
+                    {
+                        var curParameter = gradingParameters.First(x => processedDataEntries.Any(y => y.GetConfigurationBase == x.parameterConfig && y.FormatData()[0] == x.parameterValue));
+                        var paramKey = omrConfig.PB_AnswerKeys[curParameter];
+
+                        var rawValues = ProcessedDataEntry.GenerateRawOMRDataValues(omrConfig, pbGradingData.toGradeEntry.GetFieldsOutputs, omrConfig.GetEscapeSymbols());
+                        var gradeResult = OMREngine.GradeSheet(paramKey, rawValues);
+
+                        for (int i2 = 0; i2 < 4; i2++)
+                        {                            
+                            string dataTitle = i2 == 0 ? omrConfig.Title + " Score" : i2 == 1 ? omrConfig.Title + " Total" : i2 == 2 ? omrConfig.Title + " Paper" : i2 == 3 ? omrConfig.Title + " Key" : omrConfig.Title + $" x{i2}";
+                            Functions.AddProperty(dynamicDataRow, dataTitle, i2 == 0 ? gradeResult.obtainedMarks + "" : i2 == 1 ? gradeResult.totalMarks + "" : i2 == 2? paramKey.GetPaper.Title : paramKey.Title);
+
+                            extraColumns++;
+                        }
+                    }
+                    catch(Exception ex)
+                    {
+                        for (int i2 = 0; i2 < 4; i2++) 
+                        { 
+                            string dataTitle = i2 == 0 ? omrConfig.Title + " Score" : i2 == 1 ? omrConfig.Title + " Total" : i2 == 2 ? omrConfig.Title + " Paper" : i2 == 3 ? omrConfig.Title + " Key" : omrConfig.Title + $" x{i2}";
+                            Functions.AddProperty(dynamicDataRow, dataTitle, i2 == 0 ? "—" : i2 == 1 ? "—" : i2 == 2 ? "—" : "—");
+
+                            extraColumns++;
+                        }
                     }
                 }
 
@@ -197,7 +264,7 @@ namespace Synapse.Core.Managers
                     break;
                 }
                 if (i == 0 && !keepData)
-                    SynapseMain.GetSynapseMain.InitializeMainDataGrid(processedDataEntries, allProcessedDataSource);
+                    SynapseMain.GetSynapseMain.InitializeMainDataGrid(processedDataEntries, allProcessedDataSource, extraColumns);
 
                 OnDataSourceUpdated?.Invoke(this, processedRowType);
 

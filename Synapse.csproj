@@ -125,6 +125,12 @@
     <Compile Include="Controls\Answer Key\AnswerKeyFieldControl.Designer.cs">
       <DependentUpon>AnswerKeyFieldControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Answer Key\AnswerKeyListItem.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Answer Key\AnswerKeyListItem.Designer.cs">
+      <DependentUpon>AnswerKeyListItem.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\AutoLabelEx.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -313,6 +319,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\Answer Key\AnswerKeyFieldControl.resx">
       <DependentUpon>AnswerKeyFieldControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Answer Key\AnswerKeyListItem.resx">
+      <DependentUpon>AnswerKeyListItem.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\AutoLabelEx.resx">
       <DependentUpon>AutoLabelEx.cs</DependentUpon>

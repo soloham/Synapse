@@ -531,7 +531,18 @@ namespace Synapse.Core.Configurations
                     break;
             }
 
-            if (PB_AnswerKeys.Keys.Any(x => x.parameterConfig == parameter.parameterConfig && x.parameterValue == parameter.parameterValue))
+            if (PB_AnswerKeys.Values.Any(x => x.Title == answerKey.Title))
+            {
+                if (Messages.ShowQuestion("A key with this title already exists, would you like to override it?") == DialogResult.No)
+                {
+                    err = "User Denied";
+                    return false;
+                }
+                Parameter currentKeyParam = PB_AnswerKeys.First(x => x.Value.Title == answerKey.Title).Key;
+                PB_AnswerKeys.Remove(currentKeyParam);
+                PB_AnswerKeys[parameter] = answerKey;
+            }
+            else if (PB_AnswerKeys.Keys.Any(x => x.parameterConfig == parameter.parameterConfig && x.parameterValue == parameter.parameterValue))
             {
                 if (Messages.ShowQuestion("A key with this parameter already exists, would you like to override it?") == DialogResult.No)
                 {

@@ -2,6 +2,7 @@
 using Synapse.Core.Configurations;
 using Synapse.Core.Engines.Data;
 using Synapse.Core.Engines.Interface;
+using Synapse.Core.Keys;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -173,7 +174,7 @@ namespace Synapse.Core.Engines
                         filledIndexes.Add((byte)j);
 
                     OnOptionProcessed?.Invoke(curOptionRect, isFilled);
-                    if(OnOptionProcessed != null)
+                    if (OnOptionProcessed != null)
                         await Task.Delay(TimeSpan.FromMilliseconds(GetWaitMS()));
 
                     curOptionRectIndex++;
@@ -245,6 +246,61 @@ namespace Synapse.Core.Engines
 
             ProcessedDataEntry processedDataEntry = new ProcessedDataEntry(configuration.Title, regionFieldsOutputs, processedDataResultType);
             return processedDataEntry;
+        }
+
+        public static (int totalMarks, int obtainedMarks) GradeSheet(AnswerKey answerKey, byte[][] observedOptions)
+        {
+            int totalMarks = 0, obtainedMarks = 0;
+
+            int correctOptionValue = answerKey.GetPaper.GetCorrectOptionValue;
+            int wrongOptionValue = answerKey.GetPaper.GetWrongOptionValue;
+            int[][] keyOptions = answerKey.GetKey;
+            int totalFields = keyOptions.Length;
+            int totalOptions = keyOptions[0].Length;
+
+            totalMarks = correctOptionValue * totalFields;
+            for (int i = 0; i < totalFields; i++)
+            {
+                bool isCorrect = false;
+                for (int j = 0; j < totalOptions; j++)
+                {
+                    if (observedOptions[i][j] == 1 && observedOptions[i][j] == keyOptions[i][j])
+                        isCorrect = true;
+                }
+                if (isCorrect)
+                    obtainedMarks += correctOptionValue;
+                else
+                    obtainedMarks -= wrongOptionValue;
+            }
+
+            return (totalMarks, obtainedMarks);
+        }
+        public static (int totalMarks, int obtainedMarks) GradeSheet(AnswerKey answerKey, byte[,] observedOptions)
+        {
+            int totalMarks = 0, obtainedMarks = 0;
+
+            int correctOptionValue = answerKey.GetPaper.GetCorrectOptionValue;
+            int wrongOptionValue = answerKey.GetPaper.GetWrongOptionValue;
+            int[][] keyOptions = answerKey.GetKey;
+            int totalFields = keyOptions.Length;
+            int totalOptions = keyOptions[0].Length;
+
+            totalMarks = correctOptionValue * totalFields;
+            for (int i = 0; i < totalFields; i++)
+            {
+                bool isCorrect = false;
+                for (int j = 0; j < totalOptions; j++)
+                {
+                    if (observedOptions[i,j] == 1 && observedOptions[i,j] == keyOptions[i][j])
+                        isCorrect = true;
+                }
+                if (isCorrect)
+                    obtainedMarks += correctOptionValue;
+                else
+                    obtainedMarks -= wrongOptionValue;
+            }
+
+            return (totalMarks, obtainedMarks);
         }
     }
 }

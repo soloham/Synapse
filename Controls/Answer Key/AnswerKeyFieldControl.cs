@@ -63,6 +63,16 @@ namespace Synapse.Controls.Answer_Key
             fieldIndexLabel.Text = $"{fieldIndex}.";
         }
         public int[] GetMarkedOptions() => markedOptionsIndexes.ToArray();
+        public void SetOptions(int[] options)
+        {
+            if (options.Length != OptionsUIList.Count)
+                return;
+
+            for (int i = 0; i < options.Length; i++)
+            {
+                OptionsUIList[i].Checked = options[i] == 1;
+            }
+        }
         #endregion
 
         #region Private Methods

@@ -38,6 +38,8 @@ namespace Synapse.Core
         public int GetFieldsCount { get; private set; }
         public int GetOptionsCount { get; private set; }
         public PaperDirection GetPaperDirection { get; private set; }
+        public int GetCorrectOptionValue { get => 1; private set { } }
+        public int GetWrongOptionValue { get => 0; private set { } }
 
         internal void Reset(Paper newPaper)
         {
