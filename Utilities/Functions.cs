@@ -165,5 +165,19 @@ namespace Synapse.Utilities
             else
                 return null;
         }
+        public static object GetPropertyByIndex(ExpandoObject expando, int propertyIndex)
+        {
+            //Take use of the IDictionary implementation
+            var expandoDict = (IDictionary<string, object>)expando;
+            var propertyNames = expandoDict.Keys.ToArray();
+            if (propertyNames.Length <= propertyIndex)
+                return null;
+
+            string propertyName = propertyNames[propertyIndex];
+            if (expandoDict.ContainsKey(propertyName))
+                return expandoDict[propertyName];
+            else
+                return null;
+        }
     }
 }

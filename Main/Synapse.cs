@@ -28,6 +28,9 @@ using Synapse.Core;
 using Synapse.Core.Keys;
 using System.Linq;
 using Synapse.Controls;
+using System.Data;
+using Synapse.Utilities.Attributes;
+using Synapse.Utilities.Enums;
 
 namespace Synapse
 {
@@ -40,6 +43,17 @@ namespace Synapse
             Red, Yellow, Green
         }
 
+        public enum Themes
+        {
+            [EnumDescription("White")]
+            WHITE,
+            [EnumDescription("Colorful")]
+            COLORFUL,
+            [EnumDescription("Dark Gray")]
+            DARK_GRAY,
+            [EnumDescription("Black")]
+            BLACK
+        }
         #endregion
 
         #region Objects
@@ -78,6 +92,9 @@ namespace Synapse
         #region Variables
         private SynchronizationContext synchronizationContext;
 
+        #region BackStage
+        public Themes CurrentTheme;
+        #endregion
         #region Configuration Panel
         private PointF curImageMouseLoc;
 
@@ -415,6 +432,12 @@ namespace Synapse
         #region Main
         private async void Awake()
         {
+            #region BackStage
+            bsSettingsThemeField.DataSource = EnumHelper.ToList(typeof(Themes));
+            bsSettingsThemeField.DisplayMember = "Value";
+            bsSettingsThemeField.ValueMember = "Key";
+            #endregion
+
             //Pre-Ops
             //-User Interface Setup
             //--Ribbon Tabs Setup
@@ -478,6 +501,10 @@ namespace Synapse
 
             MainProcessingManager = new ProcessingManager(GetCurrentTemplate);
             MainProcessingManager.OnDataSourceUpdated += MainProcessingManager_OnDataSourceUpdated;
+            
+            mainDataGrid.Style.ProgressBarStyle.ForegroundStyle = Syncfusion.WinForms.DataGrid.Enums.GridProgressBarStyle.Gradient;
+            mainDataGrid.Style.ProgressBarStyle.GradientForegroundStartColor = Color.DeepSkyBlue;
+            mainDataGrid.Style.ProgressBarStyle.GradientForegroundEndColor = Color.DodgerBlue;
         }
 
         private void MainProcessingManager_OnDataSourceUpdated(object sender, ProcessedDataType e)
@@ -825,15 +852,16 @@ namespace Synapse
                         switch (omrConfig.OMRType)
                         {
                             case OMRType.Gradable:
-                                GridTextColumn omrScoreCol = new GridTextColumn();
+                                GridProgressBarColumn omrScoreCol = new GridProgressBarColumn();
+                                omrScoreCol.ValueMode = Syncfusion.WinForms.DataGrid.Enums.ProgressBarValueMode.Value;
                                 omrScoreCol.MappingName = omrConfig.Title + " Score";
                                 omrScoreCol.HeaderText = omrConfig.Title + " Score";
                                 mainDataGrid.Columns.Add(omrScoreCol);
 
-                                GridTextColumn omrTotalCol = new GridTextColumn();
-                                omrTotalCol.MappingName = omrConfig.Title + " Total";
-                                omrTotalCol.HeaderText = omrConfig.Title + " Total";
-                                mainDataGrid.Columns.Add(omrTotalCol);
+                                //GridTextColumn omrTotalCol = new GridTextColumn();
+                                //omrTotalCol.MappingName = omrConfig.Title + " Total";
+                                //omrTotalCol.HeaderText = omrConfig.Title + " Total";
+                                //mainDataGrid.Columns.Add(omrTotalCol);
 
                                 GridTextColumn omrPaperCol = new GridTextColumn();
                                 omrPaperCol.MappingName = omrConfig.Title + " Paper";
@@ -846,7 +874,7 @@ namespace Synapse
                                 mainDataGrid.Columns.Add(omrKeyCol);
 
                                 gridColumns.Add(omrScoreCol.HeaderText);
-                                gridColumns.Add(omrTotalCol.HeaderText);
+                                //gridColumns.Add(omrTotalCol.HeaderText);
                                 gridColumns.Add(omrPaperCol.HeaderText);
                                 gridColumns.Add(omrKeyCol.HeaderText);
 
@@ -988,6 +1016,139 @@ namespace Synapse
             Application.Exit();
         }
 
+        #region BackStage
+        private void bsSettingsThemeField_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Themes selectedTheme = (Themes)bsSettingsThemeField.SelectedIndex;
+            switch (selectedTheme)
+            {
+                case Themes.WHITE:
+                    ribbonControl.ThemeName = "Office2016White";
+                    dataConfigToolStripEx.ThemeName = "Office2016White";
+                    readingTabStatusBar.ThemeName = "Metro";
+                    dataManipulationToolStripEx.ThemeName = "Metro";
+                    exportToolStripEx.ThemeName = "Metro";
+                    mainDockingManager.ThemeName = "Metro";
+                    mainDataGrid.ThemeName = "Office2016White";
+                    mainDataGridPager.ThemeName = "Office2016White";
+
+                    templateImageBox.BackColor = Color.White;
+                    templateImageBox.GridColor = Color.White;
+                    templateImageBox.GridColorAlternate = Color.White;
+
+                    mainDataGrid.BackColor = Color.White;
+                    configPropertyEditor.PropertyGrid.BackColor = Color.White;
+                    configPropertyEditor.PropertyGrid.HelpBackColor = SystemColors.Control;
+                    configPropertyEditor.PropertyGrid.ViewBackColor = SystemColors.Window;
+                    configPropertyEditor.PropertyGrid.LineColor = SystemColors.InactiveBorder;
+                    configPropertyEditor.PropertyGrid.SelectedItemWithFocusBackColor = SystemColors.Highlight;
+                    configPropertyEditor.PropertyGrid.ViewForeColor = SystemColors.WindowText;
+                    configPropertyEditor.PropertyGrid.HelpForeColor = SystemColors.ControlText;
+                    configPropertyEditor.PropertyGrid.SelectedItemWithFocusForeColor = SystemColors.HighlightText;
+                    configPropertyEditor.PropertyGrid.CategoryForeColor = SystemColors.ControlText;
+
+                    backStageTab1.BackColor = Color.White;
+                    bsSettingsTablePanel.BackColor = Color.White;
+                    bsSettingsTabLabel.ForeColor = SystemColors.ControlText;
+                    bsSettingsThemeLabel.ForeColor = SystemColors.ControlText;
+                    bsSettingsThemeField.ForeColor = SystemColors.ControlText;
+                    break;
+                case Themes.COLORFUL:
+                    ribbonControl.ThemeName = "Office2016Colorful";
+                    dataConfigToolStripEx.ThemeName = "Office2016Colorful";
+                    readingTabStatusBar.ThemeName = "Metro";
+                    dataManipulationToolStripEx.ThemeName = "Metro";
+                    dataPointStorageToolStripEx.ThemeName = "Metro";
+                    exportToolStripEx.ThemeName = "Metro";
+                    mainDockingManager.ThemeName = "Office2016Colorful";
+                    mainDataGrid.ThemeName = "Office2016Colorful";
+                    mainDataGridPager.ThemeName = "Office2016Colorful";
+
+                    backStageTab1.BackColor = Color.FromArgb(243, 243, 243);
+                    bsSettingsTablePanel.BackColor = Color.FromArgb(243, 243, 243);
+                    bsSettingsTabLabel.ForeColor = SystemColors.ControlText;
+                    bsSettingsThemeLabel.ForeColor = SystemColors.ControlText;
+                    bsSettingsThemeField.ForeColor = SystemColors.ControlText;
+
+                    templateImageBox.BackColor = Color.FromArgb(243, 243, 243);
+                    templateImageBox.GridColor = Color.FromArgb(243, 243, 243);
+                    templateImageBox.GridColorAlternate = Color.FromArgb(243, 243, 243);
+
+                    configPropertyEditor.PropertyGrid.BackColor = Color.FromArgb(243, 243, 243);
+                    configPropertyEditor.PropertyGrid.HelpBackColor = Color.FromArgb(243, 243, 243);
+                    configPropertyEditor.PropertyGrid.ViewBackColor = Color.FromArgb(243, 243, 243);
+                    configPropertyEditor.PropertyGrid.LineColor = SystemColors.InactiveBorder;
+                    configPropertyEditor.PropertyGrid.SelectedItemWithFocusBackColor = SystemColors.Highlight;
+                    configPropertyEditor.PropertyGrid.ViewForeColor = SystemColors.WindowText;
+                    configPropertyEditor.PropertyGrid.HelpForeColor = SystemColors.ControlText;
+                    configPropertyEditor.PropertyGrid.SelectedItemWithFocusForeColor = SystemColors.HighlightText;
+                    configPropertyEditor.PropertyGrid.CategoryForeColor = SystemColors.ControlText;
+                    break;
+                case Themes.DARK_GRAY:
+                    ribbonControl.ThemeName = "Office2016DarkGray";
+                    dataConfigToolStripEx.ThemeName = "Office2016DarkGray";
+                    readingTabStatusBar.ThemeName = "Office2016DarkGray";
+                    dataManipulationToolStripEx.ThemeName = "Office2016DarkGray";
+                    dataPointStorageToolStripEx.ThemeName = "Office2016DarkGray";
+                    exportToolStripEx.ThemeName = "Office2016DarkGray";
+                    mainDockingManager.ThemeName = "Office2016DarkGray";
+                    mainDataGrid.ThemeName = "Office2016DarkGray";
+                    mainDataGridPager.ThemeName = "Office2016DarkGray";
+
+                    backStageTab1.BackColor = Color.FromArgb(68, 68, 68);
+                    bsSettingsTablePanel.BackColor = Color.FromArgb(68, 68, 68);
+                    bsSettingsTabLabel.ForeColor = Color.WhiteSmoke;
+                    bsSettingsThemeLabel.ForeColor = Color.WhiteSmoke;
+                    bsSettingsThemeField.ForeColor = Color.WhiteSmoke;
+
+                    templateImageBox.BackColor = Color.FromArgb(68, 68, 68);
+                    templateImageBox.GridColor = Color.FromArgb(68, 68, 68);
+                    templateImageBox.GridColorAlternate = Color.FromArgb(68, 68, 68);
+
+                    configPropertyEditor.PropertyGrid.BackColor = Color.FromArgb(68, 68, 68);
+                    configPropertyEditor.PropertyGrid.HelpBackColor = Color.FromArgb(68, 68, 68);
+                    configPropertyEditor.PropertyGrid.ViewBackColor = Color.FromArgb(68, 68, 68);
+                    configPropertyEditor.PropertyGrid.LineColor = Color.FromArgb(88, 88, 88);
+                    configPropertyEditor.PropertyGrid.SelectedItemWithFocusBackColor = SystemColors.Highlight;
+                    configPropertyEditor.PropertyGrid.ViewForeColor = Color.WhiteSmoke;
+                    configPropertyEditor.PropertyGrid.HelpForeColor = Color.WhiteSmoke;
+                    configPropertyEditor.PropertyGrid.SelectedItemWithFocusForeColor = SystemColors.HighlightText;
+                    configPropertyEditor.PropertyGrid.CategoryForeColor = Color.WhiteSmoke;
+                    break;
+                case Themes.BLACK:
+                    ribbonControl.ThemeName = "Office2016Black";
+                    dataConfigToolStripEx.ThemeName = "Office2016Black";
+                    readingTabStatusBar.ThemeName = "Office2016Black";
+                    dataManipulationToolStripEx.ThemeName = "Office2016Black";
+                    dataPointStorageToolStripEx.ThemeName = "Office2016Black";
+                    exportToolStripEx.ThemeName = "Office2016Black";
+                    mainDockingManager.ThemeName = "Office2016Black";
+                    mainDataGrid.ThemeName = "Office2016Black";
+                    mainDataGridPager.ThemeName = "Office2016Black";
+
+                    backStageTab1.BackColor = Color.FromArgb(54, 54, 54);
+                    bsSettingsTablePanel.BackColor = Color.FromArgb(54, 54, 54);
+                    bsSettingsTabLabel.ForeColor = Color.WhiteSmoke;
+                    bsSettingsThemeLabel.ForeColor = Color.WhiteSmoke;
+                    bsSettingsThemeField.ForeColor = Color.WhiteSmoke;
+
+                    templateImageBox.BackColor = Color.FromArgb(54, 54, 54);
+                    templateImageBox.GridColor = Color.FromArgb(54, 54, 54);
+                    templateImageBox.GridColorAlternate = Color.FromArgb(54, 54, 54);
+
+                    configPropertyEditor.PropertyGrid.BackColor = Color.FromArgb(54, 54, 54);
+                    configPropertyEditor.PropertyGrid.HelpBackColor = Color.FromArgb(54, 54, 54);
+                    configPropertyEditor.PropertyGrid.ViewBackColor = Color.FromArgb(54, 54, 54);
+                    configPropertyEditor.PropertyGrid.LineColor = Color.FromArgb(74, 74, 74);
+                    configPropertyEditor.PropertyGrid.SelectedItemWithFocusBackColor = SystemColors.Highlight;
+                    configPropertyEditor.PropertyGrid.ViewForeColor = Color.WhiteSmoke;
+                    configPropertyEditor.PropertyGrid.HelpForeColor = Color.WhiteSmoke;
+                    configPropertyEditor.PropertyGrid.SelectedItemWithFocusForeColor = SystemColors.HighlightText;
+                    configPropertyEditor.PropertyGrid.CategoryForeColor = Color.WhiteSmoke;
+                    break;
+            }
+        }
+        #endregion
         #region Configuration Tab
         private void TemplateConfigureToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1647,6 +1808,19 @@ namespace Synapse
         private void MainDataGrid_SelectionChanged(object sender, Syncfusion.WinForms.DataGrid.Events.SelectionChangedEventArgs e)
         {
 
+        }
+        private void mainDataGrid_QueryProgressBarCellStyle(object sender, Syncfusion.WinForms.DataGrid.Events.QueryProgressBarCellStyleEventArgs e)
+        {
+            if (!e.Column.HeaderText.Contains(" Score"))
+                return;
+
+            var dataObject = (dynamic)e.Record;
+            AnswerKey ansKey = Functions.GetProperty(dataObject, "AnswerKey");
+            if (ansKey == null)
+                return;
+
+            int maximum = ansKey.GetPaper.GetCorrectOptionValue * ansKey.GetKey.Length;
+            e.Maximum = maximum == 0 ? 100 : maximum;
         }
         private void MainDataGrid_CellClick(object sender, Syncfusion.WinForms.DataGrid.Events.CellClickEventArgs e)
         {

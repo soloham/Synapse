@@ -168,11 +168,12 @@ namespace Synapse.Core.Managers
                                                 var generalKey = omrConfig.GeneralAnswerKey;
                                                 var rawValues = ProcessedDataEntry.GenerateRawOMRDataValues(omrConfig, processedDataEntry.GetFieldsOutputs, omrConfig.GetEscapeSymbols());
                                                 var gradeResult = OMREngine.GradeSheet(generalKey, rawValues);
+                                                Functions.AddProperty(dynamicDataRow, "AnswerKey", generalKey);
 
-                                                for (int i2 = 0; i2 < 4; i2++)
+                                                for (int i2 = 0; i2 < 3; i2++)
                                                 {
-                                                    string dataTitle = i2 == 0 ? omrConfig.Title + " Score" : i2 == 1 ? omrConfig.Title + " Total" : i2 == 2 ? omrConfig.Title + " Paper" : i2 == 3 ? omrConfig.Title + " Key" : omrConfig.Title + $" x{i2}";
-                                                    Functions.AddProperty(dynamicDataRow, dataTitle, i2 == 0 ? gradeResult.obtainedMarks + "" : i2 == 1 ? gradeResult.totalMarks + "" : i2 == 2? generalKey.GetPaper.Title : generalKey.Title);
+                                                    string dataTitle = i2 == 0 ? omrConfig.Title + " Score" : i2 == 1 ? omrConfig.Title + " Paper" : i2 == 2 ? omrConfig.Title + " Key" : omrConfig.Title + $" x{i2}";
+                                                    Functions.AddProperty(dynamicDataRow, dataTitle, i2 == 0 ? gradeResult.obtainedMarks + "" : i2 == 1? generalKey.GetPaper.Title : generalKey.Title);
 
                                                     lastDataColumnsIndex++;
                                                     extraColumns++;
@@ -180,10 +181,10 @@ namespace Synapse.Core.Managers
                                             }
                                             catch
                                             {
-                                                for (int i2 = 0; i2 < 4; i2++)
+                                                for (int i2 = 0; i2 < 3; i2++)
                                                 {
-                                                    string dataTitle = i2 == 0 ? omrConfig.Title + " Score" : i2 == 1 ? omrConfig.Title + " Total" : i2 == 2 ? omrConfig.Title + " Paper" : i2 == 3? omrConfig.Title + " Key" : omrConfig.Title + $" x{i2}";
-                                                    Functions.AddProperty(dynamicDataRow, dataTitle, i2 == 0 ? "—" : i2 == 1 ? "—" : i2 == 2? "—" : "—");
+                                                    string dataTitle = i2 == 0 ? omrConfig.Title + " Score" : i2 == 1 ? omrConfig.Title + " Paper" : i2 == 2? omrConfig.Title + " Key" : omrConfig.Title + $" x{i2}";
+                                                    Functions.AddProperty(dynamicDataRow, dataTitle, "—");
 
                                                     lastDataColumnsIndex++;
                                                     extraColumns++;
@@ -223,21 +224,22 @@ namespace Synapse.Core.Managers
 
                         var rawValues = ProcessedDataEntry.GenerateRawOMRDataValues(omrConfig, pbGradingData.toGradeEntry.GetFieldsOutputs, omrConfig.GetEscapeSymbols());
                         var gradeResult = OMREngine.GradeSheet(paramKey, rawValues);
+                        Functions.AddProperty(dynamicDataRow, "AnswerKey", paramKey);
 
-                        for (int i2 = 0; i2 < 4; i2++)
+                        for (int i2 = 0; i2 < 3; i2++)
                         {                            
-                            string dataTitle = i2 == 0 ? omrConfig.Title + " Score" : i2 == 1 ? omrConfig.Title + " Total" : i2 == 2 ? omrConfig.Title + " Paper" : i2 == 3 ? omrConfig.Title + " Key" : omrConfig.Title + $" x{i2}";
-                            Functions.AddProperty(dynamicDataRow, dataTitle, i2 == 0 ? gradeResult.obtainedMarks + "" : i2 == 1 ? gradeResult.totalMarks + "" : i2 == 2? paramKey.GetPaper.Title : paramKey.Title);
+                            string dataTitle = i2 == 0 ? omrConfig.Title + " Score" : i2 == 1 ? omrConfig.Title + " Paper" : i2 == 2 ? omrConfig.Title + " Key" : omrConfig.Title + $" x{i2}";
+                            Functions.AddProperty(dynamicDataRow, dataTitle, i2 == 0 ? gradeResult.obtainedMarks + "" : i2 == 1? paramKey.GetPaper.Title : paramKey.Title);
 
                             extraColumns++;
                         }
                     }
                     catch(Exception ex)
                     {
-                        for (int i2 = 0; i2 < 4; i2++) 
+                        for (int i2 = 0; i2 < 3; i2++) 
                         { 
-                            string dataTitle = i2 == 0 ? omrConfig.Title + " Score" : i2 == 1 ? omrConfig.Title + " Total" : i2 == 2 ? omrConfig.Title + " Paper" : i2 == 3 ? omrConfig.Title + " Key" : omrConfig.Title + $" x{i2}";
-                            Functions.AddProperty(dynamicDataRow, dataTitle, i2 == 0 ? "—" : i2 == 1 ? "—" : i2 == 2 ? "—" : "—");
+                            string dataTitle = i2 == 0 ? omrConfig.Title + " Score" : i2 == 1 ? omrConfig.Title + " Paper" : i2 == 2 ? omrConfig.Title + " Key" : omrConfig.Title + $" x{i2}";
+                            Functions.AddProperty(dynamicDataRow, dataTitle, "—");
 
                             extraColumns++;
                         }

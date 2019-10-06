@@ -35,15 +35,28 @@ namespace Synapse
             this.ribbonControl = new Syncfusion.Windows.Forms.Tools.RibbonControlAdv();
             this.backStageView = new Syncfusion.Windows.Forms.BackStageView(this.components);
             this.backStage1 = new Syncfusion.Windows.Forms.BackStage();
+            this.backStageTab1 = new Syncfusion.Windows.Forms.BackStageTab();
+            this.bsSettingsTablePanel = new System.Windows.Forms.TableLayoutPanel();
+            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.bsSettingsThemeLabel = new Syncfusion.Windows.Forms.Tools.AutoLabel();
+            this.bsSettingsThemeField = new Syncfusion.Windows.Forms.Tools.ComboBoxAdv();
+            this.bsSettingsTabLabel = new Syncfusion.Windows.Forms.Tools.AutoLabel();
             this.configToolStripTabItem = new Syncfusion.Windows.Forms.Tools.ToolStripTabItem();
             this.templateConfigToolStrip = new Syncfusion.Windows.Forms.Tools.ToolStripEx();
             this.dataConfigToolStripEx = new Syncfusion.Windows.Forms.Tools.ToolStripEx();
             this.aiConfigToolStripEx = new Syncfusion.Windows.Forms.Tools.ToolStripEx();
             this.readingToolStripTabItem = new Syncfusion.Windows.Forms.Tools.ToolStripTabItem();
             this.generalToolStripEx = new Syncfusion.Windows.Forms.Tools.ToolStripEx();
+            this.sheetsToolStripEx = new Syncfusion.Windows.Forms.Tools.ToolStripEx();
+            this.processingToolStripEx = new Syncfusion.Windows.Forms.Tools.ToolStripEx();
+            this.postOperationsToolStripEx = new Syncfusion.Windows.Forms.Tools.ToolStripEx();
+            this.dataMiningToolStripEx = new Syncfusion.Windows.Forms.Tools.ToolStripEx();
+            this.dataToolStripTabItem = new Syncfusion.Windows.Forms.Tools.ToolStripTabItem();
+            this.dataManipulationToolStripEx = new Syncfusion.Windows.Forms.Tools.ToolStripEx();
+            this.dataPointStorageToolStripEx = new Syncfusion.Windows.Forms.Tools.ToolStripEx();
+            this.exportToolStripEx = new Syncfusion.Windows.Forms.Tools.ToolStripEx();
             this.answerKeyToolStripBtn = new System.Windows.Forms.ToolStripButton();
             this.papersToolStripBtn = new System.Windows.Forms.ToolStripButton();
-            this.sheetsToolStripEx = new Syncfusion.Windows.Forms.Tools.ToolStripEx();
             this.sheetsToolStripPanelItem = new Syncfusion.Windows.Forms.Tools.ToolStripPanelItem();
             this.scanDirectoryToolStripBtn = new System.Windows.Forms.ToolStripButton();
             this.includeSubFoldersToolStripCheckBox = new Syncfusion.Windows.Forms.Tools.ToolStripCheckBox();
@@ -51,19 +64,12 @@ namespace Synapse
             this.scanLoadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.scanReadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
-            this.processingToolStripEx = new Syncfusion.Windows.Forms.Tools.ToolStripEx();
             this.startReadingToolStripBtn = new System.Windows.Forms.ToolStripButton();
             this.stopReadingToolStripBtn = new System.Windows.Forms.ToolStripButton();
-            this.postOperationsToolStripEx = new Syncfusion.Windows.Forms.Tools.ToolStripEx();
             this.reReadFaultySheetsToolStripBtn = new System.Windows.Forms.ToolStripButton();
             this.moveFaultySheetsToolStripBtn = new System.Windows.Forms.ToolStripButton();
             this.locateOptionsToolStripBtn = new System.Windows.Forms.ToolStripButton();
-            this.dataMiningToolStripEx = new Syncfusion.Windows.Forms.Tools.ToolStripEx();
             this.findDuplicatesToolStripBtn = new System.Windows.Forms.ToolStripButton();
-            this.dataToolStripTabItem = new Syncfusion.Windows.Forms.Tools.ToolStripTabItem();
-            this.dataManipulationToolStripEx = new Syncfusion.Windows.Forms.Tools.ToolStripEx();
-            this.dataPointStorageToolStripEx = new Syncfusion.Windows.Forms.Tools.ToolStripEx();
-            this.exportToolStripEx = new Syncfusion.Windows.Forms.Tools.ToolStripEx();
             this.templateConfigStatusToolStrip = new Syncfusion.Windows.Forms.Tools.ToolStripPanelItem();
             this.templateConfigStatusLabel = new System.Windows.Forms.ToolStripLabel();
             this.templateConfigStatusIndicator = new System.Windows.Forms.ToolStripButton();
@@ -166,19 +172,19 @@ namespace Synapse
             this.answerKeyMainPanel = new System.Windows.Forms.Panel();
             this.answerKeyPanelContentContainer = new System.Windows.Forms.TableLayoutPanel();
             this.addAnswerKeyBtn = new Syncfusion.Windows.Forms.ButtonAdv();
-            this.comboBoxAdv1 = new Syncfusion.Windows.Forms.Tools.ComboBoxAdv();
             this.answerKeyListFlowPanel = new System.Windows.Forms.Panel();
             this.answerKeysEmptyListLabel = new Syncfusion.Windows.Forms.Tools.AutoLabel();
+            this.comboBoxAdv1 = new Syncfusion.Windows.Forms.Tools.ComboBoxAdv();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
             this.ribbonControl.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.backStage1)).BeginInit();
+            this.backStage1.SuspendLayout();
+            this.backStageTab1.SuspendLayout();
+            this.bsSettingsTablePanel.SuspendLayout();
+            this.tableLayoutPanel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.bsSettingsThemeField)).BeginInit();
             this.configToolStripTabItem.Panel.SuspendLayout();
             this.readingToolStripTabItem.Panel.SuspendLayout();
-            this.generalToolStripEx.SuspendLayout();
-            this.sheetsToolStripEx.SuspendLayout();
-            this.processingToolStripEx.SuspendLayout();
-            this.postOperationsToolStripEx.SuspendLayout();
-            this.dataMiningToolStripEx.SuspendLayout();
             this.dataToolStripTabItem.Panel.SuspendLayout();
             this.configTabPanel.SuspendLayout();
             this.nonDockingClientArea.SuspendLayout();
@@ -217,8 +223,8 @@ namespace Synapse
             this.initializationButtonsPanel.SuspendLayout();
             this.answerKeyMainPanel.SuspendLayout();
             this.answerKeyPanelContentContainer.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.comboBoxAdv1)).BeginInit();
             this.answerKeyListFlowPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxAdv1)).BeginInit();
             this.SuspendLayout();
             // 
             // ribbonControl
@@ -254,10 +260,10 @@ namespace Synapse
             this.ribbonControl.QuickPanelVisible = false;
             this.ribbonControl.RibbonHeaderImage = Syncfusion.Windows.Forms.Tools.RibbonHeaderImage.RoundedSquares;
             this.ribbonControl.RibbonStyle = Syncfusion.Windows.Forms.Tools.RibbonStyle.Office2016;
-            this.ribbonControl.SelectedTab = this.readingToolStripTabItem;
+            this.ribbonControl.SelectedTab = this.configToolStripTabItem;
             this.ribbonControl.ShowLauncher = false;
             this.ribbonControl.ShowRibbonDisplayOptionButton = true;
-            this.ribbonControl.Size = new System.Drawing.Size(1486, 204);
+            this.ribbonControl.Size = new System.Drawing.Size(1486, 231);
             this.ribbonControl.SystemText.QuickAccessDialogDropDownName = "Start menu";
             this.ribbonControl.SystemText.RenameDisplayLabelText = "&Display Name:";
             this.ribbonControl.TabIndex = 1;
@@ -277,8 +283,10 @@ namespace Synapse
             // 
             // backStage1
             // 
+            this.backStage1.ActiveTabColor = System.Drawing.Color.White;
             this.backStage1.ActiveTabForeColor = System.Drawing.Color.Empty;
             this.backStage1.AllowDrop = true;
+            this.backStage1.BackColor = System.Drawing.SystemColors.Window;
             this.backStage1.BeforeTouchSize = new System.Drawing.Size(1482, 697);
             this.backStage1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.backStage1.BorderWidth = 0;
@@ -287,6 +295,7 @@ namespace Synapse
             this.backStage1.CloseButtonHoverForeColor = System.Drawing.Color.Empty;
             this.backStage1.CloseButtonPressedForeColor = System.Drawing.Color.Empty;
             this.backStage1.CloseTabOnMiddleClick = false;
+            this.backStage1.Controls.Add(this.backStageTab1);
             this.backStage1.Font = new System.Drawing.Font("Segoe UI", 8.25F);
             this.backStage1.InActiveTabForeColor = System.Drawing.Color.Empty;
             this.backStage1.ItemSize = new System.Drawing.Size(138, 40);
@@ -303,6 +312,92 @@ namespace Synapse
             this.backStage1.ThemeStyle.BorderFillColor = System.Drawing.Color.White;
             this.backStage1.ThemeStyle.PrimitiveButtonStyle.DisabledNextPageImage = null;
             this.backStage1.Visible = false;
+            // 
+            // backStageTab1
+            // 
+            this.backStageTab1.Accelerator = "";
+            this.backStageTab1.BackColor = System.Drawing.Color.White;
+            this.backStageTab1.Controls.Add(this.bsSettingsTablePanel);
+            this.backStageTab1.Controls.Add(this.bsSettingsTabLabel);
+            this.backStageTab1.Font = new System.Drawing.Font("Dosis", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.backStageTab1.Image = null;
+            this.backStageTab1.ImageSize = new System.Drawing.Size(16, 16);
+            this.backStageTab1.Location = new System.Drawing.Point(129, 0);
+            this.backStageTab1.Name = "backStageTab1";
+            this.backStageTab1.Position = new System.Drawing.Point(11, 57);
+            this.backStageTab1.ShowCloseButton = true;
+            this.backStageTab1.Size = new System.Drawing.Size(1353, 697);
+            this.backStageTab1.TabFont = new System.Drawing.Font("Dosis", 16F);
+            this.backStageTab1.TabIndex = 2;
+            this.backStageTab1.Text = "Settings";
+            this.backStageTab1.ThemesEnabled = false;
+            // 
+            // bsSettingsTablePanel
+            // 
+            this.bsSettingsTablePanel.ColumnCount = 1;
+            this.bsSettingsTablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.bsSettingsTablePanel.Controls.Add(this.tableLayoutPanel2, 0, 0);
+            this.bsSettingsTablePanel.Location = new System.Drawing.Point(139, 160);
+            this.bsSettingsTablePanel.Name = "bsSettingsTablePanel";
+            this.bsSettingsTablePanel.RowCount = 2;
+            this.bsSettingsTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.bsSettingsTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.bsSettingsTablePanel.Size = new System.Drawing.Size(481, 475);
+            this.bsSettingsTablePanel.TabIndex = 5;
+            // 
+            // tableLayoutPanel2
+            // 
+            this.tableLayoutPanel2.ColumnCount = 2;
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 44.90644F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 55.09356F));
+            this.tableLayoutPanel2.Controls.Add(this.bsSettingsThemeLabel, 0, 0);
+            this.tableLayoutPanel2.Controls.Add(this.bsSettingsThemeField, 1, 0);
+            this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel2.Margin = new System.Windows.Forms.Padding(0);
+            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+            this.tableLayoutPanel2.RowCount = 1;
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(481, 40);
+            this.tableLayoutPanel2.TabIndex = 0;
+            // 
+            // bsSettingsThemeLabel
+            // 
+            this.bsSettingsThemeLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.bsSettingsThemeLabel.Font = new System.Drawing.Font("Dosis", 22F);
+            this.bsSettingsThemeLabel.Location = new System.Drawing.Point(3, 0);
+            this.bsSettingsThemeLabel.Name = "bsSettingsThemeLabel";
+            this.bsSettingsThemeLabel.Size = new System.Drawing.Size(209, 40);
+            this.bsSettingsThemeLabel.TabIndex = 5;
+            this.bsSettingsThemeLabel.Text = "Theme:";
+            this.bsSettingsThemeLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // bsSettingsThemeField
+            // 
+            this.bsSettingsThemeField.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.bsSettingsThemeField.BeforeTouchSize = new System.Drawing.Size(266, 40);
+            this.bsSettingsThemeField.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.bsSettingsThemeField.Font = new System.Drawing.Font("Dosis", 19F);
+            this.bsSettingsThemeField.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this.bsSettingsThemeField.Location = new System.Drawing.Point(215, 0);
+            this.bsSettingsThemeField.Margin = new System.Windows.Forms.Padding(0);
+            this.bsSettingsThemeField.Name = "bsSettingsThemeField";
+            this.bsSettingsThemeField.Size = new System.Drawing.Size(266, 40);
+            this.bsSettingsThemeField.Style = Syncfusion.Windows.Forms.VisualStyle.Office2016White;
+            this.bsSettingsThemeField.TabIndex = 6;
+            this.bsSettingsThemeField.Text = "Select Theme";
+            this.bsSettingsThemeField.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.bsSettingsThemeField.ThemeName = "Office2016White";
+            this.bsSettingsThemeField.SelectedIndexChanged += new System.EventHandler(this.bsSettingsThemeField_SelectedIndexChanged);
+            // 
+            // bsSettingsTabLabel
+            // 
+            this.bsSettingsTabLabel.Font = new System.Drawing.Font("Dosis", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.bsSettingsTabLabel.Location = new System.Drawing.Point(139, 61);
+            this.bsSettingsTabLabel.Name = "bsSettingsTabLabel";
+            this.bsSettingsTabLabel.Size = new System.Drawing.Size(172, 61);
+            this.bsSettingsTabLabel.TabIndex = 4;
+            this.bsSettingsTabLabel.Text = "Settings";
             // 
             // configToolStripTabItem
             // 
@@ -345,7 +440,7 @@ namespace Synapse
             this.templateConfigToolStrip.Office12Mode = false;
             this.templateConfigToolStrip.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
             this.templateConfigToolStrip.ShowLauncher = false;
-            this.templateConfigToolStrip.Size = new System.Drawing.Size(42, 135);
+            this.templateConfigToolStrip.Size = new System.Drawing.Size(42, 162);
             this.templateConfigToolStrip.TabIndex = 4;
             this.templateConfigToolStrip.Text = "Template Configuration";
             this.templateConfigToolStrip.ThemeName = "Default";
@@ -361,11 +456,11 @@ namespace Synapse
             this.dataConfigToolStripEx.ForeColor = System.Drawing.Color.MidnightBlue;
             this.dataConfigToolStripEx.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.dataConfigToolStripEx.Image = null;
-            this.dataConfigToolStripEx.Location = new System.Drawing.Point(0, 1);
+            this.dataConfigToolStripEx.Location = new System.Drawing.Point(44, 1);
             this.dataConfigToolStripEx.Name = "dataConfigToolStripEx";
             this.dataConfigToolStripEx.Office12Mode = false;
             this.dataConfigToolStripEx.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
-            this.dataConfigToolStripEx.Size = new System.Drawing.Size(42, 135);
+            this.dataConfigToolStripEx.Size = new System.Drawing.Size(42, 162);
             this.dataConfigToolStripEx.TabIndex = 3;
             this.dataConfigToolStripEx.Text = "Data Configuration";
             this.dataConfigToolStripEx.ThemeName = "Office2016White";
@@ -382,11 +477,11 @@ namespace Synapse
             this.aiConfigToolStripEx.ForeColor = System.Drawing.Color.MidnightBlue;
             this.aiConfigToolStripEx.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.aiConfigToolStripEx.Image = null;
-            this.aiConfigToolStripEx.Location = new System.Drawing.Point(0, 1);
+            this.aiConfigToolStripEx.Location = new System.Drawing.Point(88, 1);
             this.aiConfigToolStripEx.Name = "aiConfigToolStripEx";
             this.aiConfigToolStripEx.Office12Mode = false;
             this.aiConfigToolStripEx.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
-            this.aiConfigToolStripEx.Size = new System.Drawing.Size(42, 135);
+            this.aiConfigToolStripEx.Size = new System.Drawing.Size(42, 162);
             this.aiConfigToolStripEx.TabIndex = 1;
             this.aiConfigToolStripEx.Text = "AI Configuration";
             // 
@@ -426,16 +521,177 @@ namespace Synapse
             this.generalToolStripEx.ForeColor = System.Drawing.Color.MidnightBlue;
             this.generalToolStripEx.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.generalToolStripEx.Image = null;
-            this.generalToolStripEx.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.answerKeyToolStripBtn,
-            this.papersToolStripBtn});
             this.generalToolStripEx.Location = new System.Drawing.Point(0, 1);
             this.generalToolStripEx.Name = "generalToolStripEx";
             this.generalToolStripEx.Office12Mode = false;
             this.generalToolStripEx.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
-            this.generalToolStripEx.Size = new System.Drawing.Size(186, 135);
+            this.generalToolStripEx.Size = new System.Drawing.Size(42, 147);
             this.generalToolStripEx.TabIndex = 8;
             this.generalToolStripEx.Text = "General";
+            // 
+            // sheetsToolStripEx
+            // 
+            this.sheetsToolStripEx.AutoSize = false;
+            this.sheetsToolStripEx.CaptionFont = new System.Drawing.Font("Dosis", 9.749999F);
+            this.sheetsToolStripEx.CaptionMinHeight = 0;
+            this.sheetsToolStripEx.CaptionStyle = Syncfusion.Windows.Forms.Tools.CaptionStyle.Bottom;
+            this.sheetsToolStripEx.CaptionTextStyle = Syncfusion.Windows.Forms.Tools.CaptionTextStyle.Plain;
+            this.sheetsToolStripEx.Dock = System.Windows.Forms.DockStyle.None;
+            this.sheetsToolStripEx.Font = new System.Drawing.Font("Segoe UI", 8.25F);
+            this.sheetsToolStripEx.ForeColor = System.Drawing.Color.MidnightBlue;
+            this.sheetsToolStripEx.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.sheetsToolStripEx.Image = null;
+            this.sheetsToolStripEx.Location = new System.Drawing.Point(0, 1);
+            this.sheetsToolStripEx.Name = "sheetsToolStripEx";
+            this.sheetsToolStripEx.Office12Mode = false;
+            this.sheetsToolStripEx.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
+            this.sheetsToolStripEx.Size = new System.Drawing.Size(42, 147);
+            this.sheetsToolStripEx.TabIndex = 7;
+            this.sheetsToolStripEx.Text = "OMR Sheets";
+            // 
+            // processingToolStripEx
+            // 
+            this.processingToolStripEx.AutoSize = false;
+            this.processingToolStripEx.CaptionFont = new System.Drawing.Font("Dosis", 9.749999F);
+            this.processingToolStripEx.CaptionMinHeight = 0;
+            this.processingToolStripEx.CaptionStyle = Syncfusion.Windows.Forms.Tools.CaptionStyle.Bottom;
+            this.processingToolStripEx.CaptionTextStyle = Syncfusion.Windows.Forms.Tools.CaptionTextStyle.Plain;
+            this.processingToolStripEx.Dock = System.Windows.Forms.DockStyle.None;
+            this.processingToolStripEx.Font = new System.Drawing.Font("Segoe UI", 8.25F);
+            this.processingToolStripEx.ForeColor = System.Drawing.Color.MidnightBlue;
+            this.processingToolStripEx.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.processingToolStripEx.Image = null;
+            this.processingToolStripEx.Location = new System.Drawing.Point(0, 1);
+            this.processingToolStripEx.Name = "processingToolStripEx";
+            this.processingToolStripEx.Office12Mode = false;
+            this.processingToolStripEx.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
+            this.processingToolStripEx.Size = new System.Drawing.Size(42, 147);
+            this.processingToolStripEx.TabIndex = 6;
+            this.processingToolStripEx.Text = "Processing";
+            // 
+            // postOperationsToolStripEx
+            // 
+            this.postOperationsToolStripEx.AutoSize = false;
+            this.postOperationsToolStripEx.CaptionFont = new System.Drawing.Font("Dosis", 9.749999F);
+            this.postOperationsToolStripEx.CaptionMinHeight = 0;
+            this.postOperationsToolStripEx.CaptionStyle = Syncfusion.Windows.Forms.Tools.CaptionStyle.Bottom;
+            this.postOperationsToolStripEx.CaptionTextStyle = Syncfusion.Windows.Forms.Tools.CaptionTextStyle.Plain;
+            this.postOperationsToolStripEx.Dock = System.Windows.Forms.DockStyle.None;
+            this.postOperationsToolStripEx.Font = new System.Drawing.Font("Segoe UI", 8.25F);
+            this.postOperationsToolStripEx.ForeColor = System.Drawing.Color.MidnightBlue;
+            this.postOperationsToolStripEx.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.postOperationsToolStripEx.Image = null;
+            this.postOperationsToolStripEx.Location = new System.Drawing.Point(0, 1);
+            this.postOperationsToolStripEx.Name = "postOperationsToolStripEx";
+            this.postOperationsToolStripEx.Office12Mode = false;
+            this.postOperationsToolStripEx.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
+            this.postOperationsToolStripEx.Size = new System.Drawing.Size(42, 147);
+            this.postOperationsToolStripEx.TabIndex = 5;
+            this.postOperationsToolStripEx.Text = "Post Operations";
+            // 
+            // dataMiningToolStripEx
+            // 
+            this.dataMiningToolStripEx.AutoSize = false;
+            this.dataMiningToolStripEx.CaptionFont = new System.Drawing.Font("Dosis", 9.749999F);
+            this.dataMiningToolStripEx.CaptionMinHeight = 0;
+            this.dataMiningToolStripEx.CaptionStyle = Syncfusion.Windows.Forms.Tools.CaptionStyle.Bottom;
+            this.dataMiningToolStripEx.CaptionTextStyle = Syncfusion.Windows.Forms.Tools.CaptionTextStyle.Plain;
+            this.dataMiningToolStripEx.Dock = System.Windows.Forms.DockStyle.None;
+            this.dataMiningToolStripEx.Font = new System.Drawing.Font("Segoe UI", 8.25F);
+            this.dataMiningToolStripEx.ForeColor = System.Drawing.Color.MidnightBlue;
+            this.dataMiningToolStripEx.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.dataMiningToolStripEx.Image = null;
+            this.dataMiningToolStripEx.Location = new System.Drawing.Point(0, 1);
+            this.dataMiningToolStripEx.Name = "dataMiningToolStripEx";
+            this.dataMiningToolStripEx.Office12Mode = false;
+            this.dataMiningToolStripEx.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
+            this.dataMiningToolStripEx.Size = new System.Drawing.Size(42, 147);
+            this.dataMiningToolStripEx.TabIndex = 4;
+            this.dataMiningToolStripEx.Text = "Data Mining";
+            // 
+            // dataToolStripTabItem
+            // 
+            this.dataToolStripTabItem.Font = new System.Drawing.Font("Segoe UI", 10.25F);
+            this.dataToolStripTabItem.Name = "dataToolStripTabItem";
+            // 
+            // ribbonControl.ribbonPanel3
+            // 
+            this.dataToolStripTabItem.Panel.Controls.Add(this.dataManipulationToolStripEx);
+            this.dataToolStripTabItem.Panel.Controls.Add(this.dataPointStorageToolStripEx);
+            this.dataToolStripTabItem.Panel.Controls.Add(this.exportToolStripEx);
+            this.dataToolStripTabItem.Panel.Margin = new System.Windows.Forms.Padding(0);
+            this.dataToolStripTabItem.Panel.Name = "ribbonPanel3";
+            this.dataToolStripTabItem.Panel.ScrollPosition = 0;
+            this.dataToolStripTabItem.Panel.TabIndex = 4;
+            this.dataToolStripTabItem.Panel.Text = "DATA";
+            this.dataToolStripTabItem.Position = 2;
+            this.dataToolStripTabItem.Size = new System.Drawing.Size(58, 30);
+            this.dataToolStripTabItem.Tag = "3";
+            this.dataToolStripTabItem.Text = "DATA";
+            // 
+            // dataManipulationToolStripEx
+            // 
+            this.dataManipulationToolStripEx.AutoSize = false;
+            this.dataManipulationToolStripEx.CanOverrideStyle = true;
+            this.dataManipulationToolStripEx.CaptionFont = new System.Drawing.Font("Dosis", 9.749999F);
+            this.dataManipulationToolStripEx.CaptionMinHeight = 0;
+            this.dataManipulationToolStripEx.CaptionStyle = Syncfusion.Windows.Forms.Tools.CaptionStyle.Bottom;
+            this.dataManipulationToolStripEx.CaptionTextStyle = Syncfusion.Windows.Forms.Tools.CaptionTextStyle.Plain;
+            this.dataManipulationToolStripEx.Dock = System.Windows.Forms.DockStyle.None;
+            this.dataManipulationToolStripEx.Font = new System.Drawing.Font("Segoe UI", 8.25F);
+            this.dataManipulationToolStripEx.ForeColor = System.Drawing.Color.MidnightBlue;
+            this.dataManipulationToolStripEx.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.dataManipulationToolStripEx.Image = null;
+            this.dataManipulationToolStripEx.Location = new System.Drawing.Point(0, 1);
+            this.dataManipulationToolStripEx.Name = "dataManipulationToolStripEx";
+            this.dataManipulationToolStripEx.Office12Mode = false;
+            this.dataManipulationToolStripEx.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
+            this.dataManipulationToolStripEx.Size = new System.Drawing.Size(42, 147);
+            this.dataManipulationToolStripEx.TabIndex = 7;
+            this.dataManipulationToolStripEx.Text = "Data Manipulation";
+            this.dataManipulationToolStripEx.ThemeName = "Office2016White";
+            this.dataManipulationToolStripEx.VisualStyle = Syncfusion.Windows.Forms.Tools.ToolStripExStyle.Office2016White;
+            // 
+            // dataPointStorageToolStripEx
+            // 
+            this.dataPointStorageToolStripEx.AutoSize = false;
+            this.dataPointStorageToolStripEx.CanOverrideStyle = true;
+            this.dataPointStorageToolStripEx.CaptionFont = new System.Drawing.Font("Dosis", 9.749999F);
+            this.dataPointStorageToolStripEx.Dock = System.Windows.Forms.DockStyle.None;
+            this.dataPointStorageToolStripEx.Font = new System.Drawing.Font("Segoe UI", 8.25F);
+            this.dataPointStorageToolStripEx.ForeColor = System.Drawing.Color.MidnightBlue;
+            this.dataPointStorageToolStripEx.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.dataPointStorageToolStripEx.Image = null;
+            this.dataPointStorageToolStripEx.Location = new System.Drawing.Point(0, 1);
+            this.dataPointStorageToolStripEx.Name = "dataPointStorageToolStripEx";
+            this.dataPointStorageToolStripEx.Office12Mode = false;
+            this.dataPointStorageToolStripEx.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
+            this.dataPointStorageToolStripEx.Size = new System.Drawing.Size(42, 147);
+            this.dataPointStorageToolStripEx.TabIndex = 8;
+            this.dataPointStorageToolStripEx.Text = "Data Point Storage";
+            this.dataPointStorageToolStripEx.ThemeName = "Office2016White";
+            this.dataPointStorageToolStripEx.VisualStyle = Syncfusion.Windows.Forms.Tools.ToolStripExStyle.Office2016White;
+            // 
+            // exportToolStripEx
+            // 
+            this.exportToolStripEx.AutoSize = false;
+            this.exportToolStripEx.CanOverrideStyle = true;
+            this.exportToolStripEx.CaptionFont = new System.Drawing.Font("Dosis", 9.749999F);
+            this.exportToolStripEx.Dock = System.Windows.Forms.DockStyle.None;
+            this.exportToolStripEx.Font = new System.Drawing.Font("Segoe UI", 8.25F);
+            this.exportToolStripEx.ForeColor = System.Drawing.Color.MidnightBlue;
+            this.exportToolStripEx.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.exportToolStripEx.Image = null;
+            this.exportToolStripEx.Location = new System.Drawing.Point(0, 1);
+            this.exportToolStripEx.Name = "exportToolStripEx";
+            this.exportToolStripEx.Office12Mode = false;
+            this.exportToolStripEx.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
+            this.exportToolStripEx.ShowLauncher = false;
+            this.exportToolStripEx.Size = new System.Drawing.Size(42, 147);
+            this.exportToolStripEx.TabIndex = 9;
+            this.exportToolStripEx.Text = "Export Data";
+            this.exportToolStripEx.ThemeName = "Office2016White";
+            this.exportToolStripEx.VisualStyle = Syncfusion.Windows.Forms.Tools.ToolStripExStyle.Office2016White;
             // 
             // answerKeyToolStripBtn
             // 
@@ -447,7 +703,7 @@ namespace Synapse
             this.answerKeyToolStripBtn.Margin = new System.Windows.Forms.Padding(4, 1, 1, 2);
             this.answerKeyToolStripBtn.Name = "answerKeyToolStripBtn";
             this.answerKeyToolStripBtn.Padding = new System.Windows.Forms.Padding(8, 0, 8, 0);
-            this.answerKeyToolStripBtn.Size = new System.Drawing.Size(82, 116);
+            this.answerKeyToolStripBtn.Size = new System.Drawing.Size(82, 100);
             this.answerKeyToolStripBtn.Text = "Answer\r\nKey";
             this.answerKeyToolStripBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.answerKeyToolStripBtn.Click += new System.EventHandler(this.AnswerKeyToolStripBtn_Click);
@@ -462,34 +718,10 @@ namespace Synapse
             this.papersToolStripBtn.Margin = new System.Windows.Forms.Padding(4, 1, 1, 2);
             this.papersToolStripBtn.Name = "papersToolStripBtn";
             this.papersToolStripBtn.Padding = new System.Windows.Forms.Padding(8, 0, 8, 0);
-            this.papersToolStripBtn.Size = new System.Drawing.Size(77, 116);
+            this.papersToolStripBtn.Size = new System.Drawing.Size(77, 98);
             this.papersToolStripBtn.Text = "Exam\r\nPapers";
             this.papersToolStripBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.papersToolStripBtn.Click += new System.EventHandler(this.PapersToolStripBtn_Click);
-            // 
-            // sheetsToolStripEx
-            // 
-            this.sheetsToolStripEx.AutoSize = false;
-            this.sheetsToolStripEx.CaptionFont = new System.Drawing.Font("Dosis", 9.749999F);
-            this.sheetsToolStripEx.CaptionMinHeight = 0;
-            this.sheetsToolStripEx.CaptionStyle = Syncfusion.Windows.Forms.Tools.CaptionStyle.Bottom;
-            this.sheetsToolStripEx.CaptionTextStyle = Syncfusion.Windows.Forms.Tools.CaptionTextStyle.Plain;
-            this.sheetsToolStripEx.Dock = System.Windows.Forms.DockStyle.None;
-            this.sheetsToolStripEx.Font = new System.Drawing.Font("Segoe UI", 8.25F);
-            this.sheetsToolStripEx.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.sheetsToolStripEx.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-            this.sheetsToolStripEx.Image = null;
-            this.sheetsToolStripEx.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.sheetsToolStripPanelItem,
-            this.scanSheetsToolStripDropDownBtn,
-            this.toolStripSeparator7});
-            this.sheetsToolStripEx.Location = new System.Drawing.Point(188, 1);
-            this.sheetsToolStripEx.Name = "sheetsToolStripEx";
-            this.sheetsToolStripEx.Office12Mode = false;
-            this.sheetsToolStripEx.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
-            this.sheetsToolStripEx.Size = new System.Drawing.Size(291, 135);
-            this.sheetsToolStripEx.TabIndex = 7;
-            this.sheetsToolStripEx.Text = "OMR Sheets";
             // 
             // sheetsToolStripPanelItem
             // 
@@ -503,7 +735,7 @@ namespace Synapse
             this.sheetsToolStripPanelItem.Name = "sheetsToolStripPanelItem";
             this.sheetsToolStripPanelItem.Padding = new System.Windows.Forms.Padding(1, 0, 2, 0);
             this.sheetsToolStripPanelItem.RowCount = 2;
-            this.sheetsToolStripPanelItem.Size = new System.Drawing.Size(192, 35);
+            this.sheetsToolStripPanelItem.Size = new System.Drawing.Size(192, 32);
             this.sheetsToolStripPanelItem.Transparent = true;
             // 
             // scanDirectoryToolStripBtn
@@ -543,7 +775,7 @@ namespace Synapse
             this.scanSheetsToolStripDropDownBtn.Margin = new System.Windows.Forms.Padding(3, 1, 5, 2);
             this.scanSheetsToolStripDropDownBtn.Name = "scanSheetsToolStripDropDownBtn";
             this.scanSheetsToolStripDropDownBtn.Padding = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            this.scanSheetsToolStripDropDownBtn.Size = new System.Drawing.Size(71, 116);
+            this.scanSheetsToolStripDropDownBtn.Size = new System.Drawing.Size(71, 75);
             this.scanSheetsToolStripDropDownBtn.Text = "Scan";
             this.scanSheetsToolStripDropDownBtn.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.scanSheetsToolStripDropDownBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
@@ -567,29 +799,6 @@ namespace Synapse
             this.toolStripSeparator7.Name = "toolStripSeparator7";
             this.toolStripSeparator7.Size = new System.Drawing.Size(6, 86);
             // 
-            // processingToolStripEx
-            // 
-            this.processingToolStripEx.AutoSize = false;
-            this.processingToolStripEx.CaptionFont = new System.Drawing.Font("Dosis", 9.749999F);
-            this.processingToolStripEx.CaptionMinHeight = 0;
-            this.processingToolStripEx.CaptionStyle = Syncfusion.Windows.Forms.Tools.CaptionStyle.Bottom;
-            this.processingToolStripEx.CaptionTextStyle = Syncfusion.Windows.Forms.Tools.CaptionTextStyle.Plain;
-            this.processingToolStripEx.Dock = System.Windows.Forms.DockStyle.None;
-            this.processingToolStripEx.Font = new System.Drawing.Font("Segoe UI", 8.25F);
-            this.processingToolStripEx.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.processingToolStripEx.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-            this.processingToolStripEx.Image = null;
-            this.processingToolStripEx.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.startReadingToolStripBtn,
-            this.stopReadingToolStripBtn});
-            this.processingToolStripEx.Location = new System.Drawing.Point(481, 1);
-            this.processingToolStripEx.Name = "processingToolStripEx";
-            this.processingToolStripEx.Office12Mode = false;
-            this.processingToolStripEx.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
-            this.processingToolStripEx.Size = new System.Drawing.Size(146, 135);
-            this.processingToolStripEx.TabIndex = 6;
-            this.processingToolStripEx.Text = "Processing";
-            // 
             // startReadingToolStripBtn
             // 
             this.startReadingToolStripBtn.Font = new System.Drawing.Font("Dosis", 14F);
@@ -599,7 +808,7 @@ namespace Synapse
             this.startReadingToolStripBtn.Margin = new System.Windows.Forms.Padding(0, 5, 0, 2);
             this.startReadingToolStripBtn.Name = "startReadingToolStripBtn";
             this.startReadingToolStripBtn.Padding = new System.Windows.Forms.Padding(7, 0, 7, 0);
-            this.startReadingToolStripBtn.Size = new System.Drawing.Size(68, 112);
+            this.startReadingToolStripBtn.Size = new System.Drawing.Size(68, 18);
             this.startReadingToolStripBtn.Text = "Start";
             this.startReadingToolStripBtn.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.startReadingToolStripBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
@@ -615,34 +824,10 @@ namespace Synapse
             this.stopReadingToolStripBtn.Margin = new System.Windows.Forms.Padding(0, 6, 0, 2);
             this.stopReadingToolStripBtn.Name = "stopReadingToolStripBtn";
             this.stopReadingToolStripBtn.Padding = new System.Windows.Forms.Padding(7, 0, 7, 0);
-            this.stopReadingToolStripBtn.Size = new System.Drawing.Size(67, 111);
+            this.stopReadingToolStripBtn.Size = new System.Drawing.Size(67, 77);
             this.stopReadingToolStripBtn.Text = "Stop";
             this.stopReadingToolStripBtn.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.stopReadingToolStripBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            // 
-            // postOperationsToolStripEx
-            // 
-            this.postOperationsToolStripEx.AutoSize = false;
-            this.postOperationsToolStripEx.CaptionFont = new System.Drawing.Font("Dosis", 9.749999F);
-            this.postOperationsToolStripEx.CaptionMinHeight = 0;
-            this.postOperationsToolStripEx.CaptionStyle = Syncfusion.Windows.Forms.Tools.CaptionStyle.Bottom;
-            this.postOperationsToolStripEx.CaptionTextStyle = Syncfusion.Windows.Forms.Tools.CaptionTextStyle.Plain;
-            this.postOperationsToolStripEx.Dock = System.Windows.Forms.DockStyle.None;
-            this.postOperationsToolStripEx.Font = new System.Drawing.Font("Segoe UI", 8.25F);
-            this.postOperationsToolStripEx.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.postOperationsToolStripEx.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-            this.postOperationsToolStripEx.Image = null;
-            this.postOperationsToolStripEx.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.reReadFaultySheetsToolStripBtn,
-            this.moveFaultySheetsToolStripBtn,
-            this.locateOptionsToolStripBtn});
-            this.postOperationsToolStripEx.Location = new System.Drawing.Point(629, 1);
-            this.postOperationsToolStripEx.Name = "postOperationsToolStripEx";
-            this.postOperationsToolStripEx.Office12Mode = false;
-            this.postOperationsToolStripEx.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
-            this.postOperationsToolStripEx.Size = new System.Drawing.Size(280, 135);
-            this.postOperationsToolStripEx.TabIndex = 5;
-            this.postOperationsToolStripEx.Text = "Post Operations";
             // 
             // reReadFaultySheetsToolStripBtn
             // 
@@ -653,7 +838,7 @@ namespace Synapse
             this.reReadFaultySheetsToolStripBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.reReadFaultySheetsToolStripBtn.Name = "reReadFaultySheetsToolStripBtn";
             this.reReadFaultySheetsToolStripBtn.Padding = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.reReadFaultySheetsToolStripBtn.Size = new System.Drawing.Size(101, 116);
+            this.reReadFaultySheetsToolStripBtn.Size = new System.Drawing.Size(101, 92);
             this.reReadFaultySheetsToolStripBtn.Text = "Re-Read\r\nFaulty Sheets";
             this.reReadFaultySheetsToolStripBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
@@ -667,7 +852,7 @@ namespace Synapse
             this.moveFaultySheetsToolStripBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.moveFaultySheetsToolStripBtn.Name = "moveFaultySheetsToolStripBtn";
             this.moveFaultySheetsToolStripBtn.Padding = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.moveFaultySheetsToolStripBtn.Size = new System.Drawing.Size(101, 116);
+            this.moveFaultySheetsToolStripBtn.Size = new System.Drawing.Size(101, 92);
             this.moveFaultySheetsToolStripBtn.Text = "Move\r\nFaulty Sheets";
             this.moveFaultySheetsToolStripBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
@@ -681,31 +866,9 @@ namespace Synapse
             this.locateOptionsToolStripBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.locateOptionsToolStripBtn.Name = "locateOptionsToolStripBtn";
             this.locateOptionsToolStripBtn.Padding = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.locateOptionsToolStripBtn.Size = new System.Drawing.Size(67, 116);
+            this.locateOptionsToolStripBtn.Size = new System.Drawing.Size(67, 92);
             this.locateOptionsToolStripBtn.Text = "Locate\r\nOptions";
             this.locateOptionsToolStripBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            // 
-            // dataMiningToolStripEx
-            // 
-            this.dataMiningToolStripEx.AutoSize = false;
-            this.dataMiningToolStripEx.CaptionFont = new System.Drawing.Font("Dosis", 9.749999F);
-            this.dataMiningToolStripEx.CaptionMinHeight = 0;
-            this.dataMiningToolStripEx.CaptionStyle = Syncfusion.Windows.Forms.Tools.CaptionStyle.Bottom;
-            this.dataMiningToolStripEx.CaptionTextStyle = Syncfusion.Windows.Forms.Tools.CaptionTextStyle.Plain;
-            this.dataMiningToolStripEx.Dock = System.Windows.Forms.DockStyle.None;
-            this.dataMiningToolStripEx.Font = new System.Drawing.Font("Segoe UI", 8.25F);
-            this.dataMiningToolStripEx.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.dataMiningToolStripEx.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-            this.dataMiningToolStripEx.Image = null;
-            this.dataMiningToolStripEx.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.findDuplicatesToolStripBtn});
-            this.dataMiningToolStripEx.Location = new System.Drawing.Point(911, 1);
-            this.dataMiningToolStripEx.Name = "dataMiningToolStripEx";
-            this.dataMiningToolStripEx.Office12Mode = false;
-            this.dataMiningToolStripEx.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
-            this.dataMiningToolStripEx.Size = new System.Drawing.Size(101, 135);
-            this.dataMiningToolStripEx.TabIndex = 4;
-            this.dataMiningToolStripEx.Text = "Data Mining";
             // 
             // findDuplicatesToolStripBtn
             // 
@@ -716,90 +879,9 @@ namespace Synapse
             this.findDuplicatesToolStripBtn.Margin = new System.Windows.Forms.Padding(0, 5, 0, 2);
             this.findDuplicatesToolStripBtn.Name = "findDuplicatesToolStripBtn";
             this.findDuplicatesToolStripBtn.Padding = new System.Windows.Forms.Padding(7, 0, 7, 0);
-            this.findDuplicatesToolStripBtn.Size = new System.Drawing.Size(89, 112);
+            this.findDuplicatesToolStripBtn.Size = new System.Drawing.Size(89, 18);
             this.findDuplicatesToolStripBtn.Text = "Find\r\nDuplicates";
             this.findDuplicatesToolStripBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            // 
-            // dataToolStripTabItem
-            // 
-            this.dataToolStripTabItem.Font = new System.Drawing.Font("Segoe UI", 10.25F);
-            this.dataToolStripTabItem.Name = "dataToolStripTabItem";
-            // 
-            // ribbonControl.ribbonPanel3
-            // 
-            this.dataToolStripTabItem.Panel.Controls.Add(this.dataManipulationToolStripEx);
-            this.dataToolStripTabItem.Panel.Controls.Add(this.dataPointStorageToolStripEx);
-            this.dataToolStripTabItem.Panel.Controls.Add(this.exportToolStripEx);
-            this.dataToolStripTabItem.Panel.Margin = new System.Windows.Forms.Padding(0);
-            this.dataToolStripTabItem.Panel.Name = "ribbonPanel3";
-            this.dataToolStripTabItem.Panel.ScrollPosition = 0;
-            this.dataToolStripTabItem.Panel.TabIndex = 4;
-            this.dataToolStripTabItem.Panel.Text = "DATA";
-            this.dataToolStripTabItem.Position = 2;
-            this.dataToolStripTabItem.Size = new System.Drawing.Size(58, 30);
-            this.dataToolStripTabItem.Tag = "3";
-            this.dataToolStripTabItem.Text = "DATA";
-            // 
-            // dataManipulationToolStripEx
-            // 
-            this.dataManipulationToolStripEx.AutoSize = false;
-            this.dataManipulationToolStripEx.CaptionFont = new System.Drawing.Font("Dosis", 9.749999F);
-            this.dataManipulationToolStripEx.CaptionMinHeight = 0;
-            this.dataManipulationToolStripEx.CaptionStyle = Syncfusion.Windows.Forms.Tools.CaptionStyle.Bottom;
-            this.dataManipulationToolStripEx.CaptionTextStyle = Syncfusion.Windows.Forms.Tools.CaptionTextStyle.Plain;
-            this.dataManipulationToolStripEx.Dock = System.Windows.Forms.DockStyle.None;
-            this.dataManipulationToolStripEx.Font = new System.Drawing.Font("Segoe UI", 8.25F);
-            this.dataManipulationToolStripEx.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.dataManipulationToolStripEx.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-            this.dataManipulationToolStripEx.Image = null;
-            this.dataManipulationToolStripEx.Location = new System.Drawing.Point(0, 1);
-            this.dataManipulationToolStripEx.Name = "dataManipulationToolStripEx";
-            this.dataManipulationToolStripEx.Office12Mode = false;
-            this.dataManipulationToolStripEx.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
-            this.dataManipulationToolStripEx.Size = new System.Drawing.Size(42, 135);
-            this.dataManipulationToolStripEx.TabIndex = 7;
-            this.dataManipulationToolStripEx.Text = "Data Manipulation";
-            this.dataManipulationToolStripEx.ThemeName = "Office2016White";
-            this.dataManipulationToolStripEx.VisualStyle = Syncfusion.Windows.Forms.Tools.ToolStripExStyle.Office2016White;
-            // 
-            // dataPointStorageToolStripEx
-            // 
-            this.dataPointStorageToolStripEx.AutoSize = false;
-            this.dataPointStorageToolStripEx.CaptionFont = new System.Drawing.Font("Dosis", 9.749999F);
-            this.dataPointStorageToolStripEx.Dock = System.Windows.Forms.DockStyle.None;
-            this.dataPointStorageToolStripEx.Font = new System.Drawing.Font("Segoe UI", 8.25F);
-            this.dataPointStorageToolStripEx.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.dataPointStorageToolStripEx.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-            this.dataPointStorageToolStripEx.Image = null;
-            this.dataPointStorageToolStripEx.Location = new System.Drawing.Point(0, 1);
-            this.dataPointStorageToolStripEx.Name = "dataPointStorageToolStripEx";
-            this.dataPointStorageToolStripEx.Office12Mode = false;
-            this.dataPointStorageToolStripEx.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
-            this.dataPointStorageToolStripEx.Size = new System.Drawing.Size(42, 135);
-            this.dataPointStorageToolStripEx.TabIndex = 8;
-            this.dataPointStorageToolStripEx.Text = "Data Point Storage";
-            this.dataPointStorageToolStripEx.ThemeName = "Office2016White";
-            this.dataPointStorageToolStripEx.VisualStyle = Syncfusion.Windows.Forms.Tools.ToolStripExStyle.Office2016White;
-            // 
-            // exportToolStripEx
-            // 
-            this.exportToolStripEx.AutoSize = false;
-            this.exportToolStripEx.CaptionFont = new System.Drawing.Font("Dosis", 9.749999F);
-            this.exportToolStripEx.Dock = System.Windows.Forms.DockStyle.None;
-            this.exportToolStripEx.Font = new System.Drawing.Font("Segoe UI", 8.25F);
-            this.exportToolStripEx.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.exportToolStripEx.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-            this.exportToolStripEx.Image = null;
-            this.exportToolStripEx.Location = new System.Drawing.Point(0, 1);
-            this.exportToolStripEx.Name = "exportToolStripEx";
-            this.exportToolStripEx.Office12Mode = false;
-            this.exportToolStripEx.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
-            this.exportToolStripEx.ShowLauncher = false;
-            this.exportToolStripEx.Size = new System.Drawing.Size(42, 135);
-            this.exportToolStripEx.TabIndex = 9;
-            this.exportToolStripEx.Text = "Export Data";
-            this.exportToolStripEx.ThemeName = "Office2016White";
-            this.exportToolStripEx.VisualStyle = Syncfusion.Windows.Forms.Tools.ToolStripExStyle.Office2016White;
             // 
             // templateConfigStatusToolStrip
             // 
@@ -1305,7 +1387,7 @@ namespace Synapse
             this.configTabPanel.Dock = System.Windows.Forms.DockStyle.Left;
             this.configTabPanel.Location = new System.Drawing.Point(0, 0);
             this.configTabPanel.Name = "configTabPanel";
-            this.configTabPanel.Size = new System.Drawing.Size(635, 497);
+            this.configTabPanel.Size = new System.Drawing.Size(635, 470);
             this.configTabPanel.TabIndex = 3;
             // 
             // templateImageBox
@@ -1321,7 +1403,7 @@ namespace Synapse
             this.templateImageBox.Location = new System.Drawing.Point(0, 0);
             this.templateImageBox.Name = "templateImageBox";
             this.templateImageBox.SelectionMode = Cyotek.Windows.Forms.ImageBoxSelectionMode.Rectangle;
-            this.templateImageBox.Size = new System.Drawing.Size(635, 497);
+            this.templateImageBox.Size = new System.Drawing.Size(635, 470);
             this.templateImageBox.StepSize = new System.Drawing.Size(8, 8);
             this.templateImageBox.TabIndex = 4;
             this.templateImageBox.Text = "Scan a document or browse for an existing template";
@@ -1336,9 +1418,9 @@ namespace Synapse
             this.nonDockingClientArea.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.nonDockingClientArea.Controls.Add(this.configTabPanel);
             this.nonDockingClientArea.Controls.Add(this.readingTabPanel);
-            this.nonDockingClientArea.Location = new System.Drawing.Point(370, 204);
+            this.nonDockingClientArea.Location = new System.Drawing.Point(370, 231);
             this.nonDockingClientArea.Name = "nonDockingClientArea";
-            this.nonDockingClientArea.Size = new System.Drawing.Size(712, 514);
+            this.nonDockingClientArea.Size = new System.Drawing.Size(712, 487);
             this.nonDockingClientArea.SizeToFit = true;
             this.nonDockingClientArea.TabIndex = 2;
             // 
@@ -1348,7 +1430,7 @@ namespace Synapse
             this.readingTabPanel.Dock = System.Windows.Forms.DockStyle.Right;
             this.readingTabPanel.Location = new System.Drawing.Point(635, 0);
             this.readingTabPanel.Name = "readingTabPanel";
-            this.readingTabPanel.Size = new System.Drawing.Size(692, 497);
+            this.readingTabPanel.Size = new System.Drawing.Size(692, 470);
             this.readingTabPanel.TabIndex = 5;
             // 
             // readingTabMainTablePanel
@@ -1364,24 +1446,23 @@ namespace Synapse
             this.readingTabMainTablePanel.RowCount = 2;
             this.readingTabMainTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.readingTabMainTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.readingTabMainTablePanel.Size = new System.Drawing.Size(692, 497);
+            this.readingTabMainTablePanel.Size = new System.Drawing.Size(692, 470);
             this.readingTabMainTablePanel.TabIndex = 6;
             // 
             // mainDataGridPager
             // 
             this.mainDataGridPager.AccessibleName = "DataPager";
-            this.mainDataGridPager.BackColor = System.Drawing.Color.White;
-            this.mainDataGridPager.CanOverrideStyle = true;
             this.mainDataGridPager.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mainDataGridPager.Font = new System.Drawing.Font("Dosis", 8.249999F);
             this.mainDataGridPager.HorizontalAlignment = System.Windows.Forms.HorizontalAlignment.Center;
-            this.mainDataGridPager.Location = new System.Drawing.Point(0, 467);
+            this.mainDataGridPager.Location = new System.Drawing.Point(0, 440);
             this.mainDataGridPager.Margin = new System.Windows.Forms.Padding(0);
             this.mainDataGridPager.Name = "mainDataGridPager";
             this.mainDataGridPager.PageSize = 70;
             this.mainDataGridPager.ShowNavigationTextBox = true;
             this.mainDataGridPager.Size = new System.Drawing.Size(692, 30);
             this.mainDataGridPager.TabIndex = 6;
+            this.mainDataGridPager.ThemeName = "";
             // 
             // mainDataGrid
             // 
@@ -1393,6 +1474,7 @@ namespace Synapse
             this.mainDataGrid.AllowResizingHiddenColumns = true;
             this.mainDataGrid.AllowTriStateSorting = true;
             this.mainDataGrid.AutoSizeColumnsMode = Syncfusion.WinForms.DataGrid.Enums.AutoSizeColumnsMode.Fill;
+            this.mainDataGrid.BackColor = System.Drawing.Color.White;
             this.mainDataGrid.CanOverrideStyle = true;
             this.mainDataGrid.CopyOption = Syncfusion.WinForms.DataGrid.Enums.CopyOptions.None;
             this.mainDataGrid.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -1403,13 +1485,15 @@ namespace Synapse
             this.mainDataGrid.Name = "mainDataGrid";
             this.mainDataGrid.PasteOption = Syncfusion.WinForms.DataGrid.Enums.PasteOptions.None;
             this.mainDataGrid.SelectionMode = Syncfusion.WinForms.DataGrid.Enums.GridSelectionMode.Extended;
+            this.mainDataGrid.ShowBusyIndicator = true;
             this.mainDataGrid.ShowSortNumbers = true;
-            this.mainDataGrid.Size = new System.Drawing.Size(692, 467);
+            this.mainDataGrid.Size = new System.Drawing.Size(692, 440);
             this.mainDataGrid.TabIndex = 1;
             this.mainDataGrid.UsePLINQ = true;
             this.mainDataGrid.QueryRowStyle += new Syncfusion.WinForms.DataGrid.Events.QueryRowStyleEventHandler(this.MainDataGrid_QueryRowStyle);
             this.mainDataGrid.SelectionChanged += new Syncfusion.WinForms.DataGrid.Events.SelectionChangedEventHandler(this.MainDataGrid_SelectionChanged);
             this.mainDataGrid.CellClick += new Syncfusion.WinForms.DataGrid.Events.CellClickEventHandler(this.MainDataGrid_CellClick);
+            this.mainDataGrid.QueryProgressBarCellStyle += new System.EventHandler<Syncfusion.WinForms.DataGrid.Events.QueryProgressBarCellStyleEventArgs>(this.mainDataGrid_QueryProgressBarCellStyle);
             // 
             // ImageFileBrowser
             // 
@@ -1456,9 +1540,9 @@ namespace Synapse
             // 
             this.configPropertiesPanel.Controls.Add(this.configPropertyEditor);
             this.configPropertiesPanel.Dock = System.Windows.Forms.DockStyle.Right;
-            this.configPropertiesPanel.Location = new System.Drawing.Point(1082, 204);
+            this.configPropertiesPanel.Location = new System.Drawing.Point(1082, 231);
             this.configPropertiesPanel.Name = "configPropertiesPanel";
-            this.configPropertiesPanel.Size = new System.Drawing.Size(200, 544);
+            this.configPropertiesPanel.Size = new System.Drawing.Size(200, 517);
             this.configPropertiesPanel.TabIndex = 3;
             // 
             // configPropertyEditor
@@ -1468,16 +1552,16 @@ namespace Synapse
             this.configPropertyEditor.Font = new System.Drawing.Font("Dosis", 10.25F);
             this.configPropertyEditor.Location = new System.Drawing.Point(0, 0);
             this.configPropertyEditor.Name = "configPropertyEditor";
-            this.configPropertyEditor.Size = new System.Drawing.Size(200, 544);
+            this.configPropertyEditor.Size = new System.Drawing.Size(200, 517);
             this.configPropertyEditor.TabIndex = 1;
             // 
             // dataImageBoxPanel
             // 
             this.dataImageBoxPanel.Controls.Add(this.dataImageBox);
             this.dataImageBoxPanel.Dock = System.Windows.Forms.DockStyle.Right;
-            this.dataImageBoxPanel.Location = new System.Drawing.Point(1282, 204);
+            this.dataImageBoxPanel.Location = new System.Drawing.Point(1282, 231);
             this.dataImageBoxPanel.Name = "dataImageBoxPanel";
-            this.dataImageBoxPanel.Size = new System.Drawing.Size(200, 544);
+            this.dataImageBoxPanel.Size = new System.Drawing.Size(200, 517);
             this.dataImageBoxPanel.TabIndex = 4;
             // 
             // dataImageBox
@@ -1493,7 +1577,7 @@ namespace Synapse
             this.dataImageBox.Location = new System.Drawing.Point(0, 0);
             this.dataImageBox.Name = "dataImageBox";
             this.dataImageBox.SelectionMode = Cyotek.Windows.Forms.ImageBoxSelectionMode.Rectangle;
-            this.dataImageBox.Size = new System.Drawing.Size(200, 544);
+            this.dataImageBox.Size = new System.Drawing.Size(200, 517);
             this.dataImageBox.StepSize = new System.Drawing.Size(8, 8);
             this.dataImageBox.TabIndex = 5;
             this.dataImageBox.Text = "The image of the sheet of which the data is selected in the data grid will appear" +
@@ -1858,9 +1942,9 @@ namespace Synapse
             this.answerKeyPanel.Controls.Add(this.addAnswerKeyPanel);
             this.answerKeyPanel.Controls.Add(this.answerKeyMainPanel);
             this.answerKeyPanel.Dock = System.Windows.Forms.DockStyle.Left;
-            this.answerKeyPanel.Location = new System.Drawing.Point(2, 204);
+            this.answerKeyPanel.Location = new System.Drawing.Point(2, 231);
             this.answerKeyPanel.Name = "answerKeyPanel";
-            this.answerKeyPanel.Size = new System.Drawing.Size(368, 514);
+            this.answerKeyPanel.Size = new System.Drawing.Size(368, 487);
             this.answerKeyPanel.TabIndex = 5;
             // 
             // addAnswerKeyPanel
@@ -1869,7 +1953,7 @@ namespace Synapse
             this.addAnswerKeyPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.addAnswerKeyPanel.Location = new System.Drawing.Point(0, 147);
             this.addAnswerKeyPanel.Name = "addAnswerKeyPanel";
-            this.addAnswerKeyPanel.Size = new System.Drawing.Size(368, 367);
+            this.addAnswerKeyPanel.Size = new System.Drawing.Size(368, 340);
             this.addAnswerKeyPanel.TabIndex = 1;
             // 
             // addAnswerKeyTablePanel
@@ -1885,7 +1969,7 @@ namespace Synapse
             this.addAnswerKeyTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.addAnswerKeyTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
             this.addAnswerKeyTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.addAnswerKeyTablePanel.Size = new System.Drawing.Size(368, 367);
+            this.addAnswerKeyTablePanel.Size = new System.Drawing.Size(368, 340);
             this.addAnswerKeyTablePanel.TabIndex = 1;
             // 
             // answerKeyControlsSplitterContainer
@@ -2104,7 +2188,7 @@ namespace Synapse
             this.initializationButtonsPanel.Controls.Add(this.setBtn, 0, 0);
             this.initializationButtonsPanel.Controls.Add(this.nextBtn, 0, 0);
             this.initializationButtonsPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.initializationButtonsPanel.Location = new System.Drawing.Point(0, 317);
+            this.initializationButtonsPanel.Location = new System.Drawing.Point(0, 290);
             this.initializationButtonsPanel.Margin = new System.Windows.Forms.Padding(0);
             this.initializationButtonsPanel.Name = "initializationButtonsPanel";
             this.initializationButtonsPanel.RowCount = 1;
@@ -2247,29 +2331,6 @@ namespace Synapse
             this.addAnswerKeyBtn.UseVisualStyleBackColor = false;
             this.addAnswerKeyBtn.Click += new System.EventHandler(this.addAnswerKeyBtn_Click);
             // 
-            // comboBoxAdv1
-            // 
-            this.comboBoxAdv1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.comboBoxAdv1.BeforeTouchSize = new System.Drawing.Size(149, 40);
-            this.comboBoxAdv1.Border3DStyle = System.Windows.Forms.Border3DStyle.Flat;
-            this.comboBoxAdv1.BorderSides = System.Windows.Forms.Border3DSide.Bottom;
-            this.comboBoxAdv1.CanOverrideStyle = true;
-            this.comboBoxAdv1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.comboBoxAdv1.FlatBorderColor = System.Drawing.Color.White;
-            this.comboBoxAdv1.FlatStyle = Syncfusion.Windows.Forms.Tools.ComboFlatStyle.Flat;
-            this.comboBoxAdv1.Font = new System.Drawing.Font("Dosis", 16.75F);
-            this.comboBoxAdv1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
-            this.comboBoxAdv1.Location = new System.Drawing.Point(219, 0);
-            this.comboBoxAdv1.Margin = new System.Windows.Forms.Padding(1, 0, 0, 0);
-            this.comboBoxAdv1.MetroBorderColor = System.Drawing.Color.White;
-            this.comboBoxAdv1.MinimumSize = new System.Drawing.Size(100, 40);
-            this.comboBoxAdv1.Name = "comboBoxAdv1";
-            this.comboBoxAdv1.Size = new System.Drawing.Size(149, 40);
-            this.comboBoxAdv1.Style = Syncfusion.Windows.Forms.VisualStyle.Office2016White;
-            this.comboBoxAdv1.TabIndex = 21;
-            this.comboBoxAdv1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.comboBoxAdv1.ThemeName = "Office2016White";
-            // 
             // answerKeyListFlowPanel
             // 
             this.answerKeyListFlowPanel.Controls.Add(this.answerKeysEmptyListLabel);
@@ -2297,6 +2358,29 @@ namespace Synapse
             this.answerKeysEmptyListLabel.ThemeName = "Office2016White";
             this.answerKeysEmptyListLabel.Visible = false;
             // 
+            // comboBoxAdv1
+            // 
+            this.comboBoxAdv1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.comboBoxAdv1.BeforeTouchSize = new System.Drawing.Size(149, 40);
+            this.comboBoxAdv1.Border3DStyle = System.Windows.Forms.Border3DStyle.Flat;
+            this.comboBoxAdv1.BorderSides = System.Windows.Forms.Border3DSide.Bottom;
+            this.comboBoxAdv1.CanOverrideStyle = true;
+            this.comboBoxAdv1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.comboBoxAdv1.FlatBorderColor = System.Drawing.Color.White;
+            this.comboBoxAdv1.FlatStyle = Syncfusion.Windows.Forms.Tools.ComboFlatStyle.Flat;
+            this.comboBoxAdv1.Font = new System.Drawing.Font("Dosis", 16.75F);
+            this.comboBoxAdv1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this.comboBoxAdv1.Location = new System.Drawing.Point(219, 0);
+            this.comboBoxAdv1.Margin = new System.Windows.Forms.Padding(1, 0, 0, 0);
+            this.comboBoxAdv1.MetroBorderColor = System.Drawing.Color.White;
+            this.comboBoxAdv1.MinimumSize = new System.Drawing.Size(100, 40);
+            this.comboBoxAdv1.Name = "comboBoxAdv1";
+            this.comboBoxAdv1.Size = new System.Drawing.Size(149, 40);
+            this.comboBoxAdv1.Style = Syncfusion.Windows.Forms.VisualStyle.Office2016White;
+            this.comboBoxAdv1.TabIndex = 21;
+            this.comboBoxAdv1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.comboBoxAdv1.ThemeName = "Office2016White";
+            // 
             // SynapseMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 14F);
@@ -2304,12 +2388,12 @@ namespace Synapse
             this.BackColor = System.Drawing.Color.White;
             this.Borders = new System.Windows.Forms.Padding(0);
             this.ClientSize = new System.Drawing.Size(1484, 749);
+            this.Controls.Add(this.backStage1);
             this.Controls.Add(this.answerKeyPanel);
             this.Controls.Add(this.readingTabStatusBar);
             this.Controls.Add(this.configPropertiesPanel);
             this.Controls.Add(this.dataImageBoxPanel);
             this.Controls.Add(this.nonDockingClientArea);
-            this.Controls.Add(this.backStage1);
             this.Controls.Add(this.ribbonControl);
             this.EnableRibbonBorder = false;
             this.Font = new System.Drawing.Font("Dosis", 8.249999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -2324,18 +2408,15 @@ namespace Synapse
             this.ribbonControl.ResumeLayout(false);
             this.ribbonControl.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.backStage1)).EndInit();
+            this.backStage1.ResumeLayout(false);
+            this.backStageTab1.ResumeLayout(false);
+            this.backStageTab1.PerformLayout();
+            this.bsSettingsTablePanel.ResumeLayout(false);
+            this.tableLayoutPanel2.ResumeLayout(false);
+            this.tableLayoutPanel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.bsSettingsThemeField)).EndInit();
             this.configToolStripTabItem.Panel.ResumeLayout(false);
             this.readingToolStripTabItem.Panel.ResumeLayout(false);
-            this.generalToolStripEx.ResumeLayout(false);
-            this.generalToolStripEx.PerformLayout();
-            this.sheetsToolStripEx.ResumeLayout(false);
-            this.sheetsToolStripEx.PerformLayout();
-            this.processingToolStripEx.ResumeLayout(false);
-            this.processingToolStripEx.PerformLayout();
-            this.postOperationsToolStripEx.ResumeLayout(false);
-            this.postOperationsToolStripEx.PerformLayout();
-            this.dataMiningToolStripEx.ResumeLayout(false);
-            this.dataMiningToolStripEx.PerformLayout();
             this.dataToolStripTabItem.Panel.ResumeLayout(false);
             this.configTabPanel.ResumeLayout(false);
             this.nonDockingClientArea.ResumeLayout(false);
@@ -2375,8 +2456,8 @@ namespace Synapse
             this.initializationButtonsPanel.ResumeLayout(false);
             this.answerKeyMainPanel.ResumeLayout(false);
             this.answerKeyPanelContentContainer.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.comboBoxAdv1)).EndInit();
             this.answerKeyListFlowPanel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxAdv1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -2520,5 +2601,11 @@ namespace Synapse
         private Syncfusion.Windows.Forms.ButtonAdv addAnswerKeyBtn;
         private System.Windows.Forms.Panel answerKeyListFlowPanel;
         private Syncfusion.Windows.Forms.Tools.AutoLabel answerKeysEmptyListLabel;
+        private Syncfusion.Windows.Forms.BackStageTab backStageTab1;
+        private System.Windows.Forms.TableLayoutPanel bsSettingsTablePanel;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+        private Syncfusion.Windows.Forms.Tools.AutoLabel bsSettingsThemeLabel;
+        private Syncfusion.Windows.Forms.Tools.ComboBoxAdv bsSettingsThemeField;
+        private Syncfusion.Windows.Forms.Tools.AutoLabel bsSettingsTabLabel;
     }
 }
