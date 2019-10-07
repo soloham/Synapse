@@ -31,6 +31,7 @@ using Synapse.Controls;
 using System.Data;
 using Synapse.Utilities.Attributes;
 using Synapse.Utilities.Enums;
+using Syncfusion.Windows.Forms;
 
 namespace Synapse
 {
@@ -157,6 +158,8 @@ namespace Synapse
         {
             InitializeComponent();
             #region SetupComponents
+            this.ribbonControl.Height = 220;
+
             this.templateConfigToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.templateConfigStatusToolStrip,
             this.toolStripSeparator1,
@@ -716,7 +719,7 @@ namespace Synapse
                     finalAverage = Math.Round(finalAverage, 2);
                 }
             };
-            processingProgressBar.FontColor = Color.Black;
+            processingProgressBar.FontColor = CurrentTheme == Themes.COLORFUL || CurrentTheme == Themes.WHITE? Color.Black : Color.WhiteSmoke;
 
             progressStatusTablePanel.Visible = true;
             await MainProcessingManager.StartProcessing(keepData, OnSheetsProcessed, gridColumns);
@@ -852,6 +855,7 @@ namespace Synapse
                         switch (omrConfig.OMRType)
                         {
                             case OMRType.Gradable:
+                                //GridTextColumn omrScoreCol = new GridTextColumn();
                                 GridProgressBarColumn omrScoreCol = new GridProgressBarColumn();
                                 omrScoreCol.ValueMode = Syncfusion.WinForms.DataGrid.Enums.ProgressBarValueMode.Value;
                                 omrScoreCol.MappingName = omrConfig.Title + " Score";
@@ -1024,6 +1028,13 @@ namespace Synapse
             {
                 case Themes.WHITE:
                     ribbonControl.ThemeName = "Office2016White";
+                    MetroStyleColorTable metroColorTable = new MetroStyleColorTable();
+                    metroColorTable.NoButtonBackColor = Color.Red;
+                    metroColorTable.YesButtonBackColor = Color.SkyBlue;
+                    metroColorTable.OKButtonBackColor = Color.Green;
+                    MessageBoxAdv.MetroColorTable = metroColorTable;
+                    MessageBoxAdv.MessageBoxStyle = MessageBoxAdv.Style.Metro;
+
                     dataConfigToolStripEx.ThemeName = "Office2016White";
                     readingTabStatusBar.ThemeName = "Metro";
                     dataManipulationToolStripEx.ThemeName = "Metro";
@@ -1031,10 +1042,32 @@ namespace Synapse
                     mainDockingManager.ThemeName = "Metro";
                     mainDataGrid.ThemeName = "Office2016White";
                     mainDataGridPager.ThemeName = "Office2016White";
+                    processingProgressBar.ThemeName = "Office2016White";
+
+                    processingProgressBar.FontColor = Color.Black;
+                    processingProgressBar.BackGradientStartColor = Color.LightGray;
+                    processingProgressBar.BackGradientEndColor = Color.White;
+                    processingProgressBar.BorderColor = Color.FromArgb(10, 158, 200);
+                    processingProgressBar.GradientStartColor = Color.DeepSkyBlue;
+                    processingProgressBar.GradientEndColor = Color.DodgerBlue;
+
+                    normalDataTypePanel.BackColor = Color.FromArgb(20, 148, 215);
+                    manualDataTypeStatusPanel.BackColor = Color.FromArgb(30, 138, 215);
+                    faultyDataTypeStatusPanel.BackColor = Color.FromArgb(50, 128, 215);
+                    incompatibleDataStatusPanel.BackColor = Color.FromArgb(60, 115, 215);
+
+                    mainDataGrid.Style.ProgressBarStyle.GradientForegroundStartColor = Color.DeepSkyBlue;
+                    mainDataGrid.Style.ProgressBarStyle.GradientForegroundEndColor = Color.DodgerBlue;
 
                     templateImageBox.BackColor = Color.White;
                     templateImageBox.GridColor = Color.White;
                     templateImageBox.GridColorAlternate = Color.White;
+                    templateImageBox.ForeColor = SystemColors.ControlText;
+
+                    dataImageBox.BackColor = Color.White;
+                    dataImageBox.GridColor = Color.White;
+                    dataImageBox.GridColorAlternate = Color.White;
+                    dataImageBox.ForeColor = SystemColors.ControlText;
 
                     mainDataGrid.BackColor = Color.White;
                     configPropertyEditor.PropertyGrid.BackColor = Color.White;
@@ -1055,6 +1088,9 @@ namespace Synapse
                     break;
                 case Themes.COLORFUL:
                     ribbonControl.ThemeName = "Office2016Colorful";
+                    MessageBoxAdv.Office2016Theme = Office2016Theme.Colorful;
+                    MessageBoxAdv.MessageBoxStyle = MessageBoxAdv.Style.Office2016;
+
                     dataConfigToolStripEx.ThemeName = "Office2016Colorful";
                     readingTabStatusBar.ThemeName = "Metro";
                     dataManipulationToolStripEx.ThemeName = "Metro";
@@ -1063,6 +1099,22 @@ namespace Synapse
                     mainDockingManager.ThemeName = "Office2016Colorful";
                     mainDataGrid.ThemeName = "Office2016Colorful";
                     mainDataGridPager.ThemeName = "Office2016Colorful";
+                    processingProgressBar.ThemeName = "Office2016Colorful";
+
+                    processingProgressBar.FontColor = Color.White;
+                    processingProgressBar.BackGradientStartColor = Color.LightGray;
+                    processingProgressBar.BackGradientEndColor = Color.White;
+                    processingProgressBar.BorderColor = Color.FromArgb(10, 158, 200);
+                    processingProgressBar.GradientStartColor = Color.DeepSkyBlue;
+                    processingProgressBar.GradientEndColor = Color.DodgerBlue;
+
+                    normalDataTypePanel.BackColor = Color.FromArgb(20, 148, 215);
+                    manualDataTypeStatusPanel.BackColor = Color.FromArgb(30, 138, 215);
+                    faultyDataTypeStatusPanel.BackColor = Color.FromArgb(50, 128, 215);
+                    incompatibleDataStatusPanel.BackColor = Color.FromArgb(60, 115, 215);
+
+                    mainDataGrid.Style.ProgressBarStyle.GradientForegroundStartColor = Color.DeepSkyBlue;
+                    mainDataGrid.Style.ProgressBarStyle.GradientForegroundEndColor = Color.DodgerBlue;
 
                     backStageTab1.BackColor = Color.FromArgb(243, 243, 243);
                     bsSettingsTablePanel.BackColor = Color.FromArgb(243, 243, 243);
@@ -1073,6 +1125,12 @@ namespace Synapse
                     templateImageBox.BackColor = Color.FromArgb(243, 243, 243);
                     templateImageBox.GridColor = Color.FromArgb(243, 243, 243);
                     templateImageBox.GridColorAlternate = Color.FromArgb(243, 243, 243);
+                    templateImageBox.ForeColor = Color.WhiteSmoke;
+
+                    dataImageBox.BackColor = Color.FromArgb(243, 243, 243);
+                    dataImageBox.GridColor = Color.FromArgb(243, 243, 243);
+                    dataImageBox.GridColorAlternate = Color.FromArgb(243, 243, 243);
+                    dataImageBox.ForeColor = Color.WhiteSmoke;
 
                     configPropertyEditor.PropertyGrid.BackColor = Color.FromArgb(243, 243, 243);
                     configPropertyEditor.PropertyGrid.HelpBackColor = Color.FromArgb(243, 243, 243);
@@ -1086,6 +1144,15 @@ namespace Synapse
                     break;
                 case Themes.DARK_GRAY:
                     ribbonControl.ThemeName = "Office2016DarkGray";
+                    MessageBoxAdv.Office2016Theme = Office2016Theme.DarkGray;
+                    MessageBoxAdv.MessageBoxStyle = MessageBoxAdv.Style.Office2016;
+
+                    backStageTab1.BackColor = Color.FromArgb(68, 68, 68);
+                    bsSettingsTablePanel.BackColor = Color.FromArgb(68, 68, 68);
+                    bsSettingsTabLabel.ForeColor = Color.WhiteSmoke;
+                    bsSettingsThemeLabel.ForeColor = Color.WhiteSmoke;
+                    bsSettingsThemeField.ForeColor = Color.WhiteSmoke;
+
                     dataConfigToolStripEx.ThemeName = "Office2016DarkGray";
                     readingTabStatusBar.ThemeName = "Office2016DarkGray";
                     dataManipulationToolStripEx.ThemeName = "Office2016DarkGray";
@@ -1094,16 +1161,32 @@ namespace Synapse
                     mainDockingManager.ThemeName = "Office2016DarkGray";
                     mainDataGrid.ThemeName = "Office2016DarkGray";
                     mainDataGridPager.ThemeName = "Office2016DarkGray";
+                    processingProgressBar.ThemeName = "Office2016DarkGray";
 
-                    backStageTab1.BackColor = Color.FromArgb(68, 68, 68);
-                    bsSettingsTablePanel.BackColor = Color.FromArgb(68, 68, 68);
-                    bsSettingsTabLabel.ForeColor = Color.WhiteSmoke;
-                    bsSettingsThemeLabel.ForeColor = Color.WhiteSmoke;
-                    bsSettingsThemeField.ForeColor = Color.WhiteSmoke;
+                    processingProgressBar.FontColor = Color.White;
+                    processingProgressBar.BackGradientStartColor = Color.FromArgb(100, 100, 100);
+                    processingProgressBar.BackGradientEndColor = Color.FromArgb(115, 115, 115);
+                    processingProgressBar.BorderColor = Color.FromArgb(72, 72, 72);
+                    processingProgressBar.GradientStartColor = Color.FromArgb(68, 68, 68);
+                    processingProgressBar.GradientEndColor = Color.FromArgb(98, 98, 98);
+
+                    normalDataTypePanel.BackColor = Color.FromArgb(94, 94, 94);
+                    manualDataTypeStatusPanel.BackColor = Color.FromArgb(78, 78, 78);
+                    faultyDataTypeStatusPanel.BackColor = Color.FromArgb(72, 72, 72);
+                    incompatibleDataStatusPanel.BackColor = Color.FromArgb(66, 66, 66);
+
+                    mainDataGrid.Style.ProgressBarStyle.GradientForegroundStartColor = Color.FromArgb(150, 150, 150);
+                    mainDataGrid.Style.ProgressBarStyle.GradientForegroundEndColor = Color.FromArgb(190, 190, 190);
 
                     templateImageBox.BackColor = Color.FromArgb(68, 68, 68);
                     templateImageBox.GridColor = Color.FromArgb(68, 68, 68);
                     templateImageBox.GridColorAlternate = Color.FromArgb(68, 68, 68);
+                    templateImageBox.ForeColor = Color.WhiteSmoke;
+
+                    dataImageBox.BackColor = Color.FromArgb(68, 68, 68);
+                    dataImageBox.GridColor = Color.FromArgb(68, 68, 68);
+                    dataImageBox.GridColorAlternate = Color.FromArgb(68, 68, 68);
+                    dataImageBox.ForeColor = Color.WhiteSmoke;
 
                     configPropertyEditor.PropertyGrid.BackColor = Color.FromArgb(68, 68, 68);
                     configPropertyEditor.PropertyGrid.HelpBackColor = Color.FromArgb(68, 68, 68);
@@ -1114,9 +1197,30 @@ namespace Synapse
                     configPropertyEditor.PropertyGrid.HelpForeColor = Color.WhiteSmoke;
                     configPropertyEditor.PropertyGrid.SelectedItemWithFocusForeColor = SystemColors.HighlightText;
                     configPropertyEditor.PropertyGrid.CategoryForeColor = Color.WhiteSmoke;
+
                     break;
                 case Themes.BLACK:
                     ribbonControl.ThemeName = "Office2016Black";
+                    MetroStyleColorTable metroColorTable = new MetroStyleColorTable();
+                    metroColorTable.CaptionBarColor = Color.FromArgb(60, 60, 60);
+                    metroColorTable.CaptionForeColor = Color.White;
+                    metroColorTable.BackColor = Color.FromArgb(66, 66, 66);
+                    metroColorTable.ForeColor = Color.White;
+                    metroColorTable.NoButtonBackColor = Color.FromArgb(62, 62, 62);
+                    metroColorTable.NoButtonForeColor = Color.White;
+                    metroColorTable.YesButtonBackColor = Color.FromArgb(74, 74, 74);
+                    metroColorTable.YesButtonForeColor = Color.White;
+                    metroColorTable.OKButtonBackColor = Color.FromArgb(74, 74, 74);
+                    metroColorTable.OKButtonForeColor = Color.White;
+                    MessageBoxAdv.MetroColorTable = metroColorTable;
+                    MessageBoxAdv.MessageBoxStyle = MessageBoxAdv.Style.Metro;
+
+                    backStageTab1.BackColor = Color.FromArgb(64, 64, 64);
+                    bsSettingsTablePanel.BackColor = Color.FromArgb(64, 64, 64);
+                    bsSettingsTabLabel.ForeColor = Color.WhiteSmoke;
+                    bsSettingsThemeLabel.ForeColor = Color.WhiteSmoke;
+                    bsSettingsThemeField.ForeColor = Color.WhiteSmoke;
+
                     dataConfigToolStripEx.ThemeName = "Office2016Black";
                     readingTabStatusBar.ThemeName = "Office2016Black";
                     dataManipulationToolStripEx.ThemeName = "Office2016Black";
@@ -1125,16 +1229,32 @@ namespace Synapse
                     mainDockingManager.ThemeName = "Office2016Black";
                     mainDataGrid.ThemeName = "Office2016Black";
                     mainDataGridPager.ThemeName = "Office2016Black";
+                    processingProgressBar.ThemeName = "Office2016Black";
 
-                    backStageTab1.BackColor = Color.FromArgb(54, 54, 54);
-                    bsSettingsTablePanel.BackColor = Color.FromArgb(54, 54, 54);
-                    bsSettingsTabLabel.ForeColor = Color.WhiteSmoke;
-                    bsSettingsThemeLabel.ForeColor = Color.WhiteSmoke;
-                    bsSettingsThemeField.ForeColor = Color.WhiteSmoke;
+                    processingProgressBar.FontColor = Color.White;
+                    processingProgressBar.BackGradientStartColor = Color.FromArgb(95, 95, 95);
+                    processingProgressBar.BackGradientEndColor = Color.FromArgb(105, 105, 105);
+                    processingProgressBar.BorderColor = Color.FromArgb(60, 60, 60);
+                    processingProgressBar.GradientStartColor = Color.FromArgb(54, 54, 54);
+                    processingProgressBar.GradientEndColor = Color.FromArgb(84, 84, 84);
+                    
+                    normalDataTypePanel.BackColor = Color.FromArgb(74, 74, 74);
+                    manualDataTypeStatusPanel.BackColor = Color.FromArgb(68, 68, 68);
+                    faultyDataTypeStatusPanel.BackColor = Color.FromArgb(62, 62, 62);
+                    incompatibleDataStatusPanel.BackColor = Color.FromArgb(56, 56, 56);
 
-                    templateImageBox.BackColor = Color.FromArgb(54, 54, 54);
-                    templateImageBox.GridColor = Color.FromArgb(54, 54, 54);
-                    templateImageBox.GridColorAlternate = Color.FromArgb(54, 54, 54);
+                    mainDataGrid.Style.ProgressBarStyle.GradientForegroundStartColor = Color.FromArgb(54, 54, 54);
+                    mainDataGrid.Style.ProgressBarStyle.GradientForegroundEndColor = Color.FromArgb(84, 84, 84);
+
+                    templateImageBox.BackColor = Color.FromArgb(64, 64, 64);
+                    templateImageBox.GridColor = Color.FromArgb(64, 64, 64);
+                    templateImageBox.GridColorAlternate = Color.FromArgb(64, 64, 64);
+                    templateImageBox.ForeColor = Color.WhiteSmoke;
+
+                    dataImageBox.BackColor = Color.FromArgb(64, 64, 64);
+                    dataImageBox.GridColor = Color.FromArgb(64, 64, 64);
+                    dataImageBox.GridColorAlternate = Color.FromArgb(64, 64, 64);
+                    dataImageBox.ForeColor = Color.WhiteSmoke;
 
                     configPropertyEditor.PropertyGrid.BackColor = Color.FromArgb(54, 54, 54);
                     configPropertyEditor.PropertyGrid.HelpBackColor = Color.FromArgb(54, 54, 54);
@@ -1147,6 +1267,8 @@ namespace Synapse
                     configPropertyEditor.PropertyGrid.CategoryForeColor = Color.WhiteSmoke;
                     break;
             }
+            CurrentTheme = selectedTheme;
+
         }
         #endregion
         #region Configuration Tab
@@ -1821,7 +1943,56 @@ namespace Synapse
 
             int maximum = ansKey.GetPaper.GetCorrectOptionValue * ansKey.GetKey.Length;
             e.Maximum = maximum == 0 ? 100 : maximum;
+
+            e.Style.ProgressTextColor = (CurrentTheme == Themes.BLACK || CurrentTheme == Themes.DARK_GRAY) ? Color.White : e.Style.ProgressTextColor;
+            e.Style.BackgroundColor = (CurrentTheme == Themes.DARK_GRAY) ? Color.FromArgb(210, 210, 210) : e.Style.BackgroundColor;
+            //mainDataGrid.View.
         }
+        private void mainDataGrid_DrawCell(object sender, Syncfusion.WinForms.DataGrid.Events.DrawCellEventArgs e)
+        {
+            return;
+            if (e.Column.MappingName.Contains(" Score"))
+            {
+                e.Handled = true;
+                ProgressBarAdv progressBar = new ProgressBarAdv();
+                progressBar.CanApplyTheme = true;
+                switch (CurrentTheme)
+                {
+                    case Themes.WHITE:
+                        progressBar.ProgressStyle = ProgressBarStyles.Office2016White;
+                        break;
+                    case Themes.COLORFUL:
+                        progressBar.ProgressStyle = ProgressBarStyles.Office2016Colorful;
+                        break;
+                    case Themes.DARK_GRAY:
+                        progressBar.ProgressStyle = ProgressBarStyles.Office2016DarkGray;
+                        break;
+                    case Themes.BLACK:
+                        progressBar.ProgressStyle = ProgressBarStyles.Office2016Black;
+                        break;
+                    default:
+                        break;
+                }
+                progressBar.GradientStartColor = Color.DeepSkyBlue;
+                progressBar.GradientEndColor = Color.DodgerBlue;
+                progressBar.TextStyle = ProgressBarTextStyles.Custom;
+                progressBar.Text = e.DisplayText;
+
+                var dataObject = (dynamic)e.DataRow.RowData;
+                AnswerKey ansKey = Functions.GetProperty(dataObject, "AnswerKey");
+                if (ansKey == null)
+                    return;
+
+                int maximum = ansKey.GetPaper.GetCorrectOptionValue * ansKey.GetKey.Length;
+                progressBar.Maximum = maximum == 0 ? 100 : maximum;
+                progressBar.Value = int.Parse(e.DisplayText);
+
+                var cellRect = mainDataGrid.TableControl.GetCellRectangle(e.RowIndex, e.ColumnIndex, false);
+                progressBar.Draw(e.Graphics, cellRect);
+                e.Graphics.DrawLine(new Pen(mainDataGrid.Style.CellStyle.Borders.Bottom.Color), cellRect.X, cellRect.Bottom, cellRect.X + cellRect.Width, cellRect.Bottom);
+            }
+        }
+
         private void MainDataGrid_CellClick(object sender, Syncfusion.WinForms.DataGrid.Events.CellClickEventArgs e)
         {
             if (e.DataRow.RowType != Syncfusion.WinForms.DataGrid.Enums.RowType.DefaultRow)
@@ -1915,5 +2086,6 @@ namespace Synapse
         #endregion
 
         #endregion
+
     }
 }
