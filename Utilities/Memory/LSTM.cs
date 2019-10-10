@@ -93,6 +93,11 @@ namespace Synapse.Utilities.Memory
             string templateName = SynapseMain.GetCurrentTemplate.GetTemplateName;
             return Path.Combine(TemplatesRootDataPath, templateName);
         }
+        public static string GetTemplateImagePath(string templateName)
+        {
+            string templateDataDir = Path.Combine(TemplatesRootDataPath, templateName);
+            return Path.Combine(templateDataDir, TemplateDataDirName, TemplateImageFileName);
+        }
         public static string GetConfigRootPath(MainConfigType mainConfigType)
         {
             string result = "";

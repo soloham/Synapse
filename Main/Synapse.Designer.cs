@@ -135,23 +135,23 @@ namespace Synapse
             this.statusGeneralPanel = new System.Windows.Forms.Panel();
             this.DataTypesStatusPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.incompatibleDataStatusPanel = new System.Windows.Forms.Panel();
+            this.totalIncompatibleDataLabel = new System.Windows.Forms.Label();
             this.autoLabel5 = new Syncfusion.Windows.Forms.Tools.AutoLabel();
-            this.totalIncompatibleDataLabel = new Syncfusion.Windows.Forms.Tools.AutoLabel();
             this.faultyDataTypeStatusPanel = new System.Windows.Forms.Panel();
+            this.totalFaultyDataLabel = new System.Windows.Forms.Label();
             this.autoLabel4 = new Syncfusion.Windows.Forms.Tools.AutoLabel();
-            this.totalFaultyDataLabel = new Syncfusion.Windows.Forms.Tools.AutoLabel();
             this.manualDataTypeStatusPanel = new System.Windows.Forms.Panel();
+            this.totalManualDataLabel = new System.Windows.Forms.Label();
             this.autoLabel3 = new Syncfusion.Windows.Forms.Tools.AutoLabel();
-            this.totalManualDataLabel = new Syncfusion.Windows.Forms.Tools.AutoLabel();
             this.normalDataTypePanel = new System.Windows.Forms.Panel();
+            this.totalMainDataLabel = new System.Windows.Forms.Label();
             this.autoLabel2 = new Syncfusion.Windows.Forms.Tools.AutoLabel();
-            this.totalMainDataLabel = new Syncfusion.Windows.Forms.Tools.AutoLabel();
             this.progressStatusTablePanel = new System.Windows.Forms.TableLayoutPanel();
             this.processingProgressBar = new Syncfusion.Windows.Forms.Tools.ProgressBarAdv();
-            this.processingTimeLeftLabel = new Syncfusion.Windows.Forms.Tools.AutoLabel();
+            this.processingTimeLeftLabel = new System.Windows.Forms.Label();
             this.statusTextStatusPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.statusPanelStatusPictureBox = new System.Windows.Forms.PictureBox();
-            this.statusPanelStatusLabel = new Syncfusion.Windows.Forms.Tools.AutoLabel();
+            this.statusPanelStatusLabel = new System.Windows.Forms.Label();
             this.toolStripPanelItem1 = new Syncfusion.Windows.Forms.Tools.ToolStripPanelItem();
             this.toolStripPanelItem2 = new Syncfusion.Windows.Forms.Tools.ToolStripPanelItem();
             this.answerKeyPanel = new System.Windows.Forms.Panel();
@@ -263,7 +263,7 @@ namespace Synapse
             this.ribbonControl.SelectedTab = this.configToolStripTabItem;
             this.ribbonControl.ShowLauncher = false;
             this.ribbonControl.ShowRibbonDisplayOptionButton = true;
-            this.ribbonControl.Size = new System.Drawing.Size(1486, 222);
+            this.ribbonControl.Size = new System.Drawing.Size(1486, 249);
             this.ribbonControl.SystemText.QuickAccessDialogDropDownName = "Start menu";
             this.ribbonControl.SystemText.RenameDisplayLabelText = "&Display Name:";
             this.ribbonControl.TabIndex = 1;
@@ -439,7 +439,7 @@ namespace Synapse
             this.templateConfigToolStrip.Office12Mode = false;
             this.templateConfigToolStrip.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
             this.templateConfigToolStrip.ShowLauncher = false;
-            this.templateConfigToolStrip.Size = new System.Drawing.Size(42, 153);
+            this.templateConfigToolStrip.Size = new System.Drawing.Size(42, 180);
             this.templateConfigToolStrip.TabIndex = 4;
             this.templateConfigToolStrip.Text = "Template Configuration";
             this.templateConfigToolStrip.ThemeName = "Default";
@@ -459,7 +459,7 @@ namespace Synapse
             this.dataConfigToolStripEx.Name = "dataConfigToolStripEx";
             this.dataConfigToolStripEx.Office12Mode = false;
             this.dataConfigToolStripEx.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
-            this.dataConfigToolStripEx.Size = new System.Drawing.Size(42, 153);
+            this.dataConfigToolStripEx.Size = new System.Drawing.Size(42, 180);
             this.dataConfigToolStripEx.TabIndex = 3;
             this.dataConfigToolStripEx.Text = "Data Configuration";
             this.dataConfigToolStripEx.ThemeName = "Office2016White";
@@ -480,7 +480,7 @@ namespace Synapse
             this.aiConfigToolStripEx.Name = "aiConfigToolStripEx";
             this.aiConfigToolStripEx.Office12Mode = false;
             this.aiConfigToolStripEx.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
-            this.aiConfigToolStripEx.Size = new System.Drawing.Size(42, 153);
+            this.aiConfigToolStripEx.Size = new System.Drawing.Size(42, 180);
             this.aiConfigToolStripEx.TabIndex = 1;
             this.aiConfigToolStripEx.Text = "AI Configuration";
             // 
@@ -1386,7 +1386,7 @@ namespace Synapse
             this.configTabPanel.Dock = System.Windows.Forms.DockStyle.Left;
             this.configTabPanel.Location = new System.Drawing.Point(0, 0);
             this.configTabPanel.Name = "configTabPanel";
-            this.configTabPanel.Size = new System.Drawing.Size(635, 479);
+            this.configTabPanel.Size = new System.Drawing.Size(635, 452);
             this.configTabPanel.TabIndex = 3;
             // 
             // templateImageBox
@@ -1403,7 +1403,7 @@ namespace Synapse
             this.templateImageBox.Location = new System.Drawing.Point(0, 0);
             this.templateImageBox.Name = "templateImageBox";
             this.templateImageBox.SelectionMode = Cyotek.Windows.Forms.ImageBoxSelectionMode.Rectangle;
-            this.templateImageBox.Size = new System.Drawing.Size(635, 479);
+            this.templateImageBox.Size = new System.Drawing.Size(635, 452);
             this.templateImageBox.StepSize = new System.Drawing.Size(8, 8);
             this.templateImageBox.TabIndex = 4;
             this.templateImageBox.Text = "Scan a document or browse for an existing template";
@@ -1418,9 +1418,9 @@ namespace Synapse
             this.nonDockingClientArea.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.nonDockingClientArea.Controls.Add(this.configTabPanel);
             this.nonDockingClientArea.Controls.Add(this.readingTabPanel);
-            this.nonDockingClientArea.Location = new System.Drawing.Point(370, 222);
+            this.nonDockingClientArea.Location = new System.Drawing.Point(370, 249);
             this.nonDockingClientArea.Name = "nonDockingClientArea";
-            this.nonDockingClientArea.Size = new System.Drawing.Size(712, 496);
+            this.nonDockingClientArea.Size = new System.Drawing.Size(712, 469);
             this.nonDockingClientArea.SizeToFit = true;
             this.nonDockingClientArea.TabIndex = 2;
             // 
@@ -1430,7 +1430,7 @@ namespace Synapse
             this.readingTabPanel.Dock = System.Windows.Forms.DockStyle.Right;
             this.readingTabPanel.Location = new System.Drawing.Point(635, 0);
             this.readingTabPanel.Name = "readingTabPanel";
-            this.readingTabPanel.Size = new System.Drawing.Size(692, 479);
+            this.readingTabPanel.Size = new System.Drawing.Size(692, 452);
             this.readingTabPanel.TabIndex = 5;
             // 
             // readingTabMainTablePanel
@@ -1438,7 +1438,7 @@ namespace Synapse
             this.readingTabMainTablePanel.ColumnCount = 1;
             this.readingTabMainTablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.readingTabMainTablePanel.Controls.Add(this.mainDataGridPager, 0, 1);
-            this.readingTabMainTablePanel.Controls.Add(this.mainDataGrid, 0, 0);
+            this.readingTabMainTablePanel.Controls.Add(this.mainDataGrid, -1, 0);
             this.readingTabMainTablePanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.readingTabMainTablePanel.Location = new System.Drawing.Point(0, 0);
             this.readingTabMainTablePanel.Margin = new System.Windows.Forms.Padding(0);
@@ -1446,7 +1446,8 @@ namespace Synapse
             this.readingTabMainTablePanel.RowCount = 2;
             this.readingTabMainTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.readingTabMainTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.readingTabMainTablePanel.Size = new System.Drawing.Size(692, 479);
+            this.readingTabMainTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.readingTabMainTablePanel.Size = new System.Drawing.Size(692, 452);
             this.readingTabMainTablePanel.TabIndex = 6;
             // 
             // mainDataGridPager
@@ -1456,13 +1457,13 @@ namespace Synapse
             this.mainDataGridPager.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mainDataGridPager.Font = new System.Drawing.Font("Dosis", 8.249999F);
             this.mainDataGridPager.HorizontalAlignment = System.Windows.Forms.HorizontalAlignment.Center;
-            this.mainDataGridPager.Location = new System.Drawing.Point(0, 449);
+            this.mainDataGridPager.Location = new System.Drawing.Point(0, 422);
             this.mainDataGridPager.Margin = new System.Windows.Forms.Padding(0);
             this.mainDataGridPager.Name = "mainDataGridPager";
             this.mainDataGridPager.PageSize = 70;
             this.mainDataGridPager.ShowNavigationTextBox = true;
             this.mainDataGridPager.Size = new System.Drawing.Size(692, 30);
-            this.mainDataGridPager.TabIndex = 6;
+            this.mainDataGridPager.TabIndex = 7;
             this.mainDataGridPager.ThemeName = "";
             // 
             // mainDataGrid
@@ -1488,13 +1489,11 @@ namespace Synapse
             this.mainDataGrid.SelectionMode = Syncfusion.WinForms.DataGrid.Enums.GridSelectionMode.Extended;
             this.mainDataGrid.ShowBusyIndicator = true;
             this.mainDataGrid.ShowSortNumbers = true;
-            this.mainDataGrid.Size = new System.Drawing.Size(692, 449);
+            this.mainDataGrid.Size = new System.Drawing.Size(692, 422);
             this.mainDataGrid.TabIndex = 1;
             this.mainDataGrid.UsePLINQ = true;
-            this.mainDataGrid.DrawCell += new Syncfusion.WinForms.DataGrid.Events.DrawCellEventHandler(this.mainDataGrid_DrawCell);
             this.mainDataGrid.QueryRowStyle += new Syncfusion.WinForms.DataGrid.Events.QueryRowStyleEventHandler(this.MainDataGrid_QueryRowStyle);
             this.mainDataGrid.SelectionChanged += new Syncfusion.WinForms.DataGrid.Events.SelectionChangedEventHandler(this.MainDataGrid_SelectionChanged);
-            this.mainDataGrid.CellClick += new Syncfusion.WinForms.DataGrid.Events.CellClickEventHandler(this.MainDataGrid_CellClick);
             this.mainDataGrid.QueryProgressBarCellStyle += new System.EventHandler<Syncfusion.WinForms.DataGrid.Events.QueryProgressBarCellStyleEventArgs>(this.mainDataGrid_QueryProgressBarCellStyle);
             // 
             // ImageFileBrowser
@@ -1542,9 +1541,9 @@ namespace Synapse
             // 
             this.configPropertiesPanel.Controls.Add(this.configPropertyEditor);
             this.configPropertiesPanel.Dock = System.Windows.Forms.DockStyle.Right;
-            this.configPropertiesPanel.Location = new System.Drawing.Point(1082, 222);
+            this.configPropertiesPanel.Location = new System.Drawing.Point(1082, 249);
             this.configPropertiesPanel.Name = "configPropertiesPanel";
-            this.configPropertiesPanel.Size = new System.Drawing.Size(200, 526);
+            this.configPropertiesPanel.Size = new System.Drawing.Size(200, 499);
             this.configPropertiesPanel.TabIndex = 3;
             // 
             // configPropertyEditor
@@ -1554,16 +1553,16 @@ namespace Synapse
             this.configPropertyEditor.Font = new System.Drawing.Font("Dosis", 10.25F);
             this.configPropertyEditor.Location = new System.Drawing.Point(0, 0);
             this.configPropertyEditor.Name = "configPropertyEditor";
-            this.configPropertyEditor.Size = new System.Drawing.Size(200, 526);
+            this.configPropertyEditor.Size = new System.Drawing.Size(200, 499);
             this.configPropertyEditor.TabIndex = 1;
             // 
             // dataImageBoxPanel
             // 
             this.dataImageBoxPanel.Controls.Add(this.dataImageBox);
             this.dataImageBoxPanel.Dock = System.Windows.Forms.DockStyle.Right;
-            this.dataImageBoxPanel.Location = new System.Drawing.Point(1282, 222);
+            this.dataImageBoxPanel.Location = new System.Drawing.Point(1282, 249);
             this.dataImageBoxPanel.Name = "dataImageBoxPanel";
-            this.dataImageBoxPanel.Size = new System.Drawing.Size(200, 526);
+            this.dataImageBoxPanel.Size = new System.Drawing.Size(200, 499);
             this.dataImageBoxPanel.TabIndex = 4;
             // 
             // dataImageBox
@@ -1579,7 +1578,7 @@ namespace Synapse
             this.dataImageBox.Location = new System.Drawing.Point(0, 0);
             this.dataImageBox.Name = "dataImageBox";
             this.dataImageBox.SelectionMode = Cyotek.Windows.Forms.ImageBoxSelectionMode.Rectangle;
-            this.dataImageBox.Size = new System.Drawing.Size(200, 526);
+            this.dataImageBox.Size = new System.Drawing.Size(200, 499);
             this.dataImageBox.StepSize = new System.Drawing.Size(8, 8);
             this.dataImageBox.TabIndex = 5;
             this.dataImageBox.Text = "The image of the sheet of which the data is selected in the data grid will appear" +
@@ -1632,7 +1631,7 @@ namespace Synapse
             this.DataTypesStatusPanel.Controls.Add(this.normalDataTypePanel);
             this.DataTypesStatusPanel.Dock = System.Windows.Forms.DockStyle.Right;
             this.DataTypesStatusPanel.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
-            this.DataTypesStatusPanel.Location = new System.Drawing.Point(608, 0);
+            this.DataTypesStatusPanel.Location = new System.Drawing.Point(555, 0);
             this.DataTypesStatusPanel.Margin = new System.Windows.Forms.Padding(0);
             this.DataTypesStatusPanel.Name = "DataTypesStatusPanel";
             this.DataTypesStatusPanel.Size = new System.Drawing.Size(282, 24);
@@ -1641,14 +1640,26 @@ namespace Synapse
             // incompatibleDataStatusPanel
             // 
             this.incompatibleDataStatusPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(115)))), ((int)(((byte)(215)))));
-            this.incompatibleDataStatusPanel.Controls.Add(this.autoLabel5);
             this.incompatibleDataStatusPanel.Controls.Add(this.totalIncompatibleDataLabel);
+            this.incompatibleDataStatusPanel.Controls.Add(this.autoLabel5);
             this.incompatibleDataStatusPanel.Location = new System.Drawing.Point(214, 0);
             this.incompatibleDataStatusPanel.Margin = new System.Windows.Forms.Padding(0);
             this.incompatibleDataStatusPanel.Name = "incompatibleDataStatusPanel";
             this.incompatibleDataStatusPanel.Size = new System.Drawing.Size(68, 25);
             this.incompatibleDataStatusPanel.TabIndex = 0;
             this.incompatibleDataStatusPanel.Visible = false;
+            // 
+            // totalIncompatibleDataLabel
+            // 
+            this.totalIncompatibleDataLabel.Dock = System.Windows.Forms.DockStyle.Right;
+            this.totalIncompatibleDataLabel.Font = new System.Drawing.Font("Dosis", 11.25F);
+            this.totalIncompatibleDataLabel.Location = new System.Drawing.Point(25, 0);
+            this.totalIncompatibleDataLabel.Margin = new System.Windows.Forms.Padding(0);
+            this.totalIncompatibleDataLabel.Name = "totalIncompatibleDataLabel";
+            this.totalIncompatibleDataLabel.Size = new System.Drawing.Size(43, 25);
+            this.totalIncompatibleDataLabel.TabIndex = 7;
+            this.totalIncompatibleDataLabel.Text = "000";
+            this.totalIncompatibleDataLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // autoLabel5
             // 
@@ -1666,33 +1677,29 @@ namespace Synapse
             this.autoLabel5.Text = "I:";
             this.autoLabel5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // totalIncompatibleDataLabel
-            // 
-            this.totalIncompatibleDataLabel.AutoEllipsis = true;
-            this.totalIncompatibleDataLabel.AutoSize = false;
-            this.totalIncompatibleDataLabel.Dock = System.Windows.Forms.DockStyle.Right;
-            this.totalIncompatibleDataLabel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.totalIncompatibleDataLabel.Font = new System.Drawing.Font("Dosis", 11.25F);
-            this.totalIncompatibleDataLabel.Location = new System.Drawing.Point(28, 0);
-            this.totalIncompatibleDataLabel.Margin = new System.Windows.Forms.Padding(0, 0, 5, 0);
-            this.totalIncompatibleDataLabel.Name = "totalIncompatibleDataLabel";
-            this.totalIncompatibleDataLabel.Padding = new System.Windows.Forms.Padding(0, 0, 2, 0);
-            this.totalIncompatibleDataLabel.Size = new System.Drawing.Size(40, 25);
-            this.totalIncompatibleDataLabel.TabIndex = 4;
-            this.totalIncompatibleDataLabel.Text = "000";
-            this.totalIncompatibleDataLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // faultyDataTypeStatusPanel
             // 
             this.faultyDataTypeStatusPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(128)))), ((int)(((byte)(215)))));
-            this.faultyDataTypeStatusPanel.Controls.Add(this.autoLabel4);
             this.faultyDataTypeStatusPanel.Controls.Add(this.totalFaultyDataLabel);
+            this.faultyDataTypeStatusPanel.Controls.Add(this.autoLabel4);
             this.faultyDataTypeStatusPanel.Location = new System.Drawing.Point(146, 0);
             this.faultyDataTypeStatusPanel.Margin = new System.Windows.Forms.Padding(0);
             this.faultyDataTypeStatusPanel.Name = "faultyDataTypeStatusPanel";
             this.faultyDataTypeStatusPanel.Size = new System.Drawing.Size(68, 25);
             this.faultyDataTypeStatusPanel.TabIndex = 1;
             this.faultyDataTypeStatusPanel.Visible = false;
+            // 
+            // totalFaultyDataLabel
+            // 
+            this.totalFaultyDataLabel.Dock = System.Windows.Forms.DockStyle.Right;
+            this.totalFaultyDataLabel.Font = new System.Drawing.Font("Dosis", 11.25F);
+            this.totalFaultyDataLabel.Location = new System.Drawing.Point(27, 0);
+            this.totalFaultyDataLabel.Margin = new System.Windows.Forms.Padding(0);
+            this.totalFaultyDataLabel.Name = "totalFaultyDataLabel";
+            this.totalFaultyDataLabel.Size = new System.Drawing.Size(41, 25);
+            this.totalFaultyDataLabel.TabIndex = 7;
+            this.totalFaultyDataLabel.Text = "000";
+            this.totalFaultyDataLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // autoLabel4
             // 
@@ -1710,33 +1717,29 @@ namespace Synapse
             this.autoLabel4.Text = "F:";
             this.autoLabel4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // totalFaultyDataLabel
-            // 
-            this.totalFaultyDataLabel.AutoEllipsis = true;
-            this.totalFaultyDataLabel.AutoSize = false;
-            this.totalFaultyDataLabel.Dock = System.Windows.Forms.DockStyle.Right;
-            this.totalFaultyDataLabel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.totalFaultyDataLabel.Font = new System.Drawing.Font("Dosis", 11.25F);
-            this.totalFaultyDataLabel.Location = new System.Drawing.Point(28, 0);
-            this.totalFaultyDataLabel.Margin = new System.Windows.Forms.Padding(0, 0, 5, 0);
-            this.totalFaultyDataLabel.Name = "totalFaultyDataLabel";
-            this.totalFaultyDataLabel.Padding = new System.Windows.Forms.Padding(0, 0, 2, 0);
-            this.totalFaultyDataLabel.Size = new System.Drawing.Size(40, 25);
-            this.totalFaultyDataLabel.TabIndex = 4;
-            this.totalFaultyDataLabel.Text = "000";
-            this.totalFaultyDataLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // manualDataTypeStatusPanel
             // 
             this.manualDataTypeStatusPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(138)))), ((int)(((byte)(215)))));
-            this.manualDataTypeStatusPanel.Controls.Add(this.autoLabel3);
             this.manualDataTypeStatusPanel.Controls.Add(this.totalManualDataLabel);
+            this.manualDataTypeStatusPanel.Controls.Add(this.autoLabel3);
             this.manualDataTypeStatusPanel.Location = new System.Drawing.Point(78, 0);
             this.manualDataTypeStatusPanel.Margin = new System.Windows.Forms.Padding(0);
             this.manualDataTypeStatusPanel.Name = "manualDataTypeStatusPanel";
             this.manualDataTypeStatusPanel.Size = new System.Drawing.Size(68, 25);
             this.manualDataTypeStatusPanel.TabIndex = 2;
             this.manualDataTypeStatusPanel.Visible = false;
+            // 
+            // totalManualDataLabel
+            // 
+            this.totalManualDataLabel.Dock = System.Windows.Forms.DockStyle.Right;
+            this.totalManualDataLabel.Font = new System.Drawing.Font("Dosis", 11.25F);
+            this.totalManualDataLabel.Location = new System.Drawing.Point(25, 0);
+            this.totalManualDataLabel.Margin = new System.Windows.Forms.Padding(0);
+            this.totalManualDataLabel.Name = "totalManualDataLabel";
+            this.totalManualDataLabel.Size = new System.Drawing.Size(43, 25);
+            this.totalManualDataLabel.TabIndex = 6;
+            this.totalManualDataLabel.Text = "000";
+            this.totalManualDataLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // autoLabel3
             // 
@@ -1754,33 +1757,29 @@ namespace Synapse
             this.autoLabel3.Text = "M:";
             this.autoLabel3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // totalManualDataLabel
-            // 
-            this.totalManualDataLabel.AutoEllipsis = true;
-            this.totalManualDataLabel.AutoSize = false;
-            this.totalManualDataLabel.Dock = System.Windows.Forms.DockStyle.Right;
-            this.totalManualDataLabel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.totalManualDataLabel.Font = new System.Drawing.Font("Dosis", 11.25F);
-            this.totalManualDataLabel.Location = new System.Drawing.Point(28, 0);
-            this.totalManualDataLabel.Margin = new System.Windows.Forms.Padding(0, 0, 5, 0);
-            this.totalManualDataLabel.Name = "totalManualDataLabel";
-            this.totalManualDataLabel.Padding = new System.Windows.Forms.Padding(0, 0, 2, 0);
-            this.totalManualDataLabel.Size = new System.Drawing.Size(40, 25);
-            this.totalManualDataLabel.TabIndex = 4;
-            this.totalManualDataLabel.Text = "000";
-            this.totalManualDataLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // normalDataTypePanel
             // 
             this.normalDataTypePanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(148)))), ((int)(((byte)(215)))));
-            this.normalDataTypePanel.Controls.Add(this.autoLabel2);
             this.normalDataTypePanel.Controls.Add(this.totalMainDataLabel);
+            this.normalDataTypePanel.Controls.Add(this.autoLabel2);
             this.normalDataTypePanel.Location = new System.Drawing.Point(0, 0);
             this.normalDataTypePanel.Margin = new System.Windows.Forms.Padding(0);
             this.normalDataTypePanel.Name = "normalDataTypePanel";
             this.normalDataTypePanel.Size = new System.Drawing.Size(78, 25);
             this.normalDataTypePanel.TabIndex = 3;
             this.normalDataTypePanel.Visible = false;
+            // 
+            // totalMainDataLabel
+            // 
+            this.totalMainDataLabel.Dock = System.Windows.Forms.DockStyle.Right;
+            this.totalMainDataLabel.Font = new System.Drawing.Font("Dosis", 11.25F);
+            this.totalMainDataLabel.Location = new System.Drawing.Point(28, 0);
+            this.totalMainDataLabel.Margin = new System.Windows.Forms.Padding(0);
+            this.totalMainDataLabel.Name = "totalMainDataLabel";
+            this.totalMainDataLabel.Size = new System.Drawing.Size(50, 25);
+            this.totalMainDataLabel.TabIndex = 5;
+            this.totalMainDataLabel.Text = "000";
+            this.totalMainDataLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // autoLabel2
             // 
@@ -1798,36 +1797,20 @@ namespace Synapse
             this.autoLabel2.Text = "A:";
             this.autoLabel2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // totalMainDataLabel
-            // 
-            this.totalMainDataLabel.AutoEllipsis = true;
-            this.totalMainDataLabel.AutoSize = false;
-            this.totalMainDataLabel.Dock = System.Windows.Forms.DockStyle.Right;
-            this.totalMainDataLabel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.totalMainDataLabel.Font = new System.Drawing.Font("Dosis", 11.25F);
-            this.totalMainDataLabel.Location = new System.Drawing.Point(26, 0);
-            this.totalMainDataLabel.Margin = new System.Windows.Forms.Padding(0);
-            this.totalMainDataLabel.Name = "totalMainDataLabel";
-            this.totalMainDataLabel.Padding = new System.Windows.Forms.Padding(0, 0, 2, 0);
-            this.totalMainDataLabel.Size = new System.Drawing.Size(52, 25);
-            this.totalMainDataLabel.TabIndex = 3;
-            this.totalMainDataLabel.Text = "000";
-            this.totalMainDataLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // progressStatusTablePanel
             // 
             this.progressStatusTablePanel.ColumnCount = 2;
-            this.progressStatusTablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 44.03183F));
-            this.progressStatusTablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 55.96817F));
+            this.progressStatusTablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 51.75644F));
+            this.progressStatusTablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 48.24356F));
             this.progressStatusTablePanel.Controls.Add(this.processingProgressBar, 1, 0);
             this.progressStatusTablePanel.Controls.Add(this.processingTimeLeftLabel, 0, 0);
             this.progressStatusTablePanel.Dock = System.Windows.Forms.DockStyle.Right;
-            this.progressStatusTablePanel.Location = new System.Drawing.Point(890, 0);
+            this.progressStatusTablePanel.Location = new System.Drawing.Point(837, 0);
             this.progressStatusTablePanel.Margin = new System.Windows.Forms.Padding(0);
             this.progressStatusTablePanel.Name = "progressStatusTablePanel";
             this.progressStatusTablePanel.RowCount = 1;
             this.progressStatusTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.progressStatusTablePanel.Size = new System.Drawing.Size(374, 24);
+            this.progressStatusTablePanel.Size = new System.Drawing.Size(427, 24);
             this.progressStatusTablePanel.TabIndex = 2;
             this.progressStatusTablePanel.Visible = false;
             // 
@@ -1850,7 +1833,7 @@ namespace Synapse
             this.processingProgressBar.ForegroundImage = null;
             this.processingProgressBar.GradientEndColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(128)))), ((int)(((byte)(215)))));
             this.processingProgressBar.GradientStartColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(160)))), ((int)(((byte)(215)))));
-            this.processingProgressBar.Location = new System.Drawing.Point(166, 0);
+            this.processingProgressBar.Location = new System.Drawing.Point(222, 0);
             this.processingProgressBar.Margin = new System.Windows.Forms.Padding(2, 0, 0, 0);
             this.processingProgressBar.MinimumSize = new System.Drawing.Size(177, 26);
             this.processingProgressBar.MultipleColors = new System.Drawing.Color[] {
@@ -1859,7 +1842,7 @@ namespace Synapse
             this.processingProgressBar.ProgressFallbackStyle = Syncfusion.Windows.Forms.Tools.ProgressBarStyles.Office2016White;
             this.processingProgressBar.ProgressStyle = Syncfusion.Windows.Forms.Tools.ProgressBarStyles.Metro;
             this.processingProgressBar.SegmentWidth = 12;
-            this.processingProgressBar.Size = new System.Drawing.Size(208, 26);
+            this.processingProgressBar.Size = new System.Drawing.Size(205, 26);
             this.processingProgressBar.TabIndex = 4;
             this.processingProgressBar.TextShadow = false;
             this.processingProgressBar.ThemeName = "Metro";
@@ -1869,17 +1852,14 @@ namespace Synapse
             // 
             // processingTimeLeftLabel
             // 
-            this.processingTimeLeftLabel.AutoEllipsis = true;
-            this.processingTimeLeftLabel.AutoSize = false;
             this.processingTimeLeftLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.processingTimeLeftLabel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.processingTimeLeftLabel.Font = new System.Drawing.Font("Dosis", 12.25F);
-            this.processingTimeLeftLabel.Location = new System.Drawing.Point(1, 1);
-            this.processingTimeLeftLabel.Margin = new System.Windows.Forms.Padding(1, 1, 5, 1);
+            this.processingTimeLeftLabel.Font = new System.Drawing.Font("Dosis", 13.25F);
+            this.processingTimeLeftLabel.Location = new System.Drawing.Point(0, 0);
+            this.processingTimeLeftLabel.Margin = new System.Windows.Forms.Padding(0);
             this.processingTimeLeftLabel.Name = "processingTimeLeftLabel";
-            this.processingTimeLeftLabel.Size = new System.Drawing.Size(158, 22);
-            this.processingTimeLeftLabel.TabIndex = 3;
-            this.processingTimeLeftLabel.Text = "TIME LEFT: 00:00:00";
+            this.processingTimeLeftLabel.Size = new System.Drawing.Size(220, 24);
+            this.processingTimeLeftLabel.TabIndex = 5;
+            this.processingTimeLeftLabel.Text = "ESTIMATED LEFT: 00:00:00";
             this.processingTimeLeftLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // statusTextStatusPanel
@@ -1910,13 +1890,12 @@ namespace Synapse
             this.statusPanelStatusLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.statusPanelStatusLabel.AutoEllipsis = true;
-            this.statusPanelStatusLabel.AutoSize = false;
-            this.statusPanelStatusLabel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.statusPanelStatusLabel.Font = new System.Drawing.Font("Dosis", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.statusPanelStatusLabel.Location = new System.Drawing.Point(43, 0);
+            this.statusPanelStatusLabel.Font = new System.Drawing.Font("Dosis", 14.25F);
+            this.statusPanelStatusLabel.Location = new System.Drawing.Point(40, 0);
+            this.statusPanelStatusLabel.Margin = new System.Windows.Forms.Padding(0);
             this.statusPanelStatusLabel.Name = "statusPanelStatusLabel";
-            this.statusPanelStatusLabel.Size = new System.Drawing.Size(560, 32);
-            this.statusPanelStatusLabel.TabIndex = 2;
+            this.statusPanelStatusLabel.Size = new System.Drawing.Size(515, 27);
+            this.statusPanelStatusLabel.TabIndex = 3;
             // 
             // toolStripPanelItem1
             // 
@@ -1944,9 +1923,9 @@ namespace Synapse
             this.answerKeyPanel.Controls.Add(this.addAnswerKeyPanel);
             this.answerKeyPanel.Controls.Add(this.answerKeyMainPanel);
             this.answerKeyPanel.Dock = System.Windows.Forms.DockStyle.Left;
-            this.answerKeyPanel.Location = new System.Drawing.Point(2, 222);
+            this.answerKeyPanel.Location = new System.Drawing.Point(2, 249);
             this.answerKeyPanel.Name = "answerKeyPanel";
-            this.answerKeyPanel.Size = new System.Drawing.Size(368, 496);
+            this.answerKeyPanel.Size = new System.Drawing.Size(368, 469);
             this.answerKeyPanel.TabIndex = 5;
             // 
             // addAnswerKeyPanel
@@ -1955,7 +1934,7 @@ namespace Synapse
             this.addAnswerKeyPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.addAnswerKeyPanel.Location = new System.Drawing.Point(0, 147);
             this.addAnswerKeyPanel.Name = "addAnswerKeyPanel";
-            this.addAnswerKeyPanel.Size = new System.Drawing.Size(368, 349);
+            this.addAnswerKeyPanel.Size = new System.Drawing.Size(368, 322);
             this.addAnswerKeyPanel.TabIndex = 1;
             // 
             // addAnswerKeyTablePanel
@@ -1971,7 +1950,7 @@ namespace Synapse
             this.addAnswerKeyTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.addAnswerKeyTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
             this.addAnswerKeyTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.addAnswerKeyTablePanel.Size = new System.Drawing.Size(368, 349);
+            this.addAnswerKeyTablePanel.Size = new System.Drawing.Size(368, 322);
             this.addAnswerKeyTablePanel.TabIndex = 1;
             // 
             // answerKeyControlsSplitterContainer
@@ -2190,7 +2169,7 @@ namespace Synapse
             this.initializationButtonsPanel.Controls.Add(this.setBtn, 0, 0);
             this.initializationButtonsPanel.Controls.Add(this.nextBtn, 0, 0);
             this.initializationButtonsPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.initializationButtonsPanel.Location = new System.Drawing.Point(0, 299);
+            this.initializationButtonsPanel.Location = new System.Drawing.Point(0, 272);
             this.initializationButtonsPanel.Margin = new System.Windows.Forms.Padding(0);
             this.initializationButtonsPanel.Name = "initializationButtonsPanel";
             this.initializationButtonsPanel.RowCount = 1;
@@ -2557,26 +2536,19 @@ namespace Synapse
         private Syncfusion.Windows.Forms.Tools.StatusBarAdv readingTabStatusBar;
         private System.Windows.Forms.PictureBox statusPanelStatusPictureBox;
         private System.Windows.Forms.FlowLayoutPanel statusTextStatusPanel;
-        private Syncfusion.Windows.Forms.Tools.AutoLabel statusPanelStatusLabel;
         private System.Windows.Forms.Panel statusGeneralPanel;
         private System.Windows.Forms.TableLayoutPanel progressStatusTablePanel;
-        private Syncfusion.Windows.Forms.Tools.AutoLabel processingTimeLeftLabel;
         private Syncfusion.Windows.Forms.Tools.ProgressBarAdv processingProgressBar;
         private System.Windows.Forms.FlowLayoutPanel DataTypesStatusPanel;
         private System.Windows.Forms.Panel incompatibleDataStatusPanel;
         private System.Windows.Forms.Panel faultyDataTypeStatusPanel;
         private System.Windows.Forms.Panel manualDataTypeStatusPanel;
         private System.Windows.Forms.Panel normalDataTypePanel;
-        private Syncfusion.Windows.Forms.Tools.AutoLabel totalIncompatibleDataLabel;
-        private Syncfusion.Windows.Forms.Tools.AutoLabel totalFaultyDataLabel;
-        private Syncfusion.Windows.Forms.Tools.AutoLabel totalManualDataLabel;
-        private Syncfusion.Windows.Forms.Tools.AutoLabel totalMainDataLabel;
         private Syncfusion.Windows.Forms.Tools.AutoLabel autoLabel5;
         private Syncfusion.Windows.Forms.Tools.AutoLabel autoLabel4;
         private Syncfusion.Windows.Forms.Tools.AutoLabel autoLabel3;
         private Syncfusion.Windows.Forms.Tools.AutoLabel autoLabel2;
         private System.Windows.Forms.TableLayoutPanel readingTabMainTablePanel;
-        private Syncfusion.WinForms.DataPager.SfDataPager mainDataGridPager;
         private Syncfusion.WinForms.DataGrid.SfDataGrid mainDataGrid;
         private Syncfusion.Windows.Forms.Tools.ToolStripPanelItem toolStripPanelItem1;
         private Syncfusion.Windows.Forms.Tools.ToolStripPanelItem toolStripPanelItem2;
@@ -2609,5 +2581,12 @@ namespace Synapse
         private Syncfusion.Windows.Forms.Tools.AutoLabel bsSettingsThemeLabel;
         private Syncfusion.Windows.Forms.Tools.ComboBoxAdv bsSettingsThemeField;
         private Syncfusion.Windows.Forms.Tools.AutoLabel bsSettingsTabLabel;
+        private System.Windows.Forms.Label statusPanelStatusLabel;
+        private System.Windows.Forms.Label totalIncompatibleDataLabel;
+        private System.Windows.Forms.Label totalFaultyDataLabel;
+        private System.Windows.Forms.Label totalManualDataLabel;
+        private System.Windows.Forms.Label totalMainDataLabel;
+        private System.Windows.Forms.Label processingTimeLeftLabel;
+        private Syncfusion.WinForms.DataPager.SfDataPager mainDataGridPager;
     }
 }

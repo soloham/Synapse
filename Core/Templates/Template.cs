@@ -7,6 +7,7 @@ using Emgu.CV.Util;
 using Synapse.Utilities;
 using Synapse.Utilities.Attributes;
 using Synapse.Utilities.Extensions;
+using Synapse.Utilities.Memory;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -1164,6 +1165,8 @@ namespace Synapse.Core.Templates
         public Template(Data tmpData)
         {
             TemplateData = tmpData;
+            string ImageLocation = TemplateData.GetTemplateImage.ImageLocation;
+            TemplateData.GetTemplateImage.ImageLocation = string.IsNullOrEmpty(ImageLocation) ? null : File.Exists(ImageLocation) ? ImageLocation : LSTM.GetTemplateImagePath(tmpData.TemplateName);
             TemplateData.Initialize();
         }
         public static Template CreateTemplate(string tmpName)

@@ -36,7 +36,7 @@ namespace Synapse
             MessageBoxAdv.MetroColorTable = metroColorTable;
             MessageBoxAdv.MessageBoxStyle = MessageBoxAdv.Style.Metro;
 
-            Application.Run(new global::Synapse.Modules.TemplatesHub());
+            Application.Run(new Modules.TemplatesHub());
         }
     }
 }

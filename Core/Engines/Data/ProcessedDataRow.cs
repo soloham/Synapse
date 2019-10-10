@@ -24,7 +24,7 @@ namespace Synapse.Core.Engines.Data
     }
 
     [Serializable]
-    internal class ProcessedDataRow
+    internal struct ProcessedDataRow
     {
         #region Properties
         public int GetRowIndex { get => rowIndex; }
@@ -34,7 +34,7 @@ namespace Synapse.Core.Engines.Data
         //private Templates.Template.AlignmentPipelineResults alignmentPipelineResults;
         public ProcessedDataType DataRowResultType { get; set; }
         public List<ProcessedDataEntry> GetProcessedDataEntries { get => processedDataEntries; }
-        private List<ProcessedDataEntry> processedDataEntries = new List<ProcessedDataEntry>();
+        private List<ProcessedDataEntry> processedDataEntries;
 
         public bool IsEdited { get; set; }
         #endregion
@@ -46,6 +46,7 @@ namespace Synapse.Core.Engines.Data
             this.rowIndex = rowIndex;
             RowSheetPath = rowSheetPath;
             DataRowResultType = processedDataResultType;
+            IsEdited = false;
             //this.alignmentPipelineResults = alignmentPipelineResults;
         }
         internal Mat GetAlignedImage()

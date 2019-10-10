@@ -13,6 +13,7 @@ using Syncfusion.WinForms.DataGrid;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Drawing;
 using System.Dynamic;
 using System.Linq;
@@ -24,6 +25,8 @@ namespace Synapse.Core.Managers
 {
     internal class ProcessingManager
     {
+        public BackgroundWorker ProcessingWorker;
+        
         public int GetCurProcessingIndex { get; private set; }
 
         private Template CurrentTemplate;
@@ -40,12 +43,16 @@ namespace Synapse.Core.Managers
         public int GetTotalManualProcessedData { get => manualProcessedDataSource.Count; }
         public int GetTotalFaultyProcessedData { get => faultyProcessedDataSource.Count; }
         public int GetTotalIncompatibleProcessedData { get => incompatibleProcessedDataSource.Count; }
+        public bool IsProcessing { get; private set; } = false;
 
         public event EventHandler<ProcessedDataType> OnDataSourceUpdated;
+        public event EventHandler<(ProcessedDataRow, double, double)> OnSheetProcessed;
+        public event EventHandler<(bool cancelled, object result, Exception error)> OnProcessingComplete;
 
         public ProcessingManager(Template currentTemplate)
         {
             CurrentTemplate = currentTemplate;
+            IsProcessing = false;
         }
 
         internal void LoadSheets(SheetsList sheetsList)
@@ -94,13 +101,67 @@ namespace Synapse.Core.Managers
         {
             this.dataColumns = dataColumns;
         }
-        internal async Task StartProcessing(bool keepData, Action<ProcessedDataRow, double, double> OnSheetProcessed, List<string> dataColumns = null)
+        internal void StartProcessing(bool keepData, List<string> dataColumns = null)
         {
             this.dataColumns = dataColumns;
 
             if (!keepData)
                 ClearAllData();
 
+            ProcessingWorker = new BackgroundWorker();
+            ProcessingWorker.WorkerReportsProgress = true;
+            ProcessingWorker.WorkerSupportsCancellation = true;
+
+            ProcessingWorker.DoWork += ProcessingWorker_DoWork;
+            ProcessingWorker.ProgressChanged += ProcessingWorker_ProgressChanged;
+            ProcessingWorker.RunWorkerCompleted += ProcessingWorker_RunWorkerCompleted; ;
+
+            ProcessingWorker.RunWorkerAsync(keepData);
+        }
+
+        public DateTime uiClock0 = DateTime.Now;
+        private void ProcessingWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            (bool keepData, ProcessedDataRow processedDataRow, dynamic dynamicDataRow, double runningAverage, double runningTotal, int extraColumns) = ((bool, ProcessedDataRow, dynamic, double, double, int))e.UserState;
+            switch (processedDataRow.DataRowResultType)
+            {
+                case ProcessedDataType.INCOMPATIBLE:
+                    incompatibleProcessedDataSource.Add(dynamicDataRow);
+                    break;
+                case ProcessedDataType.FAULTY:
+                    faultyProcessedDataSource.Add(dynamicDataRow);
+                    break;
+                case ProcessedDataType.MANUAL:
+                    manualProcessedDataSource.Add(dynamicDataRow);
+                    break;
+                case ProcessedDataType.NORMAL:
+                    allProcessedDataSource.Add(dynamicDataRow);
+                    break;
+            }
+
+            if (processedDataRow.GetRowIndex == 0 && !keepData)
+                SynapseMain.GetSynapseMain.InitializeMainDataGrid(processedDataRow.GetProcessedDataEntries, allProcessedDataSource, extraColumns);
+
+            DateTime uiClock1 = DateTime.Now;
+            var diff = (uiClock1 - uiClock0).TotalMilliseconds;
+            if (diff >= 50)
+            {
+                OnDataSourceUpdated?.Invoke(this, processedDataRow.DataRowResultType);
+
+                OnSheetProcessed?.Invoke(this, (processedDataRow, runningAverage, runningTotal));
+
+                uiClock0 = DateTime.Now;
+            }
+        }
+        private void ProcessingWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            IsProcessing = false;
+            OnProcessingComplete?.Invoke(this, (e.Cancelled, e.Result, e.Error));
+        }
+
+        private void ProcessingWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            BackgroundWorker worker = (BackgroundWorker)sender;
             string[] sheetsPaths = loadedSheetsData.GetSheetsPath;
             var allConfigurations = ConfigurationsManager.GetAllConfigurations;
 
@@ -108,16 +169,22 @@ namespace Synapse.Core.Managers
             double runningTotal = 0;
 
             int extraColumns = 0;
+
+            bool keepData = (bool)e.Argument;
+
+            IsProcessing = true;
             for (int i = 0; i < sheetsPaths.Length; i++)
             {
                 var t0 = DateTime.Now;
                 GetCurProcessingIndex = i;
-
+                
                 dynamic dynamicDataRow = new ExpandoObject();
                 Mat curSheet = CvInvoke.Imread(sheetsPaths[i], Emgu.CV.CvEnum.ImreadModes.Grayscale);
                 AlignmentPipelineResults alignmentPipelineResults = null;
                 Mat alignedSheet = null;
-                await Task.Run(() => { alignedSheet = CurrentTemplate.AlignSheet(curSheet, out AlignmentPipelineResults _alignmentPipelineResults); alignmentPipelineResults = _alignmentPipelineResults; });
+                //await Task.Run(() => { alignedSheet = CurrentTemplate.AlignSheet(curSheet, out AlignmentPipelineResults _alignmentPipelineResults); alignmentPipelineResults = _alignmentPipelineResults; });
+                alignedSheet = CurrentTemplate.AlignSheet(curSheet, out AlignmentPipelineResults _alignmentPipelineResults);
+                alignmentPipelineResults = _alignmentPipelineResults;
                 curSheet.Dispose();
                 if (alignmentPipelineResults.AlignmentMethodTestResultsList.TrueForAll(x => x.GetAlignmentMethodResultType == AlignmentPipelineResults.AlignmentMethodResultType.Failed))
                     continue;
@@ -137,7 +204,7 @@ namespace Synapse.Core.Managers
                     string[] formattedOutput = processedDataEntry.FormatData();
                     if (formattedOutput.Length == 1)
                     {
-                        string dataTitle = dataColumns != null && dataColumns.Count > 0 ? dataColumns[lastDataColumnsIndex+1] : allConfigurations[i1].Title;
+                        string dataTitle = dataColumns != null && dataColumns.Count > 0 ? dataColumns[lastDataColumnsIndex + 1] : allConfigurations[i1].Title;
                         Functions.AddProperty(dynamicDataRow, dataTitle, formattedOutput[0]);
 
                         lastDataColumnsIndex++;
@@ -150,7 +217,7 @@ namespace Synapse.Core.Managers
                             Functions.AddProperty(dynamicDataRow, dataTitle, formattedOutput[i2]);
 
                         }
-                        lastDataColumnsIndex += formattedOutput.Length-1;
+                        lastDataColumnsIndex += formattedOutput.Length - 1;
                     }
 
                     switch (curConfigurationBase.GetMainConfigType)
@@ -173,7 +240,7 @@ namespace Synapse.Core.Managers
                                                 for (int i2 = 0; i2 < 3; i2++)
                                                 {
                                                     string dataTitle = i2 == 0 ? omrConfig.Title + " Score" : i2 == 1 ? omrConfig.Title + " Paper" : i2 == 2 ? omrConfig.Title + " Key" : omrConfig.Title + $" x{i2}";
-                                                    Functions.AddProperty(dynamicDataRow, dataTitle, i2 == 0 ? gradeResult.obtainedMarks + "" : i2 == 1? generalKey.GetPaper.Title : generalKey.Title);
+                                                    Functions.AddProperty(dynamicDataRow, dataTitle, i2 == 0 ? gradeResult.obtainedMarks + "" : i2 == 1 ? generalKey.GetPaper.Title : generalKey.Title);
 
                                                     lastDataColumnsIndex++;
                                                     extraColumns++;
@@ -183,7 +250,7 @@ namespace Synapse.Core.Managers
                                             {
                                                 for (int i2 = 0; i2 < 3; i2++)
                                                 {
-                                                    string dataTitle = i2 == 0 ? omrConfig.Title + " Score" : i2 == 1 ? omrConfig.Title + " Paper" : i2 == 2? omrConfig.Title + " Key" : omrConfig.Title + $" x{i2}";
+                                                    string dataTitle = i2 == 0 ? omrConfig.Title + " Score" : i2 == 1 ? omrConfig.Title + " Paper" : i2 == 2 ? omrConfig.Title + " Key" : omrConfig.Title + $" x{i2}";
                                                     Functions.AddProperty(dynamicDataRow, dataTitle, "—");
 
                                                     lastDataColumnsIndex++;
@@ -193,7 +260,7 @@ namespace Synapse.Core.Managers
                                             break;
                                         case Keys.KeyType.ParameterBased:
                                             parameterBasedGradings.Add((processedDataEntry, omrConfig.PB_AnswerKeys.Keys.ToArray()));
-                                            lastDataColumnsIndex += 4;
+                                            lastDataColumnsIndex += 3;
                                             break;
                                         default:
                                             break;
@@ -227,17 +294,17 @@ namespace Synapse.Core.Managers
                         Functions.AddProperty(dynamicDataRow, "AnswerKey", paramKey);
 
                         for (int i2 = 0; i2 < 3; i2++)
-                        {                            
+                        {
                             string dataTitle = i2 == 0 ? omrConfig.Title + " Score" : i2 == 1 ? omrConfig.Title + " Paper" : i2 == 2 ? omrConfig.Title + " Key" : omrConfig.Title + $" x{i2}";
-                            Functions.AddProperty(dynamicDataRow, dataTitle, i2 == 0 ? gradeResult.obtainedMarks + "" : i2 == 1? paramKey.GetPaper.Title : paramKey.Title);
+                            Functions.AddProperty(dynamicDataRow, dataTitle, i2 == 0 ? gradeResult.obtainedMarks + "" : i2 == 1 ? paramKey.GetPaper.Title : paramKey.Title);
 
                             extraColumns++;
                         }
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
-                        for (int i2 = 0; i2 < 3; i2++) 
-                        { 
+                        for (int i2 = 0; i2 < 3; i2++)
+                        {
                             string dataTitle = i2 == 0 ? omrConfig.Title + " Score" : i2 == 1 ? omrConfig.Title + " Paper" : i2 == 2 ? omrConfig.Title + " Key" : omrConfig.Title + $" x{i2}";
                             Functions.AddProperty(dynamicDataRow, dataTitle, "—");
 
@@ -250,32 +317,15 @@ namespace Synapse.Core.Managers
                 processedData.Add(processedDataRow);
 
                 Functions.AddProperty(dynamicDataRow, "DataRowObject", processedDataRow);
-                switch(processedRowType)
-                {
-                    case ProcessedDataType.INCOMPATIBLE:
-                        incompatibleProcessedDataSource.Add(dynamicDataRow);
-                    break;
-                    case ProcessedDataType.FAULTY:
-                        faultyProcessedDataSource.Add(dynamicDataRow);
-                    break;
-                    case ProcessedDataType.MANUAL:
-                        manualProcessedDataSource.Add(dynamicDataRow);
-                    break;
-                    case ProcessedDataType.NORMAL:
-                        allProcessedDataSource.Add(dynamicDataRow);
-                    break;
-                }
-                if (i == 0 && !keepData)
-                    SynapseMain.GetSynapseMain.InitializeMainDataGrid(processedDataEntries, allProcessedDataSource, extraColumns);
-
-                OnDataSourceUpdated?.Invoke(this, processedRowType);
-
                 var t1 = DateTime.Now;
                 runningTotal += (t1 - t0).TotalMilliseconds;
-                runningAverage = runningTotal / (i+1);
-                OnSheetProcessed(processedDataRow, runningAverage, runningTotal);
+                runningAverage = runningTotal / (i + 1);
+
+                curSheet.Dispose();
+                worker.ReportProgress(0, (keepData, processedDataRow, dynamicDataRow, runningAverage, runningTotal, extraColumns));
             }
         }
+
         internal async Task StartProcessingRaw(Func<bool> GetAlignSheet, Action<Bitmap> OnSheetAligned, Action<RectangleF, bool> OnOptionProcessed, Action<string> OnRegionProcessed, Func<double> GetWaitMS, Action OnProcessFinished)
         {
             string[] sheetsPaths = loadedSheetsData.GetSheetsPath;

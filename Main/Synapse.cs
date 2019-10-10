@@ -32,6 +32,7 @@ using System.Data;
 using Synapse.Utilities.Attributes;
 using Synapse.Utilities.Enums;
 using Syncfusion.Windows.Forms;
+using System.Globalization;
 
 namespace Synapse
 {
@@ -130,6 +131,8 @@ namespace Synapse
         Color primaryRectColor = Color.FromArgb(120, Color.DarkSlateGray);
         Color secondaryRectColor = Color.FromArgb(180, Color.MediumTurquoise);
         #endregion
+
+        NumberFormatInfo NumberFormatInfo;
         #endregion
 
         #region Events 
@@ -167,6 +170,7 @@ namespace Synapse
             this.toolStripSeparator5,
             this.eMarkingToolStripBtn});
             this.templateConfigToolStrip.Size = new System.Drawing.Size(326, 135);
+            this.templateConfigStatusToolStrip.Padding = new Padding(3,20,2,2);
 
             this.dataConfigToolStripEx.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.dataConfigStatusToolStripPanel,
@@ -178,12 +182,14 @@ namespace Synapse
             this.addAsBarcodeToolStripBtn,
             this.addAsICRToolStripBtn});
             this.dataConfigToolStripEx.Size = new System.Drawing.Size(565, 135);
+            this.dataConfigStatusToolStripPanel.Padding = new Padding(2, 20, 2, 2);
 
             this.aiConfigToolStripEx.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.aiConfigStatusToolStripPanel,
             this.toolStripSeparator2,
             this.configureNetworksToolStripBtn});
             this.aiConfigToolStripEx.Size = new System.Drawing.Size(202, 135);
+            this.aiConfigStatusToolStripPanel.Padding = new Padding(2, 20, 2, 2);
 
 
             this.generalToolStripEx.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -424,10 +430,17 @@ namespace Synapse
 
         public void UpdateStatus(string status)
         {
-            synchronizationContext.Send(new SendOrPostCallback((object target) =>
+            try
             {
-                statusPanelStatusLabel.Text = status;
-            }), null);
+                synchronizationContext.Send(new SendOrPostCallback((object target) =>
+                {
+                    statusPanelStatusLabel.Text = status;
+                }), null);
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
         #endregion
 
@@ -503,17 +516,86 @@ namespace Synapse
             }
 
             MainProcessingManager = new ProcessingManager(GetCurrentTemplate);
+            MainProcessingManager.OnSheetProcessed += OnSheetsProcessed;
             MainProcessingManager.OnDataSourceUpdated += MainProcessingManager_OnDataSourceUpdated;
+            MainProcessingManager.OnProcessingComplete += MainProcessingManager_OnProcessingComplete;
             
             mainDataGrid.Style.ProgressBarStyle.ForegroundStyle = Syncfusion.WinForms.DataGrid.Enums.GridProgressBarStyle.Gradient;
             mainDataGrid.Style.ProgressBarStyle.GradientForegroundStartColor = Color.DeepSkyBlue;
             mainDataGrid.Style.ProgressBarStyle.GradientForegroundEndColor = Color.DodgerBlue;
+
+            NumberFormatInfo = new NumberFormatInfo();
+            NumberFormatInfo.NumberDecimalDigits = 0;
         }
 
+        double finalAverage = 0;
+        TimeSpan totalTimeTaken = TimeSpan.Zero;
+        int totalSheets = 0;
+        void OnSheetsProcessed(object sender, (ProcessedDataRow dataRow, double runningAverage, double runningTotal) args)
+        {
+            int curIndex = MainProcessingManager.GetCurProcessingIndex + 1;
+            try
+            {
+                int progressValue = (int)(curIndex / (float)totalSheets * 100);
+                processingProgressBar.Value = progressValue;
+            }
+            catch (Exception ex)
+            {
+
+            }
+            if (processingProgressBar.Value > 47)
+                processingProgressBar.FontColor = Color.White;
+
+            try
+            {
+                string timeLeft = TimeSpan.FromMilliseconds(args.runningAverage * (totalSheets - curIndex)).ToString(@"hh\:mm\:ss");
+                processingTimeLeftLabel.Text = "ESTIMATED TIME: " + timeLeft;
+            }
+            catch (Exception ex)
+            {
+
+            }
+            
+            try
+            {
+                double spsAvg = 1 / (args.runningAverage / 1000);
+                string status = $"[{curIndex}/{totalSheets}] Processing...     AVG: {Math.Round(spsAvg, 1)} Sheets per second.";
+                statusPanelStatusLabel.Text = status;
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            if (curIndex == totalSheets)
+            {
+                totalTimeTaken = TimeSpan.FromMilliseconds(args.runningTotal);
+                finalAverage = args.runningAverage / 1000;
+                finalAverage = Math.Round(finalAverage, 2);
+            }
+        }
+        void MainProcessingManager_OnProcessingComplete(object sender, (bool cancelled, object result, Exception error) args)
+        {
+            progressStatusTablePanel.Visible = false;
+
+            processingTimeLeftLabel.Text = "TOTAL TIME: 00:00:00";
+            processingProgressBar.Value = 0;
+
+            UpdateStatus($"Processing Complete: {totalSheets} sheets in {totalTimeTaken.ToString(@"hh\:mm\:ss")} at an average of {finalAverage} seconds per sheet.");
+        }
         private void MainProcessingManager_OnDataSourceUpdated(object sender, ProcessedDataType e)
         {
             SfDataGrid dataGrid = mainDataGrid;
             int rowCount = 0;
+
+            rowCount = MainProcessingManager.GetTotalProcessedData;
+            if (rowCount == 0)
+                return;
+
+            if (!normalDataTypePanel.Visible)
+                normalDataTypePanel.Visible = true;
+            totalMainDataLabel.Text = rowCount.ToString("N0", NumberFormatInfo);
+
             switch (e)
             {
                 case ProcessedDataType.INCOMPATIBLE:
@@ -547,14 +629,7 @@ namespace Synapse
                     totalManualDataLabel.Text = rowCount + "";
                     break;
                 case ProcessedDataType.NORMAL:
-                    //dataGrid = mainDataGrid;
-                    rowCount = MainProcessingManager.GetTotalProcessedData;
-                    if (rowCount == 0)
-                        return;
-
-                    if (!normalDataTypePanel.Visible)
-                        normalDataTypePanel.Visible = true;
-                    totalMainDataLabel.Text = rowCount + "";
+                    
                     break;
             }
         }
@@ -680,7 +755,7 @@ namespace Synapse
             //err = error;
             return success;
         }
-        private async void StartReadingToolStripBtn_Click(object sender, EventArgs e)
+        private void StartReadingToolStripBtn_Click(object sender, EventArgs e)
         {
             if (!loadedSheetsData.SheetsLoaded)
             {
@@ -694,41 +769,13 @@ namespace Synapse
 
             GenerateGridColumns();
             MainProcessingManager.LoadSheets(loadedSheetsData);
-            int totalSheets = loadedSheetsData.GetSheetsPath.Length;
-            TimeSpan totalTimeTaken = TimeSpan.Zero;
-            double finalAverage = 0;
-            Action<ProcessedDataRow, double, double> OnSheetsProcessed = (ProcessedDataRow dataRow, double runningAverage, double runningTotal) =>
-            {
-                int curIndex = MainProcessingManager.GetCurProcessingIndex+1;
-                int progressValue = (int)(curIndex / (float)totalSheets * 100);
-                processingProgressBar.Value = progressValue;
-                if(processingProgressBar.Value > 47) 
-                    processingProgressBar.FontColor = Color.White;  
 
-                string timeLeft = TimeSpan.FromMilliseconds(runningAverage * (totalSheets - curIndex)).ToString(@"hh\:mm\:ss");
-                processingTimeLeftLabel.Text = "TOTAL TIME: " + timeLeft;
+            totalSheets = loadedSheetsData.GetSheetsPath.Length;
 
-                double spsAvg = 1/(runningAverage / 1000);
-                string status = $"[{curIndex}/{totalSheets}] Processing...     AVG: {Math.Round(spsAvg, 1)} Sheets per second.";
-                UpdateStatus(status);
-
-                if (curIndex == totalSheets)
-                {
-                    totalTimeTaken = TimeSpan.FromMilliseconds(runningTotal);
-                    finalAverage = runningAverage / 1000;
-                    finalAverage = Math.Round(finalAverage, 2);
-                }
-            };
             processingProgressBar.FontColor = CurrentTheme == Themes.COLORFUL || CurrentTheme == Themes.WHITE? Color.Black : Color.WhiteSmoke;
 
             progressStatusTablePanel.Visible = true;
-            await MainProcessingManager.StartProcessing(keepData, OnSheetsProcessed, gridColumns);
-            progressStatusTablePanel.Visible = false;
-
-            processingTimeLeftLabel.Text = "TOTAL TIME: 00:00:00";
-            processingProgressBar.Value = 0;
-
-            UpdateStatus($"Processing Complete: {totalSheets} sheets in {totalTimeTaken.ToString(@"hh\:mm\:ss")} at an average of {finalAverage} seconds per sheet.");
+            MainProcessingManager.StartProcessing(keepData, gridColumns);
         }
 
         private void GenerateGridColumns()
@@ -1201,18 +1248,18 @@ namespace Synapse
                     break;
                 case Themes.BLACK:
                     ribbonControl.ThemeName = "Office2016Black";
-                    MetroStyleColorTable metroColorTable = new MetroStyleColorTable();
-                    metroColorTable.CaptionBarColor = Color.FromArgb(60, 60, 60);
-                    metroColorTable.CaptionForeColor = Color.White;
-                    metroColorTable.BackColor = Color.FromArgb(66, 66, 66);
-                    metroColorTable.ForeColor = Color.White;
-                    metroColorTable.NoButtonBackColor = Color.FromArgb(62, 62, 62);
-                    metroColorTable.NoButtonForeColor = Color.White;
-                    metroColorTable.YesButtonBackColor = Color.FromArgb(74, 74, 74);
-                    metroColorTable.YesButtonForeColor = Color.White;
-                    metroColorTable.OKButtonBackColor = Color.FromArgb(74, 74, 74);
-                    metroColorTable.OKButtonForeColor = Color.White;
-                    MessageBoxAdv.MetroColorTable = metroColorTable;
+                    MetroStyleColorTable _metroColorTable = new MetroStyleColorTable();
+                    _metroColorTable.CaptionBarColor = Color.FromArgb(60, 60, 60);
+                    _metroColorTable.CaptionForeColor = Color.White;
+                    _metroColorTable.BackColor = Color.FromArgb(66, 66, 66);
+                    _metroColorTable.ForeColor = Color.White;
+                    _metroColorTable.NoButtonBackColor = Color.FromArgb(62, 62, 62);
+                    _metroColorTable.NoButtonForeColor = Color.White;
+                    _metroColorTable.YesButtonBackColor = Color.FromArgb(74, 74, 74);
+                    _metroColorTable.YesButtonForeColor = Color.White;
+                    _metroColorTable.OKButtonBackColor = Color.FromArgb(74, 74, 74);
+                    _metroColorTable.OKButtonForeColor = Color.White;
+                    MessageBoxAdv.MetroColorTable = _metroColorTable;
                     MessageBoxAdv.MessageBoxStyle = MessageBoxAdv.Style.Metro;
 
                     backStageTab1.BackColor = Color.FromArgb(64, 64, 64);
@@ -1536,8 +1583,6 @@ namespace Synapse
         {
             if (!configTabPanel.Visible)
                 return;
-
-            
         }
         private void ReadingToolStripTabItem_CheckedChanged(object sender, EventArgs e)
         {
@@ -1550,7 +1595,8 @@ namespace Synapse
                 mainDockingManager.SetDockVisibility(dataImageBoxPanel, true);
                 mainDockingManager.SetDockVisibility(configPropertiesPanel, false);
 
-                GenerateGridColumns();
+                if(!MainProcessingManager.IsProcessing)
+                    GenerateGridColumns();
             }
         }
         private void AnswerKeyToolStripBtn_Click(object sender, EventArgs e)
@@ -1929,77 +1975,20 @@ namespace Synapse
 
         private void MainDataGrid_SelectionChanged(object sender, Syncfusion.WinForms.DataGrid.Events.SelectionChangedEventArgs e)
         {
-
-        }
-        private void mainDataGrid_QueryProgressBarCellStyle(object sender, Syncfusion.WinForms.DataGrid.Events.QueryProgressBarCellStyleEventArgs e)
-        {
-            if (!e.Column.HeaderText.Contains(" Score"))
-                return;
-
-            var dataObject = (dynamic)e.Record;
-            AnswerKey ansKey = Functions.GetProperty(dataObject, "AnswerKey");
-            if (ansKey == null)
-                return;
-
-            int maximum = ansKey.GetPaper.GetCorrectOptionValue * ansKey.GetKey.Length;
-            e.Maximum = maximum == 0 ? 100 : maximum;
-
-            e.Style.ProgressTextColor = (CurrentTheme == Themes.BLACK || CurrentTheme == Themes.DARK_GRAY) ? Color.White : e.Style.ProgressTextColor;
-            e.Style.BackgroundColor = (CurrentTheme == Themes.DARK_GRAY) ? Color.FromArgb(210, 210, 210) : e.Style.BackgroundColor;
-            //mainDataGrid.View.
-        }
-        private void mainDataGrid_DrawCell(object sender, Syncfusion.WinForms.DataGrid.Events.DrawCellEventArgs e)
-        {
-            return;
-            if (e.Column.MappingName.Contains(" Score"))
+            if (e.AddedItems.Count == 0)
             {
-                e.Handled = true;
-                ProgressBarAdv progressBar = new ProgressBarAdv();
-                progressBar.CanApplyTheme = true;
-                switch (CurrentTheme)
-                {
-                    case Themes.WHITE:
-                        progressBar.ProgressStyle = ProgressBarStyles.Office2016White;
-                        break;
-                    case Themes.COLORFUL:
-                        progressBar.ProgressStyle = ProgressBarStyles.Office2016Colorful;
-                        break;
-                    case Themes.DARK_GRAY:
-                        progressBar.ProgressStyle = ProgressBarStyles.Office2016DarkGray;
-                        break;
-                    case Themes.BLACK:
-                        progressBar.ProgressStyle = ProgressBarStyles.Office2016Black;
-                        break;
-                    default:
-                        break;
-                }
-                progressBar.GradientStartColor = Color.DeepSkyBlue;
-                progressBar.GradientEndColor = Color.DodgerBlue;
-                progressBar.TextStyle = ProgressBarTextStyles.Custom;
-                progressBar.Text = e.DisplayText;
+                curOptionRects.Clear();
+                curMarkedOptionRects.Clear();
 
-                var dataObject = (dynamic)e.DataRow.RowData;
-                AnswerKey ansKey = Functions.GetProperty(dataObject, "AnswerKey");
-                if (ansKey == null)
-                    return;
-
-                int maximum = ansKey.GetPaper.GetCorrectOptionValue * ansKey.GetKey.Length;
-                progressBar.Maximum = maximum == 0 ? 100 : maximum;
-                progressBar.Value = int.Parse(e.DisplayText);
-
-                var cellRect = mainDataGrid.TableControl.GetCellRectangle(e.RowIndex, e.ColumnIndex, false);
-                progressBar.Draw(e.Graphics, cellRect);
-                e.Graphics.DrawLine(new Pen(mainDataGrid.Style.CellStyle.Borders.Bottom.Color), cellRect.X, cellRect.Bottom, cellRect.X + cellRect.Width, cellRect.Bottom);
-            }
-        }
-
-        private void MainDataGrid_CellClick(object sender, Syncfusion.WinForms.DataGrid.Events.CellClickEventArgs e)
-        {
-            if (e.DataRow.RowType != Syncfusion.WinForms.DataGrid.Enums.RowType.DefaultRow)
+                dataImageBox.Image = null;
                 return;
+            }
 
-            var dataObject = (dynamic)e.DataRow.RowData;
-            var processedDataRow = (ProcessedDataRow)dataObject.DataRowObject;
+            dynamic lastItemData = (dynamic)e.AddedItems.Last();
+            //if (e.AddedItems.RowType != Syncfusion.WinForms.DataGrid.Enums.RowType.DefaultRow)
+            //    return;
+
+            var processedDataRow = (ProcessedDataRow)lastItemData.DataRowObject;
 
             dataImageBox.Image = processedDataRow.GetAlignedImage().Bitmap;
 
@@ -2043,8 +2032,25 @@ namespace Synapse
                 }
                 curOptionRects.RemoveAll(x => curMarkedOptionRects.Contains(x));
             }
-            
         }
+        private void mainDataGrid_QueryProgressBarCellStyle(object sender, Syncfusion.WinForms.DataGrid.Events.QueryProgressBarCellStyleEventArgs e)
+        {
+            if (!e.Column.HeaderText.Contains(" Score"))
+                return;
+
+            var dataObject = (dynamic)e.Record;
+            AnswerKey ansKey = Functions.GetProperty(dataObject, "AnswerKey");
+            if (ansKey == null)
+                return;
+
+            int maximum = ansKey.GetPaper.GetCorrectOptionValue * ansKey.GetKey.Length;
+            e.Maximum = maximum == 0 ? 100 : maximum;
+
+            e.Style.ProgressTextColor = (CurrentTheme == Themes.BLACK || CurrentTheme == Themes.DARK_GRAY) ? Color.White : e.Style.ProgressTextColor;
+            e.Style.BackgroundColor = (CurrentTheme == Themes.DARK_GRAY) ? Color.FromArgb(210, 210, 210) : e.Style.BackgroundColor;
+            //mainDataGrid.View.
+        }
+
         private void MainDataGrid_QueryRowStyle(object sender, Syncfusion.WinForms.DataGrid.Events.QueryRowStyleEventArgs e)
         {
             e.Style.HorizontalAlignment = HorizontalAlignment.Center;
@@ -2086,6 +2092,5 @@ namespace Synapse
         #endregion
 
         #endregion
-
     }
 }
