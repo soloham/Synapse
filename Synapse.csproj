@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -533,19 +533,24 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="EMGU.CV">
-      <Version>4.1.0.3420</Version>
+      <Version>4.1.1.3497</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers">
+      <Version>2.9.6</Version>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Syncfusion.HighContrastTheme.WinForms">
-      <Version>17.3.0.9-beta</Version>
+      <Version>17.3.0.14</Version>
     </PackageReference>
     <PackageReference Include="Syncfusion.Licensing">
-      <Version>17.3.0.9-beta</Version>
+      <Version>17.3.0.14</Version>
     </PackageReference>
     <PackageReference Include="Syncfusion.Office2016Theme.WinForms">
-      <Version>17.3.0.9-beta</Version>
+      <Version>17.3.0.14</Version>
     </PackageReference>
     <PackageReference Include="Syncfusion.Office2019Theme.WinForms">
-      <Version>17.3.0.9-beta</Version>
+      <Version>17.3.0.14</Version>
     </PackageReference>
     <PackageReference Include="WinFormAnimation">
       <Version>1.6.0.4</Version>

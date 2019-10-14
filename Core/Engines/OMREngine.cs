@@ -21,7 +21,7 @@ namespace Synapse.Core.Engines
             int totalFields = regionData.TotalFields;
             int totalOptions = regionData.TotalOptions;
 
-            ProcessedDataType processedDataResultType = ProcessedDataType.NORMAL;
+            ProcessedDataType[] processedDataResultsType = new ProcessedDataType[totalFields+1];
 
             PointF regionLocation = omrConfiguration.GetConfigArea.ConfigRect.Location;
             List<RectangleF> optionsRects = regionData.GetOptionsRects;
@@ -70,7 +70,7 @@ namespace Synapse.Core.Engines
                         {
                             case MultiMarkAction.MarkAsManual:
                                 curFieldOutput = muliMarkSymbol;
-                                processedDataResultType = ProcessedDataType.MANUAL;
+                                processedDataResultsType[i+1] = ProcessedDataType.MANUAL;
                                 break;
                             case MultiMarkAction.ConsiderFirst:
                                 break;
@@ -113,7 +113,7 @@ namespace Synapse.Core.Engines
                     {
                         case NoneMarkedAction.MarkAsManual:
                             curFieldOutput = noneMarkedSymbol;
-                            processedDataResultType = ProcessedDataType.MANUAL;
+                            processedDataResultsType[i+1] = ProcessedDataType.MANUAL;
                             break;
                         case NoneMarkedAction.Invalidate:
                             curFieldOutput = noneMarkedSymbol;
@@ -124,8 +124,9 @@ namespace Synapse.Core.Engines
                 regionFieldsOutputs[i] = curFieldOutput;
                 regionOutput += curFieldOutput.ToString();
             }
+            processedDataResultsType[0] = processedDataResultsType.Contains(ProcessedDataType.INCOMPATIBLE) ? ProcessedDataType.INCOMPATIBLE : processedDataResultsType.Contains(ProcessedDataType.FAULTY) ? ProcessedDataType.FAULTY : processedDataResultsType.Contains(ProcessedDataType.MANUAL) ? ProcessedDataType.MANUAL : ProcessedDataType.NORMAL;
 
-            ProcessedDataEntry processedDataEntry = new ProcessedDataEntry(configuration.Title, regionFieldsOutputs, processedDataResultType);
+            ProcessedDataEntry processedDataEntry = new ProcessedDataEntry(configuration.Title, regionFieldsOutputs, processedDataResultsType);
             return processedDataEntry;
         }
 
@@ -137,7 +138,7 @@ namespace Synapse.Core.Engines
             int totalFields = regionData.TotalFields;
             int totalOptions = regionData.TotalOptions;
 
-            ProcessedDataType processedDataResultType = ProcessedDataType.NORMAL;
+            ProcessedDataType[] processedDataResultsType = new ProcessedDataType[totalFields];
 
             PointF regionLocation = omrConfiguration.GetConfigArea.ConfigRect.Location;
             List<RectangleF> optionsRects = regionData.GetOptionsRects;
@@ -189,7 +190,7 @@ namespace Synapse.Core.Engines
                         {
                             case MultiMarkAction.MarkAsManual:
                                 curFieldOutput = muliMarkSymbol;
-                                processedDataResultType = ProcessedDataType.MANUAL;
+                                processedDataResultsType[i] = ProcessedDataType.MANUAL;
                                 break;
                             case MultiMarkAction.ConsiderFirst:
                                 break;
@@ -232,7 +233,7 @@ namespace Synapse.Core.Engines
                     {
                         case NoneMarkedAction.MarkAsManual:
                             curFieldOutput = noneMarkedSymbol;
-                            processedDataResultType = ProcessedDataType.MANUAL;
+                            processedDataResultsType[i] = ProcessedDataType.MANUAL;
                             break;
                         case NoneMarkedAction.Invalidate:
                             curFieldOutput = noneMarkedSymbol;
@@ -244,7 +245,7 @@ namespace Synapse.Core.Engines
                 regionOutput += curFieldOutput.ToString();
             }
 
-            ProcessedDataEntry processedDataEntry = new ProcessedDataEntry(configuration.Title, regionFieldsOutputs, processedDataResultType);
+            ProcessedDataEntry processedDataEntry = new ProcessedDataEntry(configuration.Title, regionFieldsOutputs, processedDataResultsType);
             return processedDataEntry;
         }
 

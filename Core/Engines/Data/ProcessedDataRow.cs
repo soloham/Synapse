@@ -1,6 +1,7 @@
 ﻿using Emgu.CV;
 using Emgu.CV.Structure;
 using Synapse.Utilities.Attributes;
+using Syncfusion.WinForms.DataGrid;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -13,14 +14,14 @@ namespace Synapse.Core.Engines.Data
     [Serializable]
     internal enum ProcessedDataType
     {
-        [EnumDescription("Incompatible")]
-        INCOMPATIBLE,
-        [EnumDescription("Faulty")]
-        FAULTY,
-        [EnumDescription("Manual")]
-        MANUAL,
         [EnumDescription("Normal")]
-        NORMAL,
+        NORMAL = 0,
+        [EnumDescription("Manual")]
+        MANUAL = 1,
+        [EnumDescription("Faulty")]
+        FAULTY = 2,
+        [EnumDescription("Incompatible")]
+        INCOMPATIBLE = 3,
     }
 
     [Serializable]
@@ -52,7 +53,7 @@ namespace Synapse.Core.Engines.Data
         internal Mat GetAlignedImage()
         {
             Mat result = new Mat();
-            Mat unAlignedMat = new Mat(RowSheetPath, Emgu.CV.CvEnum.ImreadModes.AnyColor);
+            Mat unAlignedMat = new Mat(RowSheetPath, Emgu.CV.CvEnum.ImreadModes.Grayscale);
 
             var resultImg = SynapseMain.GetCurrentTemplate.AlignSheet(unAlignedMat, out Templates.Template.AlignmentPipelineResults alignmentPipelineResults);
             result = resultImg;
