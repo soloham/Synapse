@@ -2301,23 +2301,23 @@ namespace Synapse
                 Console.WriteLine($"{ex.Message}\nColumn: {e.Column.HeaderText} - {e.DisplayText}\nRow: {e.RowIndex}");
             }
 
-            //switch (fieldDataType)
-            //{
-            //    case ProcessedDataType.INCOMPATIBLE:
-            //        if (incompatibleDataCellBackColor != Color.Empty) e.Style.BackColor = incompatibleDataCellBackColor;
-            //        if (incompatibleDataCellForeColor != Color.Empty) e.Style.TextColor = incompatibleDataCellForeColor;
-            //        break;
-            //    case ProcessedDataType.FAULTY:
-            //        if (faultyDataCellBackColor != Color.Empty) e.Style.BackColor = faultyDataCellBackColor;
-            //        if (faultyDataCellForeColor != Color.Empty) e.Style.TextColor = faultyDataCellForeColor;
-            //        break;
-            //    case ProcessedDataType.MANUAL:
-            //        if (manualDataCellBackColor != Color.Empty) e.Style.BackColor = manualDataCellBackColor;
-            //        if (manualDataCellForeColor != Color.Empty) e.Style.TextColor = manualDataCellForeColor;
-            //        break;
-            //    case ProcessedDataType.NORMAL:
-            //        break;
-            //}
+            switch (fieldDataType)
+            {
+                case ProcessedDataType.INCOMPATIBLE:
+                    if (incompatibleDataCellBackColor != Color.Empty) e.Style.BackColor = incompatibleDataCellBackColor;
+                    if (incompatibleDataCellForeColor != Color.Empty) e.Style.TextColor = incompatibleDataCellForeColor;
+                    break;
+                case ProcessedDataType.FAULTY:
+                    if (faultyDataCellBackColor != Color.Empty) e.Style.BackColor = faultyDataCellBackColor;
+                    if (faultyDataCellForeColor != Color.Empty) e.Style.TextColor = faultyDataCellForeColor;
+                    break;
+                case ProcessedDataType.MANUAL:
+                    if (manualDataCellBackColor != Color.Empty) e.Style.BackColor = manualDataCellBackColor;
+                    if (manualDataCellForeColor != Color.Empty) e.Style.TextColor = manualDataCellForeColor;
+                    break;
+                case ProcessedDataType.NORMAL:
+                    break;
+            }
         }
         private void MainDataGrid_QueryRowStyle(object sender, Syncfusion.WinForms.DataGrid.Events.QueryRowStyleEventArgs e)
         {
@@ -2338,23 +2338,23 @@ namespace Synapse
                 Console.WriteLine($"{ex.Message}\nRow: {e.RowIndex}");
             }
 
-            //switch (fieldDataType)
-            //{
-            //    case ProcessedDataType.INCOMPATIBLE:
-            //        if (incompatibleDataRowBackColor != Color.Empty) e.Style.BackColor = incompatibleDataRowBackColor;
-            //        if (incompatibleDataRowForeColor != Color.Empty) e.Style.TextColor = incompatibleDataRowForeColor;
-            //        break;
-            //    case ProcessedDataType.FAULTY:
-            //        if (faultyDataRowBackColor != Color.Empty) e.Style.BackColor = faultyDataRowBackColor;
-            //        if (faultyDataRowForeColor != Color.Empty) e.Style.TextColor = faultyDataRowForeColor;
-            //        break;
-            //    case ProcessedDataType.MANUAL:
-            //        if (manualDataRowBackColor != Color.Empty) e.Style.BackColor = manualDataRowBackColor;
-            //        if (manualDataRowForeColor != Color.Empty) e.Style.TextColor = manualDataRowForeColor;
-            //        break;
-            //    case ProcessedDataType.NORMAL:
-            //        break;
-            //}
+            switch (fieldDataType)
+            {
+                case ProcessedDataType.INCOMPATIBLE:
+                    if (incompatibleDataRowBackColor != Color.Empty) e.Style.BackColor = incompatibleDataRowBackColor;
+                    if (incompatibleDataRowForeColor != Color.Empty) e.Style.TextColor = incompatibleDataRowForeColor;
+                    break;
+                case ProcessedDataType.FAULTY:
+                    if (faultyDataRowBackColor != Color.Empty) e.Style.BackColor = faultyDataRowBackColor;
+                    if (faultyDataRowForeColor != Color.Empty) e.Style.TextColor = faultyDataRowForeColor;
+                    break;
+                case ProcessedDataType.MANUAL:
+                    if (manualDataRowBackColor != Color.Empty) e.Style.BackColor = manualDataRowBackColor;
+                    if (manualDataRowForeColor != Color.Empty) e.Style.TextColor = manualDataRowForeColor;
+                    break;
+                case ProcessedDataType.NORMAL:
+                    break;
+            }
         }
         private void mainDataGrid_QueryProgressBarCellStyle(object sender, Syncfusion.WinForms.DataGrid.Events.QueryProgressBarCellStyleEventArgs e)
         {
@@ -2656,7 +2656,5 @@ namespace Synapse
             startReadingToolStripBtn.Text = "Start";
             startReadingToolStripBtn.Image = Properties.Resources.startBtnIcon_ReadingTab;
         }
-
-        
     }
 }

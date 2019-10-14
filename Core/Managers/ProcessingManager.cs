@@ -177,8 +177,8 @@ namespace Synapse.Core.Managers
                         //    manualLatencyDataObjects.ForEach(x => manualProcessedDataSource.Add(x));
                         //    manualLatencyDataObjects.Clear();
                         //}
-                        //int manualCount = manualProcessedDataSource.Count;
-                        //manualProcessedDataSource.Insert(manualCount == 0? 0 : manualCount-1, dynamicDataRow);
+                        int manualCount = manualProcessedDataSource.Count;
+                        manualProcessedDataSource.Insert(manualCount == 0? 0 : manualCount-1, dynamicDataRow);
                         break;
                     case ProcessedDataType.NORMAL:
                         break;
@@ -226,7 +226,7 @@ namespace Synapse.Core.Managers
             bool pauseGrading = false;
             for (int i = 0; i < sheetsPaths.Length; i++)
             {
-                if(worker.CancellationPending || i >= 5000)
+                if(worker.CancellationPending)
                 {
                     e.Cancel = true;
                     return;
