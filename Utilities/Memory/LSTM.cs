@@ -321,11 +321,15 @@ namespace Synapse.Utilities.Memory
                     }
                     break;
                 case MainConfigType.BARCODE:
-
+                    OBRConfiguration obrConfiguration = (OBRConfiguration)config;
 
                     try
                     {
-                        
+                        BinaryFormatter bf = new BinaryFormatter();
+                        using (FileStream fs = new FileStream(configDataFilePath, FileMode.Create))
+                        {
+                            bf.Serialize(fs, obrConfiguration);
+                        }
                     }
                     catch (Exception ex)
                     {

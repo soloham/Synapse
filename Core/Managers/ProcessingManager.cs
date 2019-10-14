@@ -19,6 +19,8 @@ using System.Dynamic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.Windows.Threading;
 using static Synapse.Core.Templates.Template;
 
 namespace Synapse.Core.Managers
@@ -44,6 +46,7 @@ namespace Synapse.Core.Managers
         public int GetTotalFaultyProcessedData { get => faultyProcessedDataSource.Count; }
         public int GetTotalIncompatibleProcessedData { get => incompatibleProcessedDataSource.Count; }
         public bool IsProcessing { get; private set; } = false;
+        public bool IsPaused { get; private set; } = false;
 
         public event EventHandler<ProcessedDataType> OnDataSourceUpdated;
         public event EventHandler<(ProcessedDataRow, double, double)> OnSheetProcessed;
@@ -114,49 +117,96 @@ namespace Synapse.Core.Managers
 
             ProcessingWorker.DoWork += ProcessingWorker_DoWork;
             ProcessingWorker.ProgressChanged += ProcessingWorker_ProgressChanged;
-            ProcessingWorker.RunWorkerCompleted += ProcessingWorker_RunWorkerCompleted; ;
+            ProcessingWorker.RunWorkerCompleted += ProcessingWorker_RunWorkerCompleted;
 
             ProcessingWorker.RunWorkerAsync(keepData);
         }
+        internal void StopProcessing()
+        {
+            ProcessingWorker.CancelAsync();
+
+            IsPaused = false;
+        }
+        internal void PauseProcessing()
+        {
+            IsPaused = true;
+        }
+        internal void ResumeProcessing()
+        {
+            IsPaused = false;
+        }
+
 
         public DateTime uiClock0 = DateTime.Now;
         private void ProcessingWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             (bool keepData, ProcessedDataRow processedDataRow, dynamic dynamicDataRow, double runningAverage, double runningTotal, int extraColumns) = ((bool, ProcessedDataRow, dynamic, double, double, int))e.UserState;
-            switch (processedDataRow.DataRowResultType)
-            {
-                case ProcessedDataType.INCOMPATIBLE:
-                    incompatibleProcessedDataSource.Add(dynamicDataRow);
-                    break;
-                case ProcessedDataType.FAULTY:
-                    faultyProcessedDataSource.Add(dynamicDataRow);
-                    break;
-                case ProcessedDataType.MANUAL:
-                    manualProcessedDataSource.Add(dynamicDataRow);
-                    break;
-                case ProcessedDataType.NORMAL:
-                    allProcessedDataSource.Add(dynamicDataRow);
-                    break;
-            }
 
             if (processedDataRow.GetRowIndex == 0 && !keepData)
-                SynapseMain.GetSynapseMain.InitializeMainDataGrid(processedDataRow.GetProcessedDataEntries, allProcessedDataSource, extraColumns);
+                SynapseMain.GetSynapseMain.InitializeDataGrids(processedDataRow.GetProcessedDataEntries, (allProcessedDataSource, manualProcessedDataSource, faultyProcessedDataSource, incompatibleProcessedDataSource), extraColumns);
 
-            DateTime uiClock1 = DateTime.Now;
-            var diff = (uiClock1 - uiClock0).TotalMilliseconds;
-            if (diff >= 50)
+            try
             {
-                OnDataSourceUpdated?.Invoke(this, processedDataRow.DataRowResultType);
-
-                OnSheetProcessed?.Invoke(this, (processedDataRow, runningAverage, runningTotal));
-
-                uiClock0 = DateTime.Now;
+                //if (allLatencyDataObjects.Count > 0)
+                //{
+                //    allLatencyDataObjects.ForEach(x => allProcessedDataSource.Add(x));
+                //    allLatencyDataObjects.Clear();
+                //}
+                allProcessedDataSource.Add(dynamicDataRow);
+                switch (processedDataRow.DataRowResultType)
+                {
+                    case ProcessedDataType.INCOMPATIBLE:
+                        //if (incompatibleLatencyDataObjects.Count > 0)
+                        //{
+                        //    incompatibleLatencyDataObjects.ForEach(x => incompatibleProcessedDataSource.Add(x));
+                        //    incompatibleLatencyDataObjects.Clear();
+                        //}
+                        incompatibleProcessedDataSource.Add(dynamicDataRow);
+                        break;
+                    case ProcessedDataType.FAULTY:
+                        //if (faultyLatencyDataObjects.Count > 0)
+                        //{
+                        //    faultyLatencyDataObjects.ForEach(x => faultyProcessedDataSource.Add(x));
+                        //    faultyLatencyDataObjects.Clear();
+                        //}
+                        faultyProcessedDataSource.Add(dynamicDataRow);
+                        break;
+                    case ProcessedDataType.MANUAL:
+                        //if (manualLatencyDataObjects.Count > 0)
+                        //{
+                        //    manualLatencyDataObjects.ForEach(x => manualProcessedDataSource.Add(x));
+                        //    manualLatencyDataObjects.Clear();
+                        //}
+                        //int manualCount = manualProcessedDataSource.Count;
+                        //manualProcessedDataSource.Insert(manualCount == 0? 0 : manualCount-1, dynamicDataRow);
+                        break;
+                    case ProcessedDataType.NORMAL:
+                        break;
+                }
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"ProgressChanged Ex: {ex.Message}");
+            }
+
+
+
+            OnDataSourceUpdated?.Invoke(this, processedDataRow.DataRowResultType);
+            OnSheetProcessed?.Invoke(this, (processedDataRow, runningAverage, runningTotal));
+
+            //DateTime uiClock1 = DateTime.Now;
+            //var diff = (uiClock1 - uiClock0).TotalMilliseconds;
+            //if (diff >= 50)
+            //{
+                
+
+            //    uiClock0 = DateTime.Now;
+            //}
         }
         private void ProcessingWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             IsProcessing = false;
-            OnProcessingComplete?.Invoke(this, (e.Cancelled, e.Result, e.Error));
+            OnProcessingComplete?.Invoke(this, (e.Cancelled, e.Cancelled? null : e.Result, e.Error));
         }
 
         private void ProcessingWorker_DoWork(object sender, DoWorkEventArgs e)
@@ -173,8 +223,15 @@ namespace Synapse.Core.Managers
             bool keepData = (bool)e.Argument;
 
             IsProcessing = true;
+            bool pauseGrading = false;
             for (int i = 0; i < sheetsPaths.Length; i++)
             {
+                if(worker.CancellationPending || i >= 5000)
+                {
+                    e.Cancel = true;
+                    return;
+                }
+
                 var t0 = DateTime.Now;
                 GetCurProcessingIndex = i;
                 
@@ -201,10 +258,27 @@ namespace Synapse.Core.Managers
                     var processedDataEntry = curConfigurationBase.ProcessSheet(alignedSheet);
                     processedDataEntries.Add(processedDataEntry);
 
+                    switch (processedDataEntry.DataEntriesResultType[0])
+                    {
+                        case ProcessedDataType.NORMAL:
+                            break;
+                        case ProcessedDataType.MANUAL:
+                            if(processedRowType == ProcessedDataType.NORMAL) processedRowType = ProcessedDataType.MANUAL;
+                            break;
+                        case ProcessedDataType.FAULTY:
+                            if(processedRowType != ProcessedDataType.INCOMPATIBLE) processedRowType = ProcessedDataType.FAULTY;
+                            break;
+                        case ProcessedDataType.INCOMPATIBLE:
+                            processedRowType = ProcessedDataType.INCOMPATIBLE;
+                            break;
+                        default:
+                            break;
+                    }
+
                     string[] formattedOutput = processedDataEntry.FormatData();
                     if (formattedOutput.Length == 1)
                     {
-                        string dataTitle = dataColumns != null && dataColumns.Count > 0 ? dataColumns[lastDataColumnsIndex + 1] : allConfigurations[i1].Title;
+                        string dataTitle = dataColumns != null && dataColumns.Count > 0 ? dataColumns[lastDataColumnsIndex] : allConfigurations[i1].Title;
                         Functions.AddProperty(dynamicDataRow, dataTitle, formattedOutput[0]);
 
                         lastDataColumnsIndex++;
@@ -273,6 +347,7 @@ namespace Synapse.Core.Managers
                             }
                             break;
                         case MainConfigType.BARCODE:
+                            OBRConfiguration obrConfig = (OBRConfiguration)curConfigurationBase;
                             break;
                         case MainConfigType.ICR:
                             break;
@@ -322,7 +397,19 @@ namespace Synapse.Core.Managers
                 runningAverage = runningTotal / (i + 1);
 
                 curSheet.Dispose();
+
                 worker.ReportProgress(0, (keepData, processedDataRow, dynamicDataRow, runningAverage, runningTotal, extraColumns));
+
+                //Pause Mechanism
+                if (IsPaused)
+                {
+                    do
+                        pauseGrading = !IsPaused && IsProcessing;
+                    while (!pauseGrading);
+                }
+                //Dispatcher.CurrentDispatcher.InvokeAsync(new Action(() =>
+                //{
+                //}), DispatcherPriority.ContextIdle);
             }
         }
 

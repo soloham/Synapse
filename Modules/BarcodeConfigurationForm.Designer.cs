@@ -1,6 +1,6 @@
 ﻿namespace Synapse.Modules
 {
-    partial class ICRConfigurationForm
+    partial class BarcodeConfigurationForm
     {
         /// <summary>
         /// Required designer variable.

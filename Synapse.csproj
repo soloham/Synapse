@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -51,6 +51,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ClearImageNet.70, Version=7.0.0.0, Culture=neutral, PublicKeyToken=71e5888be264aae0, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\Inlite\ClearImage SDK.9_0_6054\ClearImageNet.70.dll</HintPath>
+    </Reference>
     <Reference Include="Syncfusion.Compression.Base, Version=17.3460.0.14, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
     <Reference Include="Syncfusion.Core.WinForms, Version=17.3460.0.14, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
     <Reference Include="Syncfusion.Data.WinForms, Version=17.3460.0.14, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
@@ -198,8 +202,10 @@
       <DependentUpon>TemplateListItem.cs</DependentUpon>
     </Compile>
     <Compile Include="Core\Configurations\ConfigurationBase.cs" />
+    <Compile Include="Core\Configurations\OBRConfiguration.cs" />
     <Compile Include="Core\Configurations\ICRConfiguration.cs" />
     <Compile Include="Core\Configurations\OMRConfiguration.cs" />
+    <Compile Include="Core\Engines\BarcodeEngine.cs" />
     <Compile Include="Core\Engines\Data\ProcessedDataEntry.cs" />
     <Compile Include="Core\Engines\Data\ProcessedDataRow.cs" />
     <Compile Include="Core\Engines\Interface\IEngine.cs" />
@@ -234,6 +240,12 @@
     </Compile>
     <Compile Include="Modules\ExamPapersConfigurationForm.Designer.cs">
       <DependentUpon>ExamPapersConfigurationForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\BarcodeConfigurationForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modules\BarcodeConfigurationForm.Designer.cs">
+      <DependentUpon>BarcodeConfigurationForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Modules\ICRConfigurationForm.cs">
       <SubType>Form</SubType>
@@ -358,6 +370,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Modules\ExamPapersConfigurationForm.resx">
       <DependentUpon>ExamPapersConfigurationForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modules\BarcodeConfigurationForm.resx">
+      <DependentUpon>BarcodeConfigurationForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Modules\ICRConfigurationForm.resx">
       <DependentUpon>ICRConfigurationForm.cs</DependentUpon>
@@ -533,19 +548,24 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="EMGU.CV">
-      <Version>4.1.0.3420</Version>
+      <Version>4.1.1.3497</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers">
+      <Version>2.9.6</Version>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Syncfusion.HighContrastTheme.WinForms">
-      <Version>17.3.0.9-beta</Version>
+      <Version>17.3.0.14</Version>
     </PackageReference>
     <PackageReference Include="Syncfusion.Licensing">
-      <Version>17.3.0.9-beta</Version>
+      <Version>17.3.0.14</Version>
     </PackageReference>
     <PackageReference Include="Syncfusion.Office2016Theme.WinForms">
-      <Version>17.3.0.9-beta</Version>
+      <Version>17.3.0.14</Version>
     </PackageReference>
     <PackageReference Include="Syncfusion.Office2019Theme.WinForms">
-      <Version>17.3.0.9-beta</Version>
+      <Version>17.3.0.14</Version>
     </PackageReference>
     <PackageReference Include="WinFormAnimation">
       <Version>1.6.0.4</Version>

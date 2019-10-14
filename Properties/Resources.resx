@@ -442,4 +442,7 @@
   <data name="ExamPapersBtnIcon_ReadingTab" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Ribbon\ExamPapersBtnIcon_ReadingTab.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="PauseBtnIcon_ReadingTab" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Ribbon\PauseBtnIcon_ReadingTab.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

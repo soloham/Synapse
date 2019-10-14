@@ -12,10 +12,10 @@ namespace Synapse.Core.Engines.Data
     internal struct ProcessedDataEntry
     {
         #region Properties
-        public ConfigurationBase GetConfigurationBase { get => ConfigurationsManager.GetConfiguration(configurationTitle); }
-        private string configurationTitle;
+        public ConfigurationBase GetConfigurationBase { get => ConfigurationsManager.GetConfiguration(ConfigurationTitle); }
+        public string ConfigurationTitle { get; private set; }
         public MainConfigType GetMainConfigType { get => GetConfigurationBase.GetMainConfigType; }
-        public ProcessedDataType DataEntryResultType { get; set; }
+        public ProcessedDataType[] DataEntriesResultType { get; set; }
 
         public char[] GetFieldsOutputs { get => fieldsOutputs; }
         private char[] fieldsOutputs;
@@ -26,12 +26,12 @@ namespace Synapse.Core.Engines.Data
         #endregion
 
         #region Methods
-        public ProcessedDataEntry(string configurationTitle, char[] fieldsOutputs, ProcessedDataType processedDataResultType)
+        public ProcessedDataEntry(string configurationTitle, char[] fieldsOutputs, ProcessedDataType[] processedDataResultType)
         {
-            this.configurationTitle = configurationTitle;
+            this.ConfigurationTitle = configurationTitle;
             this.fieldsOutputs = fieldsOutputs;
 
-            DataEntryResultType = processedDataResultType;
+            DataEntriesResultType = processedDataResultType;
             dataValues = null;
             IsEdited = false;
 

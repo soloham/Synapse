@@ -89,6 +89,7 @@ namespace Synapse
         public StatusState AIStatus { get { return aiStatus; } set { aiStatus = value; ToggleAIStatus(value); } }
         private StatusState aiStatus;
 
+        internal ProcessedDataRow? SelectedProcessedDataRow { get; set; }
         #endregion
 
         #region Variables
@@ -118,6 +119,8 @@ namespace Synapse
         #endregion
         #region Reading Panel
         internal ProcessingManager MainProcessingManager { get; set; }
+        public bool GetLocateOptionsToggle { get => locateOptionsToggle; private set { locateOptionsToggle = value; curOptionRects.Clear(); curMarkedOptionRects.Clear(); if (SelectedProcessedDataRow.HasValue) { UpdateImageSelection(SelectedProcessedDataRow.Value, value); } } }
+        private bool locateOptionsToggle = false;
 
         private SheetsList loadedSheetsData = new SheetsList();
         private List<ProcessedDataRow> processedData = new List<ProcessedDataRow>();
@@ -126,6 +129,8 @@ namespace Synapse
         private List<string> gridColumns = new List<string>();
         private List<string> usedNonCollectiveDataLabels = new List<string>();
 
+        private Dictionary<string, (int entryIndex, int fieldIndex)> gridCellsRepresentation = new Dictionary<string, (int entryIndex, int fieldIndex)>();
+
         private List<RectangleF> curOptionRects = new List<RectangleF>();
         private List<RectangleF> curMarkedOptionRects = new List<RectangleF>();
         Color primaryRectColor = Color.FromArgb(120, Color.DarkSlateGray);
@@ -133,6 +138,25 @@ namespace Synapse
         #endregion
 
         NumberFormatInfo NumberFormatInfo;
+
+        Color manualDataCellBackColor = Color.Yellow;
+        Color manualDataCellForeColor = Color.Empty;
+
+        Color faultyDataCellBackColor;
+        Color faultyDataCellForeColor;
+
+        Color incompatibleDataCellBackColor;
+        Color incompatibleDataCellForeColor;
+
+
+        Color manualDataRowBackColor = Color.LightGoldenrodYellow;
+        Color manualDataRowForeColor = Color.Empty;
+
+        Color faultyDataRowBackColor;
+        Color faultyDataRowForeColor;
+
+        Color incompatibleDataRowBackColor;
+        Color incompatibleDataRowForeColor;
         #endregion
 
         #region Events 
@@ -279,6 +303,39 @@ namespace Synapse
             configurationForm.OnFormInitializedEvent += (object sender, EventArgs args) =>
             {
                 
+            };
+            configurationForm.ShowDialog();
+        }
+        public void AddRegionAsBarcode(RectangleF region)
+        {
+            RectangleF configAreaRect = region;
+            ConfigArea configArea = new ConfigArea(configAreaRect, (Bitmap)templateImageBox.GetSelectedImage());
+            BarcodeConfigurationForm configurationForm = new BarcodeConfigurationForm(configArea.ConfigBitmap);
+            configurationForm.OnConfigurationFinishedEvent += async (string name) =>
+            {
+                bool isSaved = false;
+                Exception ex = new Exception();
+
+                OBRConfiguration icrConfig = null;
+                await Task.Run(() =>
+                {
+                    icrConfig = OBRConfiguration.CreateDefault(name, configArea, ConfigurationsManager.GetAllConfigurations.Count);
+                    isSaved = OBRConfiguration.Save(icrConfig, out ex);
+                });
+
+                if (isSaved)
+                {
+                    configurationForm.Close();
+
+                    ConfigurationsManager.AddConfiguration(icrConfig);
+                    CalculateTemplateConfigs();
+                }
+                else
+                    Messages.SaveFileException(ex);
+            };
+            configurationForm.OnFormInitializedEvent += (object sender, EventArgs args) =>
+            {
+
             };
             configurationForm.ShowDialog();
         }
@@ -454,6 +511,11 @@ namespace Synapse
             bsSettingsThemeField.ValueMember = "Key";
             #endregion
 
+            MainProcessingManager = new ProcessingManager(GetCurrentTemplate);
+            MainProcessingManager.OnSheetProcessed += OnSheetsProcessed;
+            MainProcessingManager.OnDataSourceUpdated += MainProcessingManager_OnDataSourceUpdated;
+            MainProcessingManager.OnProcessingComplete += MainProcessingManager_OnProcessingComplete;
+
             //Pre-Ops
             //-User Interface Setup
             //--Ribbon Tabs Setup
@@ -464,12 +526,12 @@ namespace Synapse
             sheetsToolStripPanelItem.Height = 80;
 
             mainDockingManager.SetEnableDocking(configPropertiesPanel, true);
-            mainDockingManager.DockControlInAutoHideMode(configPropertiesPanel, DockingStyle.Right, 400);
+            mainDockingManager.DockControlInAutoHideMode(configPropertiesPanel, DockingStyle.Right, 300);
             mainDockingManager.SetMenuButtonVisibility(configPropertiesPanel, false);
             mainDockingManager.SetDockLabel(configPropertiesPanel, "Properties");
 
             mainDockingManager.SetEnableDocking(dataImageBoxPanel, true);
-            mainDockingManager.DockControlInAutoHideMode(dataImageBoxPanel, DockingStyle.Right, 450);
+            mainDockingManager.DockControlInAutoHideMode(dataImageBoxPanel, DockingStyle.Right, 300);
             mainDockingManager.SetMenuButtonVisibility(dataImageBoxPanel, false);
             mainDockingManager.SetDockLabel(dataImageBoxPanel, "Image");
             if (!readingToolStripTabItem.Checked)
@@ -482,7 +544,28 @@ namespace Synapse
             mainDockingManager.SetDockLabel(answerKeyPanel, "Answer Key");
             mainDockingManager.SetDockVisibility(answerKeyPanel, false);
 
+            readingTabManualTablePanel.Visible = false;
+            readingTabFaultyTablePanel.Visible = false;
+            readingTabIncompatibleTablePanel.Visible = false;
+            
+            mainDockingManager.SetEnableDocking(readingTabManualTablePanel, true);
+            mainDockingManager.DockControlInAutoHideMode(readingTabManualTablePanel, DockingStyle.Bottom, 200);
+            mainDockingManager.SetDockLabel(readingTabManualTablePanel, "MANUAL DATA");
+
+            mainDockingManager.SetEnableDocking(readingTabFaultyTablePanel, true);
+            mainDockingManager.DockControlInAutoHideMode(readingTabFaultyTablePanel, DockingStyle.Bottom, 200);
+            mainDockingManager.SetDockLabel(readingTabFaultyTablePanel, "FAULTY DATA");
+
+            mainDockingManager.SetEnableDocking(readingTabIncompatibleTablePanel, true);
+            mainDockingManager.DockControlInAutoHideMode(readingTabIncompatibleTablePanel, DockingStyle.Bottom, 200);
+            mainDockingManager.SetDockLabel(readingTabIncompatibleTablePanel, "INCOMPATIBLE DATA");
+
+            readingTabMainTablePanel.Dock = DockStyle.Fill;
+
+            mainDockingManager.AnimateAutoHiddenWindow = false;
+
             OMRRegionColorStates = new ColorStates(Color.FromArgb(55, Color.Firebrick), Color.FromArgb(95, Color.Firebrick), Color.FromArgb(85, Color.Firebrick), Color.FromArgb(110, Color.Firebrick));
+            OBRRegionColorStates = new ColorStates(Color.FromArgb(55, Color.Black), Color.FromArgb(95, Color.Black), Color.FromArgb(85, Color.Black), Color.FromArgb(110, Color.Black));
             ICRRegionColorStates = new ColorStates(Color.FromArgb(55, Color.SlateGray), Color.FromArgb(95, Color.SlateGray), Color.FromArgb(85, Color.SlateGray), Color.FromArgb(110, Color.SlateGray));
 
             await GeneralManager.Initialize();
@@ -514,21 +597,29 @@ namespace Synapse
                     Messages.LoadFileException(ex);
                 }
             }
-
-            MainProcessingManager = new ProcessingManager(GetCurrentTemplate);
-            MainProcessingManager.OnSheetProcessed += OnSheetsProcessed;
-            MainProcessingManager.OnDataSourceUpdated += MainProcessingManager_OnDataSourceUpdated;
-            MainProcessingManager.OnProcessingComplete += MainProcessingManager_OnProcessingComplete;
             
             mainDataGrid.Style.ProgressBarStyle.ForegroundStyle = Syncfusion.WinForms.DataGrid.Enums.GridProgressBarStyle.Gradient;
             mainDataGrid.Style.ProgressBarStyle.GradientForegroundStartColor = Color.DeepSkyBlue;
             mainDataGrid.Style.ProgressBarStyle.GradientForegroundEndColor = Color.DodgerBlue;
+
+            manualDataGrid.Style.ProgressBarStyle.ForegroundStyle = Syncfusion.WinForms.DataGrid.Enums.GridProgressBarStyle.Gradient;
+            manualDataGrid.Style.ProgressBarStyle.GradientForegroundStartColor = Color.DeepSkyBlue;
+            manualDataGrid.Style.ProgressBarStyle.GradientForegroundEndColor = Color.DodgerBlue;
+
+            faultyDataGrid.Style.ProgressBarStyle.ForegroundStyle = Syncfusion.WinForms.DataGrid.Enums.GridProgressBarStyle.Gradient;
+            faultyDataGrid.Style.ProgressBarStyle.GradientForegroundStartColor = Color.DeepSkyBlue;
+            faultyDataGrid.Style.ProgressBarStyle.GradientForegroundEndColor = Color.DodgerBlue;
+
+            incompatibleDataGrid.Style.ProgressBarStyle.ForegroundStyle = Syncfusion.WinForms.DataGrid.Enums.GridProgressBarStyle.Gradient;
+            incompatibleDataGrid.Style.ProgressBarStyle.GradientForegroundStartColor = Color.DeepSkyBlue;
+            incompatibleDataGrid.Style.ProgressBarStyle.GradientForegroundEndColor = Color.DodgerBlue;
 
             NumberFormatInfo = new NumberFormatInfo();
             NumberFormatInfo.NumberDecimalDigits = 0;
         }
 
         double finalAverage = 0;
+        double spsAvg = 0;
         TimeSpan totalTimeTaken = TimeSpan.Zero;
         int totalSheets = 0;
         void OnSheetsProcessed(object sender, (ProcessedDataRow dataRow, double runningAverage, double runningTotal) args)
@@ -558,8 +649,17 @@ namespace Synapse
             
             try
             {
-                double spsAvg = 1 / (args.runningAverage / 1000);
-                string status = $"[{curIndex}/{totalSheets}] Processing...     AVG: {Math.Round(spsAvg, 1)} Sheets per second.";
+                string status = "";
+                spsAvg = 1 / (args.runningAverage / 1000);
+                if (MainProcessingManager.IsPaused)
+                {
+                    status = $"[{MainProcessingManager.GetCurProcessingIndex + 1}/{totalSheets}] Processing Paused  |  AVG: {Math.Round(spsAvg, 1)} Sheets per second.";
+                    statusPanelStatusLabel.Text = status;
+                }
+                else
+                {
+                    status = $"[{curIndex}/{totalSheets}] Processing...  |   AVG: {Math.Round(spsAvg, 1)} Sheets per second.";
+                }
                 statusPanelStatusLabel.Text = status;
             }
             catch (Exception ex)
@@ -576,12 +676,19 @@ namespace Synapse
         }
         void MainProcessingManager_OnProcessingComplete(object sender, (bool cancelled, object result, Exception error) args)
         {
+            stopReadingToolStripBtn.Enabled = false;
+            startReadingToolStripBtn.Text = "Start";
+            startReadingToolStripBtn.Image = Properties.Resources.startBtnIcon_ReadingTab;
+
             progressStatusTablePanel.Visible = false;
 
             processingTimeLeftLabel.Text = "TOTAL TIME: 00:00:00";
             processingProgressBar.Value = 0;
 
-            UpdateStatus($"Processing Complete: {totalSheets} sheets in {totalTimeTaken.ToString(@"hh\:mm\:ss")} at an average of {finalAverage} seconds per sheet.");
+            if(args.cancelled)
+                UpdateStatus($"Processing Stopped: {MainProcessingManager.GetCurProcessingIndex + 1} sheets in {totalTimeTaken.ToString(@"hh\:mm\:ss")} at an average of {finalAverage} seconds per sheet.");
+            else
+                UpdateStatus($"Processing Complete: {MainProcessingManager.GetCurProcessingIndex + 1} sheets in {totalTimeTaken.ToString(@"hh\:mm\:ss")} at an average of {finalAverage} seconds per sheet.");
         }
         private void MainProcessingManager_OnDataSourceUpdated(object sender, ProcessedDataType e)
         {
@@ -606,7 +713,7 @@ namespace Synapse
 
                     if (!incompatibleDataStatusPanel.Visible)
                         incompatibleDataStatusPanel.Visible = true;
-                    totalIncompatibleDataLabel.Text = rowCount + "";
+                    totalIncompatibleDataLabel.Text = rowCount.ToString("N0", NumberFormatInfo);
                     break;
                 case ProcessedDataType.FAULTY:
                     //dataGrid = faultyDataGrid;
@@ -616,7 +723,7 @@ namespace Synapse
 
                     if (!faultyDataTypeStatusPanel.Visible)
                         faultyDataTypeStatusPanel.Visible = true;
-                    totalFaultyDataLabel.Text = rowCount + "";
+                    totalFaultyDataLabel.Text = rowCount.ToString("N0", NumberFormatInfo);
                     break;
                 case ProcessedDataType.MANUAL:
                     //dataGrid = manualDataGrid;
@@ -626,7 +733,7 @@ namespace Synapse
 
                     if (!manualDataTypeStatusPanel.Visible)
                         manualDataTypeStatusPanel.Visible = true;
-                    totalManualDataLabel.Text = rowCount + "";
+                    totalManualDataLabel.Text = rowCount.ToString("N0", NumberFormatInfo);
                     break;
                 case ProcessedDataType.NORMAL:
                     
@@ -757,33 +864,66 @@ namespace Synapse
         }
         private void StartReadingToolStripBtn_Click(object sender, EventArgs e)
         {
-            if (!loadedSheetsData.SheetsLoaded)
+            if (MainProcessingManager.IsProcessing && !MainProcessingManager.IsPaused)
             {
-                Messages.ShowError("Unable to start procesing as there are no sheets loaded for processing. \n\n Please load sheets in order to start processing");
-                return;
+                MainProcessingManager.PauseProcessing();
+
+                processingToolStripEx.Width = 161;
+                startReadingToolStripBtn.Text = "Resume";
+                startReadingToolStripBtn.Image = Properties.Resources.startBtnIcon_ReadingTab;
+
+                string status = $"[{MainProcessingManager.GetCurProcessingIndex + 1}/{totalSheets}] Processing Paused   |  AVG: {Math.Round(spsAvg, 1)} Sheets per second.";
+                statusPanelStatusLabel.Text = status;
             }
+            else
+            {
+                processingToolStripEx.Width = 146;
+                startReadingToolStripBtn.Text = "Pause";
+                startReadingToolStripBtn.Image = Properties.Resources.PauseBtnIcon_ReadingTab;
 
-            bool keepData = false;
-            if (MainProcessingManager.DataExists())
-                keepData = Messages.ShowQuestion("Would you like to keep the current processed data?") == DialogResult.Yes;
+                if (MainProcessingManager.IsPaused)
+                {
+                    MainProcessingManager.ResumeProcessing();
+                    return;
+                }
 
-            GenerateGridColumns();
-            MainProcessingManager.LoadSheets(loadedSheetsData);
+                if (!loadedSheetsData.SheetsLoaded)
+                {
+                    Messages.ShowError("Unable to start procesing as there are no sheets loaded for processing. \n\n Please load sheets in order to start processing");
+                    return;
+                }
 
-            totalSheets = loadedSheetsData.GetSheetsPath.Length;
+                bool keepData = false;
+                if (MainProcessingManager.DataExists())
+                    keepData = Messages.ShowQuestion("Would you like to keep the current processed data?") == DialogResult.Yes;
 
-            processingProgressBar.FontColor = CurrentTheme == Themes.COLORFUL || CurrentTheme == Themes.WHITE? Color.Black : Color.WhiteSmoke;
+                GenerateGridColumns();
+                MainProcessingManager.LoadSheets(loadedSheetsData);
 
-            progressStatusTablePanel.Visible = true;
-            MainProcessingManager.StartProcessing(keepData, gridColumns);
+                totalSheets = loadedSheetsData.GetSheetsPath.Length;
+
+                processingProgressBar.FontColor = CurrentTheme == Themes.COLORFUL || CurrentTheme == Themes.WHITE ? Color.Black : Color.WhiteSmoke;
+
+                progressStatusTablePanel.Visible = true;
+                MainProcessingManager.StartProcessing(keepData, gridColumns);
+
+                stopReadingToolStripBtn.Enabled = true;
+            }
         }
 
         private void GenerateGridColumns()
         {
             gridColumns.Clear();
+            gridCellsRepresentation.Clear();
             usedNonCollectiveDataLabels.Clear();
             mainDataGrid.AutoGenerateColumns = false;
             mainDataGrid.Columns.Clear();
+            manualDataGrid.AutoGenerateColumns = false;
+            manualDataGrid.Columns.Clear();
+            faultyDataGrid.AutoGenerateColumns = false;
+            faultyDataGrid.Columns.Clear();
+            incompatibleDataGrid.AutoGenerateColumns = false;
+            incompatibleDataGrid.Columns.Clear();
 
             var allConfigs = ConfigurationsManager.GetAllConfigurations;
             for (int i = 0; i < allConfigs.Count; i++)
@@ -800,8 +940,12 @@ namespace Synapse
                                 omrCol.MappingName = omrConfiguration.Title;
                                 omrCol.HeaderText = omrConfiguration.Title;
                                 mainDataGrid.Columns.Add(omrCol);
+                                manualDataGrid.Columns.Add(omrCol);
+                                faultyDataGrid.Columns.Add(omrCol);
+                                incompatibleDataGrid.Columns.Add(omrCol);
 
                                 gridColumns.Add(omrCol.HeaderText);
+                                gridCellsRepresentation.Add(omrCol.HeaderText, (i, 0));
                                 break;
                             case ValueRepresentation.Indiviual:
                                 int totalIndFields = omrConfiguration.GetTotalFields;
@@ -821,8 +965,12 @@ namespace Synapse
                                     omrIndCol.MappingName = indDataLabel + (i1+1).ToString();
                                     omrIndCol.HeaderText = omrIndCol.MappingName;
                                     mainDataGrid.Columns.Add(omrIndCol);
+                                    manualDataGrid.Columns.Add(omrIndCol);
+                                    faultyDataGrid.Columns.Add(omrIndCol);
+                                    incompatibleDataGrid.Columns.Add(omrIndCol);
 
                                     gridColumns.Add(omrIndCol.HeaderText);
+                                    gridCellsRepresentation.Add(omrIndCol.HeaderText, (i, i1+1));
                                 }
                                 break;
                             case ValueRepresentation.CombineTwo:
@@ -845,8 +993,12 @@ namespace Synapse
                                         omrCom2Col.MappingName = com2DataLabel + (i1+1).ToString();
                                         omrCom2Col.HeaderText = omrCom2Col.MappingName;
                                         mainDataGrid.Columns.Add(omrCom2Col);
+                                        manualDataGrid.Columns.Add(omrCom2Col);
+                                        faultyDataGrid.Columns.Add(omrCom2Col);
+                                        incompatibleDataGrid.Columns.Add(omrCom2Col);
 
                                         gridColumns.Add(omrCom2Col.HeaderText);
+                                        gridCellsRepresentation.Add(omrCom2Col.HeaderText, (i, i1+1));
                                     }
                                 }
                                 else
@@ -867,22 +1019,30 @@ namespace Synapse
                                         omrIndCol.MappingName = _indDataLabel + (i1+1).ToString();
                                         omrIndCol.HeaderText = omrIndCol.MappingName;
                                         mainDataGrid.Columns.Add(omrIndCol);
+                                        manualDataGrid.Columns.Add(omrIndCol);
+                                        faultyDataGrid.Columns.Add(omrIndCol);
+                                        incompatibleDataGrid.Columns.Add(omrIndCol);
 
                                         gridColumns.Add(omrIndCol.HeaderText);
+                                        gridCellsRepresentation.Add(omrIndCol.HeaderText, (i, i1+1));
                                     }
                                 }
                                 break;
                         }
                         break;
                     case MainConfigType.BARCODE:
-                        OMRConfiguration obrConfiguration = (OMRConfiguration)allConfigs[i];
+                        OBRConfiguration obrConfiguration = (OBRConfiguration)allConfigs[i];
 
                         GridTextColumn obrCol = new GridTextColumn();
                         obrCol.MappingName = obrConfiguration.Title;
                         obrCol.HeaderText = obrConfiguration.Title;
                         mainDataGrid.Columns.Add(obrCol);
+                        manualDataGrid.Columns.Add(obrCol);
+                        faultyDataGrid.Columns.Add(obrCol);
+                        incompatibleDataGrid.Columns.Add(obrCol);
 
                         gridColumns.Add(obrCol.HeaderText);
+                        gridCellsRepresentation.Add(obrCol.HeaderText, (i, 0));
                         break;
                     case MainConfigType.ICR:
                         ICRConfiguration icrConfiguration = (ICRConfiguration)allConfigs[i];
@@ -891,8 +1051,12 @@ namespace Synapse
                         icrCol.MappingName = icrConfiguration.Title;
                         icrCol.HeaderText = icrConfiguration.Title;
                         mainDataGrid.Columns.Add(icrCol);
+                        manualDataGrid.Columns.Add(icrCol);
+                        faultyDataGrid.Columns.Add(icrCol);
+                        incompatibleDataGrid.Columns.Add(icrCol);
 
                         gridColumns.Add(icrCol.HeaderText);
+                        gridCellsRepresentation.Add(icrCol.HeaderText, (i, 0));
                         break;
                  }
                 switch (allConfigs[i].GetMainConfigType)
@@ -908,6 +1072,9 @@ namespace Synapse
                                 omrScoreCol.MappingName = omrConfig.Title + " Score";
                                 omrScoreCol.HeaderText = omrConfig.Title + " Score";
                                 mainDataGrid.Columns.Add(omrScoreCol);
+                                manualDataGrid.Columns.Add(omrScoreCol);
+                                faultyDataGrid.Columns.Add(omrScoreCol);
+                                incompatibleDataGrid.Columns.Add(omrScoreCol);
 
                                 //GridTextColumn omrTotalCol = new GridTextColumn();
                                 //omrTotalCol.MappingName = omrConfig.Title + " Total";
@@ -918,11 +1085,17 @@ namespace Synapse
                                 omrPaperCol.MappingName = omrConfig.Title + " Paper";
                                 omrPaperCol.HeaderText = omrConfig.Title + " Paper";
                                 mainDataGrid.Columns.Add(omrPaperCol);
+                                manualDataGrid.Columns.Add(omrPaperCol);
+                                faultyDataGrid.Columns.Add(omrPaperCol);
+                                incompatibleDataGrid.Columns.Add(omrPaperCol);
 
                                 GridTextColumn omrKeyCol = new GridTextColumn();
                                 omrKeyCol.MappingName = omrConfig.Title + " Key";
                                 omrKeyCol.HeaderText = omrConfig.Title + " Key";
                                 mainDataGrid.Columns.Add(omrKeyCol);
+                                manualDataGrid.Columns.Add(omrKeyCol);
+                                faultyDataGrid.Columns.Add(omrKeyCol);
+                                incompatibleDataGrid.Columns.Add(omrKeyCol);
 
                                 gridColumns.Add(omrScoreCol.HeaderText);
                                 //gridColumns.Add(omrTotalCol.HeaderText);
@@ -959,7 +1132,7 @@ namespace Synapse
             }
 
         }
-        internal void InitializeMainDataGrid(List<ProcessedDataEntry> processedDataEntries, ObservableCollection<dynamic> processedDataSource, int extraCols)
+        internal void InitializeDataGrids(List<ProcessedDataEntry> processedDataEntries, (ObservableCollection<dynamic> processedDataSource, ObservableCollection<dynamic> manProcessedDataSource, ObservableCollection<dynamic> fauProcessedDataSource, ObservableCollection<dynamic> incProcessedDataSource) sources, int extraCols)
         {
             if (this.gridColumns.Count > 0)
             {
@@ -994,7 +1167,10 @@ namespace Synapse
                         //    mainDataGrid.Columns.Add(col1);
                         //}
                         #endregion
-                        mainDataGridPager.DataSource = processedDataSource;
+                        mainDataGridPager.DataSource = sources.processedDataSource;
+                        manualDataGridPager.DataSource = sources.manProcessedDataSource;
+                        faultyDataGridPager.DataSource = sources.fauProcessedDataSource;
+                        incompatibleDataGridPager.DataSource = sources.incProcessedDataSource;
                     }
                     else
                     {
@@ -1032,9 +1208,15 @@ namespace Synapse
                     mainDataGrid.Columns.Add(col1);
                 }
                 #endregion
-                mainDataGridPager.DataSource = processedDataSource;
+                mainDataGridPager.DataSource = sources.processedDataSource;
+                manualDataGridPager.DataSource = sources.manProcessedDataSource;
+                faultyDataGridPager.DataSource = sources.fauProcessedDataSource;
+                incompatibleDataGridPager.DataSource = sources.incProcessedDataSource;
             }
             mainDataGrid.DataSource = mainDataGridPager.PagedSource;
+            manualDataGrid.DataSource = manualDataGridPager.PagedSource;
+            faultyDataGrid.DataSource = faultyDataGridPager.PagedSource;
+            incompatibleDataGrid.DataSource = incompatibleDataGridPager.PagedSource;
         }
         #endregion
         #region Data Panel
@@ -1088,6 +1270,9 @@ namespace Synapse
                     exportToolStripEx.ThemeName = "Metro";
                     mainDockingManager.ThemeName = "Metro";
                     mainDataGrid.ThemeName = "Office2016White";
+                    manualDataGrid.ThemeName = "Office2016White";
+                    faultyDataGrid.ThemeName = "Office2016White";
+                    incompatibleDataGrid.ThemeName = "Office2016White";
                     mainDataGridPager.ThemeName = "Office2016White";
                     processingProgressBar.ThemeName = "Office2016White";
 
@@ -1103,8 +1288,18 @@ namespace Synapse
                     faultyDataTypeStatusPanel.BackColor = Color.FromArgb(50, 128, 215);
                     incompatibleDataStatusPanel.BackColor = Color.FromArgb(60, 115, 215);
 
+                    mainDataGrid.BackColor = Color.White;
                     mainDataGrid.Style.ProgressBarStyle.GradientForegroundStartColor = Color.DeepSkyBlue;
                     mainDataGrid.Style.ProgressBarStyle.GradientForegroundEndColor = Color.DodgerBlue;
+                    manualDataGrid.BackColor = Color.White;
+                    manualDataGrid.Style.ProgressBarStyle.GradientForegroundStartColor = Color.DeepSkyBlue;
+                    manualDataGrid.Style.ProgressBarStyle.GradientForegroundEndColor = Color.DodgerBlue;
+                    faultyDataGrid.BackColor = Color.White;
+                    faultyDataGrid.Style.ProgressBarStyle.GradientForegroundStartColor = Color.DeepSkyBlue;
+                    faultyDataGrid.Style.ProgressBarStyle.GradientForegroundEndColor = Color.DodgerBlue;
+                    incompatibleDataGrid.BackColor = Color.White;
+                    incompatibleDataGrid.Style.ProgressBarStyle.GradientForegroundStartColor = Color.DeepSkyBlue;
+                    incompatibleDataGrid.Style.ProgressBarStyle.GradientForegroundEndColor = Color.DodgerBlue;
 
                     templateImageBox.BackColor = Color.White;
                     templateImageBox.GridColor = Color.White;
@@ -1116,7 +1311,6 @@ namespace Synapse
                     dataImageBox.GridColorAlternate = Color.White;
                     dataImageBox.ForeColor = SystemColors.ControlText;
 
-                    mainDataGrid.BackColor = Color.White;
                     configPropertyEditor.PropertyGrid.BackColor = Color.White;
                     configPropertyEditor.PropertyGrid.HelpBackColor = SystemColors.Control;
                     configPropertyEditor.PropertyGrid.ViewBackColor = SystemColors.Window;
@@ -1145,6 +1339,9 @@ namespace Synapse
                     exportToolStripEx.ThemeName = "Metro";
                     mainDockingManager.ThemeName = "Office2016Colorful";
                     mainDataGrid.ThemeName = "Office2016Colorful";
+                    manualDataGrid.ThemeName = "Office2016Colorful";
+                    faultyDataGrid.ThemeName = "Office2016Colorful";
+                    incompatibleDataGrid.ThemeName = "Office2016Colorful";
                     mainDataGridPager.ThemeName = "Office2016Colorful";
                     processingProgressBar.ThemeName = "Office2016Colorful";
 
@@ -1162,6 +1359,12 @@ namespace Synapse
 
                     mainDataGrid.Style.ProgressBarStyle.GradientForegroundStartColor = Color.DeepSkyBlue;
                     mainDataGrid.Style.ProgressBarStyle.GradientForegroundEndColor = Color.DodgerBlue;
+                    manualDataGrid.Style.ProgressBarStyle.GradientForegroundStartColor = Color.DeepSkyBlue;
+                    manualDataGrid.Style.ProgressBarStyle.GradientForegroundEndColor = Color.DodgerBlue;
+                    faultyDataGrid.Style.ProgressBarStyle.GradientForegroundStartColor = Color.DeepSkyBlue;
+                    faultyDataGrid.Style.ProgressBarStyle.GradientForegroundEndColor = Color.DodgerBlue;
+                    incompatibleDataGrid.Style.ProgressBarStyle.GradientForegroundStartColor = Color.DeepSkyBlue;
+                    incompatibleDataGrid.Style.ProgressBarStyle.GradientForegroundEndColor = Color.DodgerBlue;
 
                     backStageTab1.BackColor = Color.FromArgb(243, 243, 243);
                     bsSettingsTablePanel.BackColor = Color.FromArgb(243, 243, 243);
@@ -1207,6 +1410,9 @@ namespace Synapse
                     exportToolStripEx.ThemeName = "Office2016DarkGray";
                     mainDockingManager.ThemeName = "Office2016DarkGray";
                     mainDataGrid.ThemeName = "Office2016DarkGray";
+                    manualDataGrid.ThemeName = "Office2016DarkGray";
+                    faultyDataGrid.ThemeName = "Office2016DarkGray";
+                    incompatibleDataGrid.ThemeName = "Office2016DarkGray";
                     mainDataGridPager.ThemeName = "Office2016DarkGray";
                     processingProgressBar.ThemeName = "Office2016DarkGray";
 
@@ -1224,6 +1430,12 @@ namespace Synapse
 
                     mainDataGrid.Style.ProgressBarStyle.GradientForegroundStartColor = Color.FromArgb(150, 150, 150);
                     mainDataGrid.Style.ProgressBarStyle.GradientForegroundEndColor = Color.FromArgb(190, 190, 190);
+                    manualDataGrid.Style.ProgressBarStyle.GradientForegroundStartColor = Color.FromArgb(150, 150, 150);
+                    manualDataGrid.Style.ProgressBarStyle.GradientForegroundEndColor = Color.FromArgb(190, 190, 190);
+                    faultyDataGrid.Style.ProgressBarStyle.GradientForegroundStartColor = Color.FromArgb(150, 150, 150);
+                    faultyDataGrid.Style.ProgressBarStyle.GradientForegroundEndColor = Color.FromArgb(190, 190, 190);
+                    incompatibleDataGrid.Style.ProgressBarStyle.GradientForegroundStartColor = Color.FromArgb(150, 150, 150);
+                    incompatibleDataGrid.Style.ProgressBarStyle.GradientForegroundEndColor = Color.FromArgb(190, 190, 190);
 
                     templateImageBox.BackColor = Color.FromArgb(68, 68, 68);
                     templateImageBox.GridColor = Color.FromArgb(68, 68, 68);
@@ -1275,6 +1487,9 @@ namespace Synapse
                     exportToolStripEx.ThemeName = "Office2016Black";
                     mainDockingManager.ThemeName = "Office2016Black";
                     mainDataGrid.ThemeName = "Office2016Black";
+                    manualDataGrid.ThemeName = "Office2016Black";
+                    faultyDataGrid.ThemeName = "Office2016Black";
+                    incompatibleDataGrid.ThemeName = "Office2016Black";
                     mainDataGridPager.ThemeName = "Office2016Black";
                     processingProgressBar.ThemeName = "Office2016Black";
 
@@ -1292,6 +1507,12 @@ namespace Synapse
 
                     mainDataGrid.Style.ProgressBarStyle.GradientForegroundStartColor = Color.FromArgb(54, 54, 54);
                     mainDataGrid.Style.ProgressBarStyle.GradientForegroundEndColor = Color.FromArgb(84, 84, 84);
+                    manualDataGrid.Style.ProgressBarStyle.GradientForegroundStartColor = Color.FromArgb(54, 54, 54);
+                    manualDataGrid.Style.ProgressBarStyle.GradientForegroundEndColor = Color.FromArgb(84, 84, 84);
+                    faultyDataGrid.Style.ProgressBarStyle.GradientForegroundStartColor = Color.FromArgb(54, 54, 54);
+                    faultyDataGrid.Style.ProgressBarStyle.GradientForegroundEndColor = Color.FromArgb(84, 84, 84);
+                    incompatibleDataGrid.Style.ProgressBarStyle.GradientForegroundStartColor = Color.FromArgb(54, 54, 54);
+                    incompatibleDataGrid.Style.ProgressBarStyle.GradientForegroundEndColor = Color.FromArgb(84, 84, 84);
 
                     templateImageBox.BackColor = Color.FromArgb(64, 64, 64);
                     templateImageBox.GridColor = Color.FromArgb(64, 64, 64);
@@ -1348,6 +1569,10 @@ namespace Synapse
 
                 mainDockingManager.SetDockVisibility(configPropertiesPanel, true);
                 mainDockingManager.SetDockVisibility(dataImageBoxPanel, false);
+
+                mainDockingManager.SetDockVisibility(manualDataGrid, false);
+                mainDockingManager.SetDockVisibility(faultyDataGrid, false);
+                mainDockingManager.SetDockVisibility(incompatibleDataGrid, false);
             }
         }
         private void TmpLoadBrowseToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1390,6 +1615,17 @@ namespace Synapse
             }
 
             AddRegionAsOMR(selectedRegion);
+        }
+        private void AddAsBarcodeToolStripBtn_Click(object sender, EventArgs e)
+        {
+            RectangleF selectedRegion = templateImageBox.SelectionRegion;
+            if (selectedRegion.IsEmpty)
+            {
+                Messages.ShowError("Please select a reagion on the template to do this operation.");
+                return;
+            }
+
+            AddRegionAsBarcode(selectedRegion);
         }
         private void AddAsICRToolStripBtn_Click(object sender, EventArgs e)
         {
@@ -1592,11 +1828,15 @@ namespace Synapse
                 configTabPanel.Visible = false;
                 configTabPanel.SendToBack();
 
+                if(!MainProcessingManager.IsProcessing)
+                    GenerateGridColumns();
+
                 mainDockingManager.SetDockVisibility(dataImageBoxPanel, true);
                 mainDockingManager.SetDockVisibility(configPropertiesPanel, false);
 
-                if(!MainProcessingManager.IsProcessing)
-                    GenerateGridColumns();
+                mainDockingManager.SetDockVisibility(manualDataGrid, true);
+                mainDockingManager.SetDockVisibility(faultyDataGrid, true);
+                mainDockingManager.SetDockVisibility(incompatibleDataGrid, true);
             }
         }
         private void AnswerKeyToolStripBtn_Click(object sender, EventArgs e)
@@ -1973,22 +2213,13 @@ namespace Synapse
             }
         }
 
-        private void MainDataGrid_SelectionChanged(object sender, Syncfusion.WinForms.DataGrid.Events.SelectionChangedEventArgs e)
+        private void UpdateImageSelection(ProcessedDataRow processedDataRow, bool locateOptions = false)
         {
-            if (e.AddedItems.Count == 0)
+            if(!locateOptions)
             {
-                curOptionRects.Clear();
-                curMarkedOptionRects.Clear();
-
-                dataImageBox.Image = null;
+                dataImageBox.Image = new Bitmap(processedDataRow.RowSheetPath);
                 return;
             }
-
-            dynamic lastItemData = (dynamic)e.AddedItems.Last();
-            //if (e.AddedItems.RowType != Syncfusion.WinForms.DataGrid.Enums.RowType.DefaultRow)
-            //    return;
-
-            var processedDataRow = (ProcessedDataRow)lastItemData.DataRowObject;
 
             dataImageBox.Image = processedDataRow.GetAlignedImage().Bitmap;
 
@@ -2033,6 +2264,98 @@ namespace Synapse
                 curOptionRects.RemoveAll(x => curMarkedOptionRects.Contains(x));
             }
         }
+        private void MainDataGrid_SelectionChanged(object sender, Syncfusion.WinForms.DataGrid.Events.SelectionChangedEventArgs e)
+        {
+            if (e.AddedItems.Count == 0)
+            {
+                curOptionRects.Clear();
+                curMarkedOptionRects.Clear();
+
+                dataImageBox.Image = null;
+                return;
+            }
+
+            dynamic lastItemData = (dynamic)e.AddedItems.Last();
+            //if (e.AddedItems.RowType != Syncfusion.WinForms.DataGrid.Enums.RowType.DefaultRow)
+            //    return;
+
+            SelectedProcessedDataRow = (ProcessedDataRow)lastItemData.DataRowObject;
+            UpdateImageSelection(SelectedProcessedDataRow.Value, GetLocateOptionsToggle);
+        }
+        private void mainDataGrid_QueryCellStyle(object sender, Syncfusion.WinForms.DataGrid.Events.QueryCellStyleEventArgs e)
+        {
+            dynamic dataObject = (dynamic)e.DataRow.RowData;
+            string colText = e.Column.HeaderText;
+            if (!gridCellsRepresentation.ContainsKey(colText))
+                return;
+
+            ProcessedDataType fieldDataType = ProcessedDataType.NORMAL;
+
+            try
+            {
+                (int entryIndex, int fieldIndex) cellRepresentation = gridCellsRepresentation[colText];
+                fieldDataType = dataObject.DataRowObject.GetProcessedDataEntries[cellRepresentation.entryIndex].DataEntriesResultType[cellRepresentation.fieldIndex];
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"{ex.Message}\nColumn: {e.Column.HeaderText} - {e.DisplayText}\nRow: {e.RowIndex}");
+            }
+
+            //switch (fieldDataType)
+            //{
+            //    case ProcessedDataType.INCOMPATIBLE:
+            //        if (incompatibleDataCellBackColor != Color.Empty) e.Style.BackColor = incompatibleDataCellBackColor;
+            //        if (incompatibleDataCellForeColor != Color.Empty) e.Style.TextColor = incompatibleDataCellForeColor;
+            //        break;
+            //    case ProcessedDataType.FAULTY:
+            //        if (faultyDataCellBackColor != Color.Empty) e.Style.BackColor = faultyDataCellBackColor;
+            //        if (faultyDataCellForeColor != Color.Empty) e.Style.TextColor = faultyDataCellForeColor;
+            //        break;
+            //    case ProcessedDataType.MANUAL:
+            //        if (manualDataCellBackColor != Color.Empty) e.Style.BackColor = manualDataCellBackColor;
+            //        if (manualDataCellForeColor != Color.Empty) e.Style.TextColor = manualDataCellForeColor;
+            //        break;
+            //    case ProcessedDataType.NORMAL:
+            //        break;
+            //}
+        }
+        private void MainDataGrid_QueryRowStyle(object sender, Syncfusion.WinForms.DataGrid.Events.QueryRowStyleEventArgs e)
+        {
+            e.Style.HorizontalAlignment = HorizontalAlignment.Center;
+            if (e.RowType != Syncfusion.WinForms.DataGrid.Enums.RowType.DefaultRow)
+                return;
+
+            dynamic dataObject = (dynamic)e.RowData;
+
+            ProcessedDataType fieldDataType = ProcessedDataType.NORMAL;
+
+            try
+            {
+                fieldDataType = dataObject.DataRowObject.DataRowResultType;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"{ex.Message}\nRow: {e.RowIndex}");
+            }
+
+            //switch (fieldDataType)
+            //{
+            //    case ProcessedDataType.INCOMPATIBLE:
+            //        if (incompatibleDataRowBackColor != Color.Empty) e.Style.BackColor = incompatibleDataRowBackColor;
+            //        if (incompatibleDataRowForeColor != Color.Empty) e.Style.TextColor = incompatibleDataRowForeColor;
+            //        break;
+            //    case ProcessedDataType.FAULTY:
+            //        if (faultyDataRowBackColor != Color.Empty) e.Style.BackColor = faultyDataRowBackColor;
+            //        if (faultyDataRowForeColor != Color.Empty) e.Style.TextColor = faultyDataRowForeColor;
+            //        break;
+            //    case ProcessedDataType.MANUAL:
+            //        if (manualDataRowBackColor != Color.Empty) e.Style.BackColor = manualDataRowBackColor;
+            //        if (manualDataRowForeColor != Color.Empty) e.Style.TextColor = manualDataRowForeColor;
+            //        break;
+            //    case ProcessedDataType.NORMAL:
+            //        break;
+            //}
+        }
         private void mainDataGrid_QueryProgressBarCellStyle(object sender, Syncfusion.WinForms.DataGrid.Events.QueryProgressBarCellStyleEventArgs e)
         {
             if (!e.Column.HeaderText.Contains(" Score"))
@@ -2051,10 +2374,237 @@ namespace Synapse
             //mainDataGrid.View.
         }
 
-        private void MainDataGrid_QueryRowStyle(object sender, Syncfusion.WinForms.DataGrid.Events.QueryRowStyleEventArgs e)
+        private void manualDataGrid_SelectionChanged(object sender, Syncfusion.WinForms.DataGrid.Events.SelectionChangedEventArgs e)
+        {
+            if (e.AddedItems.Count == 0)
+            {
+                curOptionRects.Clear();
+                curMarkedOptionRects.Clear();
+
+                dataImageBox.Image = null;
+                return;
+            }
+
+            dynamic lastItemData = (dynamic)e.AddedItems.Last();
+            //if (e.AddedItems.RowType != Syncfusion.WinForms.DataGrid.Enums.RowType.DefaultRow)
+            //    return;
+
+            SelectedProcessedDataRow = (ProcessedDataRow)lastItemData.DataRowObject;
+            UpdateImageSelection(SelectedProcessedDataRow.Value, GetLocateOptionsToggle);
+        }
+        private void manualDataGrid_QueryCellStyle(object sender, Syncfusion.WinForms.DataGrid.Events.QueryCellStyleEventArgs e)
+        {
+            dynamic dataObject = (dynamic)e.DataRow.RowData;
+            string colText = e.Column.HeaderText;
+            if (!gridCellsRepresentation.ContainsKey(colText))
+                return;
+
+            ProcessedDataType fieldDataType = ProcessedDataType.NORMAL;
+
+            try
+            {
+                (int entryIndex, int fieldIndex) cellRepresentation = gridCellsRepresentation[colText];
+                fieldDataType = dataObject.DataRowObject.GetProcessedDataEntries[cellRepresentation.entryIndex].DataEntriesResultType[cellRepresentation.fieldIndex];
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"{ex.Message}\nColumn: {e.Column.HeaderText} - {e.DisplayText}\nRow: {e.RowIndex}");
+            }
+
+            switch (fieldDataType)
+            {
+                case ProcessedDataType.INCOMPATIBLE:
+                    if (incompatibleDataCellBackColor != Color.Empty) e.Style.BackColor = incompatibleDataCellBackColor;
+                    if (incompatibleDataCellForeColor != Color.Empty) e.Style.TextColor = incompatibleDataCellForeColor;
+                    break;
+                case ProcessedDataType.FAULTY:
+                    if (faultyDataCellBackColor != Color.Empty) e.Style.BackColor = faultyDataCellBackColor;
+                    if (faultyDataCellForeColor != Color.Empty) e.Style.TextColor = faultyDataCellForeColor;
+                    break;
+                case ProcessedDataType.MANUAL:
+                    if (manualDataCellBackColor != Color.Empty) e.Style.BackColor = manualDataCellBackColor;
+                    if (manualDataCellForeColor != Color.Empty) e.Style.TextColor = manualDataCellForeColor;
+                    break;
+                case ProcessedDataType.NORMAL:
+                    break;
+            }
+        }
+        private void manualDataGrid_QueryRowStyle(object sender, Syncfusion.WinForms.DataGrid.Events.QueryRowStyleEventArgs e)
         {
             e.Style.HorizontalAlignment = HorizontalAlignment.Center;
         }
+        private void manualDataGrid_QueryProgressBarCellStyle(object sender, Syncfusion.WinForms.DataGrid.Events.QueryProgressBarCellStyleEventArgs e)
+        {
+            if (!e.Column.HeaderText.Contains(" Score"))
+                return;
+
+            var dataObject = (dynamic)e.Record;
+            AnswerKey ansKey = Functions.GetProperty(dataObject, "AnswerKey");
+            if (ansKey == null)
+                return;
+
+            int maximum = ansKey.GetPaper.GetCorrectOptionValue * ansKey.GetKey.Length;
+            e.Maximum = maximum == 0 ? 100 : maximum;
+
+            e.Style.ProgressTextColor = (CurrentTheme == Themes.BLACK || CurrentTheme == Themes.DARK_GRAY) ? Color.White : e.Style.ProgressTextColor;
+            e.Style.BackgroundColor = (CurrentTheme == Themes.DARK_GRAY) ? Color.FromArgb(210, 210, 210) : e.Style.BackgroundColor;
+            //mainDataGrid.View.
+        }
+
+        private void faultyDataGrid_SelectionChanged(object sender, Syncfusion.WinForms.DataGrid.Events.SelectionChangedEventArgs e)
+        {
+            if (e.AddedItems.Count == 0)
+            {
+                curOptionRects.Clear();
+                curMarkedOptionRects.Clear();
+
+                dataImageBox.Image = null;
+                return;
+            }
+
+            dynamic lastItemData = (dynamic)e.AddedItems.Last();
+            //if (e.AddedItems.RowType != Syncfusion.WinForms.DataGrid.Enums.RowType.DefaultRow)
+            //    return;
+
+            SelectedProcessedDataRow = (ProcessedDataRow)lastItemData.DataRowObject;
+            UpdateImageSelection(SelectedProcessedDataRow.Value, GetLocateOptionsToggle);
+        }
+        private void faultyDataGrid_QueryCellStyle(object sender, Syncfusion.WinForms.DataGrid.Events.QueryCellStyleEventArgs e)
+        {
+            dynamic dataObject = (dynamic)e.DataRow.RowData;
+            string colText = e.Column.HeaderText;
+            if (!gridCellsRepresentation.ContainsKey(colText))
+                return;
+
+            ProcessedDataType fieldDataType = ProcessedDataType.NORMAL;
+
+            try
+            {
+                (int entryIndex, int fieldIndex) cellRepresentation = gridCellsRepresentation[colText];
+                fieldDataType = dataObject.DataRowObject.GetProcessedDataEntries[cellRepresentation.entryIndex].DataEntriesResultType[cellRepresentation.fieldIndex];
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"{ex.Message}\nColumn: {e.Column.HeaderText} - {e.DisplayText}\nRow: {e.RowIndex}");
+            }
+
+            switch (fieldDataType)
+            {
+                case ProcessedDataType.INCOMPATIBLE:
+                    if (incompatibleDataCellBackColor != Color.Empty) e.Style.BackColor = incompatibleDataCellBackColor;
+                    if (incompatibleDataCellForeColor != Color.Empty) e.Style.TextColor = incompatibleDataCellForeColor;
+                    break;
+                case ProcessedDataType.FAULTY:
+                    if (faultyDataCellBackColor != Color.Empty) e.Style.BackColor = faultyDataCellBackColor;
+                    if (faultyDataCellForeColor != Color.Empty) e.Style.TextColor = faultyDataCellForeColor;
+                    break;
+                case ProcessedDataType.MANUAL:
+                    if (manualDataCellBackColor != Color.Empty) e.Style.BackColor = manualDataCellBackColor;
+                    if (manualDataCellForeColor != Color.Empty) e.Style.TextColor = manualDataCellForeColor;
+                    break;
+                case ProcessedDataType.NORMAL:
+                    break;
+            }
+        }
+        private void faultyDataGrid_QueryRowStyle(object sender, Syncfusion.WinForms.DataGrid.Events.QueryRowStyleEventArgs e)
+        {
+            e.Style.HorizontalAlignment = HorizontalAlignment.Center;
+        }
+        private void faultyDataGrid_QueryProgressBarCellStyle(object sender, Syncfusion.WinForms.DataGrid.Events.QueryProgressBarCellStyleEventArgs e)
+        {
+            if (!e.Column.HeaderText.Contains(" Score"))
+                return;
+
+            var dataObject = (dynamic)e.Record;
+            AnswerKey ansKey = Functions.GetProperty(dataObject, "AnswerKey");
+            if (ansKey == null)
+                return;
+
+            int maximum = ansKey.GetPaper.GetCorrectOptionValue * ansKey.GetKey.Length;
+            e.Maximum = maximum == 0 ? 100 : maximum;
+
+            e.Style.ProgressTextColor = (CurrentTheme == Themes.BLACK || CurrentTheme == Themes.DARK_GRAY) ? Color.White : e.Style.ProgressTextColor;
+            e.Style.BackgroundColor = (CurrentTheme == Themes.DARK_GRAY) ? Color.FromArgb(210, 210, 210) : e.Style.BackgroundColor;
+            //mainDataGrid.View.
+        }
+
+        private void incompatibleDataGrid_SelectionChanged(object sender, Syncfusion.WinForms.DataGrid.Events.SelectionChangedEventArgs e)
+        {
+            if (e.AddedItems.Count == 0)
+            {
+                curOptionRects.Clear();
+                curMarkedOptionRects.Clear();
+
+                dataImageBox.Image = null;
+                return;
+            }
+
+            dynamic lastItemData = (dynamic)e.AddedItems.Last();
+            //if (e.AddedItems.RowType != Syncfusion.WinForms.DataGrid.Enums.RowType.DefaultRow)
+            //    return;
+
+            SelectedProcessedDataRow = (ProcessedDataRow)lastItemData.DataRowObject;
+            UpdateImageSelection(SelectedProcessedDataRow.Value, GetLocateOptionsToggle);
+        }
+        private void incompatibleDataGrid_QueryCellStyle(object sender, Syncfusion.WinForms.DataGrid.Events.QueryCellStyleEventArgs e)
+        {
+            dynamic dataObject = (dynamic)e.DataRow.RowData;
+            string colText = e.Column.HeaderText;
+            if (!gridCellsRepresentation.ContainsKey(colText))
+                return;
+
+            ProcessedDataType fieldDataType = ProcessedDataType.NORMAL;
+
+            try
+            {
+                (int entryIndex, int fieldIndex) cellRepresentation = gridCellsRepresentation[colText];
+                fieldDataType = dataObject.DataRowObject.GetProcessedDataEntries[cellRepresentation.entryIndex].DataEntriesResultType[cellRepresentation.fieldIndex];
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"{ex.Message}\nColumn: {e.Column.HeaderText} - {e.DisplayText}\nRow: {e.RowIndex}");
+            }
+
+            switch (fieldDataType)
+            {
+                case ProcessedDataType.INCOMPATIBLE:
+                    if (incompatibleDataCellBackColor != Color.Empty) e.Style.BackColor = incompatibleDataCellBackColor;
+                    if (incompatibleDataCellForeColor != Color.Empty) e.Style.TextColor = incompatibleDataCellForeColor;
+                    break;
+                case ProcessedDataType.FAULTY:
+                    if (faultyDataCellBackColor != Color.Empty) e.Style.BackColor = faultyDataCellBackColor;
+                    if (faultyDataCellForeColor != Color.Empty) e.Style.TextColor = faultyDataCellForeColor;
+                    break;
+                case ProcessedDataType.MANUAL:
+                    if (manualDataCellBackColor != Color.Empty) e.Style.BackColor = manualDataCellBackColor;
+                    if (manualDataCellForeColor != Color.Empty) e.Style.TextColor = manualDataCellForeColor;
+                    break;
+                case ProcessedDataType.NORMAL:
+                    break;
+            }
+        }
+        private void incompatibleDataGrid_QueryRowStyle(object sender, Syncfusion.WinForms.DataGrid.Events.QueryRowStyleEventArgs e)
+        {
+            e.Style.HorizontalAlignment = HorizontalAlignment.Center;
+        }
+        private void incompatibleDataGrid_QueryProgressBarCellStyle(object sender, Syncfusion.WinForms.DataGrid.Events.QueryProgressBarCellStyleEventArgs e)
+        {
+            if (!e.Column.HeaderText.Contains(" Score"))
+                return;
+
+            var dataObject = (dynamic)e.Record;
+            AnswerKey ansKey = Functions.GetProperty(dataObject, "AnswerKey");
+            if (ansKey == null)
+                return;
+
+            int maximum = ansKey.GetPaper.GetCorrectOptionValue * ansKey.GetKey.Length;
+            e.Maximum = maximum == 0 ? 100 : maximum;
+
+            e.Style.ProgressTextColor = (CurrentTheme == Themes.BLACK || CurrentTheme == Themes.DARK_GRAY) ? Color.White : e.Style.ProgressTextColor;
+            e.Style.BackgroundColor = (CurrentTheme == Themes.DARK_GRAY) ? Color.FromArgb(210, 210, 210) : e.Style.BackgroundColor;
+            //mainDataGrid.View.
+        }
+
         private void DataImageBox_Paint(object sender, PaintEventArgs e)
         {
             if (curOptionRects.Count > 0)
@@ -2092,5 +2642,21 @@ namespace Synapse
         #endregion
 
         #endregion
+
+        private void locateOptionsToolStripBtn_Click(object sender, EventArgs e)
+        {
+            GetLocateOptionsToggle = !GetLocateOptionsToggle;
+            locateOptionsToolStripBtn.CheckState = GetLocateOptionsToggle? CheckState.Checked : CheckState.Unchecked;
+        }
+
+        private void stopReadingToolStripBtn_Click(object sender, EventArgs e)
+        {
+            MainProcessingManager.StopProcessing();
+
+            startReadingToolStripBtn.Text = "Start";
+            startReadingToolStripBtn.Image = Properties.Resources.startBtnIcon_ReadingTab;
+        }
+
+        
     }
 }
