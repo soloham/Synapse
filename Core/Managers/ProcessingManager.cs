@@ -347,7 +347,7 @@ namespace Synapse.Core.Managers
                             }
                             break;
                         case MainConfigType.BARCODE:
-                            OBRConfiguration obrConfig = (OBRConfiguration)curConfigurationBase;
+                            //OBRConfiguration obrConfig = (OBRConfiguration)curConfigurationBase;
                             break;
                         case MainConfigType.ICR:
                             break;

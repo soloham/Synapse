@@ -66,6 +66,11 @@ namespace Synapse.Core.Managers
                         OnConfigurationDeletedEvent?.Invoke(sender, omrConfiguration);
                     break;
                 case MainConfigType.BARCODE:
+                    OBRConfiguration obrConfiguration = (OBRConfiguration)configuration;
+                    isRemoved = allConfigurations.Remove(obrConfiguration);
+
+                    if (isRemoved)
+                        OnConfigurationDeletedEvent?.Invoke(sender, obrConfiguration);
                     break;
                 case MainConfigType.ICR:
                     ICRConfiguration icrConfiguration = (ICRConfiguration)configuration;

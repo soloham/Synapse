@@ -15,34 +15,65 @@ namespace Synapse.Core.Engines
 {
     internal class BarcodeEngine : IEngine
     {
+        private CiServer ciServer;
+        private CiBarcodePro barcodeRreader;
+
+        internal void Initialize()
+        {
+            // Create objects
+            ciServer = Server.GetThreadServer();
+            barcodeRreader = ciServer.CreateBarcodePro();
+        }
+
         public ProcessedDataEntry ProcessSheet(ConfigurationBase configuration, Mat sheet, Action<RectangleF, bool> OnOptionProcessed = null)
         {
             OBRConfiguration obrConfiguration = (OBRConfiguration)configuration;
 
             RectangleF barcodeRegion = obrConfiguration.GetConfigArea.ConfigRect;
-            Bitmap barcodeBmp = sheet.Bitmap.Clone(barcodeRegion, System.Drawing.Imaging.PixelFormat.Format8bppIndexed);
 
-            CiBarcodes barcodes = ReadBarcodes1D(barcodeBmp);
-            string output = barcodes.Count > 0? barcodes.GetItem(0).Text : "-";
+            // Configure reader
+            barcodeRreader.AutoDetect1D = obrConfiguration.AutoDetect1DBarcode; // Enable automatic detection of barcode type (Slower processing)
+            if(!obrConfiguration.AutoDetect1DBarcode)
+                barcodeRreader.Type = obrConfiguration.BarcodeType; // Select barcode types to read
+            if (obrConfiguration.CheckAll) // Limit barcode search direction (Faster processing)
+                barcodeRreader.Directions = FBarcodeDirections.cibHorz | FBarcodeDirections.cibVert | FBarcodeDirections.cibDiag;
+            else
+            {
+                if (obrConfiguration.CheckHorizontal)// Limit barcode search direction (Faster processing)
+                    barcodeRreader.Directions = !obrConfiguration.CheckVertical && !obrConfiguration.CheckDiagonal ? FBarcodeDirections.cibHorz : barcodeRreader.Directions | FBarcodeDirections.cibHorz;
+                if (obrConfiguration.CheckVertical)// Limit barcode search direction (Faster processing)
+                    barcodeRreader.Directions = !obrConfiguration.CheckHorizontal && !obrConfiguration.CheckDiagonal ? FBarcodeDirections.cibHorz : barcodeRreader.Directions | FBarcodeDirections.cibVert;
+                if (obrConfiguration.CheckDiagonal)// Limit barcode search direction (Faster processing)
+                    barcodeRreader.Directions = !obrConfiguration.CheckVertical && !obrConfiguration.CheckHorizontal ? FBarcodeDirections.cibHorz : barcodeRreader.Directions | FBarcodeDirections.cibDiag;
+            }
+            barcodeRreader.Algorithm = obrConfiguration.AlgorithmPreference;
+
+            string output = "-";
+            using (Bitmap region = sheet.Bitmap.Clone(barcodeRegion, System.Drawing.Imaging.PixelFormat.Format8bppIndexed)) {
+                // open input images
+                barcodeRreader.Image.OpenFromBitmap(region.GetHbitmap());
+
+                CiBarcodes barcodes = ReadBarcodes1D();
+                if (barcodes.Count == 0 && obrConfiguration.SearchFullIfNull)
+                {
+                    barcodeRreader.Image.OpenFromBitmap(sheet.Bitmap.GetHbitmap());
+                    barcodes = ReadBarcodes1D();
+                }
+                output = barcodes.Count > 0 ? barcodes.GetItem(0).Text : "-";
+            }
 
             return new ProcessedDataEntry(configuration.Title, output.ToCharArray(), new ProcessedDataType[] { ProcessedDataType.NORMAL });
+            //using (Bitmap barcodeBmp = sheet.Bitmap.Clone(barcodeRegion, System.Drawing.Imaging.PixelFormat.Format8bppIndexed))
+            //{
+                
+            //}
         }
 
-        CiBarcodes ReadBarcodes1D(Bitmap imageFile)
+        CiBarcodes ReadBarcodes1D()
         {
-            // Create objects and open input images
-            CiServer ci = Inlite.ClearImageNet.Server.GetThreadServer();
-            CiBarcodePro reader = ci.CreateBarcodePro();
-            reader.Image.OpenFromBitmap(imageFile.GetHbitmap());
-            // Configure reader
-            //reader.Type = FBarcodeType.cibfCode39 | FBarcodeType.cibfCode128;  // Select barcode types to read
-            reader.AutoDetect1D = true;  // Enable automatic detection of barcode type (Slower processing)
-                                         // reader.Directions = FBarcodeDirections.cibHorz;   // Limit barcode search direction (Faster processing)
-            reader.Find(0);
-            foreach (CiBarcode Barcode in reader.Barcodes)
-                Console.WriteLine(Barcode.Text);
+            barcodeRreader.Find(0);
 
-            return reader.Barcodes;
+            return barcodeRreader.Barcodes;
         }
     }
 }

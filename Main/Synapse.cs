@@ -316,18 +316,18 @@ namespace Synapse
                 bool isSaved = false;
                 Exception ex = new Exception();
 
-                OBRConfiguration icrConfig = null;
+                OBRConfiguration barcodeConfig = null;
                 await Task.Run(() =>
                 {
-                    icrConfig = OBRConfiguration.CreateDefault(name, configArea, ConfigurationsManager.GetAllConfigurations.Count);
-                    isSaved = OBRConfiguration.Save(icrConfig, out ex);
+                    barcodeConfig = OBRConfiguration.CreateDefault(name, configArea, ConfigurationsManager.GetAllConfigurations.Count);
+                    isSaved = OBRConfiguration.Save(barcodeConfig, out ex);
                 });
 
                 if (isSaved)
                 {
                     configurationForm.Close();
 
-                    ConfigurationsManager.AddConfiguration(icrConfig);
+                    ConfigurationsManager.AddConfiguration(barcodeConfig);
                     CalculateTemplateConfigs();
                 }
                 else
