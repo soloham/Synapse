@@ -15,14 +15,13 @@ namespace Synapse.Core.Engines
 {
     internal class BarcodeEngine : IEngine
     {
-        private CiServer ciServer;
-        private CiBarcodePro barcodeRreader;
-
+        BarcodeReader barcodeReader;
         internal void Initialize()
         {
             // Create objects
-            ciServer = Server.GetThreadServer();
-            barcodeRreader = ciServer.CreateBarcodePro();
+            //ciServer = Server.GetThreadServer();
+            //barcodeReader = ciServer.CreateBarcodePro();
+            barcodeReader = new BarcodeReader();
         }
 
         public ProcessedDataEntry ProcessSheet(ConfigurationBase configuration, Mat sheet, Action<RectangleF, bool> OnOptionProcessed = null)
@@ -32,48 +31,70 @@ namespace Synapse.Core.Engines
             RectangleF barcodeRegion = obrConfiguration.GetConfigArea.ConfigRect;
 
             // Configure reader
-            barcodeRreader.AutoDetect1D = obrConfiguration.AutoDetect1DBarcode; // Enable automatic detection of barcode type (Slower processing)
-            if(!obrConfiguration.AutoDetect1DBarcode)
-                barcodeRreader.Type = obrConfiguration.BarcodeType; // Select barcode types to read
+            //CiServer ciServer = Server.GetThreadServer();
+            //CiBarcodePro barcodeReader = ciServer.CreateBarcodePro();
+            barcodeReader.Auto1D = obrConfiguration.AutoDetect1DBarcode; // Enable automatic detection of barcode type (Slower processing)
+            if (!obrConfiguration.AutoDetect1DBarcode)
+            {// Select barcode types to read
+                barcodeReader.Code128 = obrConfiguration.Code128; 
+                barcodeReader.Code93 = obrConfiguration.Code93; 
+                barcodeReader.Code39 = obrConfiguration.Code39; 
+            }
             if (obrConfiguration.CheckAll) // Limit barcode search direction (Faster processing)
-                barcodeRreader.Directions = FBarcodeDirections.cibHorz | FBarcodeDirections.cibVert | FBarcodeDirections.cibDiag;
+            {
+                barcodeReader.Horizontal = true;
+                barcodeReader.Vertical = true;
+                barcodeReader.Diagonal = true;
+            }
             else
             {
-                if (obrConfiguration.CheckHorizontal)// Limit barcode search direction (Faster processing)
-                    barcodeRreader.Directions = !obrConfiguration.CheckVertical && !obrConfiguration.CheckDiagonal ? FBarcodeDirections.cibHorz : barcodeRreader.Directions | FBarcodeDirections.cibHorz;
-                if (obrConfiguration.CheckVertical)// Limit barcode search direction (Faster processing)
-                    barcodeRreader.Directions = !obrConfiguration.CheckHorizontal && !obrConfiguration.CheckDiagonal ? FBarcodeDirections.cibHorz : barcodeRreader.Directions | FBarcodeDirections.cibVert;
-                if (obrConfiguration.CheckDiagonal)// Limit barcode search direction (Faster processing)
-                    barcodeRreader.Directions = !obrConfiguration.CheckVertical && !obrConfiguration.CheckHorizontal ? FBarcodeDirections.cibHorz : barcodeRreader.Directions | FBarcodeDirections.cibDiag;
+                barcodeReader.Horizontal = obrConfiguration.CheckHorizontal;    
+                barcodeReader.Vertical = obrConfiguration.CheckVertical;    
+                barcodeReader.Diagonal = obrConfiguration.CheckDiagonal;    
             }
-            barcodeRreader.Algorithm = obrConfiguration.AlgorithmPreference;
+            //barcodeReader.Algorithm = obrConfiguration.AlgorithmPreference;
 
             string output = "-";
-            using (Bitmap region = sheet.Bitmap.Clone(barcodeRegion, System.Drawing.Imaging.PixelFormat.Format8bppIndexed)) {
-                // open input images
-                barcodeRreader.Image.OpenFromBitmap(region.GetHbitmap());
-
-                CiBarcodes barcodes = ReadBarcodes1D();
-                if (barcodes.Count == 0 && obrConfiguration.SearchFullIfNull)
+            using (Bitmap region = sheet.Bitmap.Clone(barcodeRegion, System.Drawing.Imaging.PixelFormat.Format8bppIndexed))
+            {
+                Barcode[] barcodes = null;
+                try
                 {
-                    barcodeRreader.Image.OpenFromBitmap(sheet.Bitmap.GetHbitmap());
-                    barcodes = ReadBarcodes1D();
+                    barcodes = barcodeReader.Read(region);   // Read barcodes
                 }
-                output = barcodes.Count > 0 ? barcodes.GetItem(0).Text : "-";
+                catch (Exception ex)
+                { 
+                    Console.WriteLine("Exception: " + ex.ToString()); 
+                }
+                finally
+                {
+                    if (barcodeReader != null) barcodeReader.Dispose();
+                }  // ClearImage 9 and latter.  Free image memory.
+                if (barcodes.Length == 0 && obrConfiguration.SearchFullIfNull)
+                {
+                    barcodes = barcodeReader.Read(region);   // Read barcodes
+                }
+                output = barcodes.Length > 0 ? barcodes[0].Text : "-";
             }
 
             return new ProcessedDataEntry(configuration.Title, output.ToCharArray(), new ProcessedDataType[] { ProcessedDataType.NORMAL });
-            //using (Bitmap barcodeBmp = sheet.Bitmap.Clone(barcodeRegion, System.Drawing.Imaging.PixelFormat.Format8bppIndexed))
-            //{
-                
-            //}
         }
 
-        CiBarcodes ReadBarcodes1D()
+        void ReadBarcodes1D(string fileName, int page)
         {
-            barcodeRreader.Find(0);
-
-            return barcodeRreader.Barcodes;
+            BarcodeReader reader = null;
+            try
+            {
+                reader = new BarcodeReader();   // Create and configure reader
+                reader.Code39 = true; reader.Code128 = true;
+                Barcode[] barcodes = reader.Read(fileName, page);   // Read barcodes
+                foreach (Barcode barcode in barcodes)   // Process results
+                { Console.WriteLine("Barcode type: " + barcode.Type.ToString() + "  Text: " + Environment.NewLine + barcode.Text); }
+            }
+            catch (Exception ex)
+            { Console.WriteLine("Exception: " + ex.ToString()); }
+            finally
+            { if (reader != null) reader.Dispose(); }  // ClearImage 9 and latter.  Free image memory.
         }
     }
 }

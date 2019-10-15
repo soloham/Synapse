@@ -24,9 +24,13 @@ namespace Synapse.Core.Configurations
         #region Public Properties
         [Category("Behaviour"), Description("Get or set the name of the Barcode Region.")]
         public string RegionName { get; set; }
-        [Category("Data"), Description("Get or set the format of barcode expected from the Barcode Region.")]
-        public FBarcodeType BarcodeType { get; set; }
-        [Category("Data"), Description("Get or set the value to automatically detect the barcode format in the Barcode Region.")]
+        [Category("Format"), Description("Get or set the format(s) of barcode expected from the Barcode Region.")]
+        public bool Code128 { get; set; }
+        [Category("Format"), Description("Get or set the format(s) of barcode expected from the Barcode Region.")]
+        public bool Code93 { get; set; }
+        [Category("Format"), Description("Get or set the value to automatically detect the barcode format in the Barcode Region.")]
+        public bool Code39 { get; set; }
+        [Category("Format"), Description("Get or set the format(s) of barcode expected from the Barcode Region.")]
         public bool AutoDetect1DBarcode { get; set; }
         [Category("Data"), Description("Get or set the value that determines wether to search the entire sheet for barcode if none is found in the Barcode Region.")]
         public bool SearchFullIfNull { get; set; }
@@ -48,13 +52,13 @@ namespace Synapse.Core.Configurations
         #region Public Methods
         public OBRConfiguration(ConfigurationBase _base, FBarcodeType barcodeType, bool autoDetect1DBarcode, EBarcodeAlgorithm algorithmPreference) : base(_base)
         {
-            BarcodeType = barcodeType;
+            //BarcodeType = barcodeType;
             AutoDetect1DBarcode = autoDetect1DBarcode;
             AlgorithmPreference = algorithmPreference;
         }
         public OBRConfiguration(BaseData _baseData, FBarcodeType barcodeType, bool autoDetect1DBarcode, EBarcodeAlgorithm algorithmPreference) : base(_baseData)
         {
-            BarcodeType = barcodeType;
+            //BarcodeType = barcodeType;
             AutoDetect1DBarcode = autoDetect1DBarcode;
             AlgorithmPreference = algorithmPreference;
         }

@@ -248,7 +248,7 @@ namespace Synapse.Core.Managers
 
                 ProcessedDataType processedRowType = ProcessedDataType.NORMAL;
                 List<ProcessedDataEntry> processedDataEntries = new List<ProcessedDataEntry>();
-                int lastDataColumnsIndex = 0;
+                int lastDataColumnsIndex = -1;
                 ConfigurationBase curConfigurationBase = null;
 
                 var parameterBasedGradings = new List<(ProcessedDataEntry toGradeEntry, Parameter[] gradingParameters)>();
@@ -278,7 +278,7 @@ namespace Synapse.Core.Managers
                     string[] formattedOutput = processedDataEntry.FormatData();
                     if (formattedOutput.Length == 1)
                     {
-                        string dataTitle = dataColumns != null && dataColumns.Count > 0 ? dataColumns[lastDataColumnsIndex] : allConfigurations[i1].Title;
+                        string dataTitle = dataColumns != null && dataColumns.Count > 0 ? dataColumns[lastDataColumnsIndex + 1] : allConfigurations[i1].Title;
                         Functions.AddProperty(dynamicDataRow, dataTitle, formattedOutput[0]);
 
                         lastDataColumnsIndex++;
@@ -287,11 +287,11 @@ namespace Synapse.Core.Managers
                     {
                         for (int i2 = 0; i2 < formattedOutput.Length; i2++)
                         {
-                            string dataTitle = dataColumns != null && dataColumns.Count > 0 ? dataColumns[lastDataColumnsIndex + i2] : allConfigurations[i1].Title[0] + (i2 + 1).ToString();
+                            string dataTitle = dataColumns != null && dataColumns.Count > 0 ? dataColumns[(lastDataColumnsIndex + 1) + i2] : allConfigurations[i1].Title[0] + (i2 + 1).ToString();
                             Functions.AddProperty(dynamicDataRow, dataTitle, formattedOutput[i2]);
 
                         }
-                        lastDataColumnsIndex += formattedOutput.Length - 1;
+                        lastDataColumnsIndex += formattedOutput.Length;
                     }
 
                     switch (curConfigurationBase.GetMainConfigType)
@@ -316,7 +316,7 @@ namespace Synapse.Core.Managers
                                                     string dataTitle = i2 == 0 ? omrConfig.Title + " Score" : i2 == 1 ? omrConfig.Title + " Paper" : i2 == 2 ? omrConfig.Title + " Key" : omrConfig.Title + $" x{i2}";
                                                     Functions.AddProperty(dynamicDataRow, dataTitle, i2 == 0 ? gradeResult.obtainedMarks + "" : i2 == 1 ? generalKey.GetPaper.Title : generalKey.Title);
 
-                                                    lastDataColumnsIndex++;
+                                                    //lastDataColumnsIndex++;
                                                     extraColumns++;
                                                 }
                                             }
@@ -327,14 +327,14 @@ namespace Synapse.Core.Managers
                                                     string dataTitle = i2 == 0 ? omrConfig.Title + " Score" : i2 == 1 ? omrConfig.Title + " Paper" : i2 == 2 ? omrConfig.Title + " Key" : omrConfig.Title + $" x{i2}";
                                                     Functions.AddProperty(dynamicDataRow, dataTitle, "—");
 
-                                                    lastDataColumnsIndex++;
+                                                    //lastDataColumnsIndex++;
                                                     extraColumns++;
                                                 }
                                             }
                                             break;
                                         case Keys.KeyType.ParameterBased:
                                             parameterBasedGradings.Add((processedDataEntry, omrConfig.PB_AnswerKeys.Keys.ToArray()));
-                                            lastDataColumnsIndex += 3;
+                                            //lastDataColumnsIndex += 3;
                                             break;
                                         default:
                                             break;

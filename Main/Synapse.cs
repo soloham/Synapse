@@ -127,6 +127,7 @@ namespace Synapse
         private ObservableCollection<dynamic> processedDataSource = new ObservableCollection<dynamic>();
 
         private List<string> gridColumns = new List<string>();
+        private List<string> gridConfigOnlyColumns = new List<string>();
         private List<string> usedNonCollectiveDataLabels = new List<string>();
 
         private Dictionary<string, (int entryIndex, int fieldIndex)> gridCellsRepresentation = new Dictionary<string, (int entryIndex, int fieldIndex)>();
@@ -905,7 +906,7 @@ namespace Synapse
                 processingProgressBar.FontColor = CurrentTheme == Themes.COLORFUL || CurrentTheme == Themes.WHITE ? Color.Black : Color.WhiteSmoke;
 
                 progressStatusTablePanel.Visible = true;
-                MainProcessingManager.StartProcessing(keepData, gridColumns);
+                MainProcessingManager.StartProcessing(keepData, gridConfigOnlyColumns);
 
                 stopReadingToolStripBtn.Enabled = true;
             }
@@ -914,6 +915,7 @@ namespace Synapse
         private void GenerateGridColumns()
         {
             gridColumns.Clear();
+            gridConfigOnlyColumns.Clear();
             gridCellsRepresentation.Clear();
             usedNonCollectiveDataLabels.Clear();
             mainDataGrid.AutoGenerateColumns = false;
@@ -945,6 +947,7 @@ namespace Synapse
                                 incompatibleDataGrid.Columns.Add(omrCol);
 
                                 gridColumns.Add(omrCol.HeaderText);
+                                gridConfigOnlyColumns.Add(omrCol.HeaderText);
                                 gridCellsRepresentation.Add(omrCol.HeaderText, (i, 0));
                                 break;
                             case ValueRepresentation.Indiviual:
@@ -970,6 +973,7 @@ namespace Synapse
                                     incompatibleDataGrid.Columns.Add(omrIndCol);
 
                                     gridColumns.Add(omrIndCol.HeaderText);
+                                    gridConfigOnlyColumns.Add(omrIndCol.HeaderText);
                                     gridCellsRepresentation.Add(omrIndCol.HeaderText, (i, i1+1));
                                 }
                                 break;
@@ -998,6 +1002,7 @@ namespace Synapse
                                         incompatibleDataGrid.Columns.Add(omrCom2Col);
 
                                         gridColumns.Add(omrCom2Col.HeaderText);
+                                        gridConfigOnlyColumns.Add(omrCom2Col.HeaderText);
                                         gridCellsRepresentation.Add(omrCom2Col.HeaderText, (i, i1+1));
                                     }
                                 }
@@ -1024,6 +1029,7 @@ namespace Synapse
                                         incompatibleDataGrid.Columns.Add(omrIndCol);
 
                                         gridColumns.Add(omrIndCol.HeaderText);
+                                        gridConfigOnlyColumns.Add(omrIndCol.HeaderText);
                                         gridCellsRepresentation.Add(omrIndCol.HeaderText, (i, i1+1));
                                     }
                                 }
@@ -1042,6 +1048,7 @@ namespace Synapse
                         incompatibleDataGrid.Columns.Add(obrCol);
 
                         gridColumns.Add(obrCol.HeaderText);
+                        gridConfigOnlyColumns.Add(obrCol.HeaderText);
                         gridCellsRepresentation.Add(obrCol.HeaderText, (i, 0));
                         break;
                     case MainConfigType.ICR:
@@ -1056,6 +1063,7 @@ namespace Synapse
                         incompatibleDataGrid.Columns.Add(icrCol);
 
                         gridColumns.Add(icrCol.HeaderText);
+                        gridConfigOnlyColumns.Add(icrCol.HeaderText);
                         gridCellsRepresentation.Add(icrCol.HeaderText, (i, 0));
                         break;
                  }

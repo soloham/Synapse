@@ -114,7 +114,6 @@ namespace Synapse
             this.externalDataPointDropDownBtn = new System.Windows.Forms.ToolStripDropDownButton();
             this.externalLoadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.externalSaveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.exportToolStripEx = new Syncfusion.Windows.Forms.Tools.ToolStripEx();
             this.exportCSVoolStripBtn = new System.Windows.Forms.ToolStripButton();
             this.exportExcelToolStripBtn = new System.Windows.Forms.ToolStripButton();
             this.SQLDatabaseExportToolStripBtn = new System.Windows.Forms.ToolStripButton();
