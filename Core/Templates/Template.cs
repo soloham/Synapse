@@ -1026,6 +1026,12 @@ namespace Synapse.Core.Templates
                 if(use) useStoredModelFeatures = true;
             }
         }
+
+        internal void Activate()
+        {
+            TemplateData.IsActivated = true;
+            SaveTemplate(TemplateData);
+        }
         #endregion
 
         #region Alignment Pipeline Results
@@ -1115,6 +1121,7 @@ namespace Synapse.Core.Templates
             internal List<AlignmentMethod> GetAlignmentPipeline { get => alignmentPipeline; }
             private List<AlignmentMethod> alignmentPipeline = new List<AlignmentMethod>();
 
+            public bool IsActivated { get; set; }
             internal Data(string templateName, string templateLocation, TemplateImage templateImage, List<AlignmentMethod> alignmentPipeline)
             {
                 TemplateName = templateName;
@@ -1146,6 +1153,7 @@ namespace Synapse.Core.Templates
         public string GetTemplateName { get { return TemplateData.TemplateName; } set { } }
         public TemplateImage GetTemplateImage { get { return TemplateData.GetTemplateImage; } set { } }
         public string GetTemplateLocation { get { return TemplateData.TemplateLocation; } set { } }
+
         #endregion
 
         #region Events
@@ -1246,7 +1254,7 @@ namespace Synapse.Core.Templates
         {
             this.TemplateData.SetAlignmentPipeline(alignmentPipeline);
         }
-        internal Mat AlignSheet(Mat sheetImage, out AlignmentPipelineResults alignmentPipelineResults)
+        internal Mat AlignSheet(Mat sheetImage, out AlignmentPipelineResults alignmentPipelineResults, bool log = true)
         {
             Mat outputImage = sheetImage;
             List<AlignmentMethod> alignmentPipeline = TemplateData.GetAlignmentPipeline;
@@ -1304,7 +1312,8 @@ namespace Synapse.Core.Templates
 
                     if (exception.StackTrace == null)
                     {
-                        Messages.ShowError("An error occured while applying the method: '" + alignmentMethod.MethodName + "' \n\n For concerned personnel: " + personnelData);
+                        if(log)
+                            Messages.ShowError("An error occured while applying the method: '" + alignmentMethod.MethodName + "' \n\n For concerned personnel: " + personnelData);
                         return outputImage;
                     }
 

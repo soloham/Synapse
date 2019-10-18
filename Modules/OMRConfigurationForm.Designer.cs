@@ -33,6 +33,12 @@
             this.imageBox = new Cyotek.Windows.Forms.Demo.ImageBoxEx();
             this.imageBoxPanel = new System.Windows.Forms.Panel();
             this.statePanelsPanel = new System.Windows.Forms.Panel();
+            this.ComboValueStatePanel = new System.Windows.Forms.Panel();
+            this.comboValueStateTablePanel = new System.Windows.Forms.TableLayoutPanel();
+            this.comboValueStateLabel = new Syncfusion.Windows.Forms.Tools.AutoLabel();
+            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.comboValueStateValueComboBox = new Syncfusion.Windows.Forms.Tools.ComboBoxAdv();
+            this.comboValueStateComboBox = new Syncfusion.Windows.Forms.Tools.ComboBoxAdv();
             this.StringValueStatePanel = new System.Windows.Forms.Panel();
             this.stringValueStateLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.stringValueStateLabel = new Syncfusion.Windows.Forms.Tools.AutoLabel();
@@ -79,6 +85,11 @@
             this.MainLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.imageBoxPanel.SuspendLayout();
             this.statePanelsPanel.SuspendLayout();
+            this.ComboValueStatePanel.SuspendLayout();
+            this.comboValueStateTablePanel.SuspendLayout();
+            this.tableLayoutPanel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.comboValueStateValueComboBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.comboValueStateComboBox)).BeginInit();
             this.StringValueStatePanel.SuspendLayout();
             this.stringValueStateLayoutPanel.SuspendLayout();
             this.stringValueStateControlsLayoutPanel.SuspendLayout();
@@ -146,6 +157,7 @@
             // 
             // statePanelsPanel
             // 
+            this.statePanelsPanel.Controls.Add(this.ComboValueStatePanel);
             this.statePanelsPanel.Controls.Add(this.StringValueStatePanel);
             this.statePanelsPanel.Controls.Add(this.IntegerValueStatePanel);
             this.statePanelsPanel.Controls.Add(this.DoubleValueStatePanel);
@@ -157,6 +169,106 @@
             this.statePanelsPanel.Size = new System.Drawing.Size(411, 291);
             this.statePanelsPanel.TabIndex = 8;
             this.statePanelsPanel.Visible = false;
+            // 
+            // ComboValueStatePanel
+            // 
+            this.ComboValueStatePanel.Controls.Add(this.comboValueStateTablePanel);
+            this.ComboValueStatePanel.Location = new System.Drawing.Point(26, 228);
+            this.ComboValueStatePanel.Margin = new System.Windows.Forms.Padding(0);
+            this.ComboValueStatePanel.Name = "ComboValueStatePanel";
+            this.ComboValueStatePanel.Size = new System.Drawing.Size(375, 44);
+            this.ComboValueStatePanel.TabIndex = 15;
+            // 
+            // comboValueStateTablePanel
+            // 
+            this.comboValueStateTablePanel.ColumnCount = 2;
+            this.comboValueStateTablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 60F));
+            this.comboValueStateTablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40F));
+            this.comboValueStateTablePanel.Controls.Add(this.comboValueStateLabel, 0, 0);
+            this.comboValueStateTablePanel.Controls.Add(this.tableLayoutPanel2, 1, 0);
+            this.comboValueStateTablePanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.comboValueStateTablePanel.Location = new System.Drawing.Point(0, 0);
+            this.comboValueStateTablePanel.Name = "comboValueStateTablePanel";
+            this.comboValueStateTablePanel.RowCount = 1;
+            this.comboValueStateTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.comboValueStateTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.comboValueStateTablePanel.Size = new System.Drawing.Size(375, 44);
+            this.comboValueStateTablePanel.TabIndex = 0;
+            // 
+            // comboValueStateLabel
+            // 
+            this.comboValueStateLabel.AutoSize = false;
+            this.comboValueStateLabel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.comboValueStateLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.comboValueStateLabel.Font = new System.Drawing.Font("Dosis", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.comboValueStateLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this.comboValueStateLabel.Location = new System.Drawing.Point(3, 3);
+            this.comboValueStateLabel.Margin = new System.Windows.Forms.Padding(3);
+            this.comboValueStateLabel.Name = "comboValueStateLabel";
+            this.comboValueStateLabel.Size = new System.Drawing.Size(219, 38);
+            this.comboValueStateLabel.Style = Syncfusion.Windows.Forms.Tools.AutoLabelStyle.Office2016White;
+            this.comboValueStateLabel.TabIndex = 13;
+            this.comboValueStateLabel.Text = "Combo Value:";
+            this.comboValueStateLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.comboValueStateLabel.ThemeName = "Office2016White";
+            // 
+            // tableLayoutPanel2
+            // 
+            this.tableLayoutPanel2.ColumnCount = 2;
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel2.Controls.Add(this.comboValueStateValueComboBox, 0, 0);
+            this.tableLayoutPanel2.Controls.Add(this.comboValueStateComboBox, 0, 0);
+            this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(225, 0);
+            this.tableLayoutPanel2.Margin = new System.Windows.Forms.Padding(0);
+            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+            this.tableLayoutPanel2.RowCount = 1;
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(150, 44);
+            this.tableLayoutPanel2.TabIndex = 14;
+            // 
+            // comboValueStateValueComboBox
+            // 
+            this.comboValueStateValueComboBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.comboValueStateValueComboBox.BeforeTouchSize = new System.Drawing.Size(69, 43);
+            this.comboValueStateValueComboBox.Border3DStyle = System.Windows.Forms.Border3DStyle.Flat;
+            this.comboValueStateValueComboBox.BorderSides = System.Windows.Forms.Border3DSide.Bottom;
+            this.comboValueStateValueComboBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.comboValueStateValueComboBox.FlatBorderColor = System.Drawing.Color.White;
+            this.comboValueStateValueComboBox.FlatStyle = Syncfusion.Windows.Forms.Tools.ComboFlatStyle.Flat;
+            this.comboValueStateValueComboBox.Font = new System.Drawing.Font("Dosis", 20.75F);
+            this.comboValueStateValueComboBox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this.comboValueStateValueComboBox.Location = new System.Drawing.Point(78, 3);
+            this.comboValueStateValueComboBox.MetroBorderColor = System.Drawing.Color.White;
+            this.comboValueStateValueComboBox.Name = "comboValueStateValueComboBox";
+            this.comboValueStateValueComboBox.Size = new System.Drawing.Size(69, 43);
+            this.comboValueStateValueComboBox.Style = Syncfusion.Windows.Forms.VisualStyle.Office2016White;
+            this.comboValueStateValueComboBox.TabIndex = 15;
+            this.comboValueStateValueComboBox.Text = "Combo Box";
+            this.comboValueStateValueComboBox.ThemeName = "Office2016White";
+            // 
+            // comboValueStateComboBox
+            // 
+            this.comboValueStateComboBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.comboValueStateComboBox.BeforeTouchSize = new System.Drawing.Size(69, 43);
+            this.comboValueStateComboBox.Border3DStyle = System.Windows.Forms.Border3DStyle.Flat;
+            this.comboValueStateComboBox.BorderSides = System.Windows.Forms.Border3DSide.Bottom;
+            this.comboValueStateComboBox.CanOverrideStyle = true;
+            this.comboValueStateComboBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.comboValueStateComboBox.FlatBorderColor = System.Drawing.Color.White;
+            this.comboValueStateComboBox.FlatStyle = Syncfusion.Windows.Forms.Tools.ComboFlatStyle.Flat;
+            this.comboValueStateComboBox.Font = new System.Drawing.Font("Dosis", 20.75F);
+            this.comboValueStateComboBox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this.comboValueStateComboBox.Location = new System.Drawing.Point(3, 3);
+            this.comboValueStateComboBox.MetroBorderColor = System.Drawing.Color.White;
+            this.comboValueStateComboBox.Name = "comboValueStateComboBox";
+            this.comboValueStateComboBox.Size = new System.Drawing.Size(69, 43);
+            this.comboValueStateComboBox.Style = Syncfusion.Windows.Forms.VisualStyle.Office2016White;
+            this.comboValueStateComboBox.TabIndex = 14;
+            this.comboValueStateComboBox.Text = "ComboBox";
+            this.comboValueStateComboBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.comboValueStateComboBox.ThemeName = "Office2016White";
             // 
             // StringValueStatePanel
             // 
@@ -896,6 +1008,11 @@
             this.imageBoxPanel.ResumeLayout(false);
             this.imageBoxPanel.PerformLayout();
             this.statePanelsPanel.ResumeLayout(false);
+            this.ComboValueStatePanel.ResumeLayout(false);
+            this.comboValueStateTablePanel.ResumeLayout(false);
+            this.tableLayoutPanel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.comboValueStateValueComboBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.comboValueStateComboBox)).EndInit();
             this.StringValueStatePanel.ResumeLayout(false);
             this.stringValueStateLayoutPanel.ResumeLayout(false);
             this.stringValueStateControlsLayoutPanel.ResumeLayout(false);
@@ -978,5 +1095,11 @@
         private System.Windows.Forms.TableLayoutPanel configureStatesPanel;
         private System.Windows.Forms.TableLayoutPanel MainLayoutPanel;
         private Syncfusion.Windows.Forms.Tools.ComboBoxAdv selectStateComboBox;
+        private System.Windows.Forms.Panel ComboValueStatePanel;
+        private System.Windows.Forms.TableLayoutPanel comboValueStateTablePanel;
+        private Syncfusion.Windows.Forms.Tools.AutoLabel comboValueStateLabel;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+        private Syncfusion.Windows.Forms.Tools.ComboBoxAdv comboValueStateValueComboBox;
+        private Syncfusion.Windows.Forms.Tools.ComboBoxAdv comboValueStateComboBox;
     }
 }

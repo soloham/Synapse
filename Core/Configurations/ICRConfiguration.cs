@@ -42,7 +42,7 @@ namespace Synapse.Core.Configurations
             return new ICRConfiguration(baseData);
         }
 
-        public override ProcessedDataEntry ProcessSheet(Mat sheet)
+        public override ProcessedDataEntry ProcessSheet(Mat sheet, string originalSheetPath = "")
         {
             return new ProcessedDataEntry(Title, new char[1], new ProcessedDataType[1]);
         }

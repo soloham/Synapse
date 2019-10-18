@@ -12,7 +12,7 @@ namespace Synapse.Core.Engines.Interface
     internal interface IEngine
     {
         #region Methods
-        ProcessedDataEntry ProcessSheet(Configurations.ConfigurationBase configuration, Mat sheet, Action<RectangleF, bool> OnOptionProcessed = null);
+        ProcessedDataEntry ProcessSheet(Configurations.ConfigurationBase configuration, Mat sheet, Action<RectangleF, bool> OnOptionProcessed = null, string originalSheetPath = "");
         #endregion
     }
 }

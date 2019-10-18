@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ICRConfigurationForm));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BarcodeConfigurationForm));
             this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.stringValueStateComboBox = new Syncfusion.Windows.Forms.Tools.ComboBoxAdv();
             this.integerStateComboBox = new Syncfusion.Windows.Forms.Tools.ComboBoxAdv();
@@ -238,7 +238,7 @@
             this.icrRegionNameTextBox.Size = new System.Drawing.Size(187, 42);
             this.icrRegionNameTextBox.Style = Syncfusion.Windows.Forms.Tools.TextBoxExt.theme.Office2016White;
             this.icrRegionNameTextBox.TabIndex = 15;
-            this.icrRegionNameTextBox.Text = "ICR Region";
+            this.icrRegionNameTextBox.Text = "Barcode Region";
             this.icrRegionNameTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.icrRegionNameTextBox.ThemeName = "Office2016White";
             // 
@@ -421,7 +421,7 @@
             this.imageBox.TabIndex = 2;
             this.imageBox.Text = "Configuration Region";
             // 
-            // ICRConfigurationForm
+            // BarcodeConfigurationForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.ClientSize = new System.Drawing.Size(497, 402);
@@ -431,7 +431,7 @@
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "ICRConfigurationForm";
+            this.Name = "BarcodeConfigurationForm";
             this.Padding = new System.Windows.Forms.Padding(8, 2, 2, 5);
             this.ShowToolTip = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -440,7 +440,7 @@
             this.Style.TitleBar.BackColor = System.Drawing.Color.White;
             this.Style.TitleBar.Font = new System.Drawing.Font("Dosis", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Style.TitleBar.TextHorizontalAlignment = System.Windows.Forms.HorizontalAlignment.Center;
-            this.Text = "ICR Configuration Data";
+            this.Text = "Barcode Configuration Data";
             ((System.ComponentModel.ISupportInitialize)(this.stringValueStateComboBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.integerStateComboBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.doubleStateComboBox)).EndInit();

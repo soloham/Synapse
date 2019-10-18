@@ -33,6 +33,8 @@ using Synapse.Utilities.Attributes;
 using Synapse.Utilities.Enums;
 using Syncfusion.Windows.Forms;
 using System.Globalization;
+using System.Diagnostics;
+using System.Reflection;
 
 namespace Synapse
 {
@@ -130,7 +132,7 @@ namespace Synapse
         private List<string> gridConfigOnlyColumns = new List<string>();
         private List<string> usedNonCollectiveDataLabels = new List<string>();
 
-        private Dictionary<string, (int entryIndex, int fieldIndex)> gridCellsRepresentation = new Dictionary<string, (int entryIndex, int fieldIndex)>();
+        public Dictionary<string, (int entryIndex, int fieldIndex)> GridCellsRepresentation = new Dictionary<string, (int entryIndex, int fieldIndex)>();
 
         private List<RectangleF> curOptionRects = new List<RectangleF>();
         private List<RectangleF> curMarkedOptionRects = new List<RectangleF>();
@@ -143,10 +145,10 @@ namespace Synapse
         Color manualDataCellBackColor = Color.Yellow;
         Color manualDataCellForeColor = Color.Empty;
 
-        Color faultyDataCellBackColor;
-        Color faultyDataCellForeColor;
+        Color faultyDataCellBackColor = Color.OrangeRed;
+        Color faultyDataCellForeColor = Color.White;
 
-        Color incompatibleDataCellBackColor;
+        Color incompatibleDataCellBackColor; 
         Color incompatibleDataCellForeColor;
 
 
@@ -156,8 +158,8 @@ namespace Synapse
         Color faultyDataRowBackColor;
         Color faultyDataRowForeColor;
 
-        Color incompatibleDataRowBackColor;
-        Color incompatibleDataRowForeColor;
+        Color incompatibleDataRowBackColor = Color.Red;
+        Color incompatibleDataRowForeColor = Color.White;
         #endregion
 
         #region Events 
@@ -185,6 +187,7 @@ namespace Synapse
         internal SynapseMain(Template currentTemplate)
         {
             InitializeComponent();
+
             #region SetupComponents
             this.ribbonControl.Height = 220;
 
@@ -271,14 +274,105 @@ namespace Synapse
             SynapseMain.currentTemplate = currentTemplate;
             Awake();
         }
+
+        #region Reading Tab
+        internal void InitializeDataGrids(List<ProcessedDataEntry> processedDataEntries, (ObservableCollection<dynamic> processedDataSource, ObservableCollection<dynamic> manProcessedDataSource, ObservableCollection<dynamic> fauProcessedDataSource, ObservableCollection<dynamic> incProcessedDataSource) sources, int extraCols)
+        {
+            if (this.gridColumns.Count > 0)
+            {
+                var gridColumns = mainDataGrid.Columns;
+                int dataDynamicTotalColumns = 0;
+                for (int i = 0; i < processedDataEntries.Count; i++)
+                {
+                    dataDynamicTotalColumns += processedDataEntries[i].GetDataValues.Length;
+                }
+                if (gridColumns.Count != dataDynamicTotalColumns + extraCols)
+                {
+
+                }
+                else
+                {
+                    bool areValid = false;
+                    for (int i = 0; i < gridColumns.Count; i++)
+                    {
+                        areValid = gridColumns[i].HeaderText == this.gridColumns[i];
+                    }
+
+                    if (areValid)
+                    {
+                        #region DataDynamicColumnGeneration
+                        //mainDataGrid.AutoGenerateColumns = false;
+                        //mainDataGrid.Columns.Clear();
+                        //for (int i3 = 0; i3 < processedDataEntries.Count; i3++)
+                        //{
+                        //    GridTextColumn col1 = new GridTextColumn();
+                        //    col1.MappingName = processedDataEntries[i3].GetConfigurationBase.Title;
+                        //    col1.HeaderText = processedDataEntries[i3].GetConfigurationBase.Title;
+                        //    mainDataGrid.Columns.Add(col1);
+                        //}
+                        #endregion
+                        mainDataGridPager.DataSource = sources.processedDataSource;
+                        manualDataGridPager.DataSource = sources.manProcessedDataSource;
+                        faultyDataGridPager.DataSource = sources.fauProcessedDataSource;
+                        incompatibleDataGridPager.DataSource = sources.incProcessedDataSource;
+                    }
+                    else
+                    {
+
+                    }
+                    #region TableSummary
+                    //mainDataGrid.TableSummaryRows.Clear();
+                    //GridTableSummaryRow tableSummaryRow = new GridTableSummaryRow();
+                    //tableSummaryRow.Name = "TotalSheetsRow";
+                    //tableSummaryRow.ShowSummaryInRow = true;
+                    //tableSummaryRow.Title = "Total Processed Sheets: {TotalSheets}";
+                    //tableSummaryRow.Position = Syncfusion.WinForms.DataGrid.Enums.VerticalPosition.Bottom;
+
+                    //GridSummaryColumn summaryColumn = new GridSummaryColumn();
+                    //summaryColumn.Name = "TotalSheets";
+                    //summaryColumn.SummaryType = Syncfusion.Data.SummaryType.CountAggregate;
+                    //summaryColumn.Format = "{Count}";
+                    //summaryColumn.MappingName = mainDataGrid.Columns[1].MappingName;
+
+                    //tableSummaryRow.SummaryColumns.Add(summaryColumn);
+                    //mainDataGrid.TableSummaryRows.Add(tableSummaryRow);
+                    #endregion
+                }
+            }
+            else
+            {
+                #region DataDynamicColumnGeneration
+                mainDataGrid.AutoGenerateColumns = false;
+                mainDataGrid.Columns.Clear();
+                for (int i3 = 0; i3 < processedDataEntries.Count; i3++)
+                {
+                    GridTextColumn col1 = new GridTextColumn();
+                    col1.MappingName = processedDataEntries[i3].GetConfigurationBase.Title;
+                    col1.HeaderText = processedDataEntries[i3].GetConfigurationBase.Title;
+                    mainDataGrid.Columns.Add(col1);
+                }
+                #endregion
+                mainDataGridPager.DataSource = sources.processedDataSource;
+                manualDataGridPager.DataSource = sources.manProcessedDataSource;
+                faultyDataGridPager.DataSource = sources.fauProcessedDataSource;
+                incompatibleDataGridPager.DataSource = sources.incProcessedDataSource;
+            }
+            mainDataGrid.DataSource = mainDataGridPager.PagedSource;
+            manualDataGrid.DataSource = manualDataGridPager.PagedSource;
+            faultyDataGrid.DataSource = faultyDataGridPager.PagedSource;
+            incompatibleDataGrid.DataSource = incompatibleDataGridPager.PagedSource;
+        }
+        #endregion
+
         #endregion
 
         #region Public Methods
+        #region Configuration Tab
         public void AddRegionAsOMR(RectangleF region)
         {
             RectangleF configAreaRect = region;
             ConfigArea configArea = new ConfigArea(configAreaRect, (Bitmap)templateImageBox.GetSelectedImage());
-            OMRConfigurationForm configurationForm = new OMRConfigurationForm(configArea.ConfigBitmap);
+            OMRConfigurationForm configurationForm = new OMRConfigurationForm(configArea);
             configurationForm.OnConfigurationFinishedEvent += async (string name, Orientation orientation, OMRRegionData regionData) =>
             {
                 bool isSaved = false;
@@ -303,7 +397,7 @@ namespace Synapse
             };
             configurationForm.OnFormInitializedEvent += (object sender, EventArgs args) =>
             {
-                
+
             };
             configurationForm.ShowDialog();
         }
@@ -485,6 +579,35 @@ namespace Synapse
         {
 
         }
+        #endregion
+        #region Reading Tab
+        public List<string> GetGridDataColumns(bool configOnly = false)
+        {
+            if (!configOnly)
+            {
+                if (gridColumns != null && gridColumns.Count > 0)
+                    return new List<string>(gridColumns);
+                else
+                {
+                    GenerateGridColumns();
+                    return new List<string>(gridColumns);
+                }
+            }
+            else
+            {
+                if (gridConfigOnlyColumns != null && gridConfigOnlyColumns.Count > 0)
+                    return new List<string>(gridConfigOnlyColumns);
+                else
+                {
+                    GenerateGridColumns();
+                    return new List<string>(gridConfigOnlyColumns);
+                }
+            }
+        }
+        #endregion
+        #region Data Tab
+        #endregion
+
 
         public void UpdateStatus(string status)
         {
@@ -617,6 +740,9 @@ namespace Synapse
 
             NumberFormatInfo = new NumberFormatInfo();
             NumberFormatInfo.NumberDecimalDigits = 0;
+
+            if(currentTemplate.TemplateData.IsActivated)
+                exportExcelToolStripBtn.Enabled = true;
         }
 
         double finalAverage = 0;
@@ -916,7 +1042,7 @@ namespace Synapse
         {
             gridColumns.Clear();
             gridConfigOnlyColumns.Clear();
-            gridCellsRepresentation.Clear();
+            GridCellsRepresentation.Clear();
             usedNonCollectiveDataLabels.Clear();
             mainDataGrid.AutoGenerateColumns = false;
             mainDataGrid.Columns.Clear();
@@ -948,7 +1074,7 @@ namespace Synapse
 
                                 gridColumns.Add(omrCol.HeaderText);
                                 gridConfigOnlyColumns.Add(omrCol.HeaderText);
-                                gridCellsRepresentation.Add(omrCol.HeaderText, (i, 0));
+                                GridCellsRepresentation.Add(omrCol.HeaderText, (i, 0));
                                 break;
                             case ValueRepresentation.Indiviual:
                                 int totalIndFields = omrConfiguration.GetTotalFields;
@@ -974,7 +1100,7 @@ namespace Synapse
 
                                     gridColumns.Add(omrIndCol.HeaderText);
                                     gridConfigOnlyColumns.Add(omrIndCol.HeaderText);
-                                    gridCellsRepresentation.Add(omrIndCol.HeaderText, (i, i1+1));
+                                    GridCellsRepresentation.Add(omrIndCol.HeaderText, (i, i1+1));
                                 }
                                 break;
                             case ValueRepresentation.CombineTwo:
@@ -1003,7 +1129,7 @@ namespace Synapse
 
                                         gridColumns.Add(omrCom2Col.HeaderText);
                                         gridConfigOnlyColumns.Add(omrCom2Col.HeaderText);
-                                        gridCellsRepresentation.Add(omrCom2Col.HeaderText, (i, i1+1));
+                                        GridCellsRepresentation.Add(omrCom2Col.HeaderText, (i, i1+1));
                                     }
                                 }
                                 else
@@ -1030,7 +1156,7 @@ namespace Synapse
 
                                         gridColumns.Add(omrIndCol.HeaderText);
                                         gridConfigOnlyColumns.Add(omrIndCol.HeaderText);
-                                        gridCellsRepresentation.Add(omrIndCol.HeaderText, (i, i1+1));
+                                        GridCellsRepresentation.Add(omrIndCol.HeaderText, (i, i1+1));
                                     }
                                 }
                                 break;
@@ -1049,7 +1175,7 @@ namespace Synapse
 
                         gridColumns.Add(obrCol.HeaderText);
                         gridConfigOnlyColumns.Add(obrCol.HeaderText);
-                        gridCellsRepresentation.Add(obrCol.HeaderText, (i, 0));
+                        GridCellsRepresentation.Add(obrCol.HeaderText, (i, 0));
                         break;
                     case MainConfigType.ICR:
                         ICRConfiguration icrConfiguration = (ICRConfiguration)allConfigs[i];
@@ -1064,7 +1190,7 @@ namespace Synapse
 
                         gridColumns.Add(icrCol.HeaderText);
                         gridConfigOnlyColumns.Add(icrCol.HeaderText);
-                        gridCellsRepresentation.Add(icrCol.HeaderText, (i, 0));
+                        GridCellsRepresentation.Add(icrCol.HeaderText, (i, 0));
                         break;
                  }
                 switch (allConfigs[i].GetMainConfigType)
@@ -1140,92 +1266,6 @@ namespace Synapse
             }
 
         }
-        internal void InitializeDataGrids(List<ProcessedDataEntry> processedDataEntries, (ObservableCollection<dynamic> processedDataSource, ObservableCollection<dynamic> manProcessedDataSource, ObservableCollection<dynamic> fauProcessedDataSource, ObservableCollection<dynamic> incProcessedDataSource) sources, int extraCols)
-        {
-            if (this.gridColumns.Count > 0)
-            {
-                var gridColumns = mainDataGrid.Columns;
-                int dataDynamicTotalColumns = 0;
-                for (int i = 0; i < processedDataEntries.Count; i++)
-                {
-                    dataDynamicTotalColumns += processedDataEntries[i].GetDataValues.Length;
-                }
-                if (gridColumns.Count != dataDynamicTotalColumns + extraCols)
-                {
-
-                }
-                else
-                {
-                    bool areValid = false;
-                    for (int i = 0; i < gridColumns.Count; i++)
-                    {
-                        areValid = gridColumns[i].HeaderText == this.gridColumns[i];
-                    }
-
-                    if (areValid)
-                    {
-                        #region DataDynamicColumnGeneration
-                        //mainDataGrid.AutoGenerateColumns = false;
-                        //mainDataGrid.Columns.Clear();
-                        //for (int i3 = 0; i3 < processedDataEntries.Count; i3++)
-                        //{
-                        //    GridTextColumn col1 = new GridTextColumn();
-                        //    col1.MappingName = processedDataEntries[i3].GetConfigurationBase.Title;
-                        //    col1.HeaderText = processedDataEntries[i3].GetConfigurationBase.Title;
-                        //    mainDataGrid.Columns.Add(col1);
-                        //}
-                        #endregion
-                        mainDataGridPager.DataSource = sources.processedDataSource;
-                        manualDataGridPager.DataSource = sources.manProcessedDataSource;
-                        faultyDataGridPager.DataSource = sources.fauProcessedDataSource;
-                        incompatibleDataGridPager.DataSource = sources.incProcessedDataSource;
-                    }
-                    else
-                    {
-
-                    }
-                    #region TableSummary
-                    //mainDataGrid.TableSummaryRows.Clear();
-                    //GridTableSummaryRow tableSummaryRow = new GridTableSummaryRow();
-                    //tableSummaryRow.Name = "TotalSheetsRow";
-                    //tableSummaryRow.ShowSummaryInRow = true;
-                    //tableSummaryRow.Title = "Total Processed Sheets: {TotalSheets}";
-                    //tableSummaryRow.Position = Syncfusion.WinForms.DataGrid.Enums.VerticalPosition.Bottom;
-
-                    //GridSummaryColumn summaryColumn = new GridSummaryColumn();
-                    //summaryColumn.Name = "TotalSheets";
-                    //summaryColumn.SummaryType = Syncfusion.Data.SummaryType.CountAggregate;
-                    //summaryColumn.Format = "{Count}";
-                    //summaryColumn.MappingName = mainDataGrid.Columns[1].MappingName;
-
-                    //tableSummaryRow.SummaryColumns.Add(summaryColumn);
-                    //mainDataGrid.TableSummaryRows.Add(tableSummaryRow);
-                    #endregion
-                }
-            }
-            else
-            {
-                #region DataDynamicColumnGeneration
-                mainDataGrid.AutoGenerateColumns = false;
-                mainDataGrid.Columns.Clear();
-                for (int i3 = 0; i3 < processedDataEntries.Count; i3++)
-                {
-                    GridTextColumn col1 = new GridTextColumn();
-                    col1.MappingName = processedDataEntries[i3].GetConfigurationBase.Title;
-                    col1.HeaderText = processedDataEntries[i3].GetConfigurationBase.Title;
-                    mainDataGrid.Columns.Add(col1);
-                }
-                #endregion
-                mainDataGridPager.DataSource = sources.processedDataSource;
-                manualDataGridPager.DataSource = sources.manProcessedDataSource;
-                faultyDataGridPager.DataSource = sources.fauProcessedDataSource;
-                incompatibleDataGridPager.DataSource = sources.incProcessedDataSource;
-            }
-            mainDataGrid.DataSource = mainDataGridPager.PagedSource;
-            manualDataGrid.DataSource = manualDataGridPager.PagedSource;
-            faultyDataGrid.DataSource = faultyDataGridPager.PagedSource;
-            incompatibleDataGrid.DataSource = incompatibleDataGridPager.PagedSource;
-        }
         #endregion
         #region Data Panel
         private void ExportExcel()
@@ -1242,7 +1282,7 @@ namespace Synapse
                     ExportStyle = false,
                     ExcelVersion = ExcelVersion.Excel2016
                 };
-                var excelEngine = mainDataGrid.ExportToExcel(mainDataGrid.View, options);
+                var excelEngine = mainDataGrid.ExportToExcel((ObservableCollection<object>)mainDataGridPager.DataSource, options);
                 var workBook = excelEngine.Excel.Workbooks[0];
                 workBook.SaveAs(path + "\\ProcessedData.xlsx");
             }
@@ -1657,39 +1697,24 @@ namespace Synapse
                 }
             }
         }
+        private OnTemplateConfig[] lastPossibleInterestsConfigs;
         private void TemplateImageBox_MouseMove(object sender, MouseEventArgs e)
         {
             curImageMouseLoc = e.Location;
 
             if (ConfigurationStatus == StatusState.Green)
             {
+                List<OnTemplateConfig> possibleInterests = new List<OnTemplateConfig>();
                 for (int i = 0; i < OnTemplateConfigs.Count; i++)
                 {
                     RectangleF offsetRect = OnTemplateConfigs[i].OffsetRectangle;
 
                     if (offsetRect.Contains(e.Location))
-                    {
-                        InterestedTemplateConfig = OnTemplateConfigs[i];
+                    {                       
+                        if (InterestedTemplateConfig == OnTemplateConfigs[i])
+                            continue;
 
-                        if (SelectedTemplateConfig == InterestedTemplateConfig)
-                            return;
-
-                        switch (OnTemplateConfigs[i].Configuration.GetMainConfigType)
-                        {
-                            case MainConfigType.OMR:
-                                OnTemplateConfigs[i].ColorStates.CurrentColor = OMRRegionColorStates.HighlightedColor;
-                                IsMouseOverRegion = true;
-                                break;
-                            case MainConfigType.BARCODE:
-                                OnTemplateConfigs[i].ColorStates.CurrentColor = OBRRegionColorStates.HighlightedColor;
-                                IsMouseOverRegion = true;
-                                break;
-                            case MainConfigType.ICR:
-                                OnTemplateConfigs[i].ColorStates.CurrentColor = ICRRegionColorStates.HighlightedColor;
-                                IsMouseOverRegion = true;
-                                break;
-                        }
-                        
+                        possibleInterests.Add(OnTemplateConfigs[i]); 
                     }
                     else
                     {
@@ -1715,7 +1740,36 @@ namespace Synapse
                                 break;
                         }
                     }
+
                 }
+
+                if(possibleInterests.Count > 0)
+                {
+                    if (lastPossibleInterestsConfigs != null && possibleInterests.TrueForAll(x => lastPossibleInterestsConfigs.Contains(x)) && lastPossibleInterestsConfigs.Contains(InterestedTemplateConfig))
+                        return;
+
+                    InterestedTemplateConfig = possibleInterests.Last();
+
+                    if (SelectedTemplateConfig == InterestedTemplateConfig)
+                        return;
+
+                    switch (InterestedTemplateConfig.Configuration.GetMainConfigType)
+                    {
+                        case MainConfigType.OMR:
+                            InterestedTemplateConfig.ColorStates.CurrentColor = OMRRegionColorStates.HighlightedColor;
+                            IsMouseOverRegion = true;
+                            break;
+                        case MainConfigType.BARCODE:
+                            InterestedTemplateConfig.ColorStates.CurrentColor = OBRRegionColorStates.HighlightedColor;
+                            IsMouseOverRegion = true;
+                            break;
+                        case MainConfigType.ICR:
+                            InterestedTemplateConfig.ColorStates.CurrentColor = ICRRegionColorStates.HighlightedColor;
+                            IsMouseOverRegion = true;
+                            break;
+                    }
+                }
+                lastPossibleInterestsConfigs = possibleInterests.ToArray();
 
                 templateImageBox.Invalidate();
             }
@@ -2081,6 +2135,11 @@ namespace Synapse
                 return;
             }
             int totalFields = selectedPaper.GetFieldsCount;
+            if(totalFields > selectedOMRConfig.GetTotalFields)
+            {
+                Messages.ShowError("Please select a valid paper or create one to link with the answer key. \n\nValidation Error: Paper fields cannot be greater than total fields of the selected gradable region.");
+                return;
+            }
             int totalOptions = selectedPaper.GetOptionsCount;
 
             string keyTitle = answerKeyTitleField.Text;
@@ -2229,7 +2288,13 @@ namespace Synapse
                 return;
             }
 
-            dataImageBox.Image = processedDataRow.GetAlignedImage().Bitmap;
+            Mat alignedMat = null;
+            if (!processedDataRow.GetAlignedImage(out alignedMat))
+            {
+                dataImageBox.Image = new Bitmap(processedDataRow.RowSheetPath);
+                return; 
+            }
+            dataImageBox.Image = alignedMat.Bitmap;
 
             curOptionRects.Clear();
             curMarkedOptionRects.Clear();
@@ -2294,14 +2359,14 @@ namespace Synapse
         {
             dynamic dataObject = (dynamic)e.DataRow.RowData;
             string colText = e.Column.HeaderText;
-            if (!gridCellsRepresentation.ContainsKey(colText))
+            if (!GridCellsRepresentation.ContainsKey(colText))
                 return;
 
             ProcessedDataType fieldDataType = ProcessedDataType.NORMAL;
 
             try
             {
-                (int entryIndex, int fieldIndex) cellRepresentation = gridCellsRepresentation[colText];
+                (int entryIndex, int fieldIndex) cellRepresentation = GridCellsRepresentation[colText];
                 fieldDataType = dataObject.DataRowObject.GetProcessedDataEntries[cellRepresentation.entryIndex].DataEntriesResultType[cellRepresentation.fieldIndex];
             }
             catch (Exception ex)
@@ -2404,14 +2469,14 @@ namespace Synapse
         {
             dynamic dataObject = (dynamic)e.DataRow.RowData;
             string colText = e.Column.HeaderText;
-            if (!gridCellsRepresentation.ContainsKey(colText))
+            if (!GridCellsRepresentation.ContainsKey(colText))
                 return;
 
             ProcessedDataType fieldDataType = ProcessedDataType.NORMAL;
 
             try
             {
-                (int entryIndex, int fieldIndex) cellRepresentation = gridCellsRepresentation[colText];
+                (int entryIndex, int fieldIndex) cellRepresentation = GridCellsRepresentation[colText];
                 fieldDataType = dataObject.DataRowObject.GetProcessedDataEntries[cellRepresentation.entryIndex].DataEntriesResultType[cellRepresentation.fieldIndex];
             }
             catch (Exception ex)
@@ -2481,14 +2546,14 @@ namespace Synapse
         {
             dynamic dataObject = (dynamic)e.DataRow.RowData;
             string colText = e.Column.HeaderText;
-            if (!gridCellsRepresentation.ContainsKey(colText))
+            if (!GridCellsRepresentation.ContainsKey(colText))
                 return;
 
             ProcessedDataType fieldDataType = ProcessedDataType.NORMAL;
 
             try
             {
-                (int entryIndex, int fieldIndex) cellRepresentation = gridCellsRepresentation[colText];
+                (int entryIndex, int fieldIndex) cellRepresentation = GridCellsRepresentation[colText];
                 fieldDataType = dataObject.DataRowObject.GetProcessedDataEntries[cellRepresentation.entryIndex].DataEntriesResultType[cellRepresentation.fieldIndex];
             }
             catch (Exception ex)
@@ -2558,14 +2623,14 @@ namespace Synapse
         {
             dynamic dataObject = (dynamic)e.DataRow.RowData;
             string colText = e.Column.HeaderText;
-            if (!gridCellsRepresentation.ContainsKey(colText))
+            if (!GridCellsRepresentation.ContainsKey(colText))
                 return;
 
             ProcessedDataType fieldDataType = ProcessedDataType.NORMAL;
 
             try
             {
-                (int entryIndex, int fieldIndex) cellRepresentation = gridCellsRepresentation[colText];
+                (int entryIndex, int fieldIndex) cellRepresentation = GridCellsRepresentation[colText];
                 fieldDataType = dataObject.DataRowObject.GetProcessedDataEntries[cellRepresentation.entryIndex].DataEntriesResultType[cellRepresentation.fieldIndex];
             }
             catch (Exception ex)
@@ -2663,6 +2728,93 @@ namespace Synapse
 
             startReadingToolStripBtn.Text = "Start";
             startReadingToolStripBtn.Image = Properties.Resources.startBtnIcon_ReadingTab;
+        }
+
+        private void manualDataGrid_CurrentCellEndEdit(object sender, Syncfusion.WinForms.DataGrid.Events.CurrentCellEndEditEventArgs e)
+        {
+
+        }
+
+        private void manualDataGrid_CellDoubleClick(object sender, Syncfusion.WinForms.DataGrid.Events.CellClickEventArgs e)
+        {
+            using (DataEditForm dataEditForm = new DataEditForm(OnTemplateConfigs[e.DataColumn.ColumnIndex], e.DataRow.RowData, e.DataColumn.GridColumn.MappingName, e.DataColumn.ColumnIndex))
+                dataEditForm.ShowDialog();
+        }
+
+        private void manualDataGrid_MouseClick(object sender, MouseEventArgs e)
+        {
+            
+        }
+            
+        private void showInExplorerContextBtn_Click(object sender, EventArgs e)
+        {
+            dynamic selectedRow = manualDataGrid.SelectedItems.Last();
+
+            string path = selectedRow.DataRowObject.RowSheetPath;
+            string cmd = "explorer.exe";
+            string arg = $"/select,  {path}";
+
+            Process.Start(cmd, arg);
+        }
+
+        private void normallyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            List<dynamic> selectedRows = manualDataGrid.SelectedItems.ToList();
+
+            if (MainProcessingManager.IsProcessing && !MainProcessingManager.IsPaused)
+                MainProcessingManager.PauseProcessing();
+
+            MainProcessingManager.ReprocessData(selectedRows, ProcessingManager.RereadType.NORMAL);
+
+            if (MainProcessingManager.IsProcessing)
+                MainProcessingManager.ResumeProcessing();
+        }
+
+        private void manualDataGrid_CellClick(object sender, Syncfusion.WinForms.DataGrid.Events.CellClickEventArgs e)
+        {
+            if (e.MouseEventArgs.Button == MouseButtons.Right)
+            {
+                manualContext.Show(Cursor.Position);
+            }
+        }
+
+        private void rotateXBy90ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            List<dynamic> selectedRows = manualDataGrid.SelectedItems.ToList();
+
+            if (MainProcessingManager.IsProcessing && !MainProcessingManager.IsPaused)
+                MainProcessingManager.PauseProcessing();
+
+            MainProcessingManager.ReprocessData(selectedRows, ProcessingManager.RereadType.ROTATE_C_90);
+
+            if (MainProcessingManager.IsProcessing)
+                MainProcessingManager.ResumeProcessing();
+        }
+
+        private void rotateX180ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            List<dynamic> selectedRows = manualDataGrid.SelectedItems.ToList();
+
+            if (MainProcessingManager.IsProcessing && !MainProcessingManager.IsPaused)
+                MainProcessingManager.PauseProcessing();
+
+            MainProcessingManager.ReprocessData(selectedRows, ProcessingManager.RereadType.ROTATE_AC_90);
+
+            if (MainProcessingManager.IsProcessing)
+                MainProcessingManager.ResumeProcessing();
+        }
+
+        private void rotateY90ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            List<dynamic> selectedRows = manualDataGrid.SelectedItems.ToList();
+
+            if (MainProcessingManager.IsProcessing && !MainProcessingManager.IsPaused)
+                MainProcessingManager.PauseProcessing();
+
+            MainProcessingManager.ReprocessData(selectedRows, ProcessingManager.RereadType.ROTATE_180);
+
+            if (MainProcessingManager.IsProcessing)
+                MainProcessingManager.ResumeProcessing();
         }
     }
 }

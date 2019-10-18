@@ -13,7 +13,7 @@ namespace Synapse.Core.Engines
 {
     internal class OMREngine : IEngine
     {
-        public ProcessedDataEntry ProcessSheet(ConfigurationBase configuration, Mat sheetMat, Action<RectangleF, bool> OnOptionProcessed = null)
+        public ProcessedDataEntry ProcessSheet(ConfigurationBase configuration, Mat sheetMat, Action<RectangleF, bool> OnOptionProcessed = null, string originalSheetPath = "")
         {
             OMRConfiguration omrConfiguration = (OMRConfiguration)configuration;
 

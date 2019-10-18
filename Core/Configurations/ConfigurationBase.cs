@@ -260,7 +260,7 @@ namespace Synapse.Core.Configurations
         //}
         #endregion
 
-        public abstract ProcessedDataEntry ProcessSheet(Mat sheet);
+        public abstract ProcessedDataEntry ProcessSheet(Mat sheet, string originalSheetPath = "");
         #endregion
         #region Static
         public static bool Save(ConfigurationBase config, out Exception ex)

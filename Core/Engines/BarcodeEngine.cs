@@ -24,7 +24,7 @@ namespace Synapse.Core.Engines
             barcodeReader = new BarcodeReader();
         }
 
-        public ProcessedDataEntry ProcessSheet(ConfigurationBase configuration, Mat sheet, Action<RectangleF, bool> OnOptionProcessed = null)
+        public ProcessedDataEntry ProcessSheet(ConfigurationBase configuration, Mat sheet, Action<RectangleF, bool> OnOptionProcessed = null, string originalSheetPath = "")
         {
             OBRConfiguration obrConfiguration = (OBRConfiguration)configuration;
 
@@ -69,10 +69,13 @@ namespace Synapse.Core.Engines
                 finally
                 {
                     if (barcodeReader != null) barcodeReader.Dispose();
-                }  // ClearImage 9 and latter.  Free image memory.
+                }  //Free image memory.
                 if (barcodes.Length == 0 && obrConfiguration.SearchFullIfNull)
                 {
-                    barcodes = barcodeReader.Read(region);   // Read barcodes
+                    using (Mat orignalSheet = CvInvoke.Imread(originalSheetPath))
+                    {
+                        barcodes = barcodeReader.Read(orignalSheet.Bitmap);   // Read barcodes
+                    }
                 }
                 output = barcodes.Length > 0 ? barcodes[0].Text : "-";
             }

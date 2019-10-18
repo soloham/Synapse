@@ -16,6 +16,7 @@ using Synapse.Core.Configurations;
 using Synapse.Core.Managers;
 using Synapse.Utilities.Attributes;
 using Synapse.Utilities.Enums;
+using Synapse.Utilities.Objects;
 using Syncfusion.WinForms.Controls;
 using WinFormAnimation;
 using static Synapse.Core.Configurations.OMRRegionData;
@@ -50,6 +51,15 @@ namespace Synapse.Modules
             SELECT_INTER_OPTIONS_SPACE_TYPE,
             [EnumDescription("Select Inter Options Space")]
             SELECT_INTER_OPTIONS_SPACE,
+
+            [EnumDescription("Add Instances")]
+            SELECT_INSTANCES_COUNT,
+            [EnumDescription("Select Instances Orientation")]
+            SELECT_INSTANCES_ORIENTATION,
+            [EnumDescription("Select Inter Instances Space Type")]
+            SELECT_INTER_INSTANCES_SPACE_TYPE,
+            [EnumDescription("Select Inter Instances Space")]
+            SELECT_INTER_INSTANCES_SPACE,
         }
         #endregion
 
@@ -87,6 +97,7 @@ namespace Synapse.Modules
 
         private Orientation orientation;
 
+        private ConfigurationBase.ConfigArea configArea;
         #region Fields Variables
         private RectangleF fieldsRegion;
         private int totalFields;
@@ -114,12 +125,27 @@ namespace Synapse.Modules
         private List<RectangleF> drawInterOptionsSpacesRects = new List<RectangleF>();
         #endregion
 
+        #region Instances Variables
+        private int totalInstances;
+        private InterSpaceType interInstancesSpaceType;
+        private double interInstancesSpace;
+        private List<double> interInstancesSpaces = new List<double>();
+        private List<Orientation> instancesOrientations = new List<Orientation>();
+
+        private bool drawOnFullRegion;
+        private bool drawInterInstancesSpaces = false;
+        private bool drawInstances = false;
+        private List<RectangleF> drawInstancesRects = new List<RectangleF>();
+        private List<RectangleF> drawInterInstancesSpacesRects = new List<RectangleF>();
+        #endregion
+
         #endregion
 
         #region Public Methods
-        public OMRConfigurationForm(Bitmap regionImage)
+        internal OMRConfigurationForm(ConfigurationBase.ConfigArea region)
         {
-            Initialize(regionImage);
+            configArea = region;
+            Initialize(configArea.ConfigBitmap);
         }
         internal OMRConfigurationForm(OMRConfiguration omrConfig, Bitmap regionImage)
         {
@@ -138,8 +164,9 @@ namespace Synapse.Modules
             statePanels.Add(IntegerValueStatePanel);
             statePanels.Add(ComboBoxStatePanel);
             statePanels.Add(DoubleValueStatePanel);
+            statePanels.Add(ComboValueStatePanel);
 
-            LastStateAction = SetInterOptionsSpace;
+            LastStateAction = SetInterInstancesSpace;
 
             SetupForConfigured(omrConfig, regionImage);
 
@@ -157,8 +184,9 @@ namespace Synapse.Modules
             statePanels.Add(IntegerValueStatePanel);
             statePanels.Add(ComboBoxStatePanel);
             statePanels.Add(DoubleValueStatePanel);
+            statePanels.Add(ComboValueStatePanel);
 
-            LastStateAction = SetInterOptionsSpace;
+            LastStateAction = SetInterInstancesSpace;
 
             SetupForConfiguration(regionImage);
 
@@ -242,17 +270,25 @@ namespace Synapse.Modules
 
             RegionName = omrConfig.Title;
             RegionData = omrConfig.RegionData;
+            configArea = omrConfig.GetConfigArea;
             totalFields = RegionData.TotalFields;
             totalOptions = RegionData.TotalOptions;
+            totalInstances = RegionData.TotalInstances;
             orientation = omrConfig.Orientation;
             fieldsRegion = omrConfig.RegionData.FieldsRegion;
             optionsRegion = omrConfig.RegionData.OptionsRegion;
-            interOptionsSpace = omrConfig.RegionData.InterOptionsSpace;
+
             interOptionsSpaceType = omrConfig.RegionData.InterOptionsSpaceType;
-            interFieldsSpace = omrConfig.RegionData.InterFieldsSpace;
-            interFieldsSpaceType = omrConfig.RegionData.InterFieldsSpaceType;
+            interOptionsSpace = omrConfig.RegionData.InterOptionsSpace;
             interOptionsSpaces = omrConfig.RegionData.InterOptionsSpaces.ToList();
+
+            interFieldsSpaceType = omrConfig.RegionData.InterFieldsSpaceType;
+            interFieldsSpace = omrConfig.RegionData.InterFieldsSpace;
             interFieldsSpaces = omrConfig.RegionData.InterFieldsSpaces.ToList();
+
+            interInstancesSpaceType = omrConfig.RegionData.InterInstancesSpaceType;
+            interInstancesSpace = omrConfig.RegionData.InterInstancesSpace;
+            interInstancesSpaces = omrConfig.RegionData.InterInstancesSpaces.ToList();
 
             RegionImage = region == null? RegionImage : region;
             imageBox.Image = region;
@@ -343,7 +379,16 @@ namespace Synapse.Modules
 
             for (int i = 0; i < totalFields; i++)
             {
-                RectangleF curDrawFieldRectF = imageBox.GetOffsetRectangle(drawFieldsRects[i]);
+                RectangleF fieldRectArea = drawFieldsRects[i];
+                RectangleF curDrawFieldRectF = RectangleF.Empty;
+                if (drawOnFullRegion)
+                    curDrawFieldRectF = imageBox.GetOffsetRectangle(new RectangleF(configArea.ConfigRect.Left + fieldRectArea.Left, configArea.ConfigRect.Top + fieldRectArea.Top, fieldRectArea.Width, fieldRectArea.Height));
+                else
+                    curDrawFieldRectF = imageBox.GetOffsetRectangle(fieldRectArea);
+
+                SizeF rationSize = new SizeF(RegionImage.Size.Width / configArea.ConfigRect.Size.Width, RegionImage.Size.Height / configArea.ConfigRect.Size.Height);
+                curDrawFieldRectF.Width *= rationSize.Width;
+                curDrawFieldRectF.Height *= rationSize.Height;
 
                 originalState = g.Save();
 
@@ -508,9 +553,18 @@ namespace Synapse.Modules
 
             for (int i = 0; i < drawOptionsRects.Count; i++)
             {
-                RectangleF curDrawOptionRectF = imageBox.GetOffsetRectangle(drawOptionsRects[i]);
+                RectangleF curDrawOptionRectF = Rectangle.Empty;
+                RectangleF fieldRectArea = drawOptionsRects[i];
+                if (drawOnFullRegion)
+                    curDrawOptionRectF = imageBox.GetOffsetRectangle(new RectangleF(configArea.ConfigRect.Left + fieldRectArea.Left, configArea.ConfigRect.Top + fieldRectArea.Top, fieldRectArea.Width, fieldRectArea.Height));
+                else
+                    curDrawOptionRectF = imageBox.GetOffsetRectangle(fieldRectArea);
 
                 originalState = g.Save();
+
+                SizeF rationSize = new SizeF(RegionImage.Size.Width / configArea.ConfigRect.Size.Width, RegionImage.Size.Height / configArea.ConfigRect.Size.Height);
+                curDrawOptionRectF.Width *= rationSize.Width;
+                curDrawOptionRectF.Height *= rationSize.Height;
 
                 Utilities.Functions.DrawBox(g, Color.Firebrick, curDrawOptionRectF, imageBox.ZoomFactor, 64, 1, DashStyle.Dash, DashCap.Round);
 
@@ -620,6 +674,205 @@ namespace Synapse.Modules
             }
         }
 
+        private void CalculateInstancesRects()
+        {
+            drawOptionsRects.Clear();
+
+            RectangleF lastFieldOptionRect = new RectangleF();
+            for (int i0 = 0; i0 < totalFields; i0++)
+            {
+                for (int i = 0; i < totalOptions; i++)
+                {
+                    RectangleF curOptionRectF = new RectangleF();
+
+                    switch (orientation)
+                    {
+                        case Orientation.Horizontal:
+                            switch (interOptionsSpaceType)
+                            {
+                                case InterSpaceType.CONSTANT:
+                                    switch (interFieldsSpaceType)
+                                    {
+                                        case InterSpaceType.CONSTANT:
+                                            curOptionRectF = new RectangleF(new PointF(optionsRegion.X + (float)(i * (optionsRegion.Width + interOptionsSpace)), optionsRegion.Y + (float)(i0 * (fieldsRegion.Height + interFieldsSpace))), optionsRegion.Size);
+                                            break;
+                                        case InterSpaceType.ARRAY:
+                                            curOptionRectF = new RectangleF(new PointF(optionsRegion.X + (float)(i * (optionsRegion.Width + interOptionsSpace)), i0 == 0 ? (float)interFieldsSpaces[0] + optionsRegion.Y : (lastFieldOptionRect.Y + lastFieldOptionRect.Height) + (float)(fieldsRegion.Height + interFieldsSpaces[i0])), optionsRegion.Size);
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                    break;
+                                case InterSpaceType.ARRAY:
+                                    switch (interFieldsSpaceType)
+                                    {
+                                        case InterSpaceType.CONSTANT:
+                                            curOptionRectF = new RectangleF(new PointF(i == 0 ? optionsRegion.X + (float)interOptionsSpaces[0] : drawOptionsRects[i - 1].X + drawOptionsRects[i - 1].Width + (float)interOptionsSpaces[i], optionsRegion.Y + (float)(i0 * (fieldsRegion.Height + interFieldsSpace))), optionsRegion.Size);
+                                            break;
+                                        case InterSpaceType.ARRAY:
+                                            curOptionRectF = new RectangleF(new PointF(i == 0 ? optionsRegion.X + (float)interOptionsSpaces[0] : drawOptionsRects[i - 1].X + drawOptionsRects[i - 1].Width + (float)interOptionsSpaces[i], i0 == 0 ? (float)interFieldsSpaces[0] + optionsRegion.Y : lastFieldOptionRect.Y + (float)(fieldsRegion.Height + interFieldsSpaces[i0])), optionsRegion.Size);
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                    break;
+                            }
+                            break;
+                        case Orientation.Vertical:
+                            switch (interOptionsSpaceType)
+                            {
+                                case InterSpaceType.CONSTANT:
+                                    switch (interFieldsSpaceType)
+                                    {
+                                        case InterSpaceType.CONSTANT:
+                                            curOptionRectF = new RectangleF(new PointF(optionsRegion.X + (float)(i0 * (fieldsRegion.Width + interFieldsSpace)), optionsRegion.Y + (float)(i * (optionsRegion.Height + interOptionsSpace))), optionsRegion.Size);
+                                            break;
+                                        case InterSpaceType.ARRAY:
+                                            curOptionRectF = new RectangleF(new PointF(i0 == 0 ? (float)interFieldsSpaces[0] + optionsRegion.X : lastFieldOptionRect.X + fieldsRegion.Width + (float)interFieldsSpaces[i0], optionsRegion.Y + (float)(i * (optionsRegion.Height + interOptionsSpace))), optionsRegion.Size);
+                                            break;
+                                    }
+                                    break;
+                                case InterSpaceType.ARRAY:
+                                    switch (interFieldsSpaceType)
+                                    {
+                                        case InterSpaceType.CONSTANT:
+                                            curOptionRectF = new RectangleF(new PointF(optionsRegion.X + (float)(i0 * (fieldsRegion.Width + interFieldsSpace)), i == 0 ? (float)interOptionsSpaces[0] + optionsRegion.Y : drawOptionsRects[i - 1].Bottom + (float)interOptionsSpaces[i]), optionsRegion.Size);
+                                            break;
+                                        case InterSpaceType.ARRAY:
+                                            curOptionRectF = new RectangleF(new PointF(i0 == 0 ? (float)interFieldsSpaces[0] + optionsRegion.X : lastFieldOptionRect.X + fieldsRegion.Width + (float)interFieldsSpaces[i0], i == 0 ? (float)interOptionsSpaces[0] + optionsRegion.Y : drawOptionsRects[i - 1].Bottom + (float)interOptionsSpaces[i]), optionsRegion.Size);
+                                            break;
+                                    }
+                                    break;
+                                default:
+                                    break;
+                            }
+                            break;
+                    }
+
+                    drawOptionsRects.Add(curOptionRectF);
+                }
+
+                lastFieldOptionRect = drawOptionsRects.Count == 0 ? new RectangleF() : drawOptionsRects[drawOptionsRects.Count - 1];
+            }
+        }
+        private void DrawInstancesRects(Graphics g)
+        {
+            GraphicsState originalState;
+
+            for (int i = 0; i < drawOptionsRects.Count; i++)
+            {
+                RectangleF curDrawOptionRectF = imageBox.GetOffsetRectangle(drawOptionsRects[i]);
+
+                originalState = g.Save();
+
+                Utilities.Functions.DrawBox(g, Color.Firebrick, curDrawOptionRectF, imageBox.ZoomFactor, 64, 1, DashStyle.Dash, DashCap.Round);
+
+                g.Restore(originalState);
+            }
+        }
+        private void CalculateInterInstancesSpacesRects()
+        {
+            drawInterOptionsSpacesRects.Clear();
+
+            RectangleF interOptionsSpaceRegionVertical = new RectangleF(new PointF(optionsRegion.X + (optionsRegion.Size.Width / 2f) - 1.35f, optionsRegion.Y + optionsRegion.Size.Height), new SizeF(10f, (float)interOptionsSpace));
+            RectangleF interOptionsSpaceRegionHorizontal = new RectangleF(new PointF(optionsRegion.X + optionsRegion.Size.Width, optionsRegion.Y + (optionsRegion.Size.Height / 2f) - 1.35f), new SizeF((float)interOptionsSpace, 10f));
+
+            float interSpaceVerticalWidth = 2.5f;
+            float interSpaceHorizontalHeight = 2.5f;
+
+            RectangleF lastFieldInterOptionRect = new RectangleF();
+            for (int i0 = 0; i0 < totalFields; i0++)
+            {
+                RectangleF curInterOptionSpaceRectF = new RectangleF();
+
+                for (int i = 0; i < totalOptions; i++)
+                {
+                    switch (orientation)
+                    {
+                        case Orientation.Horizontal:
+                            switch (interOptionsSpaceType)
+                            {
+                                case InterSpaceType.CONSTANT:
+                                    if (i == totalOptions - 1)
+                                        break;
+
+                                    switch (interFieldsSpaceType)
+                                    {
+                                        case InterSpaceType.CONSTANT:
+                                            curInterOptionSpaceRectF = new RectangleF(new PointF(interOptionsSpaceRegionHorizontal.X + (float)(i * (interOptionsSpace + optionsRegion.Width)), interOptionsSpaceRegionHorizontal.Y + (float)(i0 * (interFieldsSpace + fieldsRegion.Height))), new SizeF((float)interOptionsSpace, interSpaceHorizontalHeight));
+                                            break;
+                                        case InterSpaceType.ARRAY:
+                                            curInterOptionSpaceRectF = new RectangleF(new PointF(interOptionsSpaceRegionHorizontal.X + (float)(i * (interOptionsSpace + optionsRegion.Width)), interOptionsSpaceRegionHorizontal.Y + (float)(i0 * (interFieldsSpaces[i0] + fieldsRegion.Height))), new SizeF((float)interOptionsSpace, interSpaceHorizontalHeight));
+                                            break;
+                                    }
+                                    break;
+                                case InterSpaceType.ARRAY:
+                                    switch (interFieldsSpaceType)
+                                    {
+                                        case InterSpaceType.CONSTANT:
+                                            curInterOptionSpaceRectF = new RectangleF(new PointF(i == 0 ? optionsRegion.X : drawOptionsRects[i - 1].Right, interOptionsSpaceRegionHorizontal.Y + (float)(i0 * (interFieldsSpace + fieldsRegion.Height))), new SizeF((float)interOptionsSpaces[i], interSpaceHorizontalHeight));
+                                            break;
+                                        case InterSpaceType.ARRAY:
+                                            curInterOptionSpaceRectF = new RectangleF(new PointF(i == 0 ? optionsRegion.X : drawOptionsRects[i - 1].Right, i0 == 0 ? interOptionsSpaceRegionHorizontal.Y + (float)interFieldsSpaces[0] : lastFieldInterOptionRect.Y + (float)(interFieldsSpaces[i0] + fieldsRegion.Height)), new SizeF((float)interOptionsSpaces[i], interSpaceHorizontalHeight));
+                                            break;
+                                    }
+                                    break;
+                            }
+                            break;
+                        case Orientation.Vertical:
+                            switch (interOptionsSpaceType)
+                            {
+                                case InterSpaceType.CONSTANT:
+                                    if (i == totalOptions - 1)
+                                        break;
+
+                                    switch (interFieldsSpaceType)
+                                    {
+                                        case InterSpaceType.CONSTANT:
+                                            curInterOptionSpaceRectF = new RectangleF(new PointF(interOptionsSpaceRegionVertical.X + (float)(i0 * (interFieldsSpace + fieldsRegion.Width)), interOptionsSpaceRegionVertical.Y + (float)(i * (interOptionsSpace + optionsRegion.Height))), new SizeF(interSpaceVerticalWidth, (float)interOptionsSpace));
+                                            break;
+                                        case InterSpaceType.ARRAY:
+                                            curInterOptionSpaceRectF = new RectangleF(new PointF(interOptionsSpaceRegionVertical.X + (float)(i0 * (interFieldsSpaces[i0] + fieldsRegion.Width)), interOptionsSpaceRegionVertical.Y + (float)(i * (interOptionsSpace + optionsRegion.Height))), new SizeF(interSpaceVerticalWidth, (float)interOptionsSpace));
+                                            break;
+                                    }
+                                    break;
+                                case InterSpaceType.ARRAY:
+                                    switch (interFieldsSpaceType)
+                                    {
+                                        case InterSpaceType.CONSTANT:
+                                            curInterOptionSpaceRectF = new RectangleF(new PointF(interOptionsSpaceRegionVertical.X + (float)(i0 * (interFieldsSpace + fieldsRegion.Width)), i == 0 ? optionsRegion.Y : drawOptionsRects[i - 1].Bottom), new SizeF(interSpaceVerticalWidth, (float)interOptionsSpaces[i]));
+                                            break;
+                                        case InterSpaceType.ARRAY:
+                                            curInterOptionSpaceRectF = new RectangleF(new PointF(interOptionsSpaceRegionVertical.X + (float)(i0 * (interFieldsSpaces[i0] + fieldsRegion.Width)), i == 0 ? optionsRegion.Y : drawOptionsRects[i - 1].Bottom), new SizeF(interSpaceVerticalWidth, (float)interOptionsSpaces[i]));
+                                            break;
+                                    }
+                                    break;
+                            }
+
+                            break;
+                    }
+
+                    drawInterOptionsSpacesRects.Add(curInterOptionSpaceRectF);
+                }
+                lastFieldInterOptionRect = curInterOptionSpaceRectF;
+            }
+        }
+        private void DrawInterInstancesSpaces(Graphics g)
+        {
+            GraphicsState originalState;
+
+            for (int i = 0; i < drawInterOptionsSpacesRects.Count; i++)
+            {
+                RectangleF curDrawInterOptionSpaceRectF = imageBox.GetOffsetRectangle(drawInterOptionsSpacesRects[i]);
+
+                originalState = g.Save();
+
+                Utilities.Functions.DrawBox(g, Color.Firebrick, curDrawInterOptionSpaceRectF, imageBox.ZoomFactor, 200, 0);
+
+                g.Restore(originalState);
+            }
+        }
+
         private void CalculateFields()
         {
             CalculateFieldsRects();
@@ -638,9 +891,30 @@ namespace Synapse.Modules
         {
             CalculateFields();
             CalculateOptions();
-        } 
+        }
+        private void CalculateInstancesRegion()
+        {
+            CalculateInstancesRects();
+            CalculateInterInstancesSpacesRects();
+
+            imageBox.Invalidate();
+        }
 
         #region  ImageBoxPanel Setup
+        private void DrawConfiguration(RectangleF configRect, Graphics g)
+        {
+            ColorStates colorStates = SynapseMain.GetSynapseMain.OMRRegionColorStates;
+
+            GraphicsState originalState;
+            RectangleF curDrawFieldRectF = imageBox.GetOffsetRectangle(configRect);
+
+            originalState = g.Save();
+
+            Utilities.Functions.DrawBox(g, curDrawFieldRectF, imageBox.ZoomFactor, colorStates.CurrentColor, 0);
+
+            g.Restore(originalState);
+        }
+
         private void imageBox_Paint(object sender, PaintEventArgs e)
         {
             // highlight the image
@@ -650,6 +924,9 @@ namespace Synapse.Modules
             // show the region that will be drawn from the source image
             if (showSourceImageRegionToolStripButton.Checked)
                 Utilities.Functions.DrawBox(e.Graphics, Color.Firebrick, new RectangleF(imageBox.GetImageViewPort().Location, imageBox.GetSourceImageRegion().Size), imageBox.ZoomFactor);
+
+            if (drawOnFullRegion) // N Fields **
+                DrawConfiguration(configArea.ConfigRect, e.Graphics);
 
             if (drawFields)
             {
@@ -883,6 +1160,70 @@ namespace Synapse.Modules
 
                     CurrentStatePanel = DoubleValueStatePanel;
                     break;
+                case ConfigurationState.SELECT_INSTANCES_COUNT:
+                    integerStateValueTextBox.IntegerValue = 0;
+                    for (int i = 0; i < integerStateControlsTablePanel.ColumnCount; i++)
+                    {
+                        integerStateControlsTablePanel.ColumnStyles[i].SizeType = SizeType.Percent;
+                        integerStateControlsTablePanel.ColumnStyles[i].Width = i == 0 ? 0 : i == 1 ? 100 : 0;
+                    }
+
+                    CurrentStatePanel = IntegerValueStatePanel;
+                    break;
+                case ConfigurationState.SELECT_INSTANCES_ORIENTATION:
+                    comboValueStateValueComboBox.DataSource = EnumHelper.ToList(typeof(Orientation));
+                    comboValueStateValueComboBox.DisplayMember = "Value";
+                    comboValueStateValueComboBox.ValueMember = "Key";
+
+                    comboValueStateComboBox.Items.Clear();
+                    for (int i = 0; i < totalInstances; i++)
+                    {
+                        comboValueStateComboBox.Items.Add(i + 1);
+                    }
+                    comboValueStateComboBox.SelectedIndex = 0;
+                    for (int i = 0; i < comboValueStateTablePanel.ColumnCount; i++)
+                    {
+                        comboValueStateTablePanel.ColumnStyles[i].SizeType = SizeType.Percent;
+                        comboValueStateTablePanel.ColumnStyles[i].Width = i == 0 ? 50 : i == 1 ? 50 : 0;
+                    }
+
+                    CurrentStatePanel = ComboValueStatePanel;
+                    break;
+                case ConfigurationState.SELECT_INTER_INSTANCES_SPACE_TYPE:
+                    comboBoxStateComboBox.DataSource = EnumHelper.ToList(typeof(InterSpaceType));
+                    comboBoxStateComboBox.DisplayMember = "Value";
+                    comboBoxStateComboBox.ValueMember = "Key";
+
+                    CurrentStatePanel = ComboBoxStatePanel;
+                    break;
+                case ConfigurationState.SELECT_INTER_INSTANCES_SPACE:
+                    doubleStateValueTextBox.DoubleValue = 0.00;
+                    switch (interInstancesSpaceType)
+                    {
+                        case InterSpaceType.CONSTANT:
+                            for (int i = 0; i < doubleStageControlsPanel.ColumnCount; i++)
+                            {
+                                doubleStageControlsPanel.ColumnStyles[i].SizeType = SizeType.Percent;
+                                doubleStageControlsPanel.ColumnStyles[i].Width = i == 0 ? 0 : i == 1 ? 100 : 0;
+                            }
+                            break;
+                        case InterSpaceType.ARRAY:
+                            doubleStateComboBox.Items.Clear();
+                            for (int i = 0; i < totalInstances; i++)
+                            {
+                                doubleStateComboBox.Items.Add(i + 1);
+                            }
+                            doubleStateComboBox.SelectedIndex = 0;
+                            for (int i = 0; i < doubleStageControlsPanel.ColumnCount; i++)
+                            {
+                                doubleStageControlsPanel.ColumnStyles[i].SizeType = SizeType.Percent;
+                                doubleStageControlsPanel.ColumnStyles[i].Width = i == 0 ? 50 : i == 1 ? 50 : 0;
+                            }
+                            break;
+                    }
+
+                    CurrentStatePanel = DoubleValueStatePanel;
+                    break;
             }
 
             CurrentStatePanel.Location = new Point(400, 0);
@@ -1056,6 +1397,79 @@ namespace Synapse.Modules
                         }
                     };
 
+                    nextBtn.Text = "NEXT";
+                    nextBtn.BackColor = Color.LightSlateGray;
+                    CurrentNextAction = new Action(NextState);
+                    break;
+                case ConfigurationState.SELECT_INSTANCES_COUNT:
+                    drawOnFullRegion = true;
+                    imageBox.Image = SynapseMain.GetSynapseMain.GetCurrentImage();
+
+                    integerStateLabel.Text = "Total Instances:";
+                    integerStateValueTextBox.IntegerValue = RegionData == null ? 0 : totalInstances;
+
+                    CurrentSetAction = new Action(SetTotalInstances);
+                    break;
+                case ConfigurationState.SELECT_INSTANCES_ORIENTATION:
+                    comboValueStateLabel.Text = "Select Orientations";
+
+                    comboValueStateValueComboBox.Text = "Select Instances Orientations";
+                    comboValueStateValueComboBox.SelectedIndex = RegionData == null ? -1 : (int)instancesOrientations[comboValueStateComboBox.SelectedIndex];
+
+                    CurrentSetAction = new Action(SetInstancesOrientation);
+
+                    nextBtn.Text = "NEXT";
+                    nextBtn.BackColor = Color.LightSlateGray;
+                    CurrentNextAction = new Action(NextState);
+                    break;
+                case ConfigurationState.SELECT_INTER_INSTANCES_SPACE_TYPE:
+                    comboBoxStateComboBox.Text = "Inter Instances Space Type";
+                    comboBoxStateComboBox.SelectedIndex = RegionData == null ? -1 : (int)RegionData.InterInstancesSpaceType;
+
+                    CurrentSetAction = new Action(SetInterInstancesSpaceType);
+
+                    nextBtn.Text = "NEXT";
+                    nextBtn.BackColor = Color.LightSlateGray;
+                    CurrentNextAction = new Action(NextState);
+                    break;
+                case ConfigurationState.SELECT_INTER_INSTANCES_SPACE:
+                    doubleStateLabel.Text = "Inter Instances Space:";
+                    doubleStateValueTextBox.DoubleValue = RegionData == null ? 0.00 : RegionData.InterInstancesSpace;
+
+                    DoubleStateComboAction = new Action(SetInterInstancesComboSpace);
+                    CurrentSetAction = new Action(SetInterInstancesSpace);
+
+                    SelectionRegionChangedAction = () =>
+                    {
+                        if (imageBox.SelectionRegion.IsEmpty)
+                            return;
+
+                        switch (orientation)
+                        {
+                            case Orientation.Horizontal:
+                                SetInterInstancesSpace(imageBox.SelectionRegion.Width);
+                                break;
+                            case Orientation.Vertical:
+                                SetInterInstancesSpace(imageBox.SelectionRegion.Height);
+                                break;
+                        }
+                    };
+                    SelectionRegionResizedAction = () =>
+                    {
+                        if (imageBox.SelectionRegion.IsEmpty)
+                            return;
+
+                        switch (orientation)
+                        {
+                            case Orientation.Horizontal:
+                                SetInterInstancesSpace(imageBox.SelectionRegion.Width);
+                                break;
+                            case Orientation.Vertical:
+                                SetInterInstancesSpace(imageBox.SelectionRegion.Height);
+                                break;
+                        }
+                    };
+
                     nextBtn.Text = "FINISH";
                     nextBtn.BackColor = Color.MediumTurquoise;
                     CurrentNextAction = new Action(EndWalkthrough);
@@ -1107,6 +1521,18 @@ namespace Synapse.Modules
                     SelectionRegionChangedAction = null;
                     SelectionRegionResizedAction = null;
                     break;
+                case ConfigurationState.SELECT_INSTANCES_COUNT:
+                    break;
+                case ConfigurationState.SELECT_INSTANCES_ORIENTATION:
+                    break;
+                case ConfigurationState.SELECT_INTER_INSTANCES_SPACE_TYPE:
+                    break;
+                case ConfigurationState.SELECT_INTER_INSTANCES_SPACE:
+                    imageBox.SelectNone();
+
+                    SelectionRegionChangedAction = null;
+                    SelectionRegionResizedAction = null;
+                    break;
             }
 
             if (RegionData != null)
@@ -1153,7 +1579,18 @@ namespace Synapse.Modules
                     doubleStateLabel.ForeColor = Color.FromArgb(255, 68, 68, 68);
                     doubleStateComboBox.ForeColor = Color.FromArgb(255, 68, 68, 68);
                     break;
-                default:
+                case ConfigurationState.SELECT_INSTANCES_COUNT:
+                    integerStateLabel.ForeColor = Color.FromArgb(255, 68, 68, 68);
+                    break;
+                case ConfigurationState.SELECT_INSTANCES_ORIENTATION:
+                    comboValueStateValueComboBox.ForeColor = Color.FromArgb(255, 68, 68, 68);
+                    break;
+                case ConfigurationState.SELECT_INTER_INSTANCES_SPACE_TYPE:
+                    comboBoxStateComboBox.ForeColor = Color.FromArgb(255, 68, 68, 68);
+                    break;
+                case ConfigurationState.SELECT_INTER_INSTANCES_SPACE:
+                    doubleStateLabel.ForeColor = Color.FromArgb(255, 68, 68, 68);
+                    doubleStateComboBox.ForeColor = Color.FromArgb(255, 68, 68, 68);
                     break;
             }    
 
@@ -1198,7 +1635,18 @@ namespace Synapse.Modules
                     doubleStateLabel.ForeColor = Color.Crimson;
                     doubleStateComboBox.ForeColor = Color.Crimson;
                     break;
-                default:
+                case ConfigurationState.SELECT_INSTANCES_COUNT:
+                    integerStateLabel.ForeColor = Color.Crimson;
+                    break;
+                case ConfigurationState.SELECT_INSTANCES_ORIENTATION:
+                    comboValueStateValueComboBox.ForeColor = Color.Crimson;
+                    break;
+                case ConfigurationState.SELECT_INTER_INSTANCES_SPACE_TYPE:
+                    comboBoxStateComboBox.ForeColor = Color.Crimson;
+                    break;
+                case ConfigurationState.SELECT_INTER_INSTANCES_SPACE:
+                    doubleStateLabel.ForeColor = Color.Crimson;
+                    doubleStateComboBox.ForeColor = Color.Crimson;
                     break;
             }
 
@@ -1213,7 +1661,7 @@ namespace Synapse.Modules
 
             imageBox.SelectNone();
 
-            OMRRegionData regionData = new OMRRegionData(orientation, totalFields, fieldsRegion, interFieldsSpaceType, interFieldsSpace, interFieldsSpaces.ToArray(), totalOptions, optionsRegion, interOptionsSpaceType, interOptionsSpace, interOptionsSpaces.ToArray());
+            OMRRegionData regionData = new OMRRegionData(orientation, totalFields, fieldsRegion, interFieldsSpaceType, interFieldsSpace, interFieldsSpaces.ToArray(), totalOptions, optionsRegion, interOptionsSpaceType, interOptionsSpace, interOptionsSpaces.ToArray(), totalInstances, interInstancesSpaceType, interInstancesSpace, interInstancesSpaces.ToArray());
             OnConfigurationFinishedEvent?.Invoke(RegionName, orientation, regionData);
         }
 
@@ -1489,7 +1937,6 @@ namespace Synapse.Modules
 
             CalculateRegion();
         }
-
         private void SetInterOptionsComboSpace()
         {
             int curIndex = doubleStateComboBox.SelectedIndex;
@@ -1498,6 +1945,129 @@ namespace Synapse.Modules
             double curInterOptionsSpace = RegionData.InterOptionsSpaces[curIndex];
             doubleStateValueTextBox.DoubleValue = curInterOptionsSpace;
         }
+
+        private void SetTotalInstances()
+        {
+            int value = (int)integerStateValueTextBox.IntegerValue;
+            if (value < 0)
+            {
+                //InvalidateState();
+                return;
+            }
+            else
+                ValidateState();
+
+            totalInstances = value;
+            instancesOrientations = Enumerable.Repeat(Orientation.Horizontal, totalInstances).ToList();
+
+            //CalculateInstancesRegions();
+
+            drawInstances = true;
+            drawInterInstancesSpaces = true;
+
+            imageBox.Invalidate();
+        }
+        private void SetInstancesOrientation()
+        {
+            if (comboValueStateValueComboBox.SelectedValue == null)
+            {
+                InvalidateState();
+                return;
+            }
+            else
+            {
+                Orientation value = (Orientation)comboValueStateValueComboBox.SelectedValue;
+                if (value < 0 || comboBoxStateComboBox.SelectedIndex < 0)
+                {
+                    InvalidateState();
+                    return;
+                }
+
+                ValidateState();
+
+                instancesOrientations[comboBoxStateComboBox.SelectedIndex] = value;
+
+                CalculateRegion();
+            }
+        }
+        private void SetInterInstancesSpaceType()
+        {
+            if (comboValueStateValueComboBox.SelectedValue == null)
+            {
+                InvalidateState();
+                return;
+            }
+            else
+            {
+                InterSpaceType value = (InterSpaceType)comboValueStateValueComboBox.SelectedValue;
+                if (value < 0)
+                {
+                    InvalidateState();
+                    return;
+                }
+
+                ValidateState();
+
+                interInstancesSpaceType = value;
+
+                switch (interInstancesSpaceType)
+                {
+                    case InterSpaceType.CONSTANT:
+                        break;
+                    case InterSpaceType.ARRAY:
+                        int toAddCount = totalInstances - interInstancesSpaces.Count;
+                        for (int i = 0; i < toAddCount; i++)
+                            interInstancesSpaces.Add(0.1);
+                        if (RegionData != null) RegionData.InterInstancesSpaces = interInstancesSpaces.ToArray();
+                        break;
+                }
+
+                if (RegionData != null) RegionData.InterInstancesSpaceType = interInstancesSpaceType;
+            }
+
+            CalculateRegion();
+        }
+        private void SetInterInstancesSpace()
+        {
+            SetInterInstancesSpace(-1);
+        }
+        private void SetInterInstancesSpace(float _value = -1)
+        {
+            double value = _value == -1 ? doubleStateValueTextBox.DoubleValue : _value;
+            doubleStateValueTextBox.DoubleValue = value;
+            int fieldIndex = doubleStateComboBox.SelectedIndex + 1;
+
+            if (value < 0 || (fieldIndex <= 0 && interInstancesSpaceType == InterSpaceType.ARRAY))
+            {
+                InvalidateState();
+                return;
+            }
+            else
+                ValidateState();
+
+            switch (interInstancesSpaceType)
+            {
+                case InterSpaceType.CONSTANT:
+                    interInstancesSpace = value;
+                    if (RegionData != null) RegionData.InterInstancesSpace = value;
+                    break;
+                case InterSpaceType.ARRAY:
+                    interInstancesSpaces[fieldIndex - 1] = value;
+                    if (RegionData != null) RegionData.InterInstancesSpaces[fieldIndex - 1] = value;
+                    break;
+            }
+
+            CalculateRegion();
+        }
+        private void SetInterInstancesComboSpace()
+        {
+            int curIndex = doubleStateComboBox.SelectedIndex;
+            if (curIndex < 0 || RegionData == null || RegionData.InterInstancesSpaceType != InterSpaceType.ARRAY) return;
+
+            double curInterInstancesSpace = RegionData.InterInstancesSpaces[curIndex];
+            doubleStateValueTextBox.DoubleValue = curInterInstancesSpace;
+        }
+
 
         private void ReconfigureBtn_Click(object sender, EventArgs e)
         {

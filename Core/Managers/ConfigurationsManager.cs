@@ -1,5 +1,6 @@
 using Synapse.Core.Configurations;
 using Synapse.Core.Templates;
+using Synapse.Utilities;
 using Synapse.Utilities.Memory;
 using System;
 using System.Collections.Generic;
@@ -32,6 +33,11 @@ namespace Synapse.Core.Managers
             {
                 ConfigurationBase configuration = clonedConfigs[i];
                 allConfigurations.Remove(configuration);
+                if (configuration.ProcessingIndex >= allConfigurations.Count)
+                {
+                    configuration.ProcessingIndex = allConfigurations.Count - 1;
+                }
+
                 allConfigurations.Insert(configuration.ProcessingIndex, configuration);
             }
         }
@@ -99,6 +105,20 @@ namespace Synapse.Core.Managers
         public static bool ValidateName(string configTitle)
         {
             return allConfigurations.TrueForAll(x => x.Title != configTitle);
+        }
+        public async static Task<bool[]> SaveAllConfigurations()
+        {
+            bool[] isSaved = new bool[allConfigurations.Count];
+            var allConfigs = GetAllConfigurations;
+            for (int i = 0; i < allConfigs.Count; i++)
+            {
+                Exception ex = null;
+                isSaved[i] = await Task.Run(() => ConfigurationBase.Save(allConfigs[i], out ex));
+
+                if (!isSaved[i])
+                    Messages.SaveFileException(ex);
+            }
+            return isSaved;
         }
         #endregion
     }

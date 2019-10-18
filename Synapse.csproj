@@ -11,6 +11,10 @@
     <AssemblyName>Synapse</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -20,15 +24,18 @@
     <UpdateIntervalUnits>Days</UpdateIntervalUnits>
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
-    <MapFileExtensions>true</MapFileExtensions>
+    <MapFileExtensions>false</MapFileExtensions>
+    <TargetCulture>en-PK</TargetCulture>
+    <ProductName>Synapse</ProductName>
+    <PublisherName>Tech Origin</PublisherName>
+    <DisallowUrlActivation>true</DisallowUrlActivation>
+    <TrustUrlParameters>true</TrustUrlParameters>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
-    <UseApplicationTrust>false</UseApplicationTrust>
+    <UseApplicationTrust>true</UseApplicationTrust>
+    <CreateDesktopShortcut>true</CreateDesktopShortcut>
+    <ExcludeDeploymentUrl>true</ExcludeDeploymentUrl>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -49,6 +56,10 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>Synapse.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ClearImageNet.70, Version=7.0.0.0, Culture=neutral, PublicKeyToken=71e5888be264aae0, processorArchitecture=MSIL">
@@ -235,6 +246,12 @@
     <Compile Include="Modules\ConfigurationsTestForm.Designer.cs">
       <DependentUpon>ConfigurationsTestForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Modules\DataEditForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modules\DataEditForm.Designer.cs">
+      <DependentUpon>DataEditForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Modules\ExamPapersConfigurationForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -367,6 +384,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Modules\ConfigurationsTestForm.resx">
       <DependentUpon>ConfigurationsTestForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modules\DataEditForm.resx">
+      <DependentUpon>DataEditForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Modules\ExamPapersConfigurationForm.resx">
       <DependentUpon>ExamPapersConfigurationForm.cs</DependentUpon>
@@ -549,6 +569,9 @@
   <ItemGroup>
     <PackageReference Include="EMGU.CV">
       <Version>4.1.1.3497</Version>
+    </PackageReference>
+    <PackageReference Include="ilmerge">
+      <Version>3.0.29</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers">
       <Version>2.9.6</Version>

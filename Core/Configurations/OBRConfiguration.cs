@@ -72,12 +72,12 @@ namespace Synapse.Core.Configurations
             return new OBRConfiguration(baseData, FBarcodeType.cibfCode128, true, EBarcodeAlgorithm.cibBestRecognition);
         }
 
-        public override ProcessedDataEntry ProcessSheet(Mat sheet)
+        public override ProcessedDataEntry ProcessSheet(Mat sheet, string originalSheetPath)
         {
             BarcodeEngine barcodeEngine = new BarcodeEngine();
             barcodeEngine.Initialize();
 
-            return barcodeEngine.ProcessSheet(this, sheet);
+            return barcodeEngine.ProcessSheet(this, sheet, null, originalSheetPath);
         }
         #endregion
     }

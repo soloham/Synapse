@@ -38,6 +38,7 @@ namespace Synapse.Core.Engines.Data
         private List<ProcessedDataEntry> processedDataEntries;
 
         public bool IsEdited { get; set; }
+        public Managers.ProcessingManager.RereadType RereadType { get; set; }
         #endregion
 
         #region Methods
@@ -48,17 +49,41 @@ namespace Synapse.Core.Engines.Data
             RowSheetPath = rowSheetPath;
             DataRowResultType = processedDataResultType;
             IsEdited = false;
+            RereadType = Managers.ProcessingManager.RereadType.NORMAL;
             //this.alignmentPipelineResults = alignmentPipelineResults;
         }
-        internal Mat GetAlignedImage()
+        internal bool GetAlignedImage(out Mat result)
         {
-            Mat result = new Mat();
+            result = new Mat();
             Mat unAlignedMat = new Mat(RowSheetPath, Emgu.CV.CvEnum.ImreadModes.Grayscale);
+            switch (RereadType)
+            {
+                case Managers.ProcessingManager.RereadType.NORMAL:
+                    break;
+                case Managers.ProcessingManager.RereadType.ROTATE_C_90:
+                    CvInvoke.Rotate(unAlignedMat, unAlignedMat, Emgu.CV.CvEnum.RotateFlags.Rotate90Clockwise);
+                    break;
+                case Managers.ProcessingManager.RereadType.ROTATE_180:
+                    CvInvoke.Rotate(unAlignedMat, unAlignedMat, Emgu.CV.CvEnum.RotateFlags.Rotate180);
+                    break;
+                case Managers.ProcessingManager.RereadType.ROTATE_AC_90:
+                    CvInvoke.Rotate(unAlignedMat, unAlignedMat, Emgu.CV.CvEnum.RotateFlags.Rotate90CounterClockwise);
+                    break;
+            }
 
-            var resultImg = SynapseMain.GetCurrentTemplate.AlignSheet(unAlignedMat, out Templates.Template.AlignmentPipelineResults alignmentPipelineResults);
-            result = resultImg;
-            //CvInvoke.WarpPerspective(unAligned, result, GetAlignmentHomography, unAligned.Size, Emgu.CV.CvEnum.Inter.Cubic, Emgu.CV.CvEnum.Warp.Default, Emgu.CV.CvEnum.BorderType.Default);
-            return result;
+            try
+            {
+                var resultImg = SynapseMain.GetCurrentTemplate.AlignSheet(unAlignedMat, out Templates.Template.AlignmentPipelineResults alignmentPipelineResults);
+                result = resultImg;
+                unAlignedMat.Dispose();
+                //CvInvoke.WarpPerspective(unAligned, result, GetAlignmentHomography, unAligned.Size, Emgu.CV.CvEnum.Inter.Cubic, Emgu.CV.CvEnum.Warp.Default, Emgu.CV.CvEnum.BorderType.Default);
+                return alignmentPipelineResults.AlignmentMethodTestResultsList[0].GetAlignmentMethodResultType == Templates.Template.AlignmentPipelineResults.AlignmentMethodResultType.Successful;
+            }
+            catch(Exception ex)
+            {
+                result = unAlignedMat;
+                return false;
+            }
         }
         internal PointF[] GetInvAignedPointsF(RectangleF input)
         {
