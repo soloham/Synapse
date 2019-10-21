@@ -276,7 +276,7 @@ namespace Synapse
         }
 
         #region Reading Tab
-        internal void InitializeDataGrids(List<ProcessedDataEntry> processedDataEntries, (ObservableCollection<dynamic> processedDataSource, ObservableCollection<dynamic> manProcessedDataSource, ObservableCollection<dynamic> fauProcessedDataSource, ObservableCollection<dynamic> incProcessedDataSource) sources, int extraCols)
+        internal async void InitializeDataGrids(List<ProcessedDataEntry> processedDataEntries, (ObservableCollection<dynamic> processedDataSource, ObservableCollection<dynamic> manProcessedDataSource, ObservableCollection<dynamic> fauProcessedDataSource, ObservableCollection<dynamic> incProcessedDataSource) sources, int extraCols)
         {
             if (this.gridColumns.Count > 0)
             {
@@ -311,6 +311,7 @@ namespace Synapse
                         //    mainDataGrid.Columns.Add(col1);
                         //}
                         #endregion
+
                         mainDataGridPager.DataSource = sources.processedDataSource;
                         manualDataGridPager.DataSource = sources.manProcessedDataSource;
                         faultyDataGridPager.DataSource = sources.fauProcessedDataSource;
@@ -357,10 +358,15 @@ namespace Synapse
                 faultyDataGridPager.DataSource = sources.fauProcessedDataSource;
                 incompatibleDataGridPager.DataSource = sources.incProcessedDataSource;
             }
+
             mainDataGrid.DataSource = mainDataGridPager.PagedSource;
+            await Task.Delay(200);
             manualDataGrid.DataSource = manualDataGridPager.PagedSource;
+            await Task.Delay(200);
             faultyDataGrid.DataSource = faultyDataGridPager.PagedSource;
+            await Task.Delay(200);
             incompatibleDataGrid.DataSource = incompatibleDataGridPager.PagedSource;
+            await Task.Delay(200);
         }
         #endregion
 
