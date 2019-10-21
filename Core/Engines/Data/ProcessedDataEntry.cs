@@ -92,7 +92,7 @@ namespace Synapse.Core.Engines.Data
                 case ValueDataType.Text:
                     break;
                 case ValueDataType.Alphabet:
-                    for (int i = 0; i < ascii.Length; i++)
+                    for (int i = 0; i < totalFields; i++)
                     {
                         if (escapeAscii.Contains(ascii[i]))
                             continue;
@@ -102,7 +102,7 @@ namespace Synapse.Core.Engines.Data
                     }
                     break;
                 case ValueDataType.WholeNumber:
-                    for (int i = 0; i < ascii.Length; i++)
+                    for (int i = 0; i < totalFields; i++)
                     {
                         if (escapeAscii.Contains(ascii[i]))
                             continue;
@@ -112,7 +112,7 @@ namespace Synapse.Core.Engines.Data
                     }
                     break;
                 case ValueDataType.NaturalNumber:
-                    for (int i = 0; i < ascii.Length; i++)
+                    for (int i = 0; i < totalFields; i++)
                     {
                         if (escapeAscii.Contains(ascii[i]))
                             continue;

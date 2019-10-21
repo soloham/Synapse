@@ -61,7 +61,7 @@ namespace Synapse.Core.Configurations
         }
         #endregion
 
-        public OMRRegionData(Orientation orientation, int totalFields, RectangleF fieldsRegion, InterSpaceType interFieldsSpaceType, double interFieldsSpace, double[] interFieldsSpaces, int totalOptions, RectangleF optionsRegion, InterSpaceType interOptionsSpaceType, double interOptionsSpace, double[] interOptionsSpaces, int totalInstances, InterSpaceType interInstancesSpaceType, double interInstancesSpace, double[] interInstancesSpaces)
+        public OMRRegionData(Orientation orientation, int totalFields, RectangleF fieldsRegion, InterSpaceType interFieldsSpaceType, double interFieldsSpace, double[] interFieldsSpaces, int totalOptions, RectangleF optionsRegion, InterSpaceType interOptionsSpaceType, double interOptionsSpace, double[] interOptionsSpaces, int totalInstances, RectangleF configAreaRect, Orientation[] instancesOrientations, InterSpaceType interInstancesSpaceType, double interInstancesSpace, double[] interInstancesSpaces)
         {
             Orientation = orientation;
 
@@ -78,6 +78,8 @@ namespace Synapse.Core.Configurations
             InterOptionsSpaces = interOptionsSpaces;
 
             TotalInstances = totalInstances;
+            this.configAreaRect = configAreaRect;
+            InstancesOrientations = instancesOrientations;
             InterInstancesSpaceType = interInstancesSpaceType;
             InterInstancesSpace = interInstancesSpace;
             InterInstancesSpaces = interInstancesSpaces;
@@ -115,9 +117,12 @@ namespace Synapse.Core.Configurations
         public InterSpaceType InterInstancesSpaceType { get; set; }
         public double InterInstancesSpace { get; set; }
         public double[] InterInstancesSpaces { get; set; }
+        private RectangleF configAreaRect;
         public List<RectangleF> GetInstancesRects { get => instancesRects == null || instancesRects.Count == 0 ? CalculateInstancesRects() : instancesRects; }
         private List<RectangleF> instancesRects;
         public List<RectangleF> GetInterInstancseSpacesRects { get => interInstancesSpacesRects == null || interInstancesSpacesRects.Count == 0 ? CalculateInterInstancesSpacesRects() : interInstancesSpacesRects; }
+        public Orientation[] InstancesOrientations { get; internal set; }
+
         private List<RectangleF> interInstancesSpacesRects;
         #endregion
         #endregion
@@ -125,51 +130,67 @@ namespace Synapse.Core.Configurations
         #region Methods
         public List<RectangleF> CalculateFieldsRects()
         {
+            CalculateInstancesRects();
             fieldsRects = new List<RectangleF>();
 
-            for (int i = 0; i < TotalFields; i++)
+            float initialRectX = FieldsRegion.X;
+            float initialRectY = FieldsRegion.Y;
+            for (int i0 = 0; i0 < TotalInstances; i0++)
             {
-                RectangleF curFieldRectF = new RectangleF();
-
-                switch (Orientation)
+                switch (InstancesOrientations[i0])
                 {
                     case Orientation.Horizontal:
-                        switch (InterFieldsSpaceType)
-                        {
-                            case InterSpaceType.CONSTANT:
-                                curFieldRectF = new RectangleF(new PointF(FieldsRegion.X, FieldsRegion.Y + (float)(i * (FieldsRegion.Height + InterFieldsSpace))), FieldsRegion.Size);
-                                break;
-                            case InterSpaceType.ARRAY:
-                                curFieldRectF = new RectangleF(new PointF(FieldsRegion.X, i == 0 ? FieldsRegion.Y + (float)InterFieldsSpaces[0] : fieldsRects[i - 1].Bottom + (float)InterFieldsSpaces[i]), FieldsRegion.Size);
-                                break;
-                            default:
-                                break;
-                        }
+                        initialRectX = (instancesRects[i0].Left - configAreaRect.Left) + FieldsRegion.Left;
                         break;
                     case Orientation.Vertical:
-                        switch (InterFieldsSpaceType)
-                        {
-                            case InterSpaceType.CONSTANT:
-                                curFieldRectF = new RectangleF(new PointF(FieldsRegion.X + (float)(i * (FieldsRegion.Width + InterFieldsSpace)), FieldsRegion.Y), FieldsRegion.Size);
-                                break;
-                            case InterSpaceType.ARRAY:
-                                curFieldRectF = new RectangleF(new PointF(i == 0 ? FieldsRegion.X + (float)InterFieldsSpaces[0] : fieldsRects[i - 1].Right + (float)InterFieldsSpaces[i], FieldsRegion.Y), FieldsRegion.Size);
-                                break;
-                            default:
-                                break;
-                        }
-                        break;
-                    default:
+                        initialRectY = (instancesRects[i0].Top - configAreaRect.Top) + FieldsRegion.Top;
                         break;
                 }
 
-                fieldsRects.Add(curFieldRectF);
-            }
+                for (int i = 0; i < TotalFields; i++)
+                {
+                    RectangleF curFieldRectF = new RectangleF();
 
+                    switch (Orientation)
+                    {
+                        case Orientation.Horizontal:
+                            switch (InterFieldsSpaceType)
+                            {
+                                case InterSpaceType.CONSTANT:
+                                    curFieldRectF = new RectangleF(new PointF(initialRectX, initialRectY + (float)(i * (FieldsRegion.Height + InterFieldsSpace))), FieldsRegion.Size);
+                                    break;
+                                case InterSpaceType.ARRAY:
+                                    curFieldRectF = new RectangleF(new PointF(initialRectX, i == 0 ? initialRectY + (float)InterFieldsSpaces[0] : fieldsRects[i - 1].Bottom + (float)InterFieldsSpaces[i]), FieldsRegion.Size);
+                                    break;
+                                default:
+                                    break;
+                            }
+                            break;
+                        case Orientation.Vertical:
+                            switch (InterFieldsSpaceType)
+                            {
+                                case InterSpaceType.CONSTANT:
+                                    curFieldRectF = new RectangleF(new PointF(initialRectX + (float)(i * (FieldsRegion.Width + InterFieldsSpace)), initialRectY), FieldsRegion.Size);
+                                    break;
+                                case InterSpaceType.ARRAY:
+                                    curFieldRectF = new RectangleF(new PointF(i == 0 ? initialRectX + (float)InterFieldsSpaces[0] : fieldsRects[i - 1].Right + (float)InterFieldsSpaces[i], initialRectY), FieldsRegion.Size);
+                                    break;
+                                default:
+                                    break;
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+
+                    fieldsRects.Add(curFieldRectF);
+                }
+            }
             return new List<RectangleF>(fieldsRects);
         }
         public List<RectangleF> CalculateInterFieldsSpacesRects()
         {
+            CalculateInstancesRects();
             interFieldsSpacesRects = new List<RectangleF>();
 
             RectangleF interFieldsSpaceRegionVertical = new RectangleF(new PointF(FieldsRegion.X + (FieldsRegion.Size.Width / 2f) - 2.7f, FieldsRegion.Y + FieldsRegion.Size.Height), new SizeF(20f, (float)InterFieldsSpace));
@@ -178,120 +199,53 @@ namespace Synapse.Core.Configurations
             float interSpaceVerticalWidth = 5f;
             float interSpaceHorizontalHeight = 5f;
 
-            for (int i = 0; i < TotalFields; i++)
+            for (int i0 = 0; i0 < TotalInstances; i0++)
             {
-                RectangleF curInterFieldSpaceRectF = new RectangleF();
-
-                switch (Orientation)
+                switch (InstancesOrientations[i0])
                 {
                     case Orientation.Horizontal:
-                        switch (InterFieldsSpaceType)
-                        {
-                            case InterSpaceType.CONSTANT:
-                                if (i == TotalFields - 1)
-                                    break;
-
-                                curInterFieldSpaceRectF = new RectangleF(new PointF(interFieldsSpaceRegionVertical.X, interFieldsSpaceRegionVertical.Y + (i * ((float)InterFieldsSpace + FieldsRegion.Height))), new SizeF(interSpaceVerticalWidth, (float)InterFieldsSpace));
-                                break;
-                            case InterSpaceType.ARRAY:
-                                curInterFieldSpaceRectF = new RectangleF(new PointF(interFieldsSpaceRegionVertical.X, i == 0 ? FieldsRegion.Y : fieldsRects[i - 1].Bottom), new SizeF(interSpaceVerticalWidth, (float)InterFieldsSpaces[i]));
-                                break;
-                            default:
-                                break;
-                        }
+                        interFieldsSpaceRegionVertical.X = (instancesRects[i0].Left - configAreaRect.Left) + FieldsRegion.X + (FieldsRegion.Size.Width / 2f) - 2.7f;
+                        interFieldsSpaceRegionHorizontal.X = (instancesRects[i0].Left - configAreaRect.Left) + FieldsRegion.X + FieldsRegion.Size.Width;
                         break;
                     case Orientation.Vertical:
-                        switch (InterFieldsSpaceType)
-                        {
-                            case InterSpaceType.CONSTANT:
-                                if (i == TotalFields - 1)
-                                    break;
-
-                                curInterFieldSpaceRectF = new RectangleF(new PointF(interFieldsSpaceRegionHorizontal.X + (i * ((float)InterFieldsSpace + FieldsRegion.Width)), interFieldsSpaceRegionHorizontal.Y), new SizeF((float)InterFieldsSpace, interSpaceHorizontalHeight));
-                                break;
-                            case InterSpaceType.ARRAY:
-                                curInterFieldSpaceRectF = new RectangleF(new PointF(i == 0 ? FieldsRegion.X : fieldsRects[i - 1].Right, interFieldsSpaceRegionHorizontal.Y), new SizeF((float)InterFieldsSpaces[i], interSpaceHorizontalHeight));
-                                break;
-                            default:
-                                break;
-                        }
+                        interFieldsSpaceRegionVertical.Y = (instancesRects[i0].Top - configAreaRect.Top) + FieldsRegion.Y + FieldsRegion.Size.Height;
+                        interFieldsSpaceRegionHorizontal.Y = (instancesRects[i0].Top - configAreaRect.Top) + FieldsRegion.Y + (FieldsRegion.Size.Height / 2f) - 2.7f;
                         break;
                 }
 
-                interFieldsSpacesRects.Add(curInterFieldSpaceRectF);
-            }
-
-            return new List<RectangleF>(interFieldsSpacesRects);
-        }
-
-        public List<RectangleF> CalculateOptionsRects()
-        {
-            optionsRects = new List<RectangleF>();
-
-            RectangleF lastFieldOptionRect = new RectangleF();
-            for (int i0 = 0; i0 < TotalFields; i0++)
-            {
-                for (int i = 0; i < TotalOptions; i++)
+                for (int i = 0; i < TotalFields; i++)
                 {
-                    RectangleF curOptionRectF = new RectangleF();
+                    RectangleF curInterFieldSpaceRectF = new RectangleF();
 
                     switch (Orientation)
                     {
                         case Orientation.Horizontal:
-                            switch (InterOptionsSpaceType)
+                            switch (InterFieldsSpaceType)
                             {
                                 case InterSpaceType.CONSTANT:
-                                    switch (InterFieldsSpaceType)
-                                    {
-                                        case InterSpaceType.CONSTANT:
-                                            curOptionRectF = new RectangleF(new PointF(OptionsRegion.X + (float)(i * (OptionsRegion.Width + InterOptionsSpace)), OptionsRegion.Y + (float)(i0 * (FieldsRegion.Height + InterFieldsSpace))), OptionsRegion.Size);
-                                            break;
-                                        case InterSpaceType.ARRAY:
-                                            curOptionRectF = new RectangleF(new PointF(OptionsRegion.X + (float)(i * (OptionsRegion.Width + InterOptionsSpace)), i0 == 0 ? (float)InterFieldsSpaces[0] + OptionsRegion.Y : (lastFieldOptionRect.Y + lastFieldOptionRect.Height) + (float)(FieldsRegion.Height + InterFieldsSpaces[i0])), OptionsRegion.Size);
-                                            break;
-                                        default:
-                                            break;
-                                    }
+                                    if (i == TotalFields - 1)
+                                        break;
+
+                                    curInterFieldSpaceRectF = new RectangleF(new PointF(interFieldsSpaceRegionVertical.X, interFieldsSpaceRegionVertical.Y + (i * ((float)InterFieldsSpace + FieldsRegion.Height))), new SizeF(interSpaceVerticalWidth, (float)InterFieldsSpace));
                                     break;
                                 case InterSpaceType.ARRAY:
-                                    switch (InterFieldsSpaceType)
-                                    {
-                                        case InterSpaceType.CONSTANT:
-                                            curOptionRectF = new RectangleF(new PointF(i == 0 ? OptionsRegion.X + (float)InterOptionsSpaces[0] : optionsRects[i - 1].X + optionsRects[i - 1].Width + (float)InterOptionsSpaces[i], OptionsRegion.Y + (float)(i0 * (FieldsRegion.Height + InterFieldsSpace))), OptionsRegion.Size);
-                                            break;
-                                        case InterSpaceType.ARRAY:
-                                            curOptionRectF = new RectangleF(new PointF(i == 0 ? OptionsRegion.X + (float)InterOptionsSpaces[0] : optionsRects[i - 1].X + optionsRects[i - 1].Width + (float)InterOptionsSpaces[i], i0 == 0 ? (float)InterFieldsSpaces[0] + OptionsRegion.Y : lastFieldOptionRect.Y + (float)(FieldsRegion.Height + InterFieldsSpaces[i0])), OptionsRegion.Size);
-                                            break;
-                                        default:
-                                            break;
-                                    }
+                                    curInterFieldSpaceRectF = new RectangleF(new PointF(interFieldsSpaceRegionVertical.X, i == 0 ? FieldsRegion.Y : fieldsRects[i - 1].Bottom), new SizeF(interSpaceVerticalWidth, (float)InterFieldsSpaces[i]));
+                                    break;
+                                default:
                                     break;
                             }
                             break;
                         case Orientation.Vertical:
-                            switch (InterOptionsSpaceType)
+                            switch (InterFieldsSpaceType)
                             {
                                 case InterSpaceType.CONSTANT:
-                                    switch (InterFieldsSpaceType)
-                                    {
-                                        case InterSpaceType.CONSTANT:
-                                            curOptionRectF = new RectangleF(new PointF(OptionsRegion.X + (float)(i0 * (FieldsRegion.Width + InterFieldsSpace)), OptionsRegion.Y + (float)(i * (OptionsRegion.Height + InterOptionsSpace))), OptionsRegion.Size);
-                                            break;
-                                        case InterSpaceType.ARRAY:
-                                            curOptionRectF = new RectangleF(new PointF(i0 == 0 ? (float)InterFieldsSpaces[0] + OptionsRegion.X : lastFieldOptionRect.X + FieldsRegion.Width + (float)InterFieldsSpaces[i0], OptionsRegion.Y + (float)(i * (OptionsRegion.Height + InterOptionsSpace))), OptionsRegion.Size);
-                                            break;
-                                    }
+                                    if (i == TotalFields - 1)
+                                        break;
+
+                                    curInterFieldSpaceRectF = new RectangleF(new PointF(interFieldsSpaceRegionHorizontal.X + (i * ((float)InterFieldsSpace + FieldsRegion.Width)), interFieldsSpaceRegionHorizontal.Y), new SizeF((float)InterFieldsSpace, interSpaceHorizontalHeight));
                                     break;
                                 case InterSpaceType.ARRAY:
-                                    switch (InterFieldsSpaceType)
-                                    {
-                                        case InterSpaceType.CONSTANT:
-                                            curOptionRectF = new RectangleF(new PointF(OptionsRegion.X + (float)(i0 * (FieldsRegion.Width + InterFieldsSpace)), i == 0 ? (float)InterOptionsSpaces[0] + OptionsRegion.Y : optionsRects[i - 1].Bottom + (float)InterOptionsSpaces[i]), OptionsRegion.Size);
-                                            break;
-                                        case InterSpaceType.ARRAY:
-                                            curOptionRectF = new RectangleF(new PointF(i0 == 0 ? (float)InterFieldsSpaces[0] + OptionsRegion.X : lastFieldOptionRect.X + FieldsRegion.Width + (float)InterFieldsSpaces[i0], i == 0 ? (float)InterOptionsSpaces[0] + OptionsRegion.Y : optionsRects[i - 1].Bottom + (float)InterOptionsSpaces[i]), OptionsRegion.Size);
-                                            break;
-                                    }
+                                    curInterFieldSpaceRectF = new RectangleF(new PointF(i == 0 ? FieldsRegion.X : fieldsRects[i - 1].Right, interFieldsSpaceRegionHorizontal.Y), new SizeF((float)InterFieldsSpaces[i], interSpaceHorizontalHeight));
                                     break;
                                 default:
                                     break;
@@ -299,16 +253,114 @@ namespace Synapse.Core.Configurations
                             break;
                     }
 
-                    optionsRects.Add(curOptionRectF);
+                    interFieldsSpacesRects.Add(curInterFieldSpaceRectF);
+                }
+            }
+            return new List<RectangleF>(interFieldsSpacesRects);
+        }
+
+        public List<RectangleF> CalculateOptionsRects()
+        {
+            CalculateInstancesRects();
+            optionsRects = new List<RectangleF>();
+
+            RectangleF lastFieldOptionRect = new RectangleF();
+
+            float initialRectX = OptionsRegion.X;
+            float initialRectY = OptionsRegion.Y;
+            for (int i0 = 0; i0 < TotalInstances; i0++)
+            {
+                switch (InstancesOrientations[i0])
+                {
+                    case Orientation.Horizontal:
+                        initialRectX = (instancesRects[i0].Left - configAreaRect.Left) + OptionsRegion.Left;
+                        break;
+                    case Orientation.Vertical:
+                        initialRectY = (instancesRects[i0].Top - configAreaRect.Top) + OptionsRegion.Top;
+                        break;
                 }
 
-                lastFieldOptionRect = optionsRects.Count == 0 ? new RectangleF() : optionsRects[optionsRects.Count - 1];
-            }
+                for (int i1 = 0; i1 < TotalFields; i1++)
+                {
+                    for (int i = 0; i < TotalOptions; i++)
+                    {
+                        RectangleF curOptionRectF = new RectangleF();
 
+                        switch (Orientation)
+                        {
+                            case Orientation.Horizontal:
+                                switch (InterOptionsSpaceType)
+                                {
+                                    case InterSpaceType.CONSTANT:
+                                        switch (InterFieldsSpaceType)
+                                        {
+                                            case InterSpaceType.CONSTANT:
+                                                curOptionRectF = new RectangleF(new PointF(initialRectX + (float)(i * (OptionsRegion.Width + InterOptionsSpace)), initialRectY + (float)(i1 * (FieldsRegion.Height + InterFieldsSpace))), OptionsRegion.Size);
+                                                break;
+                                            case InterSpaceType.ARRAY:
+                                                curOptionRectF = new RectangleF(new PointF(initialRectX + (float)(i * (OptionsRegion.Width + InterOptionsSpace)), i1 == 0 ? (float)InterFieldsSpaces[0] + initialRectY : (lastFieldOptionRect.Y + lastFieldOptionRect.Height) + (float)(FieldsRegion.Height + InterFieldsSpaces[i1])), OptionsRegion.Size);
+                                                break;
+                                            default:
+                                                break;
+                                        }
+                                        break;
+                                    case InterSpaceType.ARRAY:
+                                        switch (InterFieldsSpaceType)
+                                        {
+                                            case InterSpaceType.CONSTANT:
+                                                curOptionRectF = new RectangleF(new PointF(i == 0 ? initialRectX + (float)InterOptionsSpaces[0] : optionsRects[i - 1].X + optionsRects[i - 1].Width + (float)InterOptionsSpaces[i], initialRectY + (float)(i1 * (FieldsRegion.Height + InterFieldsSpace))), OptionsRegion.Size);
+                                                break;
+                                            case InterSpaceType.ARRAY:
+                                                curOptionRectF = new RectangleF(new PointF(i == 0 ? initialRectX + (float)InterOptionsSpaces[0] : optionsRects[i - 1].X + optionsRects[i - 1].Width + (float)InterOptionsSpaces[i], i1 == 0 ? (float)InterFieldsSpaces[0] + initialRectY : lastFieldOptionRect.Y + (float)(FieldsRegion.Height + InterFieldsSpaces[i1])), OptionsRegion.Size);
+                                                break;
+                                            default:
+                                                break;
+                                        }
+                                        break;
+                                }
+                                break;
+                            case Orientation.Vertical:
+                                switch (InterOptionsSpaceType)
+                                {
+                                    case InterSpaceType.CONSTANT:
+                                        switch (InterFieldsSpaceType)
+                                        {
+                                            case InterSpaceType.CONSTANT:
+                                                curOptionRectF = new RectangleF(new PointF(initialRectX + (float)(i1 * (FieldsRegion.Width + InterFieldsSpace)), initialRectY + (float)(i * (OptionsRegion.Height + InterOptionsSpace))), OptionsRegion.Size);
+                                                break;
+                                            case InterSpaceType.ARRAY:
+                                                curOptionRectF = new RectangleF(new PointF(i1 == 0 ? (float)InterFieldsSpaces[0] + initialRectX : lastFieldOptionRect.X + FieldsRegion.Width + (float)InterFieldsSpaces[i1], initialRectY + (float)(i * (OptionsRegion.Height + InterOptionsSpace))), OptionsRegion.Size);
+                                                break;
+                                        }
+                                        break;
+                                    case InterSpaceType.ARRAY:
+                                        switch (InterFieldsSpaceType)
+                                        {
+                                            case InterSpaceType.CONSTANT:
+                                                curOptionRectF = new RectangleF(new PointF(initialRectX + (float)(i1 * (FieldsRegion.Width + InterFieldsSpace)), i == 0 ? (float)InterOptionsSpaces[0] + initialRectY : optionsRects[i - 1].Bottom + (float)InterOptionsSpaces[i]), OptionsRegion.Size);
+                                                break;
+                                            case InterSpaceType.ARRAY:
+                                                curOptionRectF = new RectangleF(new PointF(i1 == 0 ? (float)InterFieldsSpaces[0] + initialRectX : lastFieldOptionRect.X + FieldsRegion.Width + (float)InterFieldsSpaces[i1], i == 0 ? (float)InterOptionsSpaces[0] + initialRectY : optionsRects[i - 1].Bottom + (float)InterOptionsSpaces[i]), OptionsRegion.Size);
+                                                break;
+                                        }
+                                        break;
+                                    default:
+                                        break;
+                                }
+                                break;
+                        }
+
+                        optionsRects.Add(curOptionRectF);
+                    }
+
+                    lastFieldOptionRect = optionsRects.Count == 0 ? new RectangleF() : optionsRects[optionsRects.Count - 1];
+                }
+            }
             return new List<RectangleF>(optionsRects);
         }
         public List<RectangleF> CalculateInterOptionsSpacesRects()
         {
+            CalculateInstancesRects();
             interOptionsSpacesRects = new List<RectangleF>();
 
             RectangleF InterOptionsSpaceRegionVertical = new RectangleF(new PointF(OptionsRegion.X + (OptionsRegion.Size.Width / 2f) - 1.35f, OptionsRegion.Y + OptionsRegion.Size.Height), new SizeF(10f, (float)InterOptionsSpace));
@@ -318,167 +370,147 @@ namespace Synapse.Core.Configurations
             float interSpaceHorizontalHeight = 2.5f;
 
             RectangleF lastFieldInterOptionRect = new RectangleF();
-            for (int i0 = 0; i0 < TotalFields; i0++)
+
+            for (int i0 = 0; i0 < TotalInstances; i0++)
             {
-                RectangleF curInterOptionSpaceRectF = new RectangleF();
-
-                for (int i = 0; i < TotalOptions; i++)
+                switch (InstancesOrientations[i0])
                 {
-                    switch (Orientation)
-                    {
-                        case Orientation.Horizontal:
-                            switch (InterOptionsSpaceType)
-                            {
-                                case InterSpaceType.CONSTANT:
-                                    if (i == TotalOptions - 1)
-                                        break;
-
-                                    switch (InterFieldsSpaceType)
-                                    {
-                                        case InterSpaceType.CONSTANT:
-                                            curInterOptionSpaceRectF = new RectangleF(new PointF(InterOptionsSpaceRegionHorizontal.X + (float)(i * (InterOptionsSpace + OptionsRegion.Width)), InterOptionsSpaceRegionHorizontal.Y + (float)(i0 * (InterFieldsSpace + FieldsRegion.Height))), new SizeF((float)InterOptionsSpace, interSpaceHorizontalHeight));
-                                            break;
-                                        case InterSpaceType.ARRAY:
-                                            curInterOptionSpaceRectF = new RectangleF(new PointF(InterOptionsSpaceRegionHorizontal.X + (float)(i * (InterOptionsSpace + OptionsRegion.Width)), InterOptionsSpaceRegionHorizontal.Y + (float)(i0 * (InterFieldsSpaces[i0] + FieldsRegion.Height))), new SizeF((float)InterOptionsSpace, interSpaceHorizontalHeight));
-                                            break;
-                                    }
-                                    break;
-                                case InterSpaceType.ARRAY:
-                                    switch (InterFieldsSpaceType)
-                                    {
-                                        case InterSpaceType.CONSTANT:
-                                            curInterOptionSpaceRectF = new RectangleF(new PointF(i == 0 ? OptionsRegion.X : optionsRects[i - 1].Right, InterOptionsSpaceRegionHorizontal.Y + (float)(i0 * (InterFieldsSpace + FieldsRegion.Height))), new SizeF((float)InterOptionsSpaces[i], interSpaceHorizontalHeight));
-                                            break;
-                                        case InterSpaceType.ARRAY:
-                                            curInterOptionSpaceRectF = new RectangleF(new PointF(i == 0 ? OptionsRegion.X : optionsRects[i - 1].Right, i0 == 0 ? InterOptionsSpaceRegionHorizontal.Y + (float)InterFieldsSpaces[0] : lastFieldInterOptionRect.Y + (float)(InterFieldsSpaces[i0] + FieldsRegion.Height)), new SizeF((float)InterOptionsSpaces[i], interSpaceHorizontalHeight));
-                                            break;
-                                    }
-                                    break;
-                            }
-                            break;
-                        case Orientation.Vertical:
-                            switch (InterOptionsSpaceType)
-                            {
-                                case InterSpaceType.CONSTANT:
-                                    if (i == TotalOptions - 1)
-                                        break;
-
-                                    switch (InterFieldsSpaceType)
-                                    {
-                                        case InterSpaceType.CONSTANT:
-                                            curInterOptionSpaceRectF = new RectangleF(new PointF(InterOptionsSpaceRegionVertical.X + (float)(i0 * (InterFieldsSpace + FieldsRegion.Width)), InterOptionsSpaceRegionVertical.Y + (float)(i * (InterOptionsSpace + OptionsRegion.Height))), new SizeF(interSpaceVerticalWidth, (float)InterOptionsSpace));
-                                            break;
-                                        case InterSpaceType.ARRAY:
-                                            curInterOptionSpaceRectF = new RectangleF(new PointF(InterOptionsSpaceRegionVertical.X + (float)(i0 * (InterFieldsSpaces[i0] + FieldsRegion.Width)), InterOptionsSpaceRegionVertical.Y + (float)(i * (InterOptionsSpace + OptionsRegion.Height))), new SizeF(interSpaceVerticalWidth, (float)InterOptionsSpace));
-                                            break;
-                                    }
-                                    break;
-                                case InterSpaceType.ARRAY:
-                                    switch (InterFieldsSpaceType)
-                                    {
-                                        case InterSpaceType.CONSTANT:
-                                            curInterOptionSpaceRectF = new RectangleF(new PointF(InterOptionsSpaceRegionVertical.X + (float)(i0 * (InterFieldsSpace + FieldsRegion.Width)), i == 0 ? OptionsRegion.Y : optionsRects[i - 1].Bottom), new SizeF(interSpaceVerticalWidth, (float)InterOptionsSpaces[i]));
-                                            break;
-                                        case InterSpaceType.ARRAY:
-                                            curInterOptionSpaceRectF = new RectangleF(new PointF(InterOptionsSpaceRegionVertical.X + (float)(i0 * (InterFieldsSpaces[i0] + FieldsRegion.Width)), i == 0 ? OptionsRegion.Y : optionsRects[i - 1].Bottom), new SizeF(interSpaceVerticalWidth, (float)InterOptionsSpaces[i]));
-                                            break;
-                                    }
-                                    break;
-                            }
-
-                            break;
-                    }
-
-                    interOptionsSpacesRects.Add(curInterOptionSpaceRectF);
+                    case Orientation.Horizontal:
+                        InterOptionsSpaceRegionVertical.X = (instancesRects[i0].Left - configAreaRect.Left) + OptionsRegion.X + (OptionsRegion.Size.Width / 2f) - 1.35f;
+                        InterOptionsSpaceRegionHorizontal.X = (instancesRects[i0].Left - configAreaRect.Left) + OptionsRegion.X + OptionsRegion.Size.Width;
+                        break;
+                    case Orientation.Vertical:
+                        InterOptionsSpaceRegionVertical.Y = (instancesRects[i0].Top - configAreaRect.Top) + OptionsRegion.Y + OptionsRegion.Size.Height;
+                        InterOptionsSpaceRegionHorizontal.Y = (instancesRects[i0].Top - configAreaRect.Top) + OptionsRegion.Y + (OptionsRegion.Size.Height / 2f) - 1.35f;
+                        break;
                 }
-                lastFieldInterOptionRect = curInterOptionSpaceRectF;
-            }
 
+                for (int i1 = 0; i1 < TotalFields; i1++)
+                {
+                    RectangleF curInterOptionSpaceRectF = new RectangleF();
+
+                    for (int i = 0; i < TotalOptions; i++)
+                    {
+                        switch (Orientation)
+                        {
+                            case Orientation.Horizontal:
+                                switch (InterOptionsSpaceType)
+                                {
+                                    case InterSpaceType.CONSTANT:
+                                        if (i == TotalOptions - 1)
+                                            break;
+
+                                        switch (InterFieldsSpaceType)
+                                        {
+                                            case InterSpaceType.CONSTANT:
+                                                curInterOptionSpaceRectF = new RectangleF(new PointF(InterOptionsSpaceRegionHorizontal.X + (float)(i * (InterOptionsSpace + OptionsRegion.Width)), InterOptionsSpaceRegionHorizontal.Y + (float)(i1 * (InterFieldsSpace + FieldsRegion.Height))), new SizeF((float)InterOptionsSpace, interSpaceHorizontalHeight));
+                                                break;
+                                            case InterSpaceType.ARRAY:
+                                                curInterOptionSpaceRectF = new RectangleF(new PointF(InterOptionsSpaceRegionHorizontal.X + (float)(i * (InterOptionsSpace + OptionsRegion.Width)), InterOptionsSpaceRegionHorizontal.Y + (float)(i1 * (InterFieldsSpaces[i1] + FieldsRegion.Height))), new SizeF((float)InterOptionsSpace, interSpaceHorizontalHeight));
+                                                break;
+                                        }
+                                        break;
+                                    case InterSpaceType.ARRAY:
+                                        switch (InterFieldsSpaceType)
+                                        {
+                                            case InterSpaceType.CONSTANT:
+                                                curInterOptionSpaceRectF = new RectangleF(new PointF(i == 0 ? OptionsRegion.X : optionsRects[i - 1].Right, InterOptionsSpaceRegionHorizontal.Y + (float)(i1 * (InterFieldsSpace + FieldsRegion.Height))), new SizeF((float)InterOptionsSpaces[i], interSpaceHorizontalHeight));
+                                                break;
+                                            case InterSpaceType.ARRAY:
+                                                curInterOptionSpaceRectF = new RectangleF(new PointF(i == 0 ? OptionsRegion.X : optionsRects[i - 1].Right, i1 == 0 ? InterOptionsSpaceRegionHorizontal.Y + (float)InterFieldsSpaces[0] : lastFieldInterOptionRect.Y + (float)(InterFieldsSpaces[i1] + FieldsRegion.Height)), new SizeF((float)InterOptionsSpaces[i], interSpaceHorizontalHeight));
+                                                break;
+                                        }
+                                        break;
+                                }
+                                break;
+                            case Orientation.Vertical:
+                                switch (InterOptionsSpaceType)
+                                {
+                                    case InterSpaceType.CONSTANT:
+                                        if (i == TotalOptions - 1)
+                                            break;
+
+                                        switch (InterFieldsSpaceType)
+                                        {
+                                            case InterSpaceType.CONSTANT:
+                                                curInterOptionSpaceRectF = new RectangleF(new PointF(InterOptionsSpaceRegionVertical.X + (float)(i1 * (InterFieldsSpace + FieldsRegion.Width)), InterOptionsSpaceRegionVertical.Y + (float)(i * (InterOptionsSpace + OptionsRegion.Height))), new SizeF(interSpaceVerticalWidth, (float)InterOptionsSpace));
+                                                break;
+                                            case InterSpaceType.ARRAY:
+                                                curInterOptionSpaceRectF = new RectangleF(new PointF(InterOptionsSpaceRegionVertical.X + (float)(i1 * (InterFieldsSpaces[i1] + FieldsRegion.Width)), InterOptionsSpaceRegionVertical.Y + (float)(i * (InterOptionsSpace + OptionsRegion.Height))), new SizeF(interSpaceVerticalWidth, (float)InterOptionsSpace));
+                                                break;
+                                        }
+                                        break;
+                                    case InterSpaceType.ARRAY:
+                                        switch (InterFieldsSpaceType)
+                                        {
+                                            case InterSpaceType.CONSTANT:
+                                                curInterOptionSpaceRectF = new RectangleF(new PointF(InterOptionsSpaceRegionVertical.X + (float)(i1 * (InterFieldsSpace + FieldsRegion.Width)), i == 0 ? OptionsRegion.Y : optionsRects[i - 1].Bottom), new SizeF(interSpaceVerticalWidth, (float)InterOptionsSpaces[i]));
+                                                break;
+                                            case InterSpaceType.ARRAY:
+                                                curInterOptionSpaceRectF = new RectangleF(new PointF(InterOptionsSpaceRegionVertical.X + (float)(i1 * (InterFieldsSpaces[i1] + FieldsRegion.Width)), i == 0 ? OptionsRegion.Y : optionsRects[i - 1].Bottom), new SizeF(interSpaceVerticalWidth, (float)InterOptionsSpaces[i]));
+                                                break;
+                                        }
+                                        break;
+                                }
+
+                                break;
+                        }
+
+                        interOptionsSpacesRects.Add(curInterOptionSpaceRectF);
+                    }
+                    lastFieldInterOptionRect = curInterOptionSpaceRectF;
+                }
+            }
             return new List<RectangleF>(interFieldsSpacesRects);
         }
 
-        public List<RectangleF> CalculateInstancesRects()
+        private List<RectangleF> CalculateInstancesRects()
         {
-            optionsRects = new List<RectangleF>();
+            instancesRects = new List<RectangleF>();
 
-            RectangleF lastFieldOptionRect = new RectangleF();
-            for (int i0 = 0; i0 < TotalFields; i0++)
+            RectangleF curInstanceRect = RectangleF.Empty;
+            switch (InterInstancesSpaceType)
             {
-                for (int i = 0; i < TotalOptions; i++)
-                {
-                    RectangleF curOptionRectF = new RectangleF();
-
-                    switch (Orientation)
+                case InterSpaceType.CONSTANT:
+                    for (int i = 0; i < TotalInstances; i++)
                     {
-                        case Orientation.Horizontal:
-                            switch (InterOptionsSpaceType)
+                        curInstanceRect = i == 0 ? configAreaRect : instancesRects.Last();
+                        if (i != 0)
+                        {
+                            switch (InstancesOrientations[i])
                             {
-                                case InterSpaceType.CONSTANT:
-                                    switch (InterFieldsSpaceType)
-                                    {
-                                        case InterSpaceType.CONSTANT:
-                                            curOptionRectF = new RectangleF(new PointF(OptionsRegion.X + (float)(i * (OptionsRegion.Width + InterOptionsSpace)), OptionsRegion.Y + (float)(i0 * (FieldsRegion.Height + InterFieldsSpace))), OptionsRegion.Size);
-                                            break;
-                                        case InterSpaceType.ARRAY:
-                                            curOptionRectF = new RectangleF(new PointF(OptionsRegion.X + (float)(i * (OptionsRegion.Width + InterOptionsSpace)), i0 == 0 ? (float)InterFieldsSpaces[0] + OptionsRegion.Y : (lastFieldOptionRect.Y + lastFieldOptionRect.Height) + (float)(FieldsRegion.Height + InterFieldsSpaces[i0])), OptionsRegion.Size);
-                                            break;
-                                        default:
-                                            break;
-                                    }
+                                case Orientation.Horizontal:
+                                    curInstanceRect.Offset(curInstanceRect.Width + (float)InterInstancesSpace, 0F);
                                     break;
-                                case InterSpaceType.ARRAY:
-                                    switch (InterFieldsSpaceType)
-                                    {
-                                        case InterSpaceType.CONSTANT:
-                                            curOptionRectF = new RectangleF(new PointF(i == 0 ? OptionsRegion.X + (float)InterOptionsSpaces[0] : optionsRects[i - 1].X + optionsRects[i - 1].Width + (float)InterOptionsSpaces[i], OptionsRegion.Y + (float)(i0 * (FieldsRegion.Height + InterFieldsSpace))), OptionsRegion.Size);
-                                            break;
-                                        case InterSpaceType.ARRAY:
-                                            curOptionRectF = new RectangleF(new PointF(i == 0 ? OptionsRegion.X + (float)InterOptionsSpaces[0] : optionsRects[i - 1].X + optionsRects[i - 1].Width + (float)InterOptionsSpaces[i], i0 == 0 ? (float)InterFieldsSpaces[0] + OptionsRegion.Y : lastFieldOptionRect.Y + (float)(FieldsRegion.Height + InterFieldsSpaces[i0])), OptionsRegion.Size);
-                                            break;
-                                        default:
-                                            break;
-                                    }
+                                case Orientation.Vertical:
+                                    curInstanceRect.Offset(0F, curInstanceRect.Height + (float)InterInstancesSpace);
                                     break;
                             }
-                            break;
-                        case Orientation.Vertical:
-                            switch (InterOptionsSpaceType)
-                            {
-                                case InterSpaceType.CONSTANT:
-                                    switch (InterFieldsSpaceType)
-                                    {
-                                        case InterSpaceType.CONSTANT:
-                                            curOptionRectF = new RectangleF(new PointF(OptionsRegion.X + (float)(i0 * (FieldsRegion.Width + InterFieldsSpace)), OptionsRegion.Y + (float)(i * (OptionsRegion.Height + InterOptionsSpace))), OptionsRegion.Size);
-                                            break;
-                                        case InterSpaceType.ARRAY:
-                                            curOptionRectF = new RectangleF(new PointF(i0 == 0 ? (float)InterFieldsSpaces[0] + OptionsRegion.X : lastFieldOptionRect.X + FieldsRegion.Width + (float)InterFieldsSpaces[i0], OptionsRegion.Y + (float)(i * (OptionsRegion.Height + InterOptionsSpace))), OptionsRegion.Size);
-                                            break;
-                                    }
-                                    break;
-                                case InterSpaceType.ARRAY:
-                                    switch (InterFieldsSpaceType)
-                                    {
-                                        case InterSpaceType.CONSTANT:
-                                            curOptionRectF = new RectangleF(new PointF(OptionsRegion.X + (float)(i0 * (FieldsRegion.Width + InterFieldsSpace)), i == 0 ? (float)InterOptionsSpaces[0] + OptionsRegion.Y : optionsRects[i - 1].Bottom + (float)InterOptionsSpaces[i]), OptionsRegion.Size);
-                                            break;
-                                        case InterSpaceType.ARRAY:
-                                            curOptionRectF = new RectangleF(new PointF(i0 == 0 ? (float)InterFieldsSpaces[0] + OptionsRegion.X : lastFieldOptionRect.X + FieldsRegion.Width + (float)InterFieldsSpaces[i0], i == 0 ? (float)InterOptionsSpaces[0] + OptionsRegion.Y : optionsRects[i - 1].Bottom + (float)InterOptionsSpaces[i]), OptionsRegion.Size);
-                                            break;
-                                    }
-                                    break;
-                                default:
-                                    break;
-                            }
-                            break;
+                        }
+                        instancesRects.Add(curInstanceRect);
                     }
-
-                    optionsRects.Add(curOptionRectF);
-                }
-
-                lastFieldOptionRect = optionsRects.Count == 0 ? new RectangleF() : optionsRects[optionsRects.Count - 1];
+                    break;
+                case InterSpaceType.ARRAY:
+                    for (int i = 0; i < TotalInstances; i++)
+                    {
+                        curInstanceRect = i == 0 ? configAreaRect : instancesRects.Last();
+                        if (i == 0)
+                        {
+                            switch (InstancesOrientations[i])
+                            {
+                                case Orientation.Horizontal:
+                                    curInstanceRect.Offset(curInstanceRect.Width + (float)InterInstancesSpaces[i], 0F);
+                                    break;
+                                case Orientation.Vertical:
+                                    curInstanceRect.Offset(0F, curInstanceRect.Height + (float)InterInstancesSpaces[i]);
+                                    break;
+                            }
+                        }
+                        instancesRects.Add(curInstanceRect);
+                    }
+                    break;
             }
-
-            return new List<RectangleF>(optionsRects);
+            return new List<RectangleF>(instancesRects);
         }
         public List<RectangleF> CalculateInterInstancesSpacesRects()
         {
@@ -580,7 +612,7 @@ namespace Synapse.Core.Configurations
         [Browsable(false)]
         public OMRRegionData RegionData { get { return regionData; } set { regionData = value; } }
         [Browsable(false)]
-        public int GetTotalFields { get { return RegionData.TotalFields; } set { } }
+        public int GetTotalFields { get { return RegionData.TotalFields * (RegionData.TotalInstances == 0? 1 : RegionData.TotalInstances); } set { } }
         [Browsable(false)]
         public int GetTotalOptions { get { return RegionData.TotalOptions; } set { } }
         [Category("Layout"), Description("Gets or sets the orientation of the OMR Region.")]

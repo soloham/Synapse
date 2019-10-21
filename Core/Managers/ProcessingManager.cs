@@ -352,6 +352,20 @@ namespace Synapse.Core.Managers
                                             try
                                             {
                                                 var generalKey = omrConfig.GeneralAnswerKey;
+                                                if(processedDataEntry.GetFieldsOutputs.Length > generalKey.GetPaper.GetFieldsCount)
+                                                {
+                                                    int startIndex = generalKey.GetPaper.GetFieldsCount;
+                                                    int curTotal = processedDataEntry.GetFieldsOutputs.Length+1;
+                                                    for (int j = startIndex; j < curTotal; j++)
+                                                    {
+                                                        //processedDataEntry.GetFieldsOutputs[j] = '—';
+                                                        processedDataEntry.DataEntriesResultType[j] = ProcessedDataType.NORMAL;
+
+                                                        //** IMPOSSIBLE??
+                                                        //string dataTitle = dataColumns != null && dataColumns.Count > 0 ? dataColumns[(lastDataColumnsIndex + 1) + j] : allConfigurations[i1].Title[0] + (j + 1).ToString();
+                                                        //Functions.AddProperty(dynamicDataRow, dataTitle, "—");
+                                                    }
+                                                }
                                                 var rawValues = ProcessedDataEntry.GenerateRawOMRDataValues(omrConfig, processedDataEntry.GetFieldsOutputs, omrConfig.GetEscapeSymbols());
                                                 var gradeResult = OMREngine.GradeSheet(generalKey, rawValues);
                                                 Functions.AddProperty(dynamicDataRow, "AnswerKey", generalKey);
@@ -365,7 +379,7 @@ namespace Synapse.Core.Managers
                                                     extraColumns++;
                                                 }
                                             }
-                                            catch
+                                            catch(Exception ex)
                                             {
                                                 for (int i2 = 0; i2 < 3; i2++)
                                                 {
@@ -409,6 +423,16 @@ namespace Synapse.Core.Managers
                         var curParameter = gradingParameters.First(x => processedDataEntries.Any(y => y.GetConfigurationBase == x.parameterConfig && y.FormatData()[0] == x.parameterValue));
                         var paramKey = omrConfig.PB_AnswerKeys[curParameter];
 
+                        if (pbGradingData.toGradeEntry.GetFieldsOutputs.Length > paramKey.GetPaper.GetFieldsCount)
+                        {
+                            int startIndex = paramKey.GetPaper.GetFieldsCount;
+                            int curTotal = pbGradingData.toGradeEntry.GetFieldsOutputs.Length+1;
+                            for (int j = startIndex; j < curTotal; j++)
+                            {
+                                //pbGradingData.toGradeEntry.GetFieldsOutputs[j] = '—';
+                                pbGradingData.toGradeEntry.DataEntriesResultType[j] = ProcessedDataType.NORMAL;
+                            }
+                        }
                         var rawValues = ProcessedDataEntry.GenerateRawOMRDataValues(omrConfig, pbGradingData.toGradeEntry.GetFieldsOutputs, omrConfig.GetEscapeSymbols());
                         var gradeResult = OMREngine.GradeSheet(paramKey, rawValues);
                         Functions.AddProperty(dynamicDataRow, "AnswerKey", paramKey);

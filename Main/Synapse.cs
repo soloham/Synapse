@@ -1030,7 +1030,6 @@ namespace Synapse
                 totalSheets = loadedSheetsData.GetSheetsPath.Length;
 
                 processingProgressBar.FontColor = CurrentTheme == Themes.COLORFUL || CurrentTheme == Themes.WHITE ? Color.Black : Color.WhiteSmoke;
-
                 progressStatusTablePanel.Visible = true;
                 MainProcessingManager.StartProcessing(keepData, gridConfigOnlyColumns);
 
@@ -1996,13 +1995,14 @@ namespace Synapse
             answerKeyPaperComboBox.DisplayMember = "Title";
         }
 
+        OMRConfiguration selectedKeyOMRConfig;
         private void configurationComboBox_SelectedValueChanged(object sender, EventArgs e)
         {
-            OMRConfiguration selectedOMRConfig = (OMRConfiguration)configurationComboBox.SelectedItem;
-            if (selectedOMRConfig == null)
+            selectedKeyOMRConfig = (OMRConfiguration)configurationComboBox.SelectedItem;
+            if (selectedKeyOMRConfig == null)
                 return;
 
-            switch (selectedOMRConfig.KeyType)
+            switch (selectedKeyOMRConfig.KeyType)
             {
                 case Core.Keys.KeyType.General:
                     answerKeyParameterTable.Visible = false;
@@ -2016,14 +2016,12 @@ namespace Synapse
                     answerKeyParameterField.DisplayMember = "Title";
                     break;
             }
-
-            SetupKeyFields(selectedOMRConfig);
         }
 
-        private void SetupKeyFields(OMRConfiguration omrConfiguration)
+        private void SetupKeyFields(OMRConfiguration omrConfiguration, Paper paper = null)
         {
-            int totalFields = omrConfiguration.GetTotalFields;
-            int totalOptions = omrConfiguration.GetTotalOptions;
+            int totalFields = paper == null? omrConfiguration.GetTotalFields : paper.GetFieldsCount;
+            int totalOptions = paper == null? omrConfiguration.GetTotalOptions : paper.GetOptionsCount;
             Orientation orientation = omrConfiguration.Orientation;
 
             for (int i = 0; i < answerKeyFieldsTable.Controls.Count; i++)
@@ -2815,6 +2813,12 @@ namespace Synapse
 
             if (MainProcessingManager.IsProcessing)
                 MainProcessingManager.ResumeProcessing();
+        }
+
+        private void answerKeyPaperComboBox_SelectedValueChanged(object sender, EventArgs e)
+        {
+            Paper selectedPaper = (Paper)answerKeyPaperComboBox.SelectedValue;
+            SetupKeyFields(selectedKeyOMRConfig, selectedPaper);
         }
     }
 }
