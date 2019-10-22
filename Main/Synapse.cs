@@ -363,9 +363,9 @@ namespace Synapse
             await Task.Delay(200);
             manualDataGrid.DataSource = manualDataGridPager.PagedSource;
             await Task.Delay(200);
-            faultyDataGrid.DataSource = faultyDataGridPager.PagedSource;
+            //faultyDataGrid.DataSource = faultyDataGridPager.PagedSource;
             await Task.Delay(200);
-            incompatibleDataGrid.DataSource = incompatibleDataGridPager.PagedSource;
+            //incompatibleDataGrid.DataSource = incompatibleDataGridPager.PagedSource;
             await Task.Delay(200);
         }
         #endregion
@@ -610,6 +610,7 @@ namespace Synapse
                 }
             }
         }
+
         #endregion
         #region Data Tab
         #endregion
@@ -2741,10 +2742,13 @@ namespace Synapse
 
         private void manualDataGrid_CellDoubleClick(object sender, Syncfusion.WinForms.DataGrid.Events.CellClickEventArgs e)
         {
-            (int entryIndex, int fieldIndex) cellRepresentation = GridCellsRepresentation[e.DataColumn.GridColumn.MappingName];
-            string configTitle = (e.DataRow.RowData as dynamic).DataRowObject.GetProcessedDataEntries[cellRepresentation.entryIndex].ConfigurationTitle;
-            using (DataEditForm dataEditForm = new DataEditForm(OnTemplateConfigs.Find(x => x.Configuration.Title == configTitle), e.DataRow.RowData, e.DataColumn.GridColumn.MappingName, e.DataColumn.ColumnIndex))
-                dataEditForm.ShowDialog();
+            if (ModifierKeys == Keys.Control)
+            {
+                (int entryIndex, int fieldIndex) cellRepresentation = GridCellsRepresentation[e.DataColumn.GridColumn.MappingName];
+                string configTitle = (e.DataRow.RowData as dynamic).DataRowObject.GetProcessedDataEntries[cellRepresentation.entryIndex].ConfigurationTitle;
+                using (DataEditForm dataEditForm = new DataEditForm(OnTemplateConfigs.Find(x => x.Configuration.Title == configTitle), e.DataRow.RowData, e.DataColumn.GridColumn.MappingName, e.DataColumn.ColumnIndex))
+                    dataEditForm.ShowDialog();
+            }
         }
 
         private void manualDataGrid_MouseClick(object sender, MouseEventArgs e)
@@ -2827,6 +2831,156 @@ namespace Synapse
         {
             Paper selectedPaper = (Paper)answerKeyPaperComboBox.SelectedValue;
             SetupKeyFields(selectedKeyOMRConfig, selectedPaper);
+        }
+
+        private void mainDataGrid_CurrentCellEndEdit(object sender, Syncfusion.WinForms.DataGrid.Events.CurrentCellEndEditEventArgs e)
+        {
+            string dataColumnName = e.DataColumn.GridColumn.MappingName;
+            dynamic dataRowObject = e.DataRow.RowData as dynamic;
+            (int entryIndex, int fieldIndex) cellRepresentation = GridCellsRepresentation[dataColumnName];
+            ProcessedDataRow processedDataRow = dataRowObject.DataRowObject;
+            ConfigurationBase configurationBase = processedDataRow.GetProcessedDataEntries[cellRepresentation.entryIndex].GetConfigurationBase;
+            string editValue = Functions.GetProperty(dataRowObject, dataColumnName);
+            if (editValue == "")
+                return;
+
+            string err = String.Empty;
+            string value = editValue;
+            switch (configurationBase.ValueDataType)
+            {
+                case ValueDataType.String:
+                    break;
+                case ValueDataType.Text:
+                    if (!value.All(char.IsLetter))
+                    {
+                        err = "Invalid value. Text was expected.";
+                    }
+                    break;
+                case ValueDataType.Alphabet:
+                    if (!value.All(char.IsLetter))
+                    {
+                        err = "Invalid value. Text was expected.";
+                    }
+                    break;
+                case ValueDataType.WholeNumber:
+                    if (!value.All(char.IsDigit))
+                    {
+                        err = "Invalid value. Whole number was expected.";
+                    }
+                    break;
+                case ValueDataType.NaturalNumber:
+                    if (!value.All(char.IsDigit) || value == "0")
+                    {
+                        err = "Invalid value, Natural number was expected.";
+                    }
+                    break;
+                case ValueDataType.Integer:
+                    if (!value.All(char.IsDigit))
+                    {
+                        err = "Invalid value. Integer was expected.";
+                    }
+                    break;
+            }
+            switch (configurationBase.GetMainConfigType)
+            {
+                case MainConfigType.OMR:
+
+                    break;
+                case MainConfigType.BARCODE:
+
+                    break;
+                case MainConfigType.ICR:
+
+                    break;
+                default:
+                    break;
+            }
+
+            ProcessedDataEntry entry = processedDataRow.GetProcessedDataEntries[cellRepresentation.entryIndex];
+            if (!String.IsNullOrEmpty(err))
+            {
+                Functions.AddProperty(dataRowObject, dataColumnName, entry.GetDataValues[cellRepresentation.fieldIndex]);
+                Messages.ShowError(err);
+                return;
+            }
+
+            Functions.AddProperty(dataRowObject, dataColumnName, editValue);
+            entry.GetDataValues[cellRepresentation.fieldIndex] = editValue;
+        }
+
+        private void manualDataGrid_CurrentCellEndEdit_1(object sender, Syncfusion.WinForms.DataGrid.Events.CurrentCellEndEditEventArgs e)
+        {
+            string dataColumnName = e.DataColumn.GridColumn.MappingName;
+            dynamic dataRowObject = e.DataRow.RowData as dynamic;
+            (int entryIndex, int fieldIndex) cellRepresentation = GridCellsRepresentation[dataColumnName];
+            ProcessedDataRow processedDataRow = dataRowObject.DataRowObject;
+            ConfigurationBase configurationBase = processedDataRow.GetProcessedDataEntries[cellRepresentation.entryIndex].GetConfigurationBase;
+            string editValue = Functions.GetProperty(dataRowObject, dataColumnName);
+            if (editValue == "")
+                return;
+
+            string err = String.Empty;
+            string value = editValue;
+            switch (configurationBase.ValueDataType)
+            {
+                case ValueDataType.String:
+                    break;
+                case ValueDataType.Text:
+                    if (!value.All(char.IsLetter))
+                    {
+                        err = "Invalid value. Text was expected.";
+                    }
+                    break;
+                case ValueDataType.Alphabet:
+                    if (!value.All(char.IsLetter))
+                    {
+                        err = "Invalid value. Text was expected.";
+                    }
+                    break;
+                case ValueDataType.WholeNumber:
+                    if (!value.All(char.IsDigit))
+                    {
+                        err = "Invalid value. Whole number was expected.";
+                    }
+                    break;
+                case ValueDataType.NaturalNumber:
+                    if (!value.All(char.IsDigit) || value == "0")
+                    {
+                        err = "Invalid value, Natural number was expected.";
+                    }
+                    break;
+                case ValueDataType.Integer:
+                    if (!value.All(char.IsDigit))
+                    {
+                        err = "Invalid value. Integer was expected.";
+                    }
+                    break;
+            }
+            switch (configurationBase.GetMainConfigType)
+            {
+                case MainConfigType.OMR:
+
+                    break;
+                case MainConfigType.BARCODE:
+
+                    break;
+                case MainConfigType.ICR:
+
+                    break;
+                default:
+                    break;
+            }
+
+            ProcessedDataEntry entry = processedDataRow.GetProcessedDataEntries[cellRepresentation.entryIndex];
+            if (!String.IsNullOrEmpty(err))
+            {
+                Functions.AddProperty(dataRowObject, dataColumnName, entry.GetDataValues[cellRepresentation.fieldIndex]);
+                Messages.ShowError(err);
+                return;
+            }
+
+            Functions.AddProperty(dataRowObject, dataColumnName, editValue);
+            entry.GetDataValues[cellRepresentation.fieldIndex] = editValue;
         }
     }
 }
