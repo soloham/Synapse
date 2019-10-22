@@ -2741,7 +2741,9 @@ namespace Synapse
 
         private void manualDataGrid_CellDoubleClick(object sender, Syncfusion.WinForms.DataGrid.Events.CellClickEventArgs e)
         {
-            using (DataEditForm dataEditForm = new DataEditForm(OnTemplateConfigs[e.DataColumn.ColumnIndex], e.DataRow.RowData, e.DataColumn.GridColumn.MappingName, e.DataColumn.ColumnIndex))
+            (int entryIndex, int fieldIndex) cellRepresentation = GridCellsRepresentation[e.DataColumn.GridColumn.MappingName];
+            string configTitle = (e.DataRow.RowData as dynamic).DataRowObject.GetProcessedDataEntries[cellRepresentation.entryIndex].ConfigurationTitle;
+            using (DataEditForm dataEditForm = new DataEditForm(OnTemplateConfigs.Find(x => x.Configuration.Title == configTitle), e.DataRow.RowData, e.DataColumn.GridColumn.MappingName, e.DataColumn.ColumnIndex))
                 dataEditForm.ShowDialog();
         }
 
