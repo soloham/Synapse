@@ -1,0 +1,249 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{5F88C081-F528-4E93-8382-95561BF6BD02}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Synapse.Controls</RootNamespace>
+    <AssemblyName>Synapse.Controls</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Emgu.CV.UI, Version=4.1.1.3497, Culture=neutral, PublicKeyToken=7281126722ab4438, processorArchitecture=MSIL">
+      <HintPath>..\packages\EMGU.CV.4.1.1.3497\lib\net35\Emgu.CV.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="Emgu.CV.World, Version=4.1.1.3497, Culture=neutral, PublicKeyToken=7281126722ab4438, processorArchitecture=MSIL">
+      <HintPath>..\packages\EMGU.CV.4.1.1.3497\lib\net35\Emgu.CV.World.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.Core.WinForms, Version=17.3460.0.14, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL" />
+    <Reference Include="Syncfusion.Grid.Base, Version=17.3460.0.14, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL" />
+    <Reference Include="Syncfusion.Grid.Windows, Version=17.3460.0.14, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL" />
+    <Reference Include="Syncfusion.GridCommon.WinForms, Version=17.3460.0.14, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL" />
+    <Reference Include="Syncfusion.SfDataGrid.WinForms, Version=17.3460.0.14, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL" />
+    <Reference Include="Syncfusion.Shared.Base, Version=17.3460.0.14, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL" />
+    <Reference Include="Syncfusion.Shared.Windows, Version=17.3400.0.14, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL" />
+    <Reference Include="Syncfusion.Tools.Base, Version=17.3460.0.14, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL" />
+    <Reference Include="Syncfusion.Tools.Windows, Version=17.3460.0.14, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="ZedGraph, Version=5.1.7.430, Culture=neutral, PublicKeyToken=02a83cbd123fcd60, processorArchitecture=MSIL">
+      <HintPath>..\packages\ZedGraph.5.1.7\lib\net35-Client\ZedGraph.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Controls\AKazeSettingsControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\AKazeSettingsControl.Designer.cs">
+      <DependentUpon>AKazeSettingsControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\AlignmentMethodListItem.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\AlignmentMethodListItem.Designer.cs">
+      <DependentUpon>AlignmentMethodListItem.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\AlignmentMethodResultControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\AlignmentMethodResultControl.Designer.cs">
+      <DependentUpon>AlignmentMethodResultControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\AlignmentPipelineResultsControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\AlignmentPipelineResultsControl.Designer.cs">
+      <DependentUpon>AlignmentPipelineResultsControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\AnchorPlaceholderControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\AnchorPlaceholderControl.Designer.cs">
+      <DependentUpon>AnchorPlaceholderControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\AnchorsSettingsPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\AnchorsSettingsPanel.Designer.cs">
+      <DependentUpon>AnchorsSettingsPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Answer Key\AnswerKeyFieldControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Answer Key\AnswerKeyFieldControl.Designer.cs">
+      <DependentUpon>AnswerKeyFieldControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Answer Key\AnswerKeyListItem.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Answer Key\AnswerKeyListItem.Designer.cs">
+      <DependentUpon>AnswerKeyListItem.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\AutoLabelEx.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\AutoLabelEx.Designer.cs">
+      <DependentUpon>AutoLabelEx.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ButtonAdvEx.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\ButtonAdvEx.Designer.cs">
+      <DependentUpon>ButtonAdvEx.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ConfigureDataListItem.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\ConfigureDataListItem.Designer.cs">
+      <DependentUpon>ConfigureDataListItem.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\CustomDataEntryListItem.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\CustomDataEntryListItem.Designer.cs">
+      <DependentUpon>CustomDataEntryListItem.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Custom\CheckboxEx.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\Custom\CheckboxEx.Designer.cs">
+      <DependentUpon>CheckboxEx.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Custom\TextBoxAdvEx.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\Custom\TextBoxAdvEx.Designer.cs">
+      <DependentUpon>TextBoxAdvEx.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\KazeSettingsControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\KazeSettingsControl.Designer.cs">
+      <DependentUpon>KazeSettingsControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\PaperDataListItem.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\PaperDataListItem.Designer.cs">
+      <DependentUpon>PaperDataListItem.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\PipelineTestMethodSettingControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\PipelineTestMethodSettingControl.Designer.cs">
+      <DependentUpon>PipelineTestMethodSettingControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\SfDataGridEx.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\SfDataGridEx.Designer.cs">
+      <DependentUpon>SfDataGridEx.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Controls\AKazeSettingsControl.resx">
+      <DependentUpon>AKazeSettingsControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\AlignmentMethodListItem.resx">
+      <DependentUpon>AlignmentMethodListItem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\AlignmentMethodResultControl.resx">
+      <DependentUpon>AlignmentMethodResultControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\AlignmentPipelineResultsControl.resx">
+      <DependentUpon>AlignmentPipelineResultsControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\AnchorPlaceholderControl.resx">
+      <DependentUpon>AnchorPlaceholderControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\AnchorsSettingsPanel.resx">
+      <DependentUpon>AnchorsSettingsPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Answer Key\AnswerKeyFieldControl.resx">
+      <DependentUpon>AnswerKeyFieldControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Answer Key\AnswerKeyListItem.resx">
+      <DependentUpon>AnswerKeyListItem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\AutoLabelEx.resx">
+      <DependentUpon>AutoLabelEx.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ConfigureDataListItem.resx">
+      <DependentUpon>ConfigureDataListItem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\CustomDataEntryListItem.resx">
+      <DependentUpon>CustomDataEntryListItem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\KazeSettingsControl.resx">
+      <DependentUpon>KazeSettingsControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\PaperDataListItem.resx">
+      <DependentUpon>PaperDataListItem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\PipelineTestMethodSettingControl.resx">
+      <DependentUpon>PipelineTestMethodSettingControl.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Synapse.Core\Synapse.Core.csproj">
+      <Project>{4de86261-db44-44f2-b06b-4c5f3d366ebd}</Project>
+      <Name>Synapse.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Synapse.DeCore\Synapse.DeCore.csproj">
+      <Project>{7FEAB04B-F7C1-4C51-BEC9-88446AF3D014}</Project>
+      <Name>Synapse.DeCore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Synapse.Shared\Synapse.Shared.csproj">
+      <Project>{e622e3b9-40d3-4125-b5c4-2db548b95680}</Project>
+      <Name>Synapse.Shared</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="License-LGPL.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\EMGU.CV.4.1.1.3497\build\EMGU.CV.targets" Condition="Exists('..\packages\EMGU.CV.4.1.1.3497\build\EMGU.CV.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\EMGU.CV.4.1.1.3497\build\EMGU.CV.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EMGU.CV.4.1.1.3497\build\EMGU.CV.targets'))" />
+  </Target>
+</Project>

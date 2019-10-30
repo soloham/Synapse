@@ -1,0 +1,7 @@
+<project outputDir="C:\Users\monos\Documents\Projects\Repositories\.NET\Synapse\Synapse.App\bin\Release" baseDir="C:\Users\monos\Documents\Projects\Repositories\.NET\Synapse\Synapse.App\bin\ReleaseConfused" xmlns="http://confuser.codeplex.com">
+  <module path="Synapse.Base.dll">
+    <rule pattern="true" preset="maximum" inherit="false">
+      <protection id="anti ildasm" />
+    </rule>
+  </module>
+</project>

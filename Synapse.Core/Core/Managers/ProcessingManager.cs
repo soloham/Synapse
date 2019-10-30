@@ -1,0 +1,905 @@
+﻿using Emgu.CV;
+using Emgu.CV.Structure;
+using Synapse.Core.Configurations;
+using Synapse.Core.Engines;
+using Synapse.Core.Engines.Data;
+using Synapse.Core.Keys;
+using Synapse.Core.Templates;
+using Synapse.Utilities;
+using Synapse.Utilities.Enums;
+using Synapse.Utilities.Objects;
+using Syncfusion.WinForms.DataGrid;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Drawing;
+using System.Dynamic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.Threading;
+using static Synapse.Core.Templates.Template;
+using static Synapse.Shared.Enums.ProcessingEnums;
+
+namespace Synapse.Core.Managers
+{
+    public class ProcessingManager
+    {
+        #region Enums
+       
+        #endregion
+
+        public BackgroundWorker ProcessingWorker;
+        
+        public int GetCurProcessingIndex { get; private set; }
+
+        private Template CurrentTemplate;
+        private SheetsList loadedSheetsData = new SheetsList();
+        private List<string> dataColumns = new List<string>();
+        private List<ProcessedDataRow> processedData = new List<ProcessedDataRow>();
+
+        private Action<List<ProcessedDataEntry>, (ObservableCollection<dynamic> processedDataSource, ObservableCollection<dynamic> manProcessedDataSource, ObservableCollection<dynamic> fauProcessedDataSource, ObservableCollection<dynamic> incProcessedDataSource), int> InitializeDataGrids;
+        private Func<bool, List<string>> GetGridDataColumns;
+
+        private ObservableCollection<dynamic> allProcessedDataSource = new ObservableCollection<dynamic>();
+        private ObservableCollection<dynamic> manualProcessedDataSource = new ObservableCollection<dynamic>();
+        private ObservableCollection<dynamic> faultyProcessedDataSource = new ObservableCollection<dynamic>();
+        private ObservableCollection<dynamic> incompatibleProcessedDataSource = new ObservableCollection<dynamic>();
+
+        public int GetTotalProcessedData { get => allProcessedDataSource.Count; }
+        public int GetTotalManualProcessedData { get => manualProcessedDataSource.Count; }
+        public int GetTotalFaultyProcessedData { get => faultyProcessedDataSource.Count; }
+        public int GetTotalIncompatibleProcessedData { get => incompatibleProcessedDataSource.Count; }
+        public bool IsProcessing { get; private set; } = false;
+        public bool IsPaused { get; private set; } = false;
+        public const int MAX_UNACTIVATED_SHEETS = 5000;
+
+        public event EventHandler<ProcessedDataType> OnDataSourceUpdated;
+        public event EventHandler<(ProcessedDataRow, double, double)> OnSheetProcessed;
+        public event EventHandler<(bool cancelled, object result, Exception error)> OnProcessingComplete;
+
+        public OMREngine CurOMREngine;
+        public BarcodeEngine CurBarcodeEngine;
+
+        public ProcessingManager(Template currentTemplate, Action<List<ProcessedDataEntry>, (ObservableCollection<dynamic> processedDataSource, ObservableCollection<dynamic> manProcessedDataSource, ObservableCollection<dynamic> fauProcessedDataSource, ObservableCollection<dynamic> incProcessedDataSource), int> initializeDataGridsAction, Func<bool, List<string>> getGridDataColumnsFunc)
+        {
+            CurrentTemplate = currentTemplate;
+            InitializeDataGrids = initializeDataGridsAction;
+            GetGridDataColumns = getGridDataColumnsFunc;
+            IsProcessing = false;
+
+            CurOMREngine = new OMREngine();
+            CurBarcodeEngine = new BarcodeEngine();
+        }
+
+        public void LoadSheets(SheetsList sheetsList)
+        {
+            this.loadedSheetsData = sheetsList;
+        }
+        public void ClearData(ProcessedDataType processedDataType)
+        {
+            switch (processedDataType)
+            {
+                case ProcessedDataType.INCOMPATIBLE:
+                    incompatibleProcessedDataSource.Clear();
+                    break;
+                case ProcessedDataType.FAULTY:
+                    faultyProcessedDataSource.Clear();
+                    break;
+                case ProcessedDataType.MANUAL:
+                    manualProcessedDataSource.Clear();
+                    break;
+                case ProcessedDataType.NORMAL:
+                    allProcessedDataSource.Clear();
+                    break;
+            }
+
+            processedData.RemoveAll(x => x.DataRowResultType == processedDataType);
+
+            OnDataSourceUpdated?.Invoke(this, processedDataType);
+        }
+        public void ClearAllData()
+        {
+            incompatibleProcessedDataSource.Clear();
+            faultyProcessedDataSource.Clear();
+            manualProcessedDataSource.Clear();
+            allProcessedDataSource.Clear();
+
+            processedData.Clear();
+
+            var processedDataTypes = EnumHelper.ToList(typeof(ProcessedDataType));
+            for (int i = 0; i < processedDataTypes.Count; i++)
+            {
+                OnDataSourceUpdated?.Invoke(this, (ProcessedDataType)i);
+            }
+        }
+
+        public void UpdateDataColumns(List<string> dataColumns)
+        {
+            this.dataColumns = dataColumns;
+        }
+        public void StartProcessing(bool keepData, List<string> dataColumns = null)
+        {
+            this.dataColumns = dataColumns;
+
+            if (!keepData)
+                ClearAllData();
+
+            ProcessingWorker = new BackgroundWorker();
+            ProcessingWorker.WorkerReportsProgress = true;
+            ProcessingWorker.WorkerSupportsCancellation = true;
+
+            ProcessingWorker.DoWork += ProcessingWorker_DoWork;
+            ProcessingWorker.ProgressChanged += ProcessingWorker_ProgressChanged;
+            ProcessingWorker.RunWorkerCompleted += ProcessingWorker_RunWorkerCompleted;
+
+            ProcessingWorker.RunWorkerAsync(keepData);
+        }
+        public void StopProcessing()
+        {
+            ProcessingWorker.CancelAsync();
+
+            IsPaused = false;
+        }
+        public void PauseProcessing()
+        {
+            IsPaused = true;
+        }
+        public void ResumeProcessing()
+        {
+            IsPaused = false;
+        }
+
+
+        public DateTime uiClock0 = DateTime.Now;
+
+        private void ProcessingWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            (bool keepData, ProcessedDataRow processedDataRow, dynamic dynamicDataRow, double runningAverage, double runningTotal, int extraColumns) = ((bool, ProcessedDataRow, dynamic, double, double, int))e.UserState;
+
+            if (processedDataRow.GetRowIndex == 0 && !keepData)
+                InitializeDataGrids?.Invoke(processedDataRow.GetProcessedDataEntries, (allProcessedDataSource, manualProcessedDataSource, faultyProcessedDataSource, incompatibleProcessedDataSource), extraColumns);
+
+            try
+            {
+                //if (allLatencyDataObjects.Count > 0)
+                //{
+                //    allLatencyDataObjects.ForEach(x => allProcessedDataSource.Add(x));
+                //    allLatencyDataObjects.Clear();
+                //}
+                allProcessedDataSource.Add(dynamicDataRow);
+                switch (processedDataRow.DataRowResultType)
+                {
+                    case ProcessedDataType.INCOMPATIBLE:
+                        //if (incompatibleLatencyDataObjects.Count > 0)
+                        //{
+                        //    incompatibleLatencyDataObjects.ForEach(x => incompatibleProcessedDataSource.Add(x));
+                        //    incompatibleLatencyDataObjects.Clear();
+                        //}
+                        incompatibleProcessedDataSource.Add(dynamicDataRow);
+                        break;
+                    case ProcessedDataType.FAULTY:
+                        //if (faultyLatencyDataObjects.Count > 0)
+                        //{
+                        //    faultyLatencyDataObjects.ForEach(x => faultyProcessedDataSource.Add(x));
+                        //    faultyLatencyDataObjects.Clear();
+                        //}
+                        faultyProcessedDataSource.Add(dynamicDataRow);
+                        break;
+                    case ProcessedDataType.MANUAL:
+                        //if (manualLatencyDataObjects.Count > 0)
+                        //{
+                        //    manualLatencyDataObjects.ForEach(x => manualProcessedDataSource.Add(x));
+                        //    manualLatencyDataObjects.Clear();
+                        //}
+                        int manualCount = manualProcessedDataSource.Count;
+                        manualProcessedDataSource.Insert(manualCount == 0? 0 : manualCount-1, dynamicDataRow);
+                        break;
+                    case ProcessedDataType.NORMAL:
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"ProgressChanged Ex: {ex.Message}");
+            }
+
+            OnDataSourceUpdated?.Invoke(this, processedDataRow.DataRowResultType);
+            OnSheetProcessed?.Invoke(this, (processedDataRow, runningAverage, runningTotal));
+
+            //DateTime uiClock1 = DateTime.Now;
+            //var diff = (uiClock1 - uiClock0).TotalMilliseconds;
+            //if (diff >= 50)
+            //{
+                
+
+            //    uiClock0 = DateTime.Now;
+            //}
+        }
+        private void ProcessingWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            IsProcessing = false;
+            OnProcessingComplete?.Invoke(this, (e.Cancelled, e.Cancelled? null : e.Result, e.Error));
+        }
+
+        private void ProcessingWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            BackgroundWorker worker = (BackgroundWorker)sender;
+            string[] sheetsPaths = loadedSheetsData.GetSheetsPath;
+            var allConfigurations = ConfigurationsManager.GetAllConfigurations;
+
+            double runningAverage = 0;
+            double runningTotal = 0;
+
+            int extraColumns = 0;
+
+            bool keepData = (bool)e.Argument;
+
+            IsProcessing = true;
+            bool pauseGrading = false;
+            bool isActivated = CurrentTemplate.TemplateData.IsActivatedd;
+
+            List<ConfigurationBase> renameFields = allConfigurations.FindAll(x => x.AddToFileName);
+            for (int i = 0; i < sheetsPaths.Length; i++)
+            {
+                if(worker.CancellationPending || (!isActivated && i >= MAX_UNACTIVATED_SHEETS))
+                {
+                    e.Cancel = true;
+                    return;
+                }
+
+                var t0 = DateTime.Now;
+                GetCurProcessingIndex = i;
+                
+                dynamic dynamicDataRow = new ExpandoObject();
+                ProcessedDataType processedRowType = ProcessedDataType.NORMAL;
+
+                Mat curSheet = null;
+                AlignmentPipelineResults alignmentPipelineResults = null;
+                Mat alignedSheet = null;
+
+                try
+                {
+                    curSheet = CvInvoke.Imread(sheetsPaths[i], Emgu.CV.CvEnum.ImreadModes.Grayscale);
+                    //await Task.Run(() => { alignedSheet = CurrentTemplate.AlignSheet(curSheet, out AlignmentPipelineResults _alignmentPipelineResults); alignmentPipelineResults = _alignmentPipelineResults; });
+                    alignedSheet = CurrentTemplate.AlignSheet(curSheet, out AlignmentPipelineResults _alignmentPipelineResults, false);
+                    alignmentPipelineResults = _alignmentPipelineResults;
+                    curSheet.Dispose();
+                    if (alignmentPipelineResults.AlignmentMethodTestResultsList.TrueForAll(x => x.GetAlignmentMethodResultType == AlignmentPipelineResults.AlignmentMethodResultType.Failed))
+                        continue;
+                }
+                catch (Exception ex)
+                {
+                    processedRowType = ProcessedDataType.INCOMPATIBLE;
+
+                    List<string> gridDataColumns = GetGridDataColumns?.Invoke(false);
+                    for (int i1 = 0; i1 < gridDataColumns.Count; i1++)
+                    {
+                        string dataTitle = gridDataColumns[i1];
+                        Functions.AddProperty(dynamicDataRow, dataTitle, "—");
+                    }
+                    List<ProcessedDataEntry> processedDataEntriesEx = new List<ProcessedDataEntry>();
+                    for (int i1 = 0; i1 < allConfigurations.Count; i1++)
+                    {
+                        processedDataEntriesEx.Add(new ProcessedDataEntry(allConfigurations[i1].Title, new char[] { '—' }, new ProcessedDataType[] { ProcessedDataType.INCOMPATIBLE }));
+                    }
+                    ProcessedDataRow processedDataRowEx = new ProcessedDataRow(processedDataEntriesEx, i, sheetsPaths[i], processedRowType);
+                    processedData.Add(processedDataRowEx);
+
+                    Functions.AddProperty(dynamicDataRow, "DataRowObject", processedDataRowEx);
+                    var t1Ex = DateTime.Now;
+                    runningTotal += (t1Ex - t0).TotalMilliseconds;
+                    runningAverage = runningTotal / (i + 1);
+
+                    curSheet.Dispose();
+
+                    worker.ReportProgress(0, (keepData, processedDataRowEx, dynamicDataRow, runningAverage, runningTotal, extraColumns));
+                    
+                    continue;
+                }
+
+                List<ProcessedDataEntry> processedDataEntries = new List<ProcessedDataEntry>();
+                int lastDataColumnsIndex = -1;
+                ConfigurationBase curConfigurationBase = null;
+
+                var parameterBasedGradings = new List<(ProcessedDataEntry toGradeEntry, Parameter[] gradingParameters)>();
+                for (int i1 = 0; i1 < allConfigurations.Count; i1++)
+                {
+                    curConfigurationBase = allConfigurations[i1];
+                    ProcessedDataEntry? _processedDataEntry = null;
+                    switch (curConfigurationBase.GetMainConfigType)
+                    {
+                        case MainConfigType.OMR:
+                            _processedDataEntry = CurOMREngine.ProcessSheet(curConfigurationBase, alignedSheet, null, sheetsPaths[i]);
+                            break;
+                        case MainConfigType.BARCODE:
+                            _processedDataEntry = CurBarcodeEngine.ProcessSheet(curConfigurationBase, alignedSheet, null, sheetsPaths[i]);
+                            break;
+                        case MainConfigType.ICR:
+                            _processedDataEntry = new ProcessedDataEntry(curConfigurationBase.Title, new char[] { 'N', 'I', 'L' }, new ProcessedDataType[] { ProcessedDataType.NORMAL, ProcessedDataType.NORMAL, ProcessedDataType.NORMAL });
+                            break;
+                        default:
+                            break;
+                    }
+                    if (!_processedDataEntry.HasValue)
+                        continue;
+
+                    ProcessedDataEntry processedDataEntry = _processedDataEntry.Value;
+                    processedDataEntries.Add(processedDataEntry);
+
+                    switch (processedDataEntry.DataEntriesResultType[0])
+                    {
+                        case ProcessedDataType.NORMAL:
+                            break;
+                        case ProcessedDataType.MANUAL:
+                            if(processedRowType == ProcessedDataType.NORMAL) processedRowType = ProcessedDataType.MANUAL;
+                            break;
+                        case ProcessedDataType.FAULTY:
+                            if(processedRowType != ProcessedDataType.INCOMPATIBLE) processedRowType = ProcessedDataType.FAULTY;
+                            break;
+                        case ProcessedDataType.INCOMPATIBLE:
+                            processedRowType = ProcessedDataType.INCOMPATIBLE;
+                            break;
+                        default:
+                            break;
+                    }
+
+                    string[] formattedOutput = processedDataEntry.FormatData();
+                    if (formattedOutput.Length == 1)
+                    {
+                        string dataTitle = dataColumns != null && dataColumns.Count > 0 ? dataColumns[lastDataColumnsIndex + 1] : allConfigurations[i1].Title;
+                        Functions.AddProperty(dynamicDataRow, dataTitle, formattedOutput[0]);
+
+                        lastDataColumnsIndex++;
+                    }
+                    else
+                    {
+                        for (int i2 = 0; i2 < formattedOutput.Length; i2++)
+                        {
+                            string dataTitle = dataColumns != null && dataColumns.Count > 0 ? dataColumns[(lastDataColumnsIndex + 1) + i2] : allConfigurations[i1].Title[0] + (i2 + 1).ToString();
+                            Functions.AddProperty(dynamicDataRow, dataTitle, formattedOutput[i2]);
+
+                        }
+                        lastDataColumnsIndex += formattedOutput.Length;
+                    }
+
+                    switch (curConfigurationBase.GetMainConfigType)
+                    {
+                        case MainConfigType.OMR:
+                            OMRConfiguration omrConfig = (OMRConfiguration)curConfigurationBase;
+                            switch (omrConfig.OMRType)
+                            {
+                                case OMRType.Gradable:
+                                    switch (omrConfig.KeyType)
+                                    {
+                                        case Keys.KeyType.General:
+                                            try
+                                            {
+                                                var generalKey = omrConfig.GeneralAnswerKey;
+                                                if(processedDataEntry.GetFieldsOutputs.Length > generalKey.GetPaper.GetFieldsCount)
+                                                {
+                                                    int startIndex = generalKey.GetPaper.GetFieldsCount;
+                                                    int curTotal = processedDataEntry.GetFieldsOutputs.Length+1;
+                                                    for (int j = startIndex; j < curTotal; j++)
+                                                    {
+                                                        //processedDataEntry.GetFieldsOutputs[j] = '—';
+                                                        processedDataEntry.DataEntriesResultType[j] = ProcessedDataType.NORMAL;
+
+                                                        //** IMPOSSIBLE??
+                                                        //string dataTitle = dataColumns != null && dataColumns.Count > 0 ? dataColumns[(lastDataColumnsIndex + 1) + j] : allConfigurations[i1].Title[0] + (j + 1).ToString();
+                                                        //Functions.AddProperty(dynamicDataRow, dataTitle, "—");
+                                                    }
+                                                }
+                                                var rawValues = ProcessedDataEntry.GenerateRawOMRDataValues(omrConfig, processedDataEntry.GetFieldsOutputs, omrConfig.GetEscapeSymbols());
+                                                var gradeResult = OMREngine.GradeSheet(generalKey, rawValues);
+                                                Functions.AddProperty(dynamicDataRow, "AnswerKey", generalKey);
+
+                                                for (int i2 = 0; i2 < 3; i2++)
+                                                {
+                                                    string dataTitle = i2 == 0 ? omrConfig.Title + " Score" : i2 == 1 ? omrConfig.Title + " Paper" : i2 == 2 ? omrConfig.Title + " Key" : omrConfig.Title + $" x{i2}";
+                                                    Functions.AddProperty(dynamicDataRow, dataTitle, i2 == 0 ? gradeResult.obtainedMarks + "" : i2 == 1 ? generalKey.GetPaper.Title : generalKey.Title);
+
+                                                    //lastDataColumnsIndexEx++;
+                                                    extraColumns++;
+                                                }
+                                            }
+                                            catch(Exception ex)
+                                            {
+                                                for (int i2 = 0; i2 < 3; i2++)
+                                                {
+                                                    string dataTitle = i2 == 0 ? omrConfig.Title + " Score" : i2 == 1 ? omrConfig.Title + " Paper" : i2 == 2 ? omrConfig.Title + " Key" : omrConfig.Title + $" x{i2}";
+                                                    Functions.AddProperty(dynamicDataRow, dataTitle, "—");
+
+                                                    //lastDataColumnsIndexEx++;
+                                                    extraColumns++;
+                                                }
+                                            }
+                                            break;
+                                        case Keys.KeyType.ParameterBased:
+                                            parameterBasedGradings.Add((processedDataEntry, omrConfig.PB_AnswerKeys.Keys.ToArray()));
+                                            //lastDataColumnsIndexEx += 3;
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                    break;
+                                case OMRType.Parameter:
+                                    break;
+                                default:
+                                    break;
+                            }
+                            break;
+                        case MainConfigType.BARCODE:
+                            //OBRConfiguration obrConfig = (OBRConfiguration)curConfigurationBaseEx;
+                            break;
+                        case MainConfigType.ICR:
+                            break;
+                    }
+                }
+
+                for (int pbEntryIndex = 0; pbEntryIndex < parameterBasedGradings.Count; pbEntryIndex++)
+                {
+                    var pbGradingData = parameterBasedGradings[pbEntryIndex];
+                    var omrConfig = (OMRConfiguration)pbGradingData.toGradeEntry.GetConfigurationBase;
+                    var gradingParameters = pbGradingData.gradingParameters;
+                    try
+                    {
+                        var curParameter = gradingParameters.First(x => processedDataEntries.Any(y => y.GetConfigurationBase == x.parameterConfig && y.FormatData()[0] == x.parameterValue));
+                        var paramKey = omrConfig.PB_AnswerKeys[curParameter];
+
+                        if (pbGradingData.toGradeEntry.GetFieldsOutputs.Length > paramKey.GetPaper.GetFieldsCount)
+                        {
+                            int startIndex = paramKey.GetPaper.GetFieldsCount;
+                            int curTotal = pbGradingData.toGradeEntry.GetFieldsOutputs.Length+1;
+                            for (int j = startIndex; j < curTotal; j++)
+                            {
+                                //pbGradingData.toGradeEntry.GetFieldsOutputs[j] = '—';
+                                pbGradingData.toGradeEntry.DataEntriesResultType[j] = ProcessedDataType.NORMAL;
+                            }
+                        }
+                        var rawValues = ProcessedDataEntry.GenerateRawOMRDataValues(omrConfig, pbGradingData.toGradeEntry.GetFieldsOutputs, omrConfig.GetEscapeSymbols());
+                        var gradeResult = OMREngine.GradeSheet(paramKey, rawValues);
+                        Functions.AddProperty(dynamicDataRow, "AnswerKey", paramKey);
+
+                        for (int i2 = 0; i2 < 3; i2++)
+                        {
+                            string dataTitle = i2 == 0 ? omrConfig.Title + " Score" : i2 == 1 ? omrConfig.Title + " Paper" : i2 == 2 ? omrConfig.Title + " Key" : omrConfig.Title + $" x{i2}";
+                            Functions.AddProperty(dynamicDataRow, dataTitle, i2 == 0 ? gradeResult.obtainedMarks + "" : i2 == 1 ? paramKey.GetPaper.Title : paramKey.Title);
+
+                            extraColumns++;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        for (int i2 = 0; i2 < 3; i2++)
+                        {
+                            string dataTitle = i2 == 0 ? omrConfig.Title + " Score" : i2 == 1 ? omrConfig.Title + " Paper" : i2 == 2 ? omrConfig.Title + " Key" : omrConfig.Title + $" x{i2}";
+                            Functions.AddProperty(dynamicDataRow, dataTitle, "—");
+
+                            extraColumns++;
+                        }
+                    }
+                }
+
+                curSheet.Dispose();
+
+                //File Renaming
+                string currentName = sheetsPaths[i];
+                string newName = currentName;
+                try
+                {
+                    string curFileName = Path.GetFileNameWithoutExtension(currentName);
+                    string newFinalName = curFileName;
+                    for (int n = 0; n < renameFields.Count; n++)
+                    {
+                        var entry = processedDataEntries.Find(x => x.ConfigurationTitle == renameFields[n].Title);
+                        if (entry.DataEntriesResultType.Any(x => x != ProcessedDataType.NORMAL))
+                            continue;
+
+                        string[] values = entry.GetDataValues;
+                        string finalValue = newFinalName == ""? "" : "-";
+                        for (int o = 0; o < values.Length; o++)
+                        {
+                            finalValue += values[o];
+                        }
+
+                        newFinalName += finalValue;
+                    }
+
+                    if (!string.IsNullOrEmpty(newFinalName) && newFinalName != curFileName)
+                    {
+                        newName = currentName.Replace(curFileName, newFinalName);
+                        int existCount = 0;
+                        while (File.Exists(newName))
+                        {
+                            existCount++;
+                            string existsFileName = Path.GetFileNameWithoutExtension(newName);
+                            newName = newName.Replace(existsFileName, $"{newFinalName} ({existCount})");
+                        }
+                        File.Move(currentName, newName);
+
+                        sheetsPaths[i] = newName;
+                    }
+                }
+                catch(Exception ex)
+                {
+                    newName = sheetsPaths[i];
+                }
+
+                ProcessedDataRow processedDataRow = new ProcessedDataRow(processedDataEntries, i, newName, processedRowType);
+                processedData.Add(processedDataRow);
+
+                Functions.AddProperty(dynamicDataRow, "File Name", Path.GetFileName(newName));
+                Functions.AddProperty(dynamicDataRow, "DataRowObject", processedDataRow);
+                var t1 = DateTime.Now;
+                runningTotal += (t1 - t0).TotalMilliseconds;
+                runningAverage = runningTotal / (i + 1);
+
+
+                worker.ReportProgress(0, (keepData, processedDataRow, dynamicDataRow, runningAverage, runningTotal, extraColumns));
+
+                //Pause Mechanism
+                if (IsPaused)
+                {
+                    do
+                        pauseGrading = !IsPaused && IsProcessing;
+                    while (!pauseGrading);
+                }
+                //Dispatcher.CurrentDispatcher.InvokeAsync(new Action(() =>
+                //{
+                //}), DispatcherPriority.ContextIdle);
+            }
+        }
+
+        public async Task StartProcessingRaw(Func<bool> GetAlignSheet, Action<Bitmap> OnSheetAligned, Action<RectangleF, bool> OnOptionProcessed, Action<string> OnRegionProcessed, Func<double> GetWaitMS, Action OnProcessFinished)
+        {
+            string[] sheetsPaths = loadedSheetsData.GetSheetsPath;
+            var allConfigurations = ConfigurationsManager.GetAllConfigurations;
+
+            for (int i = 0; i < sheetsPaths.Length; i++)
+            {
+                GetCurProcessingIndex = i;
+
+                Mat curSheet = CvInvoke.Imread(sheetsPaths[i], Emgu.CV.CvEnum.ImreadModes.Grayscale);
+                AlignmentPipelineResults alignmentPipelineResults = null;
+                Mat alignedSheet = null;
+                if (GetAlignSheet())
+                {
+                    await Task.Run(() => { alignedSheet = CurrentTemplate.AlignSheet(curSheet, out AlignmentPipelineResults _alignmentPipelineResults); alignmentPipelineResults = _alignmentPipelineResults; });
+                    if (alignmentPipelineResults.AlignmentMethodTestResultsList.TrueForAll(x => x.GetAlignmentMethodResultType == AlignmentPipelineResults.AlignmentMethodResultType.Failed))
+                        continue;
+                }
+                else
+                    alignedSheet = curSheet;
+
+                await Task.Run(() => OnSheetAligned(alignedSheet.Bitmap));
+
+                List<ProcessedDataEntry> processedDataEntriesEx = new List<ProcessedDataEntry>();
+                for (int i1 = 0; i1 < allConfigurations.Count; i1++)
+                {
+                    ProcessedDataEntry processedDataEntry = new ProcessedDataEntry();
+                    switch (allConfigurations[i1].GetMainConfigType)
+                    {
+                        case MainConfigType.OMR:
+                            OMRConfiguration omrConfiguration = (OMRConfiguration)allConfigurations[i1];
+                            processedDataEntry = await CurOMREngine.ProcessSheetRaw(omrConfiguration, alignedSheet, OnOptionProcessed, GetWaitMS);
+                            break;
+                        case MainConfigType.BARCODE:
+                            OBRConfiguration obrConfiguration = (OBRConfiguration)allConfigurations[i1];
+                            processedDataEntry = CurBarcodeEngine.ProcessSheet(obrConfiguration, alignedSheet);
+                            break;
+                        case MainConfigType.ICR:
+                            break;
+                        default:
+                            break;
+                    }
+
+                    processedDataEntriesEx.Add(processedDataEntry);
+
+                    string[] formattedOutput = processedDataEntry.FormatData();
+                    if (formattedOutput.Length == 1)
+                    {
+                        await Task.Run(() => OnRegionProcessed(formattedOutput[0]));
+                    }
+                    else
+                    {
+                        string _formattedOutput = "";
+                        for (int i2 = 0; i2 < formattedOutput.Length; i2++)
+                        {
+                            _formattedOutput += formattedOutput[i2];
+                            if (i2 < formattedOutput.Length - 1)
+                                _formattedOutput += ", ";
+                            //Functions.AddProperty(dynamicDataRow, allConfigurations[i1].Title[0] + (i2 + 1).ToString(), formattedOutput[i2]);
+                        }
+                        await Task.Run(() => OnRegionProcessed(_formattedOutput));
+                    }
+                }
+
+                ProcessedDataRow processedDataRow = new ProcessedDataRow(processedDataEntriesEx, i, sheetsPaths[i], ProcessedDataType.NORMAL);
+                processedData.Add(processedDataRow);
+            }
+
+            OnProcessFinished();
+        }
+
+        public bool DataExists()
+        {
+            bool result = false;
+
+            result = processedData.Count > 0;
+
+            return result;
+        }
+
+        public async void ReprocessData(List<dynamic> selectedData, RereadType rereadType)
+        {
+            List<string> sheetsPaths = new List<string>();
+            selectedData.ForEach(x => sheetsPaths.Add(x.DataRowObject.RowSheetPath));
+
+            var allConfigurations = ConfigurationsManager.GetAllConfigurations;
+
+            //List<ConfigurationBase> renameFields = allConfigurations.FindAll(x => x.AddToFileName);
+            for (int i = 0; i < sheetsPaths.Count; i++)
+            {
+                GetCurProcessingIndex = i;
+
+                dynamic dynamicDataRow = new ExpandoObject();
+                ProcessedDataType processedRowType = ProcessedDataType.NORMAL;
+
+                Mat curSheet = null;
+                AlignmentPipelineResults alignmentPipelineResults = null;
+                Mat alignedSheet = null;
+
+                try
+                {
+                    curSheet = CvInvoke.Imread(sheetsPaths[i], Emgu.CV.CvEnum.ImreadModes.Grayscale);
+                    switch (rereadType)
+                    {
+                        case RereadType.NORMAL:
+                            break;
+                        case RereadType.ROTATE_C_90:
+                            CvInvoke.Rotate(curSheet, curSheet, Emgu.CV.CvEnum.RotateFlags.Rotate90Clockwise);
+                            break;
+                        case RereadType.ROTATE_180:
+                            CvInvoke.Rotate(curSheet, curSheet, Emgu.CV.CvEnum.RotateFlags.Rotate180);
+                            break;
+                        case RereadType.ROTATE_AC_90:
+                            CvInvoke.Rotate(curSheet, curSheet, Emgu.CV.CvEnum.RotateFlags.Rotate90CounterClockwise);
+                            break;
+                    }
+
+                    await Task.Run(() => { alignedSheet = CurrentTemplate.AlignSheet(curSheet, out AlignmentPipelineResults _alignmentPipelineResults); alignmentPipelineResults = _alignmentPipelineResults; });
+                    curSheet.Dispose();
+                    if (alignmentPipelineResults.AlignmentMethodTestResultsList.TrueForAll(x => x.GetAlignmentMethodResultType == AlignmentPipelineResults.AlignmentMethodResultType.Failed))
+                        continue;
+                }
+                catch (Exception ex)
+                {
+                    continue;
+                }
+
+                List<ProcessedDataEntry> processedDataEntries = new List<ProcessedDataEntry>();
+                int lastDataColumnsIndex = -1;
+                ConfigurationBase curConfigurationBase = null;
+
+                var parameterBasedGradings = new List<(ProcessedDataEntry toGradeEntry, Parameter[] gradingParameters)>();
+                for (int i1 = 0; i1 < allConfigurations.Count; i1++)
+                {
+                    curConfigurationBase = allConfigurations[i1];
+                    ProcessedDataEntry? _processedDataEntry = null;
+                    switch (curConfigurationBase.GetMainConfigType)
+                    {
+                        case MainConfigType.OMR:
+                            _processedDataEntry = CurOMREngine.ProcessSheet(curConfigurationBase, alignedSheet, null, sheetsPaths[i]);
+                            break;
+                        case MainConfigType.BARCODE:
+                            _processedDataEntry = CurBarcodeEngine.ProcessSheet(curConfigurationBase, alignedSheet, null, sheetsPaths[i]);
+                            break;
+                        case MainConfigType.ICR:
+                            _processedDataEntry = new ProcessedDataEntry(curConfigurationBase.Title, new char[] { 'N', 'I', 'L' }, new ProcessedDataType[] { ProcessedDataType.NORMAL, ProcessedDataType.NORMAL, ProcessedDataType.NORMAL });
+                            break;
+                        default:
+                            break;
+                    }
+                    if (!_processedDataEntry.HasValue)
+                        continue;
+
+                    ProcessedDataEntry processedDataEntry = _processedDataEntry.Value;
+                    processedDataEntries.Add(processedDataEntry);
+
+                    switch (processedDataEntry.DataEntriesResultType[0])
+                    {
+                        case ProcessedDataType.NORMAL:
+                            break;
+                        case ProcessedDataType.MANUAL:
+                            if (processedRowType == ProcessedDataType.NORMAL) processedRowType = ProcessedDataType.MANUAL;
+                            break;
+                        case ProcessedDataType.FAULTY:
+                            if (processedRowType != ProcessedDataType.INCOMPATIBLE) processedRowType = ProcessedDataType.FAULTY;
+                            break;
+                        case ProcessedDataType.INCOMPATIBLE:
+                            processedRowType = ProcessedDataType.INCOMPATIBLE;
+                            break;
+                        default:
+                            break;
+                    }
+
+                    string[] formattedOutput = processedDataEntry.FormatData();
+                    if (formattedOutput.Length == 1)
+                    {
+                        string dataTitle = dataColumns != null && dataColumns.Count > 0 ? dataColumns[lastDataColumnsIndex + 1] : allConfigurations[i1].Title;
+                        Functions.AddProperty(dynamicDataRow, dataTitle, formattedOutput[0]);
+
+                        lastDataColumnsIndex++;
+                    }
+                    else
+                    {
+                        for (int i2 = 0; i2 < formattedOutput.Length; i2++)
+                        {
+                            string dataTitle = dataColumns != null && dataColumns.Count > 0 ? dataColumns[(lastDataColumnsIndex + 1) + i2] : allConfigurations[i1].Title[0] + (i2 + 1).ToString();
+                            Functions.AddProperty(dynamicDataRow, dataTitle, formattedOutput[i2]);
+
+                        }
+                        lastDataColumnsIndex += formattedOutput.Length;
+                    }
+
+                    switch (curConfigurationBase.GetMainConfigType)
+                    {
+                        case MainConfigType.OMR:
+                            OMRConfiguration omrConfig = (OMRConfiguration)curConfigurationBase;
+                            switch (omrConfig.OMRType)
+                            {
+                                case OMRType.Gradable:
+                                    switch (omrConfig.KeyType)
+                                    {
+                                        case Keys.KeyType.General:
+                                            try
+                                            {
+                                                var generalKey = omrConfig.GeneralAnswerKey;
+                                                var rawValues = ProcessedDataEntry.GenerateRawOMRDataValues(omrConfig, processedDataEntry.GetFieldsOutputs, omrConfig.GetEscapeSymbols());
+                                                var gradeResult = OMREngine.GradeSheet(generalKey, rawValues);
+                                                Functions.AddProperty(dynamicDataRow, "AnswerKey", generalKey);
+
+                                                for (int i2 = 0; i2 < 3; i2++)
+                                                {
+                                                    string dataTitle = i2 == 0 ? omrConfig.Title + " Score" : i2 == 1 ? omrConfig.Title + " Paper" : i2 == 2 ? omrConfig.Title + " Key" : omrConfig.Title + $" x{i2}";
+                                                    Functions.AddProperty(dynamicDataRow, dataTitle, i2 == 0 ? gradeResult.obtainedMarks + "" : i2 == 1 ? generalKey.GetPaper.Title : generalKey.Title);
+
+                                                    //lastDataColumnsIndexEx++;
+                                                }
+                                            }
+                                            catch
+                                            {
+                                                for (int i2 = 0; i2 < 3; i2++)
+                                                {
+                                                    string dataTitle = i2 == 0 ? omrConfig.Title + " Score" : i2 == 1 ? omrConfig.Title + " Paper" : i2 == 2 ? omrConfig.Title + " Key" : omrConfig.Title + $" x{i2}";
+                                                    Functions.AddProperty(dynamicDataRow, dataTitle, "—");
+
+                                                    //lastDataColumnsIndexEx++;
+                                                }
+                                            }
+                                            break;
+                                        case Keys.KeyType.ParameterBased:
+                                            parameterBasedGradings.Add((processedDataEntry, omrConfig.PB_AnswerKeys.Keys.ToArray()));
+                                            //lastDataColumnsIndexEx += 3;
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                    break;
+                                case OMRType.Parameter:
+                                    break;
+                                default:
+                                    break;
+                            }
+                            break;
+                        case MainConfigType.BARCODE:
+                            //OBRConfiguration obrConfig = (OBRConfiguration)curConfigurationBaseEx;
+                            break;
+                        case MainConfigType.ICR:
+                            break;
+                    }
+                }
+
+                for (int pbEntryIndex = 0; pbEntryIndex < parameterBasedGradings.Count; pbEntryIndex++)
+                {
+                    var pbGradingData = parameterBasedGradings[pbEntryIndex];
+                    var omrConfig = (OMRConfiguration)pbGradingData.toGradeEntry.GetConfigurationBase;
+                    var gradingParameters = pbGradingData.gradingParameters;
+                    try
+                    {
+                        var curParameter = gradingParameters.First(x => processedDataEntries.Any(y => y.GetConfigurationBase == x.parameterConfig && y.FormatData()[0] == x.parameterValue));
+                        var paramKey = omrConfig.PB_AnswerKeys[curParameter];
+
+                        var rawValues = ProcessedDataEntry.GenerateRawOMRDataValues(omrConfig, pbGradingData.toGradeEntry.GetFieldsOutputs, omrConfig.GetEscapeSymbols());
+                        var gradeResult = OMREngine.GradeSheet(paramKey, rawValues);
+                        Functions.AddProperty(dynamicDataRow, "AnswerKey", paramKey);
+
+                        for (int i2 = 0; i2 < 3; i2++)
+                        {
+                            string dataTitle = i2 == 0 ? omrConfig.Title + " Score" : i2 == 1 ? omrConfig.Title + " Paper" : i2 == 2 ? omrConfig.Title + " Key" : omrConfig.Title + $" x{i2}";
+                            Functions.AddProperty(dynamicDataRow, dataTitle, i2 == 0 ? gradeResult.obtainedMarks + "" : i2 == 1 ? paramKey.GetPaper.Title : paramKey.Title);
+
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        for (int i2 = 0; i2 < 3; i2++)
+                        {
+                            string dataTitle = i2 == 0 ? omrConfig.Title + " Score" : i2 == 1 ? omrConfig.Title + " Paper" : i2 == 2 ? omrConfig.Title + " Key" : omrConfig.Title + $" x{i2}";
+                            Functions.AddProperty(dynamicDataRow, dataTitle, "—");
+
+                        }
+                    }
+                }
+
+                curSheet.Dispose();
+
+                //File Renaming
+                string currentName = sheetsPaths[i];
+                string newName = currentName;
+                #region Renaming Mechanism
+                //try
+                //{
+                //    string curFileName = Path.GetFileNameWithoutExtension(currentName);
+                //    string newFinalName = curFileName;
+                //    for (int n = 0; n < renameFields.Count; n++)
+                //    {
+                //        var entry = processedDataEntries.Find(x => x.ConfigurationTitle == renameFields[n].Title);
+                //        if (entry.DataEntriesResultType.Any(x => x != ProcessedDataType.NORMAL))
+                //            continue;
+
+                //        string[] values = entry.GetDataValues;
+                //        string finalValue = newFinalName == "" ? "" : "-";
+                //        for (int o = 0; o < values.Length; o++)
+                //        {
+                //            finalValue += values[o];
+                //        }
+
+                //        newFinalName += finalValue;
+                //    }
+
+                //    if (!string.IsNullOrEmpty(newFinalName) && newFinalName != curFileName)
+                //    {
+                //        newName = currentName.Replace(curFileName, newFinalName);
+                //        int existCount = 0;
+                //        while (File.Exists(newName))
+                //        {
+                //            existCount++;
+                //            string existsFileName = Path.GetFileNameWithoutExtension(newName);
+                //            newName = newName.Replace(existsFileName, $"{newFinalName} ({existCount})");
+                //        }
+                //        File.Move(currentName, newName);
+
+                //        sheetsPaths[i] = newName;
+                //    }
+                //}
+                //catch (Exception ex)
+                //{
+                //    newName = sheetsPaths[i];
+                //}
+                #endregion
+                ProcessedDataRow processedDataRow = new ProcessedDataRow(processedDataEntries, i, newName, processedRowType);
+                processedDataRow.RereadType = rereadType;
+
+                Functions.AddProperty(dynamicDataRow, "DataRowObject", processedDataRow);
+
+                int dataIndex = manualProcessedDataSource.IndexOf(selectedData[i]);
+                manualProcessedDataSource.RemoveAt(dataIndex);
+                //manualProcessedDataSource.Insert(dataIndex, dynamicDataRow);
+                manualProcessedDataSource.Add(dynamicDataRow);
+
+                int allDataIndex = allProcessedDataSource.IndexOf(selectedData[i]);
+                allProcessedDataSource.RemoveAt(allDataIndex);
+                allProcessedDataSource.Insert(allDataIndex, dynamicDataRow);
+
+                int proDataIndex = processedData.IndexOf(selectedData[i].DataRowObject);
+                processedData.RemoveAt(proDataIndex);
+                processedData.Insert(proDataIndex, processedDataRow);
+            }
+        }
+    }
+}
