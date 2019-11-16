@@ -43,7 +43,7 @@ namespace Synapse.Modules
             InitializeComponent();
 
             Mat alignedMat = null;
-            if (!dataRowObject.DataRowObject.GetAlignedImage(out alignedMat))
+            if (!SynapseMain.GetCurrentTemplate.GetAlignedImage(dataRowObject.DataRowObject.RowSheetPath, dataRowObject.DataRowObject.RereadType, out alignedMat))
                 sheetImage = CvInvoke.Imread(dataRowObject.DataRowObject.RowSheetPath, Emgu.CV.CvEnum.ImreadModes.Grayscale);
             else
                 sheetImage = alignedMat;

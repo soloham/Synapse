@@ -24,6 +24,7 @@ namespace Synapse
 
         public static void Run()
         {
+
             Utilities.Memory.LSTM.Initialize();
 
             Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("MTUyNzg0QDMxMzcyZTMzMmUzMEZudkNxODcvMHhRUmRTQjFzS05uaVBoOENoRjZJQlhSL0dGTGMwNi9CTkE9");
@@ -41,7 +42,7 @@ namespace Synapse
             MessageBoxAdv.MetroColorTable = metroColorTable;
             MessageBoxAdv.MessageBoxStyle = MessageBoxAdv.Style.Metro;
 
-            Application.Run(new Modules.SpreadSheetTestForm());
+            Application.Run(new Modules.TemplatesHub());
         }
     }
 }

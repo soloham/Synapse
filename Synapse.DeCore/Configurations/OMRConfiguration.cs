@@ -624,10 +624,12 @@ namespace Synapse.Core.Configurations
         public KeyType KeyType { get; set; }
         [Category("Behaviour"), Description("Gets or sets the type of character shown for multi marked field for the OMR Region.")]
         public char MultiMarkSymbol { get; set; }
-        [Category("Behaviour"), Description("Gets or sets the type of character shown for multi marked field for the OMR Region.")]
+        [Category("Behaviour"), Description("Gets or sets the type of character shown for none marked field for the OMR Region.")]
         public char NoneMarkedSymbol { get; set; }
         [Category("Behaviour"), Description("Gets or sets the type of character shown for multi marked field for the OMR Region.")]
         public double BlackCountThreshold { get; set; }
+        [Category("Data"), Description("Gets or sets the value indicating wether the intended value is extracted by default.")]
+        public bool ImplicitValue { get; set; }
         #endregion
 
         #region Private Properties

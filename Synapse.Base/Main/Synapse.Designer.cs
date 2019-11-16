@@ -286,7 +286,7 @@ namespace Synapse
             this.ribbonControl.SelectedTab = this.readingToolStripTabItem;
             this.ribbonControl.ShowLauncher = false;
             this.ribbonControl.ShowRibbonDisplayOptionButton = true;
-            this.ribbonControl.Size = new System.Drawing.Size(1486, 259);
+            this.ribbonControl.Size = new System.Drawing.Size(1486, 200);
             this.ribbonControl.SystemText.QuickAccessDialogDropDownName = "Start menu";
             this.ribbonControl.SystemText.RenameDisplayLabelText = "&Display Name:";
             this.ribbonControl.TabIndex = 1;
@@ -547,7 +547,7 @@ namespace Synapse
             this.generalToolStripEx.Name = "generalToolStripEx";
             this.generalToolStripEx.Office12Mode = false;
             this.generalToolStripEx.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
-            this.generalToolStripEx.Size = new System.Drawing.Size(42, 190);
+            this.generalToolStripEx.Size = new System.Drawing.Size(42, 131);
             this.generalToolStripEx.TabIndex = 8;
             this.generalToolStripEx.Text = "General";
             // 
@@ -567,7 +567,7 @@ namespace Synapse
             this.sheetsToolStripEx.Name = "sheetsToolStripEx";
             this.sheetsToolStripEx.Office12Mode = false;
             this.sheetsToolStripEx.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
-            this.sheetsToolStripEx.Size = new System.Drawing.Size(42, 190);
+            this.sheetsToolStripEx.Size = new System.Drawing.Size(42, 131);
             this.sheetsToolStripEx.TabIndex = 7;
             this.sheetsToolStripEx.Text = "OMR Sheets";
             // 
@@ -587,7 +587,7 @@ namespace Synapse
             this.processingToolStripEx.Name = "processingToolStripEx";
             this.processingToolStripEx.Office12Mode = false;
             this.processingToolStripEx.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
-            this.processingToolStripEx.Size = new System.Drawing.Size(42, 190);
+            this.processingToolStripEx.Size = new System.Drawing.Size(42, 131);
             this.processingToolStripEx.TabIndex = 6;
             this.processingToolStripEx.Text = "Processing";
             // 
@@ -607,7 +607,7 @@ namespace Synapse
             this.postOperationsToolStripEx.Name = "postOperationsToolStripEx";
             this.postOperationsToolStripEx.Office12Mode = false;
             this.postOperationsToolStripEx.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
-            this.postOperationsToolStripEx.Size = new System.Drawing.Size(42, 190);
+            this.postOperationsToolStripEx.Size = new System.Drawing.Size(42, 131);
             this.postOperationsToolStripEx.TabIndex = 5;
             this.postOperationsToolStripEx.Text = "Post Operations";
             // 
@@ -627,7 +627,7 @@ namespace Synapse
             this.dataMiningToolStripEx.Name = "dataMiningToolStripEx";
             this.dataMiningToolStripEx.Office12Mode = false;
             this.dataMiningToolStripEx.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
-            this.dataMiningToolStripEx.Size = new System.Drawing.Size(42, 190);
+            this.dataMiningToolStripEx.Size = new System.Drawing.Size(42, 131);
             this.dataMiningToolStripEx.TabIndex = 4;
             this.dataMiningToolStripEx.Text = "Data Mining";
             // 
@@ -1412,7 +1412,7 @@ namespace Synapse
             this.configTabPanel.Dock = System.Windows.Forms.DockStyle.Left;
             this.configTabPanel.Location = new System.Drawing.Point(0, 0);
             this.configTabPanel.Name = "configTabPanel";
-            this.configTabPanel.Size = new System.Drawing.Size(635, 442);
+            this.configTabPanel.Size = new System.Drawing.Size(635, 501);
             this.configTabPanel.TabIndex = 3;
             // 
             // templateImageBox
@@ -1429,7 +1429,7 @@ namespace Synapse
             this.templateImageBox.Location = new System.Drawing.Point(0, 0);
             this.templateImageBox.Name = "templateImageBox";
             this.templateImageBox.SelectionMode = Cyotek.Windows.Forms.ImageBoxSelectionMode.Rectangle;
-            this.templateImageBox.Size = new System.Drawing.Size(635, 442);
+            this.templateImageBox.Size = new System.Drawing.Size(635, 501);
             this.templateImageBox.StepSize = new System.Drawing.Size(8, 8);
             this.templateImageBox.TabIndex = 4;
             this.templateImageBox.Text = "Scan a document or browse for an existing template";
@@ -1444,9 +1444,9 @@ namespace Synapse
             this.nonDockingClientArea.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.nonDockingClientArea.Controls.Add(this.configTabPanel);
             this.nonDockingClientArea.Controls.Add(this.readingTabPanel);
-            this.nonDockingClientArea.Location = new System.Drawing.Point(370, 259);
+            this.nonDockingClientArea.Location = new System.Drawing.Point(369, 200);
             this.nonDockingClientArea.Name = "nonDockingClientArea";
-            this.nonDockingClientArea.Size = new System.Drawing.Size(712, 459);
+            this.nonDockingClientArea.Size = new System.Drawing.Size(714, 518);
             this.nonDockingClientArea.SizeToFit = true;
             this.nonDockingClientArea.TabIndex = 2;
             // 
@@ -1459,7 +1459,7 @@ namespace Synapse
             this.readingTabPanel.Dock = System.Windows.Forms.DockStyle.Right;
             this.readingTabPanel.Location = new System.Drawing.Point(635, 0);
             this.readingTabPanel.Name = "readingTabPanel";
-            this.readingTabPanel.Size = new System.Drawing.Size(692, 442);
+            this.readingTabPanel.Size = new System.Drawing.Size(692, 501);
             this.readingTabPanel.TabIndex = 5;
             // 
             // readingTabIncompatibleTablePanel
@@ -1763,9 +1763,9 @@ namespace Synapse
             // 
             this.configPropertiesPanel.Controls.Add(this.configPropertyEditor);
             this.configPropertiesPanel.Dock = System.Windows.Forms.DockStyle.Right;
-            this.configPropertiesPanel.Location = new System.Drawing.Point(1082, 259);
+            this.configPropertiesPanel.Location = new System.Drawing.Point(1083, 200);
             this.configPropertiesPanel.Name = "configPropertiesPanel";
-            this.configPropertiesPanel.Size = new System.Drawing.Size(200, 489);
+            this.configPropertiesPanel.Size = new System.Drawing.Size(200, 548);
             this.configPropertiesPanel.TabIndex = 3;
             // 
             // configPropertyEditor
@@ -1775,16 +1775,16 @@ namespace Synapse
             this.configPropertyEditor.Font = new System.Drawing.Font("Dosis", 10.25F);
             this.configPropertyEditor.Location = new System.Drawing.Point(0, 0);
             this.configPropertyEditor.Name = "configPropertyEditor";
-            this.configPropertyEditor.Size = new System.Drawing.Size(200, 489);
+            this.configPropertyEditor.Size = new System.Drawing.Size(200, 548);
             this.configPropertyEditor.TabIndex = 1;
             // 
             // dataImageBoxPanel
             // 
             this.dataImageBoxPanel.Controls.Add(this.dataImageBox);
             this.dataImageBoxPanel.Dock = System.Windows.Forms.DockStyle.Right;
-            this.dataImageBoxPanel.Location = new System.Drawing.Point(1282, 259);
+            this.dataImageBoxPanel.Location = new System.Drawing.Point(1283, 200);
             this.dataImageBoxPanel.Name = "dataImageBoxPanel";
-            this.dataImageBoxPanel.Size = new System.Drawing.Size(200, 489);
+            this.dataImageBoxPanel.Size = new System.Drawing.Size(200, 548);
             this.dataImageBoxPanel.TabIndex = 4;
             // 
             // dataImageBox
@@ -1800,7 +1800,7 @@ namespace Synapse
             this.dataImageBox.Location = new System.Drawing.Point(0, 0);
             this.dataImageBox.Name = "dataImageBox";
             this.dataImageBox.SelectionMode = Cyotek.Windows.Forms.ImageBoxSelectionMode.Rectangle;
-            this.dataImageBox.Size = new System.Drawing.Size(200, 489);
+            this.dataImageBox.Size = new System.Drawing.Size(200, 548);
             this.dataImageBox.StepSize = new System.Drawing.Size(8, 8);
             this.dataImageBox.TabIndex = 5;
             this.dataImageBox.Text = "The image of the sheet of which the data is selected in the data grid will appear" +
@@ -1810,7 +1810,7 @@ namespace Synapse
             // readingTabStatusBar
             // 
             this.readingTabStatusBar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(128)))), ((int)(((byte)(215)))));
-            this.readingTabStatusBar.BeforeTouchSize = new System.Drawing.Size(1080, 30);
+            this.readingTabStatusBar.BeforeTouchSize = new System.Drawing.Size(1082, 30);
             this.readingTabStatusBar.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(128)))), ((int)(((byte)(215)))));
             this.readingTabStatusBar.BorderSides = System.Windows.Forms.Border3DSide.Top;
             this.readingTabStatusBar.BorderSingle = System.Windows.Forms.ButtonBorderStyle.None;
@@ -1820,12 +1820,12 @@ namespace Synapse
             this.readingTabStatusBar.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.readingTabStatusBar.Font = new System.Drawing.Font("Dosis", 8.249999F);
             this.readingTabStatusBar.ForeColor = System.Drawing.Color.White;
-            this.readingTabStatusBar.Location = new System.Drawing.Point(2, 718);
+            this.readingTabStatusBar.Location = new System.Drawing.Point(1, 718);
             this.readingTabStatusBar.Margin = new System.Windows.Forms.Padding(0);
             this.readingTabStatusBar.MetroColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(128)))), ((int)(((byte)(215)))));
             this.readingTabStatusBar.Name = "readingTabStatusBar";
             this.readingTabStatusBar.Padding = new System.Windows.Forms.Padding(1);
-            this.readingTabStatusBar.Size = new System.Drawing.Size(1080, 30);
+            this.readingTabStatusBar.Size = new System.Drawing.Size(1082, 30);
             this.readingTabStatusBar.Spacing = new System.Drawing.Size(2, 2);
             this.readingTabStatusBar.Style = Syncfusion.Windows.Forms.Tools.StatusbarStyle.Metro;
             this.readingTabStatusBar.TabIndex = 4;
@@ -2145,9 +2145,9 @@ namespace Synapse
             this.answerKeyPanel.Controls.Add(this.addAnswerKeyPanel);
             this.answerKeyPanel.Controls.Add(this.answerKeyMainPanel);
             this.answerKeyPanel.Dock = System.Windows.Forms.DockStyle.Left;
-            this.answerKeyPanel.Location = new System.Drawing.Point(2, 259);
+            this.answerKeyPanel.Location = new System.Drawing.Point(1, 200);
             this.answerKeyPanel.Name = "answerKeyPanel";
-            this.answerKeyPanel.Size = new System.Drawing.Size(368, 459);
+            this.answerKeyPanel.Size = new System.Drawing.Size(368, 518);
             this.answerKeyPanel.TabIndex = 5;
             // 
             // addAnswerKeyPanel
@@ -2156,7 +2156,7 @@ namespace Synapse
             this.addAnswerKeyPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.addAnswerKeyPanel.Location = new System.Drawing.Point(0, 147);
             this.addAnswerKeyPanel.Name = "addAnswerKeyPanel";
-            this.addAnswerKeyPanel.Size = new System.Drawing.Size(368, 312);
+            this.addAnswerKeyPanel.Size = new System.Drawing.Size(368, 371);
             this.addAnswerKeyPanel.TabIndex = 1;
             // 
             // addAnswerKeyTablePanel
@@ -2172,7 +2172,7 @@ namespace Synapse
             this.addAnswerKeyTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.addAnswerKeyTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
             this.addAnswerKeyTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.addAnswerKeyTablePanel.Size = new System.Drawing.Size(368, 312);
+            this.addAnswerKeyTablePanel.Size = new System.Drawing.Size(368, 371);
             this.addAnswerKeyTablePanel.TabIndex = 1;
             // 
             // answerKeyControlsSplitterContainer
@@ -2392,7 +2392,7 @@ namespace Synapse
             this.initializationButtonsPanel.Controls.Add(this.setBtn, 0, 0);
             this.initializationButtonsPanel.Controls.Add(this.nextBtn, 0, 0);
             this.initializationButtonsPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.initializationButtonsPanel.Location = new System.Drawing.Point(0, 262);
+            this.initializationButtonsPanel.Location = new System.Drawing.Point(0, 321);
             this.initializationButtonsPanel.Margin = new System.Windows.Forms.Padding(0);
             this.initializationButtonsPanel.Name = "initializationButtonsPanel";
             this.initializationButtonsPanel.RowCount = 1;

@@ -1528,6 +1528,8 @@ namespace Synapse.Modules
                     SelectionRegionResizedAction = null;
                     break;
                 case ConfigurationState.SELECT_INSTANCES_COUNT:
+                    if (totalInstances == 1)
+                        EndWalkthrough();
                     break;
                 case ConfigurationState.SELECT_INSTANCES_ORIENTATION:
                     break;

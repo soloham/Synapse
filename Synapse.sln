@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cyotek.Windows.Forms.ImageB
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dependencies", "Dependencies", "{8F60ECEA-D564-408C-AEA1-DA22E42BFBA2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cyotek.Windows.Forms.ImageBox.Demo", "Dependencies\Cyotek.Windows.Forms.ImageBox-master\Cyotek.Windows.Forms.ImageBox.Demo\Cyotek.Windows.Forms.ImageBox.Demo.csproj", "{86D47D73-B3E7-4ED3-86EA-7BFC0C978A7B}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Synapse.App", "Synapse.App\Synapse.App.csproj", "{7B77FCBE-3E27-4D24-B915-1A9907E7F2D7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Synapse.Core", "Synapse.Core\Synapse.Core.csproj", "{4DE86261-DB44-44F2-B06B-4C5F3D366EBD}"
@@ -70,8 +68,8 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{4159C8D3-C18D-4BED-8BE6-9BAD1B0CA4F6} = {8F60ECEA-D564-408C-AEA1-DA22E42BFBA2}
 		{86D47D73-B3E7-4ED3-86EA-7BFC0C978A7B} = {8F60ECEA-D564-408C-AEA1-DA22E42BFBA2}
+		{4159C8D3-C18D-4BED-8BE6-9BAD1B0CA4F6} = {8F60ECEA-D564-408C-AEA1-DA22E42BFBA2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2D89DE36-6989-4179-BA89-D2138BE31D45}
