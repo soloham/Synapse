@@ -638,7 +638,7 @@ namespace Synapse.Core.Configurations
 
         #region Variables
         public Dictionary<Parameter, AnswerKey> PB_AnswerKeys = new Dictionary<Parameter, AnswerKey>();
-        public AnswerKey GeneralAnswerKey;
+        public List<AnswerKey> GeneralAnswerKeys = new List<AnswerKey>();
         #endregion
 
         #region Public Methods
@@ -671,13 +671,20 @@ namespace Synapse.Core.Configurations
             bool isSet = true;
             err = "";
 
-            if (GeneralAnswerKey != null && Messages.ShowQuestion("A general key already exists, would you like to override it?") == DialogResult.No)
+            if (GeneralAnswerKeys != null && GeneralAnswerKeys.Exists(x => x.Title == key.Title))
             {
-                err = "User Denied";
-                return false;
+                if (Messages.ShowQuestion("A general key already exists, would you like to override it?") == DialogResult.No)
+                {
+                    err = "User Denied";
+                    return false;
+                }
+                else
+                {
+                    GeneralAnswerKeys.Remove(GeneralAnswerKeys.Find(x => x.Title == key.Title));
+                }
             }
 
-            GeneralAnswerKey = new AnswerKey(key);
+            GeneralAnswerKeys.Add(new AnswerKey(key));
 
             return isSet;
         }
@@ -777,15 +784,6 @@ namespace Synapse.Core.Configurations
 
             return isSet;
         }
-        public bool RemoveKey(out string err)
-        {
-            bool result = true;
-            err = "";
-
-            GeneralAnswerKey = null;
-
-            return result;
-        }
         public bool RemoveKey(Parameter parameter, out string err)
         {
             bool result = true;
@@ -815,9 +813,9 @@ namespace Synapse.Core.Configurations
 
             try
             {
-                if (true)
+                if (true)//TODO: Key Check
                 {
-                    GeneralAnswerKey = new AnswerKey(loadedKey);
+                    GeneralAnswerKeys.Add(new AnswerKey(loadedKey));
                     result = true;
                 }
                 else

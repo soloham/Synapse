@@ -330,23 +330,6 @@ namespace Synapse.Core.Managers
                     ProcessedDataEntry processedDataEntry = _processedDataEntry.Value;
                     processedDataEntries.Add(processedDataEntry);
 
-                    switch (processedDataEntry.DataEntriesResultType[0])
-                    {
-                        case ProcessedDataType.NORMAL:
-                            break;
-                        case ProcessedDataType.MANUAL:
-                            if(processedRowType == ProcessedDataType.NORMAL) processedRowType = ProcessedDataType.MANUAL;
-                            break;
-                        case ProcessedDataType.FAULTY:
-                            if(processedRowType != ProcessedDataType.INCOMPATIBLE) processedRowType = ProcessedDataType.FAULTY;
-                            break;
-                        case ProcessedDataType.INCOMPATIBLE:
-                            processedRowType = ProcessedDataType.INCOMPATIBLE;
-                            break;
-                        default:
-                            break;
-                    }
-
                     string[] formattedOutput = processedDataEntry.FormatData();
                     if (formattedOutput.Length == 1)
                     {
@@ -366,6 +349,23 @@ namespace Synapse.Core.Managers
                         lastDataColumnsIndex += formattedOutput.Length;
                     }
 
+                    switch (processedDataEntry.GetRowDataType().GetValueOrDefault())
+                    {
+                        case ProcessedDataType.NORMAL:
+                            break;
+                        case ProcessedDataType.MANUAL:
+                            if(processedRowType == ProcessedDataType.NORMAL) processedRowType = ProcessedDataType.MANUAL;
+                            break;
+                        case ProcessedDataType.FAULTY:
+                            if(processedRowType != ProcessedDataType.INCOMPATIBLE) processedRowType = ProcessedDataType.FAULTY;
+                            break;
+                        case ProcessedDataType.INCOMPATIBLE:
+                            processedRowType = ProcessedDataType.INCOMPATIBLE;
+                            break;
+                        default:
+                            break;
+                    }
+
                     switch (curConfigurationBase.GetMainConfigType)
                     {
                         case MainConfigType.OMR:
@@ -376,45 +376,50 @@ namespace Synapse.Core.Managers
                                     switch (omrConfig.KeyType)
                                     {
                                         case Keys.KeyType.General:
-                                            try
+                                            for (int k = 0; k < omrConfig.GeneralAnswerKeys.Count; k++)
                                             {
-                                                var generalKey = omrConfig.GeneralAnswerKey;
-                                                if(processedDataEntry.GetFieldsOutputs.Length > generalKey.GetPaper.GetFieldsCount)
+                                                try
                                                 {
-                                                    int startIndex = generalKey.GetPaper.GetFieldsCount;
-                                                    int curTotal = processedDataEntry.GetFieldsOutputs.Length+1;
-                                                    for (int j = startIndex; j < curTotal; j++)
-                                                    {
-                                                        //processedDataEntry.GetFieldsOutputs[j] = '—';
-                                                        processedDataEntry.DataEntriesResultType[j] = ProcessedDataType.NORMAL;
+                                                    var generalKey = omrConfig.GeneralAnswerKeys[k];
+                                                    if (generalKey.IsActive == false) continue;
 
-                                                        //** IMPOSSIBLE??
-                                                        //string dataTitle = dataColumns != null && dataColumns.Count > 0 ? dataColumns[(lastDataColumnsIndex + 1) + j] : allConfigurations[i1].Title[0] + (j + 1).ToString();
-                                                        //Functions.AddProperty(dynamicDataRow, dataTitle, "—");
+                                                    if (processedDataEntry.GetFieldsOutputs.Length > generalKey.GetPaper.GetFieldsCount)
+                                                    {
+                                                        int startIndex = generalKey.GetPaper.GetFieldsCount;
+                                                        int curTotal = processedDataEntry.GetFieldsOutputs.Length;
+                                                        for (int j = startIndex; j < curTotal; j++)
+                                                        {
+                                                            //processedDataEntry.GetFieldsOutputs[j] = '—';
+                                                            processedDataEntry.DataEntriesResultType[j] = ProcessedDataType.NORMAL;
+
+                                                            //** IMPOSSIBLE??
+                                                            //string dataTitle = dataColumns != null && dataColumns.Count > 0 ? dataColumns[(lastDataColumnsIndex + 1) + j] : allConfigurations[i1].Title[0] + (j + 1).ToString();
+                                                            //Functions.AddProperty(dynamicDataRow, dataTitle, "—");
+                                                        }
+                                                    }
+                                                    var rawValues = ProcessedDataEntry.GenerateRawOMRDataValues(omrConfig, processedDataEntry.GetFieldsOutputs, omrConfig.GetEscapeSymbols());
+                                                    var gradeResult = OMREngine.GradeSheet(generalKey, rawValues);
+                                                    Functions.AddProperty(dynamicDataRow, "AnswerKey", generalKey);
+
+                                                    for (int i2 = 0; i2 < 2; i2++)
+                                                    {
+                                                        string dataTitle = i2 == 0 ? omrConfig.Title + " Score " + omrConfig.GeneralAnswerKeys[k].Title : i2 == 1 ? omrConfig.Title + " Paper " + omrConfig.GeneralAnswerKeys[k].Title : omrConfig.Title + $" x{i2}";
+                                                        Functions.AddProperty(dynamicDataRow, dataTitle, i2 == 0 ? gradeResult.obtainedMarks + "" : i2 == 1 ? generalKey.GetPaper.Title : generalKey.Title);
+
+                                                        //lastDataColumnsIndexEx++;
+                                                        extraColumns++;
                                                     }
                                                 }
-                                                var rawValues = ProcessedDataEntry.GenerateRawOMRDataValues(omrConfig, processedDataEntry.GetFieldsOutputs, omrConfig.GetEscapeSymbols());
-                                                var gradeResult = OMREngine.GradeSheet(generalKey, rawValues);
-                                                Functions.AddProperty(dynamicDataRow, "AnswerKey", generalKey);
-
-                                                for (int i2 = 0; i2 < 3; i2++)
+                                                catch (Exception ex)
                                                 {
-                                                    string dataTitle = i2 == 0 ? omrConfig.Title + " Score" : i2 == 1 ? omrConfig.Title + " Paper" : i2 == 2 ? omrConfig.Title + " Key" : omrConfig.Title + $" x{i2}";
-                                                    Functions.AddProperty(dynamicDataRow, dataTitle, i2 == 0 ? gradeResult.obtainedMarks + "" : i2 == 1 ? generalKey.GetPaper.Title : generalKey.Title);
+                                                    for (int i2 = 0; i2 < 2; i2++)
+                                                    {
+                                                        string dataTitle = i2 == 0 ? omrConfig.Title + " Score " + omrConfig.GeneralAnswerKeys[k].Title : i2 == 1 ? omrConfig.Title + " Paper " + omrConfig.GeneralAnswerKeys[k].Title : omrConfig.Title + $" x{i2}";
+                                                        Functions.AddProperty(dynamicDataRow, dataTitle, "—");
 
-                                                    //lastDataColumnsIndexEx++;
-                                                    extraColumns++;
-                                                }
-                                            }
-                                            catch(Exception ex)
-                                            {
-                                                for (int i2 = 0; i2 < 3; i2++)
-                                                {
-                                                    string dataTitle = i2 == 0 ? omrConfig.Title + " Score" : i2 == 1 ? omrConfig.Title + " Paper" : i2 == 2 ? omrConfig.Title + " Key" : omrConfig.Title + $" x{i2}";
-                                                    Functions.AddProperty(dynamicDataRow, dataTitle, "—");
-
-                                                    //lastDataColumnsIndexEx++;
-                                                    extraColumns++;
+                                                        //lastDataColumnsIndexEx++;
+                                                        extraColumns++;
+                                                    }
                                                 }
                                             }
                                             break;
@@ -464,22 +469,28 @@ namespace Synapse.Core.Managers
                         var gradeResult = OMREngine.GradeSheet(paramKey, rawValues);
                         Functions.AddProperty(dynamicDataRow, "AnswerKey", paramKey);
 
-                        for (int i2 = 0; i2 < 3; i2++)
+                        for (int k = 0; k < omrConfig.GeneralAnswerKeys.Count; k++)
                         {
-                            string dataTitle = i2 == 0 ? omrConfig.Title + " Score" : i2 == 1 ? omrConfig.Title + " Paper" : i2 == 2 ? omrConfig.Title + " Key" : omrConfig.Title + $" x{i2}";
-                            Functions.AddProperty(dynamicDataRow, dataTitle, i2 == 0 ? gradeResult.obtainedMarks + "" : i2 == 1 ? paramKey.GetPaper.Title : paramKey.Title);
+                            for (int i2 = 0; i2 < 2; i2++)
+                            {
+                                string dataTitle = i2 == 0 ? omrConfig.Title + " Score " + omrConfig.GeneralAnswerKeys[k].Title : i2 == 1 ? omrConfig.Title + " Paper " + omrConfig.GeneralAnswerKeys[k].Title : omrConfig.Title + $" x{i2}";
+                                Functions.AddProperty(dynamicDataRow, dataTitle, i2 == 0 ? gradeResult.obtainedMarks + "" : i2 == 1 ? paramKey.GetPaper.Title : paramKey.Title);
 
-                            extraColumns++;
+                                extraColumns++;
+                            }
                         }
                     }
                     catch (Exception ex)
                     {
-                        for (int i2 = 0; i2 < 3; i2++)
+                        for (int k = 0; k < omrConfig.GeneralAnswerKeys.Count; k++)
                         {
-                            string dataTitle = i2 == 0 ? omrConfig.Title + " Score" : i2 == 1 ? omrConfig.Title + " Paper" : i2 == 2 ? omrConfig.Title + " Key" : omrConfig.Title + $" x{i2}";
-                            Functions.AddProperty(dynamicDataRow, dataTitle, "—");
+                            for (int i2 = 0; i2 < 2; i2++)
+                            {
+                                string dataTitle = i2 == 0 ? omrConfig.Title + " Score " + omrConfig.GeneralAnswerKeys[k].Title : i2 == 1 ? omrConfig.Title + " Paper " + omrConfig.GeneralAnswerKeys[k].Title : omrConfig.Title + $" x{i2}";
+                                Functions.AddProperty(dynamicDataRow, dataTitle, "—");
 
-                            extraColumns++;
+                                extraColumns++;
+                            }
                         }
                     }
                 }
@@ -577,10 +588,12 @@ namespace Synapse.Core.Managers
 
                 await Task.Run(() => OnSheetAligned(alignedSheet.Bitmap));
 
+                ProcessedDataType processedRowType = ProcessedDataType.NORMAL;
                 List<ProcessedDataEntry> processedDataEntriesEx = new List<ProcessedDataEntry>();
                 for (int i1 = 0; i1 < allConfigurations.Count; i1++)
                 {
                     ProcessedDataEntry processedDataEntry = new ProcessedDataEntry();
+
                     switch (allConfigurations[i1].GetMainConfigType)
                     {
                         case MainConfigType.OMR:
@@ -616,9 +629,26 @@ namespace Synapse.Core.Managers
                         }
                         await Task.Run(() => OnRegionProcessed(_formattedOutput));
                     }
+
+                    switch (processedDataEntry.GetRowDataType().GetValueOrDefault())
+                    {
+                        case ProcessedDataType.NORMAL:
+                            break;
+                        case ProcessedDataType.MANUAL:
+                            if (processedRowType == ProcessedDataType.NORMAL) processedRowType = ProcessedDataType.MANUAL;
+                            break;
+                        case ProcessedDataType.FAULTY:
+                            if (processedRowType != ProcessedDataType.INCOMPATIBLE) processedRowType = ProcessedDataType.FAULTY;
+                            break;
+                        case ProcessedDataType.INCOMPATIBLE:
+                            processedRowType = ProcessedDataType.INCOMPATIBLE;
+                            break;
+                        default:
+                            break;
+                    }
                 }
 
-                ProcessedDataRow processedDataRow = new ProcessedDataRow(processedDataEntriesEx, i, sheetsPaths[i], ProcessedDataType.NORMAL);
+                ProcessedDataRow processedDataRow = new ProcessedDataRow(processedDataEntriesEx, i, sheetsPaths[i], processedRowType);
                 processedData.Add(processedDataRow);
             }
 
@@ -710,23 +740,6 @@ namespace Synapse.Core.Managers
                     ProcessedDataEntry processedDataEntry = _processedDataEntry.Value;
                     processedDataEntries.Add(processedDataEntry);
 
-                    switch (processedDataEntry.DataEntriesResultType[0])
-                    {
-                        case ProcessedDataType.NORMAL:
-                            break;
-                        case ProcessedDataType.MANUAL:
-                            if (processedRowType == ProcessedDataType.NORMAL) processedRowType = ProcessedDataType.MANUAL;
-                            break;
-                        case ProcessedDataType.FAULTY:
-                            if (processedRowType != ProcessedDataType.INCOMPATIBLE) processedRowType = ProcessedDataType.FAULTY;
-                            break;
-                        case ProcessedDataType.INCOMPATIBLE:
-                            processedRowType = ProcessedDataType.INCOMPATIBLE;
-                            break;
-                        default:
-                            break;
-                    }
-
                     string[] formattedOutput = processedDataEntry.FormatData();
                     if (formattedOutput.Length == 1)
                     {
@@ -746,6 +759,23 @@ namespace Synapse.Core.Managers
                         lastDataColumnsIndex += formattedOutput.Length;
                     }
 
+                    switch (processedDataEntry.GetRowDataType().GetValueOrDefault())
+                    {
+                        case ProcessedDataType.NORMAL:
+                            break;
+                        case ProcessedDataType.MANUAL:
+                            if (processedRowType == ProcessedDataType.NORMAL) processedRowType = ProcessedDataType.MANUAL;
+                            break;
+                        case ProcessedDataType.FAULTY:
+                            if (processedRowType != ProcessedDataType.INCOMPATIBLE) processedRowType = ProcessedDataType.FAULTY;
+                            break;
+                        case ProcessedDataType.INCOMPATIBLE:
+                            processedRowType = ProcessedDataType.INCOMPATIBLE;
+                            break;
+                        default:
+                            break;
+                    }
+
                     switch (curConfigurationBase.GetMainConfigType)
                     {
                         case MainConfigType.OMR:
@@ -756,29 +786,34 @@ namespace Synapse.Core.Managers
                                     switch (omrConfig.KeyType)
                                     {
                                         case Keys.KeyType.General:
-                                            try
+                                            for (int k = 0; k < omrConfig.GeneralAnswerKeys.Count; k++)
                                             {
-                                                var generalKey = omrConfig.GeneralAnswerKey;
-                                                var rawValues = ProcessedDataEntry.GenerateRawOMRDataValues(omrConfig, processedDataEntry.GetFieldsOutputs, omrConfig.GetEscapeSymbols());
-                                                var gradeResult = OMREngine.GradeSheet(generalKey, rawValues);
-                                                Functions.AddProperty(dynamicDataRow, "AnswerKey", generalKey);
-
-                                                for (int i2 = 0; i2 < 3; i2++)
+                                                try
                                                 {
-                                                    string dataTitle = i2 == 0 ? omrConfig.Title + " Score" : i2 == 1 ? omrConfig.Title + " Paper" : i2 == 2 ? omrConfig.Title + " Key" : omrConfig.Title + $" x{i2}";
-                                                    Functions.AddProperty(dynamicDataRow, dataTitle, i2 == 0 ? gradeResult.obtainedMarks + "" : i2 == 1 ? generalKey.GetPaper.Title : generalKey.Title);
+                                                    var generalKey = omrConfig.GeneralAnswerKeys[k];
+                                                    if (generalKey.IsActive == false) continue;
 
-                                                    //lastDataColumnsIndexEx++;
+                                                    var rawValues = ProcessedDataEntry.GenerateRawOMRDataValues(omrConfig, processedDataEntry.GetFieldsOutputs, omrConfig.GetEscapeSymbols());
+                                                    var gradeResult = OMREngine.GradeSheet(generalKey, rawValues);
+                                                    Functions.AddProperty(dynamicDataRow, "AnswerKey", generalKey);
+
+                                                    for (int i2 = 0; i2 < 2; i2++)
+                                                    {
+                                                        string dataTitle = i2 == 0 ? omrConfig.Title + " Score "  + omrConfig.GeneralAnswerKeys[k].Title: i2 == 1 ? omrConfig.Title + " Paper "  + omrConfig.GeneralAnswerKeys[k].Title: omrConfig.Title + $" x{i2}";
+                                                        Functions.AddProperty(dynamicDataRow, dataTitle, i2 == 0 ? gradeResult.obtainedMarks + "" : i2 == 1 ? generalKey.GetPaper.Title : generalKey.Title);
+
+                                                        //lastDataColumnsIndexEx++;
+                                                    }
                                                 }
-                                            }
-                                            catch
-                                            {
-                                                for (int i2 = 0; i2 < 3; i2++)
+                                                catch
                                                 {
-                                                    string dataTitle = i2 == 0 ? omrConfig.Title + " Score" : i2 == 1 ? omrConfig.Title + " Paper" : i2 == 2 ? omrConfig.Title + " Key" : omrConfig.Title + $" x{i2}";
-                                                    Functions.AddProperty(dynamicDataRow, dataTitle, "—");
+                                                    for (int i2 = 0; i2 < 2; i2++)
+                                                    {
+                                                        string dataTitle = i2 == 0 ? omrConfig.Title + " Score "  + omrConfig.GeneralAnswerKeys[k].Title: i2 == 1 ? omrConfig.Title + " Paper "  + omrConfig.GeneralAnswerKeys[k].Title: omrConfig.Title + $" x{i2}";
+                                                        Functions.AddProperty(dynamicDataRow, dataTitle, "—");
 
-                                                    //lastDataColumnsIndexEx++;
+                                                        //lastDataColumnsIndexEx++;
+                                                    }
                                                 }
                                             }
                                             break;
@@ -818,20 +853,24 @@ namespace Synapse.Core.Managers
                         var gradeResult = OMREngine.GradeSheet(paramKey, rawValues);
                         Functions.AddProperty(dynamicDataRow, "AnswerKey", paramKey);
 
-                        for (int i2 = 0; i2 < 3; i2++)
+                        for (int k = 0; k < omrConfig.GeneralAnswerKeys.Count; k++)
                         {
-                            string dataTitle = i2 == 0 ? omrConfig.Title + " Score" : i2 == 1 ? omrConfig.Title + " Paper" : i2 == 2 ? omrConfig.Title + " Key" : omrConfig.Title + $" x{i2}";
-                            Functions.AddProperty(dynamicDataRow, dataTitle, i2 == 0 ? gradeResult.obtainedMarks + "" : i2 == 1 ? paramKey.GetPaper.Title : paramKey.Title);
-
+                            for (int i2 = 0; i2 < 2; i2++)
+                            {
+                                string dataTitle = i2 == 0 ? omrConfig.Title + " Score " + omrConfig.GeneralAnswerKeys[k].Title : i2 == 1 ? omrConfig.Title + " Paper " + omrConfig.GeneralAnswerKeys[k].Title : omrConfig.Title + $" x{i2}";
+                                Functions.AddProperty(dynamicDataRow, dataTitle, i2 == 0 ? gradeResult.obtainedMarks + "" : i2 == 1 ? paramKey.GetPaper.Title : paramKey.Title);
+                            }
                         }
                     }
                     catch (Exception ex)
                     {
-                        for (int i2 = 0; i2 < 3; i2++)
+                        for (int k = 0; k < omrConfig.GeneralAnswerKeys.Count; k++)
                         {
-                            string dataTitle = i2 == 0 ? omrConfig.Title + " Score" : i2 == 1 ? omrConfig.Title + " Paper" : i2 == 2 ? omrConfig.Title + " Key" : omrConfig.Title + $" x{i2}";
-                            Functions.AddProperty(dynamicDataRow, dataTitle, "—");
-
+                            for (int i2 = 0; i2 < 2; i2++)
+                            {
+                                string dataTitle = i2 == 0 ? omrConfig.Title + " Score " + omrConfig.GeneralAnswerKeys[k].Title : i2 == 1 ? omrConfig.Title + " Paper " + omrConfig.GeneralAnswerKeys[k].Title : omrConfig.Title + $" x{i2}";
+                                Functions.AddProperty(dynamicDataRow, dataTitle, "—");
+                            }
                         }
                     }
                 }

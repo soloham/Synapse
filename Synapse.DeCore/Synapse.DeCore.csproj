@@ -61,6 +61,7 @@
     <Compile Include="Configurations\OMRConfiguration.cs" />
     <Compile Include="Engines\Data\Communicator.cs" />
     <Compile Include="Engines\Data\CustomDataEntry.cs" />
+    <Compile Include="Engines\Data\DataPoint.cs" />
     <Compile Include="Engines\Data\ProcessedDataEntry.cs" />
     <Compile Include="Engines\Data\ProcessedDataRow.cs" />
     <Compile Include="Keys\AnswerKey.cs" />

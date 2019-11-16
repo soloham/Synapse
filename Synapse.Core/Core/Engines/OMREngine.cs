@@ -22,7 +22,7 @@ namespace Synapse.Core.Engines
             int totalOptions = regionData.TotalOptions;
             int instances = regionData.TotalInstances == 0 ? 1 : regionData.TotalInstances; 
 
-            ProcessedDataType[] processedDataResultsType = new ProcessedDataType[(totalFields*instances) +1];
+            ProcessedDataType[] processedDataResultsType = new ProcessedDataType[(totalFields*instances)];
 
             PointF regionLocation = omrConfiguration.GetConfigArea.ConfigRect.Location;
             List<RectangleF> optionsRects = regionData.GetOptionsRects;
@@ -74,7 +74,7 @@ namespace Synapse.Core.Engines
                             {
                                 case MultiMarkAction.MarkAsManual:
                                     curFieldOutput = muliMarkSymbol;
-                                    processedDataResultsType[curFieldOutputIndex+1] = ProcessedDataType.MANUAL;
+                                    processedDataResultsType[curFieldOutputIndex] = ProcessedDataType.MANUAL;
                                     break;
                                 case MultiMarkAction.ConsiderFirst:
                                     break;
@@ -117,7 +117,7 @@ namespace Synapse.Core.Engines
                         {
                             case NoneMarkedAction.MarkAsManual:
                                 curFieldOutput = noneMarkedSymbol;
-                                processedDataResultsType[curFieldOutputIndex+1] = ProcessedDataType.MANUAL;
+                                processedDataResultsType[curFieldOutputIndex] = ProcessedDataType.MANUAL;
                                 break;
                             case NoneMarkedAction.Invalidate:
                                 curFieldOutput = noneMarkedSymbol;
@@ -131,7 +131,6 @@ namespace Synapse.Core.Engines
                     curFieldOutputIndex++;
                 }
             }
-            processedDataResultsType[0] = processedDataResultsType.Contains(ProcessedDataType.INCOMPATIBLE) ? ProcessedDataType.INCOMPATIBLE : processedDataResultsType.Contains(ProcessedDataType.FAULTY) ? ProcessedDataType.FAULTY : processedDataResultsType.Contains(ProcessedDataType.MANUAL) ? ProcessedDataType.MANUAL : ProcessedDataType.NORMAL;
 
             ProcessedDataEntry processedDataEntry = new ProcessedDataEntry(configuration.Title, regionFieldsOutputs, processedDataResultsType);
             return processedDataEntry;

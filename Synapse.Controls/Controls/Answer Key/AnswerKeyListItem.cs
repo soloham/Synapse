@@ -235,16 +235,18 @@ namespace Synapse.Controls
         #endregion
 
         #region Public Methods
-        private AnswerKeyListItem()
+        private AnswerKeyListItem(bool isActive)
         {
             InitializeComponent();
+            keyToggleBtn.ToggleState = isActive ? Syncfusion.Windows.Forms.Tools.ToggleButtonState.Active : Syncfusion.Windows.Forms.Tools.ToggleButtonState.Inactive;
         }
         public static AnswerKeyListItem Create(string configTitle, AnswerKey answerKey, OnControlButtonPressed OnControllButoonPressed)
         {
-            AnswerKeyListItem keyListItem = new AnswerKeyListItem();
+            AnswerKeyListItem keyListItem = new AnswerKeyListItem(answerKey.IsActive);
             keyListItem.KeyTitle = answerKey.Title;
             keyListItem.ConfigTitle = configTitle;
             keyListItem.OnControlButtonPressedEvent += OnControllButoonPressed;
+            
 
             return keyListItem;
         }

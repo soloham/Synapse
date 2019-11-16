@@ -20,6 +20,7 @@ namespace Synapse.Core.Keys
         public string GetConfigName { get; private set; }
         public int[][] GetKey { get; private set; }
         public Paper GetPaper { get; private set; }
+        public bool IsActive { get; set; }
 
         public AnswerKey(AnswerKey key)
         {
@@ -27,6 +28,7 @@ namespace Synapse.Core.Keys
             GetConfigName = key.GetConfigName;
             GetKey = key.GetKey;
             GetPaper = key.GetPaper;
+            IsActive = key.IsActive;
         }
         public AnswerKey(string title, string getConfigName, int[][] getKey, Paper getPaperCode)
         {
@@ -34,6 +36,7 @@ namespace Synapse.Core.Keys
             GetConfigName = getConfigName;
             GetKey = getKey;
             GetPaper = getPaperCode;
+            IsActive = true;
         }
     }
 }

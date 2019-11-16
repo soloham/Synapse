@@ -341,11 +341,11 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Dependencies\Cyotek.Windows.Forms.ImageBox-master\Cyotek.Windows.Forms.ImageBox.Demo\Cyotek.Windows.Forms.ImageBox.Demo.csproj">
+    <ProjectReference Include="..\Dependencies\Cyotek.Windows.Forms.ImageBox-master\Cyotek.Windows.Forms.ImageBox.Demo\Cyotek.Windows.Forms.ImageBox.Demo.csproj">
       <Project>{86d47d73-b3e7-4ed3-86ea-7bfc0c978a7b}</Project>
       <Name>Cyotek.Windows.Forms.ImageBox.Demo</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Dependencies\Cyotek.Windows.Forms.ImageBox-master\Cyotek.Windows.Forms.ImageBox\Cyotek.Windows.Forms.ImageBox.csproj">
+    <ProjectReference Include="..\Dependencies\Cyotek.Windows.Forms.ImageBox-master\Cyotek.Windows.Forms.ImageBox\Cyotek.Windows.Forms.ImageBox.csproj">
       <Project>{4159c8d3-c18d-4bed-8be6-9bad1b0ca4f6}</Project>
       <Name>Cyotek.Windows.Forms.ImageBox</Name>
     </ProjectReference>

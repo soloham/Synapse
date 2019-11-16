@@ -26,7 +26,7 @@ namespace Synapse.Core.Engines.Data
         #endregion
 
         #region Methods
-        public ProcessedDataEntry(string configurationTitle,  char[] fieldsOutputs, ProcessedDataType[] processedDataResultType)
+        public ProcessedDataEntry(string configurationTitle, char[] fieldsOutputs, ProcessedDataType[] processedDataResultType)
         {
             this.ConfigurationTitle = configurationTitle;
             this.fieldsOutputs = fieldsOutputs;
@@ -37,7 +37,60 @@ namespace Synapse.Core.Engines.Data
 
             FormatData();
         }
+        public ProcessedDataType? GetRegionDataType()
+        {
+            ProcessedDataType? result = null;
 
+            if (GetMainConfigType == MainConfigType.OMR)
+            {
+                OMRConfiguration omrConfiguration = (OMRConfiguration)GetConfigurationBase;
+                switch (omrConfiguration.ValueRepresentation)
+                {
+                    case ValueRepresentation.Collective:
+                        result = DataEntriesResultType.Contains(ProcessedDataType.INCOMPATIBLE) ? ProcessedDataType.INCOMPATIBLE : DataEntriesResultType.Contains(ProcessedDataType.FAULTY) ? ProcessedDataType.FAULTY : DataEntriesResultType.Contains(ProcessedDataType.MANUAL) ? ProcessedDataType.MANUAL : ProcessedDataType.NORMAL;
+                        break;
+                    case ValueRepresentation.Indiviual:
+                        result = null;
+                        break;
+                    case ValueRepresentation.CombineTwo:
+                        result = null;
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else
+                result = DataEntriesResultType.Contains(ProcessedDataType.INCOMPATIBLE) ? ProcessedDataType.INCOMPATIBLE : DataEntriesResultType.Contains(ProcessedDataType.FAULTY) ? ProcessedDataType.FAULTY : DataEntriesResultType.Contains(ProcessedDataType.MANUAL) ? ProcessedDataType.MANUAL : ProcessedDataType.NORMAL;
+
+            return result;
+        }
+        public ProcessedDataType? GetRowDataType()
+        {
+            ProcessedDataType? result = null;
+
+            if(GetMainConfigType == MainConfigType.OMR)
+            {
+                OMRConfiguration omrConfiguration = (OMRConfiguration)GetConfigurationBase;
+                switch (omrConfiguration.ValueRepresentation)
+                {
+                    case ValueRepresentation.Collective:
+                        result = DataEntriesResultType.Contains(ProcessedDataType.INCOMPATIBLE) ? ProcessedDataType.INCOMPATIBLE : DataEntriesResultType.Contains(ProcessedDataType.FAULTY) ? ProcessedDataType.FAULTY : DataEntriesResultType.Contains(ProcessedDataType.MANUAL) ? ProcessedDataType.MANUAL : ProcessedDataType.NORMAL;
+                        break;
+                    case ValueRepresentation.Indiviual:
+                        result = DataEntriesResultType.Contains(ProcessedDataType.INCOMPATIBLE) ? ProcessedDataType.INCOMPATIBLE : DataEntriesResultType.Contains(ProcessedDataType.FAULTY) ? ProcessedDataType.FAULTY : DataEntriesResultType.Contains(ProcessedDataType.MANUAL) ? ProcessedDataType.MANUAL : ProcessedDataType.NORMAL;
+                        break;
+                    case ValueRepresentation.CombineTwo:
+                        result = DataEntriesResultType.Contains(ProcessedDataType.INCOMPATIBLE) ? ProcessedDataType.INCOMPATIBLE : DataEntriesResultType.Contains(ProcessedDataType.FAULTY) ? ProcessedDataType.FAULTY : DataEntriesResultType.Contains(ProcessedDataType.MANUAL) ? ProcessedDataType.MANUAL : ProcessedDataType.NORMAL;
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else
+                result = DataEntriesResultType.Contains(ProcessedDataType.INCOMPATIBLE) ? ProcessedDataType.INCOMPATIBLE : DataEntriesResultType.Contains(ProcessedDataType.FAULTY) ? ProcessedDataType.FAULTY : DataEntriesResultType.Contains(ProcessedDataType.MANUAL) ? ProcessedDataType.MANUAL : ProcessedDataType.NORMAL;
+
+            return result;
+        }
         public string[] FormatData()
         {
             var config = GetConfigurationBase;
@@ -56,6 +109,8 @@ namespace Synapse.Core.Engines.Data
                     {
                         if (fieldsOutput[i] != configOMR.NoneMarkedSymbol)
                             startImplied = true;
+                        else
+                            if(!startImplied) DataEntriesResultType[i] = ProcessedDataType.NORMAL;
 
                         if (startImplied)
                         {
@@ -63,10 +118,13 @@ namespace Synapse.Core.Engines.Data
 
                             if (fieldsOutput[i] == configOMR.NoneMarkedSymbol)
                                 endRemoveCount++;
-         
                             else
                                 endRemoveCount = 0;
                         }
+                    }
+                    for (int i = DataEntriesResultType.Length - endRemoveCount; i < DataEntriesResultType.Length; i++)
+                    {
+                        DataEntriesResultType[i] = ProcessedDataType.NORMAL;
                     }
                     impliedValue = impliedValue.Remove(impliedValue.Length - endRemoveCount, endRemoveCount);
                     fieldsOutput = impliedValue;

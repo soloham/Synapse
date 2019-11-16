@@ -70,7 +70,7 @@ namespace Synapse.Controls
             this.keyTitleLabel.AutoSize = false;
             this.keyTitleLabel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.keyTitleLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.keyTitleLabel.Font = new System.Drawing.Font("Dosis", 19.25F);
+            this.keyTitleLabel.Font = new System.Drawing.Font("Dosis", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.keyTitleLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
             this.keyTitleLabel.Location = new System.Drawing.Point(73, 5);
             this.keyTitleLabel.Margin = new System.Windows.Forms.Padding(3, 5, 3, 0);
@@ -105,7 +105,7 @@ namespace Synapse.Controls
             this.configureBtn.Dock = System.Windows.Forms.DockStyle.Right;
             this.configureBtn.FlatAppearance.BorderSize = 0;
             this.configureBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.configureBtn.Font = new System.Drawing.Font("Dosis", 19F);
+            this.configureBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 19F);
             this.configureBtn.ForeColor = System.Drawing.Color.White;
             this.configureBtn.Image = ((System.Drawing.Image)(resources.GetObject("configureBtn.Image")));
             this.configureBtn.Location = new System.Drawing.Point(-1, 0);
@@ -125,7 +125,7 @@ namespace Synapse.Controls
             this.deleteBtn.Dock = System.Windows.Forms.DockStyle.Right;
             this.deleteBtn.FlatAppearance.BorderSize = 0;
             this.deleteBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.deleteBtn.Font = new System.Drawing.Font("Dosis", 18.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.deleteBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 18.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.deleteBtn.ForeColor = System.Drawing.Color.White;
             this.deleteBtn.Image = ((System.Drawing.Image)(resources.GetObject("deleteBtn.Image")));
             this.deleteBtn.Location = new System.Drawing.Point(52, 0);
