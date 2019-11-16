@@ -24,6 +24,7 @@ namespace Synapse
 
         public static void Run()
         {
+
             Utilities.Memory.LSTM.Initialize();
 
             Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("MTUyNzg0QDMxMzcyZTMzMmUzMEZudkNxODcvMHhRUmRTQjFzS05uaVBoOENoRjZJQlhSL0dGTGMwNi9CTkE9");

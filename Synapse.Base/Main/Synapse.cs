@@ -2308,6 +2308,11 @@ namespace Synapse
                     }
                     addAnswerKeyPanel.Visible = true;
                     break;
+                case AnswerKeyListItem.ControlButton.Active:
+
+                    break;
+                case AnswerKeyListItem.ControlButton.Inactive:
+                    break;
             }
         }
         #endregion

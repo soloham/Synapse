@@ -40,32 +40,65 @@ namespace Synapse.Core.Engines.Data
 
         public string[] FormatData()
         {
-            List<string> result = new List<string>();
             var config = GetConfigurationBase;
+
+            string fieldsOutput = new string(fieldsOutputs);
+
+            if (config.GetMainConfigType == MainConfigType.OMR)
+            {
+                OMRConfiguration configOMR = (OMRConfiguration)config;
+                if (configOMR.ImplicitValue)
+                {
+                    string impliedValue = "";
+                    bool startImplied = false;
+                    int endRemoveCount = 0;
+                    for (int i = 0; i < fieldsOutput.Length; i++)
+                    {
+                        if (fieldsOutput[i] != configOMR.NoneMarkedSymbol)
+                            startImplied = true;
+
+                        if (startImplied)
+                        {
+                            impliedValue += fieldsOutput[i];
+
+                            if (fieldsOutput[i] == configOMR.NoneMarkedSymbol)
+                                endRemoveCount++;
+         
+                            else
+                                endRemoveCount = 0;
+                        }
+                    }
+                    impliedValue = impliedValue.Remove(impliedValue.Length - endRemoveCount, endRemoveCount);
+                    fieldsOutput = impliedValue;
+                }
+            }
+
+            
+            List<string> result = new List<string>();
             switch (config.ValueRepresentation)
             {
                 case ValueRepresentation.Collective:
-                    result.Add(string.Concat(fieldsOutputs));
+                    result.Add(fieldsOutput);
                     break;
                 case ValueRepresentation.Indiviual:
-                    for (int i = 0; i < fieldsOutputs.Length; i++)
+                    for (int i = 0; i < fieldsOutput.Length; i++)
                     {
-                        result.Add(fieldsOutputs[i] + "");
+                        result.Add(fieldsOutput[i] + "");
                     }
                     break;
                 case ValueRepresentation.CombineTwo:
-                    if (fieldsOutputs.Length % 2 == 0)
+                    if (fieldsOutput.Length % 2 == 0)
                     {
-                        for (int i = 0; i < fieldsOutputs.Length; i += 2)
+                        for (int i = 0; i < fieldsOutput.Length; i += 2)
                         {
-                            result.Add(string.Concat(fieldsOutputs[i] + fieldsOutputs[i + 1]));
+                            result.Add(string.Concat(fieldsOutput[i] + fieldsOutput[i + 1]));
                         }
                     }
                     else
                     {
-                        for (int i = 0; i < fieldsOutputs.Length; i++)
+                        for (int i = 0; i < fieldsOutput.Length; i++)
                         {
-                            result.Add(fieldsOutputs[i] + "");
+                            result.Add(fieldsOutput[i] + "");
                         }
                     }
                     break;

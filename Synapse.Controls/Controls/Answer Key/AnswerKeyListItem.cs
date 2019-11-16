@@ -47,7 +47,9 @@ namespace Synapse.Controls
         public enum ControlButton
         {
             Delete,
-            Configure
+            Configure,
+            Active,
+            Inactive
         }
 
         #endregion
@@ -108,6 +110,14 @@ namespace Synapse.Controls
         #endregion
 
         #region UI Methods
+        private void keyToggleBtn_ToggleStateChanged(object sender, Syncfusion.Windows.Forms.Tools.ToggleStateChangedEventArgs e)
+        {
+            if(e.ToggleState == Syncfusion.Windows.Forms.Tools.ToggleButtonState.Active)
+                OnControlButtonPressedEvent?.Invoke(this, ControlButton.Active);
+            else
+                OnControlButtonPressedEvent?.Invoke(this, ControlButton.Inactive);
+        }
+
         private void DeleteBtn_Click(object sender, EventArgs e)
         {
             OnControlButtonPressedEvent?.Invoke(this, ControlButton.Delete);
