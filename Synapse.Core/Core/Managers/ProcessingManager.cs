@@ -36,12 +36,13 @@ namespace Synapse.Core.Managers
         
         public int GetCurProcessingIndex { get; private set; }
 
+        private bool IsVerified;
         private Template CurrentTemplate;
         private SheetsList loadedSheetsData = new SheetsList();
         private List<string> dataColumns = new List<string>();
         private List<ProcessedDataRow> processedData = new List<ProcessedDataRow>();
 
-        private Action<List<ProcessedDataEntry>, (ObservableCollection<dynamic> processedDataSource, ObservableCollection<dynamic> manProcessedDataSource, ObservableCollection<dynamic> fauProcessedDataSource, ObservableCollection<dynamic> incProcessedDataSource), int> InitializeDataGrids;
+        private Action<List<ProcessedDataEntry>, (ObservableCollection<dynamic> processedDataSource, ObservableCollection<dynamic> manProcessedDataSource, ObservableCollection<dynamic> fauProcessedDataSource, ObservableCollection<dynamic> incProcessedDataSource), int, bool> InitializeDataGrids;
         private Func<bool, List<string>> GetGridDataColumns;
 
         private ObservableCollection<dynamic> allProcessedDataSource = new ObservableCollection<dynamic>();
@@ -55,7 +56,7 @@ namespace Synapse.Core.Managers
         public int GetTotalIncompatibleProcessedData { get => incompatibleProcessedDataSource.Count; }
         public bool IsProcessing { get; private set; } = false;
         public bool IsPaused { get; private set; } = false;
-        public const int MAX_UNACTIVATED_SHEETS = 5000;
+        public const int MAX_UNACTIVATED_SHEETS = 500;
 
         public event EventHandler<ProcessedDataType> OnDataSourceUpdated;
         public event EventHandler<(ProcessedDataRow, double, double)> OnSheetProcessed;
@@ -64,8 +65,9 @@ namespace Synapse.Core.Managers
         public OMREngine CurOMREngine;
         public BarcodeEngine CurBarcodeEngine;
 
-        public ProcessingManager(Template currentTemplate, Action<List<ProcessedDataEntry>, (ObservableCollection<dynamic> processedDataSource, ObservableCollection<dynamic> manProcessedDataSource, ObservableCollection<dynamic> fauProcessedDataSource, ObservableCollection<dynamic> incProcessedDataSource), int> initializeDataGridsAction, Func<bool, List<string>> getGridDataColumnsFunc)
+        public ProcessingManager(bool isVerified, Template currentTemplate, Action<List<ProcessedDataEntry>, (ObservableCollection<dynamic> processedDataSource, ObservableCollection<dynamic> manProcessedDataSource, ObservableCollection<dynamic> fauProcessedDataSource, ObservableCollection<dynamic> incProcessedDataSource), int, bool> initializeDataGridsAction, Func<bool, List<string>> getGridDataColumnsFunc)
         {
+            IsVerified = isVerified;
             CurrentTemplate = currentTemplate;
             InitializeDataGrids = initializeDataGridsAction;
             GetGridDataColumns = getGridDataColumnsFunc;
@@ -161,7 +163,7 @@ namespace Synapse.Core.Managers
             (bool keepData, ProcessedDataRow processedDataRow, dynamic dynamicDataRow, double runningAverage, double runningTotal, int extraColumns) = ((bool, ProcessedDataRow, dynamic, double, double, int))e.UserState;
 
             if (processedDataRow.GetRowIndex == 0 && !keepData)
-                InitializeDataGrids?.Invoke(processedDataRow.GetProcessedDataEntries, (allProcessedDataSource, manualProcessedDataSource, faultyProcessedDataSource, incompatibleProcessedDataSource), extraColumns);
+                InitializeDataGrids?.Invoke(processedDataRow.GetProcessedDataEntries, (allProcessedDataSource, manualProcessedDataSource, faultyProcessedDataSource, incompatibleProcessedDataSource), extraColumns, false);
 
             try
             {
@@ -240,7 +242,7 @@ namespace Synapse.Core.Managers
 
             IsProcessing = true;
             bool pauseGrading = false;
-            bool isActivated = CurrentTemplate.TemplateData.IsActivatedd;
+            bool isActivated = CurrentTemplate.TemplateData.IsActivatedd && IsVerified;
 
             List<ConfigurationBase> renameFields = allConfigurations.FindAll(x => x.AddToFileName);
             for (int i = 0; i < sheetsPaths.Length; i++)
@@ -284,7 +286,7 @@ namespace Synapse.Core.Managers
                     List<ProcessedDataEntry> processedDataEntriesEx = new List<ProcessedDataEntry>();
                     for (int i1 = 0; i1 < allConfigurations.Count; i1++)
                     {
-                        processedDataEntriesEx.Add(new ProcessedDataEntry(allConfigurations[i1].Title, new char[] { '—' }, new ProcessedDataType[] { ProcessedDataType.INCOMPATIBLE }));
+                        processedDataEntriesEx.Add(new ProcessedDataEntry(allConfigurations[i1].Title, new char[] { '—' }, new ProcessedDataType[] { ProcessedDataType.INCOMPATIBLE }, new byte[0,0]));
                     }
                     ProcessedDataRow processedDataRowEx = new ProcessedDataRow(processedDataEntriesEx, i, sheetsPaths[i], processedRowType);
                     processedData.Add(processedDataRowEx);
@@ -305,11 +307,12 @@ namespace Synapse.Core.Managers
                 int lastDataColumnsIndex = -1;
                 ConfigurationBase curConfigurationBase = null;
 
-                var parameterBasedGradings = new List<(ProcessedDataEntry toGradeEntry, Parameter[] gradingParameters)>();
+                var parameterBasedGradings = new List<(ProcessedDataEntry toGradeEntry, Dictionary<int, byte[]> markCorrectFields, Parameter[] gradingParameters)>();
                 for (int i1 = 0; i1 < allConfigurations.Count; i1++)
                 {
                     curConfigurationBase = allConfigurations[i1];
                     ProcessedDataEntry? _processedDataEntry = null;
+                    Dictionary<int, byte[]> markCorrectFields = null;
                     switch (curConfigurationBase.GetMainConfigType)
                     {
                         case MainConfigType.OMR:
@@ -319,7 +322,7 @@ namespace Synapse.Core.Managers
                             _processedDataEntry = CurBarcodeEngine.ProcessSheet(curConfigurationBase, alignedSheet, null, sheetsPaths[i]);
                             break;
                         case MainConfigType.ICR:
-                            _processedDataEntry = new ProcessedDataEntry(curConfigurationBase.Title, new char[] { 'N', 'I', 'L' }, new ProcessedDataType[] { ProcessedDataType.NORMAL, ProcessedDataType.NORMAL, ProcessedDataType.NORMAL });
+                            _processedDataEntry = new ProcessedDataEntry(curConfigurationBase.Title, new char[] { 'N', 'I', 'L' }, new ProcessedDataType[] { ProcessedDataType.NORMAL, ProcessedDataType.NORMAL, ProcessedDataType.NORMAL }, new byte[0,0]);
                             break;
                         default:
                             break;
@@ -344,26 +347,8 @@ namespace Synapse.Core.Managers
                         {
                             string dataTitle = dataColumns != null && dataColumns.Count > 0 ? dataColumns[(lastDataColumnsIndex + 1) + i2] : allConfigurations[i1].Title[0] + (i2 + 1).ToString();
                             Functions.AddProperty(dynamicDataRow, dataTitle, formattedOutput[i2]);
-
                         }
                         lastDataColumnsIndex += formattedOutput.Length;
-                    }
-
-                    switch (processedDataEntry.GetRowDataType().GetValueOrDefault())
-                    {
-                        case ProcessedDataType.NORMAL:
-                            break;
-                        case ProcessedDataType.MANUAL:
-                            if(processedRowType == ProcessedDataType.NORMAL) processedRowType = ProcessedDataType.MANUAL;
-                            break;
-                        case ProcessedDataType.FAULTY:
-                            if(processedRowType != ProcessedDataType.INCOMPATIBLE) processedRowType = ProcessedDataType.FAULTY;
-                            break;
-                        case ProcessedDataType.INCOMPATIBLE:
-                            processedRowType = ProcessedDataType.INCOMPATIBLE;
-                            break;
-                        default:
-                            break;
                     }
 
                     switch (curConfigurationBase.GetMainConfigType)
@@ -391,14 +376,14 @@ namespace Synapse.Core.Managers
                                                         {
                                                             //processedDataEntry.GetFieldsOutputs[j] = '—';
                                                             processedDataEntry.DataEntriesResultType[j] = ProcessedDataType.NORMAL;
-
+                                                            processedDataEntry.SpecialCells.Add(new ProcessedDataEntry.SpecialCell((i1, j+1), Color.FromArgb(220, 238, 245), Color.Black));
                                                             //** IMPOSSIBLE??
                                                             //string dataTitle = dataColumns != null && dataColumns.Count > 0 ? dataColumns[(lastDataColumnsIndex + 1) + j] : allConfigurations[i1].Title[0] + (j + 1).ToString();
                                                             //Functions.AddProperty(dynamicDataRow, dataTitle, "—");
                                                         }
                                                     }
-                                                    var rawValues = ProcessedDataEntry.GenerateRawOMRDataValues(omrConfig, processedDataEntry.GetFieldsOutputs, omrConfig.GetEscapeSymbols());
-                                                    var gradeResult = OMREngine.GradeSheet(generalKey, rawValues);
+                                                    //var rawValues = ProcessedDataEntry.GenerateRawOMRDataValues(omrConfig, processedDataEntry.GetFieldsOutputs, omrConfig.GetEscapeSymbols());
+                                                    var gradeResult = OMREngine.GradeSheet(generalKey, processedDataEntry.GetOptionsOutputs, omrConfig.MultiMarkAction);
                                                     Functions.AddProperty(dynamicDataRow, "AnswerKey", generalKey);
 
                                                     for (int i2 = 0; i2 < 2; i2++)
@@ -424,7 +409,7 @@ namespace Synapse.Core.Managers
                                             }
                                             break;
                                         case Keys.KeyType.ParameterBased:
-                                            parameterBasedGradings.Add((processedDataEntry, omrConfig.PB_AnswerKeys.Keys.ToArray()));
+                                            parameterBasedGradings.Add((processedDataEntry, markCorrectFields, omrConfig.PB_AnswerKeys.Keys.ToArray()));
                                             //lastDataColumnsIndexEx += 3;
                                             break;
                                         default:
@@ -441,6 +426,23 @@ namespace Synapse.Core.Managers
                             //OBRConfiguration obrConfig = (OBRConfiguration)curConfigurationBaseEx;
                             break;
                         case MainConfigType.ICR:
+                            break;
+                    }
+
+                    switch (processedDataEntry.GetRowDataType().GetValueOrDefault())
+                    {
+                        case ProcessedDataType.NORMAL:
+                            break;
+                        case ProcessedDataType.MANUAL:
+                            if (processedRowType == ProcessedDataType.NORMAL) processedRowType = ProcessedDataType.MANUAL;
+                            break;
+                        case ProcessedDataType.FAULTY:
+                            if (processedRowType != ProcessedDataType.INCOMPATIBLE) processedRowType = ProcessedDataType.FAULTY;
+                            break;
+                        case ProcessedDataType.INCOMPATIBLE:
+                            processedRowType = ProcessedDataType.INCOMPATIBLE;
+                            break;
+                        default:
                             break;
                     }
                 }
@@ -465,8 +467,8 @@ namespace Synapse.Core.Managers
                                 pbGradingData.toGradeEntry.DataEntriesResultType[j] = ProcessedDataType.NORMAL;
                             }
                         }
-                        var rawValues = ProcessedDataEntry.GenerateRawOMRDataValues(omrConfig, pbGradingData.toGradeEntry.GetFieldsOutputs, omrConfig.GetEscapeSymbols());
-                        var gradeResult = OMREngine.GradeSheet(paramKey, rawValues);
+                        //var rawValues = ProcessedDataEntry.GenerateRawOMRDataValues(omrConfig, pbGradingData.toGradeEntry.GetFieldsOutputs, omrConfig.GetEscapeSymbols());
+                        var gradeResult = OMREngine.GradeSheet(paramKey, pbGradingData.toGradeEntry.GetOptionsOutputs, omrConfig.MultiMarkAction);
                         Functions.AddProperty(dynamicDataRow, "AnswerKey", paramKey);
 
                         for (int k = 0; k < omrConfig.GeneralAnswerKeys.Count; k++)
@@ -720,6 +722,8 @@ namespace Synapse.Core.Managers
                 {
                     curConfigurationBase = allConfigurations[i1];
                     ProcessedDataEntry? _processedDataEntry = null;
+                    Dictionary<int, byte[]> markCorrectFields = null;
+
                     switch (curConfigurationBase.GetMainConfigType)
                     {
                         case MainConfigType.OMR:
@@ -729,7 +733,7 @@ namespace Synapse.Core.Managers
                             _processedDataEntry = CurBarcodeEngine.ProcessSheet(curConfigurationBase, alignedSheet, null, sheetsPaths[i]);
                             break;
                         case MainConfigType.ICR:
-                            _processedDataEntry = new ProcessedDataEntry(curConfigurationBase.Title, new char[] { 'N', 'I', 'L' }, new ProcessedDataType[] { ProcessedDataType.NORMAL, ProcessedDataType.NORMAL, ProcessedDataType.NORMAL });
+                            _processedDataEntry = new ProcessedDataEntry(curConfigurationBase.Title, new char[] { 'N', 'I', 'L' }, new ProcessedDataType[] { ProcessedDataType.NORMAL, ProcessedDataType.NORMAL, ProcessedDataType.NORMAL }, new byte[0,0]);
                             break;
                         default:
                             break;
@@ -793,8 +797,8 @@ namespace Synapse.Core.Managers
                                                     var generalKey = omrConfig.GeneralAnswerKeys[k];
                                                     if (generalKey.IsActive == false) continue;
 
-                                                    var rawValues = ProcessedDataEntry.GenerateRawOMRDataValues(omrConfig, processedDataEntry.GetFieldsOutputs, omrConfig.GetEscapeSymbols());
-                                                    var gradeResult = OMREngine.GradeSheet(generalKey, rawValues);
+                                                    //var rawValues = ProcessedDataEntry.GenerateRawOMRDataValues(omrConfig, processedDataEntry.GetFieldsOutputs, omrConfig.GetEscapeSymbols());
+                                                    var gradeResult = OMREngine.GradeSheet(generalKey, processedDataEntry.GetOptionsOutputs, omrConfig.MultiMarkAction);
                                                     Functions.AddProperty(dynamicDataRow, "AnswerKey", generalKey);
 
                                                     for (int i2 = 0; i2 < 2; i2++)
@@ -850,7 +854,7 @@ namespace Synapse.Core.Managers
                         var paramKey = omrConfig.PB_AnswerKeys[curParameter];
 
                         var rawValues = ProcessedDataEntry.GenerateRawOMRDataValues(omrConfig, pbGradingData.toGradeEntry.GetFieldsOutputs, omrConfig.GetEscapeSymbols());
-                        var gradeResult = OMREngine.GradeSheet(paramKey, rawValues);
+                        var gradeResult = OMREngine.GradeSheet(paramKey, pbGradingData.toGradeEntry.GetOptionsOutputs, omrConfig.MultiMarkAction);
                         Functions.AddProperty(dynamicDataRow, "AnswerKey", paramKey);
 
                         for (int k = 0; k < omrConfig.GeneralAnswerKeys.Count; k++)
@@ -939,6 +943,25 @@ namespace Synapse.Core.Managers
                 processedData.RemoveAt(proDataIndex);
                 processedData.Insert(proDataIndex, processedDataRow);
             }
+        }
+
+        public void SetData(ObservableCollection<dynamic> processedDataSource, ObservableCollection<dynamic> manProcessedDataSource, ObservableCollection<dynamic> fauProcessedDataSource, ObservableCollection<dynamic> incProcessedDataSource)
+        {
+            allProcessedDataSource = processedDataSource;
+            manualProcessedDataSource = manProcessedDataSource;
+            faultyProcessedDataSource = fauProcessedDataSource;
+            incompatibleProcessedDataSource = incProcessedDataSource;
+
+            for (int i = 0; i < processedDataSource.Count; i++)
+                processedData.Add(processedDataSource[i].DataRowObject);
+            for (int i = 0; i < manProcessedDataSource.Count; i++)
+                processedData.Add(manProcessedDataSource[i].DataRowObject);
+            for (int i = 0; i < fauProcessedDataSource.Count; i++)
+                processedData.Add(fauProcessedDataSource[i].DataRowObject);
+            for (int i = 0; i < incProcessedDataSource.Count; i++)
+                processedData.Add(incProcessedDataSource[i].DataRowObject);
+
+            InitializeDataGrids?.Invoke(allProcessedDataSource[0].DataRowObject.GetProcessedDataEntries, (allProcessedDataSource, manualProcessedDataSource, faultyProcessedDataSource, incompatibleProcessedDataSource), 0, true);
         }
     }
 }

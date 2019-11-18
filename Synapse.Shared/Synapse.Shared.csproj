@@ -95,7 +95,9 @@
     <Compile Include="Utilities\Attributes\EnumDescriptionAttribute.cs" />
     <Compile Include="Utilities\Enums\Basic.cs" />
     <Compile Include="Utilities\Enums\EnumHelper.cs" />
+    <Compile Include="Utilities\Extensions\ColorExtensions.cs" />
     <Compile Include="Utilities\Extensions\ControlExtension.cs" />
+    <Compile Include="Utilities\Extensions\DictionaryExtension.cs" />
     <Compile Include="Utilities\Extensions\IOExtenstions.cs" />
     <Compile Include="Utilities\Extensions\MatExtensions.cs" />
     <Compile Include="Utilities\Functions.cs" />
@@ -103,6 +105,7 @@
     <Compile Include="Utilities\Messages.cs" />
     <Compile Include="Utilities\Objects\ColorStates.cs" />
     <Compile Include="Utilities\Objects\Deskew.cs" />
+    <Compile Include="Utilities\Objects\HardDrive.cs" />
     <Compile Include="Utilities\Objects\SheetsList.cs" />
   </ItemGroup>
   <ItemGroup>

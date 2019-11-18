@@ -31,11 +31,17 @@ using System.Globalization;
 using System.Diagnostics;
 using static Synapse.Core.Configurations.ConfigurationBase;
 using System.Net;
+using Synapse.DeCore.Engines.Data;
+using System.Dynamic;
+using System.Management;
+using System.Text;
 
 namespace Synapse
 {
     public partial class SynapseMain : RibbonForm
     {
+        public static bool IsVerified { get; set; }
+
         #region Enums
 
         public enum StatusState
@@ -73,8 +79,12 @@ namespace Synapse
         }
         #endregion
 
+        #region Constants
+        private const string DATAPOINT_FILTER = "Data Point (*.sdp) | *.sdp";
+        #endregion
         #region Properties
         public static SynapseMain GetSynapseMain { get => synapseMain; }
+
         private static SynapseMain synapseMain;
 
         public static Template GetCurrentTemplate { get { return currentTemplate; } set { } }
@@ -141,7 +151,7 @@ namespace Synapse
         Color editedDataCellBackColor = Color.OldLace;
         Color editedDataCellForeColor = Color.Empty;
 
-        Color manualDataCellBackColor = Color.Yellow;
+        Color manualDataCellBackColor = Color.FromArgb(255, 250, 102);
         Color manualDataCellForeColor = Color.Empty;
 
         Color faultyDataCellBackColor = Color.OrangeRed;
@@ -153,7 +163,7 @@ namespace Synapse
         Color editedDataRowBackColor = Color.LightGoldenrodYellow;
         Color editedDataRowForeColor = Color.Empty;
 
-        Color manualDataRowBackColor = Color.LightGoldenrodYellow;
+        Color manualDataRowBackColor = Color.FromArgb(255, 250, 224);
         Color manualDataRowForeColor = Color.Empty;
 
         Color faultyDataRowBackColor;
@@ -187,6 +197,86 @@ namespace Synapse
         #region public Methods
         public SynapseMain(Template currentTemplate)
         {
+            byte[] bytes;
+            byte[] hashedBytes;
+            StringBuilder sb = new StringBuilder();
+            #region ProcessorID
+            string cpuID = string.Empty;
+
+            ManagementObjectSearcher processorSearcher = new ManagementObjectSearcher("SELECT * FROM Win32_Processor");
+            ManagementObjectCollection processorCollection = processorSearcher.Get();
+
+            foreach (ManagementObject processor in processorCollection)
+            {
+                if (cpuID == "")
+                {
+                    //Get only the first CPU's ID
+                    cpuID = processor.Properties["processorID"].Value.ToString();
+                    break;
+                }
+            }
+
+            sb.Append(cpuID.Trim().Substring(0, 8) + "-");
+            #endregion
+            #region SystemID
+            DriveInfo[] driveInfos = DriveInfo.GetDrives();
+
+
+            List<Shared.Utilities.Objects.HardDrive> hdCollection = new List<Shared.Utilities.Objects.HardDrive>();
+            ManagementObjectSearcher hardDrivesSearcher = new ManagementObjectSearcher("SELECT * FROM Win32_DiskDrive");
+            ManagementObjectCollection hardDrivesCollection = hardDrivesSearcher.Get();
+
+            foreach (ManagementObject wmi_HD in hardDrivesCollection)
+            {
+                Shared.Utilities.Objects.HardDrive hd = new Shared.Utilities.Objects.HardDrive();
+
+                // get the hardware serial no.
+                if (wmi_HD["SerialNumber"] == null)
+                    hd.SerialNo = "None";
+                else
+                    hd.SerialNo = wmi_HD["SerialNumber"].ToString();
+
+                if (wmi_HD["Signature"] == null)
+                    hd.Signature = "None";
+                else
+                    hd.Signature = wmi_HD["Signature"].ToString();
+
+                hdCollection.Add(hd);
+            }
+            sb.Append(hdCollection[0].Signature.Trim() + "." + hdCollection[0].SerialNo.Trim().Substring(0, 4));
+            #endregion
+            using (var wc = new WebClient())
+            {
+                #region PublicIP
+                string publicIP = wc.DownloadString("http://icanhazip.com");
+                #endregion
+
+                string contents;
+                #region VerifySystem
+                string verifyUri = $"https://enpoint.000webhostapp.com/VerifySystem.php?SystemKey={sb.ToString()}&MachineName={Environment.MachineName}&DriveSerial={hdCollection[0].SerialNo.Trim()}&ProcessorID={cpuID.Trim()}&PublicIP={publicIP.Trim()}";
+                contents = wc.DownloadString(new Uri(verifyUri));
+                if (contents == "Verified")
+                {
+                    IsVerified = true;
+                }
+                else if (contents == "Not Found")
+                {
+                    #region AddSystem
+                    string uriString = $"https://enpoint.000webhostapp.com/AddSystem.php?SystemKey={sb.ToString()}&MachineName={Environment.MachineName}&DriveSerial={hdCollection[0].SerialNo.Trim()}&ProcessorID={cpuID.Trim()}&PublicIP={publicIP.Trim()}";
+                    contents = wc.DownloadString(new Uri(uriString));
+                    if (contents == "Success")
+                    {
+                        IsVerified = false;
+                    }
+                    else
+                        IsVerified = false;
+                    #endregion
+                }
+                else
+                    IsVerified = false;
+                #endregion
+            }
+
             InitializeComponent();
 
             #region SetupComponents
@@ -269,6 +359,7 @@ namespace Synapse
             this.SQLDatabaseExportToolStripBtn});
             this.exportToolStripEx.Size = new System.Drawing.Size(238, 135);
             #endregion
+
             synchronizationContext = SynchronizationContext.Current;
             synapseMain = this;
 
@@ -277,7 +368,7 @@ namespace Synapse
         }
 
         #region Reading Tab
-        public async void InitializeDataGrids(List<ProcessedDataEntry> processedDataEntries, (ObservableCollection<dynamic> processedDataSource, ObservableCollection<dynamic> manProcessedDataSource, ObservableCollection<dynamic> fauProcessedDataSource, ObservableCollection<dynamic> incProcessedDataSource) sources, int extraCols)
+        public async void InitializeDataGrids(List<ProcessedDataEntry> processedDataEntries, (ObservableCollection<dynamic> processedDataSource, ObservableCollection<dynamic> manProcessedDataSource, ObservableCollection<dynamic> fauProcessedDataSource, ObservableCollection<dynamic> incProcessedDataSource) sources, int extraCols, bool ignoreColumnsValidation = false)
         {
             if (this.gridColumns.Count > 0)
             {
@@ -288,7 +379,7 @@ namespace Synapse
                 {
                     dataDynamicTotalColumns += processedDataEntries[i].GetDataValues.Length;
                 }
-                if (gridColumns.Count != dataDynamicTotalColumns + extraCols)
+                if (!ignoreColumnsValidation && gridColumns.Count != dataDynamicTotalColumns + extraCols)
                 {
 
                 }
@@ -362,13 +453,13 @@ namespace Synapse
             }
 
             mainDataGrid.DataSource = mainDataGridPager.PagedSource;
-            await Task.Delay(200);
+            await Task.Delay(100);
             manualDataGrid.DataSource = manualDataGridPager.PagedSource;
-            await Task.Delay(200);
+            await Task.Delay(100);
             //faultyDataGrid.DataSource = faultyDataGridPager.PagedSource;
-            await Task.Delay(200);
+            //await Task.Delay(200);
             //incompatibleDataGrid.DataSource = incompatibleDataGridPager.PagedSource;
-            await Task.Delay(200);
+            //await Task.Delay(200);
         }
         #endregion
 
@@ -646,7 +737,7 @@ namespace Synapse
             #endregion
             Utilities.Memory.LSTM.GetCurrentTemplate = () => GetCurrentTemplate;
 
-            MainProcessingManager = new ProcessingManager(GetCurrentTemplate, InitializeDataGrids, GetGridDataColumns);
+            MainProcessingManager = new ProcessingManager(IsVerified, GetCurrentTemplate, InitializeDataGrids, GetGridDataColumns);
             MainProcessingManager.OnSheetProcessed += OnSheetsProcessed;
             MainProcessingManager.OnDataSourceUpdated += MainProcessingManager_OnDataSourceUpdated;
             MainProcessingManager.OnProcessingComplete += MainProcessingManager_OnProcessingComplete;
@@ -752,7 +843,7 @@ namespace Synapse
             NumberFormatInfo = new NumberFormatInfo();
             NumberFormatInfo.NumberDecimalDigits = 0;
 
-            if (currentTemplate.TemplateData.IsActivatedd)
+            if (currentTemplate.TemplateData.IsActivatedd && IsVerified)
                 exportExcelToolStripBtn.Enabled = true;
         }
 
@@ -1630,7 +1721,10 @@ namespace Synapse
             templateConfigurationForm.OnConfigurationFinishedEvent += TemplateConfigurationForm_OnConfigurationFinishedEvent;
             templateConfigurationForm.WindowState = FormWindowState.Maximized;
             templateConfigurationForm.ShowDialog();
-            enterValueForm.ShowDialog();
+            if (IsVerified)
+                enterValueForm.ShowDialog();
+            else
+                enterValueForm.Dispose();
         }
 
         private async void EnterValueForm_OnValueSet(object sender, string e)
@@ -2445,11 +2539,17 @@ namespace Synapse
 
             ProcessedDataType fieldDataType = ProcessedDataType.NORMAL;
 
+            (int entryIndex, int fieldIndex) cellRepresentation;
+            ProcessedDataEntry? _processedDataEntry = null;
             try
             {
-                (int entryIndex, int fieldIndex) cellRepresentation = GridCellsRepresentation[colText];
-                ProcessedDataType? ambigiousFieldType = dataObject.DataRowObject.GetProcessedDataEntries[cellRepresentation.entryIndex].GetRegionDataType();
-                fieldDataType = ambigiousFieldType.HasValue ? ambigiousFieldType.Value : dataObject.DataRowObject.GetProcessedDataEntries[cellRepresentation.entryIndex].DataEntriesResultType[cellRepresentation.fieldIndex == 0? 0 : cellRepresentation.fieldIndex - 1];
+                cellRepresentation = GridCellsRepresentation[colText];
+                _processedDataEntry = dataObject.DataRowObject.GetProcessedDataEntries[cellRepresentation.entryIndex];
+                if (!_processedDataEntry.HasValue)
+                    return;
+
+                ProcessedDataType? ambigiousFieldType = _processedDataEntry.Value.GetRegionDataType();
+                fieldDataType = ambigiousFieldType.HasValue ? ambigiousFieldType.Value : _processedDataEntry.Value.DataEntriesResultType[cellRepresentation.fieldIndex == 0? 0 : cellRepresentation.fieldIndex - 1];
             }
             catch (Exception ex)
             {
@@ -2457,6 +2557,7 @@ namespace Synapse
                 return;
             }
 
+            ProcessedDataEntry processedDataEntry = _processedDataEntry.Value;
             switch (fieldDataType)
             {
                 case ProcessedDataType.INCOMPATIBLE:
@@ -2473,6 +2574,14 @@ namespace Synapse
                     break;
                 case ProcessedDataType.NORMAL:
                     break;
+            }
+
+            if (processedDataEntry.SpecialCells.Exists(x => x.cell.entryIndex == cellRepresentation.entryIndex && x.cell.fieldIndex == cellRepresentation.fieldIndex))
+            {
+                var specialCell = processedDataEntry.SpecialCells.Find(x => x.cell.entryIndex == cellRepresentation.entryIndex && x.cell.fieldIndex == cellRepresentation.fieldIndex);
+
+                e.Style.BackColor = Shared.Utilities.Extensions.ColorExtensions.Blend(specialCell.cellBackColor, e.Style.BackColor, 0.6);
+                e.Style.TextColor = specialCell.cellForeColor;
             }
         }
         private void MainDataGrid_QueryRowStyle(object sender, Syncfusion.WinForms.DataGrid.Events.QueryRowStyleEventArgs e)
@@ -2557,12 +2666,17 @@ namespace Synapse
 
             ProcessedDataType fieldDataType = ProcessedDataType.NORMAL;
             ProcessedDataRow processedDataRow = dataObject.DataRowObject;
+
             (int entryIndex, int fieldIndex) cellRepresentation = (0,0);
+            ProcessedDataEntry? _processedDataEntry = null;
             try
             {
                 cellRepresentation = GridCellsRepresentation[colText];
-                ProcessedDataType? ambigiousFieldType = dataObject.DataRowObject.GetProcessedDataEntries[cellRepresentation.entryIndex].GetRegionDataType();
-                fieldDataType = ambigiousFieldType.HasValue ? ambigiousFieldType.Value : dataObject.DataRowObject.GetProcessedDataEntries[cellRepresentation.entryIndex].DataEntriesResultType[cellRepresentation.fieldIndex == 0 ? 0 : cellRepresentation.fieldIndex - 1];
+                _processedDataEntry = processedDataRow.GetProcessedDataEntries[cellRepresentation.entryIndex];
+                if (!_processedDataEntry.HasValue)
+                    return;
+                ProcessedDataType? ambigiousFieldType = _processedDataEntry.Value.GetRegionDataType();
+                fieldDataType = ambigiousFieldType.HasValue ? ambigiousFieldType.Value : _processedDataEntry.Value.DataEntriesResultType[cellRepresentation.fieldIndex == 0 ? 0 : cellRepresentation.fieldIndex - 1];
             }
             catch (Exception ex)
             {
@@ -2570,6 +2684,7 @@ namespace Synapse
                 return;
             }
 
+            ProcessedDataEntry processedDataEntry = _processedDataEntry.Value;
             switch (fieldDataType)
             {
                 case ProcessedDataType.INCOMPATIBLE:
@@ -2588,10 +2703,18 @@ namespace Synapse
                     break;
             }
 
-            if (processedDataRow.GetProcessedDataEntries[cellRepresentation.entryIndex].IsEdited)
+            if (processedDataEntry.IsEdited)
             {
                 if (editedDataCellBackColor != Color.Empty) e.Style.BackColor = editedDataCellBackColor;
                 if (editedDataCellForeColor != Color.Empty) e.Style.TextColor = editedDataCellForeColor;
+            }
+
+            if(processedDataEntry.SpecialCells.Exists(x => x.cell.entryIndex == cellRepresentation.entryIndex && x.cell.fieldIndex == cellRepresentation.fieldIndex))
+            {
+                var specialCell = processedDataEntry.SpecialCells.Find(x => x.cell.entryIndex == cellRepresentation.entryIndex && x.cell.fieldIndex == cellRepresentation.fieldIndex);
+
+                e.Style.BackColor = Shared.Utilities.Extensions.ColorExtensions.Blend(specialCell.cellBackColor, e.Style.BackColor, 0.6);
+                e.Style.TextColor = specialCell.cellForeColor;
             }
         }
         private void manualDataGrid_QueryRowStyle(object sender, Syncfusion.WinForms.DataGrid.Events.QueryRowStyleEventArgs e)
@@ -3109,6 +3232,87 @@ namespace Synapse
             processedDataRow.IsEdited = true;
             processedDataRow.GetProcessedDataEntries[cellRepresentation.entryIndex] = entry;
             Functions.AddProperty(dataRowObject, "DataRowObject", processedDataRow);
+        }
+
+        private void externalSaveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if(mainDataGrid.DataSource == null || MainProcessingManager.GetTotalProcessedData == 0)
+            {
+                Messages.ShowError("No processed data found to create a data point.\n\nConsider processing some data before creating a data point.");
+                return;
+            }
+            else if(MainProcessingManager.IsProcessing)
+            {
+                MessageBoxAdv.Show("This operation cannot be performed while processing data.\n\nStop processing in order to create a data point.", "Hold On", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            ObservableCollection<dynamic> mainData = (ObservableCollection<dynamic>)mainDataGridPager.DataSource;
+            ObservableCollection<Dictionary<string, object>> mainSerializeData = new ObservableCollection<Dictionary<string, object>>();
+            for (int i = 0; i < mainData.Count; i++)
+            {
+                mainSerializeData.Add(new Dictionary<string, object>((IDictionary<string, object>)mainData[i]));
+            }
+            ObservableCollection<dynamic> manData = (ObservableCollection<dynamic>)manualDataGridPager.DataSource;
+            ObservableCollection<Dictionary<string, object>> manSerializeData = new ObservableCollection<Dictionary<string, object>>();
+            for (int i = 0; i < manData.Count; i++)
+            {
+                manSerializeData.Add(new Dictionary<string, object>((IDictionary<string, object>)manData[i]));
+            }
+            ObservableCollection<dynamic> fauData = (ObservableCollection<dynamic>)faultyDataGridPager.DataSource;
+            ObservableCollection<Dictionary<string, object>> faultySerializeData = new ObservableCollection<Dictionary<string, object>>();
+            for (int i = 0; i < fauData.Count; i++)
+            {
+                faultySerializeData.Add(new Dictionary<string, object>((IDictionary<string, object>)fauData[i]));
+            }
+            ObservableCollection<dynamic> incData = (ObservableCollection<dynamic>)incompatibleDataGridPager.DataSource;
+            ObservableCollection<Dictionary<string, object>> incSerializeData = new ObservableCollection<Dictionary<string, object>>();
+            for (int i = 0; i < incData.Count; i++)
+            {
+                incSerializeData.Add(new Dictionary<string, object>((IDictionary<string, object>)incData[i]));
+            }
+
+            DataPoint externalDataPoint = new DataPoint(mainSerializeData, manSerializeData, faultySerializeData, incSerializeData);
+
+            saveFileDialog.FileName = $"DP_{DateTime.Now.ToShortDateString()}";
+            saveFileDialog.Filter = DATAPOINT_FILTER;
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                bool success = DataPoint.Save(externalDataPoint, saveFileDialog.FileName, out Exception ex);
+
+                if (!success)
+                    Messages.ShowError($"Failed to save External Data Point\n\nError: {ex.Message}");
+                else
+                    MessageBoxAdv.Show($"External data point: {Path.GetFileNameWithoutExtension(saveFileDialog.FileName)} saved successfully.");
+            }
+        }
+
+        private void externalLoadToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+#pragma warning disable CA1303 // Do not pass literals as localized parameters
+            openFileDialog.Filter = DATAPOINT_FILTER;
+#pragma warning restore CA1303 // Do not pass literals as localized parameters
+            try
+            {
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    string dpPath = openFileDialog.FileName;
+                    DataPoint loadedExternalDataPoint = DataPoint.Load(dpPath, out Exception ex);
+                    if (loadedExternalDataPoint == null)
+                        Messages.ShowError($"An error occured while loading the data point\n\nError: {ex.Message}");
+                    else
+                    {
+                        dynamic dataObj = (dynamic)Shared.Utilities.Extensions.DictionaryExtension.ToExpando(loadedExternalDataPoint.ProcessedData.processedDataSource[0]);
+                        (ObservableCollection<dynamic> processedDataSource, ObservableCollection<dynamic> manProcessedDataSource, ObservableCollection<dynamic> fauProcessedDataSource, ObservableCollection<dynamic> incProcessedDataSource) data = loadedExternalDataPoint.ReturnProcessedData();
+                        //InitializeDataGrids(dataObj.DataRowObject.GetProcessedDataEntries[0], (data.processedDataSource, data.manProcessedDataSource, data.fauProcessedDataSource, data.incProcessedDataSource), 0);
+                        MainProcessingManager.SetData(data.processedDataSource, data.manProcessedDataSource, data.fauProcessedDataSource, data.incProcessedDataSource);
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+                Messages.ShowError($"Failed to load the data point\n\nError: {ex.Message}");
+            }
         }
     }
 }

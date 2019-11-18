@@ -605,6 +605,7 @@ namespace Synapse.Core.Configurations
     [Serializable]
     public class OMRConfiguration : ConfigurationBase
     {
+        public const char CONSIDER_CORRECT_SYMBOL = '@';
         #region Public Properties
         [Browsable(false)]
         public OMRRegionData RegionData { get { return regionData; } set { regionData = value; } }

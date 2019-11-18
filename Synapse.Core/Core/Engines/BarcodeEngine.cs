@@ -84,7 +84,7 @@ namespace Synapse.Core.Engines
                 output = barcodes.Length > 0 ? barcodes[0].Text : "-";
             }
 
-            return new ProcessedDataEntry(configuration.Title, output.ToCharArray(), new ProcessedDataType[] { ProcessedDataType.NORMAL });
+            return new ProcessedDataEntry(configuration.Title, output.ToCharArray(), new ProcessedDataType[] { ProcessedDataType.NORMAL }, new byte[0,0]);
         }
 
         void ReadBarcodes1D(string fileName, int page)

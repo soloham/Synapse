@@ -36,7 +36,7 @@ namespace Synapse.Core.Engines
             string regionOutput = "";
 
             int curOptionRectIndex = 0;
-            List<byte> filledIndexes = new List<byte>();
+            byte[,] optionsOutputs = new byte[totalFields * instances, totalOptions];
 
             double curBlackCountThreshold = omrConfiguration.BlackCountThreshold;
             int curFieldOutputIndex = 0;
@@ -44,8 +44,10 @@ namespace Synapse.Core.Engines
             {
                 for (int i = 0; i < totalFields; i++)
                 {
-                    char curFieldOutput = '0';
-                    filledIndexes = new List<byte>();
+                    char curFieldOutput = omrConfiguration.ValueDataType == ValueDataType.Alphabet? 'O' : '0';
+                    byte totalFilled = 0;
+                    List<byte> filledIndexes = new List<byte>();
+
                     for (int j = 0; j < totalOptions; j++)
                     {
                         Rectangle curOptionRect = Rectangle.Round(optionsRects[curOptionRectIndex]);
@@ -58,14 +60,17 @@ namespace Synapse.Core.Engines
                         double blackCountPercent = blackCount / (double)data.Length;
                         bool isFilled = blackCountPercent > curBlackCountThreshold;
                         if (isFilled)
-                            filledIndexes.Add((byte)j);
+                        {
+                            optionsOutputs[curFieldOutputIndex, j] = 1;
+                            totalFilled++;
 
+                            filledIndexes.Add((byte)j);
+                        }
                         OnOptionProcessed?.Invoke(optionsRects[curOptionRectIndex], isFilled);
 
                         curOptionRectIndex++;
                     }
 
-                    byte totalFilled = (byte)filledIndexes.Count;
                     if (totalFilled > 0)
                     {
                         if (totalFilled > 1)
@@ -77,10 +82,13 @@ namespace Synapse.Core.Engines
                                     processedDataResultsType[curFieldOutputIndex] = ProcessedDataType.MANUAL;
                                     break;
                                 case MultiMarkAction.ConsiderFirst:
+                                    curFieldOutput = (char)(filledIndexes[0] + 65);
                                     break;
                                 case MultiMarkAction.ConsiderLast:
+                                    curFieldOutput = (char)(filledIndexes[filledIndexes.Count-1] + 65);
                                     break;
                                 case MultiMarkAction.ConsiderCorrect:
+                                    curFieldOutput = OMRConfiguration.CONSIDER_CORRECT_SYMBOL;
                                     break;
                                 case MultiMarkAction.Invalidate:
                                     curFieldOutput = muliMarkSymbol;
@@ -132,7 +140,7 @@ namespace Synapse.Core.Engines
                 }
             }
 
-            ProcessedDataEntry processedDataEntry = new ProcessedDataEntry(configuration.Title, regionFieldsOutputs, processedDataResultsType);
+            ProcessedDataEntry processedDataEntry = new ProcessedDataEntry(configuration.Title, regionFieldsOutputs, processedDataResultsType, optionsOutputs);
             return processedDataEntry;
         }
 
@@ -158,13 +166,15 @@ namespace Synapse.Core.Engines
             string regionOutput = "";
 
             int curOptionRectIndex = 0;
-            List<byte> filledIndexes = new List<byte>();
+            byte[,] optionsOutputs = new byte[totalFields, totalOptions];
 
             double curBlackCountThreshold = omrConfiguration.BlackCountThreshold;
             for (int i = 0; i < totalFields; i++)
             {
                 char curFieldOutput = '0';
-                filledIndexes = new List<byte>();
+                byte totalFilled = 0;
+                List<byte> filledIndexes = new List<byte>();
+
                 for (int j = 0; j < totalOptions; j++)
                 {
                     Rectangle curOptionRect = Rectangle.Round(optionsRects[curOptionRectIndex]);
@@ -178,8 +188,12 @@ namespace Synapse.Core.Engines
                     double blackCountPercent = blackCount / (double)data.Length;
                     bool isFilled = blackCountPercent > curBlackCountThreshold;
                     if (isFilled)
-                        filledIndexes.Add((byte)j);
+                    {
+                        optionsOutputs[i,j] = 1;
+                        totalFilled++;
 
+                        filledIndexes.Add((byte)j);
+                    }
                     OnOptionProcessed?.Invoke(curOptionRect, isFilled);
                     if (OnOptionProcessed != null)
                         await Task.Delay(TimeSpan.FromMilliseconds(GetWaitMS()));
@@ -187,7 +201,6 @@ namespace Synapse.Core.Engines
                     curOptionRectIndex++;
                 }
 
-                byte totalFilled = (byte)filledIndexes.Count;
                 if (totalFilled > 0)
                 {
                     if (totalFilled > 1)
@@ -199,10 +212,13 @@ namespace Synapse.Core.Engines
                                 processedDataResultsType[i] = ProcessedDataType.MANUAL;
                                 break;
                             case MultiMarkAction.ConsiderFirst:
+                                curFieldOutput = (char)(optionsOutputs[i, filledIndexes[0]] + 65);
                                 break;
                             case MultiMarkAction.ConsiderLast:
+                                curFieldOutput = (char)(optionsOutputs[i, filledIndexes[filledIndexes.Count-1]] + 65);
                                 break;
                             case MultiMarkAction.ConsiderCorrect:
+                                curFieldOutput = OMRConfiguration.CONSIDER_CORRECT_SYMBOL;
                                 break;
                             case MultiMarkAction.Invalidate:
                                 curFieldOutput = muliMarkSymbol;
@@ -218,13 +234,13 @@ namespace Synapse.Core.Engines
                             case ValueDataType.Text:
                                 break;
                             case ValueDataType.Alphabet:
-                                curFieldOutput = (char)(filledIndexes[0] + 65);
+                                curFieldOutput = (char)(optionsOutputs[i, filledIndexes[0]] + 65);
                                 break;
                             case ValueDataType.WholeNumber:
-                                curFieldOutput = (char)(filledIndexes[0] + 48);
+                                curFieldOutput = (char)(optionsOutputs[i, filledIndexes[0]] + 48);
                                 break;
                             case ValueDataType.NaturalNumber:
-                                curFieldOutput = (char)(filledIndexes[0] + 49);
+                                curFieldOutput = (char)(optionsOutputs[i, filledIndexes[0]] + 49);
                                 break;
                             case ValueDataType.Integer:
                                 break;
@@ -251,7 +267,7 @@ namespace Synapse.Core.Engines
                 regionOutput += curFieldOutput.ToString();
             }
 
-            ProcessedDataEntry processedDataEntry = new ProcessedDataEntry(configuration.Title, regionFieldsOutputs, processedDataResultsType);
+            ProcessedDataEntry processedDataEntry = new ProcessedDataEntry(configuration.Title, regionFieldsOutputs, processedDataResultsType, optionsOutputs);
             return processedDataEntry;
         }
 
@@ -282,7 +298,7 @@ namespace Synapse.Core.Engines
 
             return (totalMarks, obtainedMarks);
         }
-        public static (int totalMarks, int obtainedMarks) GradeSheet(AnswerKey answerKey, byte[,] observedOptions)
+        public static (int totalMarks, int obtainedMarks) GradeSheet(AnswerKey answerKey, byte[,] observedOptions, MultiMarkAction multiMarkAction)
         {
             int totalMarks = 0, obtainedMarks = 0;
 
@@ -296,10 +312,26 @@ namespace Synapse.Core.Engines
             for (int i = 0; i < totalFields; i++)
             {
                 bool isCorrect = false;
+
                 for (int j = 0; j < totalOptions; j++)
                 {
-                    if (observedOptions[i,j] == 1 && observedOptions[i,j] == keyOptions[i][j])
-                        isCorrect = true;
+                    if (observedOptions[i, j] == 1)
+                    {
+                        if (isCorrect)
+                        {
+                            if (multiMarkAction == MultiMarkAction.MarkAsManual || multiMarkAction == MultiMarkAction.Invalidate)
+                                isCorrect = false;
+                            else if (multiMarkAction == MultiMarkAction.ConsiderCorrect)
+                                isCorrect = true;
+                            else if(multiMarkAction == MultiMarkAction.ConsiderLast)
+                                isCorrect = observedOptions[i, j] == keyOptions[i][j]? true : false;
+                        }
+                        else
+                        {
+                            if (observedOptions[i, j] == keyOptions[i][j])
+                                isCorrect = true;
+                        }
+                    }
                 }
                 if (isCorrect)
                     obtainedMarks += correctOptionValue;

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,30 +12,53 @@ namespace Synapse.Core.Engines.Data
     [Serializable]
     public struct ProcessedDataEntry
     {
+        #region Objects
+        [Serializable]
+        public class SpecialCell
+        {
+            public SpecialCell((int entryIndex, int fieldIndex) cell, Color cellBackColor, Color cellForeColor)
+            {
+                this.cell = cell;
+                this.cellBackColor = cellBackColor;
+                this.cellForeColor = cellForeColor;
+            }
+
+            public (int entryIndex, int fieldIndex) cell { get; set; }
+            public Color cellBackColor { get; set; }
+            public Color cellForeColor { get; set; }
+        }
+        #endregion
         #region Properties
         public ConfigurationBase GetConfigurationBase { get => Communicator.GetConfigurationBase?.Invoke(ConfigurationTitle); }
         public string ConfigurationTitle { get; private set; }
         public MainConfigType GetMainConfigType { get => GetConfigurationBase.GetMainConfigType; }
         public ProcessedDataType[] DataEntriesResultType { get; set; }
+        public byte[,] GetOptionsOutputs { get => optionsOutputs; }
+        private byte[,] optionsOutputs;
 
         public char[] GetFieldsOutputs { get => fieldsOutputs; }
         private char[] fieldsOutputs;
         public string[] GetDataValues { get => dataValues; }
         private string[] dataValues;
 
+        public List<SpecialCell> SpecialCells;
+
         public bool IsEdited { get; set; }
         #endregion
 
+
         #region Methods
-        public ProcessedDataEntry(string configurationTitle, char[] fieldsOutputs, ProcessedDataType[] processedDataResultType)
+        public ProcessedDataEntry(string configurationTitle, char[] fieldsOutputs, ProcessedDataType[] processedDataResultType, byte[,] optionsOutputs)
         {
             this.ConfigurationTitle = configurationTitle;
             this.fieldsOutputs = fieldsOutputs;
+            this.optionsOutputs = optionsOutputs;
 
             DataEntriesResultType = processedDataResultType;
             dataValues = null;
             IsEdited = false;
-
+            SpecialCells = new List<SpecialCell>();
+            
             FormatData();
         }
         public ProcessedDataType? GetRegionDataType()
@@ -187,6 +211,12 @@ namespace Synapse.Core.Engines.Data
                     {
                         if (escapeAscii.Contains(ascii[i]))
                             continue;
+
+                        if(ascii[i] == 64)
+                        {
+                            result[i, 0] = 2;
+                            continue;
+                        }
 
                         int optionIndex = ascii[i] - 65;
                         result[i, optionIndex] = 1;
