@@ -195,65 +195,94 @@ namespace Synapse
         #endregion
 
         #region public Methods
+        public async Task<(string systemKey, string processorID, string driveSignature, string biosSerial, string biosVersion)> GetHardwareID()
+        {
+            byte[] bytes = Array.Empty<byte>();
+            byte[] hashedBytes = Array.Empty<byte>();
+            StringBuilder sb = new StringBuilder();
+            
+            string cpuID = string.Empty;
+            string driveSig = string.Empty;
+            string biosSerial = string.Empty;
+            string biosVersion = string.Empty;
+
+            Task GetIDTask = Task.Run(() =>
+            {
+                ManagementObjectSearcher searcher;
+                ManagementObjectCollection collection;
+                #region ProcessorID
+                searcher = new ManagementObjectSearcher("SELECT * FROM Win32_Processor");
+                collection = searcher.Get();
+
+                foreach (ManagementObject processor in collection)
+                {
+                    if (cpuID == "")
+                    {
+                        //Get only the first CPU's ID
+                        cpuID = processor.Properties["processorID"].Value.ToString();
+                        break;
+                    }
+                }
+
+                sb.Append(cpuID.Trim() + "-");
+                #endregion
+                #region DriveSerial
+                List<Shared.Utilities.Objects.HardDrive> hdCollection = new List<Shared.Utilities.Objects.HardDrive>();
+                searcher = new ManagementObjectSearcher("SELECT * FROM Win32_DiskDrive");
+                collection = searcher.Get();
+
+                foreach (ManagementObject wmi_HD in collection)
+                {
+                    Shared.Utilities.Objects.HardDrive hd = new Shared.Utilities.Objects.HardDrive();
+
+                    // get the hardware serial no.
+                    if (wmi_HD["SerialNumber"] == null)
+                        hd.SerialNo = "None";
+                    else
+                        hd.SerialNo = wmi_HD["SerialNumber"].ToString();
+
+                    if (wmi_HD["Signature"] == null)
+                        hd.Signature = "None";
+                    else
+                        hd.Signature = wmi_HD["Signature"].ToString();
+
+                    hdCollection.Add(hd);
+                }
+                driveSig = hdCollection[0].Signature.Trim();
+                sb.Append(driveSig + "-");
+                #endregion
+                #region BIOS
+                searcher = new ManagementObjectSearcher("SELECT * FROM Win32_BIOS");
+                collection = searcher.Get();
+                foreach (ManagementObject wmi_BIOS in collection)
+                {
+                    if (wmi_BIOS["SerialNumber"] != null)
+                        biosSerial = wmi_BIOS["SerialNumber"].ToString();
+
+                    if (wmi_BIOS["Version"] != null)
+                        biosVersion = wmi_BIOS["Version"].ToString();
+                }
+                sb.Append(string.IsNullOrEmpty(biosSerial) ? biosVersion : biosSerial);
+                #endregion
+            });
+            Task.WaitAll(GetIDTask);
+            bytes = Encoding.UTF8.GetBytes(sb.ToString());
+            using (var sha256 = System.Security.Cryptography.SHA256.Create()) hashedBytes = sha256.ComputeHash(bytes);
+            string hashedString = Convert.ToBase64String(hashedBytes);
+            return (await Task.FromResult(hashedString.Substring(25)), cpuID, driveSig, biosSerial, biosVersion);
+        }
         public SynapseMain(Template currentTemplate)
         {
-            byte[] bytes;
-            byte[] hashedBytes;
-            StringBuilder sb = new StringBuilder();
-            #region ProcessorID
-            string cpuID = string.Empty;
-
-            ManagementObjectSearcher processorSearcher = new ManagementObjectSearcher("SELECT * FROM Win32_Processor");
-            ManagementObjectCollection processorCollection = processorSearcher.Get();
-
-            foreach (ManagementObject processor in processorCollection)
-            {
-                if (cpuID == "")
-                {
-                    //Get only the first CPU's ID
-                    cpuID = processor.Properties["processorID"].Value.ToString();
-                    break;
-                }
-            }
-
-            sb.Append(cpuID.Trim().Substring(0, 8) + "-");
-            #endregion
-            #region SystemID
-            DriveInfo[] driveInfos = DriveInfo.GetDrives();
-
-
-            List<Shared.Utilities.Objects.HardDrive> hdCollection = new List<Shared.Utilities.Objects.HardDrive>();
-            ManagementObjectSearcher hardDrivesSearcher = new ManagementObjectSearcher("SELECT * FROM Win32_DiskDrive");
-            ManagementObjectCollection hardDrivesCollection = hardDrivesSearcher.Get();
-
-            foreach (ManagementObject wmi_HD in hardDrivesCollection)
-            {
-                Shared.Utilities.Objects.HardDrive hd = new Shared.Utilities.Objects.HardDrive();
-
-                // get the hardware serial no.
-                if (wmi_HD["SerialNumber"] == null)
-                    hd.SerialNo = "None";
-                else
-                    hd.SerialNo = wmi_HD["SerialNumber"].ToString();
-
-                if (wmi_HD["Signature"] == null)
-                    hd.Signature = "None";
-                else
-                    hd.Signature = wmi_HD["Signature"].ToString();
-
-                hdCollection.Add(hd);
-            }
-            sb.Append(hdCollection[0].Signature.Trim() + "." + hdCollection[0].SerialNo.Trim().Substring(0, 4));
-            #endregion
+            Hide();
+            var hardwareID = GetHardwareID().Result;
             using (var wc = new WebClient())
             {
                 #region PublicIP
                 string publicIP = wc.DownloadString("http://icanhazip.com");
                 #endregion
-
                 string contents;
                 #region VerifySystem
-                string verifyUri = $"https://enpoint.000webhostapp.com/VerifySystem.php?SystemKey={sb.ToString()}&MachineName={Environment.MachineName}&DriveSerial={hdCollection[0].SerialNo.Trim()}&ProcessorID={cpuID.Trim()}&PublicIP={publicIP.Trim()}";
+                string verifyUri = $"https://enpoint.000webhostapp.com/VerifySystem.php?SystemKey={hardwareID.systemKey}&MachineName={Environment.MachineName}&DriveSerial={hardwareID.driveSignature}&ProcessorID={hardwareID.processorID}&PublicIP={publicIP.Trim()}&BIOS={(string.IsNullOrEmpty(hardwareID.biosSerial)?hardwareID.biosVersion:hardwareID.biosSerial)}";
                 contents = wc.DownloadString(new Uri(verifyUri));
                 if (contents == "Verified")
                 {
@@ -262,7 +291,7 @@ namespace Synapse
                 else if (contents == "Not Found")
                 {
                     #region AddSystem
-                    string uriString = $"https://enpoint.000webhostapp.com/AddSystem.php?SystemKey={sb.ToString()}&MachineName={Environment.MachineName}&DriveSerial={hdCollection[0].SerialNo.Trim()}&ProcessorID={cpuID.Trim()}&PublicIP={publicIP.Trim()}";
+                    string uriString = $"https://enpoint.000webhostapp.com/AddSystem.php?SystemKey={hardwareID.systemKey}&MachineName={Environment.MachineName}&DriveSerial={hardwareID.driveSignature}&ProcessorID={hardwareID.processorID}&PublicIP={publicIP.Trim()}&BIOS={(string.IsNullOrEmpty(hardwareID.biosSerial)?hardwareID.biosVersion:hardwareID.biosSerial)}";
                     contents = wc.DownloadString(new Uri(uriString));
                     if (contents == "Success")
                     {
@@ -845,6 +874,8 @@ namespace Synapse
 
             if (currentTemplate.TemplateData.IsActivatedd && IsVerified)
                 exportExcelToolStripBtn.Enabled = true;
+
+            Show();
         }
 
         double finalAverage = 0;
