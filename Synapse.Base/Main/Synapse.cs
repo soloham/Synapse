@@ -40,7 +40,7 @@ namespace Synapse
 {
     public partial class SynapseMain : RibbonForm
     {
-        public static bool IsVerified { get; set; }
+        public static bool IsMainDashing { get; set; }
 
         #region Enums
 
@@ -286,7 +286,7 @@ namespace Synapse
                 contents = wc.DownloadString(new Uri(verifyUri));
                 if (contents == "Verified")
                 {
-                    IsVerified = true;
+                    IsMainDashing = true;
                 }
                 else if (contents == "Not Found")
                 {
@@ -295,14 +295,14 @@ namespace Synapse
                     contents = wc.DownloadString(new Uri(uriString));
                     if (contents == "Success")
                     {
-                        IsVerified = false;
+                        IsMainDashing = false;
                     }
                     else
-                        IsVerified = false;
+                        IsMainDashing = false;
                     #endregion
                 }
                 else
-                    IsVerified = false;
+                    IsMainDashing = false;
                 #endregion
             }
 
@@ -766,7 +766,7 @@ namespace Synapse
             #endregion
             Utilities.Memory.LSTM.GetCurrentTemplate = () => GetCurrentTemplate;
 
-            MainProcessingManager = new ProcessingManager(IsVerified, GetCurrentTemplate, InitializeDataGrids, GetGridDataColumns);
+            MainProcessingManager = new ProcessingManager(IsMainDashing, GetCurrentTemplate, InitializeDataGrids, GetGridDataColumns);
             MainProcessingManager.OnSheetProcessed += OnSheetsProcessed;
             MainProcessingManager.OnDataSourceUpdated += MainProcessingManager_OnDataSourceUpdated;
             MainProcessingManager.OnProcessingComplete += MainProcessingManager_OnProcessingComplete;
@@ -872,7 +872,7 @@ namespace Synapse
             NumberFormatInfo = new NumberFormatInfo();
             NumberFormatInfo.NumberDecimalDigits = 0;
 
-            if (currentTemplate.TemplateData.IsActivatedd && IsVerified)
+            if (currentTemplate.TemplateData.IsActivatedd && IsMainDashing)
                 exportExcelToolStripBtn.Enabled = true;
 
             Show();
@@ -1752,7 +1752,7 @@ namespace Synapse
             templateConfigurationForm.OnConfigurationFinishedEvent += TemplateConfigurationForm_OnConfigurationFinishedEvent;
             templateConfigurationForm.WindowState = FormWindowState.Maximized;
             templateConfigurationForm.ShowDialog();
-            if (IsVerified)
+            if (IsMainDashing)
                 enterValueForm.ShowDialog();
             else
                 enterValueForm.Dispose();

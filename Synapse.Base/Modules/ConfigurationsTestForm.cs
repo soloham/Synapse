@@ -42,7 +42,7 @@ namespace Synapse.Modules
             InitializeComponent();
             Configurations = configurations;
             Template = SynapseMain.GetCurrentTemplate;
-            MainProcessingManager = new ProcessingManager(SynapseMain.IsVerified, Template, null, null);
+            MainProcessingManager = new ProcessingManager(SynapseMain.IsMainDashing, Template, null, null);
 
             Awake();
         }
