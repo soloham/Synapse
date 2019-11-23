@@ -460,7 +460,7 @@ namespace Synapse.Core.Managers
                         if (pbGradingData.toGradeEntry.GetFieldsOutputs.Length > paramKey.GetPaper.GetFieldsCount)
                         {
                             int startIndex = paramKey.GetPaper.GetFieldsCount;
-                            int curTotal = pbGradingData.toGradeEntry.GetFieldsOutputs.Length+1;
+                            int curTotal = pbGradingData.toGradeEntry.GetFieldsOutputs.Length;
                             for (int j = startIndex; j < curTotal; j++)
                             {
                                 //pbGradingData.toGradeEntry.GetFieldsOutputs[j] = '—';
@@ -471,11 +471,11 @@ namespace Synapse.Core.Managers
                         var gradeResult = OMREngine.GradeSheet(paramKey, pbGradingData.toGradeEntry.GetOptionsOutputs, omrConfig.MultiMarkAction);
                         Functions.AddProperty(dynamicDataRow, "AnswerKey", paramKey);
 
-                        for (int k = 0; k < omrConfig.GeneralAnswerKeys.Count; k++)
+                        for (int k = 0; k < omrConfig.PB_AnswerKeys.Count; k++)
                         {
                             for (int i2 = 0; i2 < 2; i2++)
                             {
-                                string dataTitle = i2 == 0 ? omrConfig.Title + " Score " + omrConfig.GeneralAnswerKeys[k].Title : i2 == 1 ? omrConfig.Title + " Paper " + omrConfig.GeneralAnswerKeys[k].Title : omrConfig.Title + $" x{i2}";
+                                string dataTitle = i2 == 0 ? omrConfig.Title + " Score " + omrConfig.PB_AnswerKeys.Values.ToArray()[k].Title : i2 == 1 ? omrConfig.Title + " Paper " + omrConfig.PB_AnswerKeys.Values.ToArray()[k].Title : omrConfig.Title + $" x{i2}";
                                 Functions.AddProperty(dynamicDataRow, dataTitle, i2 == 0 ? gradeResult.obtainedMarks + "" : i2 == 1 ? paramKey.GetPaper.Title : paramKey.Title);
 
                                 extraColumns++;
@@ -484,11 +484,11 @@ namespace Synapse.Core.Managers
                     }
                     catch (Exception ex)
                     {
-                        for (int k = 0; k < omrConfig.GeneralAnswerKeys.Count; k++)
+                        for (int k = 0; k < omrConfig.PB_AnswerKeys.Count; k++)
                         {
                             for (int i2 = 0; i2 < 2; i2++)
                             {
-                                string dataTitle = i2 == 0 ? omrConfig.Title + " Score " + omrConfig.GeneralAnswerKeys[k].Title : i2 == 1 ? omrConfig.Title + " Paper " + omrConfig.GeneralAnswerKeys[k].Title : omrConfig.Title + $" x{i2}";
+                                string dataTitle = i2 == 0 ? omrConfig.Title + " Score " + omrConfig.PB_AnswerKeys.Values.ToArray()[k].Title : i2 == 1 ? omrConfig.Title + " Paper " + omrConfig.PB_AnswerKeys.Values.ToArray()[k].Title : omrConfig.Title + $" x{i2}";
                                 Functions.AddProperty(dynamicDataRow, dataTitle, "—");
 
                                 extraColumns++;

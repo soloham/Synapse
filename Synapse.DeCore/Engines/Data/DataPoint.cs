@@ -58,18 +58,40 @@ namespace Synapse.DeCore.Engines.Data
             {
                 result.processedDataSource.Add((dynamic)Shared.Utilities.Extensions.DictionaryExtension.ToExpando(ProcessedData.processedDataSource[i]));
             }
-            for (int i = 0; i < ProcessedData.manProcessedDataSource.Count; i++)
+            //for (int i = 0; i < ProcessedData.manProcessedDataSource.Count; i++)
+            //{
+            //    result.manProcessedDataSource.Add((dynamic)Shared.Utilities.Extensions.DictionaryExtension.ToExpando(ProcessedData.manProcessedDataSource[i]));
+            //}
+            //for (int i = 0; i < ProcessedData.fauProcessedDataSource.Count; i++)
+            //{
+            //    result.fauProcessedDataSource.Add((dynamic)Shared.Utilities.Extensions.DictionaryExtension.ToExpando(ProcessedData.fauProcessedDataSource[i]));
+            //}
+            //for (int i = 0; i < ProcessedData.incProcessedDataSource.Count; i++)
+            //{
+            //    result.incProcessedDataSource.Add((dynamic)Shared.Utilities.Extensions.DictionaryExtension.ToExpando(ProcessedData.incProcessedDataSource[i]));
+            //}
+
+            for (int i = 0; i < result.processedDataSource.Count; i++)
             {
-                result.manProcessedDataSource.Add((dynamic)Shared.Utilities.Extensions.DictionaryExtension.ToExpando(ProcessedData.manProcessedDataSource[i]));
+                dynamic curData = result.processedDataSource[i];
+                switch (curData.DataRowObject.DataRowResultType)
+                {
+                    case Core.Engines.Data.ProcessedDataType.NORMAL:
+                        break;
+                    case Core.Engines.Data.ProcessedDataType.MANUAL:
+                        result.manProcessedDataSource.Add(curData);
+                        break;
+                    case Core.Engines.Data.ProcessedDataType.FAULTY:
+                        result.fauProcessedDataSource.Add(curData);
+                        break;
+                    case Core.Engines.Data.ProcessedDataType.INCOMPATIBLE:
+                        result.incProcessedDataSource.Add(curData);
+                        break;
+                    default:
+                        break;
+                }
             }
-            for (int i = 0; i < ProcessedData.fauProcessedDataSource.Count; i++)
-            {
-                result.fauProcessedDataSource.Add((dynamic)Shared.Utilities.Extensions.DictionaryExtension.ToExpando(ProcessedData.fauProcessedDataSource[i]));
-            }
-            for (int i = 0; i < ProcessedData.incProcessedDataSource.Count; i++)
-            {
-                result.incProcessedDataSource.Add((dynamic)Shared.Utilities.Extensions.DictionaryExtension.ToExpando(ProcessedData.incProcessedDataSource[i]));
-            }
+
             return result;
         }
 

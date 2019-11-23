@@ -233,6 +233,13 @@ namespace Synapse
 
                 foreach (ManagementObject wmi_HD in collection)
                 {
+                    string mediaType = wmi_HD["MediaType"].ToString();
+                    if (wmi_HD["InterfaceType"].ToString() == "USB" || mediaType == "Removable Media")
+                        continue;
+
+                    if (mediaType.IndexOf("fixed", StringComparison.OrdinalIgnoreCase) == -1)
+                        continue;
+
                     Shared.Utilities.Objects.HardDrive hd = new Shared.Utilities.Objects.HardDrive();
 
                     // get the hardware serial no.
@@ -331,6 +338,7 @@ namespace Synapse
             this.addAsICRToolStripBtn});
             this.dataConfigToolStripEx.Size = new System.Drawing.Size(565, 135);
             this.dataConfigStatusToolStripPanel.Padding = new Padding(2, 20, 2, 2);
+            this.dataConfigToolStripEx.Width = 575;
 
             this.aiConfigToolStripEx.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.aiConfigStatusToolStripPanel,
@@ -750,6 +758,15 @@ namespace Synapse
             catch (Exception ex)
             {
 
+            }
+        }
+
+        public void UpdateGridColumns()
+        {
+            if (readingToolStripTabItem.Checked)
+            {
+                if (!MainProcessingManager.IsProcessing)
+                    GenerateGridColumns();
             }
         }
         #endregion
@@ -1393,6 +1410,63 @@ namespace Synapse
                                 }
                                 break;
                             case OMRType.Parameter:
+                                var pbKeys = omrConfig.PB_AnswerKeys.Values.ToArray();
+                                for (int k = 0; k < omrConfig.PB_AnswerKeys.Count; k++)
+                                {
+                                    if (!pbKeys[k].IsActive) continue;
+
+                                    //GridTextColumn omrScoreCol = new GridTextColumn();
+                                    GridProgressBarColumn omrScoreCol = new GridProgressBarColumn();
+                                    omrScoreCol.ValueMode = Syncfusion.WinForms.DataGrid.Enums.ProgressBarValueMode.Value;
+                                    omrScoreCol.MappingName = omrConfig.Title + " Score " + pbKeys[k].Title;
+                                    omrScoreCol.HeaderText = omrConfig.Title + " Score " + pbKeys[k].Title;
+                                    mainDataGrid.Columns.Add(omrScoreCol);
+                                    manualDataGrid.Columns.Add(omrScoreCol);
+                                    faultyDataGrid.Columns.Add(omrScoreCol);
+                                    incompatibleDataGrid.Columns.Add(omrScoreCol);
+
+                                    //GridTextColumn omrTotalCol = new GridTextColumn();
+                                    //omrTotalCol.MappingName = omrConfig.Title + " Total";
+                                    //omrTotalCol.HeaderText = omrConfig.Title + " Total";
+                                    //mainDataGrid.Columns.Add(omrTotalCol);
+
+                                    GridTextColumn omrPaperCol = new GridTextColumn();
+                                    omrPaperCol.MappingName = omrConfig.Title + " Paper " + pbKeys[k].Title;
+                                    omrPaperCol.HeaderText = omrConfig.Title + " Paper " + pbKeys[k].Title;
+                                    mainDataGrid.Columns.Add(omrPaperCol);
+                                    manualDataGrid.Columns.Add(omrPaperCol);
+                                    faultyDataGrid.Columns.Add(omrPaperCol);
+                                    incompatibleDataGrid.Columns.Add(omrPaperCol);
+
+                                    //GridTextColumn omrKeyCol = new GridTextColumn();
+                                    //omrKeyCol.MappingName = omrConfig.Title + " Key " + omrConfig.GeneralAnswerKeys[k].Title;
+                                    //omrKeyCol.HeaderText = omrConfig.Title + " Key " + omrConfig.GeneralAnswerKeys[k].Title;
+                                    //mainDataGrid.Columns.Add(omrKeyCol);
+                                    //manualDataGrid.Columns.Add(omrKeyCol);
+                                    //faultyDataGrid.Columns.Add(omrKeyCol);
+                                    //incompatibleDataGrid.Columns.Add(omrKeyCol);
+
+                                    gridColumns.Add(omrScoreCol.HeaderText);
+                                    //gridColumns.Add(omrTotalCol.HeaderText);
+                                    gridColumns.Add(omrPaperCol.HeaderText);
+                                    //gridColumns.Add(omrKeyCol.HeaderText);
+
+                                    switch (omrConfig.KeyType)
+                                    {
+                                        case KeyType.General:
+                                            break;
+                                        case KeyType.ParameterBased:
+                                            GridTextColumn omrParameterCol = new GridTextColumn();
+                                            omrParameterCol.MappingName = omrConfig.Title + " Parameter";
+                                            omrParameterCol.HeaderText = omrConfig.Title + " Parameter";
+                                            mainDataGrid.Columns.Add(omrParameterCol);
+
+                                            gridColumns.Add(omrParameterCol.HeaderText);
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                }
                                 break;
                             default:
                                 break;
@@ -2451,6 +2525,8 @@ namespace Synapse
                     {
                         omrConfig.PB_AnswerKeys.First(x => x.Value.Title == keyListItem.KeyTitle).Value.IsActive = true;
                     }
+
+                    UpdateGridColumns();
                     break;
                 case AnswerKeyListItem.ControlButton.Inactive:
                     if (omrConfig.GeneralAnswerKeys != null && omrConfig.GeneralAnswerKeys.Exists(x => x.Title == keyListItem.KeyTitle))
@@ -2461,6 +2537,8 @@ namespace Synapse
                     {
                         omrConfig.PB_AnswerKeys.First(x => x.Value.Title == keyListItem.KeyTitle).Value.IsActive = false;
                     }
+
+                    UpdateGridColumns();
                     break;
             }
         }
@@ -2988,12 +3066,6 @@ namespace Synapse
             startReadingToolStripBtn.Text = "Start";
             startReadingToolStripBtn.Image = Properties.Resources.startBtnIcon_ReadingTab;
         }
-
-        private void manualDataGrid_CurrentCellEndEdit(object sender, Syncfusion.WinForms.DataGrid.Events.CurrentCellEndEditEventArgs e)
-        {
-
-        }
-
         private void manualDataGrid_CellDoubleClick(object sender, Syncfusion.WinForms.DataGrid.Events.CellClickEventArgs e)
         {
             if (ModifierKeys == Keys.Control)
@@ -3176,7 +3248,7 @@ namespace Synapse
             Functions.AddProperty(dataRowObject, "DataRowObject", processedDataRow);
         }
 
-        private void manualDataGrid_CurrentCellEndEdit_1(object sender, Syncfusion.WinForms.DataGrid.Events.CurrentCellEndEditEventArgs e)
+        private void manualDataGrid_CurrentCellEndEdit(object sender, Syncfusion.WinForms.DataGrid.Events.CurrentCellEndEditEventArgs e)
         {
             string dataColumnName = e.DataColumn.GridColumn.MappingName;
             dynamic dataRowObject = e.DataRow.RowData as dynamic;
