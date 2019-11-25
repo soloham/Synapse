@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Inlite.ClearImageNet;
 using Synapse.Core.Configurations;
 using Synapse.DeCore.Engines.Data;
 
@@ -42,13 +43,14 @@ namespace Synapse.Core.Engines.Data
         private string[] dataValues;
 
         public List<SpecialCell> SpecialCells;
+        public Barcode[] BarcodesResult;
 
         public bool IsEdited { get; set; }
         #endregion
 
 
         #region Methods
-        public ProcessedDataEntry(string configurationTitle, char[] fieldsOutputs, ProcessedDataType[] processedDataResultType, byte[,] optionsOutputs)
+        public ProcessedDataEntry(string configurationTitle, char[] fieldsOutputs, ProcessedDataType[] processedDataResultType, byte[,] optionsOutputs, Barcode[] barcodesResult = null)
         {
             this.ConfigurationTitle = configurationTitle;
             this.fieldsOutputs = fieldsOutputs;
@@ -58,7 +60,8 @@ namespace Synapse.Core.Engines.Data
             dataValues = null;
             IsEdited = false;
             SpecialCells = new List<SpecialCell>();
-            
+
+            BarcodesResult = barcodesResult;
             FormatData();
         }
         public ProcessedDataType? GetRegionDataType()

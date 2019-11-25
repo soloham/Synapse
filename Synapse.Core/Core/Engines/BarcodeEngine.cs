@@ -59,9 +59,9 @@ namespace Synapse.Core.Engines
             //barcodeReader.Algorithm = obrConfiguration.AlgorithmPreference;
 
             string output = "-";
+            Barcode[] barcodes = null;
             using (Bitmap region = sheet.Bitmap.Clone(barcodeRegion, System.Drawing.Imaging.PixelFormat.Format8bppIndexed))
             {
-                Barcode[] barcodes = null;
                 try
                 {
                     barcodes = barcodeReader.Read(region);   // Read barcodes
@@ -84,7 +84,7 @@ namespace Synapse.Core.Engines
                 output = barcodes.Length > 0 ? barcodes[0].Text : "-";
             }
 
-            return new ProcessedDataEntry(configuration.Title, output.ToCharArray(), new ProcessedDataType[] { ProcessedDataType.NORMAL }, new byte[0,0]);
+            return new ProcessedDataEntry(configuration.Title, output.ToCharArray(), new ProcessedDataType[] { ProcessedDataType.NORMAL }, new byte[0,0], barcodes);
         }
 
         void ReadBarcodes1D(string fileName, int page)

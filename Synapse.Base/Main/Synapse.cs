@@ -127,8 +127,8 @@ namespace Synapse
         #endregion
         #region Reading Panel
         public ProcessingManager MainProcessingManager { get; set; }
-        public bool GetLocateOptionsToggle { get => locateOptionsToggle; private set { locateOptionsToggle = value; curOptionRects.Clear(); curMarkedOptionRects.Clear(); if (SelectedProcessedDataRow.HasValue) { UpdateImageSelection(SelectedProcessedDataRow.Value, value); } } }
-        private bool locateOptionsToggle = false;
+        public bool GetLocateRegionsToggle { get => locateRegionsToggle; private set { locateRegionsToggle = value; curOptionRects.Clear(); curMarkedOptionRects.Clear(); if (SelectedProcessedDataRow.HasValue) { UpdateImageSelection(SelectedProcessedDataRow.Value, value); } } }
+        private bool locateRegionsToggle = false;
 
         private SheetsList loadedSheetsData = new SheetsList(UpdateMainStatus);
         private List<ProcessedDataRow> processedData = new List<ProcessedDataRow>();
@@ -2562,11 +2562,11 @@ namespace Synapse
             }
         }
 
-        private void UpdateImageSelection(ProcessedDataRow processedDataRow, bool locateOptions = false)
+        private void UpdateImageSelection(ProcessedDataRow processedDataRow, bool locateRegions = false)
         {
             mainDockingManager.SetDockLabel(dataImageBoxPanel, $"Image - {Path.GetFileName(processedDataRow.RowSheetPath)} - Row: {processedDataRow.GetRowIndex+1}");
 
-            if (!locateOptions)
+            if (!locateRegions)
             {
                 dataImageBox.Image = new Bitmap(processedDataRow.RowSheetPath);
                 return;
@@ -2585,40 +2585,58 @@ namespace Synapse
             var entries = processedDataRow.GetProcessedDataEntries;
             for (int i = 0; i < entries.Count; i++)
             {
-                if (entries[i].GetMainConfigType != MainConfigType.OMR)
-                    continue;
+                switch (entries[i].GetMainConfigType)
+                {
+                    case MainConfigType.OMR:
+                        List<Point> markedRectIndexes = new List<Point>();
+                        OMRConfiguration omrConfig = (OMRConfiguration)entries[i].GetConfigurationBase;
+                        var rawDataValues = ProcessedDataEntry.GenerateRawOMRDataValues(omrConfig, entries[i].GetFieldsOutputs, omrConfig.GetEscapeSymbols());
+                        int totalFields = omrConfig.GetTotalFields;
+                        int totalOptions = omrConfig.GetTotalOptions;
+                        for (int i1 = 0; i1 < totalFields; i1++)
+                        {
+                            for (int j = 0; j < totalOptions; j++)
+                            {
+                                if (rawDataValues[i1, j] == 1)
+                                    markedRectIndexes.Add(new Point(i1, j));
+                            }
+                        }
+                        var _curOptionRects = omrConfig.RegionData.GetOptionsRects;
+                        var _alignedCurOptionRects = new List<RectangleF>();
+                        var regionLocation = omrConfig.GetConfigArea.ConfigRect.Location;
+                        for (int i1 = 0; i1 < _curOptionRects.Count; i1++)
+                        {
+                            var optionRect = _curOptionRects[i1];
+                            optionRect.X += regionLocation.X;
+                            optionRect.Y += regionLocation.Y;
 
-                List<Point> markedRectIndexes = new List<Point>();
-                var omrConfig = (OMRConfiguration)entries[i].GetConfigurationBase;
-                var rawDataValues = ProcessedDataEntry.GenerateRawOMRDataValues(omrConfig, entries[i].GetFieldsOutputs, omrConfig.GetEscapeSymbols());
-                int totalFields = omrConfig.GetTotalFields;
-                int totalOptions = omrConfig.GetTotalOptions;
-                for (int i1 = 0; i1 < totalFields; i1++)
-                {
-                    for (int j = 0; j < totalOptions; j++)
-                    {
-                        if (rawDataValues[i1, j] == 1)
-                            markedRectIndexes.Add(new Point(i1, j));
-                    }
-                }
-                var _curOptionRects = omrConfig.RegionData.GetOptionsRects;
-                var _alignedCurOptionRects = new List<RectangleF>();
-                var regionLocation = omrConfig.GetConfigArea.ConfigRect.Location;
-                for (int i1 = 0; i1 < _curOptionRects.Count; i1++)
-                {
-                    var optionRect = _curOptionRects[i1];
-                    optionRect.X += regionLocation.X;
-                    optionRect.Y += regionLocation.Y;
+                            curOptionRects.Add(optionRect);
+                            _alignedCurOptionRects.Add(optionRect);
+                        }
+                        for (int i2 = 0; i2 < markedRectIndexes.Count; i2++)
+                        {
+                            int index = markedRectIndexes[i2].X * totalOptions + markedRectIndexes[i2].Y;
+                            curMarkedOptionRects.Add(_alignedCurOptionRects[index]);
+                        }
+                        curOptionRects.RemoveAll(x => curMarkedOptionRects.Contains(x));
+                        break;
+                    case MainConfigType.BARCODE:
+                        if (entries[i].BarcodesResult == null || entries[i].BarcodesResult.Length == 0)
+                            continue;
 
-                    curOptionRects.Add(optionRect);
-                    _alignedCurOptionRects.Add(optionRect);
+                        OBRConfiguration barcodeConfig = (OBRConfiguration)entries[i].GetConfigurationBase;
+
+                        var barcodeRegionLocation = barcodeConfig.GetConfigArea.ConfigRect.Location;
+                        RectangleF barcodeRect = entries[i].BarcodesResult[0].Rectangle;
+                        barcodeRect.X += barcodeRegionLocation.X;
+                        barcodeRect.Y += barcodeRegionLocation.Y;
+
+                        curOptionRects.Add(barcodeRect);
+                        break;
+                    case MainConfigType.ICR:
+                        break;
                 }
-                for (int i2 = 0; i2 < markedRectIndexes.Count; i2++)
-                {
-                    int index = markedRectIndexes[i2].X * totalOptions + markedRectIndexes[i2].Y;
-                    curMarkedOptionRects.Add(_alignedCurOptionRects[index]);
-                }
-                curOptionRects.RemoveAll(x => curMarkedOptionRects.Contains(x));
+                
             }
         }
         private void MainDataGrid_SelectionChanged(object sender, Syncfusion.WinForms.DataGrid.Events.SelectionChangedEventArgs e)
@@ -2637,7 +2655,7 @@ namespace Synapse
             //    return;
 
             SelectedProcessedDataRow = (ProcessedDataRow)lastItemData.DataRowObject;
-            UpdateImageSelection(SelectedProcessedDataRow.Value, GetLocateOptionsToggle);
+            UpdateImageSelection(SelectedProcessedDataRow.Value, GetLocateRegionsToggle);
         }
         private void mainDataGrid_QueryCellStyle(object sender, Syncfusion.WinForms.DataGrid.Events.QueryCellStyleEventArgs e)
         {
@@ -2764,7 +2782,7 @@ namespace Synapse
             //    return;
 
             SelectedProcessedDataRow = (ProcessedDataRow)lastItemData.DataRowObject;
-            UpdateImageSelection(SelectedProcessedDataRow.Value, GetLocateOptionsToggle);
+            UpdateImageSelection(SelectedProcessedDataRow.Value, GetLocateRegionsToggle);
         }
         private void manualDataGrid_QueryCellStyle(object sender, Syncfusion.WinForms.DataGrid.Events.QueryCellStyleEventArgs e)
         {
@@ -2875,7 +2893,7 @@ namespace Synapse
             //    return;
 
             SelectedProcessedDataRow = (ProcessedDataRow)lastItemData.DataRowObject;
-            UpdateImageSelection(SelectedProcessedDataRow.Value, GetLocateOptionsToggle);
+            UpdateImageSelection(SelectedProcessedDataRow.Value, GetLocateRegionsToggle);
         }
         private void faultyDataGrid_QueryCellStyle(object sender, Syncfusion.WinForms.DataGrid.Events.QueryCellStyleEventArgs e)
         {
@@ -2953,7 +2971,7 @@ namespace Synapse
             //    return;
 
             SelectedProcessedDataRow = (ProcessedDataRow)lastItemData.DataRowObject;
-            UpdateImageSelection(SelectedProcessedDataRow.Value, GetLocateOptionsToggle);
+            UpdateImageSelection(SelectedProcessedDataRow.Value, GetLocateRegionsToggle);
         }
         private void incompatibleDataGrid_QueryCellStyle(object sender, Syncfusion.WinForms.DataGrid.Events.QueryCellStyleEventArgs e)
         {
@@ -3055,8 +3073,8 @@ namespace Synapse
 
         private void locateOptionsToolStripBtn_Click(object sender, EventArgs e)
         {
-            GetLocateOptionsToggle = !GetLocateOptionsToggle;
-            locateOptionsToolStripBtn.CheckState = GetLocateOptionsToggle? CheckState.Checked : CheckState.Unchecked;
+            GetLocateRegionsToggle = !GetLocateRegionsToggle;
+            locateOptionsToolStripBtn.CheckState = GetLocateRegionsToggle? CheckState.Checked : CheckState.Unchecked;
         }
 
         private void stopReadingToolStripBtn_Click(object sender, EventArgs e)
