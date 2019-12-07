@@ -17,15 +17,17 @@ namespace Synapse.Controls
         [Serializable]
         public class ObjectData
         {
-            public ObjectData(string templateName, bool isPinned, int listIndex = 0)
+            public ObjectData(string templateName, bool isPinned, int listIndex = 0, string lastActiveTimeStamp = null)
             {
                 TemplateName = templateName;
                 IsPinned = isPinned;
                 ListIndex = listIndex;
+                LastActiveTimeStamp = lastActiveTimeStamp;
             }
 
             public string TemplateName { get; set; }
             public bool IsPinned { get; set; }
+            public string LastActiveTimeStamp { get; set; }
             public int ListIndex { get; set; }
         }
 
@@ -361,6 +363,7 @@ namespace Synapse.Controls
         {
             TemplateListItem templateListItem = new TemplateListItem();
             templateListItem.TemplateName = templateName;
+            templateListItem.LastActiveTimeStamp = DateTime.Now.ToString();
 
             return templateListItem;
         }
@@ -369,12 +372,13 @@ namespace Synapse.Controls
             TemplateListItem templateListItem = new TemplateListItem();
             templateListItem.TemplateName = objectData.TemplateName;
             templateListItem.IsPinned = objectData.IsPinned;
+            templateListItem.LastActiveTimeStamp = objectData.LastActiveTimeStamp;
 
             return templateListItem;
         }
         public ObjectData GetObjectData()
         {
-            return new ObjectData(TemplateName, isPinned);
+            return new ObjectData(TemplateName, isPinned, 0, LastActiveTimeStamp);
         }
         #endregion
     }

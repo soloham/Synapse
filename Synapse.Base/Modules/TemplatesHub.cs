@@ -257,6 +257,9 @@ namespace Synapse.Modules
             }
             else
             {
+                SelectedTemplate.LastActiveTimeStamp = DateTime.Now.ToString();
+                SaveTemplateItems();
+
                 Hide();
                 SynapseMain.RunTemplate(template);
             }
@@ -316,7 +319,7 @@ namespace Synapse.Modules
                 return;
             }
 
-            TemplateListItem templateListItem = TemplateListItem.Create(new TemplateListItem.ObjectData(tmp.TemplateData.TemplateName, false));
+            TemplateListItem templateListItem = TemplateListItem.Create(new TemplateListItem.ObjectData(tmp.TemplateData.TemplateName, false, 0, DateTime.Now.ToLongDateString()));
             templateListItem.OnSelectedChangedEvent += TemplateSelect;
             templateListItem.OnPinnedChangedEvent += TemplatePin;
             TemplateListItems.Add(templateListItem);

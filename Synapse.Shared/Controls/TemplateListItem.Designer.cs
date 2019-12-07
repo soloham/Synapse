@@ -41,9 +41,9 @@
             this.lastActiveLabel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.lastActiveLabel.Font = new System.Drawing.Font("Dosis", 9.249999F);
             this.lastActiveLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
-            this.lastActiveLabel.Location = new System.Drawing.Point(279, 8);
+            this.lastActiveLabel.Location = new System.Drawing.Point(209, 8);
             this.lastActiveLabel.Name = "lastActiveLabel";
-            this.lastActiveLabel.Size = new System.Drawing.Size(101, 16);
+            this.lastActiveLabel.Size = new System.Drawing.Size(171, 16);
             this.lastActiveLabel.Style = Syncfusion.Windows.Forms.Tools.AutoLabelStyle.Office2016White;
             this.lastActiveLabel.TabIndex = 38;
             this.lastActiveLabel.Text = "1/1/2000 24:00";
@@ -87,7 +87,7 @@
             this.pinToggleBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.pinToggleBtn.Font = new System.Drawing.Font("Dosis", 19F);
             this.pinToggleBtn.ForeColor = System.Drawing.Color.White;
-            this.pinToggleBtn.Image = Shared.Properties.SharedResources.Unpin;
+            this.pinToggleBtn.Image = global::Synapse.Shared.Properties.SharedResources.Unpin;
             this.pinToggleBtn.Location = new System.Drawing.Point(355, 25);
             this.pinToggleBtn.Name = "pinToggleBtn";
             this.pinToggleBtn.Size = new System.Drawing.Size(23, 25);
