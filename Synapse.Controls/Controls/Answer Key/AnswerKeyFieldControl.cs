@@ -74,6 +74,13 @@ namespace Synapse.Controls.Answer_Key
                 OptionsUIList[i].Checked = options[i] == 1;
             }
         }
+        public void ClearOptions()
+        {
+            for (int i = 0; i < OptionsUIList.Count; i++)
+            {
+                OptionsUIList[i].Checked = false;
+            }
+        }
         #endregion
 
         #region Private Methods

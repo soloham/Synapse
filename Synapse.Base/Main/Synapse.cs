@@ -364,11 +364,11 @@ namespace Synapse
             this.stopReadingToolStripBtn});
             this.processingToolStripEx.Size = new System.Drawing.Size(146, 135);
 
-            this.postOperationsToolStripEx.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.operationsToolStripEx.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.reReadFaultySheetsToolStripBtn,
             this.moveFaultySheetsToolStripBtn,
             this.locateOptionsToolStripBtn});
-            this.postOperationsToolStripEx.Size = new System.Drawing.Size(280, 135);
+            this.operationsToolStripEx.Size = new System.Drawing.Size(280, 135);
 
             this.dataMiningToolStripEx.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.findDuplicatesToolStripBtn});
@@ -2191,6 +2191,9 @@ namespace Synapse
             {
                 for (int i = 0; i < answerKeyListFlowPanel.Controls.Count; i++)
                 {
+                    if (answerKeyListFlowPanel.Controls[i].Name == "answerKeysEmptyListLabel")
+                        continue;
+
                     answerKeyListFlowPanel.Controls[i].Dispose();
                 }
                 answerKeyListFlowPanel.Controls.Clear();
@@ -2236,6 +2239,12 @@ namespace Synapse
                 }
             });
 
+            if (answerKeyListFlowPanel.Controls.Count == 0)
+            {
+                answerKeyListFlowPanel.Controls.Add(answerKeysEmptyListLabel);
+                answerKeysEmptyListLabel.Dock = DockStyle.Fill;
+                answerKeysEmptyListLabel.Visible = true;
+            }
             mainDockingManager.DockControl(answerKeyPanel, this, DockingStyle.Left, 350);
             mainDockingManager.SetDockVisibility(answerKeyPanel, true);
         }
@@ -2254,6 +2263,8 @@ namespace Synapse
             var exmPapers = GeneralManager.GetExamPapers;
             answerKeyPaperComboBox.DataSource = exmPapers != null ? exmPapers.GetPapers : null;
             answerKeyPaperComboBox.DisplayMember = "Title";
+
+            ClearAnswerKeyFields();
         }
 
         OMRConfiguration selectedKeyOMRConfig;
@@ -2354,6 +2365,16 @@ namespace Synapse
                 }
             }
         }
+        private void ClearAnswerKeyFields()
+        {
+            int curTotalFields = answerKeyFieldsTable.Controls.Count;
+
+            for (int i = 0; i < curTotalFields; i++)
+            {
+                AnswerKeyFieldControl _keyFieldControl = (AnswerKeyFieldControl)answerKeyFieldsTable.Controls[i];
+                _keyFieldControl.ClearOptions();
+            }
+        }
 
         System.Action DeleteToEditKeyItem;
         private void DeleteAnswerKeyItem(OMRConfiguration omrConfig, AnswerKeyListItem keyListItem, bool ask = true)
@@ -2378,7 +2399,11 @@ namespace Synapse
                 }
             }
             if (answerKeyListFlowPanel.Controls.Count == 0)
+            {
+                answerKeyListFlowPanel.Controls.Add(answerKeysEmptyListLabel);
+                answerKeysEmptyListLabel.Dock = DockStyle.Fill;
                 answerKeysEmptyListLabel.Visible = true;
+            }
         }
         private async void setBtn_Click(object sender, EventArgs e)
         {
@@ -2688,15 +2713,15 @@ namespace Synapse
             switch (fieldDataType)
             {
                 case ProcessedDataType.INCOMPATIBLE:
-                    if (incompatibleDataCellBackColor != Color.Empty) e.Style.BackColor = incompatibleDataCellBackColor;
+                    if (incompatibleDataCellBackColor != Color.Empty) e.Style.BackColor = (CurrentTheme == Themes.BLACK) ? Color.FromArgb(45, incompatibleDataCellBackColor) : incompatibleDataCellBackColor;
                     if (incompatibleDataCellForeColor != Color.Empty) e.Style.TextColor = incompatibleDataCellForeColor;
                     break;
                 case ProcessedDataType.FAULTY:
-                    if (faultyDataCellBackColor != Color.Empty) e.Style.BackColor = faultyDataCellBackColor;
+                    if (faultyDataCellBackColor != Color.Empty) e.Style.BackColor = (CurrentTheme == Themes.BLACK) ? Color.FromArgb(45, faultyDataCellBackColor) : faultyDataCellBackColor;
                     if (faultyDataCellForeColor != Color.Empty) e.Style.TextColor = faultyDataCellForeColor;
                     break;
                 case ProcessedDataType.MANUAL:
-                    if (manualDataCellBackColor != Color.Empty) e.Style.BackColor = manualDataCellBackColor;
+                    if (manualDataCellBackColor != Color.Empty) e.Style.BackColor = (CurrentTheme == Themes.BLACK) ? Color.FromArgb(45, manualDataCellBackColor) : manualDataCellBackColor;
                     if (manualDataCellForeColor != Color.Empty) e.Style.TextColor = manualDataCellForeColor;
                     break;
                 case ProcessedDataType.NORMAL:
@@ -2733,15 +2758,15 @@ namespace Synapse
             switch (fieldDataType)
             {
                 case ProcessedDataType.INCOMPATIBLE:
-                    if (incompatibleDataRowBackColor != Color.Empty) e.Style.BackColor = incompatibleDataRowBackColor;
+                    if (incompatibleDataRowBackColor != Color.Empty) e.Style.BackColor = (CurrentTheme == Themes.BLACK)? Color.FromArgb(1, incompatibleDataCellBackColor) : incompatibleDataRowBackColor;
                     if (incompatibleDataRowForeColor != Color.Empty) e.Style.TextColor = incompatibleDataRowForeColor;
                     break;
                 case ProcessedDataType.FAULTY:
-                    if (faultyDataRowBackColor != Color.Empty) e.Style.BackColor = faultyDataRowBackColor;
+                    if (faultyDataRowBackColor != Color.Empty) e.Style.BackColor = (CurrentTheme == Themes.BLACK) ? Color.FromArgb(1, faultyDataRowBackColor) : faultyDataRowBackColor;
                     if (faultyDataRowForeColor != Color.Empty) e.Style.TextColor = faultyDataRowForeColor;
                     break;
                 case ProcessedDataType.MANUAL:
-                    if (manualDataRowBackColor != Color.Empty) e.Style.BackColor = manualDataRowBackColor;
+                    if (manualDataRowBackColor != Color.Empty) e.Style.BackColor = (CurrentTheme == Themes.BLACK) ? Color.FromArgb(1, manualDataRowBackColor) : manualDataRowBackColor;
                     if (manualDataRowForeColor != Color.Empty) e.Style.TextColor = manualDataRowForeColor;
                     break;
                 case ProcessedDataType.NORMAL:
@@ -2815,15 +2840,15 @@ namespace Synapse
             switch (fieldDataType)
             {
                 case ProcessedDataType.INCOMPATIBLE:
-                    if (incompatibleDataCellBackColor != Color.Empty) e.Style.BackColor = incompatibleDataCellBackColor;
+                    if (incompatibleDataCellBackColor != Color.Empty) e.Style.BackColor = (CurrentTheme == Themes.BLACK) ? Color.FromArgb(45, incompatibleDataCellBackColor) : incompatibleDataCellBackColor;
                     if (incompatibleDataCellForeColor != Color.Empty) e.Style.TextColor = incompatibleDataCellForeColor;
                     break;
                 case ProcessedDataType.FAULTY:
-                    if (faultyDataCellBackColor != Color.Empty) e.Style.BackColor = faultyDataCellBackColor;
+                    if (faultyDataCellBackColor != Color.Empty) e.Style.BackColor = (CurrentTheme == Themes.BLACK) ? Color.FromArgb(45, faultyDataCellBackColor) : faultyDataCellBackColor;
                     if (faultyDataCellForeColor != Color.Empty) e.Style.TextColor = faultyDataCellForeColor;
                     break;
                 case ProcessedDataType.MANUAL:
-                    if (manualDataCellBackColor != Color.Empty) e.Style.BackColor = manualDataCellBackColor;
+                    if (manualDataCellBackColor != Color.Empty) e.Style.BackColor = (CurrentTheme == Themes.BLACK) ? Color.FromArgb(45, manualDataCellBackColor) : manualDataCellBackColor;
                     if (manualDataCellForeColor != Color.Empty) e.Style.TextColor = manualDataCellForeColor;
                     break;
                 case ProcessedDataType.NORMAL:
@@ -2918,15 +2943,16 @@ namespace Synapse
             switch (fieldDataType)
             {
                 case ProcessedDataType.INCOMPATIBLE:
-                    if (incompatibleDataCellBackColor != Color.Empty) e.Style.BackColor = incompatibleDataCellBackColor;
+                case ProcessedDataType.INCOMPATIBLE:
+                    if (incompatibleDataCellBackColor != Color.Empty) e.Style.BackColor = (CurrentTheme == Themes.BLACK) ? Color.FromArgb(45, incompatibleDataCellBackColor) : incompatibleDataCellBackColor;
                     if (incompatibleDataCellForeColor != Color.Empty) e.Style.TextColor = incompatibleDataCellForeColor;
                     break;
                 case ProcessedDataType.FAULTY:
-                    if (faultyDataCellBackColor != Color.Empty) e.Style.BackColor = faultyDataCellBackColor;
+                    if (faultyDataCellBackColor != Color.Empty) e.Style.BackColor = (CurrentTheme == Themes.BLACK) ? Color.FromArgb(45, faultyDataCellBackColor) : faultyDataCellBackColor;
                     if (faultyDataCellForeColor != Color.Empty) e.Style.TextColor = faultyDataCellForeColor;
                     break;
                 case ProcessedDataType.MANUAL:
-                    if (manualDataCellBackColor != Color.Empty) e.Style.BackColor = manualDataCellBackColor;
+                    if (manualDataCellBackColor != Color.Empty) e.Style.BackColor = (CurrentTheme == Themes.BLACK) ? Color.FromArgb(45, manualDataCellBackColor) : manualDataCellBackColor;
                     if (manualDataCellForeColor != Color.Empty) e.Style.TextColor = manualDataCellForeColor;
                     break;
                 case ProcessedDataType.NORMAL:
@@ -2996,15 +3022,15 @@ namespace Synapse
             switch (fieldDataType)
             {
                 case ProcessedDataType.INCOMPATIBLE:
-                    if (incompatibleDataCellBackColor != Color.Empty) e.Style.BackColor = incompatibleDataCellBackColor;
+                    if (incompatibleDataCellBackColor != Color.Empty) e.Style.BackColor = (CurrentTheme == Themes.BLACK) ? Color.FromArgb(45, incompatibleDataCellBackColor) : incompatibleDataCellBackColor;
                     if (incompatibleDataCellForeColor != Color.Empty) e.Style.TextColor = incompatibleDataCellForeColor;
                     break;
                 case ProcessedDataType.FAULTY:
-                    if (faultyDataCellBackColor != Color.Empty) e.Style.BackColor = faultyDataCellBackColor;
+                    if (faultyDataCellBackColor != Color.Empty) e.Style.BackColor = (CurrentTheme == Themes.BLACK) ? Color.FromArgb(45, faultyDataCellBackColor) : faultyDataCellBackColor;
                     if (faultyDataCellForeColor != Color.Empty) e.Style.TextColor = faultyDataCellForeColor;
                     break;
                 case ProcessedDataType.MANUAL:
-                    if (manualDataCellBackColor != Color.Empty) e.Style.BackColor = manualDataCellBackColor;
+                    if (manualDataCellBackColor != Color.Empty) e.Style.BackColor = (CurrentTheme == Themes.BLACK) ? Color.FromArgb(45, manualDataCellBackColor) : manualDataCellBackColor;
                     if (manualDataCellForeColor != Color.Empty) e.Style.TextColor = manualDataCellForeColor;
                     break;
                 case ProcessedDataType.NORMAL:
