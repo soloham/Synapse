@@ -2943,7 +2943,6 @@ namespace Synapse
             switch (fieldDataType)
             {
                 case ProcessedDataType.INCOMPATIBLE:
-                case ProcessedDataType.INCOMPATIBLE:
                     if (incompatibleDataCellBackColor != Color.Empty) e.Style.BackColor = (CurrentTheme == Themes.BLACK) ? Color.FromArgb(45, incompatibleDataCellBackColor) : incompatibleDataCellBackColor;
                     if (incompatibleDataCellForeColor != Color.Empty) e.Style.TextColor = incompatibleDataCellForeColor;
                     break;
