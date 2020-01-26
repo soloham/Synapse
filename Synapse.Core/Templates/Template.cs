@@ -1121,8 +1121,10 @@ namespace Synapse.Core.Templates
             public List<AlignmentMethod> GetAlignmentPipeline { get => alignmentPipeline; }
             private List<AlignmentMethod> alignmentPipeline = new List<AlignmentMethod>();
 
+            private Dictionary<string, object> Properties { get; set; } 
+
             public bool IsActivatedd { get; set; }
-            public Data(string templateName, string templateLocation, TemplateImage templateImage, List<AlignmentMethod> alignmentPipeline)
+            public Data(string templateName, string templateLocation, TemplateImage templateImage, List<AlignmentMethod> alignmentPipeline, Dictionary<string, object> properties)
             {
                 TemplateName = templateName;
                 TemplateLocation = templateLocation;
@@ -1130,6 +1132,7 @@ namespace Synapse.Core.Templates
 
                 this.templateImage = templateImage;
                 this.alignmentPipeline = alignmentPipeline;
+                Properties = properties;
             }
 
             public void Initialize()
@@ -1145,6 +1148,76 @@ namespace Synapse.Core.Templates
             public void SetAlignmentPipeline(List<AlignmentMethod> alignmentPipeline)
             {
                 this.alignmentPipeline = alignmentPipeline;
+            }
+
+            public bool AddProperty(string key, object value)
+            {
+                if (Properties == null)
+                    Properties = new Dictionary<string, object>();
+
+                if(Properties != null)
+                {
+                    if (Properties.ContainsKey(key))
+                    {
+                        try
+                        {
+                            Properties[key] = value;
+                            return true;
+                        }
+                        catch (Exception ex)
+                        {
+                            return false;
+                        }
+                    }
+                    else
+                    {
+                        try
+                        {
+                            Properties.Add(key, value);
+                            return true;
+                        }
+                        catch (Exception ex)
+                        {
+                            return false;
+                        }
+                    }
+                }
+
+                return true;
+            }
+            public bool RemoveProperty(string key)
+            {
+                if (Properties != null)
+                {
+                    try
+                    {
+                        Properties.Remove(key);
+                        return true;
+                    }
+                    catch (Exception ex)
+                    {
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+            public object GetProperty(string key)
+            {
+                object value = null;
+                if (Properties != null)
+                {
+                    try
+                    {
+                        value = Properties[key];
+                    }
+                    catch (Exception ex)
+                    {
+
+                    }
+                }
+
+                return value;
             }
         }
         #endregion
@@ -1179,7 +1252,7 @@ namespace Synapse.Core.Templates
         }
         public static Template CreateTemplate(string tmpName)
         {
-            Template newTemplate = new Template(new Data(tmpName, "", TemplateImage.Empty(), new List<AlignmentMethod>()));
+            Template newTemplate = new Template(new Data(tmpName, "", TemplateImage.Empty(), new List<AlignmentMethod>(), new Dictionary<string, object>()));
             SaveTemplate(newTemplate.TemplateData);
             return newTemplate;
         }

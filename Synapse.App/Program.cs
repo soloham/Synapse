@@ -1,4 +1,5 @@
-﻿using Syncfusion.Windows.Forms;
+﻿using Synapse.Main;
+using Syncfusion.Windows.Forms;
 using Syncfusion.WinForms.Controls;
 using System;
 using System.Collections.Generic;

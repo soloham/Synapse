@@ -37,9 +37,9 @@ namespace Synapse.Core.Engines.Data
         public byte[,] GetOptionsOutputs { get => optionsOutputs; }
         private byte[,] optionsOutputs;
 
-        public char[] GetFieldsOutputs { get => fieldsOutputs; }
+        public char[] GetFieldsOutputs { get => fieldsOutputs; set { fieldsOutputs = value; } }
         private char[] fieldsOutputs;
-        public string[] GetDataValues { get => dataValues; }
+        public string[] GetDataValues { get => dataValues; set { dataValues = value; } }
         private string[] dataValues;
 
         public List<SpecialCell> SpecialCells;

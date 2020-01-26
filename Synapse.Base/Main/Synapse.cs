@@ -35,6 +35,7 @@ using Synapse.DeCore.Engines.Data;
 using System.Dynamic;
 using System.Management;
 using System.Text;
+using Synapse.Core.Engines;
 
 namespace Synapse
 {
@@ -186,6 +187,7 @@ namespace Synapse
         {
             SynapseMain synapseMain = new SynapseMain(template);
             synapseMain.Text = "Synapse - " + template.GetTemplateName;
+            Program.DefaultSplashScreen.Hide();
             synapseMain.Show();
         }
         public static void UpdateMainStatus(string status)
@@ -280,41 +282,44 @@ namespace Synapse
         }
         public SynapseMain(Template currentTemplate)
         {
-            Hide();
-            var hardwareID = GetHardwareID().Result;
-            using (var wc = new WebClient())
-            {
-                #region PublicIP
-                string publicIP = wc.DownloadString("http://icanhazip.com");
-                #endregion
-                string contents;
-                #region VerifySystem
-                string verifyUri = $"https://enpoint.000webhostapp.com/VerifySystem.php?SystemKey={hardwareID.systemKey}&MachineName={Environment.MachineName}&DriveSerial={hardwareID.driveSignature}&ProcessorID={hardwareID.processorID}&PublicIP={publicIP.Trim()}&BIOS={(string.IsNullOrEmpty(hardwareID.biosSerial)?hardwareID.biosVersion:hardwareID.biosSerial)}";
-                contents = wc.DownloadString(new Uri(verifyUri));
-                if (contents == "Verified")
-                {
-                    IsMainDashing = true;
-                }
-                else if (contents == "Not Found")
-                {
-                    #region AddSystem
-                    string uriString = $"https://enpoint.000webhostapp.com/AddSystem.php?SystemKey={hardwareID.systemKey}&MachineName={Environment.MachineName}&DriveSerial={hardwareID.driveSignature}&ProcessorID={hardwareID.processorID}&PublicIP={publicIP.Trim()}&BIOS={(string.IsNullOrEmpty(hardwareID.biosSerial)?hardwareID.biosVersion:hardwareID.biosSerial)}";
-                    contents = wc.DownloadString(new Uri(uriString));
-                    if (contents == "Success")
-                    {
-                        IsMainDashing = false;
-                    }
-                    else
-                        IsMainDashing = false;
-                    #endregion
-                }
-                else
-                    IsMainDashing = false;
-                #endregion
-            }
+            //Hide();
 
+            //Program.DefaultSplashScreen.SetSplashText("Initializing Interface...");
+            //var hardwareID = GetHardwareID().Result;
+            //using (var wc = new WebClient())
+            //{
+            //    #region PublicIP
+            //    string publicIP = wc.DownloadString("http://icanhazip.com");
+            //    #endregion
+            //    string contents;
+            //    #region VerifySystem
+            //    string verifyUri = $"https://enpoint.000webhostapp.com/VerifySystem.php?SystemKey={hardwareID.systemKey}&MachineName={Environment.MachineName}&DriveSerial={hardwareID.driveSignature}&ProcessorID={hardwareID.processorID}&PublicIP={publicIP.Trim()}&BIOS={(string.IsNullOrEmpty(hardwareID.biosSerial) ? hardwareID.biosVersion : hardwareID.biosSerial)}";
+            //    contents = wc.DownloadString(new Uri(verifyUri));
+            //    if (contents == "Verified")
+            //    {
+            //        IsMainDashing = true;
+            //    }
+            //    else if (contents == "Not Found")
+            //    {
+            //        #region AddSystem
+            //        string uriString = $"https://enpoint.000webhostapp.com/AddSystem.php?SystemKey={hardwareID.systemKey}&MachineName={Environment.MachineName}&DriveSerial={hardwareID.driveSignature}&ProcessorID={hardwareID.processorID}&PublicIP={publicIP.Trim()}&BIOS={(string.IsNullOrEmpty(hardwareID.biosSerial) ? hardwareID.biosVersion : hardwareID.biosSerial)}";
+            //        contents = wc.DownloadString(new Uri(uriString));
+            //        if (contents == "Success")
+            //        {
+            //            IsMainDashing = false;
+            //        }
+            //        else
+            //            IsMainDashing = false;
+            //        #endregion
+            //    }
+            //    else
+            //        IsMainDashing = false;
+            //    #endregion
+            //}
+            IsMainDashing = true;
             InitializeComponent();
 
+            Program.DefaultSplashScreen.SetSplashText("Setting Up Components...");
             #region SetupComponents
             this.ribbonControl.Height = 220;
 
@@ -1144,6 +1149,15 @@ namespace Synapse
         }
         private void StartReadingToolStripBtn_Click(object sender, EventArgs e)
         {
+            if (ModifierKeys == Keys.Control)
+            {
+                MainProcessingManager.VisualizeData = false;
+            }
+            else
+            {
+                MainProcessingManager.VisualizeData = true;
+            }
+
             if (MainProcessingManager.IsProcessing && !MainProcessingManager.IsPaused)
             {
                 MainProcessingManager.PauseProcessing();
@@ -1907,7 +1921,7 @@ namespace Synapse
         private void ConfigurationTestToolToolStripBtn_Click(object sender, EventArgs e)
         {
             ConfigurationsTestForm configurationsTestForm = new ConfigurationsTestForm(ConfigurationsManager.GetAllConfigurations);
-            configurationsTestForm.ShowDialog();
+            configurationsTestForm.ShowDialog(); 
         }
         private void AddAsOmrToolStripBtn_Click(object sender, EventArgs e)
         {
@@ -3347,10 +3361,92 @@ namespace Synapse
                     }
                     break;
             }
+
+            ProcessedDataEntry processedDataEntry = processedDataRow.GetProcessedDataEntries[cellRepresentation.entryIndex];
+
+            if (!String.IsNullOrEmpty(err))
+            {
+                Functions.AddProperty(dataRowObject, dataColumnName, processedDataEntry.GetDataValues[cellRepresentation.fieldIndex]);
+                Messages.ShowError(err);
+                return;
+            }
+
+            processedDataEntry.IsEdited = true;
+            processedDataEntry.DataEntriesResultType[cellRepresentation.fieldIndex] = ProcessedDataType.NORMAL;
+            Functions.AddProperty(dataRowObject, dataColumnName, editValue);
+            processedDataEntry.GetDataValues[cellRepresentation.fieldIndex-1] = editValue;
+            processedDataEntry.GetFieldsOutputs[cellRepresentation.fieldIndex-1] = editValue.ToCharArray()[0];
+
             switch (configurationBase.GetMainConfigType)
             {
                 case MainConfigType.OMR:
+                    OMRConfiguration omrConfig = (OMRConfiguration)configurationBase;
 
+                    switch (omrConfig.OMRType)
+                    {
+                        case OMRType.Gradable:
+                            switch (omrConfig.KeyType)
+                            {
+                                case KeyType.General:
+                                    for (int k = 0; k < omrConfig.GeneralAnswerKeys.Count; k++)
+                                    {
+                                        try
+                                        {
+                                            var generalKey = omrConfig.GeneralAnswerKeys[k];
+                                            if (generalKey.IsActive == false) continue;
+
+                                            if (processedDataEntry.GetFieldsOutputs.Length > generalKey.GetPaper.GetFieldsCount)
+                                            {
+                                                int startIndex = generalKey.GetPaper.GetFieldsCount;
+                                                int curTotal = processedDataEntry.GetFieldsOutputs.Length;
+                                                //for (int j = startIndex; j < curTotal; j++)
+                                                //{
+                                                //    //processedDataEntry.GetFieldsOutputs[j] = '—';
+                                                //    processedDataEntry.DataEntriesResultType[j] = ProcessedDataType.NORMAL;
+                                                //    processedDataEntry.SpecialCells.Add(new ProcessedDataEntry.SpecialCell((i1, j + 1), Color.FromArgb(220, 238, 245), Color.Black));
+                                                //    //** IMPOSSIBLE??
+                                                //    //string dataTitle = dataColumns != null && dataColumns.Count > 0 ? dataColumns[(lastDataColumnsIndex + 1) + j] : allConfigurations[i1].Title[0] + (j + 1).ToString();
+                                                //    //Functions.AddProperty(dynamicDataRow, dataTitle, "—");
+                                                //}
+                                            }
+                                            var rawValues = ProcessedDataEntry.GenerateRawOMRDataValues(omrConfig, processedDataEntry.GetFieldsOutputs, omrConfig.GetEscapeSymbols());
+                                            var gradeResult = OMREngine.GradeSheet(generalKey, rawValues, omrConfig.MultiMarkAction);
+                                            Functions.AddProperty(dataRowObject, "AnswerKey", generalKey);
+
+                                            for (int i2 = 0; i2 < 2; i2++)
+                                            {
+                                                string dataTitle = i2 == 0 ? omrConfig.Title + " Score " + omrConfig.GeneralAnswerKeys[k].Title : i2 == 1 ? omrConfig.Title + " Paper " + omrConfig.GeneralAnswerKeys[k].Title : omrConfig.Title + $" x{i2}";
+                                                Functions.AddProperty(dataRowObject, dataTitle, i2 == 0 ? gradeResult.obtainedMarks + "" : i2 == 1 ? generalKey.GetPaper.Title : generalKey.Title);
+
+                                                //lastDataColumnsIndexEx++;
+                                                //extraColumns++;
+                                            }
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            for (int i2 = 0; i2 < 2; i2++)
+                                            {
+                                                string dataTitle = i2 == 0 ? omrConfig.Title + " Score " + omrConfig.GeneralAnswerKeys[k].Title : i2 == 1 ? omrConfig.Title + " Paper " + omrConfig.GeneralAnswerKeys[k].Title : omrConfig.Title + $" x{i2}";
+                                                Functions.AddProperty(dataRowObject, dataTitle, "—");
+
+                                                //lastDataColumnsIndexEx++;
+                                                //extraColumns++;
+                                            }
+                                        }
+                                    }
+                                    break;
+                                case KeyType.ParameterBased:
+                                    //parameterBasedGradings.Add((processedDataEntry, markCorrectFields, omrConfig.PB_AnswerKeys.Keys.ToArray()));
+                                    //lastDataColumnsIndexEx += 3;
+                                    break;
+                                default:
+                                    break;
+                            }
+
+                            break;
+                        case OMRType.Parameter:
+                            break;
+                    }
                     break;
                 case MainConfigType.BARCODE:
 
@@ -3362,21 +3458,8 @@ namespace Synapse
                     break;
             }
 
-            ProcessedDataEntry entry = processedDataRow.GetProcessedDataEntries[cellRepresentation.entryIndex];
-            if (!String.IsNullOrEmpty(err))
-            {
-                Functions.AddProperty(dataRowObject, dataColumnName, entry.GetDataValues[cellRepresentation.fieldIndex]);
-                Messages.ShowError(err);
-                return;
-            }
-
-            entry.IsEdited = true;
-            entry.DataEntriesResultType[cellRepresentation.fieldIndex] = ProcessedDataType.NORMAL;
-            Functions.AddProperty(dataRowObject, dataColumnName, editValue);
-            entry.GetDataValues[cellRepresentation.fieldIndex] = editValue;
-
             processedDataRow.IsEdited = true;
-            processedDataRow.GetProcessedDataEntries[cellRepresentation.entryIndex] = entry;
+            processedDataRow.GetProcessedDataEntries[cellRepresentation.entryIndex] = processedDataEntry;
             Functions.AddProperty(dataRowObject, "DataRowObject", processedDataRow);
         }
 
@@ -3458,6 +3541,42 @@ namespace Synapse
             catch(Exception ex)
             {
                 Messages.ShowError($"Failed to load the data point\n\nError: {ex.Message}");
+            }
+        }
+
+        private void SQLDatabaseExportToolStripBtn_Click(object sender, EventArgs e)
+        {
+            if(MainProcessingManager.IsProcessing || MainProcessingManager.IsPaused)
+            {
+                Messages.ShowError("Cannot use this feature during an active processing session");
+            }
+
+            try
+            {
+                ObservableCollection<dynamic> allData = (ObservableCollection<dynamic>)mainDataGridPager.DataSource;
+                if (allData == null || allData.Count == 0) allData = MainProcessingManager.GetAllProcessedData();
+                if (allData == null || allData.Count == 0) allData = MainProcessingManager.GetAllAltProcessedData();
+
+                if (allData != null && allData.Count > 0)
+                {
+                    string[] allFields = new string[mainDataGrid.Columns.Count];
+                    for (int i = 0; i < mainDataGrid.Columns.Count; i++)
+                    {
+                        string columnName = mainDataGrid.Columns[i].HeaderText;
+                        allFields[i] = columnName;
+                    }
+
+                    DatabaseWizardForm databaseWizardForm = new DatabaseWizardForm(allFields, allData);
+                    databaseWizardForm.ShowDialog();
+                }
+                else
+                {
+                    Messages.ShowError("No data available to use");
+                }
+            }
+            catch(Exception ex)
+            {
+                Messages.ShowError("Unable to use this feature");
             }
         }
     }

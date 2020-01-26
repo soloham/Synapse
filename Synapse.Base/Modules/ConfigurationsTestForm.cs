@@ -51,7 +51,10 @@ namespace Synapse.Modules
             synchronizationContext = SynchronizationContext.Current;
 
             speedTrackBar.MinimumSize = new Size(169, 30);
-            statusLabel.Text = "Scan directory containing sheets to begin...";
+            synchronizationContext.Post(new SendOrPostCallback((state) =>
+            {
+                //statusLabel.Text = "Scan directory containing sheets to begin...";
+            }), null);
         }
         #endregion
 

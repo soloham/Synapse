@@ -47,6 +47,20 @@ namespace Synapse.Core.Engines
                     char curFieldOutput = omrConfiguration.ValueDataType == ValueDataType.Alphabet? 'O' : '0';
                     byte totalFilled = 0;
                     List<byte> filledIndexes = new List<byte>();
+                    double averageBlackCountPercent = 0.15;
+
+                    //for (int k = 0; k < totalOptions; k++)
+                    //{
+                    //    Rectangle curOptionRect = Rectangle.Round(optionsRects[curOptionRectIndex]);
+                    //    curOptionRect.X += (int)regionLocation.X;
+                    //    curOptionRect.Y += (int)regionLocation.Y;
+
+                    //    Mat curOption = new Mat(sheetMat, curOptionRect);
+                    //    var data = curOption.GetRawData();
+
+                        
+                    //    int blackCount = data.Count(x => x < 180);
+                    //}
 
                     for (int j = 0; j < totalOptions; j++)
                     {
@@ -56,6 +70,7 @@ namespace Synapse.Core.Engines
 
                         Mat curOption = new Mat(sheetMat, curOptionRect);
                         var data = curOption.GetRawData();
+                        byte minValue = data.Min();
                         int blackCount = data.Count(x => x < 180);
                         double blackCountPercent = blackCount / (double)data.Length;
                         bool isFilled = blackCountPercent > curBlackCountThreshold;

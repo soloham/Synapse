@@ -127,6 +127,9 @@
   <data name="ExternalDataPointBtnIcon_DataTab" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Ribbon\ExternalDataPointBtnIcon_DataTab.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="EditValueBtnIcon1_DataTab" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Ribbon\EditValueBtnIcon1_DataTab.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="ScanDirBtnIcon_ReadingTab" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Ribbon\ScanDirBtnIcon_ReadingTab.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -144,9 +147,6 @@
   </data>
   <data name="ConfigAIModelBtnIcon_ConfigTab" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Ribbon\ConfigAIModelBtnIcon_ConfigTab.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ArrowDown-WF" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\General\ArrowDown-WF.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="TemplateBtnIcon4_ConfigTab" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Ribbon\TemplateBtnIcon4_ConfigTab.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -169,6 +169,9 @@
   <data name="ExcelExportBtnIcon_DataTab" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Ribbon\ExcelExportBtnIcon_DataTab.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Text Braille-WF" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\General\Text Braille-WF.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="AddFieldBtnIcon_DataTab" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Ribbon\AddFieldBtnIcon_DataTab.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -177,9 +180,6 @@
   </data>
   <data name="rereadFaultySheetsBtnIcon1_ReadingTab" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Ribbon\rereadFaultySheetsBtnIcon1_ReadingTab.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Out" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\General\Out.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="ConfigDataBtnIcon2_ConfigTab" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Ribbon\ConfigDataBtnIcon2_ConfigTab.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -208,8 +208,8 @@
   <data name="TemplateBtnIcon_ConfigTab" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Ribbon\templatebtnicon_configtab.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="AnswerKeyBtnIcon2_ReadingTab" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Ribbon\AnswerKeyBtnIcon2_ReadingTab.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="StatusOk" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Ribbon\StatusOk.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="TemplateStatusIcon_ConfigTab" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Ribbon\TemplateStatusIcon_ConfigTab.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -244,6 +244,9 @@
   <data name="ExcelExportBtnIcon1_DataTab" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Ribbon\ExcelExportBtnIcon1_DataTab.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="ExamPapersBtnIcon_ReadingTab" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Ribbon\ExamPapersBtnIcon_ReadingTab.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="startBtnIcon1_ReadingTab" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Ribbon\startBtnIcon1_ReadingTab.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -255,6 +258,9 @@
   </data>
   <data name="TemplateBtnIcon2_ConfigTab" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Ribbon\TemplateBtnIcon2_ConfigTab.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SplashImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SplashImage.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="CustomCheckBox_Checked_MouseOver1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\CustomCheckBox_Checked_MouseOver1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -286,6 +292,9 @@
   <data name="locateOptionsBtnIcon1_ReadingTab" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Ribbon\locateOptionsBtnIcon1_ReadingTab.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Media_Play1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\General\Media-Play.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="MarkzSheetsAsBtnIcon_DataTAb" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Ribbon\MarkzSheetsAsBtnIcon_DataTAb.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -310,8 +319,8 @@
   <data name="startBtnIcon_ReadingTab" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Ribbon\startBtnIcon_ReadingTab.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Media_Play1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\General\Media-Play.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Play-WF" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\General\Play-WF.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Import-02-WF Big" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\General\Import-02-WF Big.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -343,8 +352,8 @@
   <data name="InternalDataPointBtnIcon1_DataTab" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Ribbon\InternalDataPointBtnIcon1_DataTab.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Text Braille-WF" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\General\Text Braille-WF.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="AnswerKeyBtnIcon2_ReadingTab" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Ribbon\AnswerKeyBtnIcon2_ReadingTab.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="locateOptionsBtnIcon_ReadingTab" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Ribbon\locateOptionsBtnIcon_ReadingTab.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -358,8 +367,8 @@
   <data name="MoveFaultySheetsBtnIcon2_ReadingTab" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Ribbon\MoveFaultySheetsBtnIcon2_ReadingTab.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Follow" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\General\Follow.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="PauseBtnIcon_ReadingTab" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Ribbon\PauseBtnIcon_ReadingTab.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="CustomCheckBox_Checked1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\CustomCheckBox_Checked.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -376,8 +385,8 @@
   <data name="AddAsBarcodeBtnIcon1_ConfigTab" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Ribbon\AddAsBarcodeBtnIcon1_ConfigTab.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Play-WF" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\General\Play-WF.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Out" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\General\Out.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="ConfigDataBtnIcon4_ConfigTab" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Ribbon\ConfigDataBtnIcon4_ConfigTab.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -397,8 +406,8 @@
   <data name="Unpin_White" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\General\Unpin_White.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="StatusOk" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Ribbon\StatusOk.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Follow" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\General\Follow.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="rereadFaultySheetsBtnIcon_ReadingTab" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Ribbon\rereadFaultySheetsBtnIcon_ReadingTab.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -427,8 +436,8 @@
   <data name="Gear-02-WF" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Gear-02-WF.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="EditValueBtnIcon1_DataTab" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Ribbon\EditValueBtnIcon1_DataTab.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="ArrowDown-WF" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\General\ArrowDown-WF.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Gear-WF" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Gear-WF.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -439,10 +448,10 @@
   <data name="Quill-WF" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\General\Quill-WF.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="ExamPapersBtnIcon_ReadingTab" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Ribbon\ExamPapersBtnIcon_ReadingTab.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Show-01-WF" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\General\Show-01-WF.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="PauseBtnIcon_ReadingTab" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Ribbon\PauseBtnIcon_ReadingTab.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Hide" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\General\Hide.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

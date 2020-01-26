@@ -48,6 +48,8 @@ namespace Synapse.Modules
         #region General Methods
         public TemplatesHub()
         {
+            Program.DefaultSplashScreen.Hide();
+
             InitializeComponent();
 
             Awake();
@@ -250,7 +252,10 @@ namespace Synapse.Modules
         }   
         private async void LoadTemplate(object sender, string templateName)
         {
+            Hide();
+            Program.DefaultSplashScreen.ShowScreen($"Loading Template: {templateName}...");
             Template template = await Template.LoadTemplate(templateName);
+
             if (template == null && Messages.ShowQuestion("Template was not found at its location and cannot be loaded, Would you like to remove this template from the list as well?") == DialogResult.Yes)
             {
                 DeleteTemplate(SelectedTemplate);
@@ -258,9 +263,8 @@ namespace Synapse.Modules
             else
             {
                 SelectedTemplate.LastActiveTimeStamp = DateTime.Now.ToString();
-                SaveTemplateItems();
+                Task.Run(() => SaveTemplateItems());
 
-                Hide();
                 SynapseMain.RunTemplate(template);
             }
         }

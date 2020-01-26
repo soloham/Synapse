@@ -77,6 +77,18 @@
     <Compile Include="Controls\ButtonAdvEx.Designer.cs">
       <DependentUpon>ButtonAdvEx.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\DatabaseField.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\DatabaseField.Designer.cs">
+      <DependentUpon>DatabaseField.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\DatabaseFieldCustom.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\DatabaseFieldCustom.Designer.cs">
+      <DependentUpon>DatabaseFieldCustom.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\TemplateListItem.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -86,6 +98,11 @@
     <Compile Include="Enums\AlignmentPipelineEnums.cs" />
     <Compile Include="Enums\ProcessingEnums.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\SharedResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -113,6 +130,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="License-LGPL.txt" />
+    <Content Include="Resources\cross-close-or-delete-circular-interface-button-symbol.png" />
+    <Content Include="Resources\pencil-edit-button.png" />
     <None Include="Resources\Delete-WF.png" />
     <None Include="Resources\Quill-WF.png" />
     <None Include="Resources\QR-Code - 02.png" />
@@ -137,8 +156,18 @@
     <EmbeddedResource Include="Controls\AutoLabelEx.resx">
       <DependentUpon>AutoLabelEx.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Controls\DatabaseField.resx">
+      <DependentUpon>DatabaseField.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\DatabaseFieldCustom.resx">
+      <DependentUpon>DatabaseFieldCustom.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\TemplateListItem.resx">
       <DependentUpon>TemplateListItem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\SharedResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

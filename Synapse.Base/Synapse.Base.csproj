@@ -108,6 +108,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Main\Program.cs" />
+    <Compile Include="Main\SplashScreen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Main\SplashScreen.Designer.cs">
+      <DependentUpon>SplashScreen.cs</DependentUpon>
+    </Compile>
     <Compile Include="Main\Synapse.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -138,6 +144,12 @@
     <Compile Include="Modules\BarcodeConfigurationForm.Designer.cs">
       <DependentUpon>BarcodeConfigurationForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Modules\SelectFieldsForDBForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modules\SelectFieldsForDBForm.Designer.cs">
+      <DependentUpon>SelectFieldsForDBForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Modules\ConfigurationsTestForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -149,6 +161,12 @@
     </Compile>
     <Compile Include="Modules\AddFieldsForm.Designer.cs">
       <DependentUpon>AddFieldsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\DatabaseWizardForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modules\DatabaseWizardForm.Designer.cs">
+      <DependentUpon>DatabaseWizardForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Modules\DataConfigurationForm.cs">
       <SubType>Form</SubType>
@@ -211,11 +229,9 @@
       <DependentUpon>TemplatesHub.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
+    <EmbeddedResource Include="Main\SplashScreen.resx">
+      <DependentUpon>SplashScreen.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Main\Synapse.resx">
       <DependentUpon>Synapse.cs</DependentUpon>
     </EmbeddedResource>
@@ -231,11 +247,17 @@
     <EmbeddedResource Include="Modules\BarcodeConfigurationForm.resx">
       <DependentUpon>BarcodeConfigurationForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Modules\SelectFieldsForDBForm.resx">
+      <DependentUpon>SelectFieldsForDBForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Modules\ConfigurationsTestForm.resx">
       <DependentUpon>ConfigurationsTestForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Modules\AddFieldsForm.resx">
       <DependentUpon>AddFieldsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modules\DatabaseWizardForm.resx">
+      <DependentUpon>DatabaseWizardForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Modules\DataConfigurationForm.resx">
       <DependentUpon>DataConfigurationForm.cs</DependentUpon>
@@ -278,6 +300,11 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
@@ -407,8 +434,11 @@
     <Content Include="Resources\General\Editor.png" />
     <Content Include="Resources\General\Edit_03.png" />
     <Content Include="Resources\General\Edit_06.png" />
+    <None Include="Resources\General\Eye - 07.png" />
+    <None Include="Resources\General\Hide.png" />
     <Content Include="Resources\General\Pause-WF.png" />
     <Content Include="Resources\General\Pin-01-WF.png" />
+    <None Include="Resources\General\Show-01-WF.png" />
     <Content Include="Resources\Ribbon\AddAsBarcodeBtnIcon1_ConfigTab.png" />
     <Content Include="Resources\Ribbon\AddAsBarcodeBtnIcon2_ConfigTab.png" />
     <Content Include="Resources\Ribbon\AddAsBarcodeBtnIcon3_ConfigTab.png" />
@@ -471,6 +501,7 @@
     <Content Include="Resources\Ribbon\TemplateBtnIcon5_ConfigTab.png" />
     <Content Include="Resources\Ribbon\TemplateBtnIcon_ConfigTab.png" />
     <Content Include="Resources\Ribbon\TemplateStatusIcon_ConfigTab.png" />
+    <None Include="Resources\SplashImage.png" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

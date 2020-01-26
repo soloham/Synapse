@@ -22,21 +22,21 @@ namespace Synapse.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class Resources {
+    internal class Resources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public Resources() {
+        internal Resources() {
         }
         
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Resources.ResourceManager ResourceManager {
+        internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Synapse.Properties.Resources", typeof(Resources).Assembly);
@@ -51,7 +51,7 @@ namespace Synapse.Properties {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Globalization.CultureInfo Culture {
+        internal static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap _3D_shape__01_WF {
+        internal static System.Drawing.Bitmap _3D_shape__01_WF {
             get {
                 object obj = ResourceManager.GetObject("_3D_shape__01_WF", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -73,7 +73,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap Add_New {
+        internal static System.Drawing.Bitmap Add_New {
             get {
                 object obj = ResourceManager.GetObject("Add-New", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -83,7 +83,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap AddAsBarcodeBtnIcon_ConfigTab {
+        internal static System.Drawing.Bitmap AddAsBarcodeBtnIcon_ConfigTab {
             get {
                 object obj = ResourceManager.GetObject("AddAsBarcodeBtnIcon_ConfigTab", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -93,7 +93,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap AddAsBarcodeBtnIcon1_ConfigTab {
+        internal static System.Drawing.Bitmap AddAsBarcodeBtnIcon1_ConfigTab {
             get {
                 object obj = ResourceManager.GetObject("AddAsBarcodeBtnIcon1_ConfigTab", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -103,7 +103,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap AddAsBarcodeBtnIcon2_ConfigTab {
+        internal static System.Drawing.Bitmap AddAsBarcodeBtnIcon2_ConfigTab {
             get {
                 object obj = ResourceManager.GetObject("AddAsBarcodeBtnIcon2_ConfigTab", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -113,7 +113,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap AddAsBarcodeBtnIcon3_ConfigTab {
+        internal static System.Drawing.Bitmap AddAsBarcodeBtnIcon3_ConfigTab {
             get {
                 object obj = ResourceManager.GetObject("AddAsBarcodeBtnIcon3_ConfigTab", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -123,7 +123,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap AddAsICRBtnIcon_ConfigTab {
+        internal static System.Drawing.Bitmap AddAsICRBtnIcon_ConfigTab {
             get {
                 object obj = ResourceManager.GetObject("AddAsICRBtnIcon_ConfigTab", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -133,7 +133,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap AddAsOMRBtnIcon_ConfigTab {
+        internal static System.Drawing.Bitmap AddAsOMRBtnIcon_ConfigTab {
             get {
                 object obj = ResourceManager.GetObject("AddAsOMRBtnIcon_ConfigTab", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -143,7 +143,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap AddFieldBtnIcon_DataTab {
+        internal static System.Drawing.Bitmap AddFieldBtnIcon_DataTab {
             get {
                 object obj = ResourceManager.GetObject("AddFieldBtnIcon_DataTab", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -153,7 +153,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap Anchor_01 {
+        internal static System.Drawing.Bitmap Anchor_01 {
             get {
                 object obj = ResourceManager.GetObject("Anchor_01", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -163,7 +163,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap AnswerKeyBtnIcon_ReadingTab {
+        internal static System.Drawing.Bitmap AnswerKeyBtnIcon_ReadingTab {
             get {
                 object obj = ResourceManager.GetObject("AnswerKeyBtnIcon_ReadingTab", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -173,7 +173,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap AnswerKeyBtnIcon1_ReadingTab {
+        internal static System.Drawing.Bitmap AnswerKeyBtnIcon1_ReadingTab {
             get {
                 object obj = ResourceManager.GetObject("AnswerKeyBtnIcon1_ReadingTab", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -183,7 +183,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap AnswerKeyBtnIcon2_ReadingTab {
+        internal static System.Drawing.Bitmap AnswerKeyBtnIcon2_ReadingTab {
             get {
                 object obj = ResourceManager.GetObject("AnswerKeyBtnIcon2_ReadingTab", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -193,7 +193,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap ArrowDown_WF {
+        internal static System.Drawing.Bitmap ArrowDown_WF {
             get {
                 object obj = ResourceManager.GetObject("ArrowDown-WF", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -203,7 +203,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap ArrowUp_WF {
+        internal static System.Drawing.Bitmap ArrowUp_WF {
             get {
                 object obj = ResourceManager.GetObject("ArrowUp-WF", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -213,7 +213,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap Check {
+        internal static System.Drawing.Bitmap Check {
             get {
                 object obj = ResourceManager.GetObject("Check", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -223,7 +223,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap ConfigAIModelBtnIcon_ConfigTab {
+        internal static System.Drawing.Bitmap ConfigAIModelBtnIcon_ConfigTab {
             get {
                 object obj = ResourceManager.GetObject("ConfigAIModelBtnIcon_ConfigTab", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -233,7 +233,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap ConfigAIModelBtnIcon1_ConfigTab {
+        internal static System.Drawing.Bitmap ConfigAIModelBtnIcon1_ConfigTab {
             get {
                 object obj = ResourceManager.GetObject("ConfigAIModelBtnIcon1_ConfigTab", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -243,7 +243,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap ConfigDataBtnIcon_ConfigTab {
+        internal static System.Drawing.Bitmap ConfigDataBtnIcon_ConfigTab {
             get {
                 object obj = ResourceManager.GetObject("ConfigDataBtnIcon_ConfigTab", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -253,7 +253,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap ConfigDataBtnIcon1_ConfigTab {
+        internal static System.Drawing.Bitmap ConfigDataBtnIcon1_ConfigTab {
             get {
                 object obj = ResourceManager.GetObject("ConfigDataBtnIcon1_ConfigTab", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -263,7 +263,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap ConfigDataBtnIcon2_ConfigTab {
+        internal static System.Drawing.Bitmap ConfigDataBtnIcon2_ConfigTab {
             get {
                 object obj = ResourceManager.GetObject("ConfigDataBtnIcon2_ConfigTab", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -273,7 +273,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap ConfigDataBtnIcon3_ConfigTab {
+        internal static System.Drawing.Bitmap ConfigDataBtnIcon3_ConfigTab {
             get {
                 object obj = ResourceManager.GetObject("ConfigDataBtnIcon3_ConfigTab", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -283,7 +283,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap ConfigDataBtnIcon4_ConfigTab {
+        internal static System.Drawing.Bitmap ConfigDataBtnIcon4_ConfigTab {
             get {
                 object obj = ResourceManager.GetObject("ConfigDataBtnIcon4_ConfigTab", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -293,7 +293,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap ConfigEmarkingBtnIcon_ConfigTab {
+        internal static System.Drawing.Bitmap ConfigEmarkingBtnIcon_ConfigTab {
             get {
                 object obj = ResourceManager.GetObject("ConfigEmarkingBtnIcon_ConfigTab", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -303,7 +303,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap ConfigEmarkingBtnIcon1_ConfigTab {
+        internal static System.Drawing.Bitmap ConfigEmarkingBtnIcon1_ConfigTab {
             get {
                 object obj = ResourceManager.GetObject("ConfigEmarkingBtnIcon1_ConfigTab", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -313,7 +313,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap ConfigEmarkingBtnIcon2_ConfigTab {
+        internal static System.Drawing.Bitmap ConfigEmarkingBtnIcon2_ConfigTab {
             get {
                 object obj = ResourceManager.GetObject("ConfigEmarkingBtnIcon2_ConfigTab", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -323,7 +323,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap CSVExportBtnIcon_DataTab {
+        internal static System.Drawing.Bitmap CSVExportBtnIcon_DataTab {
             get {
                 object obj = ResourceManager.GetObject("CSVExportBtnIcon_DataTab", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -333,7 +333,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap CSVExportBtnIcon1_DataTab {
+        internal static System.Drawing.Bitmap CSVExportBtnIcon1_DataTab {
             get {
                 object obj = ResourceManager.GetObject("CSVExportBtnIcon1_DataTab", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -343,7 +343,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap CustomCheckBox_Checked {
+        internal static System.Drawing.Bitmap CustomCheckBox_Checked {
             get {
                 object obj = ResourceManager.GetObject("CustomCheckBox_Checked", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -353,7 +353,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap CustomCheckBox_Checked_MouseOver {
+        internal static System.Drawing.Bitmap CustomCheckBox_Checked_MouseOver {
             get {
                 object obj = ResourceManager.GetObject("CustomCheckBox_Checked_MouseOver", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -363,7 +363,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap CustomCheckBox_Checked_MouseOver1 {
+        internal static System.Drawing.Bitmap CustomCheckBox_Checked_MouseOver1 {
             get {
                 object obj = ResourceManager.GetObject("CustomCheckBox_Checked_MouseOver1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -373,7 +373,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap CustomCheckBox_Checked1 {
+        internal static System.Drawing.Bitmap CustomCheckBox_Checked1 {
             get {
                 object obj = ResourceManager.GetObject("CustomCheckBox_Checked1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -383,7 +383,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap CustomCheckBox_Unchecked {
+        internal static System.Drawing.Bitmap CustomCheckBox_Unchecked {
             get {
                 object obj = ResourceManager.GetObject("CustomCheckBox_Unchecked", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -393,7 +393,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap CustomCheckBox_Unchecked_MouseOver {
+        internal static System.Drawing.Bitmap CustomCheckBox_Unchecked_MouseOver {
             get {
                 object obj = ResourceManager.GetObject("CustomCheckBox_Unchecked_MouseOver", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -403,7 +403,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap DatabaseExportBtnIcon_DataTab {
+        internal static System.Drawing.Bitmap DatabaseExportBtnIcon_DataTab {
             get {
                 object obj = ResourceManager.GetObject("DatabaseExportBtnIcon_DataTab", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -413,7 +413,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap Delete_WF {
+        internal static System.Drawing.Bitmap Delete_WF {
             get {
                 object obj = ResourceManager.GetObject("Delete_WF", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -423,7 +423,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap Delete_WF_Sm {
+        internal static System.Drawing.Bitmap Delete_WF_Sm {
             get {
                 object obj = ResourceManager.GetObject("Delete-WF-Sm", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -433,7 +433,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap DeleteAllBtnIcon_DataTab {
+        internal static System.Drawing.Bitmap DeleteAllBtnIcon_DataTab {
             get {
                 object obj = ResourceManager.GetObject("DeleteAllBtnIcon_DataTab", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -443,7 +443,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap DeleteAllBtnIcon1_DataTab {
+        internal static System.Drawing.Bitmap DeleteAllBtnIcon1_DataTab {
             get {
                 object obj = ResourceManager.GetObject("DeleteAllBtnIcon1_DataTab", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -453,7 +453,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap DeleteSelectedBtnIcon_DataTab {
+        internal static System.Drawing.Bitmap DeleteSelectedBtnIcon_DataTab {
             get {
                 object obj = ResourceManager.GetObject("DeleteSelectedBtnIcon_DataTab", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -463,7 +463,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap EditValueBtnIcon_DataTab {
+        internal static System.Drawing.Bitmap EditValueBtnIcon_DataTab {
             get {
                 object obj = ResourceManager.GetObject("EditValueBtnIcon_DataTab", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -473,7 +473,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap EditValueBtnIcon1_DataTab {
+        internal static System.Drawing.Bitmap EditValueBtnIcon1_DataTab {
             get {
                 object obj = ResourceManager.GetObject("EditValueBtnIcon1_DataTab", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -483,7 +483,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap ExamPapersBtnIcon_ReadingTab {
+        internal static System.Drawing.Bitmap ExamPapersBtnIcon_ReadingTab {
             get {
                 object obj = ResourceManager.GetObject("ExamPapersBtnIcon_ReadingTab", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -493,7 +493,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap ExcelExportBtnIcon_DataTab {
+        internal static System.Drawing.Bitmap ExcelExportBtnIcon_DataTab {
             get {
                 object obj = ResourceManager.GetObject("ExcelExportBtnIcon_DataTab", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -503,7 +503,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap ExcelExportBtnIcon1_DataTab {
+        internal static System.Drawing.Bitmap ExcelExportBtnIcon1_DataTab {
             get {
                 object obj = ResourceManager.GetObject("ExcelExportBtnIcon1_DataTab", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -513,7 +513,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap ExcelExportBtnIcon3_DataTab {
+        internal static System.Drawing.Bitmap ExcelExportBtnIcon3_DataTab {
             get {
                 object obj = ResourceManager.GetObject("ExcelExportBtnIcon3_DataTab", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -523,7 +523,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap ExternalDataPointBtnIcon_DataTab {
+        internal static System.Drawing.Bitmap ExternalDataPointBtnIcon_DataTab {
             get {
                 object obj = ResourceManager.GetObject("ExternalDataPointBtnIcon_DataTab", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -533,7 +533,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap FindDuplicatesBtnIcon_ConfigTab {
+        internal static System.Drawing.Bitmap FindDuplicatesBtnIcon_ConfigTab {
             get {
                 object obj = ResourceManager.GetObject("FindDuplicatesBtnIcon_ConfigTab", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -543,7 +543,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap Follow {
+        internal static System.Drawing.Bitmap Follow {
             get {
                 object obj = ResourceManager.GetObject("Follow", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -553,7 +553,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap Gear {
+        internal static System.Drawing.Bitmap Gear {
             get {
                 object obj = ResourceManager.GetObject("Gear", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -563,7 +563,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap Gear__03WF {
+        internal static System.Drawing.Bitmap Gear__03WF {
             get {
                 object obj = ResourceManager.GetObject("Gear--03WF", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -573,7 +573,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap Gear_02_WF {
+        internal static System.Drawing.Bitmap Gear_02_WF {
             get {
                 object obj = ResourceManager.GetObject("Gear-02-WF", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -583,7 +583,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap Gear_WF {
+        internal static System.Drawing.Bitmap Gear_WF {
             get {
                 object obj = ResourceManager.GetObject("Gear-WF", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -593,7 +593,17 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap Import__02 {
+        internal static System.Drawing.Bitmap Hide {
+            get {
+                object obj = ResourceManager.GetObject("Hide", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Import__02 {
             get {
                 object obj = ResourceManager.GetObject("Import -02", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -603,7 +613,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap Import_02_WF_Big {
+        internal static System.Drawing.Bitmap Import_02_WF_Big {
             get {
                 object obj = ResourceManager.GetObject("Import-02-WF Big", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -613,7 +623,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap Instrument_Test_Tube_WF {
+        internal static System.Drawing.Bitmap Instrument_Test_Tube_WF {
             get {
                 object obj = ResourceManager.GetObject("Instrument-Test-Tube-WF", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -623,7 +633,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap InternalDataPointBtnIcon_DataTab {
+        internal static System.Drawing.Bitmap InternalDataPointBtnIcon_DataTab {
             get {
                 object obj = ResourceManager.GetObject("InternalDataPointBtnIcon_DataTab", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -633,7 +643,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap InternalDataPointBtnIcon1_DataTab {
+        internal static System.Drawing.Bitmap InternalDataPointBtnIcon1_DataTab {
             get {
                 object obj = ResourceManager.GetObject("InternalDataPointBtnIcon1_DataTab", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -643,7 +653,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap locateOptionsBtnIcon_ReadingTab {
+        internal static System.Drawing.Bitmap locateOptionsBtnIcon_ReadingTab {
             get {
                 object obj = ResourceManager.GetObject("locateOptionsBtnIcon_ReadingTab", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -653,7 +663,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap locateOptionsBtnIcon1_ReadingTab {
+        internal static System.Drawing.Bitmap locateOptionsBtnIcon1_ReadingTab {
             get {
                 object obj = ResourceManager.GetObject("locateOptionsBtnIcon1_ReadingTab", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -663,7 +673,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap Login_Arrow {
+        internal static System.Drawing.Bitmap Login_Arrow {
             get {
                 object obj = ResourceManager.GetObject("Login-Arrow", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -673,7 +683,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap Login_Arrow_Padd_0 {
+        internal static System.Drawing.Bitmap Login_Arrow_Padd_0 {
             get {
                 object obj = ResourceManager.GetObject("Login-Arrow Padd 0", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -683,7 +693,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap MarkzSheetsAsBtnIcon_DataTAb {
+        internal static System.Drawing.Bitmap MarkzSheetsAsBtnIcon_DataTAb {
             get {
                 object obj = ResourceManager.GetObject("MarkzSheetsAsBtnIcon_DataTAb", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -693,7 +703,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap Media_Play {
+        internal static System.Drawing.Bitmap Media_Play {
             get {
                 object obj = ResourceManager.GetObject("Media_Play", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -703,7 +713,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap Media_Play1 {
+        internal static System.Drawing.Bitmap Media_Play1 {
             get {
                 object obj = ResourceManager.GetObject("Media_Play1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -713,7 +723,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap MoveFaultySheetsBtnIcon_ReadingTab {
+        internal static System.Drawing.Bitmap MoveFaultySheetsBtnIcon_ReadingTab {
             get {
                 object obj = ResourceManager.GetObject("MoveFaultySheetsBtnIcon_ReadingTab", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -723,7 +733,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap MoveFaultySheetsBtnIcon1_ReadingTab {
+        internal static System.Drawing.Bitmap MoveFaultySheetsBtnIcon1_ReadingTab {
             get {
                 object obj = ResourceManager.GetObject("MoveFaultySheetsBtnIcon1_ReadingTab", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -733,7 +743,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap MoveFaultySheetsBtnIcon2_ReadingTab {
+        internal static System.Drawing.Bitmap MoveFaultySheetsBtnIcon2_ReadingTab {
             get {
                 object obj = ResourceManager.GetObject("MoveFaultySheetsBtnIcon2_ReadingTab", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -743,7 +753,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap MoveFaultySheetsBtnIcon3_ReadingTab {
+        internal static System.Drawing.Bitmap MoveFaultySheetsBtnIcon3_ReadingTab {
             get {
                 object obj = ResourceManager.GetObject("MoveFaultySheetsBtnIcon3_ReadingTab", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -753,7 +763,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap Navigation_Right_WF {
+        internal static System.Drawing.Bitmap Navigation_Right_WF {
             get {
                 object obj = ResourceManager.GetObject("Navigation Right-WF", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -763,7 +773,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap Next {
+        internal static System.Drawing.Bitmap Next {
             get {
                 object obj = ResourceManager.GetObject("Next", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -773,7 +783,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap Out {
+        internal static System.Drawing.Bitmap Out {
             get {
                 object obj = ResourceManager.GetObject("Out", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -783,7 +793,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap PauseBtnIcon_ReadingTab {
+        internal static System.Drawing.Bitmap PauseBtnIcon_ReadingTab {
             get {
                 object obj = ResourceManager.GetObject("PauseBtnIcon_ReadingTab", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -793,7 +803,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap Pin {
+        internal static System.Drawing.Bitmap Pin {
             get {
                 object obj = ResourceManager.GetObject("Pin", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -803,7 +813,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap Pin_White {
+        internal static System.Drawing.Bitmap Pin_White {
             get {
                 object obj = ResourceManager.GetObject("Pin_White", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -813,7 +823,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap Play_WF {
+        internal static System.Drawing.Bitmap Play_WF {
             get {
                 object obj = ResourceManager.GetObject("Play-WF", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -823,7 +833,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap QR_Code___02 {
+        internal static System.Drawing.Bitmap QR_Code___02 {
             get {
                 object obj = ResourceManager.GetObject("QR-Code - 02", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -833,7 +843,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap Quill_WF {
+        internal static System.Drawing.Bitmap Quill_WF {
             get {
                 object obj = ResourceManager.GetObject("Quill-WF", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -843,7 +853,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap rereadFaultySheetsBtnIcon_ReadingTab {
+        internal static System.Drawing.Bitmap rereadFaultySheetsBtnIcon_ReadingTab {
             get {
                 object obj = ResourceManager.GetObject("rereadFaultySheetsBtnIcon_ReadingTab", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -853,7 +863,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap rereadFaultySheetsBtnIcon1_ReadingTab {
+        internal static System.Drawing.Bitmap rereadFaultySheetsBtnIcon1_ReadingTab {
             get {
                 object obj = ResourceManager.GetObject("rereadFaultySheetsBtnIcon1_ReadingTab", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -863,7 +873,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap ScanDirBtnIcon_ReadingTab {
+        internal static System.Drawing.Bitmap ScanDirBtnIcon_ReadingTab {
             get {
                 object obj = ResourceManager.GetObject("ScanDirBtnIcon_ReadingTab", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -873,7 +883,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap ScanDirBtnIcon1_ReadingTab {
+        internal static System.Drawing.Bitmap ScanDirBtnIcon1_ReadingTab {
             get {
                 object obj = ResourceManager.GetObject("ScanDirBtnIcon1_ReadingTab", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -883,7 +893,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap ScanFolderIcon {
+        internal static System.Drawing.Bitmap ScanFolderIcon {
             get {
                 object obj = ResourceManager.GetObject("ScanFolderIcon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -893,7 +903,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap ScanFolderIcon1 {
+        internal static System.Drawing.Bitmap ScanFolderIcon1 {
             get {
                 object obj = ResourceManager.GetObject("ScanFolderIcon1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -903,7 +913,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap ScanScannerBtnIcon_ReadingTab {
+        internal static System.Drawing.Bitmap ScanScannerBtnIcon_ReadingTab {
             get {
                 object obj = ResourceManager.GetObject("ScanScannerBtnIcon_ReadingTab", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -913,7 +923,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap selection {
+        internal static System.Drawing.Bitmap selection {
             get {
                 object obj = ResourceManager.GetObject("selection", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -923,7 +933,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap Shape_Square_2_WF {
+        internal static System.Drawing.Bitmap Shape_Square_2_WF {
             get {
                 object obj = ResourceManager.GetObject("Shape Square 2-WF", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -933,7 +943,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap Shape_Square_2_WF_Gray {
+        internal static System.Drawing.Bitmap Shape_Square_2_WF_Gray {
             get {
                 object obj = ResourceManager.GetObject("Shape Square 2-WF Gray", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -943,7 +953,27 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap startBtnIcon_ReadingTab {
+        internal static System.Drawing.Bitmap Show_01_WF {
+            get {
+                object obj = ResourceManager.GetObject("Show-01-WF", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap SplashImage {
+            get {
+                object obj = ResourceManager.GetObject("SplashImage", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap startBtnIcon_ReadingTab {
             get {
                 object obj = ResourceManager.GetObject("startBtnIcon_ReadingTab", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -953,7 +983,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap startBtnIcon1_ReadingTab {
+        internal static System.Drawing.Bitmap startBtnIcon1_ReadingTab {
             get {
                 object obj = ResourceManager.GetObject("startBtnIcon1_ReadingTab", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -963,7 +993,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap StatusInOk {
+        internal static System.Drawing.Bitmap StatusInOk {
             get {
                 object obj = ResourceManager.GetObject("StatusInOk", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -973,7 +1003,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap StatusNotOk {
+        internal static System.Drawing.Bitmap StatusNotOk {
             get {
                 object obj = ResourceManager.GetObject("StatusNotOk", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -983,7 +1013,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap StatusOk {
+        internal static System.Drawing.Bitmap StatusOk {
             get {
                 object obj = ResourceManager.GetObject("StatusOk", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -993,7 +1023,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap StopBtnIcon_ReadingTab {
+        internal static System.Drawing.Bitmap StopBtnIcon_ReadingTab {
             get {
                 object obj = ResourceManager.GetObject("StopBtnIcon_ReadingTab", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1003,7 +1033,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap StopBtnIcon1_ReadingTab {
+        internal static System.Drawing.Bitmap StopBtnIcon1_ReadingTab {
             get {
                 object obj = ResourceManager.GetObject("StopBtnIcon1_ReadingTab", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1013,7 +1043,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap TemplateBtnIcon_ConfigTab {
+        internal static System.Drawing.Bitmap TemplateBtnIcon_ConfigTab {
             get {
                 object obj = ResourceManager.GetObject("TemplateBtnIcon_ConfigTab", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1023,7 +1053,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap TemplateBtnIcon1_ConfigTab {
+        internal static System.Drawing.Bitmap TemplateBtnIcon1_ConfigTab {
             get {
                 object obj = ResourceManager.GetObject("TemplateBtnIcon1_ConfigTab", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1033,7 +1063,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap TemplateBtnIcon2_ConfigTab {
+        internal static System.Drawing.Bitmap TemplateBtnIcon2_ConfigTab {
             get {
                 object obj = ResourceManager.GetObject("TemplateBtnIcon2_ConfigTab", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1043,7 +1073,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap TemplateBtnIcon4_ConfigTab {
+        internal static System.Drawing.Bitmap TemplateBtnIcon4_ConfigTab {
             get {
                 object obj = ResourceManager.GetObject("TemplateBtnIcon4_ConfigTab", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1053,7 +1083,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap TemplateBtnIcon5_ConfigTab {
+        internal static System.Drawing.Bitmap TemplateBtnIcon5_ConfigTab {
             get {
                 object obj = ResourceManager.GetObject("TemplateBtnIcon5_ConfigTab", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1063,7 +1093,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap TemplateStatusIcon_ConfigTab {
+        internal static System.Drawing.Bitmap TemplateStatusIcon_ConfigTab {
             get {
                 object obj = ResourceManager.GetObject("TemplateStatusIcon_ConfigTab", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1073,7 +1103,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap Text_Braille_WF {
+        internal static System.Drawing.Bitmap Text_Braille_WF {
             get {
                 object obj = ResourceManager.GetObject("Text Braille-WF", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1083,7 +1113,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap Text_Highlight {
+        internal static System.Drawing.Bitmap Text_Highlight {
             get {
                 object obj = ResourceManager.GetObject("Text-Highlight", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1093,7 +1123,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap Text_Highlight_WF {
+        internal static System.Drawing.Bitmap Text_Highlight_WF {
             get {
                 object obj = ResourceManager.GetObject("Text Highlight-WF", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1103,7 +1133,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap Unpin {
+        internal static System.Drawing.Bitmap Unpin {
             get {
                 object obj = ResourceManager.GetObject("Unpin", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1113,7 +1143,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap Unpin_White {
+        internal static System.Drawing.Bitmap Unpin_White {
             get {
                 object obj = ResourceManager.GetObject("Unpin_White", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1123,7 +1153,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap Upload_01_WF {
+        internal static System.Drawing.Bitmap Upload_01_WF {
             get {
                 object obj = ResourceManager.GetObject("Upload-01-WF", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1133,7 +1163,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap Upload_02_WF {
+        internal static System.Drawing.Bitmap Upload_02_WF {
             get {
                 object obj = ResourceManager.GetObject("Upload-02-WF", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -1143,7 +1173,7 @@ namespace Synapse.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap zone {
+        internal static System.Drawing.Bitmap zone {
             get {
                 object obj = ResourceManager.GetObject("zone", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));

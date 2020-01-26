@@ -1,4 +1,5 @@
-﻿using Syncfusion.HighContrastTheme.WinForms;
+﻿using Synapse.Main;
+using Syncfusion.HighContrastTheme.WinForms;
 using Syncfusion.Windows.Forms;
 using Syncfusion.WinForms.Controls;
 using Syncfusion.WinForms.Themes;
@@ -10,6 +11,8 @@ namespace Synapse
 {
     public static class Program
     {
+        public static SplashScreen DefaultSplashScreen;
+
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -22,6 +25,10 @@ namespace Synapse
 
         public static void Run()
         {
+            Application.SetCompatibleTextRenderingDefault(false);
+
+            DefaultSplashScreen = new SplashScreen("Loading...");
+            DefaultSplashScreen.Show();
 
             Utilities.Memory.LSTM.Initialize();
 
@@ -30,7 +37,6 @@ namespace Synapse
             SfSkinManager.LoadAssembly(typeof(Office2019Theme).Assembly);
             SfSkinManager.LoadAssembly(typeof(HighContrastTheme).Assembly);
             Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
 
             //--MetroColor table for MessageBoxAdv
             MetroStyleColorTable metroColorTable = new MetroStyleColorTable();

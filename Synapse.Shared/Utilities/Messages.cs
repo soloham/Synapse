@@ -30,6 +30,9 @@ namespace Synapse.Utilities
         {
             return MessageBoxAdv.Show(error, title, buttons, icon);
         }
-
+        public static DialogResult ShowInformation(string info, string title = "Info", MessageBoxButtons buttons = MessageBoxButtons.OK, MessageBoxIcon icon = MessageBoxIcon.Information)
+        {
+            return MessageBoxAdv.Show(info, title, buttons, icon);
+        }
     }
 }

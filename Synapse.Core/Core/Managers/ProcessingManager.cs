@@ -46,6 +46,7 @@ namespace Synapse.Core.Managers
         private Func<bool, List<string>> GetGridDataColumns;
 
         private ObservableCollection<dynamic> allProcessedDataSource = new ObservableCollection<dynamic>();
+        private ObservableCollection<dynamic> altAllProcessedDataSource = new ObservableCollection<dynamic>();
         private ObservableCollection<dynamic> manualProcessedDataSource = new ObservableCollection<dynamic>();
         private ObservableCollection<dynamic> faultyProcessedDataSource = new ObservableCollection<dynamic>();
         private ObservableCollection<dynamic> incompatibleProcessedDataSource = new ObservableCollection<dynamic>();
@@ -56,6 +57,8 @@ namespace Synapse.Core.Managers
         public int GetTotalIncompatibleProcessedData { get => incompatibleProcessedDataSource.Count; }
         public bool IsProcessing { get; private set; } = false;
         public bool IsPaused { get; private set; } = false;
+        public bool VisualizeData { get; set; } = true;
+
         public const int MAX_UNACTIVATED_SHEETS = 500;
 
         public event EventHandler<ProcessedDataType> OnDataSourceUpdated;
@@ -96,6 +99,7 @@ namespace Synapse.Core.Managers
                     break;
                 case ProcessedDataType.NORMAL:
                     allProcessedDataSource.Clear();
+                    altAllProcessedDataSource.Clear();
                     break;
             }
 
@@ -105,17 +109,25 @@ namespace Synapse.Core.Managers
         }
         public void ClearAllData()
         {
-            incompatibleProcessedDataSource.Clear();
-            faultyProcessedDataSource.Clear();
-            manualProcessedDataSource.Clear();
-            allProcessedDataSource.Clear();
-
-            processedData.Clear();
-
-            var processedDataTypes = EnumHelper.ToList(typeof(ProcessedDataType));
-            for (int i = 0; i < processedDataTypes.Count; i++)
+            try
             {
-                OnDataSourceUpdated?.Invoke(this, (ProcessedDataType)i);
+                incompatibleProcessedDataSource.Clear();
+                faultyProcessedDataSource.Clear();
+                manualProcessedDataSource.Clear();
+                allProcessedDataSource.Clear();
+                altAllProcessedDataSource.Clear();
+
+                processedData.Clear();
+
+                var processedDataTypes = EnumHelper.ToList(typeof(ProcessedDataType));
+                for (int i = 0; i < processedDataTypes.Count; i++)
+                {
+                    OnDataSourceUpdated?.Invoke(this, (ProcessedDataType)i);
+                }
+            }
+            catch(Exception ex)
+            {
+
             }
         }
 
@@ -164,7 +176,10 @@ namespace Synapse.Core.Managers
 
             if (processedDataRow.GetRowIndex == 0 && !keepData)
                 InitializeDataGrids?.Invoke(processedDataRow.GetProcessedDataEntries, (allProcessedDataSource, manualProcessedDataSource, faultyProcessedDataSource, incompatibleProcessedDataSource), extraColumns, false);
-
+            
+            //if(!VisualizeData)
+            //    InitializeDataGrids?.Invoke(processedDataRow.GetProcessedDataEntries, (null, null, null, null), extraColumns, false);
+            
             try
             {
                 //if (allLatencyDataObjects.Count > 0)
@@ -172,7 +187,9 @@ namespace Synapse.Core.Managers
                 //    allLatencyDataObjects.ForEach(x => allProcessedDataSource.Add(x));
                 //    allLatencyDataObjects.Clear();
                 //}
-                allProcessedDataSource.Add(dynamicDataRow);
+                if(VisualizeData) allProcessedDataSource.Add(dynamicDataRow);
+                else altAllProcessedDataSource.Add(dynamicDataRow);
+
                 switch (processedDataRow.DataRowResultType)
                 {
                     case ProcessedDataType.INCOMPATIBLE:
@@ -181,7 +198,7 @@ namespace Synapse.Core.Managers
                         //    incompatibleLatencyDataObjects.ForEach(x => incompatibleProcessedDataSource.Add(x));
                         //    incompatibleLatencyDataObjects.Clear();
                         //}
-                        incompatibleProcessedDataSource.Add(dynamicDataRow);
+                        if (VisualizeData) incompatibleProcessedDataSource.Add(dynamicDataRow);
                         break;
                     case ProcessedDataType.FAULTY:
                         //if (faultyLatencyDataObjects.Count > 0)
@@ -189,7 +206,7 @@ namespace Synapse.Core.Managers
                         //    faultyLatencyDataObjects.ForEach(x => faultyProcessedDataSource.Add(x));
                         //    faultyLatencyDataObjects.Clear();
                         //}
-                        faultyProcessedDataSource.Add(dynamicDataRow);
+                        if (VisualizeData) faultyProcessedDataSource.Add(dynamicDataRow);
                         break;
                     case ProcessedDataType.MANUAL:
                         //if (manualLatencyDataObjects.Count > 0)
@@ -198,7 +215,7 @@ namespace Synapse.Core.Managers
                         //    manualLatencyDataObjects.Clear();
                         //}
                         int manualCount = manualProcessedDataSource.Count;
-                        manualProcessedDataSource.Insert(manualCount == 0? 0 : manualCount-1, dynamicDataRow);
+                        if (VisualizeData) manualProcessedDataSource.Insert(manualCount == 0? 0 : manualCount-1, dynamicDataRow);
                         break;
                     case ProcessedDataType.NORMAL:
                         break;
@@ -962,6 +979,21 @@ namespace Synapse.Core.Managers
                 processedData.Add(incProcessedDataSource[i].DataRowObject);
 
             InitializeDataGrids?.Invoke(allProcessedDataSource[0].DataRowObject.GetProcessedDataEntries, (allProcessedDataSource, manualProcessedDataSource, faultyProcessedDataSource, incompatibleProcessedDataSource), 0, true);
+        }
+
+        public ObservableCollection<dynamic> GetAllProcessedData()
+        {
+            if (allProcessedDataSource != null && allProcessedDataSource.Count > 0)
+                return allProcessedDataSource;
+            else
+                return null;
+        }
+        public ObservableCollection<dynamic> GetAllAltProcessedData()
+        {
+            if (altAllProcessedDataSource != null && altAllProcessedDataSource.Count > 0)
+                return altAllProcessedDataSource;
+            else
+                return null;
         }
     }
 }
