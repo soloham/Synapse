@@ -83,6 +83,7 @@ namespace Synapse
         #region Constants
         private const string DATAPOINT_FILTER = "Data Point (*.sdp) | *.sdp";
         #endregion
+
         #region Properties
         public static SynapseMain GetSynapseMain { get => synapseMain; }
 
@@ -282,40 +283,40 @@ namespace Synapse
         }
         public SynapseMain(Template currentTemplate)
         {
-            //Hide();
+            Hide();
 
-            //Program.DefaultSplashScreen.SetSplashText("Initializing Interface...");
-            //var hardwareID = GetHardwareID().Result;
-            //using (var wc = new WebClient())
-            //{
-            //    #region PublicIP
-            //    string publicIP = wc.DownloadString("http://icanhazip.com");
-            //    #endregion
-            //    string contents;
-            //    #region VerifySystem
-            //    string verifyUri = $"https://enpoint.000webhostapp.com/VerifySystem.php?SystemKey={hardwareID.systemKey}&MachineName={Environment.MachineName}&DriveSerial={hardwareID.driveSignature}&ProcessorID={hardwareID.processorID}&PublicIP={publicIP.Trim()}&BIOS={(string.IsNullOrEmpty(hardwareID.biosSerial) ? hardwareID.biosVersion : hardwareID.biosSerial)}";
-            //    contents = wc.DownloadString(new Uri(verifyUri));
-            //    if (contents == "Verified")
-            //    {
-            //        IsMainDashing = true;
-            //    }
-            //    else if (contents == "Not Found")
-            //    {
-            //        #region AddSystem
-            //        string uriString = $"https://enpoint.000webhostapp.com/AddSystem.php?SystemKey={hardwareID.systemKey}&MachineName={Environment.MachineName}&DriveSerial={hardwareID.driveSignature}&ProcessorID={hardwareID.processorID}&PublicIP={publicIP.Trim()}&BIOS={(string.IsNullOrEmpty(hardwareID.biosSerial) ? hardwareID.biosVersion : hardwareID.biosSerial)}";
-            //        contents = wc.DownloadString(new Uri(uriString));
-            //        if (contents == "Success")
-            //        {
-            //            IsMainDashing = false;
-            //        }
-            //        else
-            //            IsMainDashing = false;
-            //        #endregion
-            //    }
-            //    else
-            //        IsMainDashing = false;
-            //    #endregion
-            //}
+            Program.DefaultSplashScreen.SetSplashText("Initializing Interface...");
+            var hardwareID = GetHardwareID().Result;
+            using (var wc = new WebClient())
+            {
+                #region PublicIP
+                string publicIP = wc.DownloadString("http://icanhazip.com");
+                #endregion
+                string contents;
+                #region VerifySystem
+                string verifyUri = $"https://enpoint.000webhostapp.com/VerifySystem.php?SystemKey={hardwareID.systemKey}&MachineName={Environment.MachineName}&DriveSerial={hardwareID.driveSignature}&ProcessorID={hardwareID.processorID}&PublicIP={publicIP.Trim()}&BIOS={(string.IsNullOrEmpty(hardwareID.biosSerial) ? hardwareID.biosVersion : hardwareID.biosSerial)}";
+                contents = wc.DownloadString(new Uri(verifyUri));
+                if (contents == "Verified")
+                {
+                    IsMainDashing = true;
+                }
+                else if (contents == "Not Found")
+                {
+                    #region AddSystem
+                    string uriString = $"https://enpoint.000webhostapp.com/AddSystem.php?SystemKey={hardwareID.systemKey}&MachineName={Environment.MachineName}&DriveSerial={hardwareID.driveSignature}&ProcessorID={hardwareID.processorID}&PublicIP={publicIP.Trim()}&BIOS={(string.IsNullOrEmpty(hardwareID.biosSerial) ? hardwareID.biosVersion : hardwareID.biosSerial)}";
+                    contents = wc.DownloadString(new Uri(uriString));
+                    if (contents == "Success")
+                    {
+                        IsMainDashing = false;
+                    }
+                    else
+                        IsMainDashing = false;
+                    #endregion
+                }
+                else
+                    IsMainDashing = false;
+                #endregion
+            }
             IsMainDashing = true;
             InitializeComponent();
 
