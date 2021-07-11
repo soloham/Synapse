@@ -17,7 +17,6 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Syncfusion.WinForms.DataGridConverter;
 using Syncfusion.XlsIO;
 using Synapse.Controls.Answer_Key;
 using Synapse.Core;
@@ -36,6 +35,8 @@ using System.Dynamic;
 using System.Management;
 using System.Text;
 using Synapse.Core.Engines;
+using Syncfusion.WinForms.DataGridConverter;
+
 
 namespace Synapse
 {
@@ -293,28 +294,35 @@ namespace Synapse
                 string publicIP = wc.DownloadString("http://icanhazip.com");
                 #endregion
                 string contents;
-                #region VerifySystem
-                string verifyUri = $"https://enpoint.000webhostapp.com/VerifySystem.php?SystemKey={hardwareID.systemKey}&MachineName={Environment.MachineName}&DriveSerial={hardwareID.driveSignature}&ProcessorID={hardwareID.processorID}&PublicIP={publicIP.Trim()}&BIOS={(string.IsNullOrEmpty(hardwareID.biosSerial) ? hardwareID.biosVersion : hardwareID.biosSerial)}";
-                contents = wc.DownloadString(new Uri(verifyUri));
-                if (contents == "Verified")
+                try
                 {
-                    IsMainDashing = true;
-                }
-                else if (contents == "Not Found")
-                {
-                    #region AddSystem
-                    string uriString = $"https://enpoint.000webhostapp.com/AddSystem.php?SystemKey={hardwareID.systemKey}&MachineName={Environment.MachineName}&DriveSerial={hardwareID.driveSignature}&ProcessorID={hardwareID.processorID}&PublicIP={publicIP.Trim()}&BIOS={(string.IsNullOrEmpty(hardwareID.biosSerial) ? hardwareID.biosVersion : hardwareID.biosSerial)}";
-                    contents = wc.DownloadString(new Uri(uriString));
-                    if (contents == "Success")
+                    #region VerifySystem
+                    string verifyUri = $"https://enpoint.000webhostapp.com/VerifySystem.php?SystemKey={hardwareID.systemKey}&MachineName={Environment.MachineName}&DriveSerial={hardwareID.driveSignature}&ProcessorID={hardwareID.processorID}&PublicIP={publicIP.Trim()}&BIOS={(string.IsNullOrEmpty(hardwareID.biosSerial) ? hardwareID.biosVersion : hardwareID.biosSerial)}";
+                    contents = wc.DownloadString(new Uri(verifyUri));
+                    if (contents == "Verified")
                     {
-                        IsMainDashing = false;
+                        IsMainDashing = true;
+                    }
+                    else if (contents == "Not Found")
+                    {
+                        #region AddSystem
+                        string uriString = $"https://enpoint.000webhostapp.com/AddSystem.php?SystemKey={hardwareID.systemKey}&MachineName={Environment.MachineName}&DriveSerial={hardwareID.driveSignature}&ProcessorID={hardwareID.processorID}&PublicIP={publicIP.Trim()}&BIOS={(string.IsNullOrEmpty(hardwareID.biosSerial) ? hardwareID.biosVersion : hardwareID.biosSerial)}";
+                        contents = wc.DownloadString(new Uri(uriString));
+                        if (contents == "Success")
+                        {
+                            IsMainDashing = false;
+                        }
+                        else
+                            IsMainDashing = false;
+                        #endregion
                     }
                     else
                         IsMainDashing = false;
-                    #endregion
                 }
-                else
-                    IsMainDashing = false;
+                catch
+                {
+                    IsMainDashing = true;
+                }
                 #endregion
             }
             IsMainDashing = true;

@@ -67,27 +67,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\Inlite\ClearImage SDK.9_0_6054\ClearImageNet.70.dll</HintPath>
     </Reference>
-    <Reference Include="Syncfusion.Compression.Base, Version=17.3460.0.14, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
-    <Reference Include="Syncfusion.Core.WinForms, Version=17.3460.0.14, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
-    <Reference Include="Syncfusion.Data.WinForms, Version=17.3460.0.14, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
-    <Reference Include="Syncfusion.DataSource.WinForms, Version=17.3460.0.14, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
-    <Reference Include="Syncfusion.Diagram.Base, Version=17.3460.0.14, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
-    <Reference Include="Syncfusion.Diagram.Windows, Version=17.3460.0.14, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL" />
-    <Reference Include="Syncfusion.Grid.Windows, Version=17.3460.0.14, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
-    <Reference Include="Syncfusion.GridCommon.WinForms, Version=17.3460.0.14, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
-    <Reference Include="Syncfusion.Schedule.Base, Version=17.3460.0.14, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
-    <Reference Include="Syncfusion.Schedule.Windows, Version=17.3460.0.14, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
-    <Reference Include="Syncfusion.SfDataGrid.WinForms, Version=17.3460.0.14, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL" />
-    <Reference Include="Syncfusion.SfDataGridConverter.WinForms, Version=17.3460.0.14, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
-    <Reference Include="Syncfusion.SfInput.WinForms, Version=17.3460.0.14, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
-    <Reference Include="Syncfusion.SfListView.WinForms, Version=17.3460.0.14, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL" />
-    <Reference Include="Syncfusion.Shared.Base, Version=17.3460.0.14, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
-    <Reference Include="Syncfusion.Shared.Windows, Version=17.3460.0.14, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
-    <Reference Include="Syncfusion.Spreadsheet.Windows, Version=17.3460.0.14, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL" />
-    <Reference Include="Syncfusion.Tools.Base, Version=17.3460.0.14, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
-    <Reference Include="Syncfusion.Tools.Windows, Version=17.3460.0.14, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
-    <Reference Include="Syncfusion.XlsIO.Base, Version=17.3460.0.14, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
-    <Reference Include="Syncfusion.XlsIO.Windows, Version=17.3460.0.14, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
+    <Reference Include="Syncfusion.SfDataGridConverter.WinForms, Version=19.2450.0.44, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
@@ -369,11 +349,11 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Dependencies\Cyotek.Windows.Forms.ImageBox-master\Cyotek.Windows.Forms.ImageBox.Demo\Cyotek.Windows.Forms.ImageBox.Demo.csproj">
+    <ProjectReference Include="..\..\Cyotek.Windows.Forms.ImageBox\Cyotek.Windows.Forms.ImageBox.Demo\Cyotek.Windows.Forms.ImageBox.Demo.csproj">
       <Project>{86d47d73-b3e7-4ed3-86ea-7bfc0c978a7b}</Project>
       <Name>Cyotek.Windows.Forms.ImageBox.Demo</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Dependencies\Cyotek.Windows.Forms.ImageBox-master\Cyotek.Windows.Forms.ImageBox\Cyotek.Windows.Forms.ImageBox.csproj">
+    <ProjectReference Include="..\..\Cyotek.Windows.Forms.ImageBox\Cyotek.Windows.Forms.ImageBox\Cyotek.Windows.Forms.ImageBox.csproj">
       <Project>{4159c8d3-c18d-4bed-8be6-9bad1b0ca4f6}</Project>
       <Name>Cyotek.Windows.Forms.ImageBox</Name>
     </ProjectReference>
@@ -409,17 +389,110 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+    <PackageReference Include="Syncfusion.BulletGraph.Windows">
+      <Version>19.2.0.46</Version>
+    </PackageReference>
+    <PackageReference Include="Syncfusion.Calculate.Windows">
+      <Version>17.3.0.14</Version>
+    </PackageReference>
+    <PackageReference Include="Syncfusion.Chart.Windows">
+      <Version>19.2.0.46</Version>
+    </PackageReference>
+    <PackageReference Include="Syncfusion.Compression.Base">
+      <Version>17.3.0.14</Version>
+    </PackageReference>
+    <PackageReference Include="Syncfusion.Core.WinForms">
+      <Version>19.2.0.46</Version>
+    </PackageReference>
+    <PackageReference Include="Syncfusion.Diagram.Windows">
+      <Version>19.2.0.46</Version>
+    </PackageReference>
+    <PackageReference Include="Syncfusion.DocIO.WinForms">
+      <Version>19.2.0.46</Version>
+    </PackageReference>
+    <PackageReference Include="Syncfusion.Edit.Windows">
+      <Version>19.2.0.46</Version>
+    </PackageReference>
+    <PackageReference Include="Syncfusion.Gauge.Windows">
+      <Version>19.2.0.46</Version>
+    </PackageReference>
+    <PackageReference Include="Syncfusion.Grid.Windows">
+      <Version>19.2.0.46</Version>
+    </PackageReference>
+    <PackageReference Include="Syncfusion.GridHelperClasses.Windows">
+      <Version>19.2.0.46</Version>
+    </PackageReference>
+    <PackageReference Include="Syncfusion.Grouping.Base">
+      <Version>19.2.0.46</Version>
+    </PackageReference>
     <PackageReference Include="Syncfusion.HighContrastTheme.WinForms">
+      <Version>19.2.0.46</Version>
+    </PackageReference>
+    <PackageReference Include="Syncfusion.HTMLUI.Windows">
       <Version>17.3.0.14</Version>
     </PackageReference>
     <PackageReference Include="Syncfusion.Licensing">
-      <Version>17.3.0.14</Version>
+      <Version>19.2.0.46</Version>
+    </PackageReference>
+    <PackageReference Include="Syncfusion.Maps.Windows">
+      <Version>19.2.0.46</Version>
     </PackageReference>
     <PackageReference Include="Syncfusion.Office2016Theme.WinForms">
-      <Version>17.3.0.14</Version>
+      <Version>19.2.0.46</Version>
     </PackageReference>
     <PackageReference Include="Syncfusion.Office2019Theme.WinForms">
+      <Version>19.2.0.46</Version>
+    </PackageReference>
+    <PackageReference Include="Syncfusion.OfficeChart.Base">
       <Version>17.3.0.14</Version>
+    </PackageReference>
+    <PackageReference Include="Syncfusion.Pdf.WinForms">
+      <Version>19.2.0.46</Version>
+    </PackageReference>
+    <PackageReference Include="Syncfusion.PdfViewer.Windows">
+      <Version>19.2.0.46</Version>
+    </PackageReference>
+    <PackageReference Include="Syncfusion.PivotChart.Windows">
+      <Version>19.2.0.46</Version>
+    </PackageReference>
+    <PackageReference Include="Syncfusion.Presentation.WinForms">
+      <Version>19.2.0.46</Version>
+    </PackageReference>
+    <PackageReference Include="Syncfusion.ProjIO.Base">
+      <Version>17.3.0.14</Version>
+    </PackageReference>
+    <PackageReference Include="Syncfusion.Schedule.Windows">
+      <Version>19.2.0.46</Version>
+    </PackageReference>
+    <PackageReference Include="Syncfusion.SfBarcode.Windows">
+      <Version>19.2.0.46</Version>
+    </PackageReference>
+    <PackageReference Include="Syncfusion.SfDataGrid.WinForms">
+      <Version>19.2.0.46</Version>
+    </PackageReference>
+    <PackageReference Include="Syncfusion.SfInput.WinForms">
+      <Version>19.2.0.46</Version>
+    </PackageReference>
+    <PackageReference Include="Syncfusion.SfSmithChart.WinForms">
+      <Version>19.2.0.46</Version>
+    </PackageReference>
+    <PackageReference Include="Syncfusion.Shared.Windows">
+      <Version>17.3.0.14</Version>
+    </PackageReference>
+    <PackageReference Include="Syncfusion.Spreadsheet.Windows">
+      <Version>19.2.0.46</Version>
+    </PackageReference>
+    <PackageReference Include="Syncfusion.Tools.Base">
+      <Version>17.3.0.14</Version>
+    </PackageReference>
+    <PackageReference Include="Syncfusion.Tools.Windows">
+      <Version>19.2.0.46</Version>
+    </PackageReference>
+    <PackageReference Include="Syncfusion.TreeMap.Windows">
+      <Version>19.2.0.46</Version>
+    </PackageReference>
+    <PackageReference Include="Syncfusion.XlsIO.WinForms">
+      <Version>19.2.0.46</Version>
     </PackageReference>
     <PackageReference Include="WinFormAnimation">
       <Version>1.6.0.4</Version>
