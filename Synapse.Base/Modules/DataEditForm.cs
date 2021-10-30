@@ -1,66 +1,81 @@
-﻿using Emgu.CV;
-using Synapse.Core.Configurations;
-using Synapse.Core.Engines.Data;
-using Synapse.Utilities;
-using Synapse.Utilities.Objects;
-using Syncfusion.WinForms.Controls;
-using System;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Linq;
-using System.Windows.Forms;
-using static Synapse.Core.Configurations.ConfigurationBase;
-using static Synapse.SynapseMain;
+﻿using static Synapse.SynapseMain;
 
 namespace Synapse.Modules
 {
+    using System;
+    using System.Drawing;
+    using System.Drawing.Drawing2D;
+    using System.Linq;
+    using System.Windows.Forms;
+
+    using Emgu.CV;
+    using Emgu.CV.CvEnum;
+
+    using Synapse.Core.Configurations;
+    using Synapse.Core.Engines.Data;
+    using Synapse.Utilities;
+
+    using Syncfusion.WinForms.Controls;
+
     public partial class DataEditForm : SfForm
     {
         #region Properties
+
         #endregion
 
         #region Variables
-        private OnTemplateConfig onTemplateConfig;
+
+        private readonly OnTemplateConfig onTemplateConfig;
         private RectangleF configRegion;
-        private Mat sheetImage;
-        private dynamic dataRowObject;
+        private readonly Mat sheetImage;
+        private readonly dynamic dataRowObject;
         private ProcessedDataRow selectedProcessedDataRow;
         private ConfigurationBase configurationBase;
-        string dataColumnName;
-        int columnIndex;
+        private readonly string dataColumnName;
+        private int columnIndex;
 
-        (int entryIndex, int fieldIndex) cellRepresentation;
+        private (int entryIndex, int fieldIndex) cellRepresentation;
 
-        string curValue;
+        private string curValue;
+
         #endregion
 
         #region Events
+
         #endregion
 
         #region General Methods
-        public DataEditForm(OnTemplateConfig onTemplateConfig, dynamic dataRowObject, string dataColumn, int columnIndex)
+
+        public DataEditForm(OnTemplateConfig onTemplateConfig, dynamic dataRowObject, string dataColumn,
+            int columnIndex)
         {
-            InitializeComponent();
+            this.InitializeComponent();
 
             Mat alignedMat = null;
-            if (!SynapseMain.GetCurrentTemplate.GetAlignedImage(dataRowObject.DataRowObject.RowSheetPath, dataRowObject.DataRowObject.RereadType, out alignedMat))
-                sheetImage = CvInvoke.Imread(dataRowObject.DataRowObject.RowSheetPath, Emgu.CV.CvEnum.ImreadModes.Grayscale);
+            if (!GetCurrentTemplate.GetAlignedImage(dataRowObject.DataRowObject.RowSheetPath,
+                dataRowObject.DataRowObject.RereadType, out alignedMat))
+            {
+                sheetImage = CvInvoke.Imread(dataRowObject.DataRowObject.RowSheetPath, ImreadModes.Grayscale);
+            }
             else
+            {
                 sheetImage = alignedMat;
+            }
 
             this.dataRowObject = dataRowObject;
             selectedProcessedDataRow = dataRowObject.DataRowObject;
-            this.dataColumnName = dataColumn;
+            dataColumnName = dataColumn;
             this.columnIndex = columnIndex;
 
             this.onTemplateConfig = onTemplateConfig;
 
-            Awake();
+            this.Awake();
         }
+
         private void Awake()
         {
             cellRepresentation = GetSynapseMain.GridCellsRepresentation[dataColumnName];
-            ProcessedDataEntry entry = selectedProcessedDataRow.GetProcessedDataEntries[cellRepresentation.entryIndex];
+            var entry = selectedProcessedDataRow.GetProcessedDataEntries[cellRepresentation.entryIndex];
             configRegion = entry.GetConfigurationBase.GetConfigArea.ConfigRect;
             imageBox.Image = sheetImage.Bitmap;
             imageBox.ZoomToRegion(configRegion);
@@ -77,14 +92,15 @@ namespace Synapse.Modules
                 case MainConfigType.OMR:
                     dataValueTextBox.MaxLength = curValue.Length;
                     break;
+
                 case MainConfigType.BARCODE:
                     break;
+
                 case MainConfigType.ICR:
-                    break;
-                default:
                     break;
             }
         }
+
         #endregion
 
         #region UI Methods
@@ -92,73 +108,87 @@ namespace Synapse.Modules
         #endregion
 
         #region Main Methods
+
         #endregion
 
         private void setDataValueBtn_Click(object sender, EventArgs e)
         {
             if (dataValueTextBox.Text == "")
+            {
                 return;
+            }
 
-            string err = String.Empty;
-            string value = dataValueTextBox.Text;
+            var err = string.Empty;
+            var value = dataValueTextBox.Text;
             switch (configurationBase.ValueDataType)
             {
                 case ValueDataType.String:
                     break;
+
                 case ValueDataType.Text:
                     if (!value.All(char.IsLetter))
                     {
                         err = "Invalid value. Text was expected.";
                     }
+
                     break;
+
                 case ValueDataType.Alphabet:
                     if (!value.All(char.IsLetter))
                     {
                         err = "Invalid value. Text was expected.";
                     }
+
                     break;
+
                 case ValueDataType.WholeNumber:
                     if (!value.All(char.IsDigit))
                     {
                         err = "Invalid value. Whole number was expected.";
                     }
+
                     break;
+
                 case ValueDataType.NaturalNumber:
                     if (!value.All(char.IsDigit) || value == "0")
                     {
                         err = "Invalid value, Natural number was expected.";
                     }
+
                     break;
+
                 case ValueDataType.Integer:
                     if (!value.All(char.IsDigit))
                     {
                         err = "Invalid value. Integer was expected.";
                     }
-                    break;
-            }
-            switch (configurationBase.GetMainConfigType)
-            {
-                case MainConfigType.OMR:
-                    
-                    break;
-                case MainConfigType.BARCODE:
-                    
-                    break;
-                case MainConfigType.ICR:
-                    
-                    break;
-                default:
+
                     break;
             }
 
-            if(!String.IsNullOrEmpty(err))
+            switch (configurationBase.GetMainConfigType)
+            {
+                case MainConfigType.OMR:
+
+                    break;
+
+                case MainConfigType.BARCODE:
+
+                    break;
+
+                case MainConfigType.ICR:
+
+                    break;
+            }
+
+            if (!string.IsNullOrEmpty(err))
             {
                 Messages.ShowError(err);
                 return;
             }
 
             Functions.AddProperty(dataRowObject, dataColumnName, dataValueTextBox.Text);
-            ProcessedDataEntry entry = selectedProcessedDataRow.GetProcessedDataEntries[cellRepresentation.entryIndex];
+            var entry = selectedProcessedDataRow.GetProcessedDataEntries[cellRepresentation.entryIndex];
             entry.DataEntriesResultType[cellRepresentation.fieldIndex] = ProcessedDataType.NORMAL;
             entry.GetDataValues[cellRepresentation.fieldIndex] = dataValueTextBox.Text;
 
@@ -166,7 +196,7 @@ namespace Synapse.Modules
             selectedProcessedDataRow.GetProcessedDataEntries[cellRepresentation.entryIndex] = entry;
             Functions.AddProperty(dataRowObject, "DataRowObject", selectedProcessedDataRow);
 
-            Dispose();
+            this.Dispose();
         }
 
         private void DataEditForm_KeyUp(object sender, KeyEventArgs e)
@@ -174,31 +204,33 @@ namespace Synapse.Modules
             if (e.KeyCode == Keys.Return)
             {
                 if (dataValueTextBox.Text == "")
+                {
                     return;
+                }
 
                 Functions.AddProperty(dataRowObject, dataColumnName, dataValueTextBox.Text);
-                (int entryIndex, int fieldIndex) cellRepresentation = GetSynapseMain.GridCellsRepresentation[dataColumnName];
-                ProcessedDataEntry entry = selectedProcessedDataRow.GetProcessedDataEntries[cellRepresentation.entryIndex];
+                var cellRepresentation = GetSynapseMain.GridCellsRepresentation[dataColumnName];
+                var entry = selectedProcessedDataRow.GetProcessedDataEntries[cellRepresentation.entryIndex];
                 entry.GetDataValues[cellRepresentation.fieldIndex] = dataValueTextBox.Text;
 
-                Dispose();
+                this.Dispose();
             }
         }
 
         private void imageBox_Paint(object sender, PaintEventArgs e)
         {
-            DrawConfiguration(onTemplateConfig, e.Graphics);
+            this.DrawConfiguration(onTemplateConfig, e.Graphics);
         }
 
         private void DrawConfiguration(OnTemplateConfig onTemplateConfig, Graphics g)
         {
-            ConfigArea configArea = onTemplateConfig.Configuration.GetConfigArea;
-            MainConfigType mainConfigType = onTemplateConfig.Configuration.GetMainConfigType;
+            var configArea = onTemplateConfig.Configuration.GetConfigArea;
+            var mainConfigType = onTemplateConfig.Configuration.GetMainConfigType;
 
-            ColorStates colorStates = onTemplateConfig.ColorStates;
+            var colorStates = onTemplateConfig.ColorStates;
 
             GraphicsState originalState;
-            RectangleF curDrawFieldRectF = imageBox.GetOffsetRectangle(configArea.ConfigRect);
+            var curDrawFieldRectF = imageBox.GetOffsetRectangle(configArea.ConfigRect);
             onTemplateConfig.OffsetRectangle = curDrawFieldRectF;
 
             originalState = g.Save();
@@ -206,19 +238,20 @@ namespace Synapse.Modules
             switch (mainConfigType)
             {
                 case MainConfigType.OMR:
-                    Utilities.Functions.DrawBox(g, curDrawFieldRectF, imageBox.ZoomFactor, colorStates.CurrentColor, 0);
+                    Functions.DrawBox(g, curDrawFieldRectF, imageBox.ZoomFactor, colorStates.CurrentColor, 0);
                     break;
+
                 case MainConfigType.BARCODE:
-                    Utilities.Functions.DrawBox(g, curDrawFieldRectF, imageBox.ZoomFactor, colorStates.CurrentColor, 0);
+                    Functions.DrawBox(g, curDrawFieldRectF, imageBox.ZoomFactor, colorStates.CurrentColor, 0);
                     break;
+
                 case MainConfigType.ICR:
                     //if (configArea.ConfigRect.Contains(curImageMouseLoc))
-                    Utilities.Functions.DrawBox(g, curDrawFieldRectF, imageBox.ZoomFactor, colorStates.CurrentColor, 0);
+                    Functions.DrawBox(g, curDrawFieldRectF, imageBox.ZoomFactor, colorStates.CurrentColor, 0);
                     break;
             }
 
             g.Restore(originalState);
         }
-
     }
 }

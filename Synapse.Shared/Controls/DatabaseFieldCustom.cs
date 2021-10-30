@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using Syncfusion.Windows.Forms;
-
-namespace Synapse
+﻿namespace Synapse
 {
+    using System;
+    using System.Threading.Tasks;
+    using System.Windows.Forms;
+
+    using Syncfusion.Windows.Forms;
+
     public partial class DatabaseFieldCustom : UserControl
     {
         public int Id { get; set; }
@@ -18,6 +13,7 @@ namespace Synapse
         public string Key { get; set; }
 
         public delegate bool DataFieldDelegate(object sender, int id, string key, string value);
+
         public event DataFieldDelegate RemoveField;
         public event DataFieldDelegate EditField;
 
@@ -25,17 +21,17 @@ namespace Synapse
 
         public DatabaseFieldCustom(int id, string key, string value, bool allowNulls = false)
         {
-            InitializeComponent();
+            this.InitializeComponent();
 
-            Id = id;
-            Value = value;
-            Key = key;
-            AllowNulls = allowNulls;
+            this.Id = id;
+            this.Value = value;
+            this.Key = key;
+            this.AllowNulls = allowNulls;
 
             dataFieldValueField.Enabled = false;
-            dataFieldValueField.Text = Value;
+            dataFieldValueField.Text = this.Value;
             dataFieldKeyField.Enabled = false;
-            dataFieldKeyField.Text = Key;
+            dataFieldKeyField.Text = this.Key;
         }
 
         private void editBtn_Click(object sender, EventArgs e)
@@ -44,13 +40,14 @@ namespace Synapse
             dataFieldKeyField.Enabled = true;
         }
 
-        bool ValidateCode(string code)
+        private bool ValidateCode(string code)
         {
-            bool isValid = true;
+            var isValid = true;
 
-            if (AllowNulls && code == "")
+            if (this.AllowNulls && code == "")
             {
-                MessageBoxAdv.Show("Invalid Value \n \n Value cannot be empty.", "Hold On", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBoxAdv.Show("Invalid Value \n \n Value cannot be empty.", "Hold On", MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
                 isValid = false;
             }
 
@@ -59,14 +56,14 @@ namespace Synapse
 
         private void removeBtn_Click(object sender, EventArgs e)
         {
-            RemoveField?.Invoke(this, Id, Key, Value);
+            this.RemoveField?.Invoke(this, this.Id, this.Key, this.Value);
         }
 
         private async void dataFieldValueField_KeyUp(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter && dataFieldValueField.Enabled)
             {
-                if (Value == dataFieldValueField.Text && Key == dataFieldKeyField.Text)
+                if (this.Value == dataFieldValueField.Text && this.Key == dataFieldKeyField.Text)
                 {
                     dataFieldValueField.Enabled = false;
                     return;
@@ -74,22 +71,23 @@ namespace Synapse
 
                 var newValue = dataFieldValueField.Text;
                 var newKey = dataFieldKeyField.Text;
-                if (ValidateCode(newValue) && ValidateCode(newKey))
+                if (this.ValidateCode(newValue) && this.ValidateCode(newKey))
                 {
-                    bool? updated = await Task.Run(() => EditField?.Invoke(this, Id, newKey, newValue));
+                    var updated = await Task.Run(() => this.EditField?.Invoke(this, this.Id, newKey, newValue));
                     if (updated.HasValue && updated == true)
                     {
-                        Key = newKey;
-                        Value = newValue;
-                        dataFieldKeyField.Text = Key;
-                        dataFieldValueField.Text = Value;
+                        this.Key = newKey;
+                        this.Value = newValue;
+                        dataFieldKeyField.Text = this.Key;
+                        dataFieldValueField.Text = this.Value;
                     }
                     else
                     {
-                        dataFieldKeyField.Text = Key;
-                        dataFieldValueField.Text = Value;
+                        dataFieldKeyField.Text = this.Key;
+                        dataFieldValueField.Text = this.Value;
                     }
                 }
+
                 dataFieldValueField.Select(0, 0);
                 dataFieldValueField.Enabled = false;
                 dataFieldKeyField.Select(0, 0);
@@ -101,7 +99,7 @@ namespace Synapse
         {
             if (e.KeyCode == Keys.Enter && dataFieldValueField.Enabled)
             {
-                if (Value == dataFieldValueField.Text && Key == dataFieldKeyField.Text)
+                if (this.Value == dataFieldValueField.Text && this.Key == dataFieldKeyField.Text)
                 {
                     dataFieldValueField.Enabled = false;
                     return;
@@ -109,23 +107,24 @@ namespace Synapse
 
                 var newValue = dataFieldValueField.Text;
                 var newKey = dataFieldKeyField.Text;
-                if (ValidateCode(newValue) && ValidateCode(newKey))
+                if (this.ValidateCode(newValue) && this.ValidateCode(newKey))
                 {
-                    bool? updated = await Task.Run(() => EditField?.Invoke(this, Id, newKey, newValue));
+                    var updated = await Task.Run(() => this.EditField?.Invoke(this, this.Id, newKey, newValue));
                     if (updated.HasValue && updated == true)
                     {
-                        Key = newKey;
-                        Value = newValue;
-                        dataFieldKeyField.Text = Key;
-                        dataFieldValueField.Text = Value;
+                        this.Key = newKey;
+                        this.Value = newValue;
+                        dataFieldKeyField.Text = this.Key;
+                        dataFieldValueField.Text = this.Value;
                     }
                     else
                     {
-                        dataFieldKeyField.Text = Key;
-                        dataFieldValueField.Text = Value;
+                        dataFieldKeyField.Text = this.Key;
+                        dataFieldValueField.Text = this.Value;
                     }
                 }
-                dataFieldValueField.Select(0, 0); 
+
+                dataFieldValueField.Select(0, 0);
                 dataFieldValueField.Enabled = false;
                 dataFieldKeyField.Select(0, 0);
                 dataFieldKeyField.Enabled = false;

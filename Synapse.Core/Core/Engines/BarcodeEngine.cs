@@ -1,25 +1,26 @@
-﻿using Emgu.CV;
-using Inlite.ClearImage;
-using Inlite.ClearImageNet;
-using Synapse.Core.Configurations;
-using Synapse.Core.Engines.Data;
-using Synapse.Core.Engines.Interface;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Synapse.Core.Engines
+﻿namespace Synapse.Core.Engines
 {
+    using System;
+    using System.Drawing;
+    using System.Drawing.Imaging;
+
+    using Emgu.CV;
+
+    using Inlite.ClearImageNet;
+
+    using Synapse.Core.Configurations;
+    using Synapse.Core.Engines.Data;
+    using Synapse.Core.Engines.Interface;
+
     public class BarcodeEngine : IEngine
     {
-        BarcodeReader barcodeReader;
+        private BarcodeReader barcodeReader;
+
         public BarcodeEngine()
         {
-            Initialize();
+            this.Initialize();
         }
+
         public void Initialize()
         {
             // Create objects
@@ -28,22 +29,26 @@ namespace Synapse.Core.Engines
             barcodeReader = new BarcodeReader();
         }
 
-        public ProcessedDataEntry ProcessSheet(ConfigurationBase configuration, Mat sheet, Action<RectangleF, bool> OnOptionProcessed = null, string originalSheetPath = "")
+        public ProcessedDataEntry ProcessSheet(ConfigurationBase configuration, Mat sheet,
+            Action<RectangleF, bool> OnOptionProcessed = null, string originalSheetPath = "")
         {
-            OBRConfiguration obrConfiguration = (OBRConfiguration)configuration;
+            var obrConfiguration = (OBRConfiguration)configuration;
 
-            RectangleF barcodeRegion = obrConfiguration.GetConfigArea.ConfigRect;
+            var barcodeRegion = obrConfiguration.GetConfigArea.ConfigRect;
 
             // Configure reader
             //CiServer ciServer = Server.GetThreadServer();
             //CiBarcodePro barcodeReader = ciServer.CreateBarcodePro();
-            barcodeReader.Auto1D = obrConfiguration.AutoDetect1DBarcode; // Enable automatic detection of barcode type (Slower processing)
+            barcodeReader.Auto1D =
+                obrConfiguration.AutoDetect1DBarcode; // Enable automatic detection of barcode type (Slower processing)
             if (!obrConfiguration.AutoDetect1DBarcode)
-            {// Select barcode types to read
-                barcodeReader.Code128 = obrConfiguration.Code128; 
-                barcodeReader.Code93 = obrConfiguration.Code93; 
-                barcodeReader.Code39 = obrConfiguration.Code39; 
+            {
+                // Select barcode types to read
+                barcodeReader.Code128 = obrConfiguration.Code128;
+                barcodeReader.Code93 = obrConfiguration.Code93;
+                barcodeReader.Code39 = obrConfiguration.Code39;
             }
+
             if (obrConfiguration.CheckAll) // Limit barcode search direction (Faster processing)
             {
                 barcodeReader.Horizontal = true;
@@ -52,56 +57,71 @@ namespace Synapse.Core.Engines
             }
             else
             {
-                barcodeReader.Horizontal = obrConfiguration.CheckHorizontal;    
-                barcodeReader.Vertical = obrConfiguration.CheckVertical;    
-                barcodeReader.Diagonal = obrConfiguration.CheckDiagonal;    
+                barcodeReader.Horizontal = obrConfiguration.CheckHorizontal;
+                barcodeReader.Vertical = obrConfiguration.CheckVertical;
+                barcodeReader.Diagonal = obrConfiguration.CheckDiagonal;
             }
             //barcodeReader.Algorithm = obrConfiguration.AlgorithmPreference;
 
-            string output = "-";
+            var output = "-";
             Barcode[] barcodes = null;
-            using (Bitmap region = sheet.Bitmap.Clone(barcodeRegion, System.Drawing.Imaging.PixelFormat.Format8bppIndexed))
+            using (var region = sheet.Bitmap.Clone(barcodeRegion, PixelFormat.Format8bppIndexed))
             {
                 try
                 {
-                    barcodes = barcodeReader.Read(region);   // Read barcodes
+                    barcodes = barcodeReader.Read(region); // Read barcodes
                 }
                 catch (Exception ex)
-                { 
-                    Console.WriteLine("Exception: " + ex.ToString()); 
+                {
+                    Console.WriteLine("Exception: " + ex);
                 }
                 finally
                 {
-                    if (barcodeReader != null) barcodeReader.Dispose();
-                }  //Free image memory.
+                    if (barcodeReader != null)
+                    {
+                        barcodeReader.Dispose();
+                    }
+                } //Free image memory.
+
                 if (barcodes.Length == 0 && obrConfiguration.SearchFullIfNull)
                 {
-                    using (Mat orignalSheet = CvInvoke.Imread(originalSheetPath))
+                    using (var orignalSheet = CvInvoke.Imread(originalSheetPath))
                     {
-                        barcodes = barcodeReader.Read(orignalSheet.Bitmap);   // Read barcodes
+                        barcodes = barcodeReader.Read(orignalSheet.Bitmap); // Read barcodes
                     }
                 }
+
                 output = barcodes.Length > 0 ? barcodes[0].Text : "-";
             }
 
-            return new ProcessedDataEntry(configuration.Title, output.ToCharArray(), new ProcessedDataType[] { ProcessedDataType.NORMAL }, new byte[0,0], barcodes);
+            return new ProcessedDataEntry(configuration.Title, output.ToCharArray(), new[] { ProcessedDataType.NORMAL },
+                new byte[0, 0], barcodes);
         }
 
-        void ReadBarcodes1D(string fileName, int page)
+        private void ReadBarcodes1D(string fileName, int page)
         {
             BarcodeReader reader = null;
             try
             {
-                reader = new BarcodeReader();   // Create and configure reader
-                reader.Code39 = true; reader.Code128 = true;
-                Barcode[] barcodes = reader.Read(fileName, page);   // Read barcodes
-                foreach (Barcode barcode in barcodes)   // Process results
-                { Console.WriteLine("Barcode type: " + barcode.Type.ToString() + "  Text: " + Environment.NewLine + barcode.Text); }
+                reader = new BarcodeReader(); // Create and configure reader
+                reader.Code39 = true;
+                reader.Code128 = true;
+                var barcodes = reader.Read(fileName, page); // Read barcodes
+                foreach (var barcode in barcodes)           // Process results
+                    Console.WriteLine("Barcode type: " + barcode.Type + "  Text: " + Environment.NewLine +
+                                      barcode.Text);
             }
             catch (Exception ex)
-            { Console.WriteLine("Exception: " + ex.ToString()); }
+            {
+                Console.WriteLine("Exception: " + ex);
+            }
             finally
-            { if (reader != null) reader.Dispose(); }  // ClearImage 9 and latter.  Free image memory.
+            {
+                if (reader != null)
+                {
+                    reader.Dispose();
+                }
+            } // ClearImage 9 and latter.  Free image memory.
         }
     }
 }

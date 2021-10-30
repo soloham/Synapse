@@ -1,138 +1,269 @@
-﻿using Synapse.Controls;
-using Synapse.Core;
-using Synapse.Core.Configurations;
-using Synapse.Core.Templates;
-using Synapse.Utilities.Enums;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
-namespace Synapse.Utilities.Memory
+﻿namespace Synapse.Utilities.Memory
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Drawing;
+    using System.IO;
+    using System.Runtime.Serialization.Formatters.Binary;
+    using System.Threading.Tasks;
+    using System.Windows.Forms;
+
+    using Synapse.Controls;
+    using Synapse.Core;
+    using Synapse.Core.Configurations;
+    using Synapse.Core.Templates;
+    using Synapse.Utilities.Enums;
+
     public class LSTM
     {
         #region Properties
+
         #region Paths
-        public static string RootDataPath { get { return rootDataPath; } set { } }
-        private static string rootDataPath = Path.Combine(Application.UserAppDataPath, Application.ProductName);
-        public static string TemplatesRootDataPath { get { return templatesRootDataPath; } set { } }
-        private static string templatesRootDataPath = Path.Combine(RootDataPath, "Templates");
-        public static string AppRootDataPath { get { return appRootDataPath; } set { } }
-        private static string appRootDataPath = Path.Combine(RootDataPath, "App Data");
+
+        public static string RootDataPath
+        {
+            get => rootDataPath;
+            set { }
+        }
+
+        private static readonly string
+            rootDataPath = Path.Combine(Application.UserAppDataPath, Application.ProductName);
+
+        public static string TemplatesRootDataPath
+        {
+            get => templatesRootDataPath;
+            set { }
+        }
+
+        private static readonly string templatesRootDataPath = Path.Combine(RootDataPath, "Templates");
+
+        public static string AppRootDataPath
+        {
+            get => appRootDataPath;
+            set { }
+        }
+
+        private static readonly string appRootDataPath = Path.Combine(RootDataPath, "App Data");
+
         #endregion
+
         #region Extensions
-        public static string TemplateImageExt { get { return templateImageExt; } set { } }
-        private static string templateImageExt = "jpg";
-        public static string TemplateDataExt { get { return templateDataExt; } set { } }
-        private static string templateDataExt = "tmd";
-        public static string TemplateListItemsDataExt { get { return templateListItemsDataExt; } set { } }
-        private static string templateListItemsDataExt = "tlid";
 
-        public static string ConfigDataFileExt { get { return configDataFileExt; } set { } }
-        private static string configDataFileExt = "dat";
-        public static string PapersDataFileExt { get { return papersDataFileExt; } set { } }
-        private static string papersDataFileExt = "exp";
+        public static string TemplateImageExt
+        {
+            get => templateImageExt;
+            set { }
+        }
+
+        private static readonly string templateImageExt = "jpg";
+
+        public static string TemplateDataExt
+        {
+            get => templateDataExt;
+            set { }
+        }
+
+        private static readonly string templateDataExt = "tmd";
+
+        public static string TemplateListItemsDataExt
+        {
+            get => templateListItemsDataExt;
+            set { }
+        }
+
+        private static readonly string templateListItemsDataExt = "tlid";
+
+        public static string ConfigDataFileExt
+        {
+            get => configDataFileExt;
+            set { }
+        }
+
+        private static readonly string configDataFileExt = "dat";
+
+        public static string PapersDataFileExt
+        {
+            get => papersDataFileExt;
+            set { }
+        }
+
+        private static readonly string papersDataFileExt = "exp";
+
         #endregion
+
         #region Files & Directories Name
-        public static string TemplateDataFileName { get { return templateDataFileName; } set { } }
-        private static string templateDataFileName = $"Data.{TemplateDataExt}";
-        public static string TemplateImageFileName { get { return templateImageFileName; } set { } }
-        private static string templateImageFileName = $"Template Image.{TemplateImageExt}";
-        public static string TemplateListItemsDataFileName { get { return templateListItemsDataFileName; } set { } }
-        private static string templateListItemsDataFileName = $"Templates.{templateListItemsDataExt}";
-        public static string ConfigDataFileName { get { return configDataFileName; } set { } }
-        private static string configDataFileName = $"Configuration.{ConfigDataFileExt}";
-        public static string PapersDataFileName { get { return papersDataFileName; } set { } }
-        private static string papersDataFileName = $"Exam Papers.{PapersDataFileExt}";
-        public static string TemplateDataDirName { get { return templateDataDirName; } set { } }
-        private static string templateDataDirName = "Template Data";
+
+        public static string TemplateDataFileName
+        {
+            get => templateDataFileName;
+            set { }
+        }
+
+        private static readonly string templateDataFileName = $"Data.{TemplateDataExt}";
+
+        public static string TemplateImageFileName
+        {
+            get => templateImageFileName;
+            set { }
+        }
+
+        private static readonly string templateImageFileName = $"Template Image.{TemplateImageExt}";
+
+        public static string TemplateListItemsDataFileName
+        {
+            get => templateListItemsDataFileName;
+            set { }
+        }
+
+        private static readonly string templateListItemsDataFileName = $"Templates.{templateListItemsDataExt}";
+
+        public static string ConfigDataFileName
+        {
+            get => configDataFileName;
+            set { }
+        }
+
+        private static readonly string configDataFileName = $"Configuration.{ConfigDataFileExt}";
+
+        public static string PapersDataFileName
+        {
+            get => papersDataFileName;
+            set { }
+        }
+
+        private static readonly string papersDataFileName = $"Exam Papers.{PapersDataFileExt}";
+
+        public static string TemplateDataDirName
+        {
+            get => templateDataDirName;
+            set { }
+        }
+
+        private static readonly string templateDataDirName = "Template Data";
 
 
-        public static string OMRConfigRootDirName { get { return oMRConfigRootDirName; } set { } }
-        private static string oMRConfigRootDirName = "OMR";
-        public static string OBRConfigRootDirName { get { return oBRConfigRootDirName; } set { } }
-        private static string oBRConfigRootDirName = "OBR";
-        public static string ICRConfigRootDirName { get { return iCRConfigRootDirName; } set { } }
-        private static string iCRConfigRootDirName = "ICR";
+        public static string OMRConfigRootDirName
+        {
+            get => oMRConfigRootDirName;
+            set { }
+        }
 
-        public static string ConfigDataDirName { get { return configDataDirName; } set { } }
-        private static string configDataDirName = "Configuration Data";
+        private static readonly string oMRConfigRootDirName = "OMR";
+
+        public static string OBRConfigRootDirName
+        {
+            get => oBRConfigRootDirName;
+            set { }
+        }
+
+        private static readonly string oBRConfigRootDirName = "OBR";
+
+        public static string ICRConfigRootDirName
+        {
+            get => iCRConfigRootDirName;
+            set { }
+        }
+
+        private static readonly string iCRConfigRootDirName = "ICR";
+
+        public static string ConfigDataDirName
+        {
+            get => configDataDirName;
+            set { }
+        }
+
+        private static readonly string configDataDirName = "Configuration Data";
 
         #endregion
+
         #region General
-        public static LogLevel LogLevelState { get { return logLevelState; } set { logLevelState = value; } }
-        private static LogLevel logLevelState;
+
+        public static LogLevel LogLevelState { get; set; }
+
         #endregion
+
         #endregion
 
         #region Enums
+
         public enum LogLevel
         {
             Low,
             Moderate,
             High
         }
+
         #endregion
 
-        #region 
+        #region
+
         public static Func<Template> GetCurrentTemplate;
+
         #endregion
+
         #region Objects
-        static BinaryFormatter bf = new BinaryFormatter();
+
+        private static readonly BinaryFormatter bf = new BinaryFormatter();
+
         #endregion
 
         #region Helper Methods
+
         public static string GetTemplateDataPath(string templateLocation)
         {
             return $"{templateLocation}/{TemplateDataDirName}";
         }
+
         public static string GetCurrentTemplateRootPath()
         {
-            string templateName = GetCurrentTemplate?.Invoke().GetTemplateName;
+            var templateName = GetCurrentTemplate?.Invoke().GetTemplateName;
             return Path.Combine(TemplatesRootDataPath, templateName);
         }
+
         public static string GetTemplateImagePath(string templateName)
         {
-            string templateDataDir = Path.Combine(TemplatesRootDataPath, templateName);
+            var templateDataDir = Path.Combine(TemplatesRootDataPath, templateName);
             return Path.Combine(templateDataDir, TemplateDataDirName, TemplateImageFileName);
         }
+
         public static string GetConfigRootPath(MainConfigType mainConfigType)
         {
-            string result = "";
+            var result = "";
 
-            string templateRootPath = GetCurrentTemplateRootPath();
+            var templateRootPath = GetCurrentTemplateRootPath();
             switch (mainConfigType)
             {
                 case MainConfigType.OMR:
                     result = $"{templateRootPath}\\{OMRConfigRootDirName}";
                     break;
+
                 case MainConfigType.BARCODE:
                     result = $"{templateRootPath}\\{OBRConfigRootDirName}";
                     break;
+
                 case MainConfigType.ICR:
                     result = $"{templateRootPath}\\{ICRConfigRootDirName}";
                     break;
-             }
+            }
 
             return result;
         }
+
         public static string GetConfigDataPath(string configTitle, MainConfigType mainConfigType)
         {
-            string result = "";
+            var result = "";
 
-            string configRootPath = GetConfigRootPath(mainConfigType);
+            var configRootPath = GetConfigRootPath(mainConfigType);
             result = $"{configRootPath}\\{configTitle}\\{ConfigDataDirName}";
 
             return result;
         }
+
         public static string GetConfigDataFilePath(string configTitle, MainConfigType mainConfigType)
         {
-            string result = "";
+            var result = "";
 
-            string configDataPath = GetConfigDataPath(configTitle, mainConfigType);
+            var configDataPath = GetConfigDataPath(configTitle, mainConfigType);
             result = $"{configDataPath}\\{ConfigDataFileName}";
 
             return result;
@@ -141,6 +272,7 @@ namespace Synapse.Utilities.Memory
         #endregion
 
         #region General Methods
+
         public static void Initialize()
         {
             Template.OnSaveTemplateEvent += SaveTemplate;
@@ -152,37 +284,43 @@ namespace Synapse.Utilities.Memory
 
         public static bool DeleteTemplate(string templateName)
         {
-            bool result = true;
+            var result = true;
 
             try
             {
-                string tmdPath = $"{TemplatesRootDataPath}/{templateName}/{templateDataDirName}/{templateDataFileName}";
+                var tmdPath = $"{TemplatesRootDataPath}/{templateName}/{templateDataDirName}/{templateDataFileName}";
                 if (!File.Exists(tmdPath))
+                {
                     return false;
+                }
 
                 Directory.Delete($"{TemplatesRootDataPath}/{templateName}", true);
-
             }
             catch (Exception ex)
             {
-                if (logLevelState >= LogLevel.Low)
+                if (LogLevelState >= LogLevel.Low)
+                {
                     Messages.DeleteDirectoryException(ex);
+                }
 
                 return false;
             }
 
             return result;
         }
+
         #endregion
 
         #region WTM Methods
+
         public static bool SaveTemplate(Template.Data templateData)
         {
-            bool isSaved = true;
+            var isSaved = true;
 
             try
             {
-                if (templateData.TemplateLocation == "" || !templateData.TemplateLocation.Contains(TemplatesRootDataPath))
+                if (templateData.TemplateLocation == "" ||
+                    !templateData.TemplateLocation.Contains(TemplatesRootDataPath))
                 {
                     templateData.TemplateLocation = Path.Combine(TemplatesRootDataPath, templateData.TemplateName);
                     templateData.TemplateDataDirectory = $"{templateData.TemplateLocation}/{TemplateDataDirName}";
@@ -190,27 +328,34 @@ namespace Synapse.Utilities.Memory
                     Directory.CreateDirectory(templateData.TemplateDataDirectory);
                 }
 
-                using (FileStream fs = new FileStream($"{templateData.TemplateDataDirectory}/{templateDataFileName}", FileMode.Create))
+                using (var fs = new FileStream($"{templateData.TemplateDataDirectory}/{templateDataFileName}",
+                    FileMode.Create))
+                {
                     bf.Serialize(fs, templateData);
+                }
             }
             catch (Exception ex)
             {
                 if (LogLevelState >= LogLevel.Low)
+                {
                     Messages.SaveFileException(ex);
+                }
 
                 isSaved = false;
             }
 
             return isSaved;
         }
-        private static bool SaveConfiguredTemplate(Template.Data templateData, System.Drawing.Bitmap templateImage)
-        {
-            bool isSaved = true;
 
-            string imageSaveLoc = "";
+        private static bool SaveConfiguredTemplate(Template.Data templateData, Bitmap templateImage)
+        {
+            var isSaved = true;
+
+            var imageSaveLoc = "";
             try
             {
-                if (templateData.TemplateLocation == "" || !templateData.TemplateLocation.Contains(TemplatesRootDataPath))
+                if (templateData.TemplateLocation == "" ||
+                    !templateData.TemplateLocation.Contains(TemplatesRootDataPath))
                 {
                     templateData.TemplateLocation = Path.Combine(TemplatesRootDataPath, templateData.TemplateName);
                     templateData.TemplateDataDirectory = $"{templateData.TemplateLocation}/{TemplateDataDirName}";
@@ -232,62 +377,76 @@ namespace Synapse.Utilities.Memory
 
                 templateData.GetTemplateImage.ImageLocation = imageSaveLoc;
 
-                using (FileStream fs = new FileStream($"{templateData.TemplateDataDirectory}/{templateDataFileName}", FileMode.Create))
+                using (var fs = new FileStream($"{templateData.TemplateDataDirectory}/{templateDataFileName}",
+                    FileMode.Create))
+                {
                     bf.Serialize(fs, templateData);
+                }
             }
             catch (Exception ex)
             {
                 if (LogLevelState >= LogLevel.Low)
+                {
                     Messages.SaveFileException(ex);
+                }
 
                 isSaved = false;
             }
 
             return isSaved;
         }
+
         public static bool SaveTemplateListItems(List<TemplateListItem.ObjectData> templateListItems)
         {
-            bool isSaved = true;
+            var isSaved = true;
 
             try
             {
                 Directory.CreateDirectory(AppRootDataPath);
-                using (FileStream fs = new FileStream($"{AppRootDataPath}/{TemplateListItemsDataFileName}", FileMode.Create))
+                using (var fs = new FileStream($"{AppRootDataPath}/{TemplateListItemsDataFileName}", FileMode.Create))
+                {
                     bf.Serialize(fs, templateListItems);
+                }
             }
             catch (Exception ex)
             {
                 if (LogLevelState >= LogLevel.Low)
+                {
                     Messages.SaveFileException(ex);
+                }
 
                 isSaved = false;
             }
 
             return isSaved;
         }
+
         public static Template ImportTemplate(string templatePath)
         {
             Template result = null;
 
             try
             {
-                string tmdPath = $"{templatePath}/{templateDataDirName}/{templateDataFileName}";
+                var tmdPath = $"{templatePath}/{templateDataDirName}/{templateDataFileName}";
                 if (!File.Exists(tmdPath))
-                    return null;
-
-                using (FileStream fs = new FileStream(tmdPath, FileMode.Open))
                 {
-                    Template.Data templateData = (Template.Data)bf.Deserialize(fs);
+                    return null;
+                }
+
+                using (var fs = new FileStream(tmdPath, FileMode.Open))
+                {
+                    var templateData = (Template.Data)bf.Deserialize(fs);
                     templateData.TemplateLocation = "";
                     templateData.TemplateDataDirectory = "";
                     result = new Template(templateData);
                 }
-
             }
             catch (Exception ex)
             {
-                if (logLevelState >= LogLevel.Moderate)
+                if (LogLevelState >= LogLevel.Moderate)
+                {
                     Messages.LoadFileException(ex);
+                }
 
                 return null;
             }
@@ -297,40 +456,44 @@ namespace Synapse.Utilities.Memory
 
         public static bool SaveConfigData(ConfigurationBase config, MainConfigType mainConfigType, out Exception _ex)
         {
-            bool result = true;
+            var result = true;
             _ex = new Exception();
 
-            string configDataPath = GetConfigDataPath(config.Title, mainConfigType);
+            var configDataPath = GetConfigDataPath(config.Title, mainConfigType);
             if (!Directory.Exists(configDataPath))
+            {
                 Directory.CreateDirectory(configDataPath);
+            }
 
-            string configDataFilePath = GetConfigDataFilePath(config.Title, mainConfigType);
+            var configDataFilePath = GetConfigDataFilePath(config.Title, mainConfigType);
             switch (mainConfigType)
             {
                 case MainConfigType.OMR:
-                    OMRConfiguration omrConfiguration = (OMRConfiguration)config;
+                    var omrConfiguration = (OMRConfiguration)config;
 
                     try
                     {
-                        BinaryFormatter bf = new BinaryFormatter();
-                        using (FileStream fs = new FileStream(configDataFilePath, FileMode.Create))
+                        var bf = new BinaryFormatter();
+                        using (var fs = new FileStream(configDataFilePath, FileMode.Create))
                         {
                             bf.Serialize(fs, omrConfiguration);
                         }
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         _ex = ex;
                         result = false;
                     }
+
                     break;
+
                 case MainConfigType.BARCODE:
-                    OBRConfiguration obrConfiguration = (OBRConfiguration)config;
+                    var obrConfiguration = (OBRConfiguration)config;
 
                     try
                     {
-                        BinaryFormatter bf = new BinaryFormatter();
-                        using (FileStream fs = new FileStream(configDataFilePath, FileMode.Create))
+                        var bf = new BinaryFormatter();
+                        using (var fs = new FileStream(configDataFilePath, FileMode.Create))
                         {
                             bf.Serialize(fs, obrConfiguration);
                         }
@@ -340,14 +503,16 @@ namespace Synapse.Utilities.Memory
                         _ex = ex;
                         result = false;
                     }
+
                     break;
+
                 case MainConfigType.ICR:
-                    ICRConfiguration icrConfiguration = (ICRConfiguration)config;
+                    var icrConfiguration = (ICRConfiguration)config;
 
                     try
                     {
-                        BinaryFormatter bf = new BinaryFormatter();
-                        using (FileStream fs = new FileStream(configDataFilePath, FileMode.Create))
+                        var bf = new BinaryFormatter();
+                        using (var fs = new FileStream(configDataFilePath, FileMode.Create))
                         {
                             bf.Serialize(fs, icrConfiguration);
                         }
@@ -357,21 +522,23 @@ namespace Synapse.Utilities.Memory
                         _ex = ex;
                         result = false;
                     }
+
                     break;
             }
 
             return result;
         }
+
         public static bool DeleteConfigData(ConfigurationBase config, MainConfigType mainConfigType, out Exception _ex)
         {
-            bool result = true;
+            var result = true;
             _ex = new Exception();
 
-            string configRootPath = GetConfigRootPath(mainConfigType);
-            string configPath = $"{configRootPath}\\{config.Title}";
+            var configRootPath = GetConfigRootPath(mainConfigType);
+            var configPath = $"{configRootPath}\\{config.Title}";
 
             try
-            { 
+            {
                 Directory.Delete(configPath, true);
             }
             catch (Exception ex)
@@ -386,46 +553,56 @@ namespace Synapse.Utilities.Memory
         #endregion
 
         #region RFM Methods
+
         public static async Task<List<TemplateListItem.ObjectData>> LoadTemplateListItemsAsync()
         {
-            List<TemplateListItem.ObjectData> templateListItems = new List<TemplateListItem.ObjectData>();
+            var templateListItems = new List<TemplateListItem.ObjectData>();
 
             await Task.Run(() =>
             {
                 try
                 {
-                    using (FileStream fs = new FileStream($"{AppRootDataPath}/{TemplateListItemsDataFileName}", FileMode.Open))
+                    using (var fs = new FileStream($"{AppRootDataPath}/{TemplateListItemsDataFileName}", FileMode.Open))
+                    {
                         templateListItems = (List<TemplateListItem.ObjectData>)bf.Deserialize(fs);
+                    }
                 }
                 catch (Exception ex)
                 {
-                    if (logLevelState >= LogLevel.Low)
+                    if (LogLevelState >= LogLevel.Low)
+                    {
                         Messages.LoadFileException(ex);
+                    }
                 }
             });
 
             return templateListItems;
         }
+
         public static Template LoadTemplate(string templateName)
         {
             Template result = null;
 
             try
             {
-                string tmdPath = $"{TemplatesRootDataPath}/{templateName}/{templateDataDirName}/{templateDataFileName}";
+                var tmdPath = $"{TemplatesRootDataPath}/{templateName}/{templateDataDirName}/{templateDataFileName}";
                 if (!File.Exists(tmdPath))
-                    return null;
-
-                using (FileStream fs = new FileStream(tmdPath, FileMode.Open))
                 {
-                    Template.Data templateData = (Template.Data)bf.Deserialize(fs);
+                    return null;
+                }
+
+                using (var fs = new FileStream(tmdPath, FileMode.Open))
+                {
+                    var templateData = (Template.Data)bf.Deserialize(fs);
                     result = new Template(templateData);
                 }
             }
             catch (Exception ex)
             {
-                if (logLevelState >= LogLevel.Moderate)
+                if (LogLevelState >= LogLevel.Moderate)
+                {
                     Messages.LoadFileException(ex);
+                }
 
                 return null;
             }
@@ -435,36 +612,37 @@ namespace Synapse.Utilities.Memory
 
         public static async Task<List<ConfigurationBase>> LoadAllConfigurations()
         {
-            List<ConfigurationBase> configurationBases = new List<ConfigurationBase>();
+            var configurationBases = new List<ConfigurationBase>();
 
             var mainConfigTypes = EnumHelper.ToList(typeof(MainConfigType));
-            for (int i = 0; i < mainConfigTypes.Count; i++)
-            {
+            for (var i = 0; i < mainConfigTypes.Count; i++)
                 configurationBases.AddRange(await LoadConfiguration((MainConfigType)i));
-            }
 
             return configurationBases;
         }
+
         public static async Task<List<ConfigurationBase>> LoadConfiguration(MainConfigType mainConfigType)
         {
-            List<ConfigurationBase> configurationBases = new List<ConfigurationBase>();
+            var configurationBases = new List<ConfigurationBase>();
 
-            string omrConfigPath = GetConfigRootPath(mainConfigType);
+            var omrConfigPath = GetConfigRootPath(mainConfigType);
             if (!Directory.Exists(omrConfigPath))
+            {
                 return configurationBases;
+            }
 
-            string[] configsPaths = Directory.GetDirectories(omrConfigPath);
+            var configsPaths = Directory.GetDirectories(omrConfigPath);
 
             await Task.Run(() =>
             {
-                for (int i = 0; i < configsPaths.Length; i++)
+                for (var i = 0; i < configsPaths.Length; i++)
                 {
-                    string configDataFilePath = Path.Combine(configsPaths[i], ConfigDataDirName, configDataFileName);
+                    var configDataFilePath = Path.Combine(configsPaths[i], ConfigDataDirName, configDataFileName);
 
-                    BinaryFormatter bf = new BinaryFormatter();
-                    using (FileStream fs = new FileStream(configDataFilePath, FileMode.Open))
+                    var bf = new BinaryFormatter();
+                    using (var fs = new FileStream(configDataFilePath, FileMode.Open))
                     {
-                        ConfigurationBase configurationBase = (ConfigurationBase)bf.Deserialize(fs);
+                        var configurationBase = (ConfigurationBase)bf.Deserialize(fs);
                         configurationBases.Add(configurationBase);
                     }
                 }
@@ -472,18 +650,21 @@ namespace Synapse.Utilities.Memory
 
             return configurationBases;
         }
+
         public static async Task<ExamPapers> LoadPapers()
         {
             ExamPapers examPapers = null;
 
-            string paperDataFilePath = Path.Combine(AppRootDataPath, PapersDataFileName);
+            var paperDataFilePath = Path.Combine(AppRootDataPath, PapersDataFileName);
             if (!File.Exists(paperDataFilePath))
+            {
                 return examPapers;
+            }
 
             await Task.Run(() =>
             {
-                BinaryFormatter bf = new BinaryFormatter();
-                using (FileStream fs = new FileStream(paperDataFilePath, FileMode.Open))
+                var bf = new BinaryFormatter();
+                using (var fs = new FileStream(paperDataFilePath, FileMode.Open))
                 {
                     examPapers = (ExamPapers)bf.Deserialize(fs);
                 }
@@ -491,16 +672,17 @@ namespace Synapse.Utilities.Memory
 
             return examPapers;
         }
+
         public static async Task<bool> SavePapers(ExamPapers examPapers)
         {
-            string paperDataFilePath = Path.Combine(AppRootDataPath, PapersDataFileName);
+            var paperDataFilePath = Path.Combine(AppRootDataPath, PapersDataFileName);
 
             try
             {
                 await Task.Run(() =>
                 {
-                    BinaryFormatter bf = new BinaryFormatter();
-                    using (FileStream fs = new FileStream(paperDataFilePath, FileMode.Create))
+                    var bf = new BinaryFormatter();
+                    using (var fs = new FileStream(paperDataFilePath, FileMode.Create))
                     {
                         bf.Serialize(fs, examPapers);
                     }
@@ -512,6 +694,7 @@ namespace Synapse.Utilities.Memory
                 return false;
             }
         }
+
         #endregion
     }
 }

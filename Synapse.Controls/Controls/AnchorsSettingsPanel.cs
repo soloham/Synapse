@@ -1,45 +1,44 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using Synapse.Core.Templates;
-using System.Threading;
-
-namespace Synapse.Controls
+﻿namespace Synapse.Controls
 {
+    using System.Collections.Generic;
+    using System.Threading;
+    using System.Windows.Forms;
+
+    using Synapse.Core.Templates;
+
     public partial class AnchorsSettingsPanel : UserControl
     {
         #region Properties
+
         public List<Template.AnchorAlignmentMethod.Anchor> Anchors { get; set; }
+
         #endregion
 
         #region Variables
+
         private SynchronizationContext synchronizationContext;
+
         #endregion
 
         public AnchorsSettingsPanel()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
+
         public AnchorsSettingsPanel(List<Template.AnchorAlignmentMethod.Anchor> anchors)
         {
-            InitializeComponent();
+            this.InitializeComponent();
             synchronizationContext = SynchronizationContext.Current;
 
-            Anchors = anchors;
-            InitializeAnchorsPanel(anchors);
+            this.Anchors = anchors;
+            this.InitializeAnchorsPanel(anchors);
         }
 
         private void InitializeAnchorsPanel(List<Template.AnchorAlignmentMethod.Anchor> anchors)
         {
-            for (int i = 0; i < anchors.Count; i++)
+            for (var i = 0; i < anchors.Count; i++)
             {
-                PictureBox curPB = (PictureBox)anchorMethodTablePanel.Controls[i];
+                var curPB = (PictureBox)anchorMethodTablePanel.Controls[i];
                 curPB.Image = anchors[i].GetAnchorImage.Bitmap;
             }
         }

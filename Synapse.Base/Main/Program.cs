@@ -1,14 +1,21 @@
-﻿using Synapse.Main;
-using Syncfusion.HighContrastTheme.WinForms;
-using Syncfusion.Windows.Forms;
-using Syncfusion.WinForms.Controls;
-using Syncfusion.WinForms.Themes;
-using System;
-using System.Drawing;
-using System.Windows.Forms;
-
-namespace Synapse
+﻿namespace Synapse
 {
+    using System;
+    using System.Drawing;
+    using System.Windows.Forms;
+
+    using Synapse.Main;
+    using Synapse.Modules;
+    using Synapse.Utilities.Memory;
+
+    using Syncfusion.HighContrastTheme.WinForms;
+    using Syncfusion.Licensing;
+    using Syncfusion.Windows.Forms;
+    using Syncfusion.WinForms.Controls;
+    using Syncfusion.WinForms.Themes;
+
+    using Office2016Theme = Syncfusion.WinForms.Themes.Office2016Theme;
+
     public static class Program
     {
         public static SplashScreen DefaultSplashScreen;
@@ -16,11 +23,9 @@ namespace Synapse
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
-
         [STAThread]
-        static void Main()
+        private static void Main()
         {
-
         }
 
         public static void Run()
@@ -30,23 +35,24 @@ namespace Synapse
             DefaultSplashScreen = new SplashScreen("Loading...");
             DefaultSplashScreen.Show();
 
-            Utilities.Memory.LSTM.Initialize();
+            LSTM.Initialize();
 
-            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("MTUyNzg0QDMxMzcyZTMzMmUzMEZudkNxODcvMHhRUmRTQjFzS05uaVBoOENoRjZJQlhSL0dGTGMwNi9CTkE9");
-            SfSkinManager.LoadAssembly(typeof(Syncfusion.WinForms.Themes.Office2016Theme).Assembly);
+            SyncfusionLicenseProvider.RegisterLicense(
+                "MTUyNzg0QDMxMzcyZTMzMmUzMEZudkNxODcvMHhRUmRTQjFzS05uaVBoOENoRjZJQlhSL0dGTGMwNi9CTkE9");
+            SfSkinManager.LoadAssembly(typeof(Office2016Theme).Assembly);
             SfSkinManager.LoadAssembly(typeof(Office2019Theme).Assembly);
             SfSkinManager.LoadAssembly(typeof(HighContrastTheme).Assembly);
             Application.EnableVisualStyles();
 
             //--MetroColor table for MessageBoxAdv
-            MetroStyleColorTable metroColorTable = new MetroStyleColorTable();
+            var metroColorTable = new MetroStyleColorTable();
             metroColorTable.NoButtonBackColor = Color.Red;
             metroColorTable.YesButtonBackColor = Color.SkyBlue;
             metroColorTable.OKButtonBackColor = Color.Green;
             MessageBoxAdv.MetroColorTable = metroColorTable;
             MessageBoxAdv.MessageBoxStyle = MessageBoxAdv.Style.Metro;
 
-            Application.Run(new Modules.TemplatesHub());
+            Application.Run(new TemplatesHub());
         }
     }
 }

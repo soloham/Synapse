@@ -1,23 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using System.Runtime.InteropServices;
-using static Synapse.Utilities.Enums.Basic;
-using Synapse.Core.Configurations;
+﻿using static Synapse.Utilities.Enums.Basic;
 using static Synapse.Core.Templates.Template;
-using Synapse.Shared.Resources;
 
 namespace Synapse.Controls
 {
+    using System;
+    using System.ComponentModel;
+    using System.Drawing;
+    using System.Runtime.InteropServices;
+    using System.Windows.Forms;
+
+    using Synapse.Shared.Properties;
+
     public partial class AlignmentMethodListItem : UserControl
     {
         #region SystemHandCursorSnippet
+
         private const int WM_SETCURSOR = 0x0020;
         private const int IDC_HAND = 32649;
 
@@ -26,6 +23,7 @@ namespace Synapse.Controls
 
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         private static extern IntPtr SetCursor(IntPtr hCursor);
+
         protected override void WndProc(ref Message m)
         {
             if (m.Msg == WM_SETCURSOR)
@@ -40,6 +38,7 @@ namespace Synapse.Controls
 
             base.WndProc(ref m);
         }
+
         #endregion
 
         #region Enums
@@ -55,224 +54,317 @@ namespace Synapse.Controls
         #endregion
 
         #region Properties
+
         #region UI
-        public State CurrentState { get { return currentState; } set { SwitchState(value); OnStateChangedEvent?.Invoke(this, value); } }
+
+        public State CurrentState
+        {
+            get => currentState;
+            set
+            {
+                this.SwitchState(value);
+                this.OnStateChangedEvent?.Invoke(this, value);
+            }
+        }
+
         private State currentState = State.Normal;
+
         #region Foreground & Background States
-        [Description("Gets or Sets the Normal Background Color."), Category("Options")]
-        public Color NormalColor { get { return normalColor; } set { normalColor = value; } }
-        private Color normalColor = Color.White;
-        [Description("Gets or Sets the Background Color on Mouse Enter."), Category("Options")]
-        public Color HighlightColor { get { return highlightColor; } set { highlightColor = value; } }
-        private Color highlightColor = Color.Linen;
-        [Description("Gets or Sets the Background Color on Mouse Down."), Category("Options")]
-        public Color PressedColor { get { return pressedColor; } set { pressedColor = value; } }
-        private Color pressedColor = Color.Gainsboro;
-        [Description("Gets or Sets the Background Color on Mouse Down."), Category("Options")]
-        public Color SelectedColor { get { return selectedColor; } set { selectedColor = value; } }
-        private Color selectedColor = Color.FromArgb(255, 22, 165, 220);
-        [Description("Gets or Sets the Normal Foreground Color."), Category("Options")]
-        public Color NormalForeColor { get { return normalForeColor; } set { normalForeColor = value; } }
-        private Color normalForeColor = Color.FromArgb(255, 68, 68, 68);
-        [Description("Gets or Sets the Foreground Color on Mouse Enter."), Category("Options")]
-        public Color HighlightForeColor { get { return highlightForeColor; } set { highlightForeColor = value; } }
-        private Color highlightForeColor = Color.FromArgb(255, 68, 68, 68);
-        [Description("Gets or Sets the Foreground Color on Mouse Down."), Category("Options")]
-        public Color PressedForeColor { get { return pressedForeColor; } set { pressedForeColor = value; } }
-        private Color pressedForeColor = Color.FromArgb(255, 68, 68, 68);
-        [Description("Gets or Sets the Foreground Color on Mouse Down."), Category("Options")]
-        public Color SelectedForeColor { get { return selectedForeColor; } set { selectedForeColor = value; } }
-        private Color selectedForeColor = Color.White;
+
+        [Description("Gets or Sets the Normal Background Color.")]
+        [Category("Options")]
+        public Color NormalColor { get; set; } = Color.White;
+
+        [Description("Gets or Sets the Background Color on Mouse Enter.")]
+        [Category("Options")]
+        public Color HighlightColor { get; set; } = Color.Linen;
+
+        [Description("Gets or Sets the Background Color on Mouse Down.")]
+        [Category("Options")]
+        public Color PressedColor { get; set; } = Color.Gainsboro;
+
+        [Description("Gets or Sets the Background Color on Mouse Down.")]
+        [Category("Options")]
+        public Color SelectedColor { get; set; } = Color.FromArgb(255, 22, 165, 220);
+
+        [Description("Gets or Sets the Normal Foreground Color.")]
+        [Category("Options")]
+        public Color NormalForeColor { get; set; } = Color.FromArgb(255, 68, 68, 68);
+
+        [Description("Gets or Sets the Foreground Color on Mouse Enter.")]
+        [Category("Options")]
+        public Color HighlightForeColor { get; set; } = Color.FromArgb(255, 68, 68, 68);
+
+        [Description("Gets or Sets the Foreground Color on Mouse Down.")]
+        [Category("Options")]
+        public Color PressedForeColor { get; set; } = Color.FromArgb(255, 68, 68, 68);
+
+        [Description("Gets or Sets the Foreground Color on Mouse Down.")]
+        [Category("Options")]
+        public Color SelectedForeColor { get; set; } = Color.White;
+
         #endregion
-        [Description("Gets the Method List Item Name."), Category("Options")]
-        public string AlignmentMethodName { get { return alignmentMethodName; } set { alignmentMethodName = value; methodNameLabel.Text = value; } }
+
+        [Description("Gets the Method List Item Name.")]
+        [Category("Options")]
+        public string AlignmentMethodName
+        {
+            get => alignmentMethodName;
+            set
+            {
+                alignmentMethodName = value;
+                methodNameLabel.Text = value;
+            }
+        }
+
         private string alignmentMethodName = "Alignment Method";
-        [Description("Gets the Registration Method Type Icon."), Category("Options")]
-        public Bitmap RegistrationMethodIcon { get { return registrationMethodIcon; } set { registrationMethodIcon = value; } }
-        private Bitmap registrationMethodIcon = Shared.Properties.SharedResources._3D_shape__01_WF;
-        [Description("Gets the Anchor Method Type Icon."), Category("Options")]
-        public Bitmap AnchorMethodIcon { get { return anchorMethodIcon; } set { anchorMethodIcon = value; } }
-        private Bitmap anchorMethodIcon = Shared.Properties.SharedResources.Anchor_01;
+
+        [Description("Gets the Registration Method Type Icon.")]
+        [Category("Options")]
+        public Bitmap RegistrationMethodIcon { get; set; } = SharedResources._3D_shape__01_WF;
+
+        [Description("Gets the Anchor Method Type Icon.")]
+        [Category("Options")]
+        public Bitmap AnchorMethodIcon { get; set; } = SharedResources.Anchor_01;
+
         #endregion
+
         #region Main
-        [Description("Gets or Sets the Alignmen tMethod Type."), Category("Main Options")]
-        public AlignmentMethodType AlignmentMethodType { get { return alignmentMethodType;  } set { alignmentMethodType = value; SetConfigType(value); } }
+
+        [Description("Gets or Sets the Alignmen tMethod Type.")]
+        [Category("Main Options")]
+        public AlignmentMethodType AlignmentMethodType
+        {
+            get => alignmentMethodType;
+            set
+            {
+                alignmentMethodType = value;
+                this.SetConfigType(value);
+            }
+        }
+
         private AlignmentMethodType alignmentMethodType;
-        [Description("Gets or Sets the Alignment Method Name."), Category("Main Options")]
-        public string MethodName { get { return methodName; } set { methodName = value; methodNameLabel.Text = value; } }
+
+        [Description("Gets or Sets the Alignment Method Name.")]
+        [Category("Main Options")]
+        public string MethodName
+        {
+            get => methodName;
+            set
+            {
+                methodName = value;
+                methodNameLabel.Text = value;
+            }
+        }
+
         private string methodName = "Alignment Method Name";
-        [Description("Gets or Sets the value that represents IsSelected."), Category("Main Options")]
-        public bool IsSelected { get { return isSelected; } set { ToggleSelect(value); OnSelectedChangedEvent?.Invoke(this, value); } }
-        private bool isSelected = false;
+
+        [Description("Gets or Sets the value that represents IsSelected.")]
+        [Category("Main Options")]
+        public bool IsSelected
+        {
+            get => isSelected;
+            set
+            {
+                this.ToggleSelect(value);
+                this.OnSelectedChangedEvent?.Invoke(this, value);
+            }
+        }
+
+        private bool isSelected;
+
         #endregion
+
         #endregion
 
         #region Variables
-        public int listIndex = 0;
+
+        public int listIndex;
+
         #endregion
 
         #region Events
+
         public delegate void OnToggleChanged(object sender, bool state);
+
         public event OnToggleChanged OnSelectedChangedEvent;
 
         public delegate void OnStateChanged(object sender, State state);
+
         public event OnStateChanged OnStateChangedEvent;
 
         public delegate void OnControlButtonPressed(object sender, ControlButton controlButton);
+
         public event OnControlButtonPressed OnControlButtonPressedEvent;
+
         #endregion
 
         #region UI Methods
+
         private void DeleteMethodBtn_Click(object sender, EventArgs e)
         {
-            OnControlButtonPressedEvent?.Invoke(this, ControlButton.Delete);
+            this.OnControlButtonPressedEvent?.Invoke(this, ControlButton.Delete);
         }
+
         private void MoveUpMethodBtn_Click(object sender, EventArgs e)
         {
-            OnControlButtonPressedEvent?.Invoke(this, ControlButton.MoveUp);
+            this.OnControlButtonPressedEvent?.Invoke(this, ControlButton.MoveUp);
         }
+
         private void MoveDownMethodBtn_Click(object sender, EventArgs e)
         {
-            OnControlButtonPressedEvent?.Invoke(this, ControlButton.MoveDown);
+            this.OnControlButtonPressedEvent?.Invoke(this, ControlButton.MoveDown);
         }
+
         private void ConfigureMethodBtn_Click(object sender, EventArgs e)
         {
-            OnControlButtonPressedEvent?.Invoke(this, ControlButton.Configure);
+            this.OnControlButtonPressedEvent?.Invoke(this, ControlButton.Configure);
         }
 
         private void MethodListItem_MouseLeave(object sender, EventArgs e)
         {
             if (!isSelected)
             {
-                BackColor = NormalColor;
-                methodNameLabel.BackColor = NormalColor;
+                this.BackColor = this.NormalColor;
+                methodNameLabel.BackColor = this.NormalColor;
 
-                methodNameLabel.ForeColor = NormalForeColor;
+                methodNameLabel.ForeColor = this.NormalForeColor;
 
-                CurrentState = State.Normal;
+                this.CurrentState = State.Normal;
             }
             else
             {
-                CurrentState = State.Selected;
+                this.CurrentState = State.Selected;
             }
-
         }
+
         private void MethodNameLabel_MouseEnter(object sender, EventArgs e)
         {
             if (!isSelected)
             {
-                BackColor = HighlightColor;
-                methodNameLabel.BackColor = HighlightColor;
+                this.BackColor = this.HighlightColor;
+                methodNameLabel.BackColor = this.HighlightColor;
 
-                methodNameLabel.ForeColor = HighlightForeColor;
+                methodNameLabel.ForeColor = this.HighlightForeColor;
 
-                CurrentState = State.Highlighted;
+                this.CurrentState = State.Highlighted;
             }
             else
             {
-                CurrentState = State.Selected;
+                this.CurrentState = State.Selected;
             }
         }
+
         private void MethodNameLabel_MouseDown(object sender, MouseEventArgs e)
         {
             if (!isSelected)
             {
-                BackColor = PressedColor;
-                methodNameLabel.BackColor = PressedColor;
+                this.BackColor = this.PressedColor;
+                methodNameLabel.BackColor = this.PressedColor;
 
-                methodNameLabel.ForeColor = PressedForeColor;
-
+                methodNameLabel.ForeColor = this.PressedForeColor;
             }
             else
             {
-                BackColor = PressedColor;
-                methodNameLabel.BackColor = PressedColor;
+                this.BackColor = this.PressedColor;
+                methodNameLabel.BackColor = this.PressedColor;
 
-                methodNameLabel.ForeColor = PressedForeColor;
+                methodNameLabel.ForeColor = this.PressedForeColor;
             }
 
-            CurrentState = State.Pressed;
+            this.CurrentState = State.Pressed;
         }
+
         private void MethodNameLabel_MouseUp(object sender, MouseEventArgs e)
         {
             if (!isSelected)
             {
-                BackColor = HighlightColor;
-                methodNameLabel.BackColor = HighlightColor;
+                this.BackColor = this.HighlightColor;
+                methodNameLabel.BackColor = this.HighlightColor;
 
-                methodNameLabel.ForeColor = HighlightForeColor;
+                methodNameLabel.ForeColor = this.HighlightForeColor;
 
-                CurrentState = State.Highlighted;
+                this.CurrentState = State.Highlighted;
             }
             else
             {
-                CurrentState = State.Selected;
+                this.CurrentState = State.Selected;
             }
-            IsSelected = !IsSelected;
+
+            this.IsSelected = !this.IsSelected;
         }
-        void ToggleSelect(bool isSelected)
+
+        private void ToggleSelect(bool isSelected)
         {
             this.isSelected = isSelected;
 
             if (isSelected)
             {
-                BackColor = SelectedColor;
-                methodNameLabel.BackColor = SelectedColor;
+                this.BackColor = this.SelectedColor;
+                methodNameLabel.BackColor = this.SelectedColor;
 
-                methodNameLabel.ForeColor = SelectedForeColor;
+                methodNameLabel.ForeColor = this.SelectedForeColor;
 
-                CurrentState = State.Selected;
+                this.CurrentState = State.Selected;
             }
             else
             {
-                BackColor = NormalColor;
-                methodNameLabel.BackColor = NormalColor;
+                this.BackColor = this.NormalColor;
+                methodNameLabel.BackColor = this.NormalColor;
 
-                methodNameLabel.ForeColor = NormalForeColor;
+                methodNameLabel.ForeColor = this.NormalForeColor;
 
-                CurrentState = State.Normal;
+                this.CurrentState = State.Normal;
             }
         }
-        void SwitchState(State newState)
+
+        private void SwitchState(State newState)
         {
             currentState = newState;
 
-            switch (CurrentState)
+            switch (this.CurrentState)
             {
                 case State.Normal:
                     break;
+
                 case State.Selected:
                     break;
             }
         }
-        void SetConfigType(AlignmentMethodType methodType)
+
+        private void SetConfigType(AlignmentMethodType methodType)
         {
             switch (methodType)
             {
                 case AlignmentMethodType.Registration:
-                    methodTypeIcon.Image = RegistrationMethodIcon;
+                    methodTypeIcon.Image = this.RegistrationMethodIcon;
                     break;
+
                 case AlignmentMethodType.Anchors:
-                    methodTypeIcon.Image = AnchorMethodIcon;
+                    methodTypeIcon.Image = this.AnchorMethodIcon;
                     break;
             }
         }
+
         #endregion
 
         #region Public Methods
+
         private AlignmentMethodListItem()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
+
         public static AlignmentMethodListItem Create(AlignmentMethod method)
         {
-            AlignmentMethodListItem alignmentMethodListItem = new AlignmentMethodListItem();
+            var alignmentMethodListItem = new AlignmentMethodListItem();
             alignmentMethodListItem.MethodName = method.MethodName;
             alignmentMethodListItem.AlignmentMethodType = method.GetAlignmentMethodType;
             alignmentMethodListItem.listIndex = method.PipelineIndex;
 
             return alignmentMethodListItem;
         }
+
         #endregion
     }
 }

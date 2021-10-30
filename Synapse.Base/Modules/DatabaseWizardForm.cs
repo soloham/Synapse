@@ -1,24 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using Synapse.Controls;
-using Synapse.Core.Configurations;
-using Synapse.Core.Managers;
-using Synapse.Utilities;
-using Syncfusion.WinForms.Controls;
-using static Synapse.Controls.ConfigureDataListItem;
-using System.Threading;
-using System.Windows.Threading;
-using System.Data.SqlClient;
-using System.Collections.ObjectModel;
-using System.Data;
-using System.Linq;
-using Syncfusion.Windows.Forms;
-
-namespace Synapse.Modules
+﻿namespace Synapse.Modules
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using System.Data;
+    using System.Data.SqlClient;
+    using System.Drawing;
+    using System.Linq;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using System.Windows.Forms;
+
+    using Synapse.Core.Templates;
+    using Synapse.Properties;
+    using Synapse.Utilities;
+
+    using Syncfusion.Windows.Forms;
+    using Syncfusion.WinForms.Controls;
+
     public partial class DatabaseWizardForm : SfForm
     {
         public enum DatabaseToInject
@@ -32,83 +31,92 @@ namespace Synapse.Modules
             public DTIKey(int uID, string key) : this()
             {
                 this.uID = uID;
-                Key = key;
+                this.Key = key;
             }
 
             public int uID { get; set; }
             public string Key { get; set; }
         }
+
         public class DTIValue
         {
             public DTIValue()
             {
-
             }
+
             public DTIValue(List<string> value, bool isKey = false)
             {
                 Values = value;
-                IsKey = isKey;
+                this.IsKey = isKey;
             }
 
             public List<string> Values = new List<string>();
             public bool IsKey { get; set; }
         }
-        Dictionary<DTIKey, DTIValue> dataToInject;
+
+        private Dictionary<DTIKey, DTIValue> dataToInject;
 
 
         #region Variables
+
         private Color IdleStatusColor = Color.SlateGray;
-        private Color ConnectingStatusColor = Color.FromArgb(22, 165, 220);
-        private Color ConnectedStatusColor = Color.MediumAquamarine;
-        private Color DisconnectedStatusColor = Color.Crimson;
+        private readonly Color ConnectingStatusColor = Color.FromArgb(22, 165, 220);
+        private readonly Color ConnectedStatusColor = Color.MediumAquamarine;
+        private readonly Color DisconnectedStatusColor = Color.Crimson;
 
         private string[] databaseTables;
-        private string[] allFields;
+        private readonly string[] allFields;
         private string[] selectedFields;
 
         private DatabaseToInject databaseToInject;
 
-        private SynchronizationContext synchronizationContext;
+        private readonly SynchronizationContext synchronizationContext;
+
         #endregion
 
         #region Connections
-        private string connectionString; 
 
-        SqlConnection sqlConnection;
+        private string connectionString;
+
+        private SqlConnection sqlConnection;
 
         public ObservableCollection<dynamic> DataToInject { get; }
+
         #endregion
 
         #region General Methods
+
         public DatabaseWizardForm(string[] selectableFields, ObservableCollection<dynamic> dataToInject)
         {
-            InitializeComponent();
+            this.InitializeComponent();
             synchronizationContext = SynchronizationContext.Current;
             allFields = selectableFields;
 
-            DataToInject = dataToInject;
+            this.DataToInject = dataToInject;
 
             try
             {
-                string sqlConnectionString = (string)SynapseMain.GetCurrentTemplate.TemplateData.GetProperty("DefaultSQLCS");
+                var sqlConnectionString =
+                    (string)SynapseMain.GetCurrentTemplate.TemplateData.GetProperty("DefaultSQLCS");
                 sqlConnectionStringField.Text = sqlConnectionString;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-
             }
         }
+
         #endregion
 
         public List<string> ListTables(SqlConnection sqlConnection)
         {
-            List<string> tables = new List<string>();
-            DataTable dt = sqlConnection.GetSchema("Tables");
+            var tables = new List<string>();
+            var dt = sqlConnection.GetSchema("Tables");
             foreach (DataRow row in dt.Rows)
             {
-                string tablename = (string)row[2];
+                var tablename = (string)row[2];
                 tables.Add(tablename);
             }
+
             return tables;
         }
 
@@ -117,21 +125,24 @@ namespace Synapse.Modules
             switch (databaseToInject)
             {
                 case DatabaseToInject.SQL:
-                    if (sqlConnection == null || sqlConnection.State != System.Data.ConnectionState.Open)
+                    if (sqlConnection == null || sqlConnection.State != ConnectionState.Open)
                     {
-                        Messages.ShowError("Database connection must first be established", icon: MessageBoxIcon.Warning);
+                        Messages.ShowError("Database connection must first be established",
+                            icon: MessageBoxIcon.Warning);
                         return;
                     }
+
                     break;
+
                 case DatabaseToInject.ORACLE:
                     break;
-             }
+            }
 
-            SelectFieldsForDBForm selectFieldsForDBForm = new SelectFieldsForDBForm(allFields, selectedFields);
-            selectFieldsForDBForm.SelectFieldsEvent += (object s, string[] selectedFields) =>
+            var selectFieldsForDBForm = new SelectFieldsForDBForm(allFields, selectedFields);
+            selectFieldsForDBForm.SelectFieldsEvent += (s, selectedFields) =>
             {
                 this.selectedFields = selectedFields;
-                SelectData();
+                this.SelectData();
 
                 selectFieldsForDBForm.Hide();
             };
@@ -145,10 +156,11 @@ namespace Synapse.Modules
                 case "Microsoft SQL":
                     databaseToInject = DatabaseToInject.SQL;
                     break;
+
                 case "Oracle":
                     databaseToInject = DatabaseToInject.ORACLE;
                     break;
-            } 
+            }
         }
 
         private void openDBConnectionBtn_Click(object sender, EventArgs e)
@@ -178,7 +190,7 @@ namespace Synapse.Modules
                         {
                             sqlConnection.Open();
 
-                            if (sqlConnection.State == System.Data.ConnectionState.Open)
+                            if (sqlConnection.State == ConnectionState.Open)
                             {
                                 connectionStatusPanel.BackColor = ConnectedStatusColor;
                                 Messages.ShowInformation("Database Connection Successfully Established");
@@ -187,7 +199,7 @@ namespace Synapse.Modules
                                 openDBConnectionBtn.MetroColor = Color.LightCoral;
                                 openDBConnectionBtn.Text = "Close  Connection";
 
-                                databaseTables = ListTables(sqlConnection).ToArray();
+                                databaseTables = this.ListTables(sqlConnection).ToArray();
                                 databaseTableCB.DataSource = databaseTables;
                             }
                             else
@@ -202,24 +214,30 @@ namespace Synapse.Modules
                             Messages.ShowError("An error occured while establishing the connection: \n\n" + ex.Message);
                         }
                     }
+
                     break;
+
                 case DatabaseToInject.ORACLE:
                     break;
-             }
+            }
         }
 
-        int currentRow;
+        private int currentRow;
+
         private async void startInsertionBtn_Click(object sender, EventArgs e)
         {
             switch (databaseToInject)
             {
                 case DatabaseToInject.SQL:
-                    if (sqlConnection == null || sqlConnection.State != System.Data.ConnectionState.Open)
+                    if (sqlConnection == null || sqlConnection.State != ConnectionState.Open)
                     {
-                        Messages.ShowError("Database connection must first be established", icon: MessageBoxIcon.Warning);
+                        Messages.ShowError("Database connection must first be established",
+                            icon: MessageBoxIcon.Warning);
                         return;
                     }
+
                     break;
+
                 case DatabaseToInject.ORACLE:
                     break;
             }
@@ -227,58 +245,58 @@ namespace Synapse.Modules
             injectionProgressBar.Value = 0;
             injectionProgressBar.BringToFront();
 
-            string tableName = databaseTableCB.SelectedItem as string;
-            string dbColumnTSQL = "";
+            var tableName = databaseTableCB.SelectedItem as string;
+            var dbColumnTSQL = "";
             var keysList = dataToInject.Keys.ToList();
-            for (int i = 0; i < keysList.Count; i++)
-            {
-                dbColumnTSQL += '[' + keysList[i].Key + ']' + ((i == keysList.Count - 1) ? "" : ", ");
-            }
+            for (var i = 0; i < keysList.Count; i++)
+                dbColumnTSQL += '[' + keysList[i].Key + ']' + (i == keysList.Count - 1 ? "" : ", ");
 
-            bool isSuccessful = true;
+            var isSuccessful = true;
 
-            int skippedCount = 0;
+            var skippedCount = 0;
             await Task.Run(() =>
             {
-                SqlCommand cmnd = new SqlCommand();
+                var cmnd = new SqlCommand();
                 cmnd.Connection = sqlConnection;
-                cmnd.StatementCompleted += (object s, StatementCompletedEventArgs _e) =>
+                cmnd.StatementCompleted += (s, _e) =>
                 {
-                    synchronizationContext.Send(new SendOrPostCallback(
-                        delegate (object state)
-                        {
-                            int value = (int)(((float)currentRow / DataToInject.Count) * 100);
-                            injectionProgressBar.Value = value;
-                        }), null);
+                    synchronizationContext.Send(delegate
+                    {
+                        var value = (int)((float)currentRow / this.DataToInject.Count * 100);
+                        injectionProgressBar.Value = value;
+                    }, null);
                 };
 
-                for (int i = 0; i < DataToInject.Count; i++)
+                for (var i = 0; i < this.DataToInject.Count; i++)
                 {
                     currentRow = i + 1;
 
-                    List<DTIKey> keyDatae = new List<DTIKey>();
-                    string dbValuesTSQL = "";
-                    for (int j = 0; j < keysList.Count; j++)
+                    var keyDatae = new List<DTIKey>();
+                    var dbValuesTSQL = "";
+                    for (var j = 0; j < keysList.Count; j++)
                     {
-                        DTIKey curDTIKey = keysList[j];
-                        DTIValue curDTIValue = dataToInject[curDTIKey];
-                        dbValuesTSQL += "'" + curDTIValue.Values[i] + ((j == keysList.Count - 1) ? "'" : "', ");
+                        var curDTIKey = keysList[j];
+                        var curDTIValue = dataToInject[curDTIKey];
+                        dbValuesTSQL += "'" + curDTIValue.Values[i] + (j == keysList.Count - 1 ? "'" : "', ");
 
                         if (curDTIValue.IsKey)
+                        {
                             keyDatae.Add(curDTIKey);
+                        }
                     }
 
-                    bool skipInjection = false;
+                    var skipInjection = false;
 
                     if (keyDatae.Count > 0)
                     {
-                        string sqlSearchCommand = $"SELECT TOP 1 [{keyDatae[0].Key}] FROM {tableName} WHERE";
-                        for (int k = 0; k < keyDatae.Count; k++)
+                        var sqlSearchCommand = $"SELECT TOP 1 [{keyDatae[0].Key}] FROM {tableName} WHERE";
+                        for (var k = 0; k < keyDatae.Count; k++)
                         {
-                            DTIKey dTIKey = keyDatae[k];
-                            DTIValue dTIValue = dataToInject[dTIKey];
+                            var dTIKey = keyDatae[k];
+                            var dTIValue = dataToInject[dTIKey];
 
-                            sqlSearchCommand += $"{(sqlSearchCommand[sqlSearchCommand.Length - 1] == '\'' ? " AND " : " ")}[{dTIKey.Key}] LIKE \'{dTIValue.Values[i]}\'";
+                            sqlSearchCommand +=
+                                $"{(sqlSearchCommand[sqlSearchCommand.Length - 1] == '\'' ? " AND " : " ")}[{dTIKey.Key}] LIKE \'{dTIValue.Values[i]}\'";
                             cmnd.CommandText = sqlSearchCommand;
                         }
 
@@ -294,7 +312,9 @@ namespace Synapse.Modules
                         }
                         catch (Exception ex)
                         {
-                            if (MessageBoxAdv.Show($" Data Row Index: {i + 1} \n \n Error: {ex.Message} \n \n Would you like to terminate the process?", "Hold On", MessageBoxButtons.YesNo, MessageBoxIcon.Error) == DialogResult.Yes)
+                            if (MessageBoxAdv.Show(
+                                $" Data Row Index: {i + 1} \n \n Error: {ex.Message} \n \n Would you like to terminate the process?",
+                                "Hold On", MessageBoxButtons.YesNo, MessageBoxIcon.Error) == DialogResult.Yes)
                             {
                                 isSuccessful = false;
 
@@ -309,7 +329,7 @@ namespace Synapse.Modules
                         continue;
                     }
 
-                    string sqlCommand = $"INSERT INTO {tableName} ({dbColumnTSQL}) VALUES ({dbValuesTSQL})";
+                    var sqlCommand = $"INSERT INTO {tableName} ({dbColumnTSQL}) VALUES ({dbValuesTSQL})";
                     cmnd.CommandText = sqlCommand;
                     try
                     {
@@ -317,7 +337,9 @@ namespace Synapse.Modules
                     }
                     catch (Exception ex)
                     {
-                        if (MessageBoxAdv.Show($" Data Row Index: {i + 1} \n \n Error: {ex.Message} \n \n Would you like to terminate the process?", "Hold On", MessageBoxButtons.YesNo, MessageBoxIcon.Error) == DialogResult.Yes)
+                        if (MessageBoxAdv.Show(
+                            $" Data Row Index: {i + 1} \n \n Error: {ex.Message} \n \n Would you like to terminate the process?",
+                            "Hold On", MessageBoxButtons.YesNo, MessageBoxIcon.Error) == DialogResult.Yes)
                         {
                             isSuccessful = false;
 
@@ -343,10 +365,18 @@ namespace Synapse.Modules
             if (isSuccessful)
             {
                 if (skippedCount > 0)
-                    MessageBoxAdv.Show($"Insertion Complete. \n \n Skipped {skippedCount} rows out of {DataToInject.Count} due to duplication.", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                {
+                    MessageBoxAdv.Show(
+                        $"Insertion Complete. \n \n Skipped {skippedCount} rows out of {this.DataToInject.Count} due to duplication.",
+                        "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
                 else
-                    MessageBoxAdv.Show("All data has been successfuly inserted", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                {
+                    MessageBoxAdv.Show("All data has been successfuly inserted", "", MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+                }
             }
+
             if (sqlConnection.State != ConnectionState.Open)
             {
                 connectionStatusPanel.BackColor = DisconnectedStatusColor;
@@ -357,34 +387,33 @@ namespace Synapse.Modules
             }
 
             injectionProgressBar.SendToBack();
-            Enabled = true;
+            this.Enabled = true;
         }
 
-        void SelectData()
+        private void SelectData()
         {
             dataToInject = new Dictionary<DTIKey, DTIValue>();
-            for (int i = 0; i < DBFieldsPanel.Controls.Count; i++)
-            {
-                DBFieldsPanel.Controls[i].Dispose();
-            }
+            for (var i = 0; i < DBFieldsPanel.Controls.Count; i++) DBFieldsPanel.Controls[i].Dispose();
+
             DBFieldsPanel.Controls.Clear();
 
-            for (int i = 0; i < selectedFields.Length; i++)
+            for (var i = 0; i < selectedFields.Length; i++)
             {
-                string fieldTitle = selectedFields[i];
+                var fieldTitle = selectedFields[i];
                 dataToInject.Add(new DTIKey(i, fieldTitle), new DTIValue());
 
-                DatabaseField databaseField = new DatabaseField(i, fieldTitle);
+                var databaseField = new DatabaseField(i, fieldTitle);
 
-                databaseField.EditField += (object sender, int Id, string Value, bool isKey) =>
+                databaseField.EditField += (sender, Id, Value, isKey) =>
                 {
-                    bool isValid = true;
+                    var isValid = true;
 
                     try
                     {
                         if (dataToInject.Keys.Any(x => x.Key == Value && x.uID != Id))
                         {
-                            MessageBoxAdv.Show("This field already exists.", "Hold On", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            MessageBoxAdv.Show("This field already exists.", "Hold On", MessageBoxButtons.OK,
+                                MessageBoxIcon.Warning);
                             isValid = false;
                         }
 
@@ -404,15 +433,16 @@ namespace Synapse.Modules
 
                     return isValid;
                 };
-                databaseField.RemoveField += (object sender, int Id, string Value, bool isKey) =>
+                databaseField.RemoveField += (sender, Id, Value, isKey) =>
                 {
-                    bool isValid = true;
+                    var isValid = true;
 
                     try
                     {
                         if (!dataToInject.Keys.Any(x => x.Key == Value))
                         {
-                            MessageBoxAdv.Show("Invalid field.", "Hold On", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            MessageBoxAdv.Show("Invalid field.", "Hold On", MessageBoxButtons.OK,
+                                MessageBoxIcon.Warning);
                             isValid = false;
                         }
 
@@ -423,7 +453,9 @@ namespace Synapse.Modules
                         toRemove.Dispose();
 
                         if (dataToInject.Count == 0)
+                        {
                             emptyListLabel.Visible = true;
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -435,24 +467,22 @@ namespace Synapse.Modules
                 };
 
                 emptyListLabel.Visible = false;
-                Controls.Add(databaseField);
+                this.Controls.Add(databaseField);
                 DBFieldsPanel.Controls.Add(databaseField);
                 databaseField.Dock = DockStyle.Top;
                 databaseField.InitializeLayout();
             }
-            for (int i = 0; i < DataToInject.Count; i++)
+
+            for (var i = 0; i < this.DataToInject.Count; i++)
+            for (var j = 0; j < selectedFields.Length; j++)
             {
-                for (int j = 0; j < selectedFields.Length; j++)
-                {
-                    string value = (DataToInject[i] as IDictionary<string, object>)[selectedFields[j]].ToString();
-                    dataToInject.First(x => x.Key.Key == selectedFields[j]).Value.Values.Add(value);
-                }
+                var value = (this.DataToInject[i] as IDictionary<string, object>)[selectedFields[j]].ToString();
+                dataToInject.First(x => x.Key.Key == selectedFields[j]).Value.Values.Add(value);
             }
         }
 
         private void viewCSBtn_MouseDown(object sender, MouseEventArgs e)
         {
-            
         }
 
         private void viewCSBtn_Click(object sender, EventArgs e)
@@ -460,9 +490,13 @@ namespace Synapse.Modules
             sqlConnectionStringField.UseSystemPasswordChar = !sqlConnectionStringField.UseSystemPasswordChar;
 
             if (!sqlConnectionStringField.UseSystemPasswordChar)
-                viewCSBtn.BackgroundImage = Properties.Resources.Show_01_WF;
+            {
+                viewCSBtn.BackgroundImage = Resources.Show_01_WF;
+            }
             else
-                viewCSBtn.BackgroundImage = Properties.Resources.Hide;
+            {
+                viewCSBtn.BackgroundImage = Resources.Hide;
+            }
         }
 
         private async void saveCSBtn_Click(object sender, EventArgs e)
@@ -474,12 +508,17 @@ namespace Synapse.Modules
             }
 
             SynapseMain.GetCurrentTemplate.TemplateData.AddProperty("DefaultSQLCS", sqlConnectionStringField.Text);
-            bool isSaved = await Task.Run(() => Core.Templates.Template.SaveTemplate(SynapseMain.GetCurrentTemplate.TemplateData, string.IsNullOrEmpty(SynapseMain.GetCurrentTemplate.GetTemplateImage.ImageLocation)));
+            var isSaved = await Task.Run(() => Template.SaveTemplate(SynapseMain.GetCurrentTemplate.TemplateData,
+                string.IsNullOrEmpty(SynapseMain.GetCurrentTemplate.GetTemplateImage.ImageLocation)));
 
             if (isSaved)
+            {
                 saveCSBtn.MetroColor = Color.MediumAquamarine;
+            }
             else
+            {
                 saveCSBtn.MetroColor = Color.Gray;
+            }
         }
     }
 }

@@ -1,25 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using Synapse.Core.Templates;
-using System.Threading;
-using Syncfusion.Windows.Forms.Tools;
-using Emgu.CV.Features2D;
-using Synapse.Utilities.Enums;
-
-namespace Synapse.Controls
+﻿namespace Synapse.Controls
 {
+    using System;
+    using System.Threading;
+    using System.Windows.Forms;
+
+    using Emgu.CV.Features2D;
+
+    using Synapse.Core.Templates;
+    using Synapse.Utilities.Enums;
+
+    using Syncfusion.Windows.Forms.Tools;
+
     public partial class KazeSettingsControl : UserControl
     {
         #region Events
 
-        public delegate void SetDataDelegate(Template.RegistrationAlignmentMethod.KazeRegistrationMethod.KazeData kazeData, bool useStoredModelFeatures, int pipelineIndex);
+        public delegate void SetDataDelegate(
+            Template.RegistrationAlignmentMethod.KazeRegistrationMethod.KazeData kazeData, bool useStoredModelFeatures,
+            int pipelineIndex);
+
         public SetDataDelegate OnSetDataEvent;
 
         public event EventHandler<int> OnResetDataEvent;
@@ -27,23 +26,28 @@ namespace Synapse.Controls
         #endregion
 
         #region Properties
-        private Template.RegistrationAlignmentMethod.KazeRegistrationMethod.KazeData kazeData;
+
+        private readonly Template.RegistrationAlignmentMethod.KazeRegistrationMethod.KazeData kazeData;
+
         #endregion
 
         #region Variables
-        private SynchronizationContext synchronizationContext;
-        private bool initialIsUseStoredModelFeaturesBool;
-        private int pipelineIndex;
+
+        private readonly SynchronizationContext synchronizationContext;
+        private readonly bool initialIsUseStoredModelFeaturesBool;
+        private readonly int pipelineIndex;
+
         #endregion
 
         public KazeSettingsControl()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
 
-        public KazeSettingsControl(Template.RegistrationAlignmentMethod.KazeRegistrationMethod.KazeData kazeData, bool isUseStoredEnabled, int pipelineIndex)
+        public KazeSettingsControl(Template.RegistrationAlignmentMethod.KazeRegistrationMethod.KazeData kazeData,
+            bool isUseStoredEnabled, int pipelineIndex)
         {
-            InitializeComponent();
+            this.InitializeComponent();
 
             synchronizationContext = SynchronizationContext.Current;
             this.kazeData = kazeData;
@@ -54,35 +58,37 @@ namespace Synapse.Controls
             kazeDiffTypeValueBox.DisplayMember = "Value";
             kazeDiffTypeValueBox.ValueMember = "Key";
 
-            InitializeKazePanel(kazeData, isUseStoredEnabled);
+            this.InitializeKazePanel(kazeData, isUseStoredEnabled);
         }
 
-        public void InitializeKazePanel(Template.RegistrationAlignmentMethod.KazeRegistrationMethod.KazeData kazeData, bool isUseStoredEnabled)
+        public void InitializeKazePanel(Template.RegistrationAlignmentMethod.KazeRegistrationMethod.KazeData kazeData,
+            bool isUseStoredEnabled)
         {
-            synchronizationContext.Send(new SendOrPostCallback(
-            delegate (object state)
+            synchronizationContext.Send(delegate
             {
-                kazeExtendedToggle.ToggleState = kazeData.Extended ? ToggleButtonState.Active : ToggleButtonState.Inactive;
-                kazeUprightToggle.ToggleState = kazeData.Upright ? ToggleButtonState.Active : ToggleButtonState.Inactive;
+                kazeExtendedToggle.ToggleState =
+                    kazeData.Extended ? ToggleButtonState.Active : ToggleButtonState.Inactive;
+                kazeUprightToggle.ToggleState =
+                    kazeData.Upright ? ToggleButtonState.Active : ToggleButtonState.Inactive;
                 kazeThresholdValueBox.DoubleValue = kazeData.Threshold;
                 kazeOctavesValueBox.IntegerValue = kazeData.Octaves;
                 kazeSublvlsValueBox.IntegerValue = kazeData.Sublevels;
                 kazeDiffTypeValueBox.SelectedValue = kazeData.Diffusivity;
-                kazeUseModelFeaturesOptionToggle.ToggleState = isUseStoredEnabled ? ToggleButtonState.Active : ToggleButtonState.Inactive; 
-            }
-            ), null);
+                kazeUseModelFeaturesOptionToggle.ToggleState =
+                    isUseStoredEnabled ? ToggleButtonState.Active : ToggleButtonState.Inactive;
+            }, null);
         }
+
         public Template.RegistrationAlignmentMethod.KazeRegistrationMethod.KazeData GetKazeData()
         {
-            bool extended = false;
-            bool upright = false;
-            float descThresh = 0.001f;
-            int descOcts = 1;
-            int descSbls = 4;
+            var extended = false;
+            var upright = false;
+            var descThresh = 0.001f;
+            var descOcts = 1;
+            var descSbls = 4;
             var diffType = KAZE.Diffusivity.PmG2;
 
-            synchronizationContext.Send(new SendOrPostCallback(
-            delegate (object state)
+            synchronizationContext.Send(delegate
             {
                 extended = kazeExtendedToggle.ToggleState == ToggleButtonState.Active;
                 upright = kazeUprightToggle.ToggleState == ToggleButtonState.Active;
@@ -90,27 +96,29 @@ namespace Synapse.Controls
                 descOcts = (int)kazeOctavesValueBox.IntegerValue;
                 descSbls = (int)kazeSublvlsValueBox.IntegerValue;
                 diffType = (KAZE.Diffusivity)kazeDiffTypeValueBox.SelectedIndex;
-            }
-            ), null);
+            }, null);
 
-            Template.RegistrationAlignmentMethod.KazeRegistrationMethod.KazeData kazeData = new Template.RegistrationAlignmentMethod.KazeRegistrationMethod.KazeData(extended, upright, descThresh, descOcts, descSbls, diffType);
+            var kazeData =
+                new Template.RegistrationAlignmentMethod.KazeRegistrationMethod.KazeData(extended, upright, descThresh,
+                    descOcts, descSbls, diffType);
             return kazeData;
         }
 
         private void Reset()
         {
-            InitializeKazePanel(kazeData, initialIsUseStoredModelFeaturesBool);
+            this.InitializeKazePanel(kazeData, initialIsUseStoredModelFeaturesBool);
         }
 
         private void SetBtn_Click(object sender, EventArgs e)
         {
-            OnSetDataEvent?.Invoke(GetKazeData(), kazeUseModelFeaturesOptionToggle.ToggleState == Syncfusion.Windows.Forms.Tools.ToggleButtonState.Active, pipelineIndex);
-        }
-        private void ResetBtn_Click(object sender, EventArgs e)
-        {
-            Reset();
-            OnResetDataEvent?.Invoke(this, pipelineIndex);
+            OnSetDataEvent?.Invoke(this.GetKazeData(),
+                kazeUseModelFeaturesOptionToggle.ToggleState == ToggleButtonState.Active, pipelineIndex);
         }
 
+        private void ResetBtn_Click(object sender, EventArgs e)
+        {
+            this.Reset();
+            this.OnResetDataEvent?.Invoke(this, pipelineIndex);
+        }
     }
 }

@@ -1,26 +1,26 @@
-﻿using System;
-using System.Reflection;
-using System.Windows.Forms;
-
-namespace Synapse.Utilities.Extensions
+﻿namespace Synapse.Utilities.Extensions
 {
+    using System;
+    using System.Reflection;
+    using System.Windows.Forms;
+
     public static class ControlExtensions
     {
         public static T Clone<T>(this T controlToClone)
             where T : Control
         {
-            PropertyInfo[] controlProperties = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
+            var controlProperties = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
 
-            T instance = Activator.CreateInstance<T>();
+            var instance = Activator.CreateInstance<T>();
 
-            foreach (PropertyInfo propInfo in controlProperties)
-            {
+            foreach (var propInfo in controlProperties)
                 if (propInfo.CanWrite)
                 {
                     if (propInfo.Name != "WindowTarget")
+                    {
                         propInfo.SetValue(instance, propInfo.GetValue(controlToClone, null), null);
+                    }
                 }
-            }
 
             return instance;
         }
