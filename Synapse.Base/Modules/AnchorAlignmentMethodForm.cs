@@ -557,7 +557,7 @@
         private void AddSelectedAnchor()
         {
             if (imageBox.SelectionRegion != RectangleF.Empty && imageBox.SelectionRegion.Width != 0 &&
-                imageBox.SelectionRegion.Height != 0 && (anchorPlaceholderControls.Exists(x => global::x.IsCurrent) ||
+                imageBox.SelectionRegion.Height != 0 && (anchorPlaceholderControls.Exists(x => x.IsCurrent) ||
                                                          testPointPlaceholderControl.IsCurrent))
             {
                 var selectionRegion = imageBox.SelectionRegion;
