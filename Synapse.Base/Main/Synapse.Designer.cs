@@ -291,7 +291,7 @@ namespace Synapse
             this.ribbonControl.QuickPanelVisible = false;
             this.ribbonControl.RibbonHeaderImage = Syncfusion.Windows.Forms.Tools.RibbonHeaderImage.RoundedSquares;
             this.ribbonControl.RibbonStyle = Syncfusion.Windows.Forms.Tools.RibbonStyle.Office2016;
-            this.ribbonControl.SelectedTab = this.readingToolStripTabItem;
+            this.ribbonControl.SelectedTab = this.configToolStripTabItem;
             this.ribbonControl.ShowLauncher = false;
             this.ribbonControl.ShowRibbonDisplayOptionButton = true;
             this.ribbonControl.Size = new System.Drawing.Size(1486, 223);
@@ -314,28 +314,22 @@ namespace Synapse
             // 
             // backStage1
             // 
-            this.backStage1.ActiveTabForeColor = System.Drawing.Color.Empty;
             this.backStage1.AllowDrop = true;
             this.backStage1.BackColor = System.Drawing.SystemColors.Window;
+            this.backStage1.BackStagePanelWidth = 130;
             this.backStage1.BeforeTouchSize = new System.Drawing.Size(1482, 697);
             this.backStage1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.backStage1.BorderWidth = 0;
             this.backStage1.ChildItemSize = new System.Drawing.Size(80, 140);
-            this.backStage1.CloseButtonForeColor = System.Drawing.Color.Empty;
-            this.backStage1.CloseButtonHoverForeColor = System.Drawing.Color.Empty;
-            this.backStage1.CloseButtonPressedForeColor = System.Drawing.Color.Empty;
-            this.backStage1.CloseTabOnMiddleClick = false;
             this.backStage1.Controls.Add(this.backStageTab1);
             this.backStage1.Font = new System.Drawing.Font("Segoe UI", 8.25F);
-            this.backStage1.InActiveTabForeColor = System.Drawing.Color.Empty;
-            this.backStage1.ItemSize = new System.Drawing.Size(138, 40);
+            this.backStage1.ItemSize = new System.Drawing.Size(130, 40);
             this.backStage1.Location = new System.Drawing.Point(0, 0);
             this.backStage1.Margin = new System.Windows.Forms.Padding(0);
+            this.backStage1.MinimumSize = new System.Drawing.Size(100, 67);
             this.backStage1.Name = "backStage1";
             this.backStage1.OfficeColorScheme = Syncfusion.Windows.Forms.Tools.ToolStripEx.ColorScheme.Managed;
             this.backStage1.Padding = new System.Drawing.Point(0, 0);
-            this.backStage1.SeparatorColor = System.Drawing.SystemColors.ControlDark;
-            this.backStage1.ShowSeparator = false;
             this.backStage1.Size = new System.Drawing.Size(1482, 697);
             this.backStage1.TabIndex = 2;
             this.backStage1.ThemeName = "BackStage2016Renderer";
@@ -354,6 +348,7 @@ namespace Synapse
             this.backStageTab1.ImageSize = new System.Drawing.Size(16, 16);
             this.backStageTab1.Location = new System.Drawing.Point(129, 0);
             this.backStageTab1.Name = "backStageTab1";
+            this.backStageTab1.Placement = Syncfusion.Windows.Forms.BackStageItemPlacement.Top;
             this.backStageTab1.Position = new System.Drawing.Point(11, 57);
             this.backStageTab1.ShowCloseButton = true;
             this.backStageTab1.Size = new System.Drawing.Size(1353, 697);
@@ -405,14 +400,14 @@ namespace Synapse
             // bsSettingsThemeField
             // 
             this.bsSettingsThemeField.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.bsSettingsThemeField.BeforeTouchSize = new System.Drawing.Size(266, 40);
+            this.bsSettingsThemeField.BeforeTouchSize = new System.Drawing.Size(266, 38);
             this.bsSettingsThemeField.Dock = System.Windows.Forms.DockStyle.Fill;
             this.bsSettingsThemeField.Font = new System.Drawing.Font("Dosis", 19F);
             this.bsSettingsThemeField.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
             this.bsSettingsThemeField.Location = new System.Drawing.Point(215, 0);
             this.bsSettingsThemeField.Margin = new System.Windows.Forms.Padding(0);
             this.bsSettingsThemeField.Name = "bsSettingsThemeField";
-            this.bsSettingsThemeField.Size = new System.Drawing.Size(266, 40);
+            this.bsSettingsThemeField.Size = new System.Drawing.Size(266, 38);
             this.bsSettingsThemeField.Style = Syncfusion.Windows.Forms.VisualStyle.Office2016White;
             this.bsSettingsThemeField.TabIndex = 6;
             this.bsSettingsThemeField.Text = "Select Theme";
@@ -425,7 +420,7 @@ namespace Synapse
             this.bsSettingsTabLabel.Font = new System.Drawing.Font("Dosis", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.bsSettingsTabLabel.Location = new System.Drawing.Point(139, 61);
             this.bsSettingsTabLabel.Name = "bsSettingsTabLabel";
-            this.bsSettingsTabLabel.Size = new System.Drawing.Size(172, 61);
+            this.bsSettingsTabLabel.Size = new System.Drawing.Size(183, 62);
             this.bsSettingsTabLabel.TabIndex = 4;
             this.bsSettingsTabLabel.Text = "Settings";
             // 
@@ -469,6 +464,7 @@ namespace Synapse
             this.templateConfigToolStrip.Name = "templateConfigToolStrip";
             this.templateConfigToolStrip.Office12Mode = false;
             this.templateConfigToolStrip.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
+            this.templateConfigToolStrip.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.templateConfigToolStrip.ShowLauncher = false;
             this.templateConfigToolStrip.Size = new System.Drawing.Size(42, 154);
             this.templateConfigToolStrip.TabIndex = 4;
@@ -486,10 +482,11 @@ namespace Synapse
             this.dataConfigToolStripEx.ForeColor = System.Drawing.Color.MidnightBlue;
             this.dataConfigToolStripEx.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.dataConfigToolStripEx.Image = null;
-            this.dataConfigToolStripEx.Location = new System.Drawing.Point(0, 1);
+            this.dataConfigToolStripEx.Location = new System.Drawing.Point(44, 1);
             this.dataConfigToolStripEx.Name = "dataConfigToolStripEx";
             this.dataConfigToolStripEx.Office12Mode = false;
             this.dataConfigToolStripEx.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
+            this.dataConfigToolStripEx.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.dataConfigToolStripEx.Size = new System.Drawing.Size(42, 154);
             this.dataConfigToolStripEx.TabIndex = 3;
             this.dataConfigToolStripEx.Text = "Data Configuration";
@@ -507,10 +504,11 @@ namespace Synapse
             this.aiConfigToolStripEx.ForeColor = System.Drawing.Color.MidnightBlue;
             this.aiConfigToolStripEx.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.aiConfigToolStripEx.Image = null;
-            this.aiConfigToolStripEx.Location = new System.Drawing.Point(0, 1);
+            this.aiConfigToolStripEx.Location = new System.Drawing.Point(88, 1);
             this.aiConfigToolStripEx.Name = "aiConfigToolStripEx";
             this.aiConfigToolStripEx.Office12Mode = false;
             this.aiConfigToolStripEx.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
+            this.aiConfigToolStripEx.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.aiConfigToolStripEx.Size = new System.Drawing.Size(42, 154);
             this.aiConfigToolStripEx.TabIndex = 1;
             this.aiConfigToolStripEx.Text = "AI Configuration";
@@ -558,6 +556,7 @@ namespace Synapse
             this.generalToolStripEx.Name = "generalToolStripEx";
             this.generalToolStripEx.Office12Mode = false;
             this.generalToolStripEx.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
+            this.generalToolStripEx.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.generalToolStripEx.Size = new System.Drawing.Size(186, 154);
             this.generalToolStripEx.TabIndex = 8;
             this.generalToolStripEx.Text = "General";
@@ -572,7 +571,7 @@ namespace Synapse
             this.answerKeyToolStripBtn.Margin = new System.Windows.Forms.Padding(4, 1, 1, 2);
             this.answerKeyToolStripBtn.Name = "answerKeyToolStripBtn";
             this.answerKeyToolStripBtn.Padding = new System.Windows.Forms.Padding(8, 0, 8, 0);
-            this.answerKeyToolStripBtn.Size = new System.Drawing.Size(82, 135);
+            this.answerKeyToolStripBtn.Size = new System.Drawing.Size(83, 133);
             this.answerKeyToolStripBtn.Text = "Answer\r\nKey";
             this.answerKeyToolStripBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.answerKeyToolStripBtn.Click += new System.EventHandler(this.AnswerKeyToolStripBtn_Click);
@@ -587,7 +586,7 @@ namespace Synapse
             this.papersToolStripBtn.Margin = new System.Windows.Forms.Padding(4, 1, 1, 2);
             this.papersToolStripBtn.Name = "papersToolStripBtn";
             this.papersToolStripBtn.Padding = new System.Windows.Forms.Padding(8, 0, 8, 0);
-            this.papersToolStripBtn.Size = new System.Drawing.Size(77, 135);
+            this.papersToolStripBtn.Size = new System.Drawing.Size(79, 133);
             this.papersToolStripBtn.Text = "Exam\r\nPapers";
             this.papersToolStripBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.papersToolStripBtn.Click += new System.EventHandler(this.PapersToolStripBtn_Click);
@@ -612,6 +611,7 @@ namespace Synapse
             this.sheetsToolStripEx.Name = "sheetsToolStripEx";
             this.sheetsToolStripEx.Office12Mode = false;
             this.sheetsToolStripEx.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
+            this.sheetsToolStripEx.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.sheetsToolStripEx.Size = new System.Drawing.Size(291, 154);
             this.sheetsToolStripEx.TabIndex = 7;
             this.sheetsToolStripEx.Text = "OMR Sheets";
@@ -628,7 +628,7 @@ namespace Synapse
             this.sheetsToolStripPanelItem.Name = "sheetsToolStripPanelItem";
             this.sheetsToolStripPanelItem.Padding = new System.Windows.Forms.Padding(1, 0, 2, 0);
             this.sheetsToolStripPanelItem.RowCount = 2;
-            this.sheetsToolStripPanelItem.Size = new System.Drawing.Size(192, 9);
+            this.sheetsToolStripPanelItem.Size = new System.Drawing.Size(192, 6);
             this.sheetsToolStripPanelItem.Transparent = true;
             // 
             // scanDirectoryToolStripBtn
@@ -652,7 +652,7 @@ namespace Synapse
             this.includeSubFoldersToolStripCheckBox.Font = new System.Drawing.Font("Dosis", 10.25F);
             this.includeSubFoldersToolStripCheckBox.Margin = new System.Windows.Forms.Padding(23, 1, 0, 2);
             this.includeSubFoldersToolStripCheckBox.Name = "includeSubFoldersToolStripCheckBox";
-            this.includeSubFoldersToolStripCheckBox.Size = new System.Drawing.Size(137, 22);
+            this.includeSubFoldersToolStripCheckBox.Size = new System.Drawing.Size(146, 23);
             this.includeSubFoldersToolStripCheckBox.Text = "Include Sub Folder(s)";
             // 
             // scanSheetsToolStripDropDownBtn
@@ -668,7 +668,7 @@ namespace Synapse
             this.scanSheetsToolStripDropDownBtn.Margin = new System.Windows.Forms.Padding(3, 1, 5, 2);
             this.scanSheetsToolStripDropDownBtn.Name = "scanSheetsToolStripDropDownBtn";
             this.scanSheetsToolStripDropDownBtn.Padding = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            this.scanSheetsToolStripDropDownBtn.Size = new System.Drawing.Size(71, 135);
+            this.scanSheetsToolStripDropDownBtn.Size = new System.Drawing.Size(71, 133);
             this.scanSheetsToolStripDropDownBtn.Text = "Scan";
             this.scanSheetsToolStripDropDownBtn.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.scanSheetsToolStripDropDownBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
@@ -676,13 +676,13 @@ namespace Synapse
             // scanLoadToolStripMenuItem
             // 
             this.scanLoadToolStripMenuItem.Name = "scanLoadToolStripMenuItem";
-            this.scanLoadToolStripMenuItem.Size = new System.Drawing.Size(166, 28);
+            this.scanLoadToolStripMenuItem.Size = new System.Drawing.Size(169, 28);
             this.scanLoadToolStripMenuItem.Text = "Load";
             // 
             // scanReadToolStripMenuItem
             // 
             this.scanReadToolStripMenuItem.Name = "scanReadToolStripMenuItem";
-            this.scanReadToolStripMenuItem.Size = new System.Drawing.Size(166, 28);
+            this.scanReadToolStripMenuItem.Size = new System.Drawing.Size(169, 28);
             this.scanReadToolStripMenuItem.Text = "Scan && Read";
             // 
             // toolStripSeparator7
@@ -711,6 +711,7 @@ namespace Synapse
             this.processingToolStripEx.Name = "processingToolStripEx";
             this.processingToolStripEx.Office12Mode = false;
             this.processingToolStripEx.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
+            this.processingToolStripEx.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.processingToolStripEx.Size = new System.Drawing.Size(146, 154);
             this.processingToolStripEx.TabIndex = 6;
             this.processingToolStripEx.Text = "Processing";
@@ -724,7 +725,7 @@ namespace Synapse
             this.startReadingToolStripBtn.Margin = new System.Windows.Forms.Padding(0, 5, 0, 2);
             this.startReadingToolStripBtn.Name = "startReadingToolStripBtn";
             this.startReadingToolStripBtn.Padding = new System.Windows.Forms.Padding(7, 0, 7, 0);
-            this.startReadingToolStripBtn.Size = new System.Drawing.Size(68, 131);
+            this.startReadingToolStripBtn.Size = new System.Drawing.Size(68, 129);
             this.startReadingToolStripBtn.Text = "Start";
             this.startReadingToolStripBtn.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.startReadingToolStripBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
@@ -740,7 +741,7 @@ namespace Synapse
             this.stopReadingToolStripBtn.Margin = new System.Windows.Forms.Padding(0, 6, 0, 2);
             this.stopReadingToolStripBtn.Name = "stopReadingToolStripBtn";
             this.stopReadingToolStripBtn.Padding = new System.Windows.Forms.Padding(7, 0, 7, 0);
-            this.stopReadingToolStripBtn.Size = new System.Drawing.Size(67, 77);
+            this.stopReadingToolStripBtn.Size = new System.Drawing.Size(67, 128);
             this.stopReadingToolStripBtn.Text = "Stop";
             this.stopReadingToolStripBtn.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.stopReadingToolStripBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
@@ -766,7 +767,8 @@ namespace Synapse
             this.operationsToolStripEx.Name = "operationsToolStripEx";
             this.operationsToolStripEx.Office12Mode = false;
             this.operationsToolStripEx.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
-            this.operationsToolStripEx.Size = new System.Drawing.Size(280, 154);
+            this.operationsToolStripEx.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.operationsToolStripEx.Size = new System.Drawing.Size(302, 154);
             this.operationsToolStripEx.TabIndex = 5;
             this.operationsToolStripEx.Text = "Operations";
             // 
@@ -779,7 +781,7 @@ namespace Synapse
             this.reReadFaultySheetsToolStripBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.reReadFaultySheetsToolStripBtn.Name = "reReadFaultySheetsToolStripBtn";
             this.reReadFaultySheetsToolStripBtn.Padding = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.reReadFaultySheetsToolStripBtn.Size = new System.Drawing.Size(101, 135);
+            this.reReadFaultySheetsToolStripBtn.Size = new System.Drawing.Size(105, 133);
             this.reReadFaultySheetsToolStripBtn.Text = "Re-Read\r\nFaulty Sheets";
             this.reReadFaultySheetsToolStripBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
@@ -793,7 +795,7 @@ namespace Synapse
             this.moveFaultySheetsToolStripBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.moveFaultySheetsToolStripBtn.Name = "moveFaultySheetsToolStripBtn";
             this.moveFaultySheetsToolStripBtn.Padding = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.moveFaultySheetsToolStripBtn.Size = new System.Drawing.Size(101, 135);
+            this.moveFaultySheetsToolStripBtn.Size = new System.Drawing.Size(105, 133);
             this.moveFaultySheetsToolStripBtn.Text = "Move\r\nFaulty Sheets";
             this.moveFaultySheetsToolStripBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
@@ -806,7 +808,7 @@ namespace Synapse
             this.locateOptionsToolStripBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.locateOptionsToolStripBtn.Name = "locateOptionsToolStripBtn";
             this.locateOptionsToolStripBtn.Padding = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.locateOptionsToolStripBtn.Size = new System.Drawing.Size(67, 135);
+            this.locateOptionsToolStripBtn.Size = new System.Drawing.Size(69, 133);
             this.locateOptionsToolStripBtn.Text = "Locate\r\nOptions";
             this.locateOptionsToolStripBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.locateOptionsToolStripBtn.Click += new System.EventHandler(this.locateOptionsToolStripBtn_Click);
@@ -825,10 +827,11 @@ namespace Synapse
             this.dataMiningToolStripEx.Image = null;
             this.dataMiningToolStripEx.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.findDuplicatesToolStripBtn});
-            this.dataMiningToolStripEx.Location = new System.Drawing.Point(911, 1);
+            this.dataMiningToolStripEx.Location = new System.Drawing.Point(933, 1);
             this.dataMiningToolStripEx.Name = "dataMiningToolStripEx";
             this.dataMiningToolStripEx.Office12Mode = false;
             this.dataMiningToolStripEx.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
+            this.dataMiningToolStripEx.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.dataMiningToolStripEx.Size = new System.Drawing.Size(101, 154);
             this.dataMiningToolStripEx.TabIndex = 4;
             this.dataMiningToolStripEx.Text = "Data Mining";
@@ -842,7 +845,7 @@ namespace Synapse
             this.findDuplicatesToolStripBtn.Margin = new System.Windows.Forms.Padding(0, 5, 0, 2);
             this.findDuplicatesToolStripBtn.Name = "findDuplicatesToolStripBtn";
             this.findDuplicatesToolStripBtn.Padding = new System.Windows.Forms.Padding(7, 0, 7, 0);
-            this.findDuplicatesToolStripBtn.Size = new System.Drawing.Size(89, 131);
+            this.findDuplicatesToolStripBtn.Size = new System.Drawing.Size(93, 129);
             this.findDuplicatesToolStripBtn.Text = "Find\r\nDuplicates";
             this.findDuplicatesToolStripBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
@@ -883,6 +886,7 @@ namespace Synapse
             this.dataManipulationToolStripEx.Name = "dataManipulationToolStripEx";
             this.dataManipulationToolStripEx.Office12Mode = false;
             this.dataManipulationToolStripEx.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
+            this.dataManipulationToolStripEx.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.dataManipulationToolStripEx.Size = new System.Drawing.Size(42, 154);
             this.dataManipulationToolStripEx.TabIndex = 7;
             this.dataManipulationToolStripEx.Text = "Data Manipulation";
@@ -903,6 +907,7 @@ namespace Synapse
             this.dataPointStorageToolStripEx.Name = "dataPointStorageToolStripEx";
             this.dataPointStorageToolStripEx.Office12Mode = false;
             this.dataPointStorageToolStripEx.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
+            this.dataPointStorageToolStripEx.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.dataPointStorageToolStripEx.Size = new System.Drawing.Size(42, 154);
             this.dataPointStorageToolStripEx.TabIndex = 8;
             this.dataPointStorageToolStripEx.Text = "Data Point Storage";
@@ -923,6 +928,7 @@ namespace Synapse
             this.exportToolStripEx.Name = "exportToolStripEx";
             this.exportToolStripEx.Office12Mode = false;
             this.exportToolStripEx.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
+            this.exportToolStripEx.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.exportToolStripEx.ShowLauncher = false;
             this.exportToolStripEx.Size = new System.Drawing.Size(42, 154);
             this.exportToolStripEx.TabIndex = 9;
@@ -996,19 +1002,19 @@ namespace Synapse
             this.tmpLoadScanToolStripMenuItem,
             this.tmpLoadBrowseToolStripMenuItem});
             this.templateLoadToolStripMenuItem.Name = "templateLoadToolStripMenuItem";
-            this.templateLoadToolStripMenuItem.Size = new System.Drawing.Size(136, 24);
+            this.templateLoadToolStripMenuItem.Size = new System.Drawing.Size(143, 26);
             this.templateLoadToolStripMenuItem.Text = "Load";
             // 
             // tmpLoadScanToolStripMenuItem
             // 
             this.tmpLoadScanToolStripMenuItem.Name = "tmpLoadScanToolStripMenuItem";
-            this.tmpLoadScanToolStripMenuItem.Size = new System.Drawing.Size(123, 24);
+            this.tmpLoadScanToolStripMenuItem.Size = new System.Drawing.Size(128, 26);
             this.tmpLoadScanToolStripMenuItem.Text = "Scan";
             // 
             // tmpLoadBrowseToolStripMenuItem
             // 
             this.tmpLoadBrowseToolStripMenuItem.Name = "tmpLoadBrowseToolStripMenuItem";
-            this.tmpLoadBrowseToolStripMenuItem.Size = new System.Drawing.Size(123, 24);
+            this.tmpLoadBrowseToolStripMenuItem.Size = new System.Drawing.Size(128, 26);
             this.tmpLoadBrowseToolStripMenuItem.Text = "Browse";
             this.tmpLoadBrowseToolStripMenuItem.Click += new System.EventHandler(this.TmpLoadBrowseToolStripMenuItem_Click);
             // 
@@ -1016,7 +1022,7 @@ namespace Synapse
             // 
             this.templateConfigureToolStripMenuItem.Enabled = false;
             this.templateConfigureToolStripMenuItem.Name = "templateConfigureToolStripMenuItem";
-            this.templateConfigureToolStripMenuItem.Size = new System.Drawing.Size(136, 24);
+            this.templateConfigureToolStripMenuItem.Size = new System.Drawing.Size(143, 26);
             this.templateConfigureToolStripMenuItem.Text = "Configure";
             this.templateConfigureToolStripMenuItem.Click += new System.EventHandler(this.TemplateConfigureToolStripMenuItem_Click);
             // 
@@ -1304,19 +1310,19 @@ namespace Synapse
             // markManualToolStripMenuItem
             // 
             this.markManualToolStripMenuItem.Name = "markManualToolStripMenuItem";
-            this.markManualToolStripMenuItem.Size = new System.Drawing.Size(155, 24);
+            this.markManualToolStripMenuItem.Size = new System.Drawing.Size(163, 26);
             this.markManualToolStripMenuItem.Text = "Manual";
             // 
             // markFaultyToolStripMenuItem
             // 
             this.markFaultyToolStripMenuItem.Name = "markFaultyToolStripMenuItem";
-            this.markFaultyToolStripMenuItem.Size = new System.Drawing.Size(155, 24);
+            this.markFaultyToolStripMenuItem.Size = new System.Drawing.Size(163, 26);
             this.markFaultyToolStripMenuItem.Text = "Faulty";
             // 
             // markIncompatibleToolStripMenuItem
             // 
             this.markIncompatibleToolStripMenuItem.Name = "markIncompatibleToolStripMenuItem";
-            this.markIncompatibleToolStripMenuItem.Size = new System.Drawing.Size(155, 24);
+            this.markIncompatibleToolStripMenuItem.Size = new System.Drawing.Size(163, 26);
             this.markIncompatibleToolStripMenuItem.Text = "Incompatible";
             // 
             // internalDataPointDropDownBtn
@@ -1339,19 +1345,19 @@ namespace Synapse
             // internalLoadToolStripMenuItem
             // 
             this.internalLoadToolStripMenuItem.Name = "internalLoadToolStripMenuItem";
-            this.internalLoadToolStripMenuItem.Size = new System.Drawing.Size(126, 24);
+            this.internalLoadToolStripMenuItem.Size = new System.Drawing.Size(133, 26);
             this.internalLoadToolStripMenuItem.Text = "Load";
             // 
             // internalSaveToolStripMenuItem
             // 
             this.internalSaveToolStripMenuItem.Name = "internalSaveToolStripMenuItem";
-            this.internalSaveToolStripMenuItem.Size = new System.Drawing.Size(126, 24);
+            this.internalSaveToolStripMenuItem.Size = new System.Drawing.Size(133, 26);
             this.internalSaveToolStripMenuItem.Text = "Save";
             // 
             // internalRemoveToolStripMenuItem
             // 
             this.internalRemoveToolStripMenuItem.Name = "internalRemoveToolStripMenuItem";
-            this.internalRemoveToolStripMenuItem.Size = new System.Drawing.Size(126, 24);
+            this.internalRemoveToolStripMenuItem.Size = new System.Drawing.Size(133, 26);
             this.internalRemoveToolStripMenuItem.Text = "Remove";
             // 
             // externalDataPointDropDownBtn
@@ -1373,14 +1379,14 @@ namespace Synapse
             // externalLoadToolStripMenuItem
             // 
             this.externalLoadToolStripMenuItem.Name = "externalLoadToolStripMenuItem";
-            this.externalLoadToolStripMenuItem.Size = new System.Drawing.Size(107, 24);
+            this.externalLoadToolStripMenuItem.Size = new System.Drawing.Size(111, 26);
             this.externalLoadToolStripMenuItem.Text = "Load";
             this.externalLoadToolStripMenuItem.Click += new System.EventHandler(this.externalLoadToolStripMenuItem_Click);
             // 
             // externalSaveToolStripMenuItem
             // 
             this.externalSaveToolStripMenuItem.Name = "externalSaveToolStripMenuItem";
-            this.externalSaveToolStripMenuItem.Size = new System.Drawing.Size(107, 24);
+            this.externalSaveToolStripMenuItem.Size = new System.Drawing.Size(111, 26);
             this.externalSaveToolStripMenuItem.Text = "Save";
             this.externalSaveToolStripMenuItem.Click += new System.EventHandler(this.externalSaveToolStripMenuItem_Click);
             // 
@@ -1455,6 +1461,7 @@ namespace Synapse
             this.templateImageBox.ImageBorderStyle = Cyotek.Windows.Forms.ImageBoxBorderStyle.FixedSingleGlowShadow;
             this.templateImageBox.Location = new System.Drawing.Point(0, 0);
             this.templateImageBox.Name = "templateImageBox";
+            this.templateImageBox.ResizeAnchor = Cyotek.Windows.Forms.Demo.DragHandleAnchor.None;
             this.templateImageBox.SelectionMode = Cyotek.Windows.Forms.ImageBoxSelectionMode.Rectangle;
             this.templateImageBox.Size = new System.Drawing.Size(635, 478);
             this.templateImageBox.StepSize = new System.Drawing.Size(8, 8);
@@ -1471,9 +1478,9 @@ namespace Synapse
             this.nonDockingClientArea.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.nonDockingClientArea.Controls.Add(this.configTabPanel);
             this.nonDockingClientArea.Controls.Add(this.readingTabPanel);
-            this.nonDockingClientArea.Location = new System.Drawing.Point(369, 223);
+            this.nonDockingClientArea.Location = new System.Drawing.Point(370, 223);
             this.nonDockingClientArea.Name = "nonDockingClientArea";
-            this.nonDockingClientArea.Size = new System.Drawing.Size(714, 495);
+            this.nonDockingClientArea.Size = new System.Drawing.Size(712, 495);
             this.nonDockingClientArea.SizeToFit = true;
             this.nonDockingClientArea.TabIndex = 2;
             // 
@@ -1790,7 +1797,7 @@ namespace Synapse
             // 
             this.configPropertiesPanel.Controls.Add(this.configPropertyEditor);
             this.configPropertiesPanel.Dock = System.Windows.Forms.DockStyle.Right;
-            this.configPropertiesPanel.Location = new System.Drawing.Point(1083, 223);
+            this.configPropertiesPanel.Location = new System.Drawing.Point(1082, 223);
             this.configPropertiesPanel.Name = "configPropertiesPanel";
             this.configPropertiesPanel.Size = new System.Drawing.Size(200, 525);
             this.configPropertiesPanel.TabIndex = 3;
@@ -1809,7 +1816,7 @@ namespace Synapse
             // 
             this.dataImageBoxPanel.Controls.Add(this.dataImageBox);
             this.dataImageBoxPanel.Dock = System.Windows.Forms.DockStyle.Right;
-            this.dataImageBoxPanel.Location = new System.Drawing.Point(1283, 223);
+            this.dataImageBoxPanel.Location = new System.Drawing.Point(1282, 223);
             this.dataImageBoxPanel.Name = "dataImageBoxPanel";
             this.dataImageBoxPanel.Size = new System.Drawing.Size(200, 525);
             this.dataImageBoxPanel.TabIndex = 4;
@@ -1826,6 +1833,7 @@ namespace Synapse
             this.dataImageBox.ImageBorderStyle = Cyotek.Windows.Forms.ImageBoxBorderStyle.FixedSingleGlowShadow;
             this.dataImageBox.Location = new System.Drawing.Point(0, 0);
             this.dataImageBox.Name = "dataImageBox";
+            this.dataImageBox.ResizeAnchor = Cyotek.Windows.Forms.Demo.DragHandleAnchor.None;
             this.dataImageBox.SelectionMode = Cyotek.Windows.Forms.ImageBoxSelectionMode.Rectangle;
             this.dataImageBox.Size = new System.Drawing.Size(200, 525);
             this.dataImageBox.StepSize = new System.Drawing.Size(8, 8);
@@ -1837,7 +1845,7 @@ namespace Synapse
             // readingTabStatusBar
             // 
             this.readingTabStatusBar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(128)))), ((int)(((byte)(215)))));
-            this.readingTabStatusBar.BeforeTouchSize = new System.Drawing.Size(1082, 30);
+            this.readingTabStatusBar.BeforeTouchSize = new System.Drawing.Size(1080, 30);
             this.readingTabStatusBar.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(128)))), ((int)(((byte)(215)))));
             this.readingTabStatusBar.BorderSides = System.Windows.Forms.Border3DSide.Top;
             this.readingTabStatusBar.BorderSingle = System.Windows.Forms.ButtonBorderStyle.None;
@@ -1847,12 +1855,12 @@ namespace Synapse
             this.readingTabStatusBar.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.readingTabStatusBar.Font = new System.Drawing.Font("Dosis", 8.249999F);
             this.readingTabStatusBar.ForeColor = System.Drawing.Color.White;
-            this.readingTabStatusBar.Location = new System.Drawing.Point(1, 718);
+            this.readingTabStatusBar.Location = new System.Drawing.Point(2, 718);
             this.readingTabStatusBar.Margin = new System.Windows.Forms.Padding(0);
             this.readingTabStatusBar.MetroColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(128)))), ((int)(((byte)(215)))));
             this.readingTabStatusBar.Name = "readingTabStatusBar";
             this.readingTabStatusBar.Padding = new System.Windows.Forms.Padding(1);
-            this.readingTabStatusBar.Size = new System.Drawing.Size(1082, 30);
+            this.readingTabStatusBar.Size = new System.Drawing.Size(1080, 30);
             this.readingTabStatusBar.Spacing = new System.Drawing.Size(2, 2);
             this.readingTabStatusBar.Style = Syncfusion.Windows.Forms.Tools.StatusbarStyle.Metro;
             this.readingTabStatusBar.TabIndex = 4;
@@ -2172,7 +2180,7 @@ namespace Synapse
             this.answerKeyPanel.Controls.Add(this.addAnswerKeyPanel);
             this.answerKeyPanel.Controls.Add(this.answerKeyMainPanel);
             this.answerKeyPanel.Dock = System.Windows.Forms.DockStyle.Left;
-            this.answerKeyPanel.Location = new System.Drawing.Point(1, 223);
+            this.answerKeyPanel.Location = new System.Drawing.Point(2, 223);
             this.answerKeyPanel.Name = "answerKeyPanel";
             this.answerKeyPanel.Size = new System.Drawing.Size(368, 495);
             this.answerKeyPanel.TabIndex = 5;
@@ -2261,7 +2269,7 @@ namespace Synapse
             // answerKeyParameterValueField
             // 
             this.answerKeyParameterValueField.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.answerKeyParameterValueField.BeforeTouchSize = new System.Drawing.Size(149, 36);
+            this.answerKeyParameterValueField.BeforeTouchSize = new System.Drawing.Size(149, 35);
             this.answerKeyParameterValueField.Border3DStyle = System.Windows.Forms.Border3DStyle.Flat;
             this.answerKeyParameterValueField.BorderSides = System.Windows.Forms.Border3DSide.Bottom;
             this.answerKeyParameterValueField.CanOverrideStyle = true;
@@ -2275,7 +2283,7 @@ namespace Synapse
             this.answerKeyParameterValueField.MetroBorderColor = System.Drawing.Color.White;
             this.answerKeyParameterValueField.MinimumSize = new System.Drawing.Size(100, 40);
             this.answerKeyParameterValueField.Name = "answerKeyParameterValueField";
-            this.answerKeyParameterValueField.Size = new System.Drawing.Size(149, 36);
+            this.answerKeyParameterValueField.Size = new System.Drawing.Size(149, 35);
             this.answerKeyParameterValueField.Style = Syncfusion.Windows.Forms.VisualStyle.Office2016White;
             this.answerKeyParameterValueField.TabIndex = 21;
             this.answerKeyParameterValueField.Text = "Value";
@@ -2285,7 +2293,7 @@ namespace Synapse
             // answerKeyParameterField
             // 
             this.answerKeyParameterField.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.answerKeyParameterField.BeforeTouchSize = new System.Drawing.Size(217, 36);
+            this.answerKeyParameterField.BeforeTouchSize = new System.Drawing.Size(217, 35);
             this.answerKeyParameterField.Border3DStyle = System.Windows.Forms.Border3DStyle.Flat;
             this.answerKeyParameterField.BorderSides = ((System.Windows.Forms.Border3DSide)((System.Windows.Forms.Border3DSide.Right | System.Windows.Forms.Border3DSide.Bottom)));
             this.answerKeyParameterField.CanOverrideStyle = true;
@@ -2299,7 +2307,7 @@ namespace Synapse
             this.answerKeyParameterField.MetroBorderColor = System.Drawing.Color.White;
             this.answerKeyParameterField.MinimumSize = new System.Drawing.Size(100, 40);
             this.answerKeyParameterField.Name = "answerKeyParameterField";
-            this.answerKeyParameterField.Size = new System.Drawing.Size(217, 36);
+            this.answerKeyParameterField.Size = new System.Drawing.Size(217, 35);
             this.answerKeyParameterField.Style = Syncfusion.Windows.Forms.VisualStyle.Office2016White;
             this.answerKeyParameterField.TabIndex = 20;
             this.answerKeyParameterField.Text = "Parameter";
@@ -2350,7 +2358,7 @@ namespace Synapse
             // configurationComboBox
             // 
             this.configurationComboBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.configurationComboBox.BeforeTouchSize = new System.Drawing.Size(210, 38);
+            this.configurationComboBox.BeforeTouchSize = new System.Drawing.Size(210, 37);
             this.configurationComboBox.Border3DStyle = System.Windows.Forms.Border3DStyle.Flat;
             this.configurationComboBox.BorderSides = System.Windows.Forms.Border3DSide.Bottom;
             this.configurationComboBox.CanOverrideStyle = true;
@@ -2363,7 +2371,7 @@ namespace Synapse
             this.configurationComboBox.Margin = new System.Windows.Forms.Padding(3, 3, 5, 3);
             this.configurationComboBox.MetroBorderColor = System.Drawing.Color.White;
             this.configurationComboBox.Name = "configurationComboBox";
-            this.configurationComboBox.Size = new System.Drawing.Size(210, 38);
+            this.configurationComboBox.Size = new System.Drawing.Size(210, 37);
             this.configurationComboBox.Style = Syncfusion.Windows.Forms.VisualStyle.Office2016White;
             this.configurationComboBox.TabIndex = 22;
             this.configurationComboBox.Text = "Select Configuration";
@@ -2374,7 +2382,7 @@ namespace Synapse
             // answerKeyPaperComboBox
             // 
             this.answerKeyPaperComboBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.answerKeyPaperComboBox.BeforeTouchSize = new System.Drawing.Size(142, 38);
+            this.answerKeyPaperComboBox.BeforeTouchSize = new System.Drawing.Size(142, 37);
             this.answerKeyPaperComboBox.Border3DStyle = System.Windows.Forms.Border3DStyle.Flat;
             this.answerKeyPaperComboBox.BorderSides = System.Windows.Forms.Border3DSide.Bottom;
             this.answerKeyPaperComboBox.CanOverrideStyle = true;
@@ -2387,7 +2395,7 @@ namespace Synapse
             this.answerKeyPaperComboBox.Margin = new System.Windows.Forms.Padding(3, 3, 5, 3);
             this.answerKeyPaperComboBox.MetroBorderColor = System.Drawing.Color.White;
             this.answerKeyPaperComboBox.Name = "answerKeyPaperComboBox";
-            this.answerKeyPaperComboBox.Size = new System.Drawing.Size(142, 38);
+            this.answerKeyPaperComboBox.Size = new System.Drawing.Size(142, 37);
             this.answerKeyPaperComboBox.Style = Syncfusion.Windows.Forms.VisualStyle.Office2016White;
             this.answerKeyPaperComboBox.TabIndex = 21;
             this.answerKeyPaperComboBox.Text = "Paper";
@@ -2672,7 +2680,7 @@ namespace Synapse
             // 
             // SynapseMain
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 14F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.Borders = new System.Windows.Forms.Padding(0);

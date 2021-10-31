@@ -1401,8 +1401,7 @@ namespace Synapse
 
         private void SelectedTemplateConfigChanged(OnTemplateConfig selectedTemplate)
         {
-            configPropertyEditor.PropertyGrid.SelectedObject =
-                selectedTemplate == null ? null : selectedTemplate.Configuration ?? null;
+            configPropertyEditor.PropertyGrid.SelectedObject = selectedTemplate?.Configuration;
             if (configPropertyEditor.PropertyGrid.SelectedObject != null)
             {
                 if (mainDockingManager.GetState(configPropertiesPanel) == DockState.Hidden ||
