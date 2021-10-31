@@ -1,8 +1,10 @@
 ﻿namespace Synapse.Core.Managers
 {
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
 
+    using Synapse.Core.Configurations;
     using Synapse.Utilities.Memory;
 
     public class GeneralManager
@@ -17,6 +19,21 @@
             {
                 GetExamPapers = new ExamPapers(new List<Paper>());
             }
+
+            ConfigurationTypeStringConverter.GetConfigurations = () =>
+            {
+                var parameterConfigs = ConfigurationsManager
+                    .GetConfigurations(MainConfigType.OMR,
+                        x =>
+                        {
+                            var omrX = (OMRConfiguration)x;
+                            return omrX.OMRType == OMRType.Parameter;
+                        })
+                    .Select(x => x.Title)
+                    .ToList();
+
+                return parameterConfigs;
+            };
         }
 
         public static bool RemovePaper(Paper paper)

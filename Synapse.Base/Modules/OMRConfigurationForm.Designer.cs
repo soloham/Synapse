@@ -132,6 +132,7 @@
             this.imageBox.Location = new System.Drawing.Point(0, 24);
             this.imageBox.Margin = new System.Windows.Forms.Padding(0);
             this.imageBox.Name = "imageBox";
+            this.imageBox.ResizeAnchor = Cyotek.Windows.Forms.Demo.DragHandleAnchor.None;
             this.imageBox.SelectionMode = Cyotek.Windows.Forms.ImageBoxSelectionMode.Rectangle;
             this.imageBox.Size = new System.Drawing.Size(411, 337);
             this.imageBox.StepSize = new System.Drawing.Size(8, 8);
@@ -231,7 +232,7 @@
             // comboValueStateValueComboBox
             // 
             this.comboValueStateValueComboBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.comboValueStateValueComboBox.BeforeTouchSize = new System.Drawing.Size(69, 43);
+            this.comboValueStateValueComboBox.BeforeTouchSize = new System.Drawing.Size(69, 42);
             this.comboValueStateValueComboBox.Border3DStyle = System.Windows.Forms.Border3DStyle.Flat;
             this.comboValueStateValueComboBox.BorderSides = System.Windows.Forms.Border3DSide.Bottom;
             this.comboValueStateValueComboBox.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -242,7 +243,7 @@
             this.comboValueStateValueComboBox.Location = new System.Drawing.Point(78, 3);
             this.comboValueStateValueComboBox.MetroBorderColor = System.Drawing.Color.White;
             this.comboValueStateValueComboBox.Name = "comboValueStateValueComboBox";
-            this.comboValueStateValueComboBox.Size = new System.Drawing.Size(69, 43);
+            this.comboValueStateValueComboBox.Size = new System.Drawing.Size(69, 42);
             this.comboValueStateValueComboBox.Style = Syncfusion.Windows.Forms.VisualStyle.Office2016White;
             this.comboValueStateValueComboBox.TabIndex = 15;
             this.comboValueStateValueComboBox.Text = "Combo Box";
@@ -251,7 +252,7 @@
             // comboValueStateComboBox
             // 
             this.comboValueStateComboBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.comboValueStateComboBox.BeforeTouchSize = new System.Drawing.Size(69, 43);
+            this.comboValueStateComboBox.BeforeTouchSize = new System.Drawing.Size(69, 42);
             this.comboValueStateComboBox.Border3DStyle = System.Windows.Forms.Border3DStyle.Flat;
             this.comboValueStateComboBox.BorderSides = System.Windows.Forms.Border3DSide.Bottom;
             this.comboValueStateComboBox.CanOverrideStyle = true;
@@ -263,7 +264,7 @@
             this.comboValueStateComboBox.Location = new System.Drawing.Point(3, 3);
             this.comboValueStateComboBox.MetroBorderColor = System.Drawing.Color.White;
             this.comboValueStateComboBox.Name = "comboValueStateComboBox";
-            this.comboValueStateComboBox.Size = new System.Drawing.Size(69, 43);
+            this.comboValueStateComboBox.Size = new System.Drawing.Size(69, 42);
             this.comboValueStateComboBox.Style = Syncfusion.Windows.Forms.VisualStyle.Office2016White;
             this.comboValueStateComboBox.TabIndex = 14;
             this.comboValueStateComboBox.Text = "ComboBox";
@@ -331,7 +332,7 @@
             // stringValueStateComboBox
             // 
             this.stringValueStateComboBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.stringValueStateComboBox.BeforeTouchSize = new System.Drawing.Size(69, 43);
+            this.stringValueStateComboBox.BeforeTouchSize = new System.Drawing.Size(69, 42);
             this.stringValueStateComboBox.Border3DStyle = System.Windows.Forms.Border3DStyle.Flat;
             this.stringValueStateComboBox.BorderSides = System.Windows.Forms.Border3DSide.Bottom;
             this.stringValueStateComboBox.CanOverrideStyle = true;
@@ -343,7 +344,7 @@
             this.stringValueStateComboBox.Location = new System.Drawing.Point(3, 3);
             this.stringValueStateComboBox.MetroBorderColor = System.Drawing.Color.White;
             this.stringValueStateComboBox.Name = "stringValueStateComboBox";
-            this.stringValueStateComboBox.Size = new System.Drawing.Size(69, 43);
+            this.stringValueStateComboBox.Size = new System.Drawing.Size(69, 42);
             this.stringValueStateComboBox.Style = Syncfusion.Windows.Forms.VisualStyle.Office2016White;
             this.stringValueStateComboBox.TabIndex = 14;
             this.stringValueStateComboBox.Text = "ComboBox";
@@ -434,7 +435,7 @@
             // integerStateComboBox
             // 
             this.integerStateComboBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.integerStateComboBox.BeforeTouchSize = new System.Drawing.Size(69, 43);
+            this.integerStateComboBox.BeforeTouchSize = new System.Drawing.Size(69, 42);
             this.integerStateComboBox.Border3DStyle = System.Windows.Forms.Border3DStyle.Flat;
             this.integerStateComboBox.BorderSides = System.Windows.Forms.Border3DSide.Bottom;
             this.integerStateComboBox.CanOverrideStyle = true;
@@ -446,7 +447,7 @@
             this.integerStateComboBox.Location = new System.Drawing.Point(3, 3);
             this.integerStateComboBox.MetroBorderColor = System.Drawing.Color.White;
             this.integerStateComboBox.Name = "integerStateComboBox";
-            this.integerStateComboBox.Size = new System.Drawing.Size(69, 43);
+            this.integerStateComboBox.Size = new System.Drawing.Size(69, 42);
             this.integerStateComboBox.Style = Syncfusion.Windows.Forms.VisualStyle.Office2016White;
             this.integerStateComboBox.TabIndex = 13;
             this.integerStateComboBox.Text = "ComboBox";
@@ -538,7 +539,7 @@
             // doubleStateComboBox
             // 
             this.doubleStateComboBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.doubleStateComboBox.BeforeTouchSize = new System.Drawing.Size(69, 43);
+            this.doubleStateComboBox.BeforeTouchSize = new System.Drawing.Size(69, 42);
             this.doubleStateComboBox.Border3DStyle = System.Windows.Forms.Border3DStyle.Flat;
             this.doubleStateComboBox.BorderSides = System.Windows.Forms.Border3DSide.Bottom;
             this.doubleStateComboBox.CanOverrideStyle = true;
@@ -550,7 +551,7 @@
             this.doubleStateComboBox.Location = new System.Drawing.Point(3, 3);
             this.doubleStateComboBox.MetroBorderColor = System.Drawing.Color.White;
             this.doubleStateComboBox.Name = "doubleStateComboBox";
-            this.doubleStateComboBox.Size = new System.Drawing.Size(69, 43);
+            this.doubleStateComboBox.Size = new System.Drawing.Size(69, 42);
             this.doubleStateComboBox.Style = Syncfusion.Windows.Forms.VisualStyle.Office2016White;
             this.doubleStateComboBox.TabIndex = 14;
             this.doubleStateComboBox.Text = "ComboBox";
@@ -597,7 +598,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.comboBoxStateComboBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.comboBoxStateComboBox.BeforeTouchSize = new System.Drawing.Size(372, 43);
+            this.comboBoxStateComboBox.BeforeTouchSize = new System.Drawing.Size(372, 44);
             this.comboBoxStateComboBox.Border3DStyle = System.Windows.Forms.Border3DStyle.Flat;
             this.comboBoxStateComboBox.BorderSides = System.Windows.Forms.Border3DSide.Bottom;
             this.comboBoxStateComboBox.FlatBorderColor = System.Drawing.Color.White;
@@ -607,7 +608,7 @@
             this.comboBoxStateComboBox.Location = new System.Drawing.Point(0, 4);
             this.comboBoxStateComboBox.MetroBorderColor = System.Drawing.Color.White;
             this.comboBoxStateComboBox.Name = "comboBoxStateComboBox";
-            this.comboBoxStateComboBox.Size = new System.Drawing.Size(372, 43);
+            this.comboBoxStateComboBox.Size = new System.Drawing.Size(372, 44);
             this.comboBoxStateComboBox.Style = Syncfusion.Windows.Forms.VisualStyle.Office2016White;
             this.comboBoxStateComboBox.TabIndex = 0;
             this.comboBoxStateComboBox.Text = "Combo Box";
@@ -950,7 +951,7 @@
             // selectStateComboBox
             // 
             this.selectStateComboBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.selectStateComboBox.BeforeTouchSize = new System.Drawing.Size(402, 43);
+            this.selectStateComboBox.BeforeTouchSize = new System.Drawing.Size(402, 42);
             this.selectStateComboBox.Border3DStyle = System.Windows.Forms.Border3DStyle.Flat;
             this.selectStateComboBox.BorderSides = System.Windows.Forms.Border3DSide.Bottom;
             this.selectStateComboBox.CanOverrideStyle = true;
@@ -962,7 +963,7 @@
             this.selectStateComboBox.Location = new System.Drawing.Point(3, 3);
             this.selectStateComboBox.MetroBorderColor = System.Drawing.Color.White;
             this.selectStateComboBox.Name = "selectStateComboBox";
-            this.selectStateComboBox.Size = new System.Drawing.Size(402, 43);
+            this.selectStateComboBox.Size = new System.Drawing.Size(402, 42);
             this.selectStateComboBox.Style = Syncfusion.Windows.Forms.VisualStyle.Office2016White;
             this.selectStateComboBox.TabIndex = 15;
             this.selectStateComboBox.Text = "Region Settings";
@@ -1000,6 +1001,8 @@
             this.ShowToolTip = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Style.InactiveShadowOpacity = ((byte)(50));
+            this.Style.MdiChild.IconHorizontalAlignment = System.Windows.Forms.HorizontalAlignment.Center;
+            this.Style.MdiChild.IconVerticalAlignment = System.Windows.Forms.VisualStyles.VerticalAlignment.Center;
             this.Style.ShadowOpacity = ((byte)(0));
             this.Style.TitleBar.BackColor = System.Drawing.Color.White;
             this.Style.TitleBar.Font = new System.Drawing.Font("Dosis", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));

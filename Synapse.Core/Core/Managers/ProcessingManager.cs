@@ -289,7 +289,7 @@ namespace Synapse.Core.Managers
         {
             var worker = (BackgroundWorker)sender;
             var sheetsPaths = loadedSheetsData.GetSheetsPath;
-            var allConfigurations = ConfigurationsManager.GetAllConfigurations;
+            var allOrderedConfigurations = ConfigurationsManager.GetOrderedConfigurations();
 
             double runningAverage = 0;
             double runningTotal = 0;
@@ -302,7 +302,7 @@ namespace Synapse.Core.Managers
             var pauseGrading = false;
             var isActivated = CurrentTemplate.TemplateData.IsActivatedd && IsVerified;
 
-            var renameFields = allConfigurations.FindAll(x => x.AddToFileName);
+            var renameFields = allOrderedConfigurations.FindAll(x => x.AddToFileName);
             for (var i = 0; i < sheetsPaths.Length; i++)
             {
                 if (worker.CancellationPending || !isActivated && i >= MAX_UNACTIVATED_SHEETS)
@@ -346,8 +346,9 @@ namespace Synapse.Core.Managers
                     }
 
                     var processedDataEntriesEx = new List<ProcessedDataEntry>();
-                    for (var i1 = 0; i1 < allConfigurations.Count; i1++)
-                        processedDataEntriesEx.Add(new ProcessedDataEntry(allConfigurations[i1].Title, new[] { '—' },
+                    for (var i1 = 0; i1 < allOrderedConfigurations.Count; i1++)
+                        processedDataEntriesEx.Add(new ProcessedDataEntry(allOrderedConfigurations[i1].Title,
+                            new[] { '—' },
                             new[] { ProcessedDataType.INCOMPATIBLE }, new byte[0, 0]));
                     var processedDataRowEx =
                         new ProcessedDataRow(processedDataEntriesEx, i, sheetsPaths[i], processedRowType);
@@ -373,16 +374,32 @@ namespace Synapse.Core.Managers
                 var parameterBasedGradings =
                     new List<(ProcessedDataEntry toGradeEntry, Dictionary<int, byte[]> markCorrectFields, Parameter[]
                         gradingParameters)>();
-                for (var i1 = 0; i1 < allConfigurations.Count; i1++)
+                for (var i1 = 0; i1 < allOrderedConfigurations.Count; i1++)
                 {
-                    curConfigurationBase = allConfigurations[i1];
+                    curConfigurationBase = allOrderedConfigurations[i1];
                     ProcessedDataEntry? _processedDataEntry = null;
                     Dictionary<int, byte[]> markCorrectFields = null;
                     switch (curConfigurationBase.GetMainConfigType)
                     {
                         case MainConfigType.OMR:
+                        {
+                            if (!string.IsNullOrEmpty(curConfigurationBase.ParameterConfigTitle) &&
+                                !string.IsNullOrEmpty(curConfigurationBase.ParameterConfigValue))
+                            {
+                                var processedParameterValue = processedDataEntries
+                                    .Single(x => x.ConfigurationTitle == curConfigurationBase.ParameterConfigTitle)
+                                    .FormatData();
+
+                                if (!string.Equals(processedParameterValue[0],
+                                    curConfigurationBase.ParameterConfigValue, StringComparison.OrdinalIgnoreCase))
+                                {
+                                    continue;
+                                }
+                            }
+
                             _processedDataEntry = CurOMREngine.ProcessSheet(curConfigurationBase, alignedSheet, null,
                                 sheetsPaths[i]);
+                        }
                             break;
 
                         case MainConfigType.BARCODE:
@@ -411,7 +428,7 @@ namespace Synapse.Core.Managers
                     {
                         var dataTitle = dataColumns != null && dataColumns.Count > 0
                             ? dataColumns[lastDataColumnsIndex + 1]
-                            : allConfigurations[i1].Title;
+                            : allOrderedConfigurations[i1].Title;
                         Functions.AddProperty(dynamicDataRow, dataTitle, formattedOutput[0]);
 
                         lastDataColumnsIndex++;
@@ -422,7 +439,7 @@ namespace Synapse.Core.Managers
                         {
                             var dataTitle = dataColumns != null && dataColumns.Count > 0
                                 ? dataColumns[lastDataColumnsIndex + 1 + i2]
-                                : allConfigurations[i1].Title[0] + (i2 + 1).ToString();
+                                : allOrderedConfigurations[i1].Title[0] + (i2 + 1).ToString();
                             Functions.AddProperty(dynamicDataRow, dataTitle, formattedOutput[i2]);
                         }
 
@@ -476,9 +493,8 @@ namespace Synapse.Core.Managers
                                                     for (var i2 = 0; i2 < 2; i2++)
                                                     {
                                                         var dataTitle = i2 == 0
-                                                            ?
-                                                            omrConfig.Title + " Score " +
-                                                            omrConfig.GeneralAnswerKeys[k].Title
+                                                            ? omrConfig.Title + " Score " +
+                                                              omrConfig.GeneralAnswerKeys[k].Title
                                                             : i2 == 1
                                                                 ? omrConfig.Title + " Paper " +
                                                                   omrConfig.GeneralAnswerKeys[k].Title
@@ -496,9 +512,8 @@ namespace Synapse.Core.Managers
                                                     for (var i2 = 0; i2 < 2; i2++)
                                                     {
                                                         var dataTitle = i2 == 0
-                                                            ?
-                                                            omrConfig.Title + " Score " +
-                                                            omrConfig.GeneralAnswerKeys[k].Title
+                                                            ? omrConfig.Title + " Score " +
+                                                              omrConfig.GeneralAnswerKeys[k].Title
                                                             : i2 == 1
                                                                 ? omrConfig.Title + " Paper " +
                                                                   omrConfig.GeneralAnswerKeys[k].Title
@@ -591,8 +606,7 @@ namespace Synapse.Core.Managers
                         for (var i2 = 0; i2 < 2; i2++)
                         {
                             var dataTitle = i2 == 0
-                                ?
-                                omrConfig.Title + " Score " + omrConfig.PB_AnswerKeys.Values.ToArray()[k].Title
+                                ? omrConfig.Title + " Score " + omrConfig.PB_AnswerKeys.Values.ToArray()[k].Title
                                 : i2 == 1
                                     ? omrConfig.Title + " Paper " + omrConfig.PB_AnswerKeys.Values.ToArray()[k].Title
                                     : omrConfig.Title + $" x{i2}";
@@ -609,8 +623,7 @@ namespace Synapse.Core.Managers
                         for (var i2 = 0; i2 < 2; i2++)
                         {
                             var dataTitle = i2 == 0
-                                ?
-                                omrConfig.Title + " Score " + omrConfig.PB_AnswerKeys.Values.ToArray()[k].Title
+                                ? omrConfig.Title + " Score " + omrConfig.PB_AnswerKeys.Values.ToArray()[k].Title
                                 : i2 == 1
                                     ? omrConfig.Title + " Paper " + omrConfig.PB_AnswerKeys.Values.ToArray()[k].Title
                                     : omrConfig.Title + $" x{i2}";
@@ -991,9 +1004,8 @@ namespace Synapse.Core.Managers
                                                     for (var i2 = 0; i2 < 2; i2++)
                                                     {
                                                         var dataTitle = i2 == 0
-                                                            ?
-                                                            omrConfig.Title + " Score " +
-                                                            omrConfig.GeneralAnswerKeys[k].Title
+                                                            ? omrConfig.Title + " Score " +
+                                                              omrConfig.GeneralAnswerKeys[k].Title
                                                             : i2 == 1
                                                                 ? omrConfig.Title + " Paper " +
                                                                   omrConfig.GeneralAnswerKeys[k].Title
@@ -1010,9 +1022,8 @@ namespace Synapse.Core.Managers
                                                     for (var i2 = 0; i2 < 2; i2++)
                                                     {
                                                         var dataTitle = i2 == 0
-                                                            ?
-                                                            omrConfig.Title + " Score " +
-                                                            omrConfig.GeneralAnswerKeys[k].Title
+                                                            ? omrConfig.Title + " Score " +
+                                                              omrConfig.GeneralAnswerKeys[k].Title
                                                             : i2 == 1
                                                                 ? omrConfig.Title + " Paper " +
                                                                   omrConfig.GeneralAnswerKeys[k].Title
@@ -1070,8 +1081,7 @@ namespace Synapse.Core.Managers
                         for (var i2 = 0; i2 < 2; i2++)
                         {
                             var dataTitle = i2 == 0
-                                ?
-                                omrConfig.Title + " Score " + omrConfig.GeneralAnswerKeys[k].Title
+                                ? omrConfig.Title + " Score " + omrConfig.GeneralAnswerKeys[k].Title
                                 : i2 == 1
                                     ? omrConfig.Title + " Paper " + omrConfig.GeneralAnswerKeys[k].Title
                                     : omrConfig.Title + $" x{i2}";
@@ -1086,8 +1096,7 @@ namespace Synapse.Core.Managers
                         for (var i2 = 0; i2 < 2; i2++)
                         {
                             var dataTitle = i2 == 0
-                                ?
-                                omrConfig.Title + " Score " + omrConfig.GeneralAnswerKeys[k].Title
+                                ? omrConfig.Title + " Score " + omrConfig.GeneralAnswerKeys[k].Title
                                 : i2 == 1
                                     ? omrConfig.Title + " Paper " + omrConfig.GeneralAnswerKeys[k].Title
                                     : omrConfig.Title + $" x{i2}";

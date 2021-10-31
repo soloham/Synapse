@@ -2,6 +2,7 @@ namespace Synapse.Core.Managers
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
 
     using Synapse.Core.Configurations;
@@ -118,6 +119,30 @@ namespace Synapse.Core.Managers
             }
 
             return isRemoved;
+        }
+
+        public static List<ConfigurationBase> GetOrderedConfigurations()
+        {
+            var configurations = new List<ConfigurationBase>();
+
+            allConfigurations.ForEach(config =>
+            {
+                if (!string.IsNullOrEmpty(config.ParameterConfigTitle) &&
+                    !string.IsNullOrEmpty(config.ParameterConfigValue))
+                {
+                    if (configurations.All(x => x.Title != config.ParameterConfigTitle))
+                    {
+                        configurations.Insert(0, allConfigurations.Single(x => x.Title == config.ParameterConfigTitle));
+                    }
+                }
+
+                if (configurations.All(x => x.Title != config.Title))
+                {
+                    configurations.Add(config);
+                }
+            });
+
+            return configurations;
         }
 
         public static ConfigurationBase GetConfiguration(string configTitle)

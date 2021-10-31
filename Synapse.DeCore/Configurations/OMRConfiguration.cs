@@ -1284,7 +1284,9 @@
         public static OMRConfiguration CreateDefault(string regionName, Orientation orientation, ConfigArea configArea,
             OMRRegionData regionData, int processingIndex)
         {
-            var configurationBase = new BaseData(regionName, MainConfigType.OMR, configArea, ValueDataType.Integer,
+            var configurationBase = new BaseData(regionName, MainConfigType.OMR, "",
+                configArea,
+                ValueDataType.Integer,
                 Typography.Continious, ValueRepresentation.Collective, ValueEditType.ReadOnly, new ConfigRange(),
                 processingIndex);
             return new OMRConfiguration(configurationBase, regionData, orientation, OMRType.Parameter,

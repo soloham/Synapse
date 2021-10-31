@@ -1504,7 +1504,7 @@
         public Template(Data tmpData)
         {
             TemplateData = tmpData;
-            var ImageLocation = TemplateData.GetTemplateImage.ImageLocation;
+            var ImageLocation = TemplateData.GetTemplateImage?.ImageLocation;
             TemplateData.GetTemplateImage.ImageLocation = string.IsNullOrEmpty(ImageLocation) ? null :
                 File.Exists(ImageLocation) ? ImageLocation : LSTM.GetTemplateImagePath(tmpData.TemplateName);
             TemplateData.Initialize();
