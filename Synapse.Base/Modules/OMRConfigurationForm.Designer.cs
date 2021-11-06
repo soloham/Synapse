@@ -33,6 +33,11 @@
             this.imageBox = new Cyotek.Windows.Forms.Demo.ImageBoxEx();
             this.imageBoxPanel = new System.Windows.Forms.Panel();
             this.statePanelsPanel = new System.Windows.Forms.Panel();
+            this.MultiComboStatePanel = new System.Windows.Forms.TableLayoutPanel();
+            this.multiComboStateLabel = new Syncfusion.Windows.Forms.Tools.AutoLabel();
+            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+            this.multiComboStateSecondCombo = new Syncfusion.Windows.Forms.Tools.ComboBoxAdv();
+            this.multiComboStateFirstCombo = new Syncfusion.Windows.Forms.Tools.ComboBoxAdv();
             this.ComboValueStatePanel = new System.Windows.Forms.Panel();
             this.comboValueStateTablePanel = new System.Windows.Forms.TableLayoutPanel();
             this.comboValueStateLabel = new Syncfusion.Windows.Forms.Tools.AutoLabel();
@@ -85,6 +90,10 @@
             this.MainLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.imageBoxPanel.SuspendLayout();
             this.statePanelsPanel.SuspendLayout();
+            this.MultiComboStatePanel.SuspendLayout();
+            this.tableLayoutPanel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.multiComboStateSecondCombo)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.multiComboStateFirstCombo)).BeginInit();
             this.ComboValueStatePanel.SuspendLayout();
             this.comboValueStateTablePanel.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
@@ -158,6 +167,7 @@
             // 
             // statePanelsPanel
             // 
+            this.statePanelsPanel.Controls.Add(this.MultiComboStatePanel);
             this.statePanelsPanel.Controls.Add(this.ComboValueStatePanel);
             this.statePanelsPanel.Controls.Add(this.StringValueStatePanel);
             this.statePanelsPanel.Controls.Add(this.IntegerValueStatePanel);
@@ -170,6 +180,99 @@
             this.statePanelsPanel.Size = new System.Drawing.Size(411, 291);
             this.statePanelsPanel.TabIndex = 8;
             this.statePanelsPanel.Visible = false;
+            // 
+            // MultiComboStatePanel
+            // 
+            this.MultiComboStatePanel.ColumnCount = 2;
+            this.MultiComboStatePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 60F));
+            this.MultiComboStatePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40F));
+            this.MultiComboStatePanel.Controls.Add(this.multiComboStateLabel, 0, 0);
+            this.MultiComboStatePanel.Controls.Add(this.tableLayoutPanel3, 1, 0);
+            this.MultiComboStatePanel.Location = new System.Drawing.Point(8, 8);
+            this.MultiComboStatePanel.Name = "MultiComboStatePanel";
+            this.MultiComboStatePanel.RowCount = 1;
+            this.MultiComboStatePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.MultiComboStatePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.MultiComboStatePanel.Size = new System.Drawing.Size(375, 40);
+            this.MultiComboStatePanel.TabIndex = 16;
+            this.MultiComboStatePanel.Visible = false;
+            // 
+            // multiComboStateLabel
+            // 
+            this.multiComboStateLabel.AutoSize = false;
+            this.multiComboStateLabel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.multiComboStateLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.multiComboStateLabel.Font = new System.Drawing.Font("Dosis", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.multiComboStateLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this.multiComboStateLabel.Location = new System.Drawing.Point(3, 3);
+            this.multiComboStateLabel.Margin = new System.Windows.Forms.Padding(3);
+            this.multiComboStateLabel.Name = "multiComboStateLabel";
+            this.multiComboStateLabel.Size = new System.Drawing.Size(219, 34);
+            this.multiComboStateLabel.Style = Syncfusion.Windows.Forms.Tools.AutoLabelStyle.Office2016White;
+            this.multiComboStateLabel.TabIndex = 13;
+            this.multiComboStateLabel.Text = "Multi Combo";
+            this.multiComboStateLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.multiComboStateLabel.ThemeName = "Office2016White";
+            // 
+            // tableLayoutPanel3
+            // 
+            this.tableLayoutPanel3.ColumnCount = 2;
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel3.Controls.Add(this.multiComboStateSecondCombo, 1, 0);
+            this.tableLayoutPanel3.Controls.Add(this.multiComboStateFirstCombo, 0, 0);
+            this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(225, 0);
+            this.tableLayoutPanel3.Margin = new System.Windows.Forms.Padding(0);
+            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
+            this.tableLayoutPanel3.RowCount = 1;
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(150, 40);
+            this.tableLayoutPanel3.TabIndex = 14;
+            // 
+            // multiComboStateSecondCombo
+            // 
+            this.multiComboStateSecondCombo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.multiComboStateSecondCombo.BeforeTouchSize = new System.Drawing.Size(69, 42);
+            this.multiComboStateSecondCombo.Border3DStyle = System.Windows.Forms.Border3DStyle.Flat;
+            this.multiComboStateSecondCombo.BorderSides = System.Windows.Forms.Border3DSide.Bottom;
+            this.multiComboStateSecondCombo.CanOverrideStyle = true;
+            this.multiComboStateSecondCombo.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.multiComboStateSecondCombo.FlatBorderColor = System.Drawing.Color.White;
+            this.multiComboStateSecondCombo.FlatStyle = Syncfusion.Windows.Forms.Tools.ComboFlatStyle.Flat;
+            this.multiComboStateSecondCombo.Font = new System.Drawing.Font("Dosis", 20.75F);
+            this.multiComboStateSecondCombo.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this.multiComboStateSecondCombo.Location = new System.Drawing.Point(78, 3);
+            this.multiComboStateSecondCombo.MetroBorderColor = System.Drawing.Color.White;
+            this.multiComboStateSecondCombo.Name = "multiComboStateSecondCombo";
+            this.multiComboStateSecondCombo.Size = new System.Drawing.Size(69, 42);
+            this.multiComboStateSecondCombo.Style = Syncfusion.Windows.Forms.VisualStyle.Office2016White;
+            this.multiComboStateSecondCombo.TabIndex = 15;
+            this.multiComboStateSecondCombo.Text = "ComboBox";
+            this.multiComboStateSecondCombo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.multiComboStateSecondCombo.ThemeName = "Office2016White";
+            // 
+            // multiComboStateFirstCombo
+            // 
+            this.multiComboStateFirstCombo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.multiComboStateFirstCombo.BeforeTouchSize = new System.Drawing.Size(69, 42);
+            this.multiComboStateFirstCombo.Border3DStyle = System.Windows.Forms.Border3DStyle.Flat;
+            this.multiComboStateFirstCombo.BorderSides = System.Windows.Forms.Border3DSide.Bottom;
+            this.multiComboStateFirstCombo.CanOverrideStyle = true;
+            this.multiComboStateFirstCombo.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.multiComboStateFirstCombo.FlatBorderColor = System.Drawing.Color.White;
+            this.multiComboStateFirstCombo.FlatStyle = Syncfusion.Windows.Forms.Tools.ComboFlatStyle.Flat;
+            this.multiComboStateFirstCombo.Font = new System.Drawing.Font("Dosis", 20.75F);
+            this.multiComboStateFirstCombo.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this.multiComboStateFirstCombo.Location = new System.Drawing.Point(3, 3);
+            this.multiComboStateFirstCombo.MetroBorderColor = System.Drawing.Color.White;
+            this.multiComboStateFirstCombo.Name = "multiComboStateFirstCombo";
+            this.multiComboStateFirstCombo.Size = new System.Drawing.Size(69, 42);
+            this.multiComboStateFirstCombo.Style = Syncfusion.Windows.Forms.VisualStyle.Office2016White;
+            this.multiComboStateFirstCombo.TabIndex = 14;
+            this.multiComboStateFirstCombo.Text = "ComboBox";
+            this.multiComboStateFirstCombo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.multiComboStateFirstCombo.ThemeName = "Office2016White";
             // 
             // ComboValueStatePanel
             // 
@@ -1011,6 +1114,10 @@
             this.imageBoxPanel.ResumeLayout(false);
             this.imageBoxPanel.PerformLayout();
             this.statePanelsPanel.ResumeLayout(false);
+            this.MultiComboStatePanel.ResumeLayout(false);
+            this.tableLayoutPanel3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.multiComboStateSecondCombo)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.multiComboStateFirstCombo)).EndInit();
             this.ComboValueStatePanel.ResumeLayout(false);
             this.comboValueStateTablePanel.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
@@ -1104,5 +1211,10 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private Syncfusion.Windows.Forms.Tools.ComboBoxAdv comboValueStateValueComboBox;
         private Syncfusion.Windows.Forms.Tools.ComboBoxAdv comboValueStateComboBox;
+        private System.Windows.Forms.TableLayoutPanel MultiComboStatePanel;
+        private Syncfusion.Windows.Forms.Tools.AutoLabel multiComboStateLabel;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
+        private Syncfusion.Windows.Forms.Tools.ComboBoxAdv multiComboStateSecondCombo;
+        private Syncfusion.Windows.Forms.Tools.ComboBoxAdv multiComboStateFirstCombo;
     }
 }

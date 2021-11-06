@@ -1322,13 +1322,15 @@ namespace Synapse
         {
             templateConfigureToolStripMenuItem.Enabled = true;
 
-            if (this.TemplateStatus == StatusState.Red)
+            switch (this.TemplateStatus)
             {
-                this.TemplateStatus = StatusState.Yellow;
-            }
-            else if (this.TemplateStatus == StatusState.Green)
-            {
-                templateLoadToolStripMenuItem.Enabled = false;
+                case StatusState.Red:
+                    this.TemplateStatus = StatusState.Yellow;
+                    break;
+
+                case StatusState.Green:
+                    //templateLoadToolStripMenuItem.Enabled = false;
+                    break;
             }
         }
 
@@ -1438,7 +1440,7 @@ namespace Synapse
                 if (isSaved)
                 {
                     this.TemplateStatus = StatusState.Green;
-                    templateLoadToolStripMenuItem.Enabled = false;
+                    //templateLoadToolStripMenuItem.Enabled = false;
                 }
             }
             else
@@ -1542,7 +1544,7 @@ namespace Synapse
             incompatibleDataGrid.AutoGenerateColumns = false;
             incompatibleDataGrid.Columns.Clear();
 
-            var allConfigs = ConfigurationsManager.GetAllConfigurations;
+            var allConfigs = ConfigurationsManager.GetAllConfigurations.Where(x => string.IsNullOrEmpty(x.ParentTitle)).ToList();
             for (var i = 0; i < allConfigs.Count; i++)
             {
                 switch (allConfigs[i].GetMainConfigType)
@@ -2288,7 +2290,18 @@ namespace Synapse
                 var location = ImageFileBrowser.FileName;
                 try
                 {
-                    var tmpImage = CvInvoke.Imread(location, ImreadModes.Grayscale);
+                    Mat tmpImage;
+
+                    if (this.TemplateStatus != StatusState.Green)
+                    {
+                        tmpImage = CvInvoke.Imread(location, ImreadModes.Grayscale);
+                    }
+                    else
+                    {
+                        GetCurrentTemplate.GetAlignedImage(location,
+                            ProcessingEnums.RereadType.NORMAL, out tmpImage);
+                    }
+
                     templateImageBox.Image = tmpImage.Bitmap;
                     templateImageBox.ZoomToFit();
 
