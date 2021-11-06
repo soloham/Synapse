@@ -85,7 +85,7 @@
 
         public static OBRConfiguration CreateDefault(string regionName, ConfigArea configArea, int processingIndex)
         {
-            var baseData = new BaseData(regionName, MainConfigType.BARCODE, "", configArea,
+            var baseData = new BaseData(regionName, MainConfigType.BARCODE, configArea,
                 ValueDataType.Text,
                 Typography.Continious, ValueRepresentation.Collective, ValueEditType.ReadOnly, new ConfigRange(),
                 processingIndex);

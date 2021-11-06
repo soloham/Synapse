@@ -49,6 +49,12 @@
             [EnumDescription("Array")] ARRAY
         }
 
+        public enum DesignerModeType
+        {
+            [EnumDescription("Free")] FREE,
+            [EnumDescription("Dynamic")] DYNAMIC
+        }
+
         #endregion
 
         public OMRRegionData(Orientation orientation, int totalFields, RectangleF fieldsRegion,
@@ -56,9 +62,11 @@
             RectangleF optionsRegion, InterSpaceType interOptionsSpaceType, double interOptionsSpace,
             double[] interOptionsSpaces, int totalInstances, RectangleF configAreaRect,
             Orientation[] instancesOrientations, InterSpaceType interInstancesSpaceType, double interInstancesSpace,
-            double[] interInstancesSpaces)
+            double[] interInstancesSpaces, DesignerModeType designerMode,
+            Dictionary<int, List<RectangleF>> freeOptionRegions)
         {
             this.Orientation = orientation;
+            this.DesignerMode = designerMode;
 
             this.TotalFields = totalFields;
             this.FieldsRegion = fieldsRegion;
@@ -68,6 +76,7 @@
 
             this.TotalOptions = totalOptions;
             this.OptionsRegion = optionsRegion;
+            this.FreeOptionsRegion = freeOptionRegions;
             this.InterOptionsSpaceType = interOptionsSpaceType;
             this.InterOptionsSpace = interOptionsSpace;
             this.InterOptionsSpaces = interOptionsSpaces;
@@ -83,6 +92,7 @@
         #region Properties
 
         public Orientation Orientation { get; set; }
+        public DesignerModeType DesignerMode { get; set; }
 
         #region Fields Properties
 
@@ -110,6 +120,7 @@
 
         public int TotalOptions { get; set; }
         public RectangleF OptionsRegion { get; set; }
+        public Dictionary<int, List<RectangleF>> FreeOptionsRegion { get; set; }
         public InterSpaceType InterOptionsSpaceType { get; set; }
         public double InterOptionsSpace { get; set; }
         public double[] InterOptionsSpaces { get; set; }
@@ -349,6 +360,12 @@
         public List<RectangleF> CalculateOptionsRects()
         {
             this.CalculateInstancesRects();
+
+            if (this.DesignerMode == DesignerModeType.FREE)
+            {
+                return this.FreeOptionsRegion.Values.SelectMany(x => x).ToList();
+            }
+
             optionsRects = new List<RectangleF>();
 
             var lastFieldOptionRect = new RectangleF();
@@ -1284,7 +1301,7 @@
         public static OMRConfiguration CreateDefault(string regionName, Orientation orientation, ConfigArea configArea,
             OMRRegionData regionData, int processingIndex)
         {
-            var configurationBase = new BaseData(regionName, MainConfigType.OMR, "",
+            var configurationBase = new BaseData(regionName, MainConfigType.OMR,
                 configArea,
                 ValueDataType.Integer,
                 Typography.Continious, ValueRepresentation.Collective, ValueEditType.ReadOnly, new ConfigRange(),

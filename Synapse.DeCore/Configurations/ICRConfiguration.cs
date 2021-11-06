@@ -33,7 +33,7 @@
 
         public static ICRConfiguration CreateDefault(string regionName, ConfigArea configArea, int processingIndex)
         {
-            var baseData = new BaseData(regionName, MainConfigType.ICR, "", configArea,
+            var baseData = new BaseData(regionName, MainConfigType.ICR, configArea,
                 ValueDataType.Integer,
                 Typography.Continious, ValueRepresentation.Collective, ValueEditType.ReadOnly, new ConfigRange(),
                 processingIndex);

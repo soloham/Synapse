@@ -161,7 +161,6 @@
         {
             public string title;
             public MainConfigType mainConfigType;
-            public string parameterConfig;
             public ConfigArea configArea;
             public ValueDataType valueDataType;
             public Typography typography;
@@ -171,14 +170,12 @@
             public int processingIndex;
 
             public BaseData(string title, MainConfigType mainConfigType,
-                string parameterConfig,
                 ConfigArea configArea,
                 ValueDataType valueDataType, Typography typography, ValueRepresentation valueRepresentation,
                 ValueEditType valueEditType, ConfigRange configRange, int processingIndex)
             {
                 this.title = title;
                 this.mainConfigType = mainConfigType;
-                this.parameterConfig = parameterConfig;
                 this.configArea = configArea;
                 this.valueDataType = valueDataType;
                 this.typography = typography;
@@ -192,7 +189,6 @@
             {
                 title = initializationData.Title;
                 mainConfigType = initializationData.GetMainConfigType;
-                parameterConfig = initializationData.ParameterConfigTitle;
                 configArea = initializationData.GetConfigArea;
                 valueDataType = initializationData.ValueDataType;
                 typography = initializationData.Typography;
@@ -230,6 +226,12 @@
         [Browsable(false)] public MainConfigType GetMainConfigType { get; }
 
         [Browsable(false)] public int ProcessingIndex { get; set; }
+
+        [Category("Data")]
+        [DisplayName("Parent")]
+        [DefaultValue("None")]
+        [TypeConverter(typeof(ConfigurationTypeStringConverter))]
+        public string ParentTitle { get; set; }
 
         [Category("Data")]
         [DisplayName("Parameter")]

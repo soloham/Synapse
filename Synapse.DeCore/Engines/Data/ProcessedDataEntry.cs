@@ -36,9 +36,10 @@
         #region Properties
 
         public ConfigurationBase GetConfigurationBase =>
-            Communicator.GetConfigurationBase?.Invoke(this.ConfigurationTitle);
+            Communicator.GetConfigurationBase?.Invoke(this.ActualConfigurationTitle);
 
         public string ConfigurationTitle { get; private set; }
+        public string ActualConfigurationTitle { get; private set; }
         public MainConfigType GetMainConfigType => this.GetConfigurationBase.GetMainConfigType;
         public ProcessedDataType[] DataEntriesResultType { get; set; }
         public byte[,] GetOptionsOutputs { get; }
@@ -70,9 +71,11 @@
         #region Methods
 
         public ProcessedDataEntry(string configurationTitle, char[] fieldsOutputs,
-            ProcessedDataType[] processedDataResultType, byte[,] optionsOutputs, Barcode[] barcodesResult = null)
+            ProcessedDataType[] processedDataResultType, byte[,] optionsOutputs, Barcode[] barcodesResult = null,
+            string actualConfigurationTitle = null)
         {
             this.ConfigurationTitle = configurationTitle;
+            this.ActualConfigurationTitle = actualConfigurationTitle;
             this.fieldsOutputs = fieldsOutputs;
             this.GetOptionsOutputs = optionsOutputs;
 
@@ -96,8 +99,7 @@
                 {
                     case ValueRepresentation.Collective:
                         result = this.DataEntriesResultType.Contains(ProcessedDataType.INCOMPATIBLE)
-                            ?
-                            ProcessedDataType.INCOMPATIBLE
+                            ? ProcessedDataType.INCOMPATIBLE
                             : this.DataEntriesResultType.Contains(ProcessedDataType.FAULTY)
                                 ? ProcessedDataType.FAULTY
                                 : this.DataEntriesResultType.Contains(ProcessedDataType.MANUAL)
@@ -117,8 +119,7 @@
             else
             {
                 result = this.DataEntriesResultType.Contains(ProcessedDataType.INCOMPATIBLE)
-                    ?
-                    ProcessedDataType.INCOMPATIBLE
+                    ? ProcessedDataType.INCOMPATIBLE
                     : this.DataEntriesResultType.Contains(ProcessedDataType.FAULTY)
                         ? ProcessedDataType.FAULTY
                         : this.DataEntriesResultType.Contains(ProcessedDataType.MANUAL)
@@ -140,8 +141,7 @@
                 {
                     case ValueRepresentation.Collective:
                         result = this.DataEntriesResultType.Contains(ProcessedDataType.INCOMPATIBLE)
-                            ?
-                            ProcessedDataType.INCOMPATIBLE
+                            ? ProcessedDataType.INCOMPATIBLE
                             : this.DataEntriesResultType.Contains(ProcessedDataType.FAULTY)
                                 ? ProcessedDataType.FAULTY
                                 : this.DataEntriesResultType.Contains(ProcessedDataType.MANUAL)
@@ -151,8 +151,7 @@
 
                     case ValueRepresentation.Indiviual:
                         result = this.DataEntriesResultType.Contains(ProcessedDataType.INCOMPATIBLE)
-                            ?
-                            ProcessedDataType.INCOMPATIBLE
+                            ? ProcessedDataType.INCOMPATIBLE
                             : this.DataEntriesResultType.Contains(ProcessedDataType.FAULTY)
                                 ? ProcessedDataType.FAULTY
                                 : this.DataEntriesResultType.Contains(ProcessedDataType.MANUAL)
@@ -162,8 +161,7 @@
 
                     case ValueRepresentation.CombineTwo:
                         result = this.DataEntriesResultType.Contains(ProcessedDataType.INCOMPATIBLE)
-                            ?
-                            ProcessedDataType.INCOMPATIBLE
+                            ? ProcessedDataType.INCOMPATIBLE
                             : this.DataEntriesResultType.Contains(ProcessedDataType.FAULTY)
                                 ? ProcessedDataType.FAULTY
                                 : this.DataEntriesResultType.Contains(ProcessedDataType.MANUAL)
@@ -175,8 +173,7 @@
             else
             {
                 result = this.DataEntriesResultType.Contains(ProcessedDataType.INCOMPATIBLE)
-                    ?
-                    ProcessedDataType.INCOMPATIBLE
+                    ? ProcessedDataType.INCOMPATIBLE
                     : this.DataEntriesResultType.Contains(ProcessedDataType.FAULTY)
                         ? ProcessedDataType.FAULTY
                         : this.DataEntriesResultType.Contains(ProcessedDataType.MANUAL)

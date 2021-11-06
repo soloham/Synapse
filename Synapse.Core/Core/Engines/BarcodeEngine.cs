@@ -94,8 +94,12 @@
                 output = barcodes.Length > 0 ? barcodes[0].Text : "-";
             }
 
-            return new ProcessedDataEntry(configuration.Title, output.ToCharArray(), new[] { ProcessedDataType.NORMAL },
-                new byte[0, 0], barcodes);
+            var title = !string.IsNullOrEmpty(configuration.ParentTitle)
+                ? configuration.ParentTitle
+                : configuration.Title;
+
+            return new ProcessedDataEntry(title, output.ToCharArray(), new[] { ProcessedDataType.NORMAL },
+                new byte[0, 0], barcodes, configuration.Title);
         }
 
         private void ReadBarcodes1D(string fileName, int page)

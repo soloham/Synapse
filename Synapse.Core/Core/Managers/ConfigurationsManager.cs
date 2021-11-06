@@ -127,8 +127,9 @@ namespace Synapse.Core.Managers
 
             allConfigurations.ForEach(config =>
             {
-                if (!string.IsNullOrEmpty(config.ParameterConfigTitle) &&
-                    !string.IsNullOrEmpty(config.ParameterConfigValue))
+                var hasDefinedParameter = !string.IsNullOrEmpty(config.ParameterConfigTitle) &&
+                                          !string.IsNullOrEmpty(config.ParameterConfigValue);
+                if (hasDefinedParameter)
                 {
                     if (configurations.All(x => x.Title != config.ParameterConfigTitle))
                     {

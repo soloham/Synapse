@@ -165,8 +165,12 @@
                 curFieldOutputIndex++;
             }
 
-            var processedDataEntry = new ProcessedDataEntry(configuration.Title, regionFieldsOutputs,
-                processedDataResultsType, optionsOutputs);
+            var title = !string.IsNullOrEmpty(configuration.ParentTitle)
+                ? configuration.ParentTitle
+                : configuration.Title;
+
+            var processedDataEntry = new ProcessedDataEntry(title, regionFieldsOutputs,
+                processedDataResultsType, optionsOutputs, actualConfigurationTitle: configuration.Title);
             return processedDataEntry;
         }
 
@@ -305,8 +309,12 @@
                 regionOutput += curFieldOutput.ToString();
             }
 
-            var processedDataEntry = new ProcessedDataEntry(configuration.Title, regionFieldsOutputs,
-                processedDataResultsType, optionsOutputs);
+            var title = !string.IsNullOrEmpty(configuration.ParentTitle)
+                ? configuration.ParentTitle
+                : configuration.Title;
+
+            var processedDataEntry = new ProcessedDataEntry(title, regionFieldsOutputs,
+                processedDataResultsType, optionsOutputs, actualConfigurationTitle: configuration.Title);
             return processedDataEntry;
         }
 
