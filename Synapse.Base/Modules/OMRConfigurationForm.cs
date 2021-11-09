@@ -2003,7 +2003,11 @@ namespace Synapse.Modules
                     break;
 
                 case ConfigurationState.SELECT_DESIGNER_MODE:
-                    nextState = ConfigurationState.PROVIDE_TOTAL_FIELDS;
+                    if (designerMode == DesignerModeType.FREE)
+                    {
+                        nextState = ConfigurationState.PROVIDE_TOTAL_FIELDS;
+                    }
+
                     break;
 
                 case ConfigurationState.SELECT_REGION_ORIENTATION:

@@ -30,7 +30,7 @@
             var regionLocation = omrConfiguration.GetConfigArea.ConfigRect.Location;
             var optionsRects = regionData.GetOptionsRects;
 
-            var muliMarkSymbol = omrConfiguration.MultiMarkSymbol;
+            var multiMarkSymbol = omrConfiguration.MultiMarkSymbol;
             var multiMarkAction = omrConfiguration.MultiMarkAction;
             var noneMarkedSymbol = omrConfiguration.NoneMarkedSymbol;
             var noneMarkedAction = omrConfiguration.NoneMarkedAction;
@@ -96,7 +96,7 @@
                         switch (multiMarkAction)
                         {
                             case MultiMarkAction.MarkAsManual:
-                                curFieldOutput = muliMarkSymbol;
+                                curFieldOutput = multiMarkSymbol;
                                 processedDataResultsType[curFieldOutputIndex] = ProcessedDataType.MANUAL;
                                 break;
 
@@ -113,7 +113,7 @@
                                 break;
 
                             case MultiMarkAction.Invalidate:
-                                curFieldOutput = muliMarkSymbol;
+                                curFieldOutput = multiMarkSymbol;
                                 break;
                         }
                     }

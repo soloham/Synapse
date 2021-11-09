@@ -143,10 +143,10 @@
             }
 
             public abstract bool ApplyMethod(IInputArray input, out IOutputArray output, out Mat homography,
-                out long matchTime, out Exception ex);
+                out long matchTime, out bool isTestSuccessful, out Exception ex);
 
             public abstract bool ApplyMethod(IInputArray template, IInputArray input, out IOutputArray output,
-                out Mat homography, out long matchTime, out Exception ex);
+                out Mat homography, out long matchTime, out bool isTestSuccessful, out Exception ex);
         }
 
         [Serializable]
@@ -243,9 +243,10 @@
             #endregion
 
             public override bool ApplyMethod(IInputArray input, out IOutputArray output, out Mat homography,
-                out long matchTime, out Exception ex)
+                out long matchTime, out bool isTestSuccessful, out Exception ex)
             {
                 var isSuccess = false;
+                isTestSuccessful = false;
                 var inputImg = (Image<Gray, byte>)input;
                 CvInvoke.Resize(inputImg, inputImg, this.GetDownscaleSize);
 
@@ -282,6 +283,20 @@
                         anchorCoordinates[i] = Max_Loc[0];
                     }
 
+                    var testResult = new Mat();
+                    CvInvoke.MatchTemplate(inputImg, this.GetTestAnchor.GetAnchorImage, testResult,
+                        TemplateMatchingType.CcoeffNormed);
+
+                    Point[] TestMax_Loc, TestMin_Loc;
+                    double[] testMin, testMax;
+
+                    testResult.MinMax(out testMin, out testMax, out TestMin_Loc, out TestMax_Loc);
+
+                    if (testMax[0] > 0.85)
+                    {
+                        isTestSuccessful = true;
+                    }
+
                     homography = CvInvoke.FindHomography(anchorCoordinates, mainAnchorCoordinates,
                         RobustEstimationAlgorithm.Ransac);
                     CvInvoke.WarpPerspective(input, _output, homography, outputSize);
@@ -300,9 +315,10 @@
             }
 
             public override bool ApplyMethod(IInputArray templateImage, IInputArray input, out IOutputArray output,
-                out Mat homography, out long matchTime, out Exception ex)
+                out Mat homography, out long matchTime, out bool isTestSuccessful, out Exception ex)
             {
                 var isSuccess = false;
+                isTestSuccessful = false;
                 var inputImg = (Mat)input;
                 CvInvoke.Resize(inputImg, inputImg, this.GetDownscaleSize);
 
@@ -339,9 +355,19 @@
                         anchorCoordinates[i] = Max_Loc[0];
                     }
 
-                    homography = CvInvoke.FindHomography(anchorCoordinates, mainAnchorCoordinates,
-                        RobustEstimationAlgorithm.Ransac);
-                    CvInvoke.WarpPerspective(input, _output, homography, outputSize);
+                    var testResult = new Mat();
+                    CvInvoke.MatchTemplate(inputImg, this.GetTestAnchor.GetAnchorImage, testResult,
+                        TemplateMatchingType.CcoeffNormed);
+
+                    Point[] TestMax_Loc, TestMin_Loc;
+                    double[] testMin, testMax;
+
+                    testResult.MinMax(out testMin, out testMax, out TestMin_Loc, out TestMax_Loc);
+
+                    if (testMax[0] > 0.85)
+                    {
+                        isTestSuccessful = true;
+                    }
                 }
                 catch (Exception _ex)
                 {
@@ -358,9 +384,10 @@
 
             public bool ApplyMethod(IInputArray input, out IOutputArray output, out RectangleF[] detectedAnchors,
                 out RectangleF[] warpedAnchors, out RectangleF[] scaledMainAnchors, out RectangleF scaledMainTestRegion,
-                out Mat homography, out long matchTime, out Exception ex)
+                out Mat homography, out long matchTime, out bool isTestSuccessful, out Exception ex)
             {
                 var isSuccess = false;
+                isTestSuccessful = false;
                 var inputImg = (Mat)input;
                 var resizedInputImg = new Mat();
                 //var resizedInputImg = downscaleSize != Size.Empty?  inputImg.Resize(downscaleSize.Width, downscaleSize.Height, Inter.Cubic) : inputImg;
@@ -424,6 +451,20 @@
                         anchorCoordinates[i] = Max_Loc[0];
                         anchorRegions[i] = curAnchor.GetAnchorRegion;
                         detectedAnchors[i] = new RectangleF(anchorCoordinates[i], anchorRegions[i].Size);
+                    }
+
+                    var testResult = new Mat();
+                    CvInvoke.MatchTemplate(inputImg, this.GetTestAnchor.GetAnchorImage, testResult,
+                        TemplateMatchingType.CcoeffNormed);
+
+                    Point[] TestMax_Loc, TestMin_Loc;
+                    double[] testMin, testMax;
+
+                    testResult.MinMax(out testMin, out testMax, out TestMin_Loc, out TestMax_Loc);
+
+                    if (testMax[0] > 0.31)
+                    {
+                        isTestSuccessful = true;
                     }
 
                     detectedAnchors = Functions.ResizeRegions(detectedAnchors, this.GetDownscaleSize, outputSize);
@@ -564,6 +605,7 @@
 
                 public abstract bool ApplyMethod(IInputArray source, IInputArray observed, bool useStoredModelFeatures,
                     out IOutputArray homography, out VectorOfVectorOfDMatch matches, out long matchTime, out long score,
+                    out bool isTestSuccessful,
                     out Exception ex);
 
                 public abstract bool GenerateFeatures(IInputArray source, out VectorOfKeyPoint generatedKeyPoints,
@@ -766,6 +808,7 @@
 
                 public override bool ApplyMethod(IInputArray source, IInputArray observed, bool useStoredModelFeatures,
                     out IOutputArray homography, out VectorOfVectorOfDMatch matches, out long matchTime, out long score,
+                    out bool isTestSuccessful,
                     out Exception ex)
                 {
                     var isSuccess = false;
@@ -811,6 +854,7 @@
                         isSuccess = false;
                     }
 
+                    isTestSuccessful = isSuccess;
                     return isSuccess;
                 }
 
@@ -1034,6 +1078,7 @@
 
                 public override bool ApplyMethod(IInputArray source, IInputArray observed, bool useStoredModelFeatures,
                     out IOutputArray homography, out VectorOfVectorOfDMatch matches, out long matchTime, out long score,
+                    out bool isTestSuccessful,
                     out Exception ex)
                 {
                     var isSuccess = false;
@@ -1078,6 +1123,7 @@
                         isSuccess = false;
                     }
 
+                    isTestSuccessful = isSuccess;
                     return isSuccess;
                 }
 
@@ -1136,7 +1182,7 @@
             }
 
             public override bool ApplyMethod(IInputArray input, out IOutputArray output, out Mat homography,
-                out long matchTime, out Exception ex)
+                out long matchTime, out bool isTestSuccessful, out Exception ex)
             {
                 var isSuccess = false;
                 IOutputArray _homography;
@@ -1146,6 +1192,7 @@
 
                 isSuccess = this.GetRegistrationMethod.ApplyMethod(this.GetSourceImage, input,
                     this.GetUseStoredModelFeatures, out _homography, out var matches, out matchTime, out var score,
+                    out isTestSuccessful,
                     out var _ex);
 
                 ex = _ex;
@@ -1182,7 +1229,7 @@
             }
 
             public override bool ApplyMethod(IInputArray templateImage, IInputArray input, out IOutputArray output,
-                out Mat homography, out long matchTime, out Exception ex)
+                out Mat homography, out long matchTime, out bool isTestSuccessful, out Exception ex)
             {
                 var isSuccess = false;
                 IOutputArray _homography;
@@ -1192,7 +1239,7 @@
                 isSuccess = false;
 
                 if (this.GetRegistrationMethod.ApplyMethod(templateImage, input, this.GetUseStoredModelFeatures,
-                    out _homography, out var matches, out matchTime, out var score, out ex))
+                    out _homography, out var matches, out matchTime, out var score, out isTestSuccessful, out ex))
                 {
                     try
                     {
@@ -1601,9 +1648,11 @@
             TemplateData.SetAlignmentPipeline(alignmentPipeline);
         }
 
-        public bool GetAlignedImage(string rowSheetPath, ProcessingEnums.RereadType rereadType, out Mat result)
+        public bool GetAlignedImage(string rowSheetPath, ProcessingEnums.RereadType rereadType, out Mat result,
+            out bool isTestSuccessful)
         {
             result = new Mat();
+            isTestSuccessful = false;
             var unAlignedMat = new Mat(rowSheetPath, ImreadModes.Grayscale);
             switch (rereadType)
             {
@@ -1625,7 +1674,7 @@
 
             try
             {
-                var resultImg = this.AlignSheet(unAlignedMat, out var alignmentPipelineResults);
+                var resultImg = this.AlignSheet(unAlignedMat, out var alignmentPipelineResults, out isTestSuccessful);
                 result = resultImg;
                 unAlignedMat.Dispose();
                 //CvInvoke.WarpPerspective(unAligned, result, GetAlignmentHomography, unAligned.Size, Emgu.CV.CvEnum.Inter.Cubic, Emgu.CV.CvEnum.Warp.Default, Emgu.CV.CvEnum.BorderType.Default);
@@ -1639,9 +1688,11 @@
             }
         }
 
-        public Mat AlignSheet(Mat sheetImage, out AlignmentPipelineResults alignmentPipelineResults, bool log = true)
+        public Mat AlignSheet(Mat sheetImage, out AlignmentPipelineResults alignmentPipelineResults,
+            out bool isTestSuccessful, bool log = true)
         {
             var outputImage = sheetImage;
+            isTestSuccessful = false;
             var alignmentPipeline = TemplateData.GetAlignmentPipeline;
             var grayImage = this.GetTemplateImage.GetGrayImage.Mat;
 
@@ -1675,7 +1726,7 @@
                     var aIM = (AnchorAlignmentMethod)alignmentMethod;
                     var isSuccess = aIM.ApplyMethod(outputImage, out outputImageArr, out var detectedAnchors,
                         out var warpedAnchors, out var scaledMainAnchorRegions, out var scaledMainTestRegion,
-                        out var alignmentHomography, out var alignmentTime, out exception);
+                        out var alignmentHomography, out var alignmentTime, out isTestSuccessful, out exception);
                     var mainAnchors = aIM.GetAnchors.ToArray();
                     if (isSuccess)
                     {
@@ -1695,7 +1746,7 @@
                 else
                 {
                     var isSuccess = alignmentMethod.ApplyMethod(grayImage, outputImage, out outputImageArr,
-                        out var alignmentHomography, out var alignmentTime, out exception);
+                        out var alignmentHomography, out var alignmentTime, out isTestSuccessful, out exception);
                     if (isSuccess)
                     {
                         var outputMat = (Mat)outputImageArr;

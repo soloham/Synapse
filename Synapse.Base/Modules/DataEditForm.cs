@@ -53,7 +53,7 @@ namespace Synapse.Modules
 
             Mat alignedMat = null;
             if (!GetCurrentTemplate.GetAlignedImage(dataRowObject.DataRowObject.RowSheetPath,
-                dataRowObject.DataRowObject.RereadType, out alignedMat))
+                dataRowObject.DataRowObject.RereadType, out alignedMat, out bool _))
             {
                 sheetImage = CvInvoke.Imread(dataRowObject.DataRowObject.RowSheetPath, ImreadModes.Grayscale);
             }

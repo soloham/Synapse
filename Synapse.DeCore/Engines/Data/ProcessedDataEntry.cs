@@ -42,7 +42,7 @@
         public string ActualConfigurationTitle { get; private set; }
         public MainConfigType GetMainConfigType => this.GetConfigurationBase.GetMainConfigType;
         public ProcessedDataType[] DataEntriesResultType { get; set; }
-        public byte[,] GetOptionsOutputs { get; }
+        public byte[,] OptionsOutputs { get; set; }
 
         public char[] GetFieldsOutputs
         {
@@ -77,7 +77,7 @@
             this.ConfigurationTitle = configurationTitle;
             this.ActualConfigurationTitle = actualConfigurationTitle;
             this.fieldsOutputs = fieldsOutputs;
-            this.GetOptionsOutputs = optionsOutputs;
+            this.OptionsOutputs = optionsOutputs;
 
             this.DataEntriesResultType = processedDataResultType;
             dataValues = null;
@@ -232,7 +232,6 @@
                 }
             }
 
-
             var result = new List<string>();
             switch (config.ValueRepresentation)
             {
@@ -335,6 +334,31 @@
             }
 
             return result;
+        }
+
+        public ProcessedDataEntry CombineWith(ProcessedDataEntry toCombine)
+        {
+            var _fieldsOutputs = fieldsOutputs.Concat(toCombine.GetFieldsOutputs).ToArray();
+            var dataEntriesResultType = this.DataEntriesResultType
+                .Concat(toCombine.DataEntriesResultType).ToArray();
+            var barcodesResult = BarcodesResult?.Concat(toCombine.BarcodesResult).ToArray();
+
+            var curWidth = this.OptionsOutputs.GetLength(0);
+            var widthToAdd = toCombine.OptionsOutputs.GetLength(0);
+            var newWidth = curWidth + widthToAdd;
+
+            var curHeight = this.OptionsOutputs.GetLength(1);
+            var heightToAdd = toCombine.OptionsOutputs.GetLength(1);
+            var newOptionOutputs = new byte[newWidth, curHeight];
+            for (var i = 0; i < curWidth; i++)
+            for (var j = 0; j < curHeight; j++)
+                newOptionOutputs[i, j] = this.OptionsOutputs[i, j];
+            for (var i = 0; i < widthToAdd; i++)
+            for (var j = 0; j < heightToAdd; j++)
+                newOptionOutputs[i + curWidth, j] = toCombine.OptionsOutputs[i, j];
+
+            return new ProcessedDataEntry(this.ConfigurationTitle, _fieldsOutputs, dataEntriesResultType,
+                newOptionOutputs, barcodesResult, this.ActualConfigurationTitle);
         }
 
         #endregion

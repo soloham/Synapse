@@ -290,6 +290,10 @@ namespace Synapse.Core.Managers
             var worker = (BackgroundWorker)sender;
             var sheetsPaths = loadedSheetsData.GetSheetsPath;
             var allOrderedConfigurations = ConfigurationsManager.GetOrderedConfigurations();
+            var configsBySheetSide = allOrderedConfigurations.GroupBy(x => x.SheetSide)
+                .ToDictionary(x => x.Key, x => x.ToList());
+
+            var frontSheetConfigs = configsBySheetSide[SheetSideType.Front];
 
             double runningAverage = 0;
             double runningTotal = 0;
@@ -302,9 +306,13 @@ namespace Synapse.Core.Managers
             var pauseGrading = false;
             var isActivated = CurrentTemplate.TemplateData.IsActivatedd && IsVerified;
 
-            var renameFields = allOrderedConfigurations.FindAll(x => x.AddToFileName);
-            for (var i = 0; i < sheetsPaths.Length; i++)
+            var renameFields = frontSheetConfigs.FindAll(x => x.AddToFileName);
+            var backSheetsCount = 0;
+            var iIncrementCount = 1;
+            for (var i = 0; i < sheetsPaths.Length; i += iIncrementCount)
             {
+                var rowIndex = i - backSheetsCount;
+                iIncrementCount = 1;
                 if (worker.CancellationPending || !isActivated && i >= MAX_UNACTIVATED_SHEETS)
                 {
                     e.Cancel = true;
@@ -320,12 +328,14 @@ namespace Synapse.Core.Managers
                 Mat curSheet = null;
                 AlignmentPipelineResults alignmentPipelineResults = null;
                 Mat alignedSheet = null;
+                bool isTestSuccessful;
 
                 try
                 {
                     curSheet = CvInvoke.Imread(sheetsPaths[i], ImreadModes.Grayscale);
                     //await Task.Run(() => { alignedSheet = CurrentTemplate.AlignSheet(curSheet, out AlignmentPipelineResults _alignmentPipelineResults); alignmentPipelineResults = _alignmentPipelineResults; });
-                    alignedSheet = CurrentTemplate.AlignSheet(curSheet, out var _alignmentPipelineResults, false);
+                    alignedSheet = CurrentTemplate.AlignSheet(curSheet, out var _alignmentPipelineResults,
+                        out isTestSuccessful, false);
                     alignmentPipelineResults = _alignmentPipelineResults;
                     curSheet.Dispose();
                     if (alignmentPipelineResults.AlignmentMethodTestResultsList.TrueForAll(x =>
@@ -346,12 +356,12 @@ namespace Synapse.Core.Managers
                     }
 
                     var processedDataEntriesEx = new List<ProcessedDataEntry>();
-                    for (var i1 = 0; i1 < allOrderedConfigurations.Count; i1++)
-                        processedDataEntriesEx.Add(new ProcessedDataEntry(allOrderedConfigurations[i1].Title,
+                    for (var i1 = 0; i1 < frontSheetConfigs.Count; i1++)
+                        processedDataEntriesEx.Add(new ProcessedDataEntry(frontSheetConfigs[i1].Title,
                             new[] { '—' },
                             new[] { ProcessedDataType.INCOMPATIBLE }, new byte[0, 0]));
                     var processedDataRowEx =
-                        new ProcessedDataRow(processedDataEntriesEx, i, sheetsPaths[i], processedRowType);
+                        new ProcessedDataRow(processedDataEntriesEx, rowIndex, sheetsPaths[i], processedRowType);
                     processedData.Add(processedDataRowEx);
 
                     Functions.AddProperty(dynamicDataRow, "DataRowObject", processedDataRowEx);
@@ -374,9 +384,9 @@ namespace Synapse.Core.Managers
                 var parameterBasedGradings =
                     new List<(ProcessedDataEntry toGradeEntry, Dictionary<int, byte[]> markCorrectFields, Parameter[]
                         gradingParameters)>();
-                for (var i1 = 0; i1 < allOrderedConfigurations.Count; i1++)
+                for (var i1 = 0; i1 < frontSheetConfigs.Count; i1++)
                 {
-                    curConfigurationBase = allOrderedConfigurations[i1];
+                    curConfigurationBase = frontSheetConfigs[i1];
                     ProcessedDataEntry? _processedDataEntry = null;
                     Dictionary<int, byte[]> markCorrectFields = null;
                     switch (curConfigurationBase.GetMainConfigType)
@@ -399,6 +409,44 @@ namespace Synapse.Core.Managers
 
                             _processedDataEntry = CurOMREngine.ProcessSheet(curConfigurationBase, alignedSheet, null,
                                 sheetsPaths[i]);
+
+                            var backSideConfigs = configsBySheetSide[SheetSideType.Back]
+                                ?.FindAll(x => x.ParentTitle == curConfigurationBase.Title
+                                               && x.ParameterConfigTitle == curConfigurationBase.ParameterConfigTitle &&
+                                               x.ParameterConfigValue == curConfigurationBase.ParameterConfigValue
+                                               && x is OMRConfiguration)
+                                .Cast<OMRConfiguration>()
+                                .ToList();
+
+                            if (backSideConfigs?.Any() ?? false)
+                            {
+                                var curBackSheet = CvInvoke.Imread(sheetsPaths[i + 1], ImreadModes.Grayscale);
+                                var backAlignedSheet = CurrentTemplate.AlignSheet(curBackSheet,
+                                    out var backAlignmentPipelineResults,
+                                    out var isBackTestSuccessful, false);
+                                curBackSheet.Dispose();
+                                if (!isBackTestSuccessful &&
+                                    backAlignmentPipelineResults.AlignmentMethodTestResultsList.TrueForAll(x =>
+                                        x.GetAlignmentMethodResultType == AlignmentPipelineResults
+                                            .AlignmentMethodResultType.Successful))
+                                {
+                                    for (var iBack = 0; iBack < backSideConfigs.Count; iBack++)
+                                    {
+                                        var backSideConfig = backSideConfigs[iBack];
+                                        var backProcessedDataEntry = CurOMREngine.ProcessSheet(backSideConfig,
+                                            backAlignedSheet, null,
+                                            sheetsPaths[i + 1]);
+
+                                        if (_processedDataEntry.HasValue)
+                                        {
+                                            _processedDataEntry =
+                                                _processedDataEntry?.CombineWith(backProcessedDataEntry);
+                                        }
+                                    }
+
+                                    iIncrementCount++;
+                                }
+                            }
                         }
                             break;
 
@@ -428,7 +476,7 @@ namespace Synapse.Core.Managers
                     {
                         var dataTitle = dataColumns != null && dataColumns.Count > 0
                             ? dataColumns[lastDataColumnsIndex + 1]
-                            : allOrderedConfigurations[i1].Title;
+                            : frontSheetConfigs[i1].Title;
                         Functions.AddProperty(dynamicDataRow, dataTitle, formattedOutput[0]);
 
                         lastDataColumnsIndex++;
@@ -439,7 +487,7 @@ namespace Synapse.Core.Managers
                         {
                             var dataTitle = dataColumns != null && dataColumns.Count > 0
                                 ? dataColumns[lastDataColumnsIndex + 1 + i2]
-                                : allOrderedConfigurations[i1].Title[0] + (i2 + 1).ToString();
+                                : frontSheetConfigs[i1].Title[0] + (i2 + 1).ToString();
                             Functions.AddProperty(dynamicDataRow, dataTitle, formattedOutput[i2]);
                         }
 
@@ -486,7 +534,7 @@ namespace Synapse.Core.Managers
 
                                                     //var rawValues = ProcessedDataEntry.GenerateRawOMRDataValues(omrConfig, processedDataEntry.GetFieldsOutputs, omrConfig.GetEscapeSymbols());
                                                     var gradeResult = OMREngine.GradeSheet(generalKey,
-                                                        processedDataEntry.GetOptionsOutputs,
+                                                        processedDataEntry.OptionsOutputs,
                                                         omrConfig.MultiMarkAction);
                                                     Functions.AddProperty(dynamicDataRow, "AnswerKey", generalKey);
 
@@ -598,7 +646,7 @@ namespace Synapse.Core.Managers
                         }
 
                         //var rawValues = ProcessedDataEntry.GenerateRawOMRDataValues(omrConfig, pbGradingData.toGradeEntry.GetFieldsOutputs, omrConfig.GetEscapeSymbols());
-                        var gradeResult = OMREngine.GradeSheet(paramKey, pbGradingData.toGradeEntry.GetOptionsOutputs,
+                        var gradeResult = OMREngine.GradeSheet(paramKey, pbGradingData.toGradeEntry.OptionsOutputs,
                             omrConfig.MultiMarkAction);
                         Functions.AddProperty(dynamicDataRow, "AnswerKey", paramKey);
 
@@ -679,15 +727,14 @@ namespace Synapse.Core.Managers
                     newName = sheetsPaths[i];
                 }
 
-                var processedDataRow = new ProcessedDataRow(processedDataEntries, i, newName, processedRowType);
+                var processedDataRow = new ProcessedDataRow(processedDataEntries, rowIndex, newName, processedRowType);
                 processedData.Add(processedDataRow);
 
                 Functions.AddProperty(dynamicDataRow, "File Name", Path.GetFileName(newName));
                 Functions.AddProperty(dynamicDataRow, "DataRowObject", processedDataRow);
                 var t1 = DateTime.Now;
                 runningTotal += (t1 - t0).TotalMilliseconds;
-                runningAverage = runningTotal / (i + 1);
-
+                runningAverage = runningTotal / (rowIndex + 1);
 
                 worker.ReportProgress(0,
                     (keepData, processedDataRow, dynamicDataRow, runningAverage, runningTotal, extraColumns));
@@ -724,7 +771,8 @@ namespace Synapse.Core.Managers
                 {
                     await Task.Run(() =>
                     {
-                        alignedSheet = CurrentTemplate.AlignSheet(curSheet, out var _alignmentPipelineResults);
+                        alignedSheet =
+                            CurrentTemplate.AlignSheet(curSheet, out var _alignmentPipelineResults, out var _);
                         alignmentPipelineResults = _alignmentPipelineResults;
                     });
                     if (alignmentPipelineResults.AlignmentMethodTestResultsList.TrueForAll(x =>
@@ -872,7 +920,8 @@ namespace Synapse.Core.Managers
 
                     await Task.Run(() =>
                     {
-                        alignedSheet = CurrentTemplate.AlignSheet(curSheet, out var _alignmentPipelineResults);
+                        alignedSheet = CurrentTemplate.AlignSheet(curSheet, out var _alignmentPipelineResults,
+                            out var isTestSuccessful);
                         alignmentPipelineResults = _alignmentPipelineResults;
                     });
                     curSheet.Dispose();
@@ -997,7 +1046,7 @@ namespace Synapse.Core.Managers
 
                                                     //var rawValues = ProcessedDataEntry.GenerateRawOMRDataValues(omrConfig, processedDataEntry.GetFieldsOutputs, omrConfig.GetEscapeSymbols());
                                                     var gradeResult = OMREngine.GradeSheet(generalKey,
-                                                        processedDataEntry.GetOptionsOutputs,
+                                                        processedDataEntry.OptionsOutputs,
                                                         omrConfig.MultiMarkAction);
                                                     Functions.AddProperty(dynamicDataRow, "AnswerKey", generalKey);
 
@@ -1073,7 +1122,7 @@ namespace Synapse.Core.Managers
 
                         var rawValues = ProcessedDataEntry.GenerateRawOMRDataValues(omrConfig,
                             pbGradingData.toGradeEntry.GetFieldsOutputs, omrConfig.GetEscapeSymbols());
-                        var gradeResult = OMREngine.GradeSheet(paramKey, pbGradingData.toGradeEntry.GetOptionsOutputs,
+                        var gradeResult = OMREngine.GradeSheet(paramKey, pbGradingData.toGradeEntry.OptionsOutputs,
                             omrConfig.MultiMarkAction);
                         Functions.AddProperty(dynamicDataRow, "AnswerKey", paramKey);
 

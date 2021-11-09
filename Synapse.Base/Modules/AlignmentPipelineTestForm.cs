@@ -320,7 +320,7 @@ namespace Synapse.Modules
                     var aIM = (AnchorAlignmentMethod)alignmentMethod;
                     var isSuccess = aIM.ApplyMethod(outputImage, out outputImageArr, out var detectedAnchors,
                         out var warpedAnchors, out var scaledMainAnchorRegions, out var scaledMainTestRegion,
-                        out var homography, out var alignmentTime, out exception);
+                        out var homography, out var alignmentTime, out var _, out exception);
                     var mainAnchors = aIM.GetAnchors.ToArray();
                     if (isSuccess)
                     {
@@ -340,7 +340,7 @@ namespace Synapse.Modules
                 else
                 {
                     var isSuccess = alignmentMethod.ApplyMethod(templateImage, outputImage, out outputImageArr,
-                        out var homography, out var alignmentTime, out exception);
+                        out var homography, out var alignmentTime, out var _, out exception);
                     if (isSuccess)
                     {
                         var outputMat = (Mat)outputImageArr;

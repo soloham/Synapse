@@ -1544,7 +1544,12 @@ namespace Synapse
             incompatibleDataGrid.AutoGenerateColumns = false;
             incompatibleDataGrid.Columns.Clear();
 
-            var allConfigs = ConfigurationsManager.GetAllConfigurations.Where(x => string.IsNullOrEmpty(x.ParentTitle)).ToList();
+            var backSideConfigs = ConfigurationsManager.GetAllConfigurations
+                .Where(x => x.SheetSide == SheetSideType.Back).ToList();
+            var allConfigs = ConfigurationsManager.GetAllConfigurations
+                .Where(x => string.IsNullOrEmpty(x.ParentTitle))
+                .ToList();
+
             for (var i = 0; i < allConfigs.Count; i++)
             {
                 switch (allConfigs[i].GetMainConfigType)
@@ -1569,7 +1574,16 @@ namespace Synapse
                                 break;
 
                             case ValueRepresentation.Indiviual:
-                                var totalIndFields = omrConfiguration.GetTotalFields;
+                                var childBackConfigs =
+                                    backSideConfigs.FindAll(x =>
+                                        x.ParentTitle == omrConfiguration.Title &&
+                                        x.ParameterConfigTitle == omrConfiguration.ParameterConfigTitle &&
+                                        x.ParameterConfigValue == omrConfiguration.ParameterConfigValue);
+
+                                var totalIndFields = omrConfiguration.GetTotalFields + childBackConfigs
+                                    .Where(x => x is OMRConfiguration)
+                                    .Cast<OMRConfiguration>()
+                                    .Sum(x => x.GetTotalFields);
                                 var indConfigTitle = omrConfiguration.Title;
                                 var indDataLabel = indConfigTitle[0] + "";
                                 while (usedNonCollectiveDataLabels.Contains(indDataLabel))
@@ -2299,7 +2313,7 @@ namespace Synapse
                     else
                     {
                         GetCurrentTemplate.GetAlignedImage(location,
-                            ProcessingEnums.RereadType.NORMAL, out tmpImage);
+                            ProcessingEnums.RereadType.NORMAL, out tmpImage, out var _);
                     }
 
                     templateImageBox.Image = tmpImage.Bitmap;
@@ -2929,12 +2943,12 @@ namespace Synapse
             }
 
             var totalFields = selectedPaper.GetFieldsCount;
-            if (totalFields > selectedOMRConfig.GetTotalFields)
-            {
-                Messages.ShowError(
-                    "Please select a valid paper or create one to link with the answer key. \n\nValidation Error: Paper fields cannot be greater than total fields of the selected gradable region.");
-                return;
-            }
+            //if (totalFields > selectedOMRConfig.GetTotalFields)
+            //{
+            //    Messages.ShowError(
+            //        "Please select a valid paper or create one to link with the answer key. \n\nValidation Error: Paper fields cannot be greater than total fields of the selected gradable region.");
+            //    return;
+            //}
 
             var totalOptions = selectedPaper.GetOptionsCount;
 
@@ -3143,7 +3157,7 @@ namespace Synapse
 
             Mat alignedMat = null;
             if (!GetCurrentTemplate.GetAlignedImage(processedDataRow.RowSheetPath, processedDataRow.RereadType,
-                out alignedMat))
+                out alignedMat, out var _))
             {
                 dataImageBox.Image = new Bitmap(processedDataRow.RowSheetPath);
                 return;

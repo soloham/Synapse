@@ -72,6 +72,12 @@
         [EnumDescription("Read Only")] ReadOnly
     }
 
+    public enum SheetSideType
+    {
+        [EnumDescription("Front")] Front,
+        [EnumDescription("Back")] Back
+    }
+
     #endregion
 
     #region Objects
@@ -242,6 +248,11 @@
         [Category("Data")]
         [DisplayName("ParameterValue")]
         public string ParameterConfigValue { get; set; }
+
+        [Category("Data")]
+        [Description("Get or set the side of the sheet the OMR Region applies to.")]
+        [DefaultValue(SheetSideType.Front)]
+        public SheetSideType SheetSide { get; set; }
 
         [Category("Data")]
         [Description("Get or set the type of data the OMR Region represents.")]
