@@ -633,7 +633,7 @@ namespace Synapse.Core.Managers
                     try
                     {
                         var curParameter = gradingParameters.First(x => processedDataEntries.Any(y =>
-                            y.GetConfigurationBase == x.parameterConfig && y.FormatData()[0] == x.parameterValue));
+                            y.GetConfigurationBase.Title == x.parameterConfig.Title && y.FormatData()[0] == x.parameterValue));
                         var paramKey = omrConfig.PB_AnswerKeys[curParameter];
 
                         if (pbGradingData.toGradeEntry.GetFieldsOutputs.Length > paramKey.GetPaper.GetFieldsCount)
@@ -654,10 +654,10 @@ namespace Synapse.Core.Managers
                         for (var i2 = 0; i2 < 2; i2++)
                         {
                             var dataTitle = i2 == 0
-                                ? omrConfig.Title + " Score " + omrConfig.PB_AnswerKeys.Values.ToArray()[k].Title
+                                ? (omrConfig.ParentTitle ?? omrConfig.Title) + " Score " + omrConfig.PB_AnswerKeys.Values.ToArray()[k].Title
                                 : i2 == 1
-                                    ? omrConfig.Title + " Paper " + omrConfig.PB_AnswerKeys.Values.ToArray()[k].Title
-                                    : omrConfig.Title + $" x{i2}";
+                                    ? (omrConfig.ParentTitle ?? omrConfig.Title) + " Paper " + omrConfig.PB_AnswerKeys.Values.ToArray()[k].Title
+                                    : (omrConfig.ParentTitle ?? omrConfig.Title) + $" x{i2}";
                             Functions.AddProperty(dynamicDataRow, dataTitle,
                                 i2 == 0 ? gradeResult.obtainedMarks + "" :
                                 i2 == 1 ? paramKey.GetPaper.Title : paramKey.Title);
@@ -671,10 +671,10 @@ namespace Synapse.Core.Managers
                         for (var i2 = 0; i2 < 2; i2++)
                         {
                             var dataTitle = i2 == 0
-                                ? omrConfig.Title + " Score " + omrConfig.PB_AnswerKeys.Values.ToArray()[k].Title
+                                ? (omrConfig.ParentTitle ?? omrConfig.Title) + " Score " + omrConfig.PB_AnswerKeys.Values.ToArray()[k].Title
                                 : i2 == 1
-                                    ? omrConfig.Title + " Paper " + omrConfig.PB_AnswerKeys.Values.ToArray()[k].Title
-                                    : omrConfig.Title + $" x{i2}";
+                                    ? (omrConfig.ParentTitle ?? omrConfig.Title) + " Paper " + omrConfig.PB_AnswerKeys.Values.ToArray()[k].Title
+                                    : (omrConfig.ParentTitle ?? omrConfig.Title) + $" x{i2}";
                             Functions.AddProperty(dynamicDataRow, dataTitle, "—");
 
                             extraColumns++;

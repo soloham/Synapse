@@ -1722,6 +1722,7 @@ namespace Synapse
                         switch (omrConfig.OMRType)
                         {
                             case OMRType.Gradable:
+                                var pbKeys = omrConfig.PB_AnswerKeys.Values.ToArray();
                                 for (var k = 0; k < omrConfig.GeneralAnswerKeys.Count; k++)
                                 {
                                     if (!omrConfig.GeneralAnswerKeys[k].IsActive)
@@ -1785,10 +1786,6 @@ namespace Synapse
                                     }
                                 }
 
-                                break;
-
-                            case OMRType.Parameter:
-                                var pbKeys = omrConfig.PB_AnswerKeys.Values.ToArray();
                                 for (var k = 0; k < omrConfig.PB_AnswerKeys.Count; k++)
                                 {
                                     if (!pbKeys[k].IsActive)
@@ -1832,22 +1829,17 @@ namespace Synapse
                                     gridColumns.Add(omrPaperCol.HeaderText);
                                     //gridColumns.Add(omrKeyCol.HeaderText);
 
-                                    switch (omrConfig.KeyType)
-                                    {
-                                        case KeyType.General:
-                                            break;
+                                    //var omrParameterCol = new GridTextColumn();
+                                    //omrParameterCol.MappingName = paramConfig.Title + " Parameter";
+                                    //omrParameterCol.HeaderText = paramConfig.Title + " Parameter";
+                                    //mainDataGrid.Columns.Add(omrParameterCol);
 
-                                        case KeyType.ParameterBased:
-                                            var omrParameterCol = new GridTextColumn();
-                                            omrParameterCol.MappingName = omrConfig.Title + " Parameter";
-                                            omrParameterCol.HeaderText = omrConfig.Title + " Parameter";
-                                            mainDataGrid.Columns.Add(omrParameterCol);
-
-                                            gridColumns.Add(omrParameterCol.HeaderText);
-                                            break;
-                                    }
+                                    //gridColumns.Add(omrParameterCol.HeaderText);
                                 }
 
+                                break;
+
+                            case OMRType.Parameter:
                                 break;
                         }
 
