@@ -242,6 +242,8 @@
                 return;
             }
 
+            count = count + 1;
+
             for (var i = 0; i < optionsTable.Controls.Count; i++)
             {
                 var cntrl = optionsTable.Controls[i];
@@ -263,7 +265,8 @@
                     for (var i = 0; i < count; i++)
                     {
                         optionsTable.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, cellSize));
-                        var optionUI = this.GenerateOptionUI($"option_{i + 1}", this.OptionSize);
+                        var alignment = i == count - 1 ? ContentAlignment.MiddleRight : ContentAlignment.MiddleCenter;
+                        var optionUI = this.GenerateOptionUI($"option_{i + 1}", this.OptionSize, alignment);
                         optionsTable.Controls.Add(optionUI);
                         optionsTable.SetColumn(optionUI, i);
                         OptionsUIList.Add(optionUI);
@@ -278,7 +281,8 @@
                     for (var i = 0; i < count; i++)
                     {
                         optionsTable.RowStyles.Add(new RowStyle(SizeType.Percent, cellSize));
-                        var optionUI = this.GenerateOptionUI($"option_{i + 1}", this.OptionSize);
+                        var alignment = i == count - 1 ? ContentAlignment.MiddleRight : ContentAlignment.MiddleCenter;
+                        var optionUI = this.GenerateOptionUI($"option_{i + 1}", this.OptionSize, alignment);
                         optionsTable.Controls.Add(optionUI);
                         optionsTable.SetRow(optionUI, i);
                         OptionsUIList.Add(optionUI);
@@ -337,13 +341,14 @@
             this.SelectionValue = selectionValue;
         }
 
-        private CheckBoxAdv GenerateOptionUI(string name, Size size)
+        private CheckBoxAdv GenerateOptionUI(string name, Size size,
+            ContentAlignment alignment = ContentAlignment.MiddleCenter)
         {
             var option = new CheckBoxAdv();
 
             option.Name = name;
             option.Style = CheckBoxAdvStyle.Office2016White;
-            option.CheckAlign = ContentAlignment.MiddleCenter;
+            option.CheckAlign = alignment;
             option.ImageCheckBox = true;
             option.CheckedImage = SharedResources.CustomCheckBox_Checked;
             option.UncheckedImage = SharedResources.CustomCheckBox_Unchecked;

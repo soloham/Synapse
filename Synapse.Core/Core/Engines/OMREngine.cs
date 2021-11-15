@@ -15,6 +15,45 @@
 
     public class OMREngine : IEngine
     {
+        public ProcessedDataEntry GetDefaultDataEntry(ConfigurationBase configuration, Mat sheetMat,
+            Action<RectangleF, bool> OnOptionProcessed = null, string originalSheetPath = "", ProcessedDataType processedDataType = ProcessedDataType.MANUAL)
+        {
+            var omrConfiguration = (OMRConfiguration)configuration;
+
+            var regionData = omrConfiguration.RegionData;
+            var totalFields = regionData.TotalFields;
+            var totalOptions = regionData.TotalOptions;
+            var instances = regionData.TotalInstances == 0 ? 1 : regionData.TotalInstances;
+
+            var processedDataResultsType = Enumerable.Repeat(processedDataType, totalFields * instances).ToArray();
+
+            var regionFieldsOutputs = new char[totalFields * instances];
+            var regionOutput = "";
+
+            var optionsOutputs = new byte[totalFields * instances, totalOptions];
+
+            var curBlackCountThreshold = omrConfiguration.BlackCountThreshold;
+            var curFieldOutputIndex = 0;
+            for (var i0 = 0; i0 < instances; i0++)
+            for (var i = 0; i < totalFields; i++)
+            {
+                var curFieldOutput = '-';
+
+                regionFieldsOutputs[curFieldOutputIndex] = curFieldOutput;
+                regionOutput += curFieldOutput.ToString();
+
+                curFieldOutputIndex++;
+            }
+
+            var title = !string.IsNullOrEmpty(configuration.ParentTitle)
+                ? configuration.ParentTitle
+                : configuration.Title;
+
+            var processedDataEntry = new ProcessedDataEntry(title, regionFieldsOutputs,
+                processedDataResultsType, optionsOutputs, actualConfigurationTitle: configuration.Title);
+            return processedDataEntry;
+        }
+
         public ProcessedDataEntry ProcessSheet(ConfigurationBase configuration, Mat sheetMat,
             Action<RectangleF, bool> OnOptionProcessed = null, string originalSheetPath = "")
         {
@@ -365,35 +404,38 @@
             totalMarks = correctOptionValue * totalFields;
             for (var i = 0; i < totalFields; i++)
             {
-                var isCorrect = false;
+                var isCorrect = keyOptions[i][4] == 1;
 
-                for (var j = 0; j < totalOptions; j++)
-                    if (observedOptions[i, j] == 1)
-                    {
-                        if (isCorrect)
+                if (!isCorrect)
+                {
+                    for (var j = 0; j < totalOptions - 1; j++)
+                        if (observedOptions[i, j] == 1)
                         {
-                            if (multiMarkAction == MultiMarkAction.MarkAsManual ||
-                                multiMarkAction == MultiMarkAction.Invalidate)
+                            if (isCorrect)
                             {
-                                isCorrect = false;
+                                if (multiMarkAction == MultiMarkAction.MarkAsManual ||
+                                    multiMarkAction == MultiMarkAction.Invalidate)
+                                {
+                                    isCorrect = false;
+                                }
+                                else if (multiMarkAction == MultiMarkAction.ConsiderCorrect)
+                                {
+                                    isCorrect = true;
+                                }
+                                else if (multiMarkAction == MultiMarkAction.ConsiderLast)
+                                {
+                                    isCorrect = observedOptions[i, j] == keyOptions[i][j] ? true : false;
+                                }
                             }
-                            else if (multiMarkAction == MultiMarkAction.ConsiderCorrect)
+                            else
                             {
-                                isCorrect = true;
-                            }
-                            else if (multiMarkAction == MultiMarkAction.ConsiderLast)
-                            {
-                                isCorrect = observedOptions[i, j] == keyOptions[i][j] ? true : false;
+                                if (observedOptions[i, j] == keyOptions[i][j])
+                                {
+                                    isCorrect = true;
+                                }
                             }
                         }
-                        else
-                        {
-                            if (observedOptions[i, j] == keyOptions[i][j])
-                            {
-                                isCorrect = true;
-                            }
-                        }
-                    }
+                }
 
                 if (isCorrect)
                 {

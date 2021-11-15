@@ -104,7 +104,7 @@
 
         private async void finishPaperBtn_Click(object sender, EventArgs e)
         {
-            var paperCode = (int)paperCodeField.IntegerValue;
+            var paperCode = paperCodeField.Text;
             if (paperCodeField.Text == "")
             {
                 Messages.ShowError("Paper code cannot be empty");
@@ -197,7 +197,7 @@
                 return;
             }
 
-            var isDeleted = await GeneralManager.RemovePaper(paperListItem.PaperCode);
+            var isDeleted = await GeneralManager.RemovePaper(paperListItem.PaperCode).ConfigureAwait(false);
 
             try
             {
@@ -227,7 +227,7 @@
         private void ConfigurePaper(PaperDataListItem paperDataListItem)
         {
             paperToEdit = GeneralManager.GetExamPapers.GetPapers.Find(x => x.Code == paperDataListItem.PaperCode);
-            paperCodeField.IntegerValue = paperToEdit.Code;
+            paperCodeField.Text = paperToEdit.Code;
             paperTitleField.Text = paperToEdit.Title;
             paperDirectionField.SelectedValue = paperToEdit.GetPaperDirection;
             paperFieldsCountField.IntegerValue = paperToEdit.GetFieldsCount;

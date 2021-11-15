@@ -63,7 +63,7 @@
             // 
             // SplashScreen
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 27F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 27F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.BackgroundImage = global::Synapse.Properties.Resources.SplashImage;
@@ -79,7 +79,6 @@
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "SplashScreen";
-            this.TopMost = true;
             this.Container.ResumeLayout(false);
             this.ResumeLayout(false);
 

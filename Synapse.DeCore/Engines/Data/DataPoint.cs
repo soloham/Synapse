@@ -86,9 +86,10 @@
                 incProcessedDataSource) result = (new ObservableCollection<dynamic>(),
                     new ObservableCollection<dynamic>(), new ObservableCollection<dynamic>(),
                     new ObservableCollection<dynamic>());
+
             for (var i = 0; i < this.ProcessedData.processedDataSource.Count; i++)
                 result.processedDataSource.Add(
-                    (dynamic)DictionaryExtension.ToExpando(this.ProcessedData.processedDataSource[i]));
+                    (dynamic)this.ProcessedData.processedDataSource[i].ToExpando());
             //for (int i = 0; i < ProcessedData.manProcessedDataSource.Count; i++)
             //{
             //    result.manProcessedDataSource.Add((dynamic)Shared.Utilities.Extensions.DictionaryExtension.ToExpando(ProcessedData.manProcessedDataSource[i]));

@@ -68,16 +68,16 @@
             this.ClientSize = new System.Drawing.Size(497, 293);
             this.Controls.Add(this.containerFlowPanel);
             this.Font = new System.Drawing.Font("Dosis", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(740, 412);
             this.MinimizeBox = false;
             this.Name = "DataConfigurationForm";
             this.Padding = new System.Windows.Forms.Padding(8, 2, 2, 5);
             this.ShowToolTip = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Style.InactiveShadowOpacity = ((byte)(50));
+            this.Style.MdiChild.IconHorizontalAlignment = System.Windows.Forms.HorizontalAlignment.Center;
+            this.Style.MdiChild.IconVerticalAlignment = System.Windows.Forms.VisualStyles.VerticalAlignment.Center;
             this.Style.ShadowOpacity = ((byte)(0));
             this.Style.TitleBar.BackColor = System.Drawing.Color.White;
             this.Style.TitleBar.Font = new System.Drawing.Font("Dosis", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));

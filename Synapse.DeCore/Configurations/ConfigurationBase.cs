@@ -10,9 +10,9 @@
 
     #region Editors
 
-    public class ConfigurationTypeStringConverter : StringConverter
+    public class ParameterConfigurationTypeStringConverter : StringConverter
     {
-        public static Func<List<string>> GetConfigurations { get; set; }
+        public static Func<List<string>> GetParameterConfigurations { get; set; }
 
         public override bool GetStandardValuesSupported(ITypeDescriptorContext context)
         {
@@ -26,9 +26,31 @@
 
         public override StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
         {
-            var parameterConfigurations = GetConfigurations();
+            var parameterConfigurations = GetParameterConfigurations();
             parameterConfigurations.Insert(0, "None");
             return new StandardValuesCollection(parameterConfigurations);
+        }
+    }
+
+    public class AllConfigurationTypeStringConverter : StringConverter
+    {
+        public static Func<List<string>> GetAllConfigurations { get; set; }
+
+        public override bool GetStandardValuesSupported(ITypeDescriptorContext context)
+        {
+            return true;
+        }
+
+        public override bool GetStandardValuesExclusive(ITypeDescriptorContext context)
+        {
+            return true;
+        }
+
+        public override StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
+        {
+            var allConfigurations = GetAllConfigurations();
+            allConfigurations.Insert(0, "None");
+            return new StandardValuesCollection(allConfigurations);
         }
     }
 
@@ -236,13 +258,13 @@
         [Category("Data")]
         [DisplayName("Parent")]
         [DefaultValue("None")]
-        [TypeConverter(typeof(ConfigurationTypeStringConverter))]
+        [TypeConverter(typeof(AllConfigurationTypeStringConverter))]
         public string ParentTitle { get; set; }
 
         [Category("Data")]
         [DisplayName("Parameter")]
         [DefaultValue("None")]
-        [TypeConverter(typeof(ConfigurationTypeStringConverter))]
+        [TypeConverter(typeof(ParameterConfigurationTypeStringConverter))]
         public string ParameterConfigTitle { get; set; }
 
         [Category("Data")]

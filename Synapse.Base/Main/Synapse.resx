@@ -147,6 +147,18 @@
         mUGyMo7jOM7FkGU/DebD578ohWIAAAAASUVORK5CYII=
 </value>
   </data>
+  <metadata name="dataToolStripTabItem.TabGroup" type="System.Resources.ResXNullRef, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value />
+  </metadata>
+  <metadata name="dataManipulationToolStripEx.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>340, 56</value>
+  </metadata>
+  <metadata name="dataPointStorageToolStripEx.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>549, 56</value>
+  </metadata>
+  <metadata name="exportToolStripEx.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>192, 56</value>
+  </metadata>
   <metadata name="configToolStripTabItem.TabGroup" type="System.Resources.ResXNullRef, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value />
   </metadata>
@@ -298,18 +310,6 @@
         uHZohDSOhDKMxEQRQJn+7+BZyDa3/82pFRQUFBQUSEGp37wsS8cDQ9F1AAAAAElFTkSuQmCC
 </value>
   </data>
-  <metadata name="dataToolStripTabItem.TabGroup" type="System.Resources.ResXNullRef, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value />
-  </metadata>
-  <metadata name="dataManipulationToolStripEx.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>340, 56</value>
-  </metadata>
-  <metadata name="dataPointStorageToolStripEx.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>549, 56</value>
-  </metadata>
-  <metadata name="exportToolStripEx.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>192, 56</value>
-  </metadata>
   <data name="templateConfigStatusLabel.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
@@ -420,6 +420,23 @@
 </value>
   </data>
   <data name="configurationTestToolToolStripBtn.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAKDSURBVGhD7ZivcxUxEMcjKhCICgQSgeAPqEBUVFYgEAgE
+        M63sdN7MuwsVOPAIBH8AAlHBH1BRcTO9S96gKisqKhAIRAUCgWjz3Wwyx7W07+WSu9dOPjM7bX7cZjfZ
+        JJsnMplMJpOOUn8UW/qvkPoiupT1D1E0azxSIlIZ76RUH3ikRPjB6nUxnT2JJqX+NqwDGDQmhfoyjgOI
+        Wdl8ErJ6ROVQRnOAjEedeknlUMZzwMw8jH9frVA5lNEciMXgDiB0MFgskfp4YAcSyWAO4NzGsscSeXQ6
+        rAP35h4A02qV/wtnNAcwIMpvZxtUDmVEB16bsjlB1DMqh4IsV9Zn5m/BNYnoOnDnuDcO9JGbkM029Um2
+        F7rGhIijmz+h7A4FqT5zraVvruXxhvR40AAyFo8YTsUL9Y42sddvZKpPaFOj3fXtjVfOhoRCzjQ/SZd7
+        pk7UL2PkIR2phapN3e9/2uFQ7zsHikgZO9DnQYM03OlDyOxWD7nF4mee+5T1c27pgVPmHOjzoLGzfPuG
+        lfqrHSNFCIU+aEr9lHUd3/otwsaG2/mVVVqYrgMh2KPSzipu4DZw5rrfhnwomVDD98E4B7CcWPq5pZUi
+        eB1GyuYN11qk2rNtnZCEjvZ3wWAZ24rmFnNEOsiY5sDWG4PbILQoL+ocCjTzpj9WAt8Hg+TNHnOLSTdU
+        kPw5g+YBe2Wq/4i974+5ZgkoVcVObHLN9RTNjl0tvc81S4JNxc2BYE6Y/zmBPeIutOQ//C6CTyVoZp3s
+        m7qJCa8XtDf8PnES4x6IhUslkB7AWEoj2say2NUpfN8Yz9doYCO7TYkLqlCv/KzT/qAL8gG1t/suNcnf
+        A5lMJpO5ESEuARkitscq/iXPAAAAAElFTkSuQmCC
+</value>
+  </data>
+  <data name="saveConfigurationsToolToolStripBtn.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
         YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAKDSURBVGhD7ZivcxUxEMcjKhCICgQSgeAPqEBUVFYgEAgE
@@ -733,7 +750,7 @@
         cmlnaW4JX3Bvc2l0aW9uB19sZW5ndGgJX2NhcGFjaXR5C19leHBhbmRhYmxlCV93cml0YWJsZQpfZXhw
         b3NhYmxlB19pc09wZW4dTWFyc2hhbEJ5UmVmT2JqZWN0K19faWRlbnRpdHkHAAAAAAAAAAACAggICAgB
         AQEBCQIAAAAAAAAAvQMAAL0DAAAABAAAAQEBAQoPAgAAAAAEAAACAAEAAAD/////AQAAAAAAAAAMAgAA
-        AGBTeW5jZnVzaW9uLlRvb2xzLldpbmRvd3MsIFZlcnNpb249MTcuMzQ2MC4wLjE0LCBDdWx0dXJlPW5l
+        AGBTeW5jZnVzaW9uLlRvb2xzLldpbmRvd3MsIFZlcnNpb249MTkuMjQ2MC4wLjQ2LCBDdWx0dXJlPW5l
         dXRyYWwsIFB1YmxpY0tleVRva2VuPTNkNjdlZDFmODdkNDRjODkFAQAAAEBTeW5jZnVzaW9uLldpbmRv
         d3MuRm9ybXMuVG9vbHMuRG9ja2luZ01nclNlcmlhbGl6YXRpb25XcmFwcGVyQWR2BQAAABZIVERvY2tp
         bmdNZ3JTZXJpYWxpemVyB1dyYXBwZXIMRmxvYXRXcmFwcGVyCU1kaVpPcmRlcghBaE9uTG9hZAMEAwMD

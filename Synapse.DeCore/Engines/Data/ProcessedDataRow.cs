@@ -24,6 +24,7 @@
         public int GetRowIndex { get; }
 
         public string RowSheetPath { get; set; }
+        public string RowBackSheetPath { get; set; }
 
         //public Templates.Template.AlignmentPipelineResults GetAlignmentPipelineResults { get => alignmentPipelineResults?? null; }
         //private Templates.Template.AlignmentPipelineResults alignmentPipelineResults;
@@ -42,7 +43,8 @@
         #region Methods
 
         public ProcessedDataRow(List<ProcessedDataEntry> processedDataEntries, int rowIndex, string rowSheetPath,
-            ProcessedDataType processedDataResultType) //, Templates.Template.AlignmentPipelineResults alignmentPipelineResults)
+            ProcessedDataType processedDataResultType,
+            string backSheetPath = null) //, Templates.Template.AlignmentPipelineResults alignmentPipelineResults)
         {
             this.GetProcessedDataEntries = processedDataEntries;
             this.GetRowIndex = rowIndex;
@@ -50,6 +52,7 @@
             this.DataRowResultType = processedDataResultType;
             this.IsEdited = false;
             this.RereadType = ProcessingEnums.RereadType.NORMAL;
+            this.RowBackSheetPath = backSheetPath;
             //this.alignmentPipelineResults = alignmentPipelineResults;
         }
 

@@ -93,6 +93,14 @@
 
         #region Files & Directories Name
 
+        private static readonly string licenseFileName = "License.lc";
+
+        public static string LicenseListItemsDataFileName
+        {
+            get => licenseFileName;
+            set { }
+        }
+
         public static string TemplateDataFileName
         {
             get => templateDataFileName;
@@ -579,6 +587,37 @@
             return templateListItems;
         }
 
+        public static string LoadLicenseKey()
+        {
+            string result = null;
+
+            try
+            {
+                var tmdPath = $"{AppRootDataPath}/{licenseFileName}";
+                if (!File.Exists(tmdPath))
+                {
+                    return null;
+                }
+
+                using (var fs = new FileStream(tmdPath, FileMode.Open))
+                {
+                    var license = (string)bf.Deserialize(fs);
+                    result = license;
+                }
+            }
+            catch (Exception ex)
+            {
+                if (LogLevelState >= LogLevel.Moderate)
+                {
+                    Messages.LoadFileException(ex);
+                }
+
+                return null;
+            }
+
+            return result;
+        }
+
         public static Template LoadTemplate(string templateName)
         {
             Template result = null;
@@ -687,6 +726,27 @@
                         bf.Serialize(fs, examPapers);
                     }
                 });
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+
+        public static bool SaveLicenseKey(string licenseKey)
+        {
+            var licenseKeyFilePath = Path.Combine(AppRootDataPath, licenseFileName);
+
+            try
+            {
+                var bf = new BinaryFormatter();
+                using (var fs = new FileStream(licenseKeyFilePath, FileMode.Create))
+                {
+                    bf.Serialize(fs, licenseKey);
+                }
+
                 return true;
             }
             catch

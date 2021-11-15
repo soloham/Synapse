@@ -51,7 +51,6 @@
             this.valueTextBox.Margin = new System.Windows.Forms.Padding(5, 0, 5, 8);
             this.valueTextBox.MinimumSize = new System.Drawing.Size(1, 1);
             this.valueTextBox.Name = "valueTextBox";
-            this.valueTextBox.PasswordChar = '.';
             this.valueTextBox.Size = new System.Drawing.Size(240, 37);
             this.valueTextBox.Style = Syncfusion.Windows.Forms.Tools.TextBoxExt.theme.Office2016White;
             this.valueTextBox.TabIndex = 41;
@@ -59,6 +58,7 @@
             this.valueTextBox.ThemeName = "Office2016White";
             this.valueTextBox.ThemeStyle.BorderColor = System.Drawing.Color.Gainsboro;
             this.valueTextBox.ThemeStyle.CornerRadius = 0;
+            this.valueTextBox.UseSystemPasswordChar = true;
             // 
             // finishBtn
             // 
@@ -104,6 +104,8 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "EnterValueForm";
+            this.Style.MdiChild.IconHorizontalAlignment = System.Windows.Forms.HorizontalAlignment.Center;
+            this.Style.MdiChild.IconVerticalAlignment = System.Windows.Forms.VisualStyles.VerticalAlignment.Center;
             this.TopMost = true;
             ((System.ComponentModel.ISupportInitialize)(this.valueTextBox)).EndInit();
             this.tableLayoutPanel3.ResumeLayout(false);

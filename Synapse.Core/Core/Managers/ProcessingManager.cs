@@ -288,12 +288,12 @@ namespace Synapse.Core.Managers
         private void ProcessingWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             var worker = (BackgroundWorker)sender;
-            var sheetsPaths = loadedSheetsData.GetSheetsPath;
+            var sheetsPaths = loadedSheetsData.GetSheetsPath.OrderBy(x => x).ToArray();
             var allOrderedConfigurations = ConfigurationsManager.GetOrderedConfigurations();
             var configsBySheetSide = allOrderedConfigurations.GroupBy(x => x.SheetSide)
                 .ToDictionary(x => x.Key, x => x.ToList());
 
-            var frontSheetConfigs = configsBySheetSide[SheetSideType.Front];
+            var frontSheetConfigs = configsBySheetSide[SheetSideType.Front].Where(x => string.IsNullOrEmpty(x.ParentTitle)).ToList();
 
             double runningAverage = 0;
             double runningTotal = 0;
@@ -304,11 +304,12 @@ namespace Synapse.Core.Managers
 
             this.IsProcessing = true;
             var pauseGrading = false;
-            var isActivated = CurrentTemplate.TemplateData.IsActivatedd && IsVerified;
+            var isActivated = IsVerified;
 
             var renameFields = frontSheetConfigs.FindAll(x => x.AddToFileName);
             var backSheetsCount = 0;
             var iIncrementCount = 1;
+
             for (var i = 0; i < sheetsPaths.Length; i += iIncrementCount)
             {
                 var rowIndex = i - backSheetsCount;
@@ -381,6 +382,7 @@ namespace Synapse.Core.Managers
                 var lastDataColumnsIndex = -1;
                 ConfigurationBase curConfigurationBase = null;
 
+                var backSheetPath = string.Empty;
                 var parameterBasedGradings =
                     new List<(ProcessedDataEntry toGradeEntry, Dictionary<int, byte[]> markCorrectFields, Parameter[]
                         gradingParameters)>();
@@ -393,49 +395,79 @@ namespace Synapse.Core.Managers
                     {
                         case MainConfigType.OMR:
                         {
+                            var skipProcessing = false;
                             if (!string.IsNullOrEmpty(curConfigurationBase.ParameterConfigTitle) &&
                                 !string.IsNullOrEmpty(curConfigurationBase.ParameterConfigValue))
                             {
-                                var processedParameterValue = processedDataEntries
-                                    .Single(x => x.ConfigurationTitle == curConfigurationBase.ParameterConfigTitle)
-                                    .FormatData();
+                                var processedParameterEntry = processedDataEntries
+                                    .Single(x => x.ConfigurationTitle == curConfigurationBase.ParameterConfigTitle);
+                                var processedParameterValue = processedParameterEntry.FormatData();
 
                                 if (!string.Equals(processedParameterValue[0],
                                     curConfigurationBase.ParameterConfigValue, StringComparison.OrdinalIgnoreCase))
                                 {
-                                    continue;
+                                    var childIndex = allOrderedConfigurations.FindIndex(x => x.ParentTitle == curConfigurationBase.Title && x.ParameterConfigTitle == processedParameterEntry.ConfigurationTitle && string.Equals(x.ParameterConfigValue, processedParameterValue[0], StringComparison.OrdinalIgnoreCase));
+                                    if (childIndex > 0)
+                                    {
+                                        curConfigurationBase = allOrderedConfigurations[childIndex];
+                                    }
+                                    else
+                                    {
+                                        _processedDataEntry = CurOMREngine.GetDefaultDataEntry(curConfigurationBase,
+                                            alignedSheet, null,
+                                            sheetsPaths[i]);
+
+                                        skipProcessing = true;
+                                    }
                                 }
                             }
 
-                            _processedDataEntry = CurOMREngine.ProcessSheet(curConfigurationBase, alignedSheet, null,
-                                sheetsPaths[i]);
+                            if (!skipProcessing)
+                            {
+                                _processedDataEntry = CurOMREngine.ProcessSheet(curConfigurationBase, alignedSheet,
+                                    null,
+                                    sheetsPaths[i]);
+                            }
 
-                            var backSideConfigs = configsBySheetSide[SheetSideType.Back]
-                                ?.FindAll(x => x.ParentTitle == curConfigurationBase.Title
-                                               && x.ParameterConfigTitle == curConfigurationBase.ParameterConfigTitle &&
-                                               x.ParameterConfigValue == curConfigurationBase.ParameterConfigValue
-                                               && x is OMRConfiguration)
-                                .Cast<OMRConfiguration>()
-                                .ToList();
+                            var backSideConfigs = configsBySheetSide.ContainsKey(SheetSideType.Back)
+                                ? configsBySheetSide[SheetSideType.Back]
+                                    ?.FindAll(x => x.ParentTitle == curConfigurationBase.Title
+                                                   && x.ParameterConfigTitle ==
+                                                   curConfigurationBase.ParameterConfigTitle &&
+                                                   x.ParameterConfigValue == curConfigurationBase.ParameterConfigValue
+                                                   && x is OMRConfiguration)
+                                    .Cast<OMRConfiguration>()
+                                    .ToList()
+                                : null;
 
                             if (backSideConfigs?.Any() ?? false)
                             {
-                                var curBackSheet = CvInvoke.Imread(sheetsPaths[i + 1], ImreadModes.Grayscale);
+                                backSheetPath = sheetsPaths[i + 1];
+                                var curBackSheet = CvInvoke.Imread(backSheetPath, ImreadModes.Grayscale);
                                 var backAlignedSheet = CurrentTemplate.AlignSheet(curBackSheet,
                                     out var backAlignmentPipelineResults,
                                     out var isBackTestSuccessful, false);
                                 curBackSheet.Dispose();
-                                if (!isBackTestSuccessful &&
-                                    backAlignmentPipelineResults.AlignmentMethodTestResultsList.TrueForAll(x =>
-                                        x.GetAlignmentMethodResultType == AlignmentPipelineResults
-                                            .AlignmentMethodResultType.Successful))
+                                if (backAlignmentPipelineResults.AlignmentMethodTestResultsList.TrueForAll(x =>
+                                    x.GetAlignmentMethodResultType ==
+                                    AlignmentPipelineResults.AlignmentMethodResultType.Successful))
                                 {
                                     for (var iBack = 0; iBack < backSideConfigs.Count; iBack++)
                                     {
                                         var backSideConfig = backSideConfigs[iBack];
-                                        var backProcessedDataEntry = CurOMREngine.ProcessSheet(backSideConfig,
-                                            backAlignedSheet, null,
-                                            sheetsPaths[i + 1]);
+                                        ProcessedDataEntry backProcessedDataEntry;
+                                        if (!skipProcessing)
+                                        {
+                                            backProcessedDataEntry = CurOMREngine.ProcessSheet(backSideConfig,
+                                                backAlignedSheet, null,
+                                                backSheetPath);
+                                        }
+                                        else
+                                        {
+                                            backProcessedDataEntry = CurOMREngine.GetDefaultDataEntry(backSideConfig,
+                                                backAlignedSheet, null,
+                                                backSheetPath);
+                                        }
 
                                         if (_processedDataEntry.HasValue)
                                         {
@@ -633,7 +665,8 @@ namespace Synapse.Core.Managers
                     try
                     {
                         var curParameter = gradingParameters.First(x => processedDataEntries.Any(y =>
-                            y.GetConfigurationBase.Title == x.parameterConfig.Title && y.FormatData()[0] == x.parameterValue));
+                            y.GetConfigurationBase.Title == x.parameterConfig.Title &&
+                            y.FormatData()[0] == x.parameterValue));
                         var paramKey = omrConfig.PB_AnswerKeys[curParameter];
 
                         if (pbGradingData.toGradeEntry.GetFieldsOutputs.Length > paramKey.GetPaper.GetFieldsCount)
@@ -654,13 +687,15 @@ namespace Synapse.Core.Managers
                         for (var i2 = 0; i2 < 2; i2++)
                         {
                             var dataTitle = i2 == 0
-                                ? (omrConfig.ParentTitle ?? omrConfig.Title) + " Score " + omrConfig.PB_AnswerKeys.Values.ToArray()[k].Title
+                                ? (omrConfig.ParentTitle ?? omrConfig.Title) + " Score " +
+                                  omrConfig.PB_AnswerKeys.Values.ToArray()[k].Title
                                 : i2 == 1
-                                    ? (omrConfig.ParentTitle ?? omrConfig.Title) + " Paper " + omrConfig.PB_AnswerKeys.Values.ToArray()[k].Title
+                                    ? (omrConfig.ParentTitle ?? omrConfig.Title) + " Paper " +
+                                      omrConfig.PB_AnswerKeys.Values.ToArray()[k].Title
                                     : (omrConfig.ParentTitle ?? omrConfig.Title) + $" x{i2}";
                             Functions.AddProperty(dynamicDataRow, dataTitle,
                                 i2 == 0 ? gradeResult.obtainedMarks + "" :
-                                i2 == 1 ? paramKey.GetPaper.Title : paramKey.Title);
+                                i2 == 1 ? paramKey.GetPaper.Code : paramKey.Title);
 
                             extraColumns++;
                         }
@@ -671,9 +706,11 @@ namespace Synapse.Core.Managers
                         for (var i2 = 0; i2 < 2; i2++)
                         {
                             var dataTitle = i2 == 0
-                                ? (omrConfig.ParentTitle ?? omrConfig.Title) + " Score " + omrConfig.PB_AnswerKeys.Values.ToArray()[k].Title
+                                ? (omrConfig.ParentTitle ?? omrConfig.Title) + " Score " +
+                                  omrConfig.PB_AnswerKeys.Values.ToArray()[k].Title
                                 : i2 == 1
-                                    ? (omrConfig.ParentTitle ?? omrConfig.Title) + " Paper " + omrConfig.PB_AnswerKeys.Values.ToArray()[k].Title
+                                    ? (omrConfig.ParentTitle ?? omrConfig.Title) + " Paper " +
+                                      omrConfig.PB_AnswerKeys.Values.ToArray()[k].Title
                                     : (omrConfig.ParentTitle ?? omrConfig.Title) + $" x{i2}";
                             Functions.AddProperty(dynamicDataRow, dataTitle, "—");
 
@@ -686,7 +723,7 @@ namespace Synapse.Core.Managers
 
                 //File Renaming
                 var currentName = sheetsPaths[i];
-                var newName = currentName;
+                var newSheetName = currentName;
                 try
                 {
                     var curFileName = Path.GetFileNameWithoutExtension(currentName);
@@ -708,33 +745,39 @@ namespace Synapse.Core.Managers
 
                     if (!string.IsNullOrEmpty(newFinalName) && newFinalName != curFileName)
                     {
-                        newName = currentName.Replace(curFileName, newFinalName);
+                        newSheetName = currentName.Replace(curFileName, newFinalName);
                         var existCount = 0;
-                        while (File.Exists(newName))
+                        while (File.Exists(newSheetName))
                         {
                             existCount++;
-                            var existsFileName = Path.GetFileNameWithoutExtension(newName);
-                            newName = newName.Replace(existsFileName, $"{newFinalName} ({existCount})");
+                            var existsFileName = Path.GetFileNameWithoutExtension(newSheetName);
+                            newSheetName = newSheetName.Replace(existsFileName, $"{newFinalName} ({existCount})");
                         }
 
-                        File.Move(currentName, newName);
+                        File.Move(currentName, newSheetName);
 
-                        sheetsPaths[i] = newName;
+                        sheetsPaths[i] = newSheetName;
                     }
                 }
                 catch (Exception ex)
                 {
-                    newName = sheetsPaths[i];
+                    newSheetName = sheetsPaths[i];
                 }
 
-                var processedDataRow = new ProcessedDataRow(processedDataEntries, rowIndex, newName, processedRowType);
+                var processedDataRow = new ProcessedDataRow(processedDataEntries, rowIndex, newSheetName,
+                    processedRowType, backSheetPath);
                 processedData.Add(processedDataRow);
 
-                Functions.AddProperty(dynamicDataRow, "File Name", Path.GetFileName(newName));
+                Functions.AddProperty(dynamicDataRow, "File Name", Path.GetFileName(newSheetName));
                 Functions.AddProperty(dynamicDataRow, "DataRowObject", processedDataRow);
                 var t1 = DateTime.Now;
                 runningTotal += (t1 - t0).TotalMilliseconds;
                 runningAverage = runningTotal / (rowIndex + 1);
+
+                if (i + iIncrementCount >= sheetsPaths.Length)
+                {
+                    this.GetCurProcessingIndex = sheetsPaths.Length - 1;
+                }
 
                 worker.ReportProgress(0,
                     (keepData, processedDataRow, dynamicDataRow, runningAverage, runningTotal, extraColumns));
@@ -881,13 +924,29 @@ namespace Synapse.Core.Managers
         public async void ReprocessData(List<dynamic> selectedData, RereadType rereadType)
         {
             var sheetsPaths = new List<string>();
-            selectedData.ForEach(x => sheetsPaths.Add(x.DataRowObject.RowSheetPath));
+            selectedData.ForEach(x =>
+            {
+                sheetsPaths.Add(x.DataRowObject.RowSheetPath);
 
-            var allConfigurations = ConfigurationsManager.GetAllConfigurations;
+                if (!string.IsNullOrEmpty(x.DataRowObject.RowBackSheetPath))
+                {
+                    sheetsPaths.Add(x.DataRowObject.RowBackSheetPath);
+                }
+            });
+
+            var allOrderedConfigurations = ConfigurationsManager.GetOrderedConfigurations();
+            var configsBySheetSide = allOrderedConfigurations.GroupBy(x => x.SheetSide)
+                .ToDictionary(x => x.Key, x => x.ToList());
+
+            var frontSheetConfigs = configsBySheetSide[SheetSideType.Front].Where(x => string.IsNullOrEmpty(x.ParentTitle)).ToList();
+            var backSheetsCount = 0;
+            var iIncrementCount = 1;
 
             //List<ConfigurationBase> renameFields = allConfigurations.FindAll(x => x.AddToFileName);
-            for (var i = 0; i < sheetsPaths.Count; i++)
+            for (var i = 0; i < sheetsPaths.Count; i += iIncrementCount)
             {
+                var rowIndex = i - backSheetsCount;
+                iIncrementCount = 1;
                 this.GetCurProcessingIndex = i;
 
                 dynamic dynamicDataRow = new ExpandoObject();
@@ -940,19 +999,104 @@ namespace Synapse.Core.Managers
                 var lastDataColumnsIndex = -1;
                 ConfigurationBase curConfigurationBase = null;
 
+                var backSheetPath = string.Empty;
                 var parameterBasedGradings =
                     new List<(ProcessedDataEntry toGradeEntry, Parameter[] gradingParameters)>();
-                for (var i1 = 0; i1 < allConfigurations.Count; i1++)
+                for (var i1 = 0; i1 < frontSheetConfigs.Count; i1++)
                 {
-                    curConfigurationBase = allConfigurations[i1];
+                    curConfigurationBase = frontSheetConfigs[i1];
                     ProcessedDataEntry? _processedDataEntry = null;
                     Dictionary<int, byte[]> markCorrectFields = null;
 
                     switch (curConfigurationBase.GetMainConfigType)
                     {
                         case MainConfigType.OMR:
-                            _processedDataEntry = CurOMREngine.ProcessSheet(curConfigurationBase, alignedSheet, null,
-                                sheetsPaths[i]);
+                        {
+                            var skipProcessing = false;
+                            if (!string.IsNullOrEmpty(curConfigurationBase.ParameterConfigTitle) &&
+                                !string.IsNullOrEmpty(curConfigurationBase.ParameterConfigValue))
+                            {
+                                var processedParameterEntry = processedDataEntries
+                                    .Single(x => x.ConfigurationTitle == curConfigurationBase.ParameterConfigTitle);
+                                var processedParameterValue = processedParameterEntry.FormatData();
+
+                                if (!string.Equals(processedParameterValue[0],
+                                    curConfigurationBase.ParameterConfigValue, StringComparison.OrdinalIgnoreCase))
+                                {
+                                    var childIndex = allOrderedConfigurations.FindIndex(x => x.ParentTitle == curConfigurationBase.Title && x.ParameterConfigTitle == processedParameterEntry.ConfigurationTitle && string.Equals(x.ParameterConfigValue, processedParameterValue[0], StringComparison.OrdinalIgnoreCase));
+                                    if (childIndex > 0)
+                                    {
+                                        curConfigurationBase = allOrderedConfigurations[childIndex];
+                                    }
+                                    else
+                                    {
+                                        _processedDataEntry = CurOMREngine.GetDefaultDataEntry(curConfigurationBase,
+                                            alignedSheet, null,
+                                            sheetsPaths[i]);
+
+                                        skipProcessing = true;
+                                    }
+                                }
+                            }
+                            
+                            if (!skipProcessing)
+                            {
+                                _processedDataEntry = CurOMREngine.ProcessSheet(curConfigurationBase, alignedSheet,
+                                    null,
+                                    sheetsPaths[i]);
+                            }
+
+                            var backSideConfigs = configsBySheetSide.ContainsKey(SheetSideType.Back)
+                                ? configsBySheetSide[SheetSideType.Back]
+                                    ?.FindAll(x => x.ParentTitle == curConfigurationBase.Title
+                                                   && x.ParameterConfigTitle ==
+                                                   curConfigurationBase.ParameterConfigTitle &&
+                                                   x.ParameterConfigValue == curConfigurationBase.ParameterConfigValue
+                                                   && x is OMRConfiguration)
+                                    .Cast<OMRConfiguration>()
+                                    .ToList()
+                                : null;
+
+                            if (backSideConfigs?.Any() ?? false)
+                            {
+                                backSheetPath = sheetsPaths[i + 1];
+                                var curBackSheet = CvInvoke.Imread(backSheetPath, ImreadModes.Grayscale);
+                                var backAlignedSheet = CurrentTemplate.AlignSheet(curBackSheet,
+                                    out var backAlignmentPipelineResults,
+                                    out var isBackTestSuccessful, false);
+                                curBackSheet.Dispose();
+                                if (backAlignmentPipelineResults.AlignmentMethodTestResultsList.TrueForAll(x =>
+                                    x.GetAlignmentMethodResultType ==
+                                    AlignmentPipelineResults.AlignmentMethodResultType.Successful))
+                                {
+                                    for (var iBack = 0; iBack < backSideConfigs.Count; iBack++)
+                                    {
+                                        var backSideConfig = backSideConfigs[iBack];
+                                        ProcessedDataEntry backProcessedDataEntry;
+                                        if (!skipProcessing)
+                                        {
+                                            backProcessedDataEntry = CurOMREngine.ProcessSheet(backSideConfig,
+                                                backAlignedSheet, null,
+                                                backSheetPath);
+                                        }
+                                        else
+                                        {
+                                            backProcessedDataEntry = CurOMREngine.GetDefaultDataEntry(backSideConfig,
+                                                backAlignedSheet, null,
+                                                backSheetPath);
+                                        }
+
+                                        if (_processedDataEntry.HasValue)
+                                        {
+                                            _processedDataEntry =
+                                                _processedDataEntry?.CombineWith(backProcessedDataEntry);
+                                        }
+                                    }
+
+                                    iIncrementCount++;
+                                }
+                            }
+                        }
                             break;
 
                         case MainConfigType.BARCODE:
@@ -981,7 +1125,7 @@ namespace Synapse.Core.Managers
                     {
                         var dataTitle = dataColumns != null && dataColumns.Count > 0
                             ? dataColumns[lastDataColumnsIndex + 1]
-                            : allConfigurations[i1].Title;
+                            : frontSheetConfigs[i1].Title;
                         Functions.AddProperty(dynamicDataRow, dataTitle, formattedOutput[0]);
 
                         lastDataColumnsIndex++;
@@ -992,7 +1136,7 @@ namespace Synapse.Core.Managers
                         {
                             var dataTitle = dataColumns != null && dataColumns.Count > 0
                                 ? dataColumns[lastDataColumnsIndex + 1 + i2]
-                                : allConfigurations[i1].Title[0] + (i2 + 1).ToString();
+                                : frontSheetConfigs[i1].Title[0] + (i2 + 1).ToString();
                             Functions.AddProperty(dynamicDataRow, dataTitle, formattedOutput[i2]);
                         }
 
@@ -1204,7 +1348,7 @@ namespace Synapse.Core.Managers
 
                 #endregion
 
-                var processedDataRow = new ProcessedDataRow(processedDataEntries, i, newName, processedRowType);
+                var processedDataRow = new ProcessedDataRow(processedDataEntries, rowIndex, newName, processedRowType, backSheetPath);
                 processedDataRow.RereadType = rereadType;
 
                 Functions.AddProperty(dynamicDataRow, "DataRowObject", processedDataRow);
@@ -1218,7 +1362,8 @@ namespace Synapse.Core.Managers
                 allProcessedDataSource.RemoveAt(allDataIndex);
                 allProcessedDataSource.Insert(allDataIndex, dynamicDataRow);
 
-                int proDataIndex = processedData.IndexOf(selectedData[i].DataRowObject);
+                var proDataIndex =
+                    processedData.FindIndex(x => x.RowSheetPath == selectedData[i].DataRowObject.RowSheetPath);
                 processedData.RemoveAt(proDataIndex);
                 processedData.Insert(proDataIndex, processedDataRow);
             }

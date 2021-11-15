@@ -38,8 +38,12 @@
         public ConfigurationBase GetConfigurationBase =>
             Communicator.GetConfigurationBase?.Invoke(this.ActualConfigurationTitle);
 
+        public ConfigurationBase GetBackConfigurationBase =>
+            Communicator.GetConfigurationBase?.Invoke(this.BackConfigurationTitle);
+
         public string ConfigurationTitle { get; private set; }
         public string ActualConfigurationTitle { get; private set; }
+        public string BackConfigurationTitle { get; private set; }
         public MainConfigType GetMainConfigType => this.GetConfigurationBase.GetMainConfigType;
         public ProcessedDataType[] DataEntriesResultType { get; set; }
         public byte[,] OptionsOutputs { get; set; }
@@ -72,10 +76,12 @@
 
         public ProcessedDataEntry(string configurationTitle, char[] fieldsOutputs,
             ProcessedDataType[] processedDataResultType, byte[,] optionsOutputs, Barcode[] barcodesResult = null,
-            string actualConfigurationTitle = null)
+            string actualConfigurationTitle = null,
+            string backConfigurationTitle = null)
         {
             this.ConfigurationTitle = configurationTitle;
             this.ActualConfigurationTitle = actualConfigurationTitle;
+            this.BackConfigurationTitle = backConfigurationTitle;
             this.fieldsOutputs = fieldsOutputs;
             this.OptionsOutputs = optionsOutputs;
 
@@ -357,8 +363,10 @@
             for (var j = 0; j < heightToAdd; j++)
                 newOptionOutputs[i + curWidth, j] = toCombine.OptionsOutputs[i, j];
 
-            return new ProcessedDataEntry(this.ConfigurationTitle, _fieldsOutputs, dataEntriesResultType,
-                newOptionOutputs, barcodesResult, this.ActualConfigurationTitle);
+            return new ProcessedDataEntry(this.ConfigurationTitle, _fieldsOutputs,
+                dataEntriesResultType,
+                newOptionOutputs, barcodesResult, this.ActualConfigurationTitle,
+                toCombine.ActualConfigurationTitle ?? toCombine.ConfigurationTitle);
         }
 
         #endregion

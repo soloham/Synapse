@@ -43,12 +43,12 @@
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.paperDirectionField = new Syncfusion.Windows.Forms.Tools.ComboBoxAdv();
             this.autoLabel8 = new Syncfusion.Windows.Forms.Tools.AutoLabel();
-            this.paperCodeField = new Syncfusion.Windows.Forms.Tools.IntegerTextBox();
             this.autoLabel2 = new Syncfusion.Windows.Forms.Tools.AutoLabel();
             this.autoLabel1 = new Syncfusion.Windows.Forms.Tools.AutoLabel();
             this.paperTitleField = new Syncfusion.Windows.Forms.Tools.TextBoxExt();
             this.papersListTable = new System.Windows.Forms.TableLayoutPanel();
             this.addNewPaperBtn = new Syncfusion.Windows.Forms.ButtonAdv();
+            this.paperCodeField = new Syncfusion.Windows.Forms.Tools.TextBoxExt();
             this.containerFlowPanel.SuspendLayout();
             this.paperConfigurationPanel.SuspendLayout();
             this.paperCodeTitleTable.SuspendLayout();
@@ -57,9 +57,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.paperOptionsCountField)).BeginInit();
             this.tableLayoutPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.paperDirectionField)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.paperCodeField)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.paperTitleField)).BeginInit();
             this.papersListTable.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.paperCodeField)).BeginInit();
             this.SuspendLayout();
             // 
             // containerFlowPanel
@@ -103,15 +103,15 @@
             // paperCodeTitleTable
             // 
             this.paperCodeTitleTable.ColumnCount = 2;
-            this.paperCodeTitleTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.46729F));
-            this.paperCodeTitleTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 49.53271F));
+            this.paperCodeTitleTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 47.88733F));
+            this.paperCodeTitleTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 52.11267F));
             this.paperCodeTitleTable.Controls.Add(this.finishPaperBtn, 0, 6);
             this.paperCodeTitleTable.Controls.Add(this.tableLayoutPanel1, 0, 4);
             this.paperCodeTitleTable.Controls.Add(this.tableLayoutPanel2, 0, 2);
-            this.paperCodeTitleTable.Controls.Add(this.paperCodeField, 0, 1);
             this.paperCodeTitleTable.Controls.Add(this.autoLabel2, 1, 0);
             this.paperCodeTitleTable.Controls.Add(this.autoLabel1, 0, 0);
             this.paperCodeTitleTable.Controls.Add(this.paperTitleField, 1, 1);
+            this.paperCodeTitleTable.Controls.Add(this.paperCodeField, 0, 1);
             this.paperCodeTitleTable.Dock = System.Windows.Forms.DockStyle.Fill;
             this.paperCodeTitleTable.Location = new System.Drawing.Point(3, 3);
             this.paperCodeTitleTable.Name = "paperCodeTitleTable";
@@ -123,6 +123,7 @@
             this.paperCodeTitleTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
             this.paperCodeTitleTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
             this.paperCodeTitleTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 45F));
+            this.paperCodeTitleTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.paperCodeTitleTable.Size = new System.Drawing.Size(142, 340);
             this.paperCodeTitleTable.TabIndex = 0;
             // 
@@ -173,7 +174,7 @@
             // paperFieldsCountField
             // 
             this.paperFieldsCountField.BackGroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.paperFieldsCountField.BeforeTouchSize = new System.Drawing.Size(65, 36);
+            this.paperFieldsCountField.BeforeTouchSize = new System.Drawing.Size(72, 36);
             this.paperFieldsCountField.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(171)))), ((int)(((byte)(171)))));
             this.paperFieldsCountField.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.paperFieldsCountField.CornerRadius = 10;
@@ -198,7 +199,7 @@
             // paperOptionsCountField
             // 
             this.paperOptionsCountField.BackGroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.paperOptionsCountField.BeforeTouchSize = new System.Drawing.Size(65, 36);
+            this.paperOptionsCountField.BeforeTouchSize = new System.Drawing.Size(72, 36);
             this.paperOptionsCountField.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(171)))), ((int)(((byte)(171)))));
             this.paperOptionsCountField.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.paperOptionsCountField.CornerRadius = 10;
@@ -275,7 +276,7 @@
             // paperDirectionField
             // 
             this.paperDirectionField.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.paperDirectionField.BeforeTouchSize = new System.Drawing.Size(130, 38);
+            this.paperDirectionField.BeforeTouchSize = new System.Drawing.Size(130, 37);
             this.paperDirectionField.Border3DStyle = System.Windows.Forms.Border3DStyle.Flat;
             this.paperDirectionField.BorderSides = System.Windows.Forms.Border3DSide.Bottom;
             this.paperDirectionField.CanOverrideStyle = true;
@@ -287,7 +288,7 @@
             this.paperDirectionField.Location = new System.Drawing.Point(3, 53);
             this.paperDirectionField.MetroBorderColor = System.Drawing.Color.White;
             this.paperDirectionField.Name = "paperDirectionField";
-            this.paperDirectionField.Size = new System.Drawing.Size(130, 38);
+            this.paperDirectionField.Size = new System.Drawing.Size(130, 37);
             this.paperDirectionField.Style = Syncfusion.Windows.Forms.VisualStyle.Office2016White;
             this.paperDirectionField.TabIndex = 36;
             this.paperDirectionField.Text = "Paper Direction";
@@ -311,30 +312,6 @@
             this.autoLabel8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.autoLabel8.ThemeName = "Office2016White";
             // 
-            // paperCodeField
-            // 
-            this.paperCodeField.BackGroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.paperCodeField.BeforeTouchSize = new System.Drawing.Size(65, 36);
-            this.paperCodeField.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(171)))), ((int)(((byte)(171)))));
-            this.paperCodeField.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.paperCodeField.CornerRadius = 10;
-            this.paperCodeField.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.paperCodeField.Font = new System.Drawing.Font("Dosis", 17F);
-            this.paperCodeField.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
-            this.paperCodeField.IntegerValue = ((long)(0));
-            this.paperCodeField.Location = new System.Drawing.Point(3, 52);
-            this.paperCodeField.MinimumSize = new System.Drawing.Size(40, 36);
-            this.paperCodeField.MinValue = ((long)(0));
-            this.paperCodeField.Name = "paperCodeField";
-            this.paperCodeField.PositiveColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
-            this.paperCodeField.Size = new System.Drawing.Size(65, 36);
-            this.paperCodeField.SpecialCultureValue = Syncfusion.Windows.Forms.Tools.SpecialCultureValues.InstalledCulture;
-            this.paperCodeField.Style = Syncfusion.Windows.Forms.Tools.TextBoxExt.theme.Office2016White;
-            this.paperCodeField.TabIndex = 32;
-            this.paperCodeField.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.paperCodeField.ThemeName = "Office2016White";
-            this.paperCodeField.ZeroColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
-            // 
             // autoLabel2
             // 
             this.autoLabel2.AutoSize = false;
@@ -342,10 +319,10 @@
             this.autoLabel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.autoLabel2.Font = new System.Drawing.Font("Dosis", 20.25F);
             this.autoLabel2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
-            this.autoLabel2.Location = new System.Drawing.Point(74, 3);
+            this.autoLabel2.Location = new System.Drawing.Point(71, 3);
             this.autoLabel2.Margin = new System.Windows.Forms.Padding(3);
             this.autoLabel2.Name = "autoLabel2";
-            this.autoLabel2.Size = new System.Drawing.Size(65, 43);
+            this.autoLabel2.Size = new System.Drawing.Size(68, 43);
             this.autoLabel2.Style = Syncfusion.Windows.Forms.Tools.AutoLabelStyle.Office2016White;
             this.autoLabel2.TabIndex = 30;
             this.autoLabel2.Text = "Title:";
@@ -362,7 +339,7 @@
             this.autoLabel1.Location = new System.Drawing.Point(3, 3);
             this.autoLabel1.Margin = new System.Windows.Forms.Padding(3);
             this.autoLabel1.Name = "autoLabel1";
-            this.autoLabel1.Size = new System.Drawing.Size(65, 43);
+            this.autoLabel1.Size = new System.Drawing.Size(62, 43);
             this.autoLabel1.Style = Syncfusion.Windows.Forms.Tools.AutoLabelStyle.Office2016White;
             this.autoLabel1.TabIndex = 28;
             this.autoLabel1.Text = "Code:";
@@ -372,17 +349,18 @@
             // paperTitleField
             // 
             this.paperTitleField.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.paperTitleField.BeforeTouchSize = new System.Drawing.Size(65, 36);
+            this.paperTitleField.BeforeTouchSize = new System.Drawing.Size(72, 36);
             this.paperTitleField.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(171)))), ((int)(((byte)(171)))));
             this.paperTitleField.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.paperTitleField.CornerRadius = 10;
+            this.paperTitleField.Cursor = System.Windows.Forms.Cursors.Arrow;
             this.paperTitleField.Dock = System.Windows.Forms.DockStyle.Fill;
             this.paperTitleField.Font = new System.Drawing.Font("Dosis", 17F);
             this.paperTitleField.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
-            this.paperTitleField.Location = new System.Drawing.Point(74, 52);
+            this.paperTitleField.Location = new System.Drawing.Point(71, 52);
             this.paperTitleField.MinimumSize = new System.Drawing.Size(40, 36);
             this.paperTitleField.Name = "paperTitleField";
-            this.paperTitleField.Size = new System.Drawing.Size(65, 36);
+            this.paperTitleField.Size = new System.Drawing.Size(68, 36);
             this.paperTitleField.Style = Syncfusion.Windows.Forms.Tools.TextBoxExt.theme.Office2016White;
             this.paperTitleField.TabIndex = 33;
             this.paperTitleField.Text = "The Paper";
@@ -428,10 +406,30 @@
             this.addNewPaperBtn.ThemeName = "Metro";
             this.addNewPaperBtn.Click += new System.EventHandler(this.addNewPaperBtn_Click);
             // 
+            // paperCodeField
+            // 
+            this.paperCodeField.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.paperCodeField.BeforeTouchSize = new System.Drawing.Size(72, 36);
+            this.paperCodeField.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(171)))), ((int)(((byte)(171)))));
+            this.paperCodeField.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.paperCodeField.CornerRadius = 10;
+            this.paperCodeField.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.paperCodeField.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.paperCodeField.Font = new System.Drawing.Font("Dosis", 17F);
+            this.paperCodeField.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this.paperCodeField.Location = new System.Drawing.Point(-7, 54);
+            this.paperCodeField.MinimumSize = new System.Drawing.Size(40, 36);
+            this.paperCodeField.Name = "paperCodeField";
+            this.paperCodeField.Size = new System.Drawing.Size(72, 36);
+            this.paperCodeField.Style = Syncfusion.Windows.Forms.Tools.TextBoxExt.theme.Office2016White;
+            this.paperCodeField.TabIndex = 34;
+            this.paperCodeField.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.paperCodeField.ThemeName = "Office2016White";
+            // 
             // ExamPapersConfigurationForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
-            this.ClientSize = new System.Drawing.Size(467, 358);
+            this.ClientSize = new System.Drawing.Size(711, 358);
             this.Controls.Add(this.paperConfigurationPanel);
             this.Controls.Add(this.papersListTable);
             this.Font = new System.Drawing.Font("Dosis", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -444,6 +442,8 @@
             this.ShowToolTip = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Style.InactiveShadowOpacity = ((byte)(50));
+            this.Style.MdiChild.IconHorizontalAlignment = System.Windows.Forms.HorizontalAlignment.Center;
+            this.Style.MdiChild.IconVerticalAlignment = System.Windows.Forms.VisualStyles.VerticalAlignment.Center;
             this.Style.ShadowOpacity = ((byte)(0));
             this.Style.TitleBar.BackColor = System.Drawing.Color.White;
             this.Style.TitleBar.Font = new System.Drawing.Font("Dosis", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -460,9 +460,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.paperOptionsCountField)).EndInit();
             this.tableLayoutPanel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.paperDirectionField)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.paperCodeField)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.paperTitleField)).EndInit();
             this.papersListTable.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.paperCodeField)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -471,10 +471,8 @@
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog;
         private System.Windows.Forms.FlowLayoutPanel containerFlowPanel;
         private System.Windows.Forms.Panel paperConfigurationPanel;
-        private Syncfusion.Windows.Forms.Tools.AutoLabel emptyListLabel;
         private System.Windows.Forms.TableLayoutPanel paperCodeTitleTable;
         private Syncfusion.Windows.Forms.Tools.AutoLabel autoLabel1;
-        private Syncfusion.Windows.Forms.Tools.IntegerTextBox paperCodeField;
         private Syncfusion.Windows.Forms.Tools.AutoLabel autoLabel2;
         private Syncfusion.Windows.Forms.Tools.TextBoxExt paperTitleField;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
@@ -488,5 +486,7 @@
         private Syncfusion.Windows.Forms.Tools.AutoLabel autoLabel3;
         private Syncfusion.Windows.Forms.Tools.AutoLabel autoLabel4;
         private Syncfusion.Windows.Forms.ButtonAdv finishPaperBtn;
+        private Syncfusion.Windows.Forms.Tools.AutoLabel emptyListLabel;
+        private Syncfusion.Windows.Forms.Tools.TextBoxExt paperCodeField;
     }
 }

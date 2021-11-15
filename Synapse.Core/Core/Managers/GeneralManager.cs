@@ -20,7 +20,17 @@
                 GetExamPapers = new ExamPapers(new List<Paper>());
             }
 
-            ConfigurationTypeStringConverter.GetConfigurations = () =>
+            AllConfigurationTypeStringConverter.GetAllConfigurations = () =>
+            {
+                var parameterConfigs = ConfigurationsManager
+                    .GetAllConfigurations
+                    .Select(x => x.Title)
+                    .ToList();
+
+                return parameterConfigs;
+            };
+
+            ParameterConfigurationTypeStringConverter.GetParameterConfigurations = () =>
             {
                 var parameterConfigs = ConfigurationsManager
                     .GetConfigurations(MainConfigType.OMR,
@@ -41,7 +51,7 @@
             return GetExamPapers.GetPapers.Remove(paper);
         }
 
-        public static async Task<bool> RemovePaper(int paperCode)
+        public static async Task<bool> RemovePaper(string paperCode)
         {
             var paper = GetExamPapers.GetPapers.Find(x => x.Code == paperCode);
             if (paper == null)

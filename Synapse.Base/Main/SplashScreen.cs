@@ -1,20 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
-namespace Synapse.Main
+﻿namespace Synapse.Main
 {
+    using System.Windows.Forms;
+
     public partial class SplashScreen : Form
     {
         public SplashScreen(string splashText)
         {
-            InitializeComponent();
+            this.InitializeComponent();
 
             SplashText.Text = splashText;
         }
@@ -26,8 +18,8 @@ namespace Synapse.Main
 
         public void ShowScreen(string text)
         {
-            SetSplashText(text);
-            Show();
+            this.SetSplashText(text);
+            this.Show();
         }
     }
 }

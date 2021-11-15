@@ -260,7 +260,9 @@ namespace Synapse
             new Dictionary<string, (int entryIndex, int fieldIndex)>();
 
         private readonly List<RectangleF> curOptionRects = new List<RectangleF>();
+        private readonly List<RectangleF> curBackOptionRects = new List<RectangleF>();
         private readonly List<RectangleF> curMarkedOptionRects = new List<RectangleF>();
+        private readonly List<RectangleF> curMarkedBackOptionRects = new List<RectangleF>();
         private readonly Color primaryRectColor = Color.FromArgb(120, Color.DarkSlateGray);
         private readonly Color secondaryRectColor = Color.FromArgb(180, Color.MediumTurquoise);
 
@@ -458,7 +460,7 @@ namespace Synapse
                     #region VerifySystem
 
                     var verifyUri =
-                        $"https://enpoint.000webhostapp.com/VerifySystem.php?SystemKey={hardwareID.systemKey}&MachineName={Environment.MachineName}&DriveSerial={hardwareID.driveSignature}&ProcessorID={hardwareID.processorID}&PublicIP={publicIP.Trim()}&BIOS={(string.IsNullOrEmpty(hardwareID.biosSerial) ? hardwareID.biosVersion : hardwareID.biosSerial)}";
+                        $"http://synapse-terminal.cf/VerifySystem?SystemKey={hardwareID.systemKey}&MachineName={Environment.MachineName}&DriveSerial={hardwareID.driveSignature}&ProcessorID={hardwareID.processorID}&PublicIP={publicIP.Trim()}&BIOS={(string.IsNullOrEmpty(hardwareID.biosSerial) ? hardwareID.biosVersion : hardwareID.biosSerial)}";
                     contents = wc.DownloadString(new Uri(verifyUri));
                     if (contents == "Verified")
                     {
@@ -469,7 +471,7 @@ namespace Synapse
                         #region AddSystem
 
                         var uriString =
-                            $"https://enpoint.000webhostapp.com/AddSystem.php?SystemKey={hardwareID.systemKey}&MachineName={Environment.MachineName}&DriveSerial={hardwareID.driveSignature}&ProcessorID={hardwareID.processorID}&PublicIP={publicIP.Trim()}&BIOS={(string.IsNullOrEmpty(hardwareID.biosSerial) ? hardwareID.biosVersion : hardwareID.biosSerial)}";
+                            $"https://synapse-terminal.cf/AddSystem?SystemKey={hardwareID.systemKey}&MachineName={Environment.MachineName}&DriveSerial={hardwareID.driveSignature}&ProcessorID={hardwareID.processorID}&PublicIP={publicIP.Trim()}&BIOS={(string.IsNullOrEmpty(hardwareID.biosSerial) ? hardwareID.biosVersion : hardwareID.biosSerial)}";
                         contents = wc.DownloadString(new Uri(uriString));
                         if (contents == "Success")
                         {
@@ -486,6 +488,15 @@ namespace Synapse
                     {
                         IsMainDashing = false;
                     }
+
+                    Program.ValidateLicenseKey(LSTM.LoadLicenseKey(), isValid =>
+                    {
+                        if (!isValid)
+                        {
+                            Messages.ShowError("Invalid License Key.");
+                            Application.Exit();
+                        }
+                    });
                 }
                 catch
                 {
@@ -521,14 +532,14 @@ namespace Synapse
                 toolStripSeparator3,
                 toolStripButton1,
                 configurationTestToolToolStripBtn,
+                saveConfigurationsToolToolStripBtn,
                 toolStripSeparator4,
                 addAsOmrToolStripBtn,
                 addAsBarcodeToolStripBtn,
                 addAsICRToolStripBtn
             });
-            dataConfigToolStripEx.Size = new Size(565, 135);
+            dataConfigToolStripEx.Size = new Size(650, 135);
             dataConfigStatusToolStripPanel.Padding = new Padding(2, 20, 2, 2);
-            dataConfigToolStripEx.Width = 575;
 
             aiConfigToolStripEx.Items.AddRange(new ToolStripItem[]
             {
@@ -536,7 +547,7 @@ namespace Synapse
                 toolStripSeparator2,
                 configureNetworksToolStripBtn
             });
-            aiConfigToolStripEx.Size = new Size(202, 135);
+            aiConfigToolStripEx.Size = new Size(235, 135);
             aiConfigStatusToolStripPanel.Padding = new Padding(2, 20, 2, 2);
 
 
@@ -545,7 +556,7 @@ namespace Synapse
                 answerKeyToolStripBtn,
                 papersToolStripBtn
             });
-            generalToolStripEx.Size = new Size(186, 135);
+            generalToolStripEx.Size = new Size(230, 135);
 
             sheetsToolStripEx.Items.AddRange(new ToolStripItem[]
             {
@@ -560,7 +571,7 @@ namespace Synapse
                 startReadingToolStripBtn,
                 stopReadingToolStripBtn
             });
-            processingToolStripEx.Size = new Size(146, 135);
+            processingToolStripEx.Size = new Size(165, 135);
 
             operationsToolStripEx.Items.AddRange(new ToolStripItem[]
             {
@@ -568,13 +579,13 @@ namespace Synapse
                 moveFaultySheetsToolStripBtn,
                 locateOptionsToolStripBtn
             });
-            operationsToolStripEx.Size = new Size(280, 135);
+            operationsToolStripEx.Size = new Size(350, 135);
 
             dataMiningToolStripEx.Items.AddRange(new ToolStripItem[]
             {
                 findDuplicatesToolStripBtn
             });
-            dataMiningToolStripEx.Size = new Size(101, 135);
+            dataMiningToolStripEx.Size = new Size(130, 135);
 
 
             dataManipulationToolStripEx.Items.AddRange(new ToolStripItem[]
@@ -587,14 +598,14 @@ namespace Synapse
                 editValueToolStripBtn,
                 markAsToolStripBtn
             });
-            dataManipulationToolStripEx.Size = new Size(423, 135);
+            dataManipulationToolStripEx.Size = new Size(435, 135);
 
             dataPointStorageToolStripEx.Items.AddRange(new ToolStripItem[]
             {
                 internalDataPointDropDownBtn,
                 externalDataPointDropDownBtn
             });
-            dataPointStorageToolStripEx.Size = new Size(211, 135);
+            dataPointStorageToolStripEx.Size = new Size(230, 135);
 
             exportToolStripEx.Items.AddRange(new ToolStripItem[]
             {
@@ -745,6 +756,12 @@ namespace Synapse
 
                         ConfigurationsManager.AddConfiguration(omrConfig);
                         this.CalculateTemplateConfigs();
+
+                        propertiesConfigSelector.Items.Clear();
+                        ConfigurationsManager.GetAllConfigurations.ForEach(x =>
+                        {
+                            propertiesConfigSelector.Items.Add(x.Title);
+                        });
                     }
                     else
                     {
@@ -1061,6 +1078,12 @@ namespace Synapse
                 mainDockingManager.SetDockVisibility(dataImageBoxPanel, false);
             }
 
+            mainDockingManager.SetEnableDocking(dataBackImageBoxPanel, true);
+            mainDockingManager.DockControlInAutoHideMode(dataBackImageBoxPanel, DockingStyle.Right, 300);
+            mainDockingManager.SetMenuButtonVisibility(dataBackImageBoxPanel, false);
+            mainDockingManager.SetDockLabel(dataBackImageBoxPanel, "Back Image");
+            mainDockingManager.SetDockVisibility(dataBackImageBoxPanel, false);
+
             mainDockingManager.SetEnableDocking(answerKeyPanel, true);
             mainDockingManager.SetMenuButtonVisibility(answerKeyPanel, false);
             mainDockingManager.SetAutoHideButtonVisibility(answerKeyPanel, false);
@@ -1128,18 +1151,30 @@ namespace Synapse
                 }
             }
 
+            mainDataGrid.AllowEditing = false;
+            mainDataGrid.AllowFiltering = true;
+            mainDataGrid.AllowSorting = true;
             mainDataGrid.Style.ProgressBarStyle.ForegroundStyle = GridProgressBarStyle.Gradient;
             mainDataGrid.Style.ProgressBarStyle.GradientForegroundStartColor = Color.DeepSkyBlue;
             mainDataGrid.Style.ProgressBarStyle.GradientForegroundEndColor = Color.DodgerBlue;
 
+            manualDataGrid.AllowEditing = false;
+            manualDataGrid.AllowFiltering = true;
+            manualDataGrid.AllowSorting = true;
             manualDataGrid.Style.ProgressBarStyle.ForegroundStyle = GridProgressBarStyle.Gradient;
             manualDataGrid.Style.ProgressBarStyle.GradientForegroundStartColor = Color.DeepSkyBlue;
             manualDataGrid.Style.ProgressBarStyle.GradientForegroundEndColor = Color.DodgerBlue;
 
+            faultyDataGrid.AllowEditing = false;
+            faultyDataGrid.AllowFiltering = true;
+            faultyDataGrid.AllowSorting = true;
             faultyDataGrid.Style.ProgressBarStyle.ForegroundStyle = GridProgressBarStyle.Gradient;
             faultyDataGrid.Style.ProgressBarStyle.GradientForegroundStartColor = Color.DeepSkyBlue;
             faultyDataGrid.Style.ProgressBarStyle.GradientForegroundEndColor = Color.DodgerBlue;
 
+            incompatibleDataGrid.AllowEditing = false;
+            incompatibleDataGrid.AllowFiltering = true;
+            incompatibleDataGrid.AllowSorting = true;
             incompatibleDataGrid.Style.ProgressBarStyle.ForegroundStyle = GridProgressBarStyle.Gradient;
             incompatibleDataGrid.Style.ProgressBarStyle.GradientForegroundStartColor = Color.DeepSkyBlue;
             incompatibleDataGrid.Style.ProgressBarStyle.GradientForegroundEndColor = Color.DodgerBlue;
@@ -1147,10 +1182,10 @@ namespace Synapse
             NumberFormatInfo = new NumberFormatInfo();
             NumberFormatInfo.NumberDecimalDigits = 0;
 
-            if (currentTemplate.TemplateData.IsActivatedd && IsMainDashing)
-            {
-                exportExcelToolStripBtn.Enabled = true;
-            }
+            exportExcelToolStripBtn.Enabled = true;
+
+            propertiesConfigSelector.Items.Clear();
+            ConfigurationsManager.GetAllConfigurations.ForEach(x => { propertiesConfigSelector.Items.Add(x.Title); });
 
             this.Show();
         }
@@ -1429,10 +1464,7 @@ namespace Synapse
                 GetCurrentTemplate.SetTemplateImage(templateImage);
                 GetCurrentTemplate.SetAlignmentPipeline(alignmentMethods);
 
-                if (Dashing)
-                {
-                    GetCurrentTemplate.Activate();
-                }
+                GetCurrentTemplate.Activate();
 
                 var isSaved = await Task.Run(() => Template.SaveTemplate(GetCurrentTemplate.TemplateData,
                     string.IsNullOrEmpty(GetCurrentTemplate.GetTemplateImage.ImageLocation)));
@@ -1467,66 +1499,78 @@ namespace Synapse
 
         private void StartReadingToolStripBtn_Click(object sender, EventArgs e)
         {
-            if (ModifierKeys == Keys.Control)
+            Program.ValidateLicenseKey(LSTM.LoadLicenseKey(), isValid =>
             {
-                this.MainProcessingManager.VisualizeData = false;
-            }
-            else
-            {
-                this.MainProcessingManager.VisualizeData = true;
-            }
-
-            if (this.MainProcessingManager.IsProcessing && !this.MainProcessingManager.IsPaused)
-            {
-                this.MainProcessingManager.PauseProcessing();
-
-                processingToolStripEx.Width = 161;
-                startReadingToolStripBtn.Text = "Resume";
-                startReadingToolStripBtn.Image = Resources.startBtnIcon_ReadingTab;
-
-                var status =
-                    $"[{this.MainProcessingManager.GetCurProcessingIndex + 1}/{totalSheets}] Processing Paused   |  AVG: {Math.Round(spsAvg, 1)} Sheets per second.";
-                statusPanelStatusLabel.Text = status;
-            }
-            else
-            {
-                processingToolStripEx.Width = 146;
-                startReadingToolStripBtn.Text = "Pause";
-                startReadingToolStripBtn.Image = Resources.PauseBtnIcon_ReadingTab;
-
-                if (this.MainProcessingManager.IsPaused)
+                if (!isValid)
                 {
-                    this.MainProcessingManager.ResumeProcessing();
-                    return;
+                    Messages.ShowError("Invalid License Key.");
+                    Application.Exit();
                 }
 
-                if (!loadedSheetsData.SheetsLoaded)
+
+                if (ModifierKeys == Keys.Control)
                 {
-                    Messages.ShowError(
-                        "Unable to start procesing as there are no sheets loaded for processing. \n\n Please load sheets in order to start processing");
-                    return;
+                    this.MainProcessingManager.VisualizeData = false;
+                }
+                else
+                {
+                    this.MainProcessingManager.VisualizeData = true;
                 }
 
-                var keepData = false;
-                if (this.MainProcessingManager.DataExists())
+                if (this.MainProcessingManager.IsProcessing && !this.MainProcessingManager.IsPaused)
                 {
-                    keepData = Messages.ShowQuestion("Would you like to keep the current processed data?") ==
-                               DialogResult.Yes;
+                    this.MainProcessingManager.PauseProcessing();
+
+                    processingToolStripEx.Width = 161;
+                    startReadingToolStripBtn.Text = "Resume";
+                    startReadingToolStripBtn.Image = Resources.startBtnIcon_ReadingTab;
+
+                    var status =
+                        $"[{this.MainProcessingManager.GetCurProcessingIndex + 1}/{totalSheets}] Processing Paused   |  AVG: {Math.Round(spsAvg, 1)} Sheets per second.";
+                    statusPanelStatusLabel.Text = status;
                 }
+                else
+                {
+                    processingToolStripEx.Width = 146;
+                    startReadingToolStripBtn.Text = "Pause";
+                    startReadingToolStripBtn.Image = Resources.PauseBtnIcon_ReadingTab;
 
-                this.GenerateGridColumns();
-                this.MainProcessingManager.LoadSheets(loadedSheetsData);
+                    if (this.MainProcessingManager.IsPaused)
+                    {
+                        this.MainProcessingManager.ResumeProcessing();
+                        return;
+                    }
 
-                totalSheets = loadedSheetsData.GetSheetsPath.Length;
+                    if (!loadedSheetsData.SheetsLoaded)
+                    {
+                        Messages.ShowError(
+                            "Unable to start processing as there are no sheets loaded for processing. \n\n Please load sheets in order to start processing");
+                        return;
+                    }
 
-                processingProgressBar.FontColor = CurrentTheme == Themes.COLORFUL || CurrentTheme == Themes.WHITE
-                    ? Color.Black
-                    : Color.WhiteSmoke;
-                progressStatusTablePanel.Visible = true;
-                this.MainProcessingManager.StartProcessing(keepData, gridConfigOnlyColumns);
+                    var keepData = false;
+                    if (this.MainProcessingManager.DataExists())
+                    {
+                        keepData = Messages.ShowQuestion("Would you like to keep the current processed data?") ==
+                                   DialogResult.Yes;
+                    }
 
-                stopReadingToolStripBtn.Enabled = true;
-            }
+                    this.GenerateGridColumns();
+                    this.MainProcessingManager.LoadSheets(loadedSheetsData);
+
+                    totalSheets = loadedSheetsData.GetSheetsPath.Length;
+
+                    processingProgressBar.FontColor =
+                        CurrentTheme == Themes.COLORFUL || CurrentTheme == Themes.WHITE
+                            ? Color.Black
+                            : Color.WhiteSmoke;
+                    progressStatusTablePanel.Visible = true;
+
+                    this.MainProcessingManager.StartProcessing(keepData, gridConfigOnlyColumns);
+
+                    stopReadingToolStripBtn.Enabled = true;
+                }
+            });
         }
 
         private void GenerateGridColumns()
@@ -1546,16 +1590,16 @@ namespace Synapse
 
             var backSideConfigs = ConfigurationsManager.GetAllConfigurations
                 .Where(x => x.SheetSide == SheetSideType.Back).ToList();
-            var allConfigs = ConfigurationsManager.GetAllConfigurations
+            var orderedConfigs = ConfigurationsManager.GetOrderedConfigurations()
                 .Where(x => string.IsNullOrEmpty(x.ParentTitle))
                 .ToList();
 
-            for (var i = 0; i < allConfigs.Count; i++)
+            for (var i = 0; i < orderedConfigs.Count; i++)
             {
-                switch (allConfigs[i].GetMainConfigType)
+                switch (orderedConfigs[i].GetMainConfigType)
                 {
                     case MainConfigType.OMR:
-                        var omrConfiguration = (OMRConfiguration)allConfigs[i];
+                        var omrConfiguration = (OMRConfiguration)orderedConfigs[i];
 
                         switch (omrConfiguration.ValueRepresentation)
                         {
@@ -1683,7 +1727,7 @@ namespace Synapse
                         break;
 
                     case MainConfigType.BARCODE:
-                        var obrConfiguration = (OBRConfiguration)allConfigs[i];
+                        var obrConfiguration = (OBRConfiguration)orderedConfigs[i];
 
                         var obrCol = new GridTextColumn();
                         obrCol.MappingName = obrConfiguration.Title;
@@ -1699,7 +1743,7 @@ namespace Synapse
                         break;
 
                     case MainConfigType.ICR:
-                        var icrConfiguration = (ICRConfiguration)allConfigs[i];
+                        var icrConfiguration = (ICRConfiguration)orderedConfigs[i];
 
                         var icrCol = new GridTextColumn();
                         icrCol.MappingName = icrConfiguration.Title;
@@ -1715,10 +1759,10 @@ namespace Synapse
                         break;
                 }
 
-                switch (allConfigs[i].GetMainConfigType)
+                switch (orderedConfigs[i].GetMainConfigType)
                 {
                     case MainConfigType.OMR:
-                        var omrConfig = (OMRConfiguration)allConfigs[i];
+                        var omrConfig = (OMRConfiguration)orderedConfigs[i];
                         switch (omrConfig.OMRType)
                         {
                             case OMRType.Gradable:
@@ -1863,7 +1907,65 @@ namespace Synapse
 
             gridColumns.Add(fileNameCol.HeaderText);
             gridConfigOnlyColumns.Add(fileNameCol.HeaderText);
-            GridCellsRepresentation.Add(fileNameCol.HeaderText, (allConfigs.Count, 0));
+            GridCellsRepresentation.Add(fileNameCol.HeaderText, (orderedConfigs.Count, 0));
+        }
+
+        private void MarkItemAs(dynamic dataRow, ProcessedDataType toProcessedDataType)
+        {
+            var dataRowObject = (ProcessedDataRow)dataRow.DataRowObject;
+            if (dataRowObject.DataRowResultType == toProcessedDataType)
+            {
+                return;
+            }
+
+            ObservableCollection<dynamic> fromDataSource = null;
+            switch (dataRowObject.DataRowResultType)
+            {
+                case ProcessedDataType.MANUAL:
+                    fromDataSource = (ObservableCollection<dynamic>)manualDataGridPager.DataSource;
+                    break;
+
+                case ProcessedDataType.FAULTY:
+                    fromDataSource = (ObservableCollection<dynamic>)faultyDataGridPager.DataSource;
+                    break;
+
+                case ProcessedDataType.INCOMPATIBLE:
+                    fromDataSource = (ObservableCollection<dynamic>)incompatibleDataGridPager.DataSource;
+                    break;
+            }
+
+            if (dataRowObject.DataRowResultType != ProcessedDataType.NORMAL)
+            {
+                fromDataSource.Remove(dataRow);
+            }
+
+            dataRow.DataRowObject.DataRowResultType = toProcessedDataType;
+            (dataRow.DataRowObject.GetProcessedDataEntries as List<ProcessedDataEntry>).ForEach(x =>
+                x.DataEntriesResultType =
+                    Enumerable.Repeat(toProcessedDataType, x.DataEntriesResultType.Length).ToArray());
+
+            if (toProcessedDataType == ProcessedDataType.NORMAL)
+            {
+                return;
+            }
+
+            ObservableCollection<dynamic> toDatSource = null;
+            switch (toProcessedDataType)
+            {
+                case ProcessedDataType.MANUAL:
+                    toDatSource = (ObservableCollection<dynamic>)manualDataGridPager.DataSource;
+                    break;
+
+                case ProcessedDataType.FAULTY:
+                    toDatSource = (ObservableCollection<dynamic>)faultyDataGridPager.DataSource;
+                    break;
+
+                case ProcessedDataType.INCOMPATIBLE:
+                    toDatSource = (ObservableCollection<dynamic>)incompatibleDataGridPager.DataSource;
+                    break;
+            }
+
+            toDatSource.Insert(toDatSource.Count == 0 ? 0 : toDatSource.Count - 1, dataRow);
         }
 
         #endregion
@@ -2209,30 +2311,42 @@ namespace Synapse
 
         private void TemplateConfigureToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var enterValueForm = new EnterValueForm();
-            enterValueForm.OnValueSet += this.EnterValueForm_OnValueSet;
-            TemplateConfigurationForm templateConfigurationForm = null;
-            if (this.TemplateStatus == StatusState.Green)
-            {
-                templateConfigurationForm = new TemplateConfigurationForm(GetCurrentTemplate);
-            }
-            else
-            {
-                templateConfigurationForm = new TemplateConfigurationForm((Bitmap)templateImageBox.Image);
-            }
+            //var enterValueForm = new EnterValueForm();
+            //enterValueForm.OnValueSet += this.EnterValueForm_OnValueSet;
 
-            templateConfigurationForm.OnConfigurationFinishedEvent +=
-                this.TemplateConfigurationForm_OnConfigurationFinishedEvent;
-            templateConfigurationForm.WindowState = FormWindowState.Maximized;
-            templateConfigurationForm.ShowDialog();
-            if (IsMainDashing)
+            Program.ValidateLicenseKey(LSTM.LoadLicenseKey(), isValid =>
             {
-                enterValueForm.ShowDialog();
-            }
-            else
-            {
-                enterValueForm.Dispose();
-            }
+                if (!isValid)
+                {
+                    Messages.ShowError("Invalid License Key.");
+                    Application.Exit();
+                }
+                else
+                {
+                    TemplateConfigurationForm templateConfigurationForm = null;
+                    if (this.TemplateStatus == StatusState.Green)
+                    {
+                        templateConfigurationForm = new TemplateConfigurationForm(GetCurrentTemplate);
+                    }
+                    else
+                    {
+                        templateConfigurationForm = new TemplateConfigurationForm((Bitmap)templateImageBox.Image);
+                    }
+
+                    templateConfigurationForm.OnConfigurationFinishedEvent +=
+                        this.TemplateConfigurationForm_OnConfigurationFinishedEvent;
+                    templateConfigurationForm.WindowState = FormWindowState.Maximized;
+                    templateConfigurationForm.ShowDialog();
+                }
+            });
+            //if (IsMainDashing)
+            //{
+            //    enterValueForm.ShowDialog();
+            //}
+            //else
+            //{
+            //    enterValueForm.Dispose();
+            //}
         }
 
         private async void EnterValueForm_OnValueSet(object sender, string e)
@@ -2332,6 +2446,11 @@ namespace Synapse
             var configurationsTestForm =
                 new ConfigurationsTestForm(ConfigurationsManager.GetAllConfigurations);
             configurationsTestForm.ShowDialog();
+        }
+
+        private async void SaveConfigurationsToolToolStripBtn_Click(object sender, EventArgs e)
+        {
+            await ConfigurationsManager.SaveAllConfigurations().ConfigureAwait(false);
         }
 
         private void AddAsOmrToolStripBtn_Click(object sender, EventArgs e)
@@ -2857,7 +2976,7 @@ namespace Synapse
                 var curTotalOptions = keyFieldControl.TotalOptions;
 
                 var _key = key.GetKey.ToList();
-                if (_key.Count == curTotalFields && _key.TrueForAll(x => x.Length == curTotalOptions))
+                if (_key.Count == curTotalFields && _key.TrueForAll(x => x.Length == curTotalOptions + 1))
                 {
                     for (var i = 0; i < curTotalFields; i++)
                     {
@@ -2957,7 +3076,7 @@ namespace Synapse
                 }
 
                 var curField = (AnswerKeyFieldControl)answerKeyFieldsTable.Controls[i];
-                var optionsValues = new int[totalOptions];
+                var optionsValues = new int[totalOptions + 1];
                 var marked = curField.GetMarkedOptions();
                 if (marked == null)
                 {
@@ -3072,6 +3191,7 @@ namespace Synapse
 
                         configurationComboBox.SelectedItem = omrConfig;
                         answerKeyTitleField.Text = keyListItem.KeyTitle;
+                        answerKeyParameterField.Text = dicItem.Key.parameterConfig.Title;
                         answerKeyParameterValueField.Text = dicItem.Key.parameterValue;
 
                         answerKeyPaperComboBox.SelectedItem = dicItem.Value.GetPaper;
@@ -3115,6 +3235,26 @@ namespace Synapse
             }
         }
 
+        private void markAsNormalToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            selectedDataRows.ForEach(row => { this.MarkItemAs(row, ProcessedDataType.NORMAL); });
+        }
+
+        private void markAsManualToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            selectedDataRows.ForEach(row => { this.MarkItemAs(row, ProcessedDataType.MANUAL); });
+        }
+
+        private void markAsFaultyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            selectedDataRows.ForEach(row => { this.MarkItemAs(row, ProcessedDataType.FAULTY); });
+        }
+
+        private void markAsIncompatibleToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            selectedDataRows.ForEach(row => { this.MarkItemAs(row, ProcessedDataType.INCOMPATIBLE); });
+        }
+
         #endregion
 
         private async void ScanDirectoryToolStripBtn_Click(object sender, EventArgs e)
@@ -3138,8 +3278,41 @@ namespace Synapse
 
         private void UpdateImageSelection(ProcessedDataRow processedDataRow, bool locateRegions = false)
         {
-            mainDockingManager.SetDockLabel(dataImageBoxPanel,
-                $"Image - {Path.GetFileName(processedDataRow.RowSheetPath)} - Row: {processedDataRow.GetRowIndex + 1}");
+            var showBackImage = !string.IsNullOrEmpty(processedDataRow.RowBackSheetPath);
+            if (showBackImage)
+            {
+                mainDockingManager.SetDockLabel(dataImageBoxPanel,
+                    $"Front Image - {Path.GetFileName(processedDataRow.RowSheetPath)} - Row: {processedDataRow.GetRowIndex + 1}");
+
+                mainDockingManager.SetDockLabel(dataBackImageBoxPanel,
+                    $"Back Image - {Path.GetFileName(processedDataRow.RowBackSheetPath)} - Row: {processedDataRow.GetRowIndex + 1}");
+                mainDockingManager.SetDockVisibility(dataBackImageBoxPanel, true);
+
+                if (!locateRegions)
+                {
+                    dataBackImageBox.Image = new Bitmap(processedDataRow.RowBackSheetPath);
+                }
+                else
+                {
+                    Mat backAlignedMat = null;
+                    if (!GetCurrentTemplate.GetAlignedImage(processedDataRow.RowBackSheetPath,
+                        processedDataRow.RereadType,
+                        out backAlignedMat, out var _))
+                    {
+                        dataBackImageBox.Image = new Bitmap(processedDataRow.RowBackSheetPath);
+                        return;
+                    }
+
+                    dataBackImageBox.Image = backAlignedMat.Bitmap;
+                }
+            }
+            else
+            {
+                mainDockingManager.SetDockLabel(dataImageBoxPanel,
+                    $"Image - {Path.GetFileName(processedDataRow.RowSheetPath)} - Row: {processedDataRow.GetRowIndex + 1}");
+
+                mainDockingManager.SetDockVisibility(dataBackImageBoxPanel, false);
+            }
 
             if (!locateRegions)
             {
@@ -3159,8 +3332,16 @@ namespace Synapse
 
             curOptionRects.Clear();
             curMarkedOptionRects.Clear();
+            curBackOptionRects.Clear();
+            curMarkedBackOptionRects.Clear();
             var entries = processedDataRow.GetProcessedDataEntries;
             for (var i = 0; i < entries.Count; i++)
+            {
+                if (entries[i].GetFieldsOutputs.All(x => x == '-'))
+                {
+                    continue;
+                }
+
                 switch (entries[i].GetMainConfigType)
                 {
                     case MainConfigType.OMR:
@@ -3197,6 +3378,56 @@ namespace Synapse
                         }
 
                         curOptionRects.RemoveAll(x => curMarkedOptionRects.Contains(x));
+
+                        if (!string.IsNullOrEmpty(entries[i].BackConfigurationTitle) && showBackImage)
+                        {
+                            var omrBackConfig = (OMRConfiguration)entries[i].GetBackConfigurationBase;
+                            markedRectIndexes = new List<Point>();
+                            var totalBackFields = omrBackConfig.GetTotalFields;
+                            var totalBackOptions = omrBackConfig.GetTotalOptions;
+                            var fieldOutputs = new char[totalBackFields];
+                            for (var j = totalFields; j < entries[i].GetFieldsOutputs.Length; j++)
+                                fieldOutputs[j - totalFields] = entries[i].GetFieldsOutputs[j];
+                            rawDataValues = ProcessedDataEntry.GenerateRawOMRDataValues(omrBackConfig, fieldOutputs,
+                                omrBackConfig.GetEscapeSymbols());
+
+                            for (var i1 = 0; i1 < totalBackFields; i1++)
+                            for (var j = 0; j < totalBackOptions; j++)
+                            {
+                                if (i1 >= rawDataValues.GetLength(0) || j >= rawDataValues.GetLength(1))
+                                {
+                                    continue;
+                                }
+
+                                if (rawDataValues[i1, j] == 1)
+                                {
+                                    markedRectIndexes.Add(new Point(i1, j));
+                                }
+                            }
+
+                            _curOptionRects = omrBackConfig.RegionData.GetOptionsRects;
+                            _alignedCurOptionRects = new List<RectangleF>();
+                            regionLocation = omrBackConfig.GetConfigArea.ConfigRect.Location;
+
+                            for (var i1 = 0; i1 < _curOptionRects.Count; i1++)
+                            {
+                                var optionRect = _curOptionRects[i1];
+                                optionRect.X += regionLocation.X;
+                                optionRect.Y += regionLocation.Y;
+
+                                curBackOptionRects.Add(optionRect);
+                                _alignedCurOptionRects.Add(optionRect);
+                            }
+
+                            for (var i2 = 0; i2 < markedRectIndexes.Count; i2++)
+                            {
+                                var index = markedRectIndexes[i2].X * totalOptions + markedRectIndexes[i2].Y;
+                                curMarkedBackOptionRects.Add(_alignedCurOptionRects[index]);
+                            }
+
+                            curBackOptionRects.RemoveAll(x => curMarkedBackOptionRects.Contains(x));
+                        }
+
                         break;
 
                     case MainConfigType.BARCODE:
@@ -3218,6 +3449,7 @@ namespace Synapse
                     case MainConfigType.ICR:
                         break;
                 }
+            }
         }
 
         private void MainDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -3234,8 +3466,13 @@ namespace Synapse
             var lastItemData = (dynamic)e.AddedItems.Last();
             //if (e.AddedItems.RowType != Syncfusion.WinForms.DataGrid.Enums.RowType.DefaultRow)
             //    return;
+            if (lastItemData == null)
+            {
+                return;
+            }
 
             this.SelectedProcessedDataRow = (ProcessedDataRow)lastItemData.DataRowObject;
+            selectedDataRows = mainDataGrid.SelectedItems.Cast<dynamic>().ToList();
             this.UpdateImageSelection(this.SelectedProcessedDataRow.Value, this.GetLocateRegionsToggle);
         }
 
@@ -3451,8 +3688,13 @@ namespace Synapse
             var lastItemData = (dynamic)e.AddedItems.Last();
             //if (e.AddedItems.RowType != Syncfusion.WinForms.DataGrid.Enums.RowType.DefaultRow)
             //    return;
+            if (lastItemData == null)
+            {
+                return;
+            }
 
             this.SelectedProcessedDataRow = (ProcessedDataRow)lastItemData.DataRowObject;
+            selectedDataRows = manualDataGrid.SelectedItems.Cast<dynamic>().ToList();
             this.UpdateImageSelection(this.SelectedProcessedDataRow.Value, this.GetLocateRegionsToggle);
         }
 
@@ -3634,8 +3876,13 @@ namespace Synapse
             var lastItemData = (dynamic)e.AddedItems.Last();
             //if (e.AddedItems.RowType != Syncfusion.WinForms.DataGrid.Enums.RowType.DefaultRow)
             //    return;
+            if (lastItemData == null)
+            {
+                return;
+            }
 
             this.SelectedProcessedDataRow = (ProcessedDataRow)lastItemData.DataRowObject;
+            selectedDataRows = faultyDataGrid.SelectedItems.Cast<dynamic>().ToList();
             this.UpdateImageSelection(this.SelectedProcessedDataRow.Value, this.GetLocateRegionsToggle);
         }
 
@@ -3759,8 +4006,13 @@ namespace Synapse
             var lastItemData = (dynamic)e.AddedItems.Last();
             //if (e.AddedItems.RowType != Syncfusion.WinForms.DataGrid.Enums.RowType.DefaultRow)
             //    return;
+            if (lastItemData == null)
+            {
+                return;
+            }
 
             this.SelectedProcessedDataRow = (ProcessedDataRow)lastItemData.DataRowObject;
+            selectedDataRows = incompatibleDataGrid.SelectedItems.Cast<dynamic>().ToList();
             this.UpdateImageSelection(this.SelectedProcessedDataRow.Value, this.GetLocateRegionsToggle);
         }
 
@@ -3887,6 +4139,23 @@ namespace Synapse
             }
         }
 
+        private void DataBackImageBox_Paint(object sender, PaintEventArgs e)
+        {
+            if (curBackOptionRects.Count > 0)
+            {
+                for (var i = 0; i < curBackOptionRects.Count; i++)
+                    Functions.DrawBox(e.Graphics, dataBackImageBox.GetOffsetRectangle(curBackOptionRects[i]),
+                        dataBackImageBox.ZoomFactor, primaryRectColor, 1);
+            }
+
+            if (curMarkedBackOptionRects.Count > 0)
+            {
+                for (var i = 0; i < curMarkedBackOptionRects.Count; i++)
+                    Functions.DrawBox(e.Graphics, dataBackImageBox.GetOffsetRectangle(curMarkedBackOptionRects[i]),
+                        dataBackImageBox.ZoomFactor, secondaryRectColor, 1);
+            }
+        }
+
         #endregion
 
         #region Data Tab
@@ -3929,19 +4198,22 @@ namespace Synapse
             {
                 var cellRepresentation =
                     GridCellsRepresentation[e.DataColumn.GridColumn.MappingName];
-                string configTitle = (e.DataRow.RowData as dynamic).DataRowObject
+                var configTitle = (e.DataRow.RowData as dynamic).DataRowObject
                     .GetProcessedDataEntries[cellRepresentation.entryIndex].ConfigurationTitle;
+                var config = OnTemplateConfigs.Find(x => x.Configuration.Title == configTitle);
+
+                if (config.Configuration.ValueEditType == ValueEditType.ReadOnly)
+                {
+                    return;
+                }
+
                 using (var dataEditForm =
-                    new DataEditForm(OnTemplateConfigs.Find(x => x.Configuration.Title == configTitle),
+                    new DataEditForm(config,
                         e.DataRow.RowData, e.DataColumn.GridColumn.MappingName, e.DataColumn.ColumnIndex))
                 {
                     dataEditForm.ShowDialog();
                 }
             }
-        }
-
-        private void manualDataGrid_MouseClick(object sender, MouseEventArgs e)
-        {
         }
 
         private void showInExplorerContextBtn_Click(object sender, EventArgs e)
@@ -3971,6 +4243,8 @@ namespace Synapse
                 this.MainProcessingManager.ResumeProcessing();
             }
         }
+
+        private List<dynamic> selectedDataRows;
 
         private void manualDataGrid_CellClick(object sender, CellClickEventArgs e)
         {
@@ -4055,7 +4329,8 @@ namespace Synapse
             }
 
             string editValue = Functions.GetProperty(dataRowObject, dataColumnName);
-            if (editValue == "" || configurationBase == null)
+            if (editValue == "" || configurationBase == null ||
+                configurationBase.ValueEditType == ValueEditType.ReadOnly)
             {
                 return;
             }
@@ -4160,7 +4435,8 @@ namespace Synapse
             }
 
             string editValue = Functions.GetProperty(dataRowObject, dataColumnName);
-            if (editValue == "" || configurationBase == null)
+            if (editValue == "" || configurationBase == null ||
+                configurationBase.ValueEditType == ValueEditType.ReadOnly)
             {
                 return;
             }
@@ -4224,11 +4500,12 @@ namespace Synapse
                 return;
             }
 
+            var fieldIndex = cellRepresentation.fieldIndex == 0 ? 0 : cellRepresentation.fieldIndex - 1;
             processedDataEntry.IsEdited = true;
-            processedDataEntry.DataEntriesResultType[cellRepresentation.fieldIndex] = ProcessedDataType.NORMAL;
+            processedDataEntry.DataEntriesResultType[fieldIndex] = ProcessedDataType.NORMAL;
             Functions.AddProperty(dataRowObject, dataColumnName, editValue);
-            processedDataEntry.GetDataValues[cellRepresentation.fieldIndex - 1] = editValue;
-            processedDataEntry.GetFieldsOutputs[cellRepresentation.fieldIndex - 1] = editValue.ToCharArray()[0];
+            processedDataEntry.GetDataValues[fieldIndex] = editValue;
+            processedDataEntry.GetFieldsOutputs[fieldIndex] = editValue.ToCharArray()[0];
 
             switch (configurationBase.GetMainConfigType)
             {
@@ -4308,14 +4585,50 @@ namespace Synapse
                                     break;
 
                                 case KeyType.ParameterBased:
-                                    //parameterBasedGradings.Add((processedDataEntry, markCorrectFields, omrConfig.PB_AnswerKeys.Keys.ToArray()));
-                                    //lastDataColumnsIndexEx += 3;
                                     break;
                             }
 
                             break;
 
                         case OMRType.Parameter:
+                            var gradingKeys = ConfigurationsManager
+                                .GetConfigurations(MainConfigType.OMR, null)
+                                .Cast<OMRConfiguration>()
+                                .SelectMany(config => config.PB_AnswerKeys.ToList())
+                                .Where(keyValue => keyValue.Key.parameterConfig.Title == omrConfig.Title
+                                                   && keyValue.Key.parameterValue == value)
+                                .ToList();
+
+                            gradingKeys.ForEach(gradingKey =>
+                            {
+                                var answerKey = omrConfig.PB_AnswerKeys[gradingKey.Key];
+                                var answerKeyConfig =
+                                    (OMRConfiguration)ConfigurationsManager.GetConfiguration(answerKey.GetConfigName);
+                                var answersProcessedDataEntry =
+                                    processedDataRow.GetProcessedDataEntries.Single(x =>
+                                        x.ConfigurationTitle == answerKeyConfig.Title);
+                                var rawValues = ProcessedDataEntry.GenerateRawOMRDataValues(answerKeyConfig,
+                                    answersProcessedDataEntry.GetFieldsOutputs, answerKeyConfig.GetEscapeSymbols());
+                                var gradingResult =
+                                    OMREngine.GradeSheet(answerKey, rawValues, answerKeyConfig.MultiMarkAction);
+
+                                Functions.AddProperty(dataRowObject, "AnswerKey", answerKey);
+
+                                for (var k = 0; k < answerKeyConfig.PB_AnswerKeys.Count; k++)
+                                for (var i2 = 0; i2 < 2; i2++)
+                                {
+                                    var dataTitle = i2 == 0
+                                        ? (answerKeyConfig.ParentTitle ?? answerKeyConfig.Title) + " Score " +
+                                          answerKeyConfig.PB_AnswerKeys.Values.ToArray()[k].Title
+                                        : i2 == 1
+                                            ? (answerKeyConfig.ParentTitle ?? answerKeyConfig.Title) + " Paper " +
+                                              answerKeyConfig.PB_AnswerKeys.Values.ToArray()[k].Title
+                                            : (answerKeyConfig.ParentTitle ?? answerKeyConfig.Title) + $" x{i2}";
+                                    Functions.AddProperty(dataRowObject, dataTitle,
+                                        i2 == 0 ? gradingResult.obtainedMarks + "" :
+                                        i2 == 1 ? answerKey.GetPaper.Code : answerKey.Title);
+                                }
+                            });
                             break;
                     }
 
@@ -4419,6 +4732,7 @@ namespace Synapse
                                 .processedDataSource[0].ToExpando();
                         var data =
                             loadedExternalDataPoint.ReturnProcessedData();
+
                         //InitializeDataGrids(dataObj.DataRowObject.GetProcessedDataEntries[0], (data.processedDataSource, data.manProcessedDataSource, data.fauProcessedDataSource, data.incProcessedDataSource), 0);
                         this.MainProcessingManager.SetData(data.processedDataSource, data.manProcessedDataSource,
                             data.fauProcessedDataSource, data.incProcessedDataSource);
@@ -4472,6 +4786,19 @@ namespace Synapse
             {
                 Messages.ShowError("Unable to use this feature");
             }
+        }
+
+        private void propertiesConfigSelector_SelectedValueChanged(object sender, EventArgs e)
+        {
+            var config = OnTemplateConfigs.SingleOrDefault(x =>
+                x.Configuration.Title == propertiesConfigSelector.SelectedItem?.ToString());
+
+            if (config == null)
+            {
+                return;
+            }
+
+            this.SelectedTemplateConfigChanged(config);
         }
     }
 }

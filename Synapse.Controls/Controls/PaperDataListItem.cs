@@ -108,7 +108,7 @@ namespace Synapse.Controls
 
         [Description("Gets or Sets the Paper Code.")]
         [Category("Main Options")]
-        public int PaperCode { get; set; }
+        public string PaperCode { get; set; }
 
         [Description("Gets or Sets the Paper Title.")]
         [Category("Main Options")]
