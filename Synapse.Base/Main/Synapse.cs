@@ -1897,6 +1897,8 @@ namespace Synapse
                 }
             }
 
+            var hasBackSheet = backSideConfigs.Any();
+
             var fileNameCol = new GridTextColumn();
             fileNameCol.MappingName = "File Name";
             fileNameCol.HeaderText = fileNameCol.MappingName;
@@ -1908,6 +1910,33 @@ namespace Synapse
             gridColumns.Add(fileNameCol.HeaderText);
             gridConfigOnlyColumns.Add(fileNameCol.HeaderText);
             GridCellsRepresentation.Add(fileNameCol.HeaderText, (orderedConfigs.Count, 0));
+
+            var frontSheetPathCol = new GridTextColumn();
+            frontSheetPathCol.MappingName = "Front Sheet Path";
+            frontSheetPathCol.HeaderText = frontSheetPathCol.MappingName;
+            mainDataGrid.Columns.Add(frontSheetPathCol);
+            manualDataGrid.Columns.Add(frontSheetPathCol);
+            faultyDataGrid.Columns.Add(frontSheetPathCol);
+            incompatibleDataGrid.Columns.Add(frontSheetPathCol);
+
+            gridColumns.Add(frontSheetPathCol.HeaderText);
+            gridConfigOnlyColumns.Add(frontSheetPathCol.HeaderText);
+            GridCellsRepresentation.Add(frontSheetPathCol.HeaderText, (orderedConfigs.Count+1, 0));
+
+            if(hasBackSheet)
+            {
+                var backSheetPathCol = new GridTextColumn();
+                backSheetPathCol.MappingName = "Back Sheet Path";
+                backSheetPathCol.HeaderText = backSheetPathCol.MappingName;
+                mainDataGrid.Columns.Add(backSheetPathCol);
+                manualDataGrid.Columns.Add(backSheetPathCol);
+                faultyDataGrid.Columns.Add(backSheetPathCol);
+                incompatibleDataGrid.Columns.Add(backSheetPathCol);
+
+                gridColumns.Add(backSheetPathCol.HeaderText);
+                gridConfigOnlyColumns.Add(backSheetPathCol.HeaderText);
+                GridCellsRepresentation.Add(backSheetPathCol.HeaderText, (orderedConfigs.Count+2, 0));
+            }
         }
 
         private void MarkItemAs(dynamic dataRow, ProcessedDataType toProcessedDataType)
@@ -1986,10 +2015,10 @@ namespace Synapse
                 {
                     ExportBorders = true,
                     ExportStyle = false,
-                    ExcelVersion = ExcelVersion.Excel2016
+                    ExcelVersion = ExcelVersion.Xlsx
                 };
-                var excelEngine = mainDataGrid.ExportToExcel((ObservableCollection<object>)mainDataGridPager.DataSource,
-                    options);
+                var dataSource = (ObservableCollection<dynamic>)mainDataGridPager.DataSource;
+                var excelEngine = mainDataGrid.ExportToExcel(dataSource, options);
                 var workBook = excelEngine.Excel.Workbooks[0];
                 workBook.SaveAs(path + "\\ProcessedData.xlsx");
             }

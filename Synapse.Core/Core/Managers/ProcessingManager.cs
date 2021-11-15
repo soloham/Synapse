@@ -298,7 +298,7 @@ namespace Synapse.Core.Managers
             double runningAverage = 0;
             double runningTotal = 0;
 
-            var extraColumns = 0;
+            var extraColumns = 2;
 
             var keepData = (bool)e.Argument;
 
@@ -769,6 +769,11 @@ namespace Synapse.Core.Managers
                 processedData.Add(processedDataRow);
 
                 Functions.AddProperty(dynamicDataRow, "File Name", Path.GetFileName(newSheetName));
+                Functions.AddProperty(dynamicDataRow, "Front Sheet Path", processedDataRow.RowSheetPath);
+                if(!string.IsNullOrEmpty(backSheetPath))
+                {
+                    Functions.AddProperty(dynamicDataRow, "Back Sheet Path", processedDataRow.RowBackSheetPath);
+                }
                 Functions.AddProperty(dynamicDataRow, "DataRowObject", processedDataRow);
                 var t1 = DateTime.Now;
                 runningTotal += (t1 - t0).TotalMilliseconds;
